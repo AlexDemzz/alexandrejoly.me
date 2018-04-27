@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css?family=Heebo:400,500,700");
+/*******************************************/
+/************  Simple  Function  ***********/
+/*******************************************/
+/*******************************************/
+/**********  End Simple Function  **********/
+/*******************************************/
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999999999999999999999999999;
+  pointer-events: none; }
+  .cursor .pointer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap; }
+    .cursor .pointer .main {
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 99px;
+      z-index: 999999999; }
+    .cursor .pointer .border {
+      z-index: -1;
+      position: absolute;
+      top: auto;
+      left: auto;
+      bottom: auto;
+      right: auto;
+      width: 30px;
+      height: 30px;
+      margin: auto;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 99px; }

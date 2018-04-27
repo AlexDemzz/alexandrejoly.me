@@ -1,0 +1,58 @@
+@import "../../assets/scss/var.scss";
+header{
+  @include flex(fe,sb);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 1400px;
+  padding: 20px;
+  margin: 0 auto;
+  margin-top:30px;
+  box-sizing: border-box;
+  .header-left-side{
+    @include flex(fs,fs,col);
+    position: relative;
+    max-width: 400px;
+    width: 100%;
+    svg{
+      fill: white;
+      width: 40px;
+      margin-bottom:30px;
+    }
+    h1{
+      position: absolute;
+      bottom: -70px;
+      left: 0;
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+  .header-right-side{
+    nav{
+      ul{
+        @include flex(c,c);
+        li{
+          &:last-of-type{
+            margin-right:0;
+          }
+          &.active{
+            button{
+              color: white;
+            }
+
+          }
+          button{
+            @include resetBtn();
+            padding: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            color: rgb(100,100,100);
+          }
+        }
+      }
+    }
+  }
+}

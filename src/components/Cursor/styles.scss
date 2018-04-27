@@ -1,0 +1,31 @@
+@import "../../assets/scss/var.scss";
+.cursor{
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: 99999999999999999999999999999;
+  pointer-events: none;
+  .pointer{
+    @include flex(c,c);
+    .main{
+      width: 10px;
+      height: 10px;
+      background: white;
+      border-radius: 99px;
+      z-index: 999999999;
+    }
+    .border{
+      z-index: -1;
+      position: absolute;
+      top:auto;
+      left: auto;
+      bottom: auto;
+      right: auto;
+      width: 30px;
+      height: 30px;
+      margin: auto;
+      background: rgba(255,255,255,0.5);
+      border-radius: 99px;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+@import "../../assets/scss/var.scss";
+.projects{
+  height: 55%;
+  .slick-slider{
+    @include flex(fe,c);
+    height: 100%;
+    .slick-list{
+      @include container(1400px, 0);
+      overflow: inherit;
+    }
+  }
+}
+
+.slick-active{
+  .project{
+    opacity: 1;
+  }
+  //.project-container{
+  //  animation: kf-project-picture 3s forwards;
+  //}
+  //&.js-slick-no-more-active{
+  //  .project-container{
+  //    animation: kf-project-picture--hide 3s forwards;
+  //  }
+  //}
+}
+.project{
+  margin-right:100px;
+  opacity: 0.3;
+  a{
+    text-decoration: none;
+    @include flex(c,fs);
+    @include noselect();
+    @include nodrag();
+    position: relative;
+  }
+ .project-title{
+    white-space: nowrap;
+    font-size: 144px;
+    font-weight: 400;
+    z-index: 10;
+
+  }
+  .project-container{
+    width: 0%;
+    overflow: hidden;
+    position: absolute;
+    top: auto;
+    left: calc(100% - 500px);
+    bottom: auto;
+    margin: auto;
+    z-index: -1;
+    .picture-container{
+      width: 500px;
+      height: 500px;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}
+
+@include keyframes(kf-project-picture){
+  0%{
+    width: 0%;
+  }
+  100%{
+    width: 100%;
+  }
+}
+@include keyframes(kf-project-picture--hide){
+  0%{
+    width: 100%;
+  }
+  100%{
+    width: 0%;
+  }
+}
