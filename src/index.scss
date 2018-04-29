@@ -12,17 +12,43 @@ html{
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Heebo', sans-serif;
+
   background: $bg;
   overflow-x: hidden;
   height: 100%;
   .container{
-    @include container(1400px);
+    @include container(1600px);
     overflow: hidden;
   }
   *{
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-family: 'Karla', sans-serif;
   }
+}
+.animated-page-wrapper {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
 }

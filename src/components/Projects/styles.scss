@@ -1,19 +1,15 @@
 @import "../../assets/scss/var.scss";
 .projects{
   height: 55%;
-  .slick-slider{
-    @include flex(fe,c);
-    height: 100%;
-    .slick-list{
-      @include container(1400px, 0);
-      overflow: inherit;
-    }
-  }
+}
+.projects-drag-area{
+  @include container(1600px, 0);
+  @include flex(fe,fs);
+  height: 100%;
 }
 
 .slick-active{
   .project{
-    opacity: 1;
   }
   //.project-container{
   //  animation: kf-project-picture 3s forwards;
@@ -26,7 +22,6 @@
 }
 .project{
   margin-right:100px;
-  opacity: 0.3;
   a{
     text-decoration: none;
     @include flex(c,fs);
@@ -39,7 +34,7 @@
     font-size: 144px;
     font-weight: 400;
     z-index: 10;
-
+    font-family: 'Open Sans', sans-serif;
   }
   .project-container{
     width: 0%;

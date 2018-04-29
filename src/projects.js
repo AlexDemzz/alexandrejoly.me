@@ -17,7 +17,7 @@ module.exports = [
     },
     {
         id: '2',
-        title: 'LP WebDesign',
+        title: 'LP Webdesign',
         date: '2016-04',
         works: ['Design', 'Javascript', 'HTML/CSS'],
         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dictum orci nec lacus iaculis consectetur. Aliquam non blandit nulla.',

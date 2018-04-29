@@ -6,9 +6,7 @@ header{
   top: 0;
   left: 0;
   right: 0;
-  max-width: 1400px;
-  padding: 20px;
-  margin: 0 auto;
+  @include container(1600px);
   margin-top:30px;
   box-sizing: border-box;
   .header-left-side{

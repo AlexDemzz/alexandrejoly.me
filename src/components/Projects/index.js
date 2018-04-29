@@ -2,46 +2,59 @@ import React from 'react';
 import './styles.css';
 import Project from './Project';
 import Slider from "react-slick";
-
+import projectsList from '../../projects'
 
 class Projects extends React.Component{
-    state = {
-        projects: this.props.projectsList
-    }
-    beforeChange= () => {
-        // let $slickTrack = document.getElementsByClassName('slick-track')[0];
-        // let $activeSlide = document.getElementsByClassName('slick-active')[0];
-        // let index = $activeSlide.dataset.index-1;
-        // let $prevSlide = $slickTrack.children[index];
-        // $activeSlide.classList.add('js-slick-no-more-active');
-        // setTimeout(() => {
-        //     $activeSlide.classList.remove('js-slick-no-more-active');
-        // }, 3000);
-        // console.log($activeSlide);
+    state = { x: 0 };
+    mouseDown = false;
+    dragPos = 0;
+    onMouseMove = e => {
+        function getComputedTranslateXY(obj)
+        {
+            const transArr = [];
+            if(!window.getComputedStyle) return;
+            const style = getComputedStyle(obj),
+                transform = style.transform || style.webkitTransform || style.mozTransform;
+            let mat = transform.match(/^matrix3d\((.+)\)$/);
+            if(mat) return parseFloat(mat[1].split(', ')[13]);
+            mat = transform.match(/^matrix\((.+)\)$/);
+            mat ? transArr.push(parseFloat(mat[1].split(', ')[4])) : 0;
+            mat ? transArr.push(parseFloat(mat[1].split(', ')[5])) : 0;
+            return transArr;
+        }
+
+        if(this.mouseDown){
+            let $projectsDragArea = document.getElementsByClassName('projects-drag-area')[0];
+            let oldX = getComputedTranslateXY($projectsDragArea)[1];
+            this.dragPos = e.screenX - oldX;
+            console.log('oldX :      ', oldX);
+            console.log('e.screenX : ', e.screenX);
+            console.log('deplacement : ', e.screenX-oldX);
+            console.log('this.dragPos : ', this.dragPos);
+
+        }
     };
-    getSelectedProjectData(val){
-        console.log(val);
-    }
+
+    onMouseDown = () => {
+        this.mouseDown = true
+    };
+
+    onMouseLeave = e => {
+        this.mouseDown = false;
+        this.setState({x: e.screenX});
+    };
+
     render(){
-        let settings = {
-            dots: false,
-            infinite: false,
-            speed: 900,
-            arrows: false,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            edgeFriction:0,
-            variableWidth: true
-            // cssEase: 'cubic-bezier(.32,2,.55,.27)'
-        };
         const projects = Object
-            .keys(this.state.projects)
-            .map(key => <Project key={key} sendData={this.getSelectedProjectData} details={this.state.projects[key]}/>);
+            .keys(projectsList)
+            .map(key => <Project key={key} details={projectsList[key]}/>);
+
+        const { x, y } = this.state;
         return(
             <div className="projects">
-                <Slider {...settings} beforeChange={this.beforeChange}>
+                <div className="projects-drag-area" style={{transform: `translateX(${this.dragPos}px)`}}  onMouseMove={e => this.onMouseMove(e)} onMouseDown={this.onMouseDown} onMouseUp={e => this.onMouseLeave(e)}>
                     {projects}
-                </Slider>
+                </div>
             </div>
         )
     }

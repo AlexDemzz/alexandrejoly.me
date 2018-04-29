@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Heebo:400,500,700");
+@import url("https://fonts.googleapis.com/css?family=Karla");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /*******************************************/
 /************  Simple  Function  ***********/
 /*******************************************/
@@ -7,7 +8,8 @@
 /*******************************************/
 .project-details {
   width: 100%;
-  margin-top: 100px; }
+  margin-top: 100px;
+  animation: lol 2s forwards; }
   .project-details > p {
     max-width: 900px;
     width: 100%;

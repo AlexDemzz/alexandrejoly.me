@@ -1,11 +1,11 @@
 import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
-
 class ProjectDetails extends React.Component{
     getProject = () => {
 
     }
+
     render(){
         const project = projectsList.map(project => {
                 if (project.id === this.props.match.params.id){
@@ -40,5 +40,4 @@ class ProjectDetails extends React.Component{
         )
     }
 }
-
 export default ProjectDetails;

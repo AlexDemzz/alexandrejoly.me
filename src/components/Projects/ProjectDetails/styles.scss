@@ -2,6 +2,7 @@
 .project-details{
   width: 100%;
   margin-top: 100px;
+  animation: lol 2s forwards;
   >p{
     max-width: 900px;
     width: 100%;
@@ -32,3 +33,12 @@
     }
   }
 }
+
+//@include keyframes(lol){
+//  0%{
+//    opacity: 0;
+//  }
+//  100%{
+//    opacity: 1;
+//  }
+//}
