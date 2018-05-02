@@ -1,11 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Karla");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /*******************************************/
 /************  Simple  Function  ***********/
 /*******************************************/
 /*******************************************/
 /**********  End Simple Function  **********/
 /*******************************************/
+@import url(./assets/scss/font/stylesheet.css);
 @import url(~slick-carousel/slick/slick.css);
 @import url(~slick-carousel/slick/slick-theme.css);
 html, body, div, span, applet, object, iframe,
@@ -74,7 +73,7 @@ body {
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Karla', sans-serif; }
+    font-family: "hk_groteskmedium", sans-serif; }
 
 .animated-page-wrapper {
   position: absolute;

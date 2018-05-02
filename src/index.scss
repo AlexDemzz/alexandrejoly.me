@@ -1,5 +1,6 @@
 @import './assets/scss/var.scss';
 @import './assets/scss/reset.scss';
+@import './assets/scss/font/stylesheet.css';
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
@@ -24,7 +25,7 @@ body {
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: 'Karla', sans-serif;
+    font-family: $hkMedium;
   }
 }
 .animated-page-wrapper {

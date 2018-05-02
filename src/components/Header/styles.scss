@@ -12,14 +12,23 @@ header{
   .header-left-side{
     @include flex(fs,fs,col);
     position: relative;
-    max-width: 400px;
+    max-width: 320px;
     width: 100%;
-    svg{
-      fill: white;
-      width: 40px;
-      margin-bottom:30px;
+    .header-logo{
+      @include flex(c,c);
+      //margin-bottom:30px;
+      svg{
+        fill: white;
+        width: 40px;
+      }
+      h1{
+        margin-left:20px;
+        font-size: 20px;
+        font-family: $hkBold;
+      }
     }
-    h1{
+
+    >h1{
       position: absolute;
       bottom: -70px;
       left: 0;
@@ -46,7 +55,7 @@ header{
             padding: 15px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-family: $hkMedium;
             color: rgb(100,100,100);
           }
         }

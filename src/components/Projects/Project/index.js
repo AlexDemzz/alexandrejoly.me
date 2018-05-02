@@ -9,14 +9,13 @@ class Project extends React.Component{
     render(){
         return(
             <div className="project js-project">
-                <Link to={{ pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}}>
+                {/*<Link to={{ pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}}>*/}
                     <h2 className="project-title">{this.props.details.title}</h2>
-                    <div className="project-container">
-                        <div className="picture-container">
-                            <img src="http://fakeimg.pl/900x900" alt=""/>
-                        </div>
+                    <div className="icon">
+                        <div className="line"></div>
                     </div>
-                </Link>
+
+                {/*</Link>*/}
             </div>
         )
     }

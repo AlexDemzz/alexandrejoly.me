@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Karla");
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
 /*******************************************/
 /************  Simple  Function  ***********/
 /*******************************************/
@@ -39,13 +37,26 @@ header {
     -webkit-flex-flow: column nowrap;
     flex-flow: column nowrap;
     position: relative;
-    max-width: 400px;
+    max-width: 320px;
     width: 100%; }
-    header .header-left-side svg {
-      fill: white;
-      width: 40px;
-      margin-bottom: 30px; }
-    header .header-left-side h1 {
+    header .header-left-side .header-logo {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap; }
+      header .header-left-side .header-logo svg {
+        fill: white;
+        width: 40px; }
+      header .header-left-side .header-logo h1 {
+        margin-left: 20px;
+        font-size: 20px;
+        font-family: "hk_groteskbold", sans-serif; }
+    header .header-left-side > h1 {
       position: absolute;
       bottom: -70px;
       left: 0;
@@ -73,5 +84,5 @@ header {
       padding: 15px;
       cursor: pointer;
       font-size: 16px;
-      font-weight: bold;
+      font-family: "hk_groteskmedium", sans-serif;
       color: #646464; }
