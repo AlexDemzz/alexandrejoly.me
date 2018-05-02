@@ -8,7 +8,24 @@ class Projects extends React.Component{
     state = { x: 0 };
     mouseDown = false;
     dragPos = 0;
+    mY = 0;
+    distance = 0;
+    activeProject = 0;
+    tX = 0;
+
     onMouseMove = e => {
+        let $projects = document.getElementsByClassName('js-project');
+        let projectSize = [];
+        let size = 0;
+        for(let n=0; n < $projects.length ; n++){
+            if(n !== 0){
+                size = $projects[n].offsetWidth + $projects[n-1].offsetWidth;
+                projectSize.push(-Math.abs(size));
+            }else{
+                projectSize.push(-Math.abs($projects[n].offsetWidth));
+            }
+        }
+
         function getComputedTranslateXY(obj)
         {
             const transArr = [];
@@ -25,26 +42,82 @@ class Projects extends React.Component{
 
         if(this.mouseDown){
             let $projectsDragArea = document.getElementsByClassName('projects-drag-area')[0];
-            let oldX = getComputedTranslateXY($projectsDragArea)[1];
-            this.dragPos = e.screenX - oldX;
-            console.log('oldX :      ', oldX);
-            console.log('e.screenX : ', e.screenX);
-            console.log('deplacement : ', e.screenX-oldX);
-            console.log('this.dragPos : ', this.dragPos);
+            let currentPos = getComputedTranslateXY($projectsDragArea)[0];
+            if(this.mouseDown){
+                if (e.pageX < this.mY) {
+                    console.log('next');
+                    this.dragPos  = this.dragPos - 5;
+                    this.distance = this.distance - 5;
+                } else{
+                    console.log('prev');
+                    this.dragPos = this.dragPos + 5;
+                    this.distance = this.distance + 5;
+                }
 
+                if(this.distance <= -300 || this.distance >= 300){
+                    $projectsDragArea.style.transition = "all 1s";
+                    if(this.distance<0){
+                        console.log('next pjt');
+                        this.activeProject++;
+                        this.dragPos = projectSize[this.activeProject-1];
+                    }else{
+                        console.log('prev pjt');
+                        if(this.activeProject>0){
+                            this.activeProject--;
+                            if(this.activeProject !== 0){
+                                this.dragPos = projectSize[this.activeProject-1];
+                            }else{
+                                this.dragPos = 0;
+                            }
+                        }
+                    }
+                    this.mouseDown = false;
+                    console.log(projectSize);
+                    console.log('slide');
+                    console.log('this.activeProject : ' + this.activeProject);
+                    console.log('this.dragPos : ' + this.dragPos);
+                    this.distance = 0;
+                }
+                this.mY = e.pageX;
+            }
         }
     };
 
-    onMouseDown = () => {
-        this.mouseDown = true
+    onMouseDown = e => {
+        this.mouseDown = true;
+        let $projectsDragArea = document.getElementsByClassName('projects-drag-area')[0];
+        $projectsDragArea.style.transition = "all 0s";
+        console.log('start');
     };
 
     onMouseLeave = e => {
         this.mouseDown = false;
-        this.setState({x: e.screenX});
+        console.log('stop / reset distance');
+
+        let $projects = document.getElementsByClassName('js-project');
+        let projectSize = [];
+        let size = 0;
+        for(let n=0; n < $projects.length ; n++){
+            if(n !== 0){
+                size = $projects[n].offsetWidth + $projects[n-1].offsetWidth;
+                projectSize.push(-Math.abs(size));
+            }else{
+                projectSize.push(-Math.abs($projects[n].offsetWidth));
+            }
+        }
+
+        let $projectsDragArea = document.getElementsByClassName('projects-drag-area')[0];
+
+        if(this.activeProject===0){
+            this.dragPos = 0;
+        }else{
+            this.dragPos = projectSize[this.activeProject-1];
+        }
+        $projectsDragArea.style.transition = "all 1s";
     };
 
     render(){
+
         const projects = Object
             .keys(projectsList)
             .map(key => <Project key={key} details={projectsList[key]}/>);
@@ -52,7 +125,7 @@ class Projects extends React.Component{
         const { x, y } = this.state;
         return(
             <div className="projects">
-                <div className="projects-drag-area" style={{transform: `translateX(${this.dragPos}px)`}}  onMouseMove={e => this.onMouseMove(e)} onMouseDown={this.onMouseDown} onMouseUp={e => this.onMouseLeave(e)}>
+                <div className="projects-drag-area" style={{transform: `translateX(${this.dragPos}px)`}}  onMouseMove={e => this.onMouseMove(e)} onMouseDown={e => this.onMouseDown(e)} onMouseUp={e => this.onMouseLeave(e)}>
                     {projects}
                 </div>
             </div>

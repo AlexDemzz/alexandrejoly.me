@@ -8,7 +8,7 @@ class Project extends React.Component{
     }
     render(){
         return(
-            <div className="project">
+            <div className="project js-project">
                 <Link to={{ pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}}>
                     <h2 className="project-title">{this.props.details.title}</h2>
                     <div className="project-container">
