@@ -15,16 +15,19 @@ header{
     max-width: 320px;
     width: 100%;
     .header-logo{
-      @include flex(c,c);
-      //margin-bottom:30px;
-      svg{
-        fill: white;
-        width: 40px;
-      }
-      h1{
-        margin-left:20px;
-        font-size: 20px;
-        font-family: $hkBold;
+      a{
+        text-decoration: none;
+        @include flex(c,c);
+        //margin-bottom:30px;
+        svg{
+          fill: white;
+          width: 40px;
+        }
+        h1{
+          margin-left:20px;
+          font-size: 20px;
+          font-family: $hkBold;
+        }
       }
     }
 
@@ -54,7 +57,7 @@ header{
             @include resetBtn();
             padding: 15px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 20px;
             font-family: $hkMedium;
             color: rgb(100,100,100);
           }

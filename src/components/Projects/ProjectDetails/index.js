@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 class ProjectDetails extends React.Component{
     getProject = () => {
 

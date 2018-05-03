@@ -2,16 +2,69 @@
 .project{
   padding-right:20px;
   @include flex(c,c);
+  &.active{
+    .icon{
+      .icon-particles{
+        animation: icon-pop-in--particles 0.7s forwards;
+        animation-delay: 0.8s;
+      }
+      .icon-img{
+        animation: icon-pop-in 0.2s forwards;
+        animation-delay: 0.8s;
+        @include animationElastic();
+      }
+      .line{
+        animation: line-to-cicle 1s forwards;
+      }
+      &.animate{
+        .icon-particles{
+          animation: icon-pop-in--particles 0.7s forwards;
+          animation-delay: 0.8s;
+        }
+        .icon-img{
+          animation: icon-pop-in 0.2s forwards;
+          animation-delay: 0.8s;
+          @include animationElastic();
+        }
+      }
+    }
+  }
+
   .icon{
     margin-left:20px;
     width: 250px;
     margin-top:30px;
     @include flex(c,c);
+    position: relative;
+    .icon-particles{
+      width: 180px;
+      height: auto;
+      position: absolute;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      margin: auto;
+      opacity: 0;
+    }
+    .icon-img{
+      opacity: 0;
+      svg{
+        width: 100px;
+        height: 100px;
+        fill: white;
+      }
+    }
     .line{
-      height: 10px;
+      height: 5px;
       width: 100%;
-      margin: auto auto;
       background: #fff;
+      position: absolute;
+      top: auto;
+      bottom: auto;
+      right: auto;
+      left: auto;
+      margin: auto;
     }
   }
   a{
@@ -62,5 +115,141 @@
   }
   100%{
     width: 0%;
+  }
+}
+
+@include keyframes(icon-pop-in){
+  0%{
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  80%{
+    opacity: 1;
+  }
+  100%{
+    transform: scale(1.0);
+    opacity: 1;
+  }
+}
+
+@include keyframes(icon-pop-in--particles){
+  0%{
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@include keyframes(line-to-cicle){
+  0%{
+    width: 100%;
+    max-width: 300px;
+  }
+  30%{
+    max-width: 5px;
+    height: 5px;
+  }
+  31%{
+    border-radius: 999px;
+    max-width: 5px;
+    height: 5px;
+  }
+  40%{
+    transform: translateX(-2px);
+  }
+  42%{
+    transform: translateX(2px);
+  }
+  44%{
+    transform: translateX(-2px);
+  }
+  46%{
+    transform: translateX(2px);
+  }
+  48%{
+    transform: translateX(-2px);
+  }
+  50%{
+    transform: translateX(-2px);
+  }
+  52%{
+    transform: translateX(2px);
+  }
+  54%{
+    transform: translateX(-2px);
+  }
+  56%{
+    transform: translateX(2px);
+  }
+  58%{
+    transform: translateX(-2px);
+  }
+  60%{
+    transform: translateX(-2px);
+  }
+  62%{
+    transform: translateX(2px);
+  }
+  64%{
+    transform: translateX(-2px);
+  }
+  66%{
+    transform: translateX(2px);
+  }
+  68%{
+    transform: translateX(-2px);
+  }
+  70%{
+    transform: translateX(-2px);
+  }
+  72%{
+    transform: translateX(2px);
+  }
+  74%{
+    transform: translateX(-2px);
+  }
+  76%{
+    transform: translateX(2px);
+  }
+  78%{
+    transform: translateX(-2px);
+  }
+  70%{
+    transform: translateX(-2px);
+  }
+  72%{
+    transform: translateX(2px);
+  }
+  74%{
+    transform: translateX(-2px);
+  }
+  76%{
+    transform: translateX(2px);
+  }
+  78%{
+    transform: translateX(-2px);
+  }
+  79%{
+    max-width: 100px;
+    height: 100px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 5px #3f3f3f;
+  }
+  100%{
+    max-width: 400px;
+    width:400px;
+    height: 400px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    border: solid 5px transparent;
   }
 }

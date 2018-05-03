@@ -39,7 +39,8 @@ header {
     position: relative;
     max-width: 320px;
     width: 100%; }
-    header .header-left-side .header-logo {
+    header .header-left-side .header-logo a {
+      text-decoration: none;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -49,10 +50,10 @@ header {
       justify-content: center;
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap; }
-      header .header-left-side .header-logo svg {
+      header .header-left-side .header-logo a svg {
         fill: white;
         width: 40px; }
-      header .header-left-side .header-logo h1 {
+      header .header-left-side .header-logo a h1 {
         margin-left: 20px;
         font-size: 20px;
         font-family: "hk_groteskbold", sans-serif; }
@@ -83,6 +84,6 @@ header {
       padding: 0;
       padding: 15px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 20px;
       font-family: "hk_groteskmedium", sans-serif;
       color: #646464; }

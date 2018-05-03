@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import Projects from './components/Projects';
 import ProjectDetails from './components/Projects/ProjectDetails';
 import Cursor from './components/Cursor';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import projectsList from './projects';
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 class App extends Component {
     state = {
@@ -24,16 +25,23 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <Route render={(location) => (
+                <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
                         <Cursor top={this.state.y} left={this.state.x} />
                         <Header/>
-                        <Route match path="/" component={Projects} />
-                        <CSSTransition
-                            classNames={'exemple'}
-                            timeout={1000}>
-                            <Route path={`/work/:id/:workName`} component={ProjectDetails}/>
-                        </CSSTransition>
+                        <TransitionGroup className='height100'>
+                            <CSSTransition key={location.key} classNames="lol" timeout={300}>
+                                <Switch location={location}>
+                                    <Route match exact path="/" component={Projects} />
+                                </Switch>
+                            </CSSTransition>
+                            <CSSTransition key={location.key + '_work'} classNames="message" timeout={300}>
+                                <Switch location={location}>
+                                    <Route path={`/work/:id/:workName`} component={ProjectDetails}/>
+                                </Switch>
+                            </CSSTransition>
+                        </TransitionGroup>
+                        <Footer/>
                     </div>
                 )}
                 />
@@ -41,6 +49,5 @@ class App extends Component {
         );
     }
 }
-
 
 export default App;

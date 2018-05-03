@@ -70,28 +70,47 @@ body {
     box-sizing: border-box;
     overflow: hidden; }
   body * {
+    cursor: none;
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: "hk_groteskmedium", sans-serif; }
 
-.animated-page-wrapper {
-  position: absolute;
-  top: 62px;
-  left: 0;
-  width: 100%;
+.height100 {
   height: 100%; }
 
-.example-enter {
-  opacity: 0.01; }
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in; }
-
-.example-leave {
-  opacity: 1; }
-
-.example-leave.example-leave-active {
+.message-enter {
   opacity: 0.01;
-  transition: opacity 300ms ease-in; }
+  transform: scale(0.9) translateY(50%); }
+
+.message-enter-active {
+  opacity: 1;
+  transform: scale(1) translateY(0%);
+  transition: all 300ms ease-out; }
+
+.message-exit {
+  opacity: 1;
+  transform: scale(1) translateY(0%); }
+
+.message-exit-active {
+  opacity: 0.01;
+  transform: scale(0.9) translateY(50%);
+  transition: all 300ms ease-out; }
+
+.lol-enter {
+  opacity: 0.01;
+  transform: scale(0.2) translateY(20%); }
+
+.lol-enter-active {
+  opacity: 1;
+  transform: scale(1.5) translateY(0%);
+  transition: all 300ms ease-out; }
+
+.lol-exit {
+  opacity: 1;
+  transform: scale(1.5) translateY(0%); }
+
+.lol-exit-active {
+  opacity: 0.01;
+  transform: scale(0.2) translateY(20%);
+  transition: all 300ms ease-out; }
