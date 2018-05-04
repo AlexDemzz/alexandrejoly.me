@@ -25,7 +25,8 @@ header {
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 30px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  z-index: 9999999999; }
   header .header-left-side {
     display: -webkit-box;
     display: -ms-flexbox;
