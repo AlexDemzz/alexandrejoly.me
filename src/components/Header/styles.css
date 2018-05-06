@@ -26,7 +26,7 @@ header {
   box-sizing: border-box;
   margin-top: 30px;
   box-sizing: border-box;
-  z-index: 9999999999; }
+  z-index: 9999999; }
   header .header-left-side {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -58,12 +58,6 @@ header {
         margin-left: 20px;
         font-size: 20px;
         font-family: "hk_groteskbold", sans-serif; }
-    header .header-left-side > h1 {
-      position: absolute;
-      bottom: -70px;
-      left: 0;
-      font-size: 18px;
-      line-height: 28px; }
   header .header-right-side nav ul {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -76,15 +70,43 @@ header {
     flex-flow: row nowrap; }
     header .header-right-side nav ul li:last-of-type {
       margin-right: 0; }
-    header .header-right-side nav ul li.active button {
+    header .header-right-side nav ul li.active a p {
       color: white; }
-    header .header-right-side nav ul li button {
+    header .header-right-side nav ul li:hover p {
+      transform: translateY(-27px);
+      transition: 0.3s; }
+    header .header-right-side nav ul li:nth-of-type(1) a p:after {
+      content: 'work'; }
+    header .header-right-side nav ul li:nth-of-type(2) a p:after {
+      content: 'about'; }
+    header .header-right-side nav ul li a {
       border: 0;
       border-radius: 0;
       background: none;
       padding: 0;
-      padding: 15px;
       cursor: pointer;
       font-size: 20px;
-      font-family: "hk_groteskmedium", sans-serif;
-      color: #646464; }
+      font-family: "hk_grotesksemibold", sans-serif;
+      color: #646464;
+      position: relative;
+      text-decoration: none;
+      display: block; }
+      header .header-right-side nav ul li a div {
+        margin: 15px;
+        box-sizing: content-box;
+        overflow: hidden; }
+      header .header-right-side nav ul li a p {
+        transition: 0.3s;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+        -webkit-flex-flow: column nowrap;
+        flex-flow: column nowrap;
+        height: 30px;
+        color: grey; }
+        header .header-right-side nav ul li a p:after {
+          margin-top: 7px; }

@@ -17,16 +17,23 @@ class Header extends React.Component{
                             <h1>Alexandre J.</h1>
                         </Link>
                     </div>
-                    <h1>Front-end developer based in France with focus on UI animations</h1>
                 </div>
                 <div className="header-right-side">
                     <nav>
                         <ul>
                             <li className="active">
-                                <button type="button">work</button>
+                                <Link to={{ pathname: `/`}}>
+                                    <div>
+                                        <p>work</p>
+                                    </div>
+                                </Link>
                             </li>
                             <li>
-                                <button type="button">about</button>
+                                <Link to={{ pathname: `/about`}}>
+                                    <div>
+                                        <p>about</p>
+                                    </div>
+                                </Link>
                             </li>
                         </ul>
                     </nav>

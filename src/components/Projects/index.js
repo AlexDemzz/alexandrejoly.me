@@ -16,6 +16,7 @@ class Projects extends React.Component{
         const { x, y } = this.state;
         return(
             <div className="projects">
+                <h3>Front-end developer based in France<br/>obessed with UI animations</h3>
                 <div className="projects-drag-area">
                     {projects}
                 </div>

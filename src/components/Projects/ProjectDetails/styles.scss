@@ -1,7 +1,7 @@
 @import "../../../assets/scss/var.scss";
+
 .project-details{
   width: 100%;
-  margin-top: 200px;
   animation: lol 2s forwards;
   >p{
     max-width: 900px;
@@ -10,10 +10,20 @@
     margin-bottom:100px;
     line-height: 28px;
   }
+  .project-title{
+    white-space: nowrap;
+    font-size: 144px;
+    z-index: 10;
+    font-family: $hkBold;
+    height: 70vh;
+    margin-top: 0px;
+    @include flex(c,fs);
+  }
   .project-details-infos{
     width: 100%;
     @include flex(fe,sb);
     margin-bottom:60px;
+    margin-top: -150px;
     >div{
       p{
         margin: 5px 0;

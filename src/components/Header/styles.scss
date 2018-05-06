@@ -9,7 +9,7 @@ header{
   @include container(1600px);
   margin-top:30px;
   box-sizing: border-box;
-  z-index: 9999999999;
+  z-index: 9999999;
   .header-left-side{
     @include flex(fs,fs,col);
     position: relative;
@@ -31,14 +31,6 @@ header{
         }
       }
     }
-
-    >h1{
-      position: absolute;
-      bottom: -70px;
-      left: 0;
-      font-size: 18px;
-      line-height: 28px;
-    }
   }
   .header-right-side{
     nav{
@@ -49,18 +41,59 @@ header{
             margin-right:0;
           }
           &.active{
-            button{
-              color: white;
+            a{
+              p{
+                color: white;
+              }
             }
-
           }
-          button{
+          &:hover{
+            p{
+              transform: translateY(-27px);
+              transition: 0.3s;
+            }
+          }
+          &:nth-of-type(1){
+            a{
+              p{
+                &:after{
+                  content: 'work';
+                }
+              }
+            }
+          }
+          &:nth-of-type(2){
+            a{
+              p{
+                &:after{
+                  content: 'about';
+                }
+              }
+            }
+          }
+          a{
             @include resetBtn();
-            padding: 15px;
             cursor: pointer;
             font-size: 20px;
-            font-family: $hkMedium;
+            font-family: $hkSemiBold;
             color: rgb(100,100,100);
+            position: relative;
+            text-decoration: none;
+            display: block;
+            div{
+              margin: 15px;
+              box-sizing: content-box;
+              overflow: hidden;
+            }
+            p{
+              transition: 0.3s;
+              @include flex(fs,fs,col);
+              height: 30px;
+              color: grey;
+              &:after{
+                margin-top:7px;
+              }
+            }
           }
         }
       }

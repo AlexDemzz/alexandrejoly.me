@@ -16,10 +16,9 @@ body {
 
   background: $bg;
   overflow-x: hidden;
-  height: 100%;
   .container{
     @include container(1600px);
-    overflow: hidden;
+    //overflow: hidden;
   }
   *{
     cursor: none;
@@ -30,44 +29,50 @@ body {
   }
 }
 .height100{
-  height: 100%;
+  //height: 100vh;
   @include flex(fs,fs,col);
   @include container(1600px);
+  margin-top: 125px;
   .projects{
+    height: 70vh;
     order: -5;
   }
   .project-details{
     z-index: 9999;
     position: relative;
   }
+  .container{
+    padding: 0;
+  }
 }
 .message-enter {
   .project-details{
-    opacity: 0.01;
-    transform: scale(0.9) translateY(50%);
+    opacity: 0;
+    transform: translateY(2%);
   }
 
 }
 .message-enter-active {
   .project-details{
     opacity: 1;
-    transform: scale(1) translateY(0%);
-    transition: all 300ms ease-out;
+    transform: translateY(0%);
+    transition: 1.3s;
+    transition-delay: 1.5s;
   }
 
 }
 .message-exit {
   .project-details{
     opacity: 1;
-    transform: scale(1) translateY(0%);
+    transform: translateY(0%);
   }
 
 }
 .message-exit-active {
   .project-details{
-    opacity: 0.01;
-    transform: scale(0.9) translateY(50%);
-    transition: all 300ms ease-out;
+    opacity: 0;
+    transform: translateY(2%);
+    transition: 1s;
   }
 
 }
@@ -84,8 +89,18 @@ body {
 //  transition: all 300ms ease-out;
 //}
 
+.message-enter-active{
+  .project-details{
+    .project-title{
+      display: none;
+    }
+  }
+}
+
 .message-exit {
   .project{
+    height: 70vh;
+    transition: 3s;
     &.active{
       .icon{
         .icon-img{
@@ -98,8 +113,8 @@ body {
         .line{
           animation: none;
           opacity: 0;
-          width: 10px;
-          height: 10px;
+          width: 150px;
+          height: 150px;
           border-radius: 99999999px;
           background: #F11714;
           transition: 1.5s;
@@ -126,6 +141,8 @@ body {
 }
 .message-exit-active {
   .project{
+    height: 60vh;
+    transition: 3s;
     &.active{
       .icon{
         .icon-img{
@@ -135,30 +152,43 @@ body {
         }
         .line{
           animation: icon-line-out 1s forwards;
-          animation-delay: 0.5s;
+          animation-delay: 0.3s;
           &:after{
             content: '';
             width: 3000px;
             height: 3000px;
-            background: black;
+            background: $bg;
           }
         }
       }
     }
     &:not(.active){
-      letter-spacing: 1000px;
+      letter-spacing: 200px;
       transition: 1s;
-      padding-left: 500px;
+      padding-left: 800px;
       opacity: 0;
     }
   }
 }
 
 @include keyframes('icon-line-out') {
+  0%{
+    opacity: 1;
+    width: 150px;
+    height: 150px;
+    background: transparent;
+    border: solid 5px #3f3f3f;
+  }
+  50%{
+    width: 0px;
+    height: 0px;
+    border: solid 0px transparent;
+  }
   100%{
     opacity: 1;
     width: 3000px;
     height: 3000px;
+    background: #002DA2;
     //background: black;
   }
 }

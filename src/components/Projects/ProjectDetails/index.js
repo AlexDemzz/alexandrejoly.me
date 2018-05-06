@@ -18,6 +18,7 @@ class ProjectDetails extends React.Component{
                     );
                     return (
                         <div className="project-details" key={project.id}>
+                            <h2 className="project-title">{project.title}</h2>
                             <div className="project-details-infos">
                                 <div className="project-details-infos-start">
                                     {works}

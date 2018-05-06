@@ -1,11 +1,6 @@
 @import "../../assets/scss/var.scss";
 footer{
   @include flex(fe,sb);
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   @include container(1600px);
   margin-top:30px;
   box-sizing: border-box;
