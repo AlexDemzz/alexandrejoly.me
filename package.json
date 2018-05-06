@@ -11,6 +11,7 @@
     "react-cursor-position": "^2.4.1",
     "react-dom": "^16.3.2",
     "react-draggable": "^3.0.5",
+    "react-on-screen": "^2.0.4",
     "react-owl-carousel2": "^0.3.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",

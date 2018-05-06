@@ -4,6 +4,9 @@
   @include flex(c,c);
   &.active{
     .icon{
+      .hitMe{
+        display: block;
+      }
       .icon-particles{
         animation: icon-pop-in--particles 0.7s forwards;
         animation-delay: 0.8s;
@@ -33,9 +36,40 @@
   .icon{
     margin-left:20px;
     width: 250px;
-    margin-top:30px;
+    margin-top:10px;
     @include flex(c,c);
     position: relative;
+    .hitMe{
+      padding: 15px 20px;
+      font-family: $hkBold;
+      background: white;
+      font-weight: bold;
+      border-radius: 20px;
+      position: absolute;
+      top: -60px;
+      left: auto;
+      right: auto;
+      margin: 0 auto;
+      z-index: 99;
+      animation: float 1s alternate infinite;
+      display: none;
+      &:after{
+        content: '';
+        position: absolute;
+        bottom: -6px;
+        left: 20px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 7px 8px 0 8px;
+        border-radius: 10px;
+        border-color: #ffffff transparent transparent transparent;
+      }
+      p{
+        color: black;
+        @include noselect();
+      }
+    }
     .icon-particles{
       width: 180px;
       height: auto;
@@ -78,7 +112,7 @@
     white-space: nowrap;
     font-size: 144px;
     z-index: 10;
-    font-family: $hkBold;
+    font-family: $hkRegular;
   }
   .project-container{
     width: 0%;
@@ -251,5 +285,14 @@
     border-radius: 999px;
     background: transparent;
     border: solid 5px transparent;
+  }
+}
+
+@include keyframes('float'){
+  0%{
+    transform: translateY(4px);
+  }
+  100%{
+    transform: translateY(-4px);
   }
 }

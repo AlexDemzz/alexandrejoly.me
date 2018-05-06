@@ -7,6 +7,78 @@
 $hkMedium : 'hk_groteskmedium', sans-serif;
 $hkBold : 'hk_groteskbold', sans-serif;
 $hkSemiBold : 'hk_grotesksemibold', sans-serif;
+$hkRegular : 'hk_groteskregular', sans-serif;
 $bg: #0a0a0a;
 $bg: #0a0a0a;
 
+@mixin fadeTranslateAnimation(){
+  opacity: 0;
+  animation: fade-translate-appear 0.5s forwards;
+  animation-delay: 0.4s;
+}
+
+@mixin blockAnimation(){
+  position: relative;
+  animation: block-appear--text 0.1s forwards;
+  animation-delay: 0.3s;
+  overflow: hidden;
+  color: transparent;
+  &:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    bottom: 0;
+    width: 5%;
+    max-width: 0px;
+    height: 100%;
+    background: white!important;
+    animation: block-appear--block 3s forwards;
+    animation-delay: 0s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+@include keyframes(block-appear--block){
+  0%{
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%);
+  }
+  100%{
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%);
+  }
+}
+
+@include keyframes(block-appear--text){
+  100%{
+    color: white;
+  }
+}
+
+@include keyframes(fade-translate-appear){
+  0%{
+    opacity: 0;
+    transform: translateY(20%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+@include keyframes(fade-translate-appear--small){
+  0%{
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  20%{
+    opacity: 0;
+    transform: translateY(5%);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}

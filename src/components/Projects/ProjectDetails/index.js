@@ -2,6 +2,8 @@ import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import TrackVisibility from 'react-on-screen'
+
 class ProjectDetails extends React.Component{
     getProject = () => {
 
@@ -11,10 +13,26 @@ class ProjectDetails extends React.Component{
         const project = projectsList.map(project => {
                 if (project.id === this.props.match.params.id){
                     let imgs = project.images.map(
-                        (img, index) => { return <img key={index} src={img} alt=""/> }
-                    );
+                        (img, index) => {
+                            if(index === 0){
+                                return (
+                                    <TrackVisibility key={index} once className="fadeTranslateAnimation--isVisibility">
+                                        {({ isVisible }) => isVisible && <img src={img} alt=""/>}
+                                    </TrackVisibility>
+                                );
+                            }else{
+                                return(
+                                    <div key={index} className="fadeTranslateAnimation--isVisibility">
+                                        <img src={img} alt=""/>
+                                    </div>
+                                )
+                            }
+                        });
                     let works = project.works.map(
-                        (work, index) => { return <p key={index}>{work}</p> }
+                        (work, index) => { return (
+                            <div className="info" key={index}>
+                                <p>{work}</p>
+                            <div className="line"/></div>)}
                     );
                     return (
                         <div className="project-details" key={project.id}>

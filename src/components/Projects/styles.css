@@ -4,6 +4,138 @@
 /*******************************************/
 /**********  End Simple Function  **********/
 /*******************************************/
+@-webkit-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-moz-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-o-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-webkit-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-moz-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-o-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-webkit-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-moz-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-o-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-webkit-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-moz-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-o-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
 .projects {
   width: 100%;
   height: 100%;
@@ -25,10 +157,12 @@
     margin: 0 auto;
     box-sizing: border-box;
     position: absolute;
-    top: -30px;
+    top: -20px;
     left: 0;
     font-size: 18px;
-    line-height: 28px; }
+    line-height: 26px;
+    color: #828282;
+    font-family: "hk_groteskmedium", sans-serif; }
 
 .projects-drag-area {
   max-width: 1600px;

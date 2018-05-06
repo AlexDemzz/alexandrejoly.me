@@ -2,53 +2,102 @@
 
 .project-details{
   width: 100%;
-  animation: lol 2s forwards;
+  animation: lol 5s forwards;
   >p{
+    font-family: $hkRegular;
     max-width: 900px;
     width: 100%;
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom:100px;
-    line-height: 28px;
+    line-height: 34px;
+    @include fadeTranslateAnimation();
   }
   .project-title{
     white-space: nowrap;
     font-size: 144px;
     z-index: 10;
-    font-family: $hkBold;
-    height: 70vh;
+    font-family: $hkRegular;
+    height: 30vh;
     margin-top: 0px;
     @include flex(c,fs);
   }
+
   .project-details-infos{
     width: 100%;
+    max-width: 900px;
     @include flex(fe,sb);
     margin-bottom:60px;
-    margin-top: -150px;
+    //margin-top: -150px;
     >div{
       p{
+        width: 100%;
+        max-width: 900px;
         margin: 5px 0;
-        font-size:18px;
+        font-size: 20px;
       }
     }
     .project-details-infos-start{
-      @include flex(fs,fs,col);
+      @include flex(fs,fs);
+      .info{
+        @include flex(fs,fs);
+        margin-right: 15px;
+        &:last-of-type{
+          .line{
+            display: none;
+          }
+        }
+        p{
+          font-family: $hkSemiBold;
+          padding-right: 2px;
+          padding: 5px 0;
+          @include blockAnimation();
+        }
+        .line{
+          height: 2px;
+          width:0px;
+          margin: auto 0;
+          margin-left: 10px;
+          background: white;
+          animation: block-appear--line 1s forwards;
+          animation-delay: 0.3s;
+        }
+      }
+    }
+    .project-details-infos-end{
+      p{
+        @include blockAnimation();
+      }
     }
   }
   .project-details-images{
+    min-height: 2048px;
     img{
+      opacity: 0;
+      animation: fade-translate-appear--small 1s forwards;
       margin-bottom: 100px;
       width: 100%;
       height: auto;
       object-fit: cover;
+
     }
   }
 }
 
-//@include keyframes(lol){
-//  0%{
-//    opacity: 0;
-//  }
-//  100%{
-//    opacity: 1;
-//  }
-//}
+.message-enter-active{
+  .project-details{
+    *, *:before, *:after{
+      animation: none!important;
+    }
+  }
+}
+
+
+@include keyframes(block-appear--line){
+  0%{
+    width: 0px;
+  }
+  100%{
+    width: 30px;
+  }
+}
+

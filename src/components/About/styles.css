@@ -4,6 +4,138 @@
 /*******************************************/
 /**********  End Simple Function  **********/
 /*******************************************/
+@-webkit-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-moz-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-o-keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@keyframes block-appear--block {
+  0% {
+    width: 5%;
+    max-width: 0px;
+    transform: translateX(0%); }
+  100% {
+    width: 150%;
+    max-width: inherit;
+    transform: translateX(180%); } }
+
+@-webkit-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-moz-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-o-keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@keyframes block-appear--text {
+  100% {
+    color: white; } }
+
+@-webkit-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-moz-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-o-keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@keyframes fade-translate-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(20%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-webkit-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-moz-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@-o-keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
+@keyframes fade-translate-appear--small {
+  0% {
+    opacity: 0;
+    transform: translateY(5%); }
+  20% {
+    opacity: 0;
+    transform: translateY(5%); }
+  100% {
+    opacity: 1;
+    transform: translateY(0%); } }
+
 .about p {
   padding: 30px 0;
   font-size: 64px;

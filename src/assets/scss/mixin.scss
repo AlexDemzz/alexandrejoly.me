@@ -239,6 +239,11 @@ $wr: wrap-reverse;
   transition-timing-function: cubic-bezier(.75,-0.5,0,1.75);
 }
 
+@mixin animationElastic--light() {
+  -webkit-animation-timing-function: cubic-bezier(.75,-0.5,0,1.75);
+  animation-timing-function: cubic-bezier(.75,-0.5,0,1.75);
+}
+
 @mixin animationElastic() {
   -webkit-animation-timing-function: cubic-bezier(.32,2,.55,.27);
   animation-timing-function: cubic-bezier(.32,2,.55,.27);

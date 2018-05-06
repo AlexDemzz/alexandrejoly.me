@@ -8,10 +8,12 @@
     display: block;
     @include container(1600px, 0);
     position: absolute;
-    top:-30px;
+    top:-20px;
     left: 0;
     font-size: 18px;
-    line-height: 28px;
+    line-height: 26px;
+    color: #828282;
+    font-family: $hkMedium;
   }
 }
 .projects-drag-area{

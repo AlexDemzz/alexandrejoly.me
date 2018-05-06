@@ -31,7 +31,7 @@ class App extends Component {
                         <Cursor top={this.state.y} left={this.state.x} />
                         <Header/>
                         <TransitionGroup className='height100'>
-                            <CSSTransition key={location.pathname.split('/')[1]} classNames="message" timeout={3000}>
+                            <CSSTransition key={location.pathname.split('/')[1]} classNames="message" timeout={2000}>
                                 <Switch location={location}>
                                     <Route match exact path="/" component={Projects} />
                                     <Route path={`/work/:id/:workName`} component={ProjectDetails}/>

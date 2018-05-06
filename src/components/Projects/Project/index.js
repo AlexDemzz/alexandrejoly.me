@@ -39,6 +39,9 @@ class Project extends React.Component{
                     <h2 className="project-title">{this.props.details.title}</h2>
                 </Link>
                 <div className="icon" onClick={e => this.iconHit(e)}>
+                    <div className="hitMe">
+                        <p>Hit me !</p>
+                    </div>
                     <div className="icon-img" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)}/>
                     <div className="icon-particles">
                         <img src={particles} alt=""/>
