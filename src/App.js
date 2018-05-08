@@ -11,11 +11,20 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import projectsList from './projects';
 
 class App extends Component {
+
+
     state = {
         x : 0,
         y: 0,
+        transitionName: 'home-to-project',
+        transitionDelay: 2000,
+        hover: false,
+        hold: false
     };
 
+    getClickEvent = (param) => {
+        this.setState({transitionName: param.transitionName, transitionDelay: param.transitionDelay});
+    }
     cursorDeplacement = e => {
         this.setState({x:e.clientX, y: e.clientY});
     };
@@ -23,28 +32,27 @@ class App extends Component {
     getProjectDetails = (projectID) => {
 
     }
+
+    transitionName = (name) => {
+
+    }
+
     render() {
         return (
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
-                        <Cursor top={this.state.y} left={this.state.x} />
-                        <Header/>
-                        <TransitionGroup className='height100'>
+                        <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} needToHold={this.state.hold}/>
+                        <Header getClickEvent={this.getClickEvent}/>
+                        <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
                             <CSSTransition
                                 key={location.pathname.split('/')[1]}
-                                classNames="message"
-                                timeout={{
-                                enter: 2000,
-                                exit: 2000,
-                            }}>
+                                classNames={this.state.transitionName}
+                                timeout={this.state.transitionDelay}
+                                unmountOnExit >
                                 <Switch location={location}>
                                     <Route match exact path="/" component={Projects} />
                                     <Route path={`/work/:id/:workName`} component={ProjectDetails}/>
-                                </Switch>
-                            </CSSTransition>
-                            <CSSTransition key={location.key} classNames="ntm" timeout={1000}>
-                                <Switch location={location}>
                                     <Route match exact path="/about" component={About} />
                                 </Switch>
                             </CSSTransition>

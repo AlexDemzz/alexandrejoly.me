@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 
 class Header extends React.Component{
 
+    sendGetClickEvent = () => {
+        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: 0});
+    }
+
     render(){
         return(
             <header>
@@ -19,7 +23,7 @@ class Header extends React.Component{
                     </div>
                 </div>
                 <div className="header-right-side">
-                    <nav>
+                    <nav onMouseOver={() => this.sendGetClickEvent()}>
                         <ul>
                             <li className="active">
                                 <Link to={{ pathname: `/`}}>

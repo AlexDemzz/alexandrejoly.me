@@ -329,7 +329,7 @@
       height: auto;
       object-fit: cover; }
 
-.message-enter-active .project-details *, .message-enter-active .project-details *:before, .message-enter-active .project-details *:after {
+.home-to-project-enter-active .project-details *, .home-to-project-enter-active .project-details *:before, .home-to-project-enter-active .project-details *:after {
   animation: none !important; }
 
 @-webkit-keyframes block-appear--line {

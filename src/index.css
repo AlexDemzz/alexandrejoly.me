@@ -297,68 +297,68 @@ body {
     padding: 0; }
 
 /*Animation*/
-.message-enter.projects {
+.home-to-project-enter.projects {
   height: 30vh;
   transition: 0.5s;
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-  .message-enter.projects .project:not(.active) .project-title {
+  .home-to-project-enter.projects .project:not(.active) .project-title {
     letter-spacing: 200px;
     transition: 1s;
     padding-left: 800px;
     opacity: 0; }
 
-.message-enter .project-details {
+.home-to-project-enter .project-details {
   opacity: 0;
   transform: translateY(2%); }
 
-.message-enter-active.projects {
+.home-to-project-enter-active.projects {
   height: 70vh;
   transition: 0.5s;
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-  .message-enter-active.projects .project.active .line {
+  .home-to-project-enter-active.projects .project.active .line {
     width: 0px;
     background: transparent; }
-  .message-enter-active.projects .project:not(.active) .project-title {
+  .home-to-project-enter-active.projects .project:not(.active) .project-title {
     letter-spacing: 0px;
     transition: 1s;
     padding-left: 0px;
     opacity: 1; }
 
-.message-enter-active .project-details {
+.home-to-project-enter-active .project-details {
   opacity: 1;
   transform: translateY(0%);
   transition: 1.3s;
   transition-delay: 1.5s; }
 
-.message-exit .project-details {
+.home-to-project-exit .project-details {
   opacity: 1;
   transform: translateY(0%);
   transition: 1s; }
 
-.message-exit-active.projects {
+.home-to-project-exit-active.projects {
   height: 30vh;
   transition: 0.5s;
   transition-delay: 1.5s;
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-  .message-exit-active.projects .project.active .hit-me {
+  .home-to-project-exit-active.projects .project.active .hit-me {
     animation: hitMe--hidden 0.5s forwards;
     -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
     animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
 
-.message-exit-active .project-details {
+.home-to-project-exit-active .project-details {
   opacity: 0;
   transition: 1s;
   height: 0px; }
-  .message-exit-active .project-details .project-title {
+  .home-to-project-exit-active .project-details .project-title {
     display: none; }
 
-.message-enter-active .project-details .project-title {
+.home-to-project-enter-active .project-details .project-title {
   display: none; }
 
-.message-exit .project.active .icon .icon-img {
+.home-to-project-exit .project.active .icon .icon-img {
   animation: none;
   opacity: 1;
   transform: scale(1);
@@ -366,7 +366,7 @@ body {
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
 
-.message-exit .project.active .icon .line {
+.home-to-project-exit .project.active .icon .line {
   animation: none;
   opacity: 0;
   width: 150px;
@@ -383,7 +383,7 @@ body {
   justify-content: center;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap; }
-  .message-exit .project.active .icon .line:after {
+  .home-to-project-exit .project.active .icon .line:after {
     content: '';
     width: 0px;
     height: 0px;
@@ -392,7 +392,7 @@ body {
     transition-delay: 1s;
     border-radius: 99999999px; }
 
-.message-exit .project:not(.active) {
+.home-to-project-exit .project:not(.active) {
   letter-spacing: 0px;
   transition: 1s;
   padding-left: 0px;
@@ -400,22 +400,22 @@ body {
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
 
-.message-exit-active .project.active .icon .icon-img {
+.home-to-project-exit-active .project.active .icon .icon-img {
   transform: scale(0.2);
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   opacity: 0; }
 
-.message-exit-active .project.active .icon .line {
+.home-to-project-exit-active .project.active .icon .line {
   animation: icon-line-out 1s forwards;
   animation-delay: 0.3s; }
-  .message-exit-active .project.active .icon .line:after {
+  .home-to-project-exit-active .project.active .icon .line:after {
     content: '';
     width: 3000px;
     height: 3000px;
     background: #0a0a0a; }
 
-.message-exit-active .project:not(.active) {
+.home-to-project-exit-active .project:not(.active) {
   letter-spacing: 200px;
   transition: 1s;
   padding-left: 800px;
