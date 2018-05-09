@@ -64,6 +64,9 @@ body {
     }
   }
   .project-details{
+    .project-title{
+      display: none;
+    }
     opacity: 0;
     transform: translateY(2%);
   }

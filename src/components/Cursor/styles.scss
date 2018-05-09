@@ -6,7 +6,6 @@
   z-index: 99999999999999999999999999999;
   pointer-events: none;
   @include flex(c,c,col);
-
   .pointer{
     @include flex(c,c,col);
     .main{
@@ -81,10 +80,11 @@
     }
   }
   &.hold{
+    transition: 0.1s;
     .main{
       background: $purple;
-      transform: scale(9.5);
-      transition: 1.5s;
+      transform: scale(11);
+      transition: transform 0.5s;
       -webkit-filter: blur(0);
       transition-timing-function: linear;
     }

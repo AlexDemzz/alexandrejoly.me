@@ -300,9 +300,11 @@
     transition: 0.5s;
     -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
     transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-  .cursor.hold .main {
-    background: #8b5bc8;
-    transform: scale(9.5);
-    transition: 1.5s;
-    -webkit-filter: blur(0);
-    transition-timing-function: linear; }
+  .cursor.hold {
+    transition: 0.1s; }
+    .cursor.hold .main {
+      background: #8b5bc8;
+      transform: scale(11);
+      transition: transform 0.5s;
+      -webkit-filter: blur(0);
+      transition-timing-function: linear; }

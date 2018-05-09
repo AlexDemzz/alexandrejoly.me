@@ -311,6 +311,8 @@ body {
 .home-to-project-enter .project-details {
   opacity: 0;
   transform: translateY(2%); }
+  .home-to-project-enter .project-details .project-title {
+    display: none; }
 
 .home-to-project-enter-active.projects {
   height: 70vh;
