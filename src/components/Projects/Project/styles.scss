@@ -274,11 +274,11 @@
     border-radius: 999px;
     max-width: $lineHeight;
     height: $lineHeight;
-    border: solid 0px #8b5bc8;
+    border: solid 0px $purple;
   }
   42%{
     background: #0a0a0a;
-    border: solid 25px #8b5bc8;
+    border: solid 25px $purple;
   }
   79%{
     max-width: 100px;
@@ -286,7 +286,7 @@
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8;
+    border: solid 1px $purple;
   }
   100%{
     max-width: 400px;

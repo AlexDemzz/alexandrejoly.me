@@ -264,7 +264,7 @@ body {
     margin: 0 auto;
     box-sizing: border-box; }
   body * {
-    cursor: none;
+    cursor: none !important;
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -331,6 +331,8 @@ body {
   transform: translateY(0%);
   transition: 1.3s;
   transition-delay: 1.5s; }
+  .home-to-project-enter-active .project-details .project-title {
+    display: none; }
 
 .home-to-project-exit .project-details {
   opacity: 1;

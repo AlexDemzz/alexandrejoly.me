@@ -8,10 +8,19 @@ class Projects extends React.Component{
     state = { x: 0 };
 
     render(){
-
         const projects = Object
             .keys(projectsList)
-            .map(key => <Project key={key} details={projectsList[key]}/>);
+            .map(key => {
+                if(key === '0'){
+                    return (
+                        <Project active={true} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                    )
+                }else{
+                   return(
+                       <Project active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                   )
+                }
+            });
 
         const { x, y } = this.state;
         return(

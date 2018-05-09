@@ -2,10 +2,19 @@ import React from 'react';
 import './styles.css';
 import particles1 from '../../../assets/img/particles1.svg'
 import particles2 from '../../../assets/img/particles2.svg'
-import { Link } from "react-router-dom";
+import { Link, withRouter, Redirect } from "react-router-dom";
 
 class Project extends React.Component{
     timeout;
+    preventDoubleRedirect = true;
+    currentProject = null;
+
+    state = {
+        mouseDown: false,
+        currentProject: this.props.details,
+        redirection: false,
+    }
+
     demoMethod = (value) => {
         this.props.sendData(value);
     }
@@ -19,7 +28,20 @@ class Project extends React.Component{
             return 'active';
         }
     }
-    
+
+    sendCursorEvent = (hoverStatus, holdStatus) => {
+        this.props.cursorEvent(hoverStatus, holdStatus);
+    }
+
+    onMouseDown = e => {
+        e.preventDefault();
+        this.setState({mouseDown: true});
+    }
+
+    onMouseUp = e => {
+        this.setState({mouseDown: false});
+    }
+
     iconHit = e => {
         function rotate_degree(obj) {
             var matrix = obj.css("-webkit-transform") ||
@@ -89,15 +111,24 @@ class Project extends React.Component{
     }
 
     render(){
-
-
-
-
+        const redirect = () => {
+            if(this.props.holdEnd && this.props.active){
+                this.sendCursorEvent(false, false);
+                document.getElementsByClassName('project active')[0].style.pointerEvents = 'none';
+                return (<Redirect to={`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}/>)
+            }
+        }
         return(
             <div className={'project js-project ' + this.temp()}>
-                <Link to={{ pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}}>
+                {redirect()}
+                <a
+                    onMouseOver={() => this.sendCursorEvent(true, false)}
+                    onMouseOut={() => this.sendCursorEvent(false, false)}
+                    onMouseDown={(e) => this.sendCursorEvent(true, true)}
+                    onMouseUp={(e) => this.sendCursorEvent(true, false)}>
                     <h2 className="project-title">{this.props.details.title}</h2>
-                </Link>
+                </a>
+
                 <div className="icon" onMouseDown={e => this.iconHit(e)}>
                     <div className="hit-me">
                         <p>Hit me !</p>
@@ -114,4 +145,4 @@ class Project extends React.Component{
     }
 }
 
-export default Project;
+export default withRouter(Project);

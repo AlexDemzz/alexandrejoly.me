@@ -19,19 +19,27 @@ class App extends Component {
         transitionName: 'home-to-project',
         transitionDelay: 2000,
         hover: false,
-        hold: false
+        hold: false,
+        holdEnd: false
     };
 
     getClickEvent = (param) => {
         this.setState({transitionName: param.transitionName, transitionDelay: param.transitionDelay});
     }
+
     cursorDeplacement = e => {
         this.setState({x:e.clientX, y: e.clientY});
     };
 
-    getProjectDetails = (projectID) => {
-
+    cursorEvent = (hover, hold, holdEnd = false) => {
+        this.setState({hover: hover, hold: hold});
+        if(holdEnd === true){
+            this.setState({holdEnd: true});
+        }else{
+            this.setState({holdEnd: false});
+        }
     }
+
 
     transitionName = (name) => {
 
@@ -42,8 +50,8 @@ class App extends Component {
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
-                        <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} needToHold={this.state.hold}/>
-                        <Header getClickEvent={this.getClickEvent}/>
+                        <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
+                        <Header getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
                         <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
                             <CSSTransition
                                 key={location.pathname.split('/')[1]}
@@ -51,7 +59,7 @@ class App extends Component {
                                 timeout={this.state.transitionDelay}
                                 unmountOnExit >
                                 <Switch location={location}>
-                                    <Route match exact path="/" component={Projects} />
+                                    <Route match exact path="/" render={()=><Projects cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd}/>}/>
                                     <Route path={`/work/:id/:workName`} component={ProjectDetails}/>
                                     <Route match exact path="/about" component={About} />
                                 </Switch>

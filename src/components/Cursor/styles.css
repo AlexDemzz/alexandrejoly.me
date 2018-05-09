@@ -205,7 +205,16 @@
   top: 0;
   left: 0;
   z-index: 99999999999999999999999999999;
-  pointer-events: none; }
+  pointer-events: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap; }
   .cursor .pointer {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -214,14 +223,20 @@
     align-items: center;
     -webkit-justify-content: center;
     justify-content: center;
-    -webkit-flex-flow: row nowrap;
-    flex-flow: row nowrap; }
+    -webkit-flex-flow: column nowrap;
+    flex-flow: column nowrap; }
     .cursor .pointer .main {
+      -webkit-font-smoothing: subpixel-antialiased;
+      backface-visibility: hidden;
+      -webkit-filter: blur(0);
       width: 10px;
       height: 10px;
       background: white;
       border-radius: 99px;
-      z-index: 999999999; }
+      z-index: 999999999;
+      transition: 0.5s;
+      -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
     .cursor .pointer .border {
       z-index: -1;
       position: absolute;
@@ -233,4 +248,61 @@
       height: 30px;
       margin: auto;
       background: rgba(255, 255, 255, 0.5);
-      border-radius: 99px; }
+      border-radius: 99px;
+      transition: 0.5s;
+      -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      overflow: hidden; }
+    .cursor .pointer .text {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+      position: absolute;
+      bottom: -80px;
+      left: 0;
+      right: 0;
+      text-align: center; }
+      .cursor .pointer .text p {
+        opacity: 0;
+        white-space: nowrap;
+        font-family: "hk_groteskbold", sans-serif;
+        transform: scale(0.9);
+        -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+        transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+        transition: 0.1s; }
+        .cursor .pointer .text p.text-p--show {
+          opacity: 1;
+          transform: scale(1);
+          -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+          transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+          transition: transform 0.1s; }
+        .cursor .pointer .text p.text-p--hide {
+          opacity: 0;
+          transform: scale(0.9);
+          -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+          transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+          transition: all 0.2s;
+          transition-delay: 0.5s; }
+  .cursor.hover .main {
+    transform: scale(1.5);
+    transition: 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+    transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
+  .cursor.hover .border {
+    transform: scale(4);
+    background: rgba(255, 255, 255, 0.1);
+    transition: 0.5s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+    transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
+  .cursor.hold .main {
+    background: #8b5bc8;
+    transform: scale(9.5);
+    transition: 1.5s;
+    -webkit-filter: blur(0);
+    transition-timing-function: linear; }

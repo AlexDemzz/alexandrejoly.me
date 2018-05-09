@@ -13,7 +13,6 @@ html{
 body {
   margin: 0;
   padding: 0;
-
   background: $bg;
   overflow-x: hidden;
   .container{
@@ -21,7 +20,7 @@ body {
     //overflow: hidden;
   }
   *{
-    cursor: none;
+    cursor: none!important;
     color: white;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -92,6 +91,9 @@ body {
     }
   }
   .project-details{
+    .project-title{
+      display: none;
+    }
     opacity: 1;
     transform: translateY(0%);
     transition: 1.3s;
