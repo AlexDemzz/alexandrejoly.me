@@ -56,8 +56,13 @@
     margin-top:10px;
     @include flex(c,c);
     position: relative;
+    transition: 0.2s;
     *{
       @include noselect();
+    }
+    &:hover{
+      transform: rotate(-3deg);
+      transition: 0.2s;
     }
     .hit-me{
       opacity: 0;
@@ -111,6 +116,7 @@
       left: auto;
       margin: auto;
       @include flex(c,c);
+      pointer-events: none;
       img{
         opacity: 0;
         position: absolute;
@@ -141,6 +147,7 @@
       left: auto;
       margin: auto;
       box-sizing: border-box;
+      pointer-events: none;
     }
   }
   a{
