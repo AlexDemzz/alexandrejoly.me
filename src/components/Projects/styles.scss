@@ -10,16 +10,17 @@
     position: absolute;
     top:-20px;
     left: 0;
-    font-size: 18px;
-    line-height: 26px;
-    color: #828282;
-    font-family: $hkMedium;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: $hkSemiBold;
   }
 }
 .projects-drag-area{
   @include container(1600px, 0);
   @include flex(c,fs);
   height: 100%;
+  transition: 0.5s;
+  transition-timing-function: ease-out;
 }
 
 .slick-active{

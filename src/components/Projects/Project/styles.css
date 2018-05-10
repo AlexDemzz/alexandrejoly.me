@@ -210,7 +210,9 @@
   -webkit-justify-content: center;
   justify-content: center;
   -webkit-flex-flow: row nowrap;
-  flex-flow: row nowrap; }
+  flex-flow: row nowrap;
+  transition: 0.7s;
+  margin-right: 70px; }
   .project.active .icon .hit-me {
     display: block; }
     .project.active .icon .hit-me.hit-me--hidden {
@@ -272,9 +274,8 @@
       user-select: none;
       /* Non-prefixed version, currently
                                   supported by Chrome and Opera */ }
-    .project .icon:hover {
-      transform: rotate(-3deg);
-      transition: 0.2s; }
+    .project .icon:hover .icon-img svg {
+      transform: rotate(-3deg) !important; }
     .project .icon .hit-me {
       opacity: 0;
       transform: scale(0.7) translateY(0px);
@@ -359,7 +360,8 @@
       .project .icon .icon-img svg {
         width: 100px;
         height: 100px;
-        fill: white; }
+        fill: white;
+        transition: 0.2s; }
     .project .icon .line {
       height: 7px;
       width: 100%;

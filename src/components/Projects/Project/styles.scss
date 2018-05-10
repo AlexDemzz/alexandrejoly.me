@@ -2,6 +2,8 @@
 .project{
   padding-right:20px;
   @include flex(c,c);
+  transition: 0.7s;
+  margin-right: 70px;
   &.active{
     .icon{
       .hit-me{
@@ -61,8 +63,11 @@
       @include noselect();
     }
     &:hover{
-      transform: rotate(-3deg);
-      transition: 0.2s;
+      .icon-img{
+        svg{
+          transform: rotate(-3deg)!important;
+        }
+      }
     }
     .hit-me{
       opacity: 0;
@@ -133,6 +138,8 @@
         width: 100px;
         height: 100px;
         fill: white;
+        transition: 0.2s;
+        //@include transitionElastic();
       }
     }
     $lineHeight: 7px;

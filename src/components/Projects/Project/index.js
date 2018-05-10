@@ -8,6 +8,7 @@ class Project extends React.Component{
     timeout;
     preventDoubleRedirect = true;
     currentProject = null;
+    distance;
 
     state = {
         mouseDown: false,
@@ -23,10 +24,8 @@ class Project extends React.Component{
         return {__html: svg};
     }
 
-    temp = () => {
-        if(this.props.details.title === 'Burger King'){
-            return 'active';
-        }
+    getActive = () => {
+        return ;
     }
 
     sendCursorEvent = (hoverStatus, holdStatus) => {
@@ -40,6 +39,16 @@ class Project extends React.Component{
 
     onMouseUp = e => {
         this.setState({mouseDown: false});
+    }
+
+    preventHold = () => {
+        this.distance = 0;
+        if(this.state.mouseDown) {
+            this.distance = this.distance - 5;
+            if(this.distance <= 100){
+                this.sendCursorEvent(false, false);
+            }
+        }
     }
 
     iconHit = e => {
@@ -59,9 +68,10 @@ class Project extends React.Component{
         }
 
 
-        let $iconParticles = document.getElementsByClassName('icon-particles')[0];
-        let $iconImg = document.getElementsByClassName('icon-img')[0];
-        let $hitMe = document.getElementsByClassName('hit-me')[0];
+        let $iconParticles = document.getElementById('icon-particles');
+        let $iconImg = document.getElementById('icon-img');
+        let $hitMe = document.getElementById('hit-me');
+        let randomNegPos = Math.round(Math.random()) * 2 - 1;
         $hitMe.classList.remove('hit-me--hidden');
         $hitMe.classList.add('hit-me--show');
         $iconImg.style.webkitAnimation = 'none';
@@ -79,6 +89,7 @@ class Project extends React.Component{
         this.timeout = setTimeout(() => {
             $hitMe.classList.remove('hit-me--show');
             $hitMe.classList.add('hit-me--hidden');
+            $iconImg.childNodes[0].style.transform = `rotate(${0}deg)`;
         }, 500);
 
         setTimeout(function() {
@@ -86,9 +97,12 @@ class Project extends React.Component{
             $iconParticles.style.transform = `rotate(${-particlesRotation}deg)`;
 
 
+
             $iconImg.style.webkitAnimation = '';
             $iconImg.style.animationDelay = '0s';
             $iconImg.style.animationName = 'icon-pop-in--hit';
+
+            $iconImg.childNodes[0].style.transform = `rotate(${randomNegPos * 3}deg)`;
 
             $iconParticles.childNodes[0].style.webkitAnimation = '';
             $iconParticles.childNodes[0].style.animationDelay = '0s';
@@ -102,7 +116,7 @@ class Project extends React.Component{
 
     componentDidMount(){
         function popIn(){
-            let $hitMe = document.getElementsByClassName('hit-me')[0];
+            let $hitMe = document.getElementById('hit-me');
             setTimeout(()=>{
                 $hitMe.classList.add('hit-me--animate');
             },2000)
@@ -119,22 +133,23 @@ class Project extends React.Component{
             }
         }
         return(
-            <div className={'project js-project ' + this.temp()}>
+            <div className={`project js-project ${this.props.active === true ?  'active' : ''}`}>
                 {redirect()}
                 <a
                     onMouseOver={() => this.sendCursorEvent(true, false)}
                     onMouseOut={() => this.sendCursorEvent(false, false)}
-                    onMouseDown={(e) => this.sendCursorEvent(true, true)}
-                    onMouseUp={(e) => this.sendCursorEvent(true, false)}>
+                    onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
+                    onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
+                    onMouseMove={(e) => this.preventHold()}>
                     <h2 className="project-title">{this.props.details.title}</h2>
                 </a>
 
-                <div className="icon" onMouseDown={e => this.iconHit(e)}>
-                    <div className="hit-me">
+                <div className="icon" onMouseDown={e => this.iconHit(e)}  id={this.props.active === true ? 'icon' : ''}>
+                    <div className="hit-me" id={this.props.active === true ? 'hit-me' : ''}>
                         <p>Hit me !</p>
                     </div>
-                    <div className="icon-img" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)}/>
-                    <div className="icon-particles">
+                    <div className="icon-img" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)} id={this.props.active === true ? 'icon-img' : ''}/>
+                    <div className="icon-particles" id={this.props.active === true ? 'icon-particles' : ''}>
                         <img src={particles1} alt=""/>
                         <img src={particles2} alt=""/>
                     </div>

@@ -185,6 +185,10 @@ body {
   }
 }
 .home-to-project-exit-active {
+  .projects-drag-area{
+    transform: translateX(0px)!important;
+    transition: 0.3s;
+  }
   .project{
     &.active{
       .icon{

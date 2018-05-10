@@ -404,6 +404,10 @@ body {
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
   transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
 
+.home-to-project-exit-active .projects-drag-area {
+  transform: translateX(0px) !important;
+  transition: 0.3s; }
+
 .home-to-project-exit-active .project.active .icon .icon-img {
   transform: scale(0.2);
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
