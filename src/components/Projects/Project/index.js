@@ -9,11 +9,13 @@ class Project extends React.Component{
     preventDoubleRedirect = true;
     currentProject = null;
     distance;
+    holdInterval;
 
     state = {
         mouseDown: false,
         currentProject: this.props.details,
         redirection: false,
+        showIcon: false
     }
 
     demoMethod = (value) => {
@@ -35,10 +37,16 @@ class Project extends React.Component{
     onMouseDown = e => {
         e.preventDefault();
         this.setState({mouseDown: true});
+        this.holdInterval = setInterval(() => {
+            if(this.state.mouseDown){
+                this.redirect();
+            }
+        }, 100);
     }
 
     onMouseUp = e => {
         this.setState({mouseDown: false});
+        clearInterval(this.holdInterval);
     }
 
     preventHold = () => {
@@ -66,7 +74,6 @@ class Project extends React.Component{
             } else { var angle = 0; }
             return (angle < 0) ? angle +=360 : angle;
         }
-
 
         let $iconParticles = document.getElementById('icon-particles');
         let $iconImg = document.getElementById('icon-img');
@@ -115,26 +122,34 @@ class Project extends React.Component{
     };
 
     componentDidMount(){
-        function popIn(){
-            let $hitMe = document.getElementById('hit-me');
-            setTimeout(()=>{
-                $hitMe.classList.add('hit-me--animate');
-            },2000)
-        };
-        popIn();
+
     }
 
-    render(){
-        const redirect = () => {
-            if(this.props.holdEnd && this.props.active){
-                this.sendCursorEvent(false, false);
-                document.getElementsByClassName('project active')[0].style.pointerEvents = 'none';
-                return (<Redirect to={`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}/>)
-            }
+    redirect = () => {
+        console.log(this.props);
+        if(this.props.holdEnd){
+            this.sendCursorEvent(false, false);
+            this.props.history.push(`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`);
         }
+    };
+
+    showIcon = () => {
+        // this.setState({'showIcon': true});
+        // function popIn(){
+        //     let $hitMe = document.getElementsByClassName('hit-me')[0];
+        //     $hitMe.classList.add('hit-me--animate');
+        // };
+        // popIn();
+    };
+
+    hideIcon = () => {
+        this.setState({'showIcon': false});
+    };
+
+    render(){
+
         return(
-            <div className={`project js-project ${this.props.active === true ?  'active' : ''}`}>
-                {redirect()}
+            <div className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseOver={() => this.showIcon()} onMouseLeave={() => this.hideIcon()}>
                 <a
                     onMouseOver={() => this.sendCursorEvent(true, false)}
                     onMouseOut={() => this.sendCursorEvent(false, false)}
@@ -144,12 +159,12 @@ class Project extends React.Component{
                     <h2 className="project-title">{this.props.details.title}</h2>
                 </a>
 
-                <div className="icon" onMouseDown={e => this.iconHit(e)}  id={this.props.active === true ? 'icon' : ''}>
-                    <div className="hit-me" id={this.props.active === true ? 'hit-me' : ''}>
+                <div className="icon" onMouseDown={e => this.iconHit(e)}  id='icon'>
+                    <div className="hit-me">
                         <p>Hit me !</p>
                     </div>
-                    <div className="icon-img" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)} id={this.props.active === true ? 'icon-img' : ''}/>
-                    <div className="icon-particles" id={this.props.active === true ? 'icon-particles' : ''}>
+                    <div className="icon-img" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)}/>
+                    <div className="icon-particles">
                         <img src={particles1} alt=""/>
                         <img src={particles2} alt=""/>
                     </div>

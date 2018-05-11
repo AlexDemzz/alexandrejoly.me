@@ -56,8 +56,7 @@ class App extends Component {
                             <CSSTransition
                                 key={location.pathname.split('/')[1]}
                                 classNames={this.state.transitionName}
-                                timeout={this.state.transitionDelay}
-                                unmountOnExit >
+                                timeout={this.state.transitionDelay}>
                                 <Switch location={location}>
                                     <Route match exact path="/" render={()=><Projects cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd}/>}/>
                                     <Route path={`/work/:id/:workName`} component={ProjectDetails}/>

@@ -3,8 +3,20 @@
   padding-right:20px;
   @include flex(c,c);
   transition: 0.7s;
-  margin-right: 70px;
-  &.active{
+  transition-timing-function: ease-out;
+  opacity: 0.5;
+  &:hover{
+    opacity: 1;
+    .hit-me{
+      opacity: 1;
+      transform: scale(1) translateY(4px);
+      transition: 0.3s;
+      @include transitionElastic();
+      animation: float 1s alternate infinite;
+      animation-delay: 0.3s;
+    }
+  }
+  &:hover{
     .icon{
       .hit-me{
         display: block;
@@ -74,14 +86,6 @@
       transform: scale(0.7) translateY(0px);
       transition: 0.3s;
       @include transitionElastic();
-      &.hit-me--animate{
-        opacity: 1;
-        transform: scale(1) translateY(4px);
-        transition: 0.3s;
-        @include transitionElastic();
-        animation: float 1s alternate infinite;
-        animation-delay: 0.3s;
-      }
       padding: 15px 20px;
       font-family: $hkBold;
       background: white;
