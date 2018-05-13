@@ -2,15 +2,15 @@
 
 .project-details{
   width: 100%;
-  animation: lol 5s forwards;
-  >p{
-    font-family: $hkRegular;
-    max-width: 900px;
-    width: 100%;
-    font-size: 20px;
-    margin-bottom:100px;
-    line-height: 34px;
-    @include fadeTranslateAnimation();
+  //transition: 0.5s;
+  //transition-timing-function: ease-in;
+  .project-details-header-fixed{
+    //position: fixed;
+    //top: 150px;
+    //left: 0;
+    //right: 0;
+    //width: 100%;
+    //@include container(1600px);
   }
   .project-title{
     white-space: nowrap;
@@ -21,23 +21,58 @@
     margin-top: 0px;
     @include flex(c,fs);
   }
-
+  @for $i from 1 to 10 {
+    div:nth-child(#{$i}) .subtitle span, div>div:nth-child(#{$i}) .subtitle span{
+      animation-delay: $i * 0.25s;
+    }
+  }
+  .subtitle{
+    overflow: hidden;
+    span{
+      font-size: 14px;
+      color: $darkGrey;
+      text-transform: uppercase;
+      letter-spacing: 6px;
+      //margin-bottom:5px;
+      font-family: $hkBold;
+      animation: text-appear-from-bottom 0.3s forwards;
+      position: relative;
+      top: 15px;
+      animation-delay: 1s;
+    }
+  }
+  .content{
+    padding: 10px 0;
+  }
+  .project-details-text{
+    .content{
+      p{
+        font-family: $hkRegular;
+        max-width: 1200px;
+        width: 100%;
+        font-size: 18px;
+        margin-bottom:100px;
+        line-height: 30px;
+        @include fadeTranslateAnimation();
+      }
+    }
+  }
   .project-details-infos{
     width: 100%;
-    max-width: 900px;
+    max-width: 1200px;
     @include flex(fe,sb);
     margin-bottom:60px;
-    //margin-top: -150px;
     >div{
       p{
         width: 100%;
-        max-width: 900px;
-        margin: 5px 0;
+        max-width: 1200px;
         font-size: 20px;
       }
     }
     .project-details-infos-start{
-      @include flex(fs,fs);
+      .content{
+        @include flex(fs,fs);
+      }
       .info{
         @include flex(fs,fs);
         margin-right: 15px;
@@ -47,7 +82,7 @@
           }
         }
         p{
-          font-family: $hkSemiBold;
+          font-family: $hkMedium;
           padding-right: 2px;
           padding: 5px 0;
           @include blockAnimation();
@@ -71,14 +106,22 @@
   }
   .project-details-images{
     min-height: 2048px;
+    //margin-top: 700px;
+    background: black;
+    position: relative;
+    >div.visible{
+      img{
+        animation: fade-translate-appear--small 0.5s forwards;
+      }
+    }
     img{
       opacity: 0;
-      animation: fade-translate-appear--small 1s forwards;
       margin-bottom: 100px;
       width: 100%;
       height: auto;
       object-fit: cover;
-
+      @include noselect();
+      @include nodrag();
     }
   }
 }
@@ -98,6 +141,12 @@
   }
   100%{
     width: 30px;
+  }
+}
+
+@include keyframes(text-appear-from-bottom){
+  100%{
+    top:0px;
   }
 }
 

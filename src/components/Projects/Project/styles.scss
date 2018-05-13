@@ -4,9 +4,27 @@
   @include flex(c,c);
   transition: 0.7s;
   transition-timing-function: ease-out;
-  opacity: 0.5;
+  height: 100%;
+  z-index: 999999;
+  flex: 0 0 auto;
+  &.not-active-before{
+    //position: relative;
+    //left: 0px;
+    max-width: 1500px;
+    overflow: hidden;
+    transition: 0.3s;
+  }
+  &.active--hidden{
+    .icon{
+      .icon-img{
+        animation: icon-pop-out 0.2s forwards;
+      }
+      .line{
+        animation: line-to-cicle 1s reverse forwards;
+      }
+    }
+  }
   &:hover{
-    opacity: 1;
     .hit-me{
       opacity: 1;
       transform: scale(1) translateY(4px);
@@ -16,7 +34,8 @@
       animation-delay: 0.3s;
     }
   }
-  &:hover{
+  &.active{
+    z-index: 9999999;
     .icon{
       .hit-me{
         display: block;
@@ -33,22 +52,22 @@
         img {
           &:nth-of-type(1) {
             animation: icon-pop-in--particles 0.7s forwards;
-            animation-delay: 1.1s;
+            animation-delay: 0.8s;
           }
           &:nth-of-type(2) {
             animation: icon-pop-in--particles1 0.5s forwards;
-            animation-delay: 1.15s;
+            animation-delay: 0.85s;
           }
         }
       }
       .icon-img{
         animation: icon-pop-in 0.2s forwards;
-        animation-delay: 1.1s;
+        animation-delay: 0.8s;
         @include animationElastic();
       }
       .line{
         animation: line-to-cicle 1s forwards;
-        animation-delay: 0.3s;
+        animation-delay: 0s;
       }
       &.animate{
         .icon-particles{
@@ -173,6 +192,14 @@
     font-size: 144px;
     z-index: 10;
     font-family: $hkRegular;
+    //letter-spacing: 0px;
+    transition: 0.3s;
+    &:hover{
+      //$strokeColor: white;
+      //transition: 0.3s;
+      //text-shadow: 1px 0 0 $strokeColor, -1px 0 0 $strokeColor, 0 1px 0 $strokeColor, 0 -1px 0 $strokeColor, 1px 1px $strokeColor, -1px -1px 0 $strokeColor, 1px -1px 0 $strokeColor, -1px 1px 0 $strokeColor;
+      //color: white;
+    }
   }
   .project-container{
     width: 0%;
@@ -241,6 +268,23 @@
   100%{
     transform: scale(1.0);
     opacity: 1;
+  }
+}
+
+@include keyframes(icon-pop-out){
+  0%{
+    transform: scale(1);
+    opacity: 1;
+  }
+  20%{
+    opacity: 1;
+  }
+  80%{
+    transform: scale(0.8);
+  }
+  100%{
+    transform: scale(1.0);
+    opacity: 0;
   }
 }
 

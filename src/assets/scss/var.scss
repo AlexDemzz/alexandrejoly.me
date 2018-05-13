@@ -8,8 +8,10 @@ $hkMedium : 'hk_groteskmedium', sans-serif;
 $hkBold : 'hk_groteskbold', sans-serif;
 $hkSemiBold : 'hk_grotesksemibold', sans-serif;
 $hkRegular : 'hk_groteskregular', sans-serif;
-$bg: #0a0a0a;
+//$bg: #0a0a0a;
+$bg: #000;
 $purple: #8b5bc8;
+$darkGrey: #444;
 
 @mixin fadeTranslateAnimation(){
   opacity: 0;

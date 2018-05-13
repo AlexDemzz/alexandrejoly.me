@@ -2,14 +2,16 @@ import React from 'react';
 import './styles.css';
 import Project from './Project';
 
-import Draggable from 'react-draggable'; // Both at the same time
-
+import Draggable from 'react-draggable';
 import projectsList from '../../projects'
+import { withRouter } from "react-router-dom";
 
 class Projects extends React.Component{
 
     state = {
-        projectsWidth: 1600
+        projectsWidth: 1600,
+        prevPath: '',
+        active: ''
     }
     handleStart = (event, ui) => {
         this.getMaxBoundLeft();
@@ -17,7 +19,6 @@ class Projects extends React.Component{
     handleDrag = (event, ui) => {
         if(ui.deltaX>0){
             this.scrollAnimation(true, 'prev', event.movementX);
-            console.log(event);
         }else{
             this.scrollAnimation(true, 'next', event.movementX);
         }
@@ -63,18 +64,31 @@ class Projects extends React.Component{
         this.setState({projectsWidth: projectSize[projectSize.length-1]+400});
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.location !== this.props.location) {
+            this.setState({ prevPath: this.props.location })
+        }
+    }
 
     render(){
         const projects = Object
             .keys(projectsList)
             .map(key => {
-                return(
-                    <Project holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
-                )
+                if(key === this.props.activeProject){
+                    return(
+                        <Project active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                    )
+                }else{
+                    return(
+                        <Project active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                    )
+                }
             });
+
         return(
             <div className="projects">
-                <h3>Front-end developer based in France<br/>obessed with UI animations</h3>
+                {/*<h3>Creative Front-end developer<br/>based in France</h3>*/}
+                <h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>
                 <Draggable
                     axis="x"
                     handle=".projects-drag-area"
@@ -92,4 +106,4 @@ class Projects extends React.Component{
         )
     }
 }
-export default Projects;
+export default withRouter(Projects);

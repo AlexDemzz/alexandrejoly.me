@@ -25,6 +25,14 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: $hkMedium;
+    ::selection {
+      background: transparent; /* WebKit/Blink Browsers */
+      color: #b040ff;
+    }
+    ::-moz-selection {
+      background: transparent; /* Gecko Browsers */
+      color: #b040ff;
+    }
   }
 }
 .height100{
@@ -53,12 +61,17 @@ body {
     transition: 0.5s;
     @include transitionElastic();
     .project{
-      &:not(.active){
+      &.not-active-after{
         .project-title{
           letter-spacing: 200px;
           transition: 1s;
           padding-left: 800px;
           opacity: 0;
+        }
+      }
+      &.not-active-before{
+        .project-title{
+          right: 400px;
         }
       }
     }
@@ -83,12 +96,17 @@ body {
           background: transparent;
         }
       }
-      &:not(.active){
+      &.not-active-after{
         .project-title{
           letter-spacing: 0px;
           transition: 1s;
           padding-left: 0px;
           opacity: 1;
+        }
+      }
+      &.not-active-before{
+        .project-title{
+          right: 0px;
         }
       }
     }
@@ -103,13 +121,15 @@ body {
     transition-delay: 1.5s;
   }
 }
+
 .home-to-project-exit {
-  .project-details{
-    opacity: 1;
-    transform: translateY(0%);
-    transition: 1s;
-  }
+  //.project-details{
+  //  opacity: 1;
+  //  transform: translateY(0%);
+  //  transition: 1s;
+  //}
 }
+
 .home-to-project-exit-active {
   &.projects{
     height: 30vh;
@@ -118,6 +138,10 @@ body {
     @include transitionElastic();
     .project{
       &.active{
+        .project-title{
+          font-size: 144px;
+          margin-left:-20px;
+        }
         .hit-me{
           animation: hitMe--hidden 0.5s forwards;
           @include animationElastic--light();
@@ -145,6 +169,7 @@ body {
 
 .home-to-project-exit {
   .project{
+    pointer-events: none!important;
     &.active{
       .icon{
         .icon-img{
@@ -175,18 +200,11 @@ body {
         }
       }
     }
-    &:not(.active){
-      letter-spacing: 0px;
-      transition: 1s;
-      padding-left: 0px;
-      opacity: 1;
-      @include transitionElastic();
-    }
   }
 }
 .home-to-project-exit-active {
   .projects-drag-area{
-    transform: translateX(0px)!important;
+    transform: translate(0px,0px)!important;
     transition: 0.3s;
   }
   .project{
@@ -197,9 +215,7 @@ body {
           @include transitionElastic();
           opacity: 0;
         }
-        .icon-particles{
-
-        }
+        .icon-particles{}
         .line{
           animation: icon-line-out 1s forwards;
           animation-delay: 0.3s;
@@ -212,11 +228,22 @@ body {
         }
       }
     }
-    &:not(.active){
-      letter-spacing: 200px;
-      transition: 1s;
-      padding-left: 800px;
-      opacity: 0;
+    &.not-active-after{
+      //.project-title{
+      //  letter-spacing: 200px;
+      //  transition: 1s;
+      //  padding-left: 800px;
+      //  opacity: 0;
+      //}
+    }
+    &.not-active-before{
+      //max-width: 0px;
+      //left: -400px;
+      //.project-title{
+      //  right: 400px;
+      //  opacity: 0;
+      //}
+      max-width: 0px;
     }
   }
 }

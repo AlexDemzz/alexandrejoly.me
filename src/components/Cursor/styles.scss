@@ -6,6 +6,8 @@
   z-index: 99999999999999999999999999999;
   pointer-events: none;
   @include flex(c,c,col);
+  @include noselect();
+  @include nodrag();
   .pointer{
     @include flex(c,c,col);
     .main{

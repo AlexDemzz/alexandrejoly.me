@@ -213,49 +213,59 @@
   flex-flow: row nowrap;
   transition: 0.7s;
   transition-timing-function: ease-out;
-  opacity: 0.5; }
-  .project:hover {
-    opacity: 1; }
-    .project:hover .hit-me {
-      opacity: 1;
-      transform: scale(1) translateY(4px);
-      transition: 0.3s;
-      -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-      transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-      animation: float 1s alternate infinite;
-      animation-delay: 0.3s; }
-  .project:hover .icon .hit-me {
-    display: block; }
-    .project:hover .icon .hit-me.hit-me--hidden {
-      animation: hitMe--hidden 0.5s forwards;
-      -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-      animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-    .project:hover .icon .hit-me.hit-me--show {
-      animation: hitMe--show 0.2s forwards;
+  height: 100%;
+  z-index: 999999;
+  flex: 0 0 auto; }
+  .project.not-active-before {
+    max-width: 1500px;
+    overflow: hidden;
+    transition: 0.3s; }
+  .project.active--hidden .icon .icon-img {
+    animation: icon-pop-out 0.2s forwards; }
+  .project.active--hidden .icon .line {
+    animation: line-to-cicle 1s reverse forwards; }
+  .project:hover .hit-me {
+    opacity: 1;
+    transform: scale(1) translateY(4px);
+    transition: 0.3s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+    transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+    animation: float 1s alternate infinite;
+    animation-delay: 0.3s; }
+  .project.active {
+    z-index: 9999999; }
+    .project.active .icon .hit-me {
+      display: block; }
+      .project.active .icon .hit-me.hit-me--hidden {
+        animation: hitMe--hidden 0.5s forwards;
+        -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+        animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
+      .project.active .icon .hit-me.hit-me--show {
+        animation: hitMe--show 0.2s forwards;
+        -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
+        animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
+    .project.active .icon .icon-particles img:nth-of-type(1) {
+      animation: icon-pop-in--particles 0.7s forwards;
+      animation-delay: 0.8s; }
+    .project.active .icon .icon-particles img:nth-of-type(2) {
+      animation: icon-pop-in--particles1 0.5s forwards;
+      animation-delay: 0.85s; }
+    .project.active .icon .icon-img {
+      animation: icon-pop-in 0.2s forwards;
+      animation-delay: 0.8s;
       -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
       animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
-  .project:hover .icon .icon-particles img:nth-of-type(1) {
-    animation: icon-pop-in--particles 0.7s forwards;
-    animation-delay: 1.1s; }
-  .project:hover .icon .icon-particles img:nth-of-type(2) {
-    animation: icon-pop-in--particles1 0.5s forwards;
-    animation-delay: 1.15s; }
-  .project:hover .icon .icon-img {
-    animation: icon-pop-in 0.2s forwards;
-    animation-delay: 1.1s;
-    -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
-    animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
-  .project:hover .icon .line {
-    animation: line-to-cicle 1s forwards;
-    animation-delay: 0.3s; }
-  .project:hover .icon.animate .icon-particles {
-    animation: icon-pop-in--particles 0.7s forwards;
-    animation-delay: 0.8s; }
-  .project:hover .icon.animate .icon-img {
-    animation: icon-pop-in 0.2s forwards;
-    animation-delay: 0.8s;
-    -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
-    animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
+    .project.active .icon .line {
+      animation: line-to-cicle 1s forwards;
+      animation-delay: 0s; }
+    .project.active .icon.animate .icon-particles {
+      animation: icon-pop-in--particles 0.7s forwards;
+      animation-delay: 0.8s; }
+    .project.active .icon.animate .icon-img {
+      animation: icon-pop-in 0.2s forwards;
+      animation-delay: 0.8s;
+      -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
+      animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
   .project .icon {
     margin-left: 20px;
     width: 250px;
@@ -411,7 +421,8 @@
     white-space: nowrap;
     font-size: 144px;
     z-index: 10;
-    font-family: "hk_groteskregular", sans-serif; }
+    font-family: "hk_groteskregular", sans-serif;
+    transition: 0.3s; }
   .project .project-container {
     width: 0%;
     overflow: hidden;
@@ -564,6 +575,54 @@
   100% {
     transform: scale(1);
     opacity: 1; } }
+
+@-webkit-keyframes icon-pop-out {
+  0% {
+    transform: scale(1);
+    opacity: 1; }
+  20% {
+    opacity: 1; }
+  80% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
+
+@-moz-keyframes icon-pop-out {
+  0% {
+    transform: scale(1);
+    opacity: 1; }
+  20% {
+    opacity: 1; }
+  80% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
+
+@-o-keyframes icon-pop-out {
+  0% {
+    transform: scale(1);
+    opacity: 1; }
+  20% {
+    opacity: 1; }
+  80% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
+
+@keyframes icon-pop-out {
+  0% {
+    transform: scale(1);
+    opacity: 1; }
+  20% {
+    opacity: 1; }
+  80% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1);
+    opacity: 0; } }
 
 @-webkit-keyframes icon-pop-in--particles {
   0% {

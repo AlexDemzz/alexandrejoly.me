@@ -20,7 +20,8 @@ class App extends Component {
         transitionDelay: 2000,
         hover: false,
         hold: false,
-        holdEnd: false
+        holdEnd: false,
+        active: ''
     };
 
     getClickEvent = (param) => {
@@ -45,6 +46,11 @@ class App extends Component {
 
     }
 
+    getProjectsDetailsProjectId = (activeId) => {
+        this.setState({active: activeId});
+        console.log(this.state.active);
+    };
+
     render() {
         return (
             <Router>
@@ -58,8 +64,8 @@ class App extends Component {
                                 classNames={this.state.transitionName}
                                 timeout={this.state.transitionDelay}>
                                 <Switch location={location}>
-                                    <Route match exact path="/" render={()=><Projects cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd}/>}/>
-                                    <Route path={`/work/:id/:workName`} component={ProjectDetails}/>
+                                    <Route match exact path="/" render={()=><Projects activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} prevPath={this.state.prevPath}/>}/>
+                                    <Route path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
                                     <Route match exact path="/about" component={About} />
                                 </Switch>
                             </CSSTransition>
