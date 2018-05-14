@@ -54,6 +54,7 @@ header{
             }
           }
           &:nth-of-type(1){
+            margin-right:5px;
             a{
               p{
                 &:after{
@@ -79,9 +80,10 @@ header{
             color: rgb(100,100,100);
             position: relative;
             text-decoration: none;
-            display: block;
+            display: flex;
+            height: 100%;
             div{
-              margin: 15px;
+              margin: 10px;
               box-sizing: content-box;
               overflow: hidden;
             }

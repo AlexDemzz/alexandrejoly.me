@@ -9,6 +9,7 @@ class Header extends React.Component{
     }
 
     sendCursorEvent = (hoverStatus) => {
+        console.log(hoverStatus);
         this.props.cursorEvent(hoverStatus, false);
     }
 
@@ -29,8 +30,8 @@ class Header extends React.Component{
                 <div className="header-right-side">
                     <nav onMouseOver={() => this.sendGetClickEvent()}>
                         <ul>
-                            <li className="active">
-                                <Link to={{ pathname: `/`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                            <li className="active" onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                                <Link to={{ pathname: `/`}} >
                                     <div>
                                         <p>work</p>
                                     </div>

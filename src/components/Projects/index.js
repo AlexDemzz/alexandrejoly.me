@@ -11,7 +11,9 @@ class Projects extends React.Component{
     state = {
         projectsWidth: 1600,
         prevPath: '',
-        active: ''
+        active: '',
+        translateX: 0,
+        projectsListWidth: []
     }
     handleStart = (event, ui) => {
         this.getMaxBoundLeft();
@@ -46,6 +48,7 @@ class Projects extends React.Component{
 
     handleStop = (event, ui) => {
         this.scrollAnimation(false);
+        this.sendDragPosition(ui.x)
     };
 
     getMaxBoundLeft = () => {
@@ -62,12 +65,23 @@ class Projects extends React.Component{
             }
         }
         this.setState({projectsWidth: projectSize[projectSize.length-1]+400});
+        this.setState({projectsListWidth: projectSize});
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location !== this.props.location) {
             this.setState({ prevPath: this.props.location })
         }
+    }
+
+    componentWillMount(){
+        if(this.props.dragPosition){
+            this.setState({translateX: this.props.dragPosition});
+        }
+    }
+
+    sendDragPosition(pos){
+        this.props.getDragPosition(pos);
     }
 
     render(){
@@ -93,7 +107,7 @@ class Projects extends React.Component{
                     axis="x"
                     handle=".projects-drag-area"
                     grid={[25, 25]}
-                    defaultPosition={{x: 0, y: 0}}
+                    defaultPosition={{x: this.state.translateX, y: 0}}
                     bounds={{left: this.state.projectsWidth, top: 0, right: 0, bottom: 0}}
                     onStart={this.handleStart}
                     onDrag={this.handleDrag}

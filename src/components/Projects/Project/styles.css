@@ -200,6 +200,9 @@
     transform: scale(1);
     opacity: 1; } }
 
+.react-draggable-dragging .project:not(.active) {
+  pointer-events: none; }
+
 .project {
   padding-right: 20px;
   display: -webkit-box;
@@ -281,20 +284,6 @@
     flex-flow: row nowrap;
     position: relative;
     transition: 0.2s; }
-    .project .icon * {
-      -webkit-touch-callout: none;
-      /* iOS Safari */
-      -webkit-user-select: none;
-      /* Safari */
-      -khtml-user-select: none;
-      /* Konqueror HTML */
-      -moz-user-select: none;
-      /* Firefox */
-      -ms-user-select: none;
-      /* Internet Explorer/Edge */
-      user-select: none;
-      /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */ }
     .project .icon:hover .icon-img svg {
       transform: rotate(-3deg) !important; }
     .project .icon .hit-me {
@@ -358,8 +347,7 @@
       -webkit-justify-content: center;
       justify-content: center;
       -webkit-flex-flow: row nowrap;
-      flex-flow: row nowrap;
-      pointer-events: none; }
+      flex-flow: row nowrap; }
       .project .icon .icon-particles img {
         opacity: 0;
         position: absolute;
@@ -369,7 +357,9 @@
         left: auto;
         margin: auto; }
     .project .icon .icon-img {
-      opacity: 0; }
+      opacity: 0;
+      z-index: 99999;
+      position: relative; }
       .project .icon .icon-img svg {
         width: 100px;
         height: 100px;
@@ -385,8 +375,7 @@
       right: auto;
       left: auto;
       margin: auto;
-      box-sizing: border-box;
-      pointer-events: none; }
+      box-sizing: border-box; }
   .project a {
     text-decoration: none;
     display: -webkit-box;
@@ -843,6 +832,86 @@
     background: transparent;
     box-sizing: border-box;
     border: solid 7px #252525; } }
+
+@-webkit-keyframes circle-to-line {
+  0% {
+    max-width: 300px;
+    border-radius: 0px; }
+  30% {
+    max-width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    border: solid 0px #8b5bc8; }
+  60% {
+    background: #0a0a0a;
+    border: solid 25px #8b5bc8; }
+  100% {
+    max-width: 100px;
+    height: 100px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #8b5bc8; } }
+
+@-moz-keyframes circle-to-line {
+  0% {
+    max-width: 300px;
+    border-radius: 0px; }
+  30% {
+    max-width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    border: solid 0px #8b5bc8; }
+  60% {
+    background: #0a0a0a;
+    border: solid 25px #8b5bc8; }
+  100% {
+    max-width: 100px;
+    height: 100px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #8b5bc8; } }
+
+@-o-keyframes circle-to-line {
+  0% {
+    max-width: 300px;
+    border-radius: 0px; }
+  30% {
+    max-width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    border: solid 0px #8b5bc8; }
+  60% {
+    background: #0a0a0a;
+    border: solid 25px #8b5bc8; }
+  100% {
+    max-width: 100px;
+    height: 100px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #8b5bc8; } }
+
+@keyframes circle-to-line {
+  0% {
+    max-width: 300px;
+    border-radius: 0px; }
+  30% {
+    max-width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    border: solid 0px #8b5bc8; }
+  60% {
+    background: #0a0a0a;
+    border: solid 25px #8b5bc8; }
+  100% {
+    max-width: 100px;
+    height: 100px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #8b5bc8; } }
 
 @-webkit-keyframes float {
   0% {

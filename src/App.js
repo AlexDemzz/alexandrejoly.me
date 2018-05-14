@@ -21,11 +21,16 @@ class App extends Component {
         hover: false,
         hold: false,
         holdEnd: false,
-        active: ''
+        active: '',
+        pos: 0
     };
 
     getClickEvent = (param) => {
         this.setState({transitionName: param.transitionName, transitionDelay: param.transitionDelay});
+    }
+
+    getDragPosition = (pos) => {
+        this.setState({translateX: pos});
     }
 
     cursorDeplacement = e => {
@@ -64,7 +69,7 @@ class App extends Component {
                                 classNames={this.state.transitionName}
                                 timeout={this.state.transitionDelay}>
                                 <Switch location={location}>
-                                    <Route match exact path="/" render={()=><Projects activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} prevPath={this.state.prevPath}/>}/>
+                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition}activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} prevPath={this.state.prevPath}/>}/>
                                     <Route path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
                                     <Route match exact path="/about" component={About} />
                                 </Switch>
