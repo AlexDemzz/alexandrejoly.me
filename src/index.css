@@ -324,6 +324,46 @@ body {
   .home-to-project-enter .project-details .project-title {
     display: none; }
 
+.header-link-exit.about {
+  animation: none;
+  transform: translateY(0px);
+  opacity: 1;
+  transition: 1s; }
+
+.header-link-exit-active.projects {
+  height: 0%;
+  transition-delay: 1s; }
+  .header-link-exit-active.projects .projects-drag-area {
+    height: 0;
+    transition: 0s !important;
+    transition-delay: 1s !important; }
+  .header-link-exit-active.projects .project {
+    transform: translateY(-200px);
+    opacity: 0;
+    transition: 1s; }
+
+.header-link-exit-active.about {
+  transform: translateY(-200px);
+  opacity: 0;
+  transition: 1s; }
+
+.header-link-enter.projects {
+  height: 0;
+  transition: 0s;
+  opacity: 0; }
+  .header-link-enter.projects .project {
+    transform: translateY(-200px);
+    opacity: 0;
+    transition: 1s; }
+
+.header-link-enter-done.projects {
+  height: 70vh;
+  transition: height 0s; }
+  .header-link-enter-done.projects .project {
+    transform: translateY(0px);
+    opacity: 1;
+    transition: 1s; }
+
 .home-to-project-enter-active.projects {
   height: 70vh;
   transition: 0.5s;
@@ -407,10 +447,6 @@ body {
       transition-delay: 1s;
       border-radius: 99999999px; }
 
-.home-to-project-exit-active .projects-drag-area {
-  transform: translate(0px, 0px) !important;
-  transition: 0.3s; }
-
 .home-to-project-exit-active .project.active .icon .icon-img {
   transform: scale(0.2);
   -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
@@ -425,9 +461,6 @@ body {
     width: 3000px;
     height: 3000px;
     background: #000; }
-
-.home-to-project-exit-active .project.not-active-before {
-  max-width: 0px; }
 
 @-webkit-keyframes icon-line-out {
   0% {

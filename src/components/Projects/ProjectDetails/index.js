@@ -28,11 +28,19 @@ class ProjectDetails extends React.Component{
                 if (project.id === this.props.match.params.id){
                     let imgs = project.images.map(
                         (img, index) => {
-                            return(
-                                <OnVisible key={index}>
-                                    <img src={img} alt=""/>
-                                </OnVisible >
-                            )
+                            if(index !== 0){
+                                return(
+                                    <OnVisible key={index}>
+                                        <img src={img} alt=""/>
+                                    </OnVisible >
+                                )
+                            }else{
+                                return(
+                                    <div className="visible" key={index}>
+                                        <img src={img} alt=""/>
+                                    </div >
+                                )
+                            }
                         });
                     let works = project.works.map(
                         (work, index) => { return (

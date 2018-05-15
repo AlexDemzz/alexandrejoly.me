@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 class Header extends React.Component{
 
     sendGetClickEvent = () => {
-        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: 0});
+        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: 1000});
     }
 
     sendCursorEvent = (hoverStatus) => {

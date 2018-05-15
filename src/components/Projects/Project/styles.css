@@ -215,7 +215,6 @@
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
   transition: 0.7s;
-  transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
   flex: 0 0 auto; }
@@ -284,6 +283,25 @@
     flex-flow: row nowrap;
     position: relative;
     transition: 0.2s; }
+    .project .icon * {
+      -webkit-touch-callout: none;
+      /* iOS Safari */
+      -webkit-user-select: none;
+      /* Safari */
+      -khtml-user-select: none;
+      /* Konqueror HTML */
+      -moz-user-select: none;
+      /* Firefox */
+      -ms-user-select: none;
+      /* Internet Explorer/Edge */
+      user-select: none;
+      /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none; }
     .project .icon:hover .icon-img svg {
       transform: rotate(-3deg) !important; }
     .project .icon .hit-me {

@@ -1,11 +1,35 @@
 @import "../../assets/scss/var.scss";
 .about{
-  p{
-    padding: 30px 0;
-    font-size: 64px;
-    max-width: 1300px;
-    width: 100%;
-    line-height: 80px;
-    font-weight: $hkBold;
+  animation: about-enter 1.5s forwards;
+  min-height: 70vh;
+ .about-text-wrapper{
+   animation: appear-blur 1.5s forwards;
+   -webkit-backface-visibility: hidden;
+   p{
+     padding: 30px 0;
+     font-size: 55px;
+     max-width: 1300px;
+     width: 100%;
+     line-height: 80px;
+     font-family: $hkRegular;
+   }
+ }
+}
+
+.about.header-link-enter-active{
+  display: none;
+  *, *:before, *:after{
+    animation: none!important;
+  }
+}
+
+@include keyframes(about-enter){
+  0%{
+    transform: translateY(200px);
+    opacity: 0;
+  }
+  100%{
+    transform: translateY(0px);
+    opacity: 1;
   }
 }

@@ -1,4 +1,10 @@
 @import "../../assets/scss/var.scss";
+.react-draggable-dragging{
+  .project{
+    opacity: 1!important;
+    transition-delay: 0.2s!important;
+  }
+}
 .projects{
   width: 100%;
   height: 100%;
@@ -14,7 +20,14 @@
     line-height: 24px;
     font-family: $hkSemiBold;
   }
+  &:hover:not(.hold) .project:not(.active){
+    opacity: 0.2;
+  }
+  &:hover:not(.hold) .project.active{
+    opacity: 1;
+  }
 }
+
 .projects-drag-area{
   @include container(1600px, 0);
   @include flex(c,fs);
@@ -22,6 +35,7 @@
   transition: 0.5s;
   transition-timing-function: ease-out;
 }
+
 
 .slick-active{
   .project{

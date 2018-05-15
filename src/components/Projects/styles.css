@@ -200,6 +200,10 @@
     transform: scale(1);
     opacity: 1; } }
 
+.react-draggable-dragging .project {
+  opacity: 1 !important;
+  transition-delay: 0.2s !important; }
+
 .projects {
   width: 100%;
   height: 100%;
@@ -226,6 +230,10 @@
     font-size: 16px;
     line-height: 24px;
     font-family: "hk_grotesksemibold", sans-serif; }
+  .projects:hover:not(.hold) .project:not(.active) {
+    opacity: 0.2; }
+  .projects:hover:not(.hold) .project.active {
+    opacity: 1; }
 
 .projects-drag-area {
   max-width: 1600px;

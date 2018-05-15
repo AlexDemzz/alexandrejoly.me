@@ -138,11 +138,14 @@ class Project extends React.Component{
 
     popIn =() => {
         let $hitMe = this.refs.hitMe;
-        $hitMe.classList.remove('hit-me--hidden');
-        $hitMe.classList.add('hit-me--show');
+        if($hitMe){
+            $hitMe.classList.remove('hit-me--hidden');
+            $hitMe.classList.add('hit-me--show');
+        }
     };
 
     popOut =() => {
+        this.resetAnimations();
         let $hitMe = this.refs.hitMe;
         $hitMe.classList.remove('hit-me--show');
         $hitMe.classList.add('hit-me--hidden');
