@@ -200,6 +200,15 @@
     transform: scale(1);
     opacity: 1; } }
 
+.react-draggable-dragging .projects-drag-area-wrapper {
+  transition: 0.5s; }
+
+.react-draggable-dragging.dir-right .projects-drag-area-wrapper {
+  transform: scale(0.8) rotateZ(-2deg); }
+
+.react-draggable-dragging.dir-left .projects-drag-area-wrapper {
+  transform: scale(0.8) rotateZ(2deg); }
+
 .react-draggable-dragging .project {
   opacity: 1 !important;
   transition-delay: 0.2s !important; }
@@ -253,3 +262,14 @@
   height: 100%;
   transition: 0.5s;
   transition-timing-function: ease-out; }
+  .projects-drag-area .projects-drag-area-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    transition: 0.5s; }

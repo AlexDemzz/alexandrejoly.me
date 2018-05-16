@@ -203,6 +203,24 @@
 .react-draggable-dragging .project:not(.active) {
   pointer-events: none; }
 
+.project-hold .project:not(:hover).not-active-after .project-title {
+  letter-spacing: 100px;
+  padding-left: 150px;
+  transition: 1.5s; }
+
+.project-hold .project:not(:hover).not-active-before {
+  opacity: 0 !important;
+  transition: 1.5s; }
+
+.redirection .project:not(:hover).not-active-after .project-title {
+  letter-spacing: 400px;
+  padding-left: 1500px;
+  transition: 0.5s;
+  opacity: 0; }
+
+.redirection .project:not(:hover).not-active-before {
+  opacity: 0 !important; }
+
 .project {
   padding-right: 20px;
   display: -webkit-box;
@@ -214,7 +232,8 @@
   justify-content: center;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  transition: 0.7s;
+  transition: 0.2s;
+  transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
   flex: 0 0 auto; }
@@ -236,6 +255,31 @@
     animation-delay: 0.3s; }
   .project.active {
     z-index: 9999999; }
+    .project.active:before {
+      content: '';
+      position: absolute;
+      z-index: 9999;
+      top: -30px;
+      bottom: -30px;
+      left: 0;
+      width: 0%;
+      background: #7F00FF;
+      /* Old browsers */
+      background: -moz-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+      /* FF3.6+ */
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7F00FF), color-stop(100%, #E100FF));
+      /* Chrome,Safari4+ */
+      background: -webkit-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+      /* Chrome10+,Safari5.1+ */
+      background: -o-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+      /* Opera 11.10+ */
+      background: -ms-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+      /* IE10+ */
+      background: linear-gradient(to bottom, #7F00FF 0%, #E100FF 100%);
+      /* W3C */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+      /* IE6-9 */
+      transition: 1.5s; }
     .project.active .icon .hit-me {
       display: block; }
       .project.active .icon .hit-me.hit-me--hidden {
@@ -429,7 +473,7 @@
     font-size: 144px;
     z-index: 10;
     font-family: "hk_groteskregular", sans-serif;
-    transition: 0.3s; }
+    transition: 1.5s; }
   .project .project-container {
     width: 0%;
     overflow: hidden;
@@ -737,17 +781,17 @@
     border-radius: 999px;
     max-width: 7px;
     height: 7px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   42% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   79% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; }
+    border: solid 1px #7F00FF; }
   100% {
     max-width: 400px;
     width: 400px;
@@ -768,17 +812,17 @@
     border-radius: 999px;
     max-width: 7px;
     height: 7px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   42% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   79% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; }
+    border: solid 1px #7F00FF; }
   100% {
     max-width: 400px;
     width: 400px;
@@ -799,17 +843,17 @@
     border-radius: 999px;
     max-width: 7px;
     height: 7px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   42% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   79% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; }
+    border: solid 1px #7F00FF; }
   100% {
     max-width: 400px;
     width: 400px;
@@ -830,17 +874,17 @@
     border-radius: 999px;
     max-width: 7px;
     height: 7px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   42% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   79% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; }
+    border: solid 1px #7F00FF; }
   100% {
     max-width: 400px;
     width: 400px;
@@ -859,17 +903,17 @@
     max-width: 7px;
     height: 7px;
     border-radius: 999px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   60% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   100% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; } }
+    border: solid 1px #7F00FF; } }
 
 @-moz-keyframes circle-to-line {
   0% {
@@ -879,17 +923,17 @@
     max-width: 7px;
     height: 7px;
     border-radius: 999px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   60% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   100% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; } }
+    border: solid 1px #7F00FF; } }
 
 @-o-keyframes circle-to-line {
   0% {
@@ -899,17 +943,17 @@
     max-width: 7px;
     height: 7px;
     border-radius: 999px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   60% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   100% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; } }
+    border: solid 1px #7F00FF; } }
 
 @keyframes circle-to-line {
   0% {
@@ -919,17 +963,17 @@
     max-width: 7px;
     height: 7px;
     border-radius: 999px;
-    border: solid 0px #8b5bc8; }
+    border: solid 0px #7F00FF; }
   60% {
     background: #0a0a0a;
-    border: solid 25px #8b5bc8; }
+    border: solid 25px #7F00FF; }
   100% {
     max-width: 100px;
     height: 100px;
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px #8b5bc8; } }
+    border: solid 1px #7F00FF; } }
 
 @-webkit-keyframes float {
   0% {

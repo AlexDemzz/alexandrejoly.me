@@ -7,8 +7,8 @@ import ProjectDetails from './components/Projects/ProjectDetails';
 import Cursor from './components/Cursor';
 import About from './components/About';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import projectsList from './projects';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+// import projectsList from './projects';
 
 class App extends Component {
 
@@ -69,7 +69,7 @@ class App extends Component {
                                 classNames={this.state.transitionName}
                                 timeout={this.state.transitionDelay}>
                                 <Switch location={location}>
-                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition}activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} prevPath={this.state.prevPath}/>}/>
+                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition}activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
                                     <Route path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
                                     <Route match exact path="/about" component={About} />
                                 </Switch>

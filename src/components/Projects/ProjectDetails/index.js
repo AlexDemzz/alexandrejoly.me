@@ -1,14 +1,9 @@
 import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import OnVisible, {setDefaultProps} from 'react-on-visible';
 
 class ProjectDetails extends React.Component{
-    getProject = () => {
-
-    };
-
     projectIdEvent = (id) => {
         this.props.projectIdEvent(id);
     };

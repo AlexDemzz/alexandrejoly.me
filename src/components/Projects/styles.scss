@@ -1,5 +1,18 @@
 @import "../../assets/scss/var.scss";
 .react-draggable-dragging{
+  .projects-drag-area-wrapper{
+    transition: 0.5s;
+  }
+  &.dir-right{
+    .projects-drag-area-wrapper{
+      transform: scale(0.8) rotateZ(-2deg);
+    }
+  }
+  &.dir-left{
+    .projects-drag-area-wrapper{
+      transform: scale(0.8) rotateZ(2deg);
+    }
+  }
   .project{
     opacity: 1!important;
     transition-delay: 0.2s!important;
@@ -34,6 +47,11 @@
   height: 100%;
   transition: 0.5s;
   transition-timing-function: ease-out;
+  .projects-drag-area-wrapper{
+    @include flex(c,fs);
+    transition: 0.5s;
+    //@include transitionElastic();
+  }
 }
 
 

@@ -6,11 +6,50 @@
     }
   }
 }
+
+.project-hold{
+  .project:not(:hover).not-active-after{
+    .project-title{
+      letter-spacing: 100px;
+      padding-left: 150px;
+      transition: 1.5s;
+    }
+  }
+  .project:not(:hover).not-active-before{
+    opacity: 0!important;
+    transition: 1.5s;
+  }
+}
+
+.redirection{
+  .project:not(:hover).not-active-after{
+    .project-title{
+      letter-spacing: 400px;
+      padding-left: 1500px;
+      transition: 0.5s;
+      opacity: 0;
+    }
+  }
+  .project:not(:hover).not-active-before{
+    opacity: 0!important;
+  }
+}
+//.hold{
+//  //.project{
+//  //  &.not-active-after{
+//  //    .project-title{
+//  //      letter-spacing: 100px;
+//  //      padding-left: 100px;
+//  //      transition: 5s;
+//  //    }
+//  //  }
+//  //}
+//}
 .project{
   padding-right:20px;
   @include flex(c,c);
-  transition: 0.7s;
-  //transition-timing-function: ease-out;
+  transition: 0.2s;
+  transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
   flex: 0 0 auto;
@@ -43,6 +82,17 @@
   }
   &.active{
     z-index: 9999999;
+    &:before{
+      content: '';
+      position: absolute;
+      z-index: 9999;
+      top: -30px;
+      bottom: -30px;
+      left: 0;
+      width: 0%;
+      @include linearGradient($purpleGradientStart, $purpleGradientEnd);
+      transition: 1.5s;
+    }
     .icon{
       .hit-me{
         display: block;
@@ -203,13 +253,13 @@
     z-index: 10;
     font-family: $hkRegular;
     //letter-spacing: 0px;
-    transition: 0.3s;
-    &:hover{
-      //$strokeColor: white;
-      //transition: 0.3s;
-      //text-shadow: 1px 0 0 $strokeColor, -1px 0 0 $strokeColor, 0 1px 0 $strokeColor, 0 -1px 0 $strokeColor, 1px 1px $strokeColor, -1px -1px 0 $strokeColor, 1px -1px 0 $strokeColor, -1px 1px 0 $strokeColor;
-      //color: white;
-    }
+    transition: 1.5s;
+    //&:hover{
+    //  $strokeColor: white;
+    //  color: $bg;
+    //  transition: 0.3s;
+    //  text-shadow: 1px 0 0 $strokeColor, -1px 0 0 $strokeColor, 0 1px 0 $strokeColor, 0 -1px 0 $strokeColor, 1px 1px $strokeColor, -1px -1px 0 $strokeColor, 1px -1px 0 $strokeColor, -1px 1px 0 $strokeColor;
+    //}
   }
   .project-container{
     width: 0%;
@@ -346,11 +396,11 @@
     border-radius: 999px;
     max-width: $lineHeight;
     height: $lineHeight;
-    border: solid 0px $purple;
+    border: solid 0px $purpleGradientStart;
   }
   42%{
     background: #0a0a0a;
-    border: solid 25px $purple;
+    border: solid 25px $purpleGradientStart;
   }
   79%{
     max-width: 100px;
@@ -358,7 +408,7 @@
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px $purple;
+    border: solid 1px $purpleGradientStart;
   }
   100%{
     max-width: 400px;
@@ -382,11 +432,11 @@
     max-width: $lineHeight;
     height: $lineHeight;
     border-radius: 999px;
-    border: solid 0px $purple;
+    border: solid 0px $purpleGradientStart;
   }
   60%{
     background: #0a0a0a;
-    border: solid 25px $purple;
+    border: solid 25px $purpleGradientStart;
   }
   100%{
     max-width: 100px;
@@ -394,7 +444,7 @@
     border-radius: 999px;
     opacity: 1;
     background: transparent;
-    border: solid 1px $purple;
+    border: solid 1px $purpleGradientStart;
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import particles1 from '../../../assets/img/particles1.svg'
 import particles2 from '../../../assets/img/particles2.svg'
-import { Link, withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class Project extends React.Component{
     distance = 0;
@@ -53,20 +53,22 @@ class Project extends React.Component{
     };
 
     hitAnimation = () => {
-        function rotate_degree(obj) {
-            var matrix = obj.css("-webkit-transform") ||
-                obj.css("-moz-transform")    ||
-                obj.css("-ms-transform")     ||
-                obj.css("-o-transform")      ||
-                obj.css("transform");
-            if(matrix !== 'none') {
-                var values = matrix.split('(')[1].split(')')[0].split(',');
-                var a = values[0];
-                var b = values[1];
-                var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-            } else { var angle = 0; }
-            return (angle < 0) ? angle +=360 : angle;
-        }
+
+        this.props.getIfElementHit(false);
+        // function rotate_degree(obj) {
+        //     var matrix = obj.css("-webkit-transform") ||
+        //         obj.css("-moz-transform")    ||
+        //         obj.css("-ms-transform")     ||
+        //         obj.css("-o-transform")      ||
+        //         obj.css("transform");
+        //     if(matrix !== 'none') {
+        //         var values = matrix.split('(')[1].split(')')[0].split(',');
+        //         var a = values[0];
+        //         var b = values[1];
+        //         var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+        //     } else { var angle = 0; }
+        //     return (angle < 0) ? angle +=360 : angle;
+        // }
 
         let $iconParticles = this.refs.iconParticles;
         let $iconImg = this.refs.iconImg;
@@ -132,15 +134,19 @@ class Project extends React.Component{
         if(this.props.holdEnd){
             this.sendCursorEvent(false, false);
             this.setState({redirection: true});
+            document.getElementsByClassName('projects')[0].classList.add('redirection');
+            // console.log(document.getElementsByClassName('project active')[0].getBoundingClientRect());
             this.props.history.push(`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`);
         }
     };
 
     popIn =() => {
-        let $hitMe = this.refs.hitMe;
-        if($hitMe){
-            $hitMe.classList.remove('hit-me--hidden');
-            $hitMe.classList.add('hit-me--show');
+        if(this.props.showHitBubble){
+            let $hitMe = this.refs.hitMe;
+            if($hitMe){
+                $hitMe.classList.remove('hit-me--hidden');
+                $hitMe.classList.add('hit-me--show');
+            }
         }
     };
 

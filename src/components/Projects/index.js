@@ -13,30 +13,36 @@ class Projects extends React.Component{
         prevPath: '',
         active: '',
         translateX: 0,
-        projectsListWidth: []
-    }
+        projectsListWidth: [],
+        showHitBubble: true
+    };
+
     handleStart = (event, ui) => {
         this.getMaxBoundLeft();
-    }
+    };
+
     handleDrag = (event, ui) => {
         if(ui.deltaX>0){
             this.scrollAnimation(true, 'prev', event.movementX);
         }else{
             this.scrollAnimation(true, 'next', event.movementX);
         }
-        let $draggable = document.getElementsByClassName('react-draggable')[0];
     };
 
     scrollAnimation = (status, direction = false, deg) => {
         let posDeg = Math.abs(deg)*5;
-        posDeg >= 40 ?  posDeg = 40 : posDeg;
+        posDeg >= 20 ?  posDeg = 20 : posDeg;
         let $projects = document.getElementsByClassName('js-project');
         if(status){
             for(let i=0; i < $projects.length ; i++){
                 if(direction === 'next'){
                     $projects[i].style.transform = `skew(-${posDeg}deg)`;
+                    this.refs.projectsDraggableArea.classList.remove('dir-left');
+                    this.refs.projectsDraggableArea.classList.add('dir-right');
                 }else if(direction === 'prev'){
                     $projects[i].style.transform = `skew(${posDeg}deg)`;
+                    this.refs.projectsDraggableArea.classList.remove('dir-right');
+                    this.refs.projectsDraggableArea.classList.add('dir-left');
                 }
             }
         }else{
@@ -74,6 +80,9 @@ class Projects extends React.Component{
         }
     }
 
+    componentDidUpdate(){
+    }
+
     componentWillMount(){
         if(this.props.dragPosition){
             this.setState({translateX: this.props.dragPosition});
@@ -84,24 +93,27 @@ class Projects extends React.Component{
         this.props.getDragPosition(pos);
     }
 
+    getIfElementHit = (status) =>{
+        this.setState({showHitBubble: status});
+    }
+
     render(){
         const projects = Object
             .keys(projectsList)
             .map(key => {
                 if(key === this.props.activeProject){
                     return(
-                        <Project active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }else{
                     return(
-                        <Project active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }
             });
 
         return(
-            <div className="projects">
-                {/*<h3>Creative Front-end developer<br/>based in France</h3>*/}
+            <div className={`projects ${this.props.hold ? 'project-hold' : ''}`}>
                 <h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>
                 <Draggable
                     axis="x"
@@ -112,8 +124,10 @@ class Projects extends React.Component{
                     onStart={this.handleStart}
                     onDrag={this.handleDrag}
                     onStop={this.handleStop}>
-                    <div className="projects-drag-area">
-                        {projects}
+                    <div className="projects-drag-area" ref="projectsDraggableArea">
+                        <div className="projects-drag-area-wrapper">
+                            {projects}
+                        </div>
                     </div>
                 </Draggable>
             </div>

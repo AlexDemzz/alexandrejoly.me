@@ -62,12 +62,12 @@ body {
     @include transitionElastic();
     .project{
       &.not-active-after{
-        .project-title{
-          letter-spacing: 200px;
-          transition: 1s;
-          padding-left: 800px;
-          opacity: 0;
-        }
+        //.project-title{
+        //  letter-spacing: 200px;
+        //  transition: 1s;
+        //  padding-left: 800px;
+        //  opacity: 0;
+        //}
       }
       &.not-active-before{
         .project-title{
@@ -114,7 +114,8 @@ body {
     .project{
       transform: translateY(-200px);
       opacity: 0;
-      transition: 1s;
+      transition: 2s;
+      filter: blur(99px);
     }
   }
   &.about{
@@ -162,16 +163,16 @@ body {
         }
       }
       &.not-active-after{
-        .project-title{
-          letter-spacing: 0px;
-          transition: 1s;
-          padding-left: 0px;
-          opacity: 1;
-        }
+        //.project-title{
+        //  letter-spacing: 0px;
+        //  transition: 1s;
+        //  padding-left: 0px;
+        //  opacity: 1;
+        //}
       }
       &.not-active-before{
         .project-title{
-          right: 0px;
+          //right: 0px;
         }
       }
     }
@@ -193,6 +194,13 @@ body {
   //  transform: translateY(0%);
   //  transition: 1s;
   //}
+  &.projects {
+    .project {
+      &.not-active-before {
+        opacity: 0;
+      }
+    }
+  }
 }
 
 .home-to-project-exit-active {
@@ -212,6 +220,13 @@ body {
           @include animationElastic--light();
         }
       }
+      &.not-active-before{
+        max-width: 0%;
+        opacity: 0;
+        transition: 0.7s;
+        transition-delay: 0.4s;
+        transition-timing-function: ease-in-out!important;
+      }
     }
   }
   .project-details{
@@ -221,6 +236,14 @@ body {
     opacity: 0;
     transition: 1s;
     height: 0px;
+  }
+}
+
+.home-to-project-enter{
+  .project-details{
+    .project-title{
+      display: none;
+    }
   }
 }
 
@@ -269,8 +292,10 @@ body {
 }
 .home-to-project-exit-active {
   .projects-drag-area{
-    //transform: translate(0px,0px)!important;
-    //transition: 0.3s;
+    transform: translate(0px,0px)!important;
+    transition: 0.7s;
+    transition-delay: 0.2s;
+    transition-timing-function: ease-in-out!important;
   }
   .project{
     &.active{
@@ -286,9 +311,9 @@ body {
           animation-delay: 0.3s;
           &:after{
             content: '';
-            width: 3000px;
-            height: 3000px;
-            background: $bg;
+            width: 150vw;
+            height: 150vw;
+            //background: $bg;
           }
         }
       }
@@ -329,9 +354,9 @@ body {
   }
   100%{
     opacity: 1;
-    width: 3000px;
-    height: 3000px;
-    background: #002DA2;
+    width: 150vw;
+    height: 150vw;
+    @include linearGradient($purpleGradientStart, $purpleGradientEnd);
     //background: black;
   }
 }
