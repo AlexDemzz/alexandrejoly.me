@@ -14,7 +14,8 @@ class Projects extends React.Component{
         active: '',
         translateX: 0,
         projectsListWidth: [],
-        showHitBubble: true
+        showHitBubble: true,
+        projectsSize: []
     };
 
     handleStart = (event, ui) => {
@@ -80,7 +81,19 @@ class Projects extends React.Component{
         }
     }
 
-    componentDidUpdate(){
+    componentDidMount(){
+        let $projects = document.getElementsByClassName('js-project');
+        let projectsSize = [];
+        let size = 0;
+        for(let n=0; n < $projects.length ; n++){
+            if(n !== 0){
+                size = $projects[n].offsetWidth + $projects[n-1].offsetWidth;
+                projectsSize.push(-Math.abs(size));
+            }else{
+                projectsSize.push(-Math.abs($projects[n].offsetWidth));
+            }
+        }
+        this.setState({projectsSize});
     }
 
     componentWillMount(){
@@ -103,11 +116,11 @@ class Projects extends React.Component{
             .map(key => {
                 if(key === this.props.activeProject){
                     return(
-                        <Project showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project projectsSize={this.state.projectsSize} showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }else{
                     return(
-                        <Project showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project projectsSize={this.state.projectsSize} showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }
             });
@@ -120,7 +133,7 @@ class Projects extends React.Component{
                     handle=".projects-drag-area"
                     grid={[25, 25]}
                     defaultPosition={{x: this.state.translateX, y: 0}}
-                    bounds={{left: this.state.projectsWidth, top: 0, right: 0, bottom: 0}}
+                    bounds={{left: this.state.projectsSize[this.state.projectsSize.length-1], top: 0, right: 0, bottom: 0}}
                     onStart={this.handleStart}
                     onDrag={this.handleDrag}
                     onStop={this.handleStop}>

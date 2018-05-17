@@ -21,7 +21,7 @@ class App extends Component {
         hover: false,
         hold: false,
         holdEnd: false,
-        active: '',
+        active: 0,
         pos: 0
     };
 
@@ -52,7 +52,7 @@ class App extends Component {
     }
 
     getProjectsDetailsProjectId = (activeId) => {
-        this.setState({active: activeId});
+        this.setState({active: Number(activeId)});
         console.log(this.state.active);
     };
 
@@ -69,7 +69,7 @@ class App extends Component {
                                 classNames={this.state.transitionName}
                                 timeout={this.state.transitionDelay}>
                                 <Switch location={location}>
-                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition}activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
+                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
                                     <Route path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
                                     <Route match exact path="/about" component={About} />
                                 </Switch>

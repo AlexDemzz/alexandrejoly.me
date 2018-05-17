@@ -15,7 +15,36 @@ header{
     position: relative;
     max-width: 320px;
     width: 100%;
+    .header-title{
+      @include flex(c,c);
+      padding: 10px 10px 10px 0;
+      &.back-btn{
+        *{
+          transition: all 0.3s;
+          @include transitionElastic();
+        }
+        svg{
+          width: 22px;
+          margin-top: 3px;
+          transition: margin 0.3s;
+        }
+        h1{
+          margin-left: 5px;
+        }
+        &:hover{
+          svg{
+            margin-left: 5px;
+            transition: margin 0.3s;
+          }
+          h1{
+            margin-left: 15px;
+          }
+        }
+      }
+    }
     .header-logo{
+      height: 80px;
+      @include flex(c,c);
       a{
         text-decoration: none;
         @include flex(c,c);
@@ -23,6 +52,7 @@ header{
         svg{
           fill: white;
           width: 40px;
+          transition: margin 0.3s;
         }
         h1{
           margin-left:20px;

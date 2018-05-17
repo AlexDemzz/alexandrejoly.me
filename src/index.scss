@@ -242,7 +242,7 @@ body {
 .home-to-project-enter{
   .project-details{
     .project-title{
-      display: none;
+      visibility: hidden;
     }
   }
 }
@@ -250,7 +250,7 @@ body {
 .home-to-project-enter-active{
   .project-details{
     .project-title{
-      display: none;
+      visibility: hidden;
     }
   }
 }
@@ -292,7 +292,7 @@ body {
 }
 .home-to-project-exit-active {
   .projects-drag-area{
-    transform: translate(0px,0px)!important;
+    //transform: translate(0px,0px)!important;
     transition: 0.7s;
     transition-delay: 0.2s;
     transition-timing-function: ease-in-out!important;
@@ -311,8 +311,8 @@ body {
           animation-delay: 0.3s;
           &:after{
             content: '';
-            width: 150vw;
-            height: 150vw;
+            width: 200vw;
+            height: 200vw;
             //background: $bg;
           }
         }
@@ -354,8 +354,8 @@ body {
   }
   100%{
     opacity: 1;
-    width: 150vw;
-    height: 150vw;
+    width: 200vw;
+    height: 200vw;
     @include linearGradient($purpleGradientStart, $purpleGradientEnd);
     //background: black;
   }

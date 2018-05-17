@@ -33,11 +33,16 @@
     line-height: 24px;
     font-family: $hkSemiBold;
   }
-  &:hover:not(.hold) .project:not(.active){
+  .projects-drag-area-wrapper:hover:not(.hold) .project:not(:hover){
     opacity: 0.2;
   }
-  &:hover:not(.hold) .project.active{
+  .projects-drag-area-wrapper:hover:not(.hold) .project:hover{
     opacity: 1;
+  }
+  &.redirection{
+    .project{
+      opacity: 1!important;
+    }
   }
 }
 

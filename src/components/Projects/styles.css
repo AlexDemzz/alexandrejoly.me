@@ -200,6 +200,62 @@
     transform: scale(1);
     opacity: 1; } }
 
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
 .react-draggable-dragging .projects-drag-area-wrapper {
   transition: 0.5s; }
 
@@ -239,10 +295,12 @@
     font-size: 16px;
     line-height: 24px;
     font-family: "hk_grotesksemibold", sans-serif; }
-  .projects:hover:not(.hold) .project:not(.active) {
+  .projects .projects-drag-area-wrapper:hover:not(.hold) .project:not(:hover) {
     opacity: 0.2; }
-  .projects:hover:not(.hold) .project.active {
+  .projects .projects-drag-area-wrapper:hover:not(.hold) .project:hover {
     opacity: 1; }
+  .projects.redirection .project {
+    opacity: 1 !important; }
 
 .projects-drag-area {
   max-width: 1600px;

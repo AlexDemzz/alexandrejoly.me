@@ -19,7 +19,9 @@
     font-family: $hkRegular;
     height: 30vh;
     margin-top: 0px;
+    margin-left: -12px;
     @include flex(c,fs);
+    animation: fadeIn--fixDetails 1s forwards;
   }
   @for $i from 1 to 10 {
     div:nth-child(#{$i}) .subtitle span, div>div:nth-child(#{$i}) .subtitle span{
@@ -131,6 +133,11 @@
     *, *:before, *:after{
       animation: none!important;
     }
+  }
+}
+.home-to-project-enter-done{
+  .project-title{
+    animation: none!important;
   }
 }
 

@@ -15,7 +15,8 @@ class Project extends React.Component{
         showIcon: false,
         preventHide: false,
         animationEnd: true,
-        showHitMeBubble: true
+        showHitMeBubble: true,
+        active: false
     };
 
     renderSvg = (svg) => {
@@ -27,11 +28,10 @@ class Project extends React.Component{
     };
 
     onMouseDown = e => {
-        e.preventDefault();
         this.setState({mouseDown: true});
         this.holdInterval = setInterval(() => {
             if(this.state.mouseDown){
-                this.redirect();
+                this.redirect(e.target);
             }
         }, 100);
     };
@@ -130,15 +130,24 @@ class Project extends React.Component{
         this.hitAnimation();
     };
 
-    redirect = () => {
+    redirect = (target) => {
         if(this.props.holdEnd){
             this.sendCursorEvent(false, false);
             this.setState({redirection: true});
             document.getElementsByClassName('projects')[0].classList.add('redirection');
-            // console.log(document.getElementsByClassName('project active')[0].getBoundingClientRect());
+            this.translateBeforeChangePage();
             this.props.history.push(`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`);
         }
     };
+
+    translateBeforeChangePage(){
+        const fixJumpPageLoad = 20;
+        if(this.props.details.id !== 0){
+            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[this.props.details.id-1]+fixJumpPageLoad}px, 0px)`
+        }else{
+            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[0]+fixJumpPageLoad}px, 0px)`
+        }
+    }
 
     popIn =() => {
         if(this.props.showHitBubble){
@@ -161,6 +170,11 @@ class Project extends React.Component{
     };
 
     showIcon = (e) => {
+        let $activeElem = e.target;
+        if(!$activeElem.classList.contains('project')){
+            $activeElem = e.target.parentElement.parentElement;
+        }
+        console.log($activeElem);
         this.setState({preventHide: false});
         this.setState({'showIcon': true});
         if (this.state.showHitMeBubble) {
@@ -168,40 +182,44 @@ class Project extends React.Component{
                 this.popIn();
             }, 1000);
         };
-        const project = this.refs.project;
-        if (project.classList.contains('active--hidden')) {
-            this.refs.line.style.webkitAnimation = 'none';
-            this.refs.line.style.visibility = 'hidden';
-            setTimeout(() => {
-                this.refs.line.style.visibility = 'visible';
-                this.refs.line.style.webkitAnimation = '';
-            }, 0);
-            project.classList.remove('active--hidden');
-        };
-        project.classList.add('active');
+        // if (project.classList.contains('active--hidden')) {
+        //     this.refs.line.style.webkitAnimation = 'none';
+        //     this.refs.line.style.visibility = 'hidden';
+        //     setTimeout(() => {
+        //         this.refs.line.style.visibility = 'visible';
+        //         this.refs.line.style.webkitAnimation = '';
+        //     }, 0);
+        //     project.classList.remove('active--hidden');
+        // };
+        $activeElem.classList.add('active');
         this.setState({animationEnd: false});
         setTimeout(() => {
             this.setState({animationEnd: true});
         }, 1000);
-        this.addRightAndLeftClass();
+
+        // if(e.target.parentElement.parentElement.classList.contains('project')){
+        //     console.log(e.target.parentElement.parentElement);
+        //     this.addRightAndLeftClass(e.target.parentElement.parentElement);
+        // }
     };
 
     componentDidMount(){
-
     }
 
     hideIcon = (e) => {
+        const $activeElem = e.target.parentElement.parentElement;
         if(!e.target.classList.contains('icon-img') && !this.state.redirection){
-            console.log('enter');
-            this.setState({'showIcon': false});
-            const project = this.refs.project;
-            project.classList.remove('active');
-            project.classList.add('active--hidden');
-            this.refs.line.style.webkitAnimation = 'none';
-            this.refs.line.style.visibility = 'hidden';
+            const project = $activeElem;
+            const $projects = document.getElementsByClassName('project');
+            for(let i=0; i < $projects.length; i++){
+                $projects[i].classList.remove('active');
+            }
+            // project.classList.add('active--hidden');
+            // this.refs.line.style.webkitAnimation = 'none';
+            // this.refs.line.style.visibility = 'hidden';
             setTimeout(() => {
-                this.refs.line.style.visibility = 'visible';
-                this.refs.line.style.webkitAnimation = 'circle-to-line 1s reverse forwards';
+                // this.refs.line.style.visibility = 'visible';
+                // this.refs.line.style.webkitAnimation = 'circle-to-line 1s reverse forwards';
                 this.popOut();
                 setTimeout(()=>{
                     this.setState({animationEnd: false});
@@ -210,9 +228,9 @@ class Project extends React.Component{
         }
     };
 
-    addRightAndLeftClass = () => {
+    addRightAndLeftClass = (hoveredProject) => {
         let $projects = document.getElementsByClassName('project');
-        let $projectsActive = document.getElementsByClassName('project active')[0];
+        let $projectsActive = hoveredProject;
         for(let i=0; i<$projects.length; i++){
             $projects[i].classList.remove('not-active-before');
             $projects[i].classList.remove('not-active-after');
@@ -235,9 +253,9 @@ class Project extends React.Component{
 
     render(){
         return(
-            <div ref="project" className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseOver={(e) => this.showIcon(e)} onMouseLeave={(e) => this.hideIcon(e)}>
+            <div ref="project" className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseEnter={(e) => this.showIcon(e)} onMouseLeave={(e) => this.hideIcon(e)}>
                 <a
-                    onMouseOver={() => this.sendCursorEvent(true, false)}
+                    onMouseEnter={() => this.sendCursorEvent(true, false)}
                     onMouseLeave={() => this.sendCursorEvent(false, false)}
                     onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
                     onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}

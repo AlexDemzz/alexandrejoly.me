@@ -1,39 +1,40 @@
 @import "../../../assets/scss/var.scss";
 .react-draggable-dragging{
   .project{
-     &:not(.active){
+     &:not(:hover){
       pointer-events: none;
     }
   }
 }
 
-.project-hold{
-  .project:not(:hover).not-active-after{
-    .project-title{
-      letter-spacing: 100px;
-      padding-left: 150px;
-      transition: 1.5s;
-    }
-  }
-  .project:not(:hover).not-active-before{
-    opacity: 0!important;
-    transition: 1.5s;
-  }
-}
+//.project-hold{
+//  .project:not(:hover).not-active-after{
+//    .project-title{
+//      letter-spacing: 100px;
+//      padding-left: 150px;
+//      transition: 1.5s;
+//    }
+//  }
+//  .project:not(:hover).not-active-before{
+//    opacity: 0!important;
+//    transition: 1.5s;
+//  }
+//}
 
-.redirection{
-  .project:not(:hover).not-active-after{
-    .project-title{
-      letter-spacing: 400px;
-      padding-left: 1500px;
-      transition: 0.5s;
-      opacity: 0;
-    }
-  }
-  .project:not(:hover).not-active-before{
-    opacity: 0!important;
-  }
-}
+//
+//.redirection{
+//  .project:not(:hover).not-active-after{
+//    .project-title{
+//      letter-spacing: 400px;
+//      padding-left: 1500px;
+//      transition: 0.5s;
+//      opacity: 0;
+//    }
+//  }
+//  .project:not(:hover).not-active-before{
+//    opacity: 0!important;
+//  }
+//}
 //.hold{
 //  //.project{
 //  //  &.not-active-after{
@@ -71,16 +72,6 @@
     }
   }
   &:hover{
-    .hit-me{
-      opacity: 1;
-      transform: scale(1) translateY(4px);
-      transition: 0.3s;
-      @include transitionElastic();
-      animation: float 1s alternate infinite;
-      animation-delay: 0.3s;
-    }
-  }
-  &.active{
     z-index: 9999999;
     &:before{
       content: '';
@@ -96,6 +87,12 @@
     .icon{
       .hit-me{
         display: block;
+        opacity: 1;
+        transform: scale(1) translateY(4px);
+        transition: 0.3s;
+        @include transitionElastic();
+        animation: float 1s alternate infinite;
+        animation-delay: 0.3s;
         &.hit-me--hidden{
           animation: hitMe--hidden 0.5s forwards;
           @include animationElastic--light();
@@ -254,6 +251,7 @@
     font-family: $hkRegular;
     //letter-spacing: 0px;
     transition: 1.5s;
+    margin-left: -12px;
     //&:hover{
     //  $strokeColor: white;
     //  color: $bg;

@@ -200,6 +200,62 @@
     transform: scale(1);
     opacity: 1; } }
 
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-webkit-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-moz-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@-o-keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
+@keyframes fadeIn--fixDetails {
+  0% {
+    opacity: 0; }
+  50% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
 .project-details {
   width: 100%; }
   .project-details .project-title {
@@ -209,6 +265,7 @@
     font-family: "hk_groteskregular", sans-serif;
     height: 30vh;
     margin-top: 0px;
+    margin-left: -12px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -217,7 +274,8 @@
     -webkit-justify-content: flex-start;
     justify-content: flex-start;
     -webkit-flex-flow: row nowrap;
-    flex-flow: row nowrap; }
+    flex-flow: row nowrap;
+    animation: fadeIn--fixDetails 1s forwards; }
   .project-details div:nth-child(1) .subtitle span, .project-details div > div:nth-child(1) .subtitle span {
     animation-delay: 0.25s; }
   .project-details div:nth-child(2) .subtitle span, .project-details div > div:nth-child(2) .subtitle span {
@@ -381,6 +439,9 @@
       user-drag: none; }
 
 .home-to-project-enter-active .project-details *, .home-to-project-enter-active .project-details *:before, .home-to-project-enter-active .project-details *:after {
+  animation: none !important; }
+
+.home-to-project-enter-done .project-title {
   animation: none !important; }
 
 @-webkit-keyframes block-appear--line {
