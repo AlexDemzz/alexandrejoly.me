@@ -350,6 +350,8 @@ body {
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 125px; }
+  .height100:nth-last-child(2).project-details .project-title {
+    display: none; }
   .height100 .projects {
     height: 70vh;
     order: -5;
@@ -439,9 +441,7 @@ body {
 .home-to-project-exit-active.projects {
   height: 30vh;
   transition: 0.5s;
-  transition-delay: 1.5s;
-  -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-  transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
+  transition-delay: 1.5s; }
   .home-to-project-exit-active.projects .project.active .project-title {
     font-size: 144px;
     margin-left: -20px; }

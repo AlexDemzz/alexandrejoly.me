@@ -16,7 +16,8 @@ class Project extends React.Component{
         preventHide: false,
         animationEnd: true,
         showHitMeBubble: true,
-        active: false
+        active: false,
+        imgI: 0
     };
 
     renderSvg = (svg) => {
@@ -27,11 +28,11 @@ class Project extends React.Component{
         this.props.cursorEvent(hoverStatus, holdStatus);
     };
 
-    onMouseDown = e => {
+    onMouseDown = () => {
         this.setState({mouseDown: true});
         this.holdInterval = setInterval(() => {
-            if(this.state.mouseDown){
-                this.redirect(e.target);
+            if(this.state.mouseDown && this.props.holdEnd){
+                this.redirect(this.props.details);
             }
         }, 100);
     };
@@ -42,7 +43,7 @@ class Project extends React.Component{
         this.distance = 0;
     };
 
-    preventHold = () => {
+    preventHold = (e) => {
         if(this.state.mouseDown) {
             this.distance = this.distance + 5;
             if(this.distance >= 10){
@@ -50,6 +51,25 @@ class Project extends React.Component{
                 this.distance = 0;
             }
         }
+        let numderDelay = 10;
+        let numberIndex = 0;
+
+        if(this.state.imgI/numderDelay === 0){
+            numberIndex = 0
+        }else if(this.state.imgI/numderDelay < this.refs.imgWrapper.childNodes.length){
+            numberIndex = this.refs.imgWrapper.childNodes[this.refs.imgWrapper.childNodes.length-1]
+        }
+
+        if (this.state.imgI % numderDelay === 0 && this.state.imgI/numderDelay<this.refs.imgWrapper.childNodes.length) {
+            let $elemStyle = this.refs.imgWrapper.childNodes[this.state.imgI/numderDelay].style;
+            $elemStyle.display = 'block';
+            $elemStyle.top = `${this.getRandomArbitrary(-40,40)}px`;
+            $elemStyle.left = `${this.getRandomArbitrary(-40,40)}px`;
+        }else if(this.state.imgI % numderDelay === 0){
+            let newImg = this.img_create(this.props.details.images[this.getRandomArbitrary(0,this.props.details.images.length-1)], '', '');
+            this.refs.imgWrapper.appendChild(newImg);
+        }
+        this.setState({imgI: this.state.imgI+1});
     };
 
     hitAnimation = () => {
@@ -130,22 +150,20 @@ class Project extends React.Component{
         this.hitAnimation();
     };
 
-    redirect = (target) => {
-        if(this.props.holdEnd){
-            this.sendCursorEvent(false, false);
-            this.setState({redirection: true});
-            document.getElementsByClassName('projects')[0].classList.add('redirection');
-            this.translateBeforeChangePage();
-            this.props.history.push(`/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`);
-        }
+    redirect = (project) => {
+        this.sendCursorEvent(false, false);
+        this.setState({redirection: true});
+        document.getElementsByClassName('projects')[0].classList.add('redirection');
+        this.translateBeforeChangePage();
+        this.props.history.push(`/work/${project.id}/${project.title.toLowerCase().split(' ').join('-')}`);
     };
 
     translateBeforeChangePage(){
-        const fixJumpPageLoad = 20;
+        const fixJumpPageLoad = 0;
         if(this.props.details.id !== 0){
-            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[this.props.details.id-1]+fixJumpPageLoad}px, 0px)`
+            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[this.props.details.id-1]}px, 0px)`
         }else{
-            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[0]+fixJumpPageLoad}px, 0px)`
+            document.getElementsByClassName('projects-drag-area')[0].style.transform = `translate(${this.props.projectsSize[0]}px, 0px)`
         }
     }
 
@@ -204,11 +222,36 @@ class Project extends React.Component{
     };
 
     componentDidMount(){
+        console.log(this.props.details);
+    }
+
+    getRandomArbitrary = (min, max) => {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    img_create = (src, alt, title) => {
+        let wrapper = document.createElement('div');
+        wrapper.className = 'img-wrapper';
+        wrapper.style.display = 'block';
+        let img = document.createElement('img');
+        img.src = src;
+        if ( alt != null ) img.alt = alt;
+        if ( title != null ) img.title = title;
+        wrapper.appendChild(img);
+        wrapper.style.top = `${this.getRandomArbitrary(-40,40)}px`;
+        wrapper.style.left = `${this.getRandomArbitrary(-40,40)}px`;
+        return wrapper;
     }
 
     hideIcon = (e) => {
         const $activeElem = e.target.parentElement.parentElement;
         if(!e.target.classList.contains('icon-img') && !this.state.redirection){
+
+            for(let i=0; i<this.refs.imgWrapper.childNodes.length;i++){
+                this.refs.imgWrapper.childNodes[i].style = 'display: none';
+            }
+
+            this.setState({imgI: 0});
             const project = $activeElem;
             const $projects = document.getElementsByClassName('project');
             for(let i=0; i < $projects.length; i++){
@@ -252,6 +295,13 @@ class Project extends React.Component{
     };
 
     render(){
+        const images = this.props.details.images.map((image, key) => {
+            return(
+                <div className="img-wrapper">
+                    <img key={key} src={image} alt=""/>
+                </div>
+            )
+        })
         return(
             <div ref="project" className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseEnter={(e) => this.showIcon(e)} onMouseLeave={(e) => this.hideIcon(e)}>
                 <a
@@ -259,10 +309,12 @@ class Project extends React.Component{
                     onMouseLeave={() => this.sendCursorEvent(false, false)}
                     onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
                     onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
-                    onMouseMove={(e) => this.preventHold()}>
+                    onMouseMove={(e) => this.preventHold(e)}>
                     <h2 className="project-title">{this.props.details.title}</h2>
                 </a>
-
+                <div className="project-img-wrapper" ref='imgWrapper'>
+                    {images}
+                </div>
                 <div className="icon" onMouseDown={e => this.iconHit(e)} ref='icon'>
                     <div className="hit-me" ref="hitMe">
                         <p>Hit me !</p>

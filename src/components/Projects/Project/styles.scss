@@ -1,8 +1,18 @@
 @import "../../../assets/scss/var.scss";
-.react-draggable-dragging{
-  .project{
-     &:not(:hover){
+.projects:not(.project-hold){
+  .react-draggable-dragging{
+    .project{
       pointer-events: none;
+    }
+  }
+}
+
+.project-hold{
+  .react-draggable-dragging{
+    .project{
+      &:hover{
+        pointer-events: all!important;
+      }
     }
   }
 }
@@ -46,6 +56,23 @@
 //  //  }
 //  //}
 //}
+
+.project-hold{
+  .project{
+    &:not(.active){
+      opacity: 0!important;
+      transition: 1s!important;
+    }
+  }
+}
+
+.redirection{
+  .project{
+    &:not(.active){
+     opacity: 0!important;
+    }
+  }
+}
 .project{
   padding-right:20px;
   @include flex(c,c);
@@ -54,6 +81,18 @@
   height: 100%;
   z-index: 999999;
   flex: 0 0 auto;
+  position: relative;
+  &:before{
+    content: '';
+    position: absolute;
+    z-index: 9999;
+    top: -30px;
+    bottom: -30px;
+    left: 0;
+    width: 0%;
+    @include linearGradient($purpleGradientStart, $purpleGradientEnd);
+    transition: 1.5s;
+  }
   &.not-active-before{
     //position: relative;
     //left: 0px;
@@ -73,16 +112,8 @@
   }
   &:hover{
     z-index: 9999999;
-    &:before{
-      content: '';
-      position: absolute;
-      z-index: 9999;
-      top: -30px;
-      bottom: -30px;
-      left: 0;
-      width: 0%;
-      @include linearGradient($purpleGradientStart, $purpleGradientEnd);
-      transition: 1.5s;
+    .project-img-wrapper{
+      opacity: 1;
     }
     .icon{
       .hit-me{
@@ -136,11 +167,44 @@
       }
     }
   }
-
+  .project-img-wrapper{
+    position: absolute;
+    right: 40%;
+    width: 30%;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    height:70vh;
+    opacity: 0;
+    pointer-events: none;
+    .img-wrapper{
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      display: none;
+      @for $i from 1 to 30 {
+        img{
+          animation-duration: $i - 1s;
+        }
+      }
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: img-movement 10s alternate infinite;
+        animation-timing-function: linear;
+      }
+    }
+  }
   .icon{
     margin-left:20px;
     width: 250px;
-    margin-top:10px;
+    //margin-top:10px;
+    margin-top:44px;
     @include flex(c,c);
     position: relative;
     transition: 0.2s;
@@ -248,15 +312,14 @@
     white-space: nowrap;
     font-size: 144px;
     z-index: 10;
-    font-family: $hkRegular;
-    //letter-spacing: 0px;
-    transition: 1.5s;
+    font-family: $hkBold;
+    color: white;
+    transition: font-size 1.5s;
     margin-left: -12px;
     //&:hover{
     //  $strokeColor: white;
-    //  color: $bg;
-    //  transition: 0.3s;
-    //  text-shadow: 1px 0 0 $strokeColor, -1px 0 0 $strokeColor, 0 1px 0 $strokeColor, 0 -1px 0 $strokeColor, 1px 1px $strokeColor, -1px -1px 0 $strokeColor, 1px -1px 0 $strokeColor, -1px 1px 0 $strokeColor;
+    //  color: transparent;
+    //  -webkit-text-stroke: 2px white;
     //}
   }
   .project-container{
@@ -443,6 +506,15 @@
     opacity: 1;
     background: transparent;
     border: solid 1px $purpleGradientStart;
+  }
+}
+
+@include keyframes(img-movement){
+  0%{
+    transform: translateX(0px) scale(1);
+  }
+  100%{
+    transform: translateX(50px) translateY(20px) scale(1.2);
   }
 }
 

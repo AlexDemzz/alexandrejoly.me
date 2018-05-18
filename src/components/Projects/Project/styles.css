@@ -256,8 +256,18 @@
   100% {
     opacity: 1; } }
 
-.react-draggable-dragging .project:not(:hover) {
+.projects:not(.project-hold) .react-draggable-dragging .project {
   pointer-events: none; }
+
+.project-hold .react-draggable-dragging .project:hover {
+  pointer-events: all !important; }
+
+.project-hold .project:not(.active) {
+  opacity: 0 !important;
+  transition: 1s !important; }
+
+.redirection .project:not(.active) {
+  opacity: 0 !important; }
 
 .project {
   padding-right: 20px;
@@ -274,7 +284,33 @@
   transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
-  flex: 0 0 auto; }
+  flex: 0 0 auto;
+  position: relative; }
+  .project:before {
+    content: '';
+    position: absolute;
+    z-index: 9999;
+    top: -30px;
+    bottom: -30px;
+    left: 0;
+    width: 0%;
+    background: #7F00FF;
+    /* Old browsers */
+    background: -moz-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7F00FF), color-stop(100%, #E100FF));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, #7F00FF 0%, #E100FF 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
+    /* IE6-9 */
+    transition: 1.5s; }
   .project.not-active-before {
     max-width: 1500px;
     overflow: hidden;
@@ -285,31 +321,8 @@
     animation: line-to-cicle 1s reverse forwards; }
   .project:hover {
     z-index: 9999999; }
-    .project:hover:before {
-      content: '';
-      position: absolute;
-      z-index: 9999;
-      top: -30px;
-      bottom: -30px;
-      left: 0;
-      width: 0%;
-      background: #7F00FF;
-      /* Old browsers */
-      background: -moz-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7F00FF), color-stop(100%, #E100FF));
-      /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* Opera 11.10+ */
-      background: -ms-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* IE10+ */
-      background: linear-gradient(to bottom, #7F00FF 0%, #E100FF 100%);
-      /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
-      /* IE6-9 */
-      transition: 1.5s; }
+    .project:hover .project-img-wrapper {
+      opacity: 1; }
     .project:hover .icon .hit-me {
       display: block;
       opacity: 1;
@@ -349,10 +362,93 @@
       animation-delay: 0.8s;
       -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
       animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
+  .project .project-img-wrapper {
+    position: absolute;
+    right: 40%;
+    width: 30%;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+    height: 70vh;
+    opacity: 0;
+    pointer-events: none; }
+    .project .project-img-wrapper .img-wrapper {
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      display: none; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 0s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 1s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 2s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 3s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 4s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 5s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 6s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 7s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 8s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 9s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 10s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 11s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 12s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 13s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 14s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 15s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 16s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 17s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 18s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 19s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 20s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 21s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 22s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 23s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 24s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 25s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 26s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 27s; }
+      .project .project-img-wrapper .img-wrapper img {
+        animation-duration: 28s; }
+      .project .project-img-wrapper .img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        animation: img-movement 10s alternate infinite;
+        animation-timing-function: linear; }
   .project .icon {
     margin-left: 20px;
     width: 250px;
-    margin-top: 10px;
+    margin-top: 44px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -509,8 +605,9 @@
     white-space: nowrap;
     font-size: 144px;
     z-index: 10;
-    font-family: "hk_groteskregular", sans-serif;
-    transition: 1.5s;
+    font-family: "hk_groteskbold", sans-serif;
+    color: white;
+    transition: font-size 1.5s;
     margin-left: -12px; }
   .project .project-container {
     width: 0%;
@@ -1012,6 +1109,30 @@
     opacity: 1;
     background: transparent;
     border: solid 1px #7F00FF; } }
+
+@-webkit-keyframes img-movement {
+  0% {
+    transform: translateX(0px) scale(1); }
+  100% {
+    transform: translateX(50px) translateY(20px) scale(1.2); } }
+
+@-moz-keyframes img-movement {
+  0% {
+    transform: translateX(0px) scale(1); }
+  100% {
+    transform: translateX(50px) translateY(20px) scale(1.2); } }
+
+@-o-keyframes img-movement {
+  0% {
+    transform: translateX(0px) scale(1); }
+  100% {
+    transform: translateX(50px) translateY(20px) scale(1.2); } }
+
+@keyframes img-movement {
+  0% {
+    transform: translateX(0px) scale(1); }
+  100% {
+    transform: translateX(50px) translateY(20px) scale(1.2); } }
 
 @-webkit-keyframes float {
   0% {

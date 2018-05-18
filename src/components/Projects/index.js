@@ -138,7 +138,7 @@ class Projects extends React.Component{
                     onDrag={this.handleDrag}
                     onStop={this.handleStop}>
                     <div className="projects-drag-area" ref="projectsDraggableArea">
-                        <div className="projects-drag-area-wrapper">
+                        <div className="projects-drag-area-wrapper" ref="projectsDragAreaWrapper">
                             {projects}
                         </div>
                     </div>

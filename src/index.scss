@@ -40,6 +40,13 @@ body {
   @include flex(fs,fs,col);
   @include container(1600px);
   margin-top: 125px;
+  &:nth-last-child(2){
+    &.project-details{
+      .project-title{
+        display: none;
+      }
+    }
+  }
   .projects{
     height: 70vh;
     order: -5;
@@ -208,7 +215,7 @@ body {
     height: 30vh;
     transition: 0.5s;
     transition-delay: 1.5s;
-    @include transitionElastic();
+    //@include transitionElastic();
     .project{
       &.active{
         .project-title{
