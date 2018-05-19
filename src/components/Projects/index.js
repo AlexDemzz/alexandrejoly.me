@@ -15,11 +15,13 @@ class Projects extends React.Component{
         translateX: 0,
         projectsListWidth: [],
         showHitBubble: true,
-        projectsSize: []
+        projectsSize: [],
+        dragging: false
     };
 
     handleStart = (event, ui) => {
         this.getMaxBoundLeft();
+        this.setState({dragging: true});
     };
 
     handleDrag = (event, ui) => {
@@ -36,6 +38,11 @@ class Projects extends React.Component{
         let $projects = document.getElementsByClassName('js-project');
         if(status){
             for(let i=0; i < $projects.length ; i++){
+                if(Math.abs(deg)>2){
+                    this.refs.projectsDraggableArea.classList.add('projects-not-dragging');
+                }else{
+                    this.refs.projectsDraggableArea.classList.remove('projects-not-dragging');
+                }
                 if(direction === 'next'){
                     $projects[i].style.transform = `skew(-${posDeg}deg)`;
                     this.refs.projectsDraggableArea.classList.remove('dir-left');
@@ -55,7 +62,8 @@ class Projects extends React.Component{
 
     handleStop = (event, ui) => {
         this.scrollAnimation(false);
-        this.sendDragPosition(ui.x)
+        this.sendDragPosition(ui.x);
+        this.setState({dragging: false});
     };
 
     getMaxBoundLeft = () => {
@@ -109,6 +117,19 @@ class Projects extends React.Component{
     getIfElementHit = (status) =>{
         this.setState({showHitBubble: status});
     }
+
+    // setNotHolding = () => {
+    //     let timeout = null;
+    //     console.log(this.refs.projectsDraggableArea);
+    //     if(!this.props.hold && this.state.dragging){
+    //         timeout = setTimeout(()=>{
+    //             this.refs.projects.classList.add('project-not-holding');
+    //         },500)
+    //     }else{
+    //         this.refs.projects.classList.remove('project-not-holding');
+    //     }
+    //     clearInterval(timeout);
+    // }
 
     render(){
         const projects = Object

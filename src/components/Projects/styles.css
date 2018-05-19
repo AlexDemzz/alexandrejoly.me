@@ -265,10 +265,6 @@
 .react-draggable-dragging.dir-left .projects-drag-area-wrapper {
   transform: scale(0.8) rotateZ(2deg); }
 
-.react-draggable-dragging .project {
-  opacity: 1 !important;
-  transition-delay: 0.2s !important; }
-
 .projects {
   width: 100%;
   height: 100%;

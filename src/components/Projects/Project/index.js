@@ -60,12 +60,7 @@ class Project extends React.Component{
             numberIndex = this.refs.imgWrapper.childNodes[this.refs.imgWrapper.childNodes.length-1]
         }
 
-        if (this.state.imgI % numderDelay === 0 && this.state.imgI/numderDelay<this.refs.imgWrapper.childNodes.length) {
-            let $elemStyle = this.refs.imgWrapper.childNodes[this.state.imgI/numderDelay].style;
-            $elemStyle.display = 'block';
-            $elemStyle.top = `${this.getRandomArbitrary(-40,40)}px`;
-            $elemStyle.left = `${this.getRandomArbitrary(-40,40)}px`;
-        }else if(this.state.imgI % numderDelay === 0){
+        if(this.state.imgI % numderDelay === 0){
             let newImg = this.img_create(this.props.details.images[this.getRandomArbitrary(0,this.props.details.images.length-1)], '', '');
             this.refs.imgWrapper.appendChild(newImg);
         }
@@ -188,11 +183,7 @@ class Project extends React.Component{
     };
 
     showIcon = (e) => {
-        let $activeElem = e.target;
-        if(!$activeElem.classList.contains('project')){
-            $activeElem = e.target.parentElement.parentElement;
-        }
-        console.log($activeElem);
+        let $activeElem = e.currentTarget;
         this.setState({preventHide: false});
         this.setState({'showIcon': true});
         if (this.state.showHitMeBubble) {
@@ -215,10 +206,6 @@ class Project extends React.Component{
             this.setState({animationEnd: true});
         }, 1000);
 
-        // if(e.target.parentElement.parentElement.classList.contains('project')){
-        //     console.log(e.target.parentElement.parentElement);
-        //     this.addRightAndLeftClass(e.target.parentElement.parentElement);
-        // }
     };
 
     componentDidMount(){
@@ -244,19 +231,18 @@ class Project extends React.Component{
     }
 
     hideIcon = (e) => {
-        const $activeElem = e.target.parentElement.parentElement;
-        if(!e.target.classList.contains('icon-img') && !this.state.redirection){
-
+        const $activeElem = e.currentTarget;
+        if(!this.state.redirection){
             for(let i=0; i<this.refs.imgWrapper.childNodes.length;i++){
-                this.refs.imgWrapper.childNodes[i].style = 'display: none';
+                this.refs.imgWrapper.childNodes[i].remove();
             }
-
             this.setState({imgI: 0});
             const project = $activeElem;
             const $projects = document.getElementsByClassName('project');
             for(let i=0; i < $projects.length; i++){
                 $projects[i].classList.remove('active');
             }
+
             // project.classList.add('active--hidden');
             // this.refs.line.style.webkitAnimation = 'none';
             // this.refs.line.style.visibility = 'hidden';
@@ -295,36 +281,38 @@ class Project extends React.Component{
     };
 
     render(){
-        const images = this.props.details.images.map((image, key) => {
-            return(
-                <div className="img-wrapper">
-                    <img key={key} src={image} alt=""/>
-                </div>
-            )
-        })
+        // const images = this.props.details.images.map((image, key) => {
+        //     return(
+        //         <div className="img-wrapper" key={key}>
+        //             <img src={image} alt=""/>
+        //         </div>
+        //     )
+        // })
         return(
             <div ref="project" className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseEnter={(e) => this.showIcon(e)} onMouseLeave={(e) => this.hideIcon(e)}>
-                <a
-                    onMouseEnter={() => this.sendCursorEvent(true, false)}
-                    onMouseLeave={() => this.sendCursorEvent(false, false)}
-                    onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
-                    onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
-                    onMouseMove={(e) => this.preventHold(e)}>
-                    <h2 className="project-title">{this.props.details.title}</h2>
-                </a>
-                <div className="project-img-wrapper" ref='imgWrapper'>
-                    {images}
-                </div>
-                <div className="icon" onMouseDown={e => this.iconHit(e)} ref='icon'>
-                    <div className="hit-me" ref="hitMe">
-                        <p>Hit me !</p>
+                <div className="project-wrapper">
+                    <a
+                        onMouseEnter={() => this.sendCursorEvent(true, false)}
+                        onMouseLeave={() => this.sendCursorEvent(false, false)}
+                        onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
+                        onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
+                        onMouseMove={(e) => this.preventHold(e)}>
+                        <h2 className="project-title">{this.props.details.title}</h2>
+                    </a>
+                    <div className="project-img-wrapper" ref='imgWrapper'>
+                        {/*{images}*/}
                     </div>
-                    <div className="icon-img" ref="iconImg" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)}/>
-                    <div className="icon-particles" ref="iconParticles">
-                        <img src={particles1} alt=""/>
-                        <img src={particles2} alt=""/>
+                    <div className="icon" ref='icon' onMouseDown={e => this.iconHit(e)}>
+                        <div className="hit-me" ref="hitMe">
+                            <p>Hit me !</p>
+                        </div>
+                        <div className="icon-img" ref="iconImg" dangerouslySetInnerHTML={this.renderSvg(this.props.details.icon)}/>
+                        <div className="icon-particles" ref="iconParticles">
+                            <img src={particles1} alt=""/>
+                            <img src={particles2} alt=""/>
+                        </div>
+                        <div className="line" ref="line"/>
                     </div>
-                    <div className="line" ref="line"/>
                 </div>
             </div>
         )

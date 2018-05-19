@@ -13,10 +13,10 @@
       transform: scale(0.8) rotateZ(2deg);
     }
   }
-  .project{
-    opacity: 1!important;
-    transition-delay: 0.2s!important;
-  }
+  //.project{
+  //  opacity: 1!important;
+  //  transition-delay: 0.2s!important;
+  //}
 }
 .projects{
   width: 100%;
@@ -57,18 +57,4 @@
     transition: 0.5s;
     //@include transitionElastic();
   }
-}
-
-
-.slick-active{
-  .project{
-  }
-  //.project-container{
-  //  animation: kf-project-picture 3s forwards;
-  //}
-  //&.js-slick-no-more-active{
-  //  .project-container{
-  //    animation: kf-project-picture--hide 3s forwards;
-  //  }
-  //}
 }

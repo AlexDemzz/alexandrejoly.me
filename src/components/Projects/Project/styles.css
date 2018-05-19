@@ -256,18 +256,9 @@
   100% {
     opacity: 1; } }
 
-.projects:not(.project-hold) .react-draggable-dragging .project {
-  pointer-events: none; }
-
-.project-hold .react-draggable-dragging .project:hover {
-  pointer-events: all !important; }
-
-.project-hold .project:not(.active) {
-  opacity: 0 !important;
-  transition: 1s !important; }
-
-.redirection .project:not(.active) {
-  opacity: 0 !important; }
+.projects .projects-not-dragging .project {
+  pointer-events: none !important;
+  opacity: 1 !important; }
 
 .project {
   padding-right: 20px;
@@ -286,6 +277,17 @@
   z-index: 999999;
   flex: 0 0 auto;
   position: relative; }
+  .project .project-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    height: 100%; }
   .project:before {
     content: '';
     position: absolute;
@@ -381,6 +383,9 @@
       bottom: 0;
       top: 0;
       display: none; }
+      .project .project-img-wrapper .img-wrapper:last-of-type img {
+        animation-direction: inherit;
+        animation-timing-function: linear; }
       .project .project-img-wrapper .img-wrapper img {
         animation-duration: 0s; }
       .project .project-img-wrapper .img-wrapper img {
@@ -444,7 +449,8 @@
         height: 100%;
         object-fit: cover;
         animation: img-movement 10s alternate infinite;
-        animation-timing-function: linear; }
+        animation-direction: reverse;
+        animation-timing-function: ease-in-out; }
   .project .icon {
     margin-left: 20px;
     width: 250px;
@@ -459,7 +465,8 @@
     -webkit-flex-flow: row nowrap;
     flex-flow: row nowrap;
     position: relative;
-    transition: 0.2s; }
+    transition: 0.2s;
+    pointer-events: all; }
     .project .icon * {
       -webkit-touch-callout: none;
       /* iOS Safari */
@@ -542,7 +549,8 @@
       -webkit-justify-content: center;
       justify-content: center;
       -webkit-flex-flow: row nowrap;
-      flex-flow: row nowrap; }
+      flex-flow: row nowrap;
+      pointer-events: none; }
       .project .icon .icon-particles img {
         opacity: 0;
         position: absolute;
@@ -570,7 +578,8 @@
       right: auto;
       left: auto;
       margin: auto;
-      box-sizing: border-box; }
+      box-sizing: border-box;
+      pointer-events: all; }
   .project a {
     text-decoration: none;
     display: -webkit-box;
