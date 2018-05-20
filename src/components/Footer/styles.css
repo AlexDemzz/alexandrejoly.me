@@ -4,6 +4,16 @@
 /*******************************************/
 /**********  End Simple Function  **********/
 /*******************************************/
+.text-reveal {
+  transform-origin: 0 0;
+  transform: skewY(10deg);
+  opacity: 0; }
+
+.text-reveal--revealed {
+  transform: skewY(0deg);
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1); }
+
 @-webkit-keyframes block-appear--block {
   0% {
     width: 5%;
@@ -257,6 +267,10 @@
     opacity: 1; } }
 
 footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -273,6 +287,8 @@ footer {
   box-sizing: border-box;
   margin-top: 30px;
   box-sizing: border-box; }
+  footer.no-fixed {
+    position: static; }
   footer p {
     font-size: 20px;
     font-family: "hk_groteskbold", sans-serif; }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import PreHome from './components/PreHome';
 import Projects from './components/Projects';
 import ProjectDetails from './components/Projects/ProjectDetails';
 import Cursor from './components/Cursor';
@@ -22,7 +23,8 @@ class App extends Component {
         hold: false,
         holdEnd: false,
         active: 0,
-        pos: 0
+        pos: 0,
+        appLoaded: false
     };
 
     getClickEvent = (param) => {
@@ -56,26 +58,33 @@ class App extends Component {
         console.log(this.state.active);
     };
 
+    getAppLoaded = (status) => {
+        this.setState({appLoaded : status});
+    }
+
     render() {
         return (
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
                         <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
-                        <Header getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
-                        <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
-                            <CSSTransition
-                                key={location.pathname.split('/')[1]}
-                                classNames={this.state.transitionName}
-                                timeout={this.state.transitionDelay}>
-                                <Switch location={location}>
-                                    <Route match exact path="/" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
-                                    <Route path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
-                                    <Route match exact path="/about" component={About} />
-                                </Switch>
-                            </CSSTransition>
-                        </TransitionGroup>
-                        <Footer/>
+                        {this.state.appLoaded ?
+                            <div>
+                                <Header getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
+                                <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
+                                    <CSSTransition
+                                        key={location.pathname.split('/')[1]}
+                                        classNames={this.state.transitionName}
+                                        timeout={this.state.transitionDelay}>
+                                        <Switch location={location}>
+                                            <Route match exact path="/works" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
+                                            <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
+                                            <Route match exact path="/about" component={About} />
+                                        </Switch>
+                                    </CSSTransition>
+                                </TransitionGroup>
+                                <Footer/>
+                            </div> : <PreHome getAppLoaded={this.getAppLoaded} />}
                     </div>
                 )}
                 />

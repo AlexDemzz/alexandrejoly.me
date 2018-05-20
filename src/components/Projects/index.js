@@ -105,6 +105,7 @@ class Projects extends React.Component{
     }
 
     componentWillMount(){
+        document.body.style.overflow = 'hidden';
         if(this.props.dragPosition){
             this.setState({translateX: this.props.dragPosition});
         }

@@ -5,7 +5,7 @@ class Footer extends React.Component{
 
     render(){
         return(
-            <footer>
+            <footer id="footer">
                 <p>Find me on <a href="">LinkedIn</a> or say Hello by <a href="">mail</a> 🔥</p>
             </footer>
         )

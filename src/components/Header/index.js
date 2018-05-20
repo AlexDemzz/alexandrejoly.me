@@ -9,7 +9,7 @@ class Header extends React.Component{
     }
 
     sendGetClickEvent = () => {
-        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: 1000});
+        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: {enter: 1500, exit: 1000}});
     }
 
     sendCursorEvent = (hoverStatus) => {
@@ -21,8 +21,10 @@ class Header extends React.Component{
         let path = currentPath.split('/');
         if(path[1] === 'work'){
             this.setState({backButton: true});
+            document.getElementsByTagName('footer')[0].classList.add('no-fixed');
         }else{
             this.setState({backButton: false});
+            document.getElementsByTagName('footer')[0].classList.remove('no-fixed');
         }
     };
     
@@ -49,7 +51,7 @@ class Header extends React.Component{
             <header>
                 <div className="header-left-side">
                     <div className="header-logo">
-                        <Link to={{ pathname: `/`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                        <Link to={{ pathname: `/works`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
                             { this.state.backButton ?
                                 <div className="header-title back-btn">{this.backArrow()} <h1>Back</h1></div> :
                                 <div className="header-title">
@@ -69,7 +71,7 @@ class Header extends React.Component{
                     <nav onMouseOver={() => this.sendGetClickEvent()}>
                         <ul>
                             <li className="active" onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
-                                <Link to={{ pathname: `/`}} >
+                                <Link to={{ pathname: `/works`}} >
                                     <div>
                                         <p>work</p>
                                     </div>

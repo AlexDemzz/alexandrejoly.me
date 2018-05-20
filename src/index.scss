@@ -15,6 +15,8 @@ body {
   padding: 0;
   background: $bg;
   overflow-x: hidden;
+  padding-top: 125px;
+  transition: 0.5s;
   .container{
     @include container(1600px);
     //overflow: hidden;
@@ -39,7 +41,6 @@ body {
   //height: 100vh;
   @include flex(fs,fs,col);
   @include container(1600px);
-  margin-top: 125px;
   &:nth-last-child(2){
     &.project-details{
       .project-title{
@@ -107,22 +108,54 @@ body {
     opacity: 1;
     transition: 1s;
   }
+  .projects{
+    .project{
+      .project-title{
+        transform: skewY(0deg);
+        opacity: 1;
+        transition: opacity 1.5s ease,transform 2s cubic-bezier(.215,.61,.355,1);
+      }
+      .line{
+        right: inherit;
+        left: 0;
+        width: 100%;
+      }
+    }
+  }
 }
 
 .header-link-exit-active{
   &.projects{
-    height: 0%;
-    transition-delay: 1s;
-    .projects-drag-area{
-      height: 0;
-      transition: 0s!important;
-      transition-delay: 1s!important;
-    }
     .project{
-      transform: translateY(-200px);
-      opacity: 0;
-      transition: 2s;
-      filter: blur(99px);
+      @for $i from 1 to 30 {
+        &:nth-of-type(#{$i}){
+          .project-title{
+            transition-delay: $i * 0.25s!important;
+          }
+          .line{
+            transition-delay: $i * 0.25s!important;
+          }
+        }
+      }
+      .project-title{
+        transform-origin: 0 0;
+        transform: skewY(-10deg);
+        opacity: 0;
+        transition: opacity 0.5s ease,transform 2s cubic-bezier(.215,.61,.355,1), color 0.3s;
+        transition-delay: 0s;
+      }
+      .line{
+        right: inherit;
+        left: 0;
+        width: 0%;
+        box-sizing: border-box;
+        overflow: hidden;
+        transition: 0.3s;
+        //border: solid 1px white;
+        //background: transparent;
+        opacity: 0;
+        transition-delay: 0s;
+      }
     }
   }
   &.about{
@@ -134,25 +167,70 @@ body {
 
 .header-link-enter{
   &.projects{
+    opacity: 0;
     height: 0;
     transition: 0s;
+  }
+  &.about{
+
+  }
+}
+
+.header-link-enter-active{
+  &.projects{
     opacity: 0;
+    height: 0;
+    background: red;
+    transition: 0.5s;
     .project{
-      transform: translateY(-200px);
-      opacity: 0;
-      transition: 1s;
+      .project-title{
+        transform-origin: 0 0;
+        transform: skewY(-10deg);
+        opacity: 0;
+        transition: opacity 0.5s ease,transform 2s cubic-bezier(.215,.61,.355,1), color 0.3s;
+        transition-delay: 0s;
+      }
+      .line{
+        right: inherit;
+        left: 0;
+        width: 0%;
+        transition: 0.3s;
+        opacity: 0;
+        transition-delay: 0s;
+      }
     }
   }
 }
 
+
 .header-link-enter-done{
   &.projects{
+    opacity: 1;
     height: 70vh;
-    transition: height 0s;
+    transition: 0s;
     .project{
-      transform: translateY(0px);
-      opacity: 1;
-      transition: 1s;
+      @for $i from 1 to 30 {
+        &:nth-of-type(#{$i}){
+          .project-title{
+            transition-delay: $i * 0.25s!important;
+          }
+          .line{
+            transition-delay: $i * 0.25s!important;
+          }
+        }
+      }
+      .project-title{
+        transform: skewY(0deg);
+        opacity: 1;
+        transition: opacity 1.5s ease,transform 2s cubic-bezier(.215,.61,.355,1);
+      }
+      .line{
+        right: inherit;
+        left: 0;
+        width: 100%;
+        opacity: 1;
+        transition: 0.3s;
+      }
     }
   }
 }
@@ -160,26 +238,12 @@ body {
 .home-to-project-enter-active {
   &.projects{
     height: 70vh;
-    transition: 0.5s;
-    @include transitionElastic();
+    transition: 0s;
     .project{
       &.active{
         .line{
           width: 0px;
           background: transparent;
-        }
-      }
-      &.not-active-after{
-        //.project-title{
-        //  letter-spacing: 0px;
-        //  transition: 1s;
-        //  padding-left: 0px;
-        //  opacity: 1;
-        //}
-      }
-      &.not-active-before{
-        .project-title{
-          //right: 0px;
         }
       }
     }

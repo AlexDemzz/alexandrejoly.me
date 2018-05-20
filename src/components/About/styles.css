@@ -4,6 +4,16 @@
 /*******************************************/
 /**********  End Simple Function  **********/
 /*******************************************/
+.text-reveal {
+  transform-origin: 0 0;
+  transform: skewY(10deg);
+  opacity: 0; }
+
+.text-reveal--revealed {
+  transform: skewY(0deg);
+  opacity: 1;
+  transition: opacity 0.3s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1); }
+
 @-webkit-keyframes block-appear--block {
   0% {
     width: 5%;
@@ -256,24 +266,111 @@
   100% {
     opacity: 1; } }
 
+body:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: #000 url(../../assets/img/userExBg.svg) repeat;
+  background-size: 20px 20px;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: -1; }
+
+.bg-user-experience:after {
+  opacity: 1;
+  transition: 0.3s; }
+
 .about {
-  animation: about-enter 1.5s forwards;
+  animation: about-enter 2s forwards;
   min-height: 70vh; }
   .about .about-text-wrapper {
-    animation: appear-blur 1.5s forwards;
     -webkit-backface-visibility: hidden; }
     .about .about-text-wrapper p {
       padding: 30px 0;
       font-size: 55px;
       max-width: 1300px;
       width: 100%;
-      line-height: 80px;
-      font-family: "hk_groteskregular", sans-serif; }
+      font-family: "hk_groteskregular", sans-serif;
+      animation: about-enter-text 1.5s forwards; }
+      .about .about-text-wrapper p span {
+        font-family: "hk_groteskbold", sans-serif;
+        position: relative; }
+        .about .about-text-wrapper p span:hover {
+          color: #7F00FF; }
+          .about .about-text-wrapper p span:hover:before {
+            height: 80%;
+            transition: 0.3s;
+            background: white; }
+        .about .about-text-wrapper p span:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 30%;
+          z-index: -1;
+          width: 0%;
+          background: #7F00FF;
+          animation: about-enter-text-link 0.3s forwards;
+          animation-delay: 1.5s;
+          transition: 0.3s; }
 
 .about.header-link-enter-active {
   display: none; }
   .about.header-link-enter-active *, .about.header-link-enter-active *:before, .about.header-link-enter-active *:after {
     animation: none !important; }
+
+@-webkit-keyframes about-enter-text-link {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-moz-keyframes about-enter-text-link {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-o-keyframes about-enter-text-link {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@keyframes about-enter-text-link {
+  0% {
+    width: 0%; }
+  100% {
+    width: 100%; } }
+
+@-webkit-keyframes about-enter-text {
+  0% {
+    line-height: 150px; }
+  100% {
+    line-height: 80px; } }
+
+@-moz-keyframes about-enter-text {
+  0% {
+    line-height: 150px; }
+  100% {
+    line-height: 80px; } }
+
+@-o-keyframes about-enter-text {
+  0% {
+    line-height: 150px; }
+  100% {
+    line-height: 80px; } }
+
+@keyframes about-enter-text {
+  0% {
+    line-height: 150px; }
+  100% {
+    line-height: 80px; } }
 
 @-webkit-keyframes about-enter {
   0% {

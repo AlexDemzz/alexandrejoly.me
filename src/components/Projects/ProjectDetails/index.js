@@ -12,6 +12,10 @@ class ProjectDetails extends React.Component{
         this.projectIdEvent(this.props.match.params.id);
     };
 
+    componentWillMount() {
+        document.body.style.overflow = '';
+    }
+
     render(){
         setDefaultProps({
             bounce: true,

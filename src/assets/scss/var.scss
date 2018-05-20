@@ -47,6 +47,18 @@ $purpleGradientEnd: #E100FF;
   }
 }
 
+
+.text-reveal{
+  transform-origin: 0 0;
+  transform: skewY(10deg);
+  opacity: 0;
+}
+.text-reveal--revealed{
+  transform: skewY(0deg);
+  opacity: 1;
+  transition: opacity .3s ease,transform 1s cubic-bezier(.215,.61,.355,1);
+}
+
 @include keyframes(block-appear--block){
   0%{
     width: 5%;
