@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import Project from './Project';
+import Project from './Project/';
 
 import Draggable from 'react-draggable';
 import projectsList from '../../projects'
@@ -81,11 +81,16 @@ class Projects extends React.Component{
         }
         this.setState({projectsWidth: projectSize[projectSize.length-1]+400});
         this.setState({projectsListWidth: projectSize});
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location !== this.props.location) {
             this.setState({ prevPath: this.props.location })
+        }
+    }
+    componentDidUpdate(){
+        if(this.props.appLoaded){
+            this.refs.projects.classList.add('show');
         }
     }
 
@@ -102,6 +107,11 @@ class Projects extends React.Component{
             }
         }
         this.setState({projectsSize});
+        console.log('-----');
+        console.log(this.props.history);
+        if(this.props.history.action === 'POP'){
+            this.refs.projects.classList.add('init-projects');
+        }
     }
 
     componentWillMount(){
@@ -118,6 +128,7 @@ class Projects extends React.Component{
     getIfElementHit = (status) =>{
         this.setState({showHitBubble: status});
     }
+    
 
     // setNotHolding = () => {
     //     let timeout = null;
@@ -132,13 +143,15 @@ class Projects extends React.Component{
     //     clearInterval(timeout);
     // }
 
+
     render(){
         const projects = Object
             .keys(projectsList)
             .map(key => {
                 if(key === this.props.activeProject){
                     return(
-                        <Project projectsSize={this.state.projectsSize} showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project projectsSize={this.state.projectsSize}
+                                 showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }else{
                     return(
@@ -148,23 +161,25 @@ class Projects extends React.Component{
             });
 
         return(
-            <div className={`projects ${this.props.hold ? 'project-hold' : ''}`}>
-                <h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>
-                <Draggable
-                    axis="x"
-                    handle=".projects-drag-area"
-                    grid={[25, 25]}
-                    defaultPosition={{x: this.state.translateX, y: 0}}
-                    bounds={{left: this.state.projectsSize[this.state.projectsSize.length-1], top: 0, right: 0, bottom: 0}}
-                    onStart={this.handleStart}
-                    onDrag={this.handleDrag}
-                    onStop={this.handleStop}>
-                    <div className="projects-drag-area" ref="projectsDraggableArea">
-                        <div className="projects-drag-area-wrapper" ref="projectsDragAreaWrapper">
-                            {projects}
+            <div className={`projects ${this.props.hold ? 'project-hold' : ''}`} ref="projects">
+                {/*<h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>*/}
+                <div className="container">
+                    <Draggable
+                        axis="x"
+                        handle=".projects-drag-area"
+                        grid={[25, 25]}
+                        defaultPosition={{x: this.state.translateX, y: 0}}
+                        bounds={{left: this.state.projectsSize[this.state.projectsSize.length-1], top: 0, right: 0, bottom: 0}}
+                        onStart={this.handleStart}
+                        onDrag={this.handleDrag}
+                        onStop={this.handleStop}>
+                        <div className="projects-drag-area" ref="projectsDraggableArea">
+                            <div className="projects-drag-area-wrapper" ref="projectsDragAreaWrapper">
+                                {projects}
+                            </div>
                         </div>
-                    </div>
-                </Draggable>
+                    </Draggable>
+                </div>
             </div>
         )
     }

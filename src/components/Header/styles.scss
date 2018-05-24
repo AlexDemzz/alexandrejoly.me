@@ -10,6 +10,7 @@ header{
   margin-top:30px;
   box-sizing: border-box;
   z-index: 9999999;
+  mix-blend-mode: difference;
   .header-left-side{
     @include flex(fs,fs,col);
     position: relative;
@@ -53,8 +54,10 @@ header{
           fill: white;
           width: 40px;
           transition: margin 0.3s;
+          @include waveAppearBefore();
         }
         h1{
+          @include waveAppearBefore();
           margin-left:20px;
           font-size: 20px;
           font-family: $hkBold;
@@ -67,6 +70,7 @@ header{
       ul{
         @include flex(c,c);
         li{
+          @include waveAppearBefore();
           &:last-of-type{
             margin-right:0;
           }
@@ -129,6 +133,31 @@ header{
           }
         }
       }
+    }
+  }
+  &.show{
+    .header-left-side{
+      .header-logo{
+        a{
+          svg{
+            @include waveAppearAfter();
+          }
+          h1{
+            @include waveAppearAfter();
+            transition-delay: 0.2s;
+          }
+        }
+      }
+    }
+    .header-right-side{
+    nav{
+      ul{
+        li{
+          @include waveAppearAfter();
+          transition-delay: 0.4s;
+        }
+      }
+    }
     }
   }
 }

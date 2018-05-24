@@ -310,18 +310,16 @@
     -webkit-flex-flow: column nowrap;
     flex-flow: column nowrap; }
     .cursor .pointer .main {
-      -webkit-font-smoothing: subpixel-antialiased;
-      backface-visibility: hidden;
-      -webkit-filter: blur(0);
       width: 20px;
       height: 20px;
       background: white;
       border-radius: 99px;
       z-index: 999999999;
       transition: 0.5s;
-      transform: scale(0.5);
       -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-      transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
+      transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      backface-visibility: hidden;
+      transform: translateZ(0) scale(0.5); }
     .cursor .pointer .border {
       z-index: -1;
       position: absolute;
@@ -375,7 +373,7 @@
           transition: all 0.2s;
           transition-delay: 0.5s; }
   .cursor.hover .main {
-    transform: scale(0.7);
+    transform: translateZ(0) scale(0.7);
     transition: 0.5s;
     -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
     transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
@@ -388,23 +386,8 @@
   .cursor.hold {
     transition: 0.1s; }
     .cursor.hold .main {
-      background: #7F00FF;
-      /* Old browsers */
-      background: -moz-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7F00FF), color-stop(100%, #E100FF));
-      /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* Opera 11.10+ */
-      background: -ms-linear-gradient(top, #7F00FF 0%, #E100FF 100%);
-      /* IE10+ */
-      background: linear-gradient(to bottom, #7F00FF 0%, #E100FF 100%);
-      /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 );
-      /* IE6-9 */
-      transform: scale(5.5);
+      transform: translateZ(0) scale(5.5);
+      mix-blend-mode: difference;
       transition: transform 1s;
       -webkit-filter: blur(0);
       transition-timing-function: linear; }

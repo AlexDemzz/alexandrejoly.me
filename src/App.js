@@ -24,7 +24,8 @@ class App extends Component {
         holdEnd: false,
         active: 0,
         pos: 0,
-        appLoaded: false
+        appLoaded: false,
+        appLoadedHide: false,
     };
 
     getClickEvent = (param) => {
@@ -62,29 +63,33 @@ class App extends Component {
         this.setState({appLoaded : status});
     }
 
+    getAppLoadedHide = (status) => {
+        this.setState({appLoadedHide : status});
+    }
+
     render() {
         return (
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
                         <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
-                        {this.state.appLoaded ?
+                            {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
                             <div>
-                                <Header getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
+                                <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
                                 <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
                                     <CSSTransition
                                         key={location.pathname.split('/')[1]}
                                         classNames={this.state.transitionName}
                                         timeout={this.state.transitionDelay}>
                                         <Switch location={location}>
-                                            <Route match exact path="/works" render={()=><Projects dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
+                                            <Route match exact path="/" render={()=><Projects appLoaded={this.state.appLoaded} setupAnimation={this.state.appLoaded} dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
                                             <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
                                             <Route match exact path="/about" component={About} />
                                         </Switch>
                                     </CSSTransition>
                                 </TransitionGroup>
-                                <Footer/>
-                            </div> : <PreHome getAppLoaded={this.getAppLoaded} />}
+                                <Footer appLoaded={this.state.appLoaded}/>
+                            </div>
                     </div>
                 )}
                 />

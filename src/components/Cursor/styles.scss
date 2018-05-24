@@ -11,17 +11,15 @@
   .pointer{
     @include flex(c,c,col);
     .main{
-      -webkit-font-smoothing: subpixel-antialiased;
-      backface-visibility: hidden;
-      -webkit-filter: blur(0);
       width: 20px;
       height: 20px;
       background: white;
       border-radius: 99px;
       z-index: 999999999;
       transition: 0.5s;
-      transform: scale(0.5);
       @include transitionElastic();
+      backface-visibility: hidden;
+      transform: translateZ(0) scale(0.5);
     }
     .border{
       z-index: -1;
@@ -71,7 +69,7 @@
   }
   &.hover{
     .main{
-      transform: scale(0.7);
+      transform: translateZ(0) scale(0.7);
       transition: 0.5s;
       @include transitionElastic();
     }
@@ -84,9 +82,11 @@
   }
   &.hold{
     transition: 0.1s;
+
     .main{
-      @include linearGradient($purpleGradientStart, $purpleGradientEnd);
-      transform: scale(5.5);
+      //@include linearGradient($purpleGradientStart, $purpleGradientEnd);
+      transform: translateZ(0) scale(5.5);
+      mix-blend-mode: difference;
       transition: transform 1s;
       -webkit-filter: blur(0);
       transition-timing-function: linear;

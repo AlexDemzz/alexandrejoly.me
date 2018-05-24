@@ -28,8 +28,20 @@ class Project extends React.Component{
         this.props.cursorEvent(hoverStatus, holdStatus);
     };
 
-    onMouseDown = () => {
+    onMouseDown = (e) => {
         this.setState({mouseDown: true});
+
+
+        const $projects = document.getElementsByClassName('project');
+        for(let i=0; i < $projects.length; i++){
+            $projects[i].classList.remove('active');
+        }
+        
+        let $activeElem = e.currentTarget.parentElement.parentElement;
+        console.log($activeElem);
+        $activeElem.classList.add('active');
+
+
         this.holdInterval = setInterval(() => {
             if(this.state.mouseDown && this.props.holdEnd){
                 this.redirect(this.props.details);
@@ -148,7 +160,7 @@ class Project extends React.Component{
     redirect = (project) => {
         this.sendCursorEvent(false, false);
         this.setState({redirection: true});
-        document.getElementsByClassName('projects')[0].classList.add('redirection');
+        document.getElementsByClassName('projects')[0].classList.add('project-hold');
         this.translateBeforeChangePage();
         this.props.history.push(`/work/${project.id}/${project.title.toLowerCase().split(' ').join('-')}`);
     };
@@ -184,27 +196,30 @@ class Project extends React.Component{
 
     showIcon = (e) => {
         let $activeElem = e.currentTarget;
-        this.setState({preventHide: false});
-        this.setState({'showIcon': true});
-        if (this.state.showHitMeBubble) {
+        if(!$activeElem.classList.contains('active') && !e.target.classList.contains('icon-img')){
+            this.setState({preventHide: false});
+            this.setState({'showIcon': true});
+            if (this.state.showHitMeBubble) {
+                setTimeout(() => {
+                    this.popIn();
+                }, 1000);
+            };
+            // if (project.classList.contains('active--hidden')) {
+            //     this.refs.line.style.webkitAnimation = 'none';
+            //     this.refs.line.style.visibility = 'hidden';
+            //     setTimeout(() => {
+            //         this.refs.line.style.visibility = 'visible';
+            //         this.refs.line.style.webkitAnimation = '';
+            //     }, 0);
+            //     project.classList.remove('active--hidden');
+            // };
+            $activeElem.classList.add('active');
+            // this.addRightAndLeftClass($activeElem);
+            this.setState({animationEnd: false});
             setTimeout(() => {
-                this.popIn();
+                this.setState({animationEnd: true});
             }, 1000);
-        };
-        // if (project.classList.contains('active--hidden')) {
-        //     this.refs.line.style.webkitAnimation = 'none';
-        //     this.refs.line.style.visibility = 'hidden';
-        //     setTimeout(() => {
-        //         this.refs.line.style.visibility = 'visible';
-        //         this.refs.line.style.webkitAnimation = '';
-        //     }, 0);
-        //     project.classList.remove('active--hidden');
-        // };
-        $activeElem.classList.add('active');
-        this.setState({animationEnd: false});
-        setTimeout(() => {
-            this.setState({animationEnd: true});
-        }, 1000);
+        }
 
     };
 
@@ -232,7 +247,7 @@ class Project extends React.Component{
 
     hideIcon = (e) => {
         const $activeElem = e.currentTarget;
-        if(!this.state.redirection){
+        if(!this.state.redirection && !e.target.classList.contains('icon-img')){
             for(let i=0; i<this.refs.imgWrapper.childNodes.length;i++){
                 this.refs.imgWrapper.childNodes[i].remove();
             }

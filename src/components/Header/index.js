@@ -34,6 +34,11 @@ class Header extends React.Component{
         }
     }
 
+    componentDidUpdate(){
+        if(this.props.appLoaded){
+            this.refs.header.classList.add('show');
+        }
+    }
     componentDidMount(){
         this.enableBackBtn(this.props.location.pathname);
     }
@@ -48,10 +53,10 @@ class Header extends React.Component{
     render(){
 
         return(
-            <header>
+            <header ref="header">
                 <div className="header-left-side">
                     <div className="header-logo">
-                        <Link to={{ pathname: `/works`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                        <Link to={{ pathname: `/`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
                             { this.state.backButton ?
                                 <div className="header-title back-btn">{this.backArrow()} <h1>Back</h1></div> :
                                 <div className="header-title">
@@ -71,7 +76,7 @@ class Header extends React.Component{
                     <nav onMouseOver={() => this.sendGetClickEvent()}>
                         <ul>
                             <li className="active" onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
-                                <Link to={{ pathname: `/works`}} >
+                                <Link to={{ pathname: `/`}} >
                                     <div>
                                         <p>work</p>
                                     </div>

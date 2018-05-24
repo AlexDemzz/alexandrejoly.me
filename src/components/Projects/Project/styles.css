@@ -266,9 +266,20 @@
   100% {
     opacity: 1; } }
 
-.projects .projects-not-dragging .project {
-  pointer-events: none !important;
-  opacity: 1 !important; }
+.projects .projects-drag-area.dir-right .projects-drag-area-wrapper .project, .projects .projects-drag-area.dir-left .projects-drag-area-wrapper .project {
+  opacity: 1 !important;
+  pointer-events: none !important; }
+  .projects .projects-drag-area.dir-right .projects-drag-area-wrapper .project .project-title, .projects .projects-drag-area.dir-left .projects-drag-area-wrapper .project .project-title {
+    -webkit-text-stroke-width: 0px !important; }
+  .projects .projects-drag-area.dir-right .projects-drag-area-wrapper .project *, .projects .projects-drag-area.dir-left .projects-drag-area-wrapper .project * {
+    pointer-events: none !important; }
+
+.project-hold .project:not(.active) {
+  transition: 1s;
+  opacity: 0 !important; }
+
+.redirection .project:not(.active) {
+  visibility: hidden; }
 
 .project {
   padding-right: 20px;
@@ -286,7 +297,8 @@
   height: 100%;
   z-index: 999999;
   flex: 0 0 auto;
-  position: relative; }
+  position: relative;
+  left: 0; }
   .project .project-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -331,11 +343,11 @@
     animation: icon-pop-out 0.2s forwards; }
   .project.active--hidden .icon .line {
     animation: line-to-cicle 1s reverse forwards; }
-  .project:hover {
+  .project.active {
     z-index: 9999999; }
-    .project:hover .project-img-wrapper {
+    .project.active .project-img-wrapper {
       opacity: 1; }
-    .project:hover .icon .hit-me {
+    .project.active .icon .hit-me {
       display: block;
       opacity: 1;
       transform: scale(1) translateY(4px);
@@ -344,36 +356,41 @@
       transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
       animation: float 1s alternate infinite;
       animation-delay: 0.3s; }
-      .project:hover .icon .hit-me.hit-me--hidden {
+      .project.active .icon .hit-me.hit-me--hidden {
         animation: hitMe--hidden 0.5s forwards;
         -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
         animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-      .project:hover .icon .hit-me.hit-me--show {
+      .project.active .icon .hit-me.hit-me--show {
         animation: hitMe--show 0.2s forwards;
         -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
         animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
-    .project:hover .icon .icon-particles img:nth-of-type(1) {
+    .project.active .icon .icon-particles img:nth-of-type(1) {
       animation: icon-pop-in--particles 0.7s forwards;
       animation-delay: 0.8s; }
-    .project:hover .icon .icon-particles img:nth-of-type(2) {
+    .project.active .icon .icon-particles img:nth-of-type(2) {
       animation: icon-pop-in--particles1 0.5s forwards;
       animation-delay: 0.85s; }
-    .project:hover .icon .icon-img {
+    .project.active .icon .icon-img {
       animation: icon-pop-in 0.2s forwards;
       animation-delay: 0.8s;
       -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
       animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
-    .project:hover .icon .line {
+    .project.active .icon .line {
       animation: line-to-cicle 1s forwards;
       animation-delay: 0s; }
-    .project:hover .icon.animate .icon-particles {
+    .project.active .icon.animate .icon-particles {
       animation: icon-pop-in--particles 0.7s forwards;
       animation-delay: 0.8s; }
-    .project:hover .icon.animate .icon-img {
+    .project.active .icon.animate .icon-img {
       animation: icon-pop-in 0.2s forwards;
       animation-delay: 0.8s;
       -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
       animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
+    .project.active .project-title {
+      -webkit-text-stroke-width: 2px !important;
+      -webkit-text-stroke-color: white !important;
+      color: transparent !important;
+      transition: all 0.3s 0s !important; }
   .project .project-img-wrapper {
     position: absolute;
     right: 40%;
@@ -625,7 +642,6 @@
     z-index: 10;
     font-family: "hk_groteskbold", sans-serif;
     color: white;
-    transition: font-size 1.5s;
     margin-left: -12px; }
   .project .project-container {
     width: 0%;
@@ -643,6 +659,10 @@
         width: 100%;
         height: 100%;
         object-fit: cover; }
+
+.show .project:not(.active) .project-title {
+  animation: remove-stroke 0.1s forwards;
+  animation-delay: 2s; }
 
 @-webkit-keyframes kf-project-picture {
   0% {
@@ -1127,6 +1147,26 @@
     opacity: 1;
     background: transparent;
     border: solid 1px #7F00FF; } }
+
+@-webkit-keyframes remove-stroke {
+  100% {
+    transition: 0.3s 0s;
+    -webkit-text-stroke-color: transparent; } }
+
+@-moz-keyframes remove-stroke {
+  100% {
+    transition: 0.3s 0s;
+    -webkit-text-stroke-color: transparent; } }
+
+@-o-keyframes remove-stroke {
+  100% {
+    transition: 0.3s 0s;
+    -webkit-text-stroke-color: transparent; } }
+
+@keyframes remove-stroke {
+  100% {
+    transition: 0.3s 0s;
+    -webkit-text-stroke-color: transparent; } }
 
 @-webkit-keyframes img-movement {
   0% {

@@ -18,6 +18,19 @@ $purpleGradientEnd: #E100FF;
 //$purpleGradient: @include linearGradient(#7F00FF, #E100FF);
 
 
+@mixin waveAppearBefore(){
+  transform-origin: 0 0;
+  transform: skewY(10deg);
+  opacity: 0;
+  transition: opacity 0.5s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
+}
+
+@mixin waveAppearAfter(){
+  transform-origin: 0 0;
+  transform: skewY(0deg);
+  opacity: 1;
+  transition: opacity .5s ease,transform 1s cubic-bezier(.215,.61,.355,1);
+}
 
 @mixin fadeTranslateAnimation(){
   opacity: 0;

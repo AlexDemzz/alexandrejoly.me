@@ -31,17 +31,20 @@ class About extends React.Component{
 
     render(){
         return(
-            <div className="about">
-                <div className="about-text-wrapper">
-                    <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
-                        Driven by my passion for the javascript, i try to discover and learn new things every day.
-                        <br/>
-                        <br/>
-                        Feel free to <span>contact me</span>,<br/>
-                        i’m looking for a full-time job.
-                    </p>
+
+                <div className="about">
+                    <div className="container">
+                        <div className="about-text-wrapper">
+                            <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
+                                Driven by my passion for the javascript, i try to discover and learn new things every day.
+                                <br/>
+                                <br/>
+                                Feel free to <span>contact me</span>,<br/>
+                                i’m looking for a full-time job.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-            </div>
         )
     }
 }

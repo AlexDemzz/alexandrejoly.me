@@ -23,6 +23,7 @@ body{
   }
 }
 .about{
+  padding-top: 125px;
   animation: about-enter 2s forwards;
   min-height: 70vh;
  .about-text-wrapper{
@@ -34,6 +35,7 @@ body{
      width: 100%;
      font-family: $hkRegular;
      animation: about-enter-text 1.5s forwards;
+     line-height: 80px;
      span{
        font-family: $hkBold;
        position: relative;

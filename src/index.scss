@@ -3,10 +3,6 @@
 @import './assets/scss/font/stylesheet.css';
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
-
-html{
-  height: 100%;
-}
 #root{
   height: 100%;
 }
@@ -15,8 +11,17 @@ body {
   padding: 0;
   background: $bg;
   overflow-x: hidden;
-  padding-top: 125px;
   transition: 0.5s;
+  //overflow: hidden;
+  backface-visibility: hidden;
+  *{
+    backface-visibility: hidden;
+  }
+  &.mix-bend-mode-difference{
+    .project-details{
+      mix-blend-mode: difference;
+    }
+  }
   .container{
     @include container(1600px);
     //overflow: hidden;
@@ -38,9 +43,13 @@ body {
   }
 }
 .height100{
-  //height: 100vh;
-  @include flex(fs,fs,col);
-  @include container(1600px);
+  height: 100%;
+  position: relative;
+  .container{
+    height: 100%;
+    @include flex(fs,fs,col);
+    @include container(1600px);
+  }
   &:nth-last-child(2){
     &.project-details{
       .project-title{
@@ -49,16 +58,13 @@ body {
     }
   }
   .projects{
-    height: 70vh;
+    height: 100vh;
     order: -5;
     transition: 0.3s;
   }
   .project-details{
     z-index: 9999;
     position: relative;
-  }
-  .container{
-    padding: 0;
   }
 }
 
@@ -107,6 +113,18 @@ body {
     transform: translateY(0px);
     opacity: 1;
     transition: 1s;
+    .about-text-wrapper{
+      p{
+        animation: inherit!important;
+        transition: 1.5s;
+        span{
+          &:before{
+            animation: inherit!important;
+            width: 100%;
+          }
+        }
+      }
+    }
   }
   .projects{
     .project{
@@ -138,30 +156,49 @@ body {
         }
       }
       .project-title{
-        transform-origin: 0 0;
-        transform: skewY(-10deg);
-        opacity: 0;
-        transition: opacity 0.5s ease,transform 2s cubic-bezier(.215,.61,.355,1), color 0.3s;
-        transition-delay: 0s;
+        transform-origin: 0 0!important;
+        transform: skewY(-5deg)!important;
+        opacity: 0!important;
+        transition-delay: 0s!important;
+        -webkit-text-stroke: 2px white!important;
+        color: black!important;
+        transition: opacity 0.5s ease,transform 2s cubic-bezier(.215,.61,.355,1), color 0.3s!important;
+        animation: none!important;
       }
       .line{
-        right: inherit;
-        left: 0;
-        width: 0%;
-        box-sizing: border-box;
-        overflow: hidden;
-        transition: 0.3s;
+        right: inherit!important;
+        left: 0!important;
+        width: 0%!important;
+        box-sizing: border-box!important;
+        overflow: hidden!important;
+        transition: 0.3s!important;
         //border: solid 1px white;
         //background: transparent;
-        opacity: 0;
-        transition-delay: 0s;
+        opacity: 0!important;
+        transition-delay: 0s!important;
       }
     }
   }
   &.about{
-    transform: translateY(-200px);
+    transform: translateY(-300px);
     opacity: 0;
     transition: 1s;
+    transition-delay: 0.5s;
+    .about-text-wrapper{
+      p{
+        line-height: 150px!important;
+        transition: 3s;
+        transition-delay: 0.5s;
+        transition-timing-function: ease-out;
+        span{
+          &:before{
+            width: 0%;
+            transition: 0.5s;
+          }
+        }
+      }
+    }
+
   }
 }
 
@@ -180,15 +217,17 @@ body {
   &.projects{
     opacity: 0;
     height: 0;
-    background: red;
     transition: 0.5s;
     .project{
       .project-title{
         transform-origin: 0 0;
-        transform: skewY(-10deg);
+        transform: skewY(10deg);
         opacity: 0;
-        transition: opacity 0.5s ease,transform 2s cubic-bezier(.215,.61,.355,1), color 0.3s;
+        transition: opacity 0.25s ease,transform 1s cubic-bezier(.215,.61,.355,1);
         transition-delay: 0s;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: white;
+        color: transparent;
       }
       .line{
         right: inherit;
@@ -206,13 +245,13 @@ body {
 .header-link-enter-done{
   &.projects{
     opacity: 1;
-    height: 70vh;
+    height: 100vh;
     transition: 0s;
     .project{
       @for $i from 1 to 30 {
         &:nth-of-type(#{$i}){
           .project-title{
-            transition-delay: $i * 0.25s!important;
+            transition: opacity 0.4s ease $i * 0.15s,transform 0.7s cubic-bezier(.215,.61,.355,1) $i * 0.15s, color 0.4s 0.2 + $i * 0.15s;
           }
           .line{
             transition-delay: $i * 0.25s!important;
@@ -220,9 +259,12 @@ body {
         }
       }
       .project-title{
+        transform-origin: 0 0;
         transform: skewY(0deg);
         opacity: 1;
-        transition: opacity 1.5s ease,transform 2s cubic-bezier(.215,.61,.355,1);
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: white;
+        color: white;
       }
       .line{
         right: inherit;
@@ -235,9 +277,11 @@ body {
   }
 }
 
+
+
 .home-to-project-enter-active {
   &.projects{
-    height: 70vh;
+    height: 100vh;
     transition: 0s;
     .project{
       &.active{
@@ -359,11 +403,13 @@ body {
         }
       }
     }
+    &:not(.active){
+      opacity: 0!important;
+    }
   }
 }
 .home-to-project-exit-active {
   .projects-drag-area{
-    //transform: translate(0px,0px)!important;
     transition: 0.7s;
     transition-delay: 0.2s;
     transition-timing-function: ease-in-out!important;
@@ -382,13 +428,16 @@ body {
           animation-delay: 0.3s;
           &:after{
             content: '';
-            width: 200vw;
-            height: 200vw;
+            width: 0vw;
+            height: 0vw;
             //background: $bg;
           }
         }
       }
     }
+
+
+
     &.not-active-after{
       //.project-title{
       //  letter-spacing: 200px;
@@ -423,11 +472,11 @@ body {
     height: 0px;
     border: solid 0px transparent;
   }
-  100%{
-    opacity: 1;
-    width: 200vw;
-    height: 200vw;
-    @include linearGradient($purpleGradientStart, $purpleGradientEnd);
-    //background: black;
-  }
+  //100%{
+  //  opacity: 1;
+  //  width: 200vw;
+  //  height: 200vw;
+  //  @include linearGradient($purpleGradientStart, $purpleGradientEnd);
+  //  //background: black;
+  //}
 }

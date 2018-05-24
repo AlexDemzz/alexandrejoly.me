@@ -2,6 +2,7 @@
 footer{
   &.no-fixed{
     position: static;
+    mix-blend-mode: difference;
   }
   position: fixed;
   bottom: 0;
@@ -10,13 +11,26 @@ footer{
   @include flex(fe,sb);
   @include container(1600px);
   margin-top:30px;
+  padding-bottom: 30px;
   box-sizing: border-box;
   p{
+    @include waveAppearBefore();
     font-size: 20px;
-    font-family: $hkBold;
+    font-family: $hkMedium;
     a{
       text-decoration: none;
-      border-bottom: solid 2px white;
+      border-bottom: solid 1px white;
+      font-family: $hkMedium;
+    }
+  }
+  .shy{
+    color: #333;
+    font-family: $hkMedium;
+  }
+  &.show{
+    p{
+      @include waveAppearAfter();
+      transition-delay: 0s;
     }
   }
 }

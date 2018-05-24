@@ -286,12 +286,28 @@ footer {
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 30px;
+  padding-bottom: 30px;
   box-sizing: border-box; }
   footer.no-fixed {
-    position: static; }
+    position: static;
+    mix-blend-mode: difference; }
   footer p {
+    transform-origin: 0 0;
+    transform: skewY(10deg);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s;
     font-size: 20px;
-    font-family: "hk_groteskbold", sans-serif; }
+    font-family: "hk_groteskmedium", sans-serif; }
     footer p a {
       text-decoration: none;
-      border-bottom: solid 2px white; }
+      border-bottom: solid 1px white;
+      font-family: "hk_groteskmedium", sans-serif; }
+  footer .shy {
+    color: #333;
+    font-family: "hk_groteskmedium", sans-serif; }
+  footer.show p {
+    transform-origin: 0 0;
+    transform: skewY(0deg);
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition-delay: 0s; }

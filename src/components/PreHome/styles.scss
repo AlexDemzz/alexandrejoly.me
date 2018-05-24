@@ -1,6 +1,88 @@
 @import "../../assets/scss/var.scss";
 .PreHome{
+  height:100vh;
+  @include flex(c,c,col);
+  opacity: 1;
+  transition: 0.3s;
+  background: black;
+  z-index: 99999999999999999;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .preHome-loader{
+    @include flex(c,c,col);
+    width: 100%;
+    margin-bottom: 65px;
+    .preHome-loader-label{
+      font-family: $hkBold;
+      font-size: 96px;
+      height: 96px;
+      position: relative;
+      width: 100%;
+      @include flex(c,c);
+      p, .logo{
+        display: flex;
+        position: absolute;
+        top: -20px;
+        left: auto;
+        right: auto;
+        margin: auto;
+      }
+      .logo{
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        border-radius: 999px;
+        transition: 0.5s;
+        @include flex(c,c);
+        svg{
+          fill: white;
+          width: 65px;
+          transition: 0.5s;
+        }
+      }
+    }
+    .preHome-loader-bar{
+      width: 146px;
+      height:7px;
+      background: rgba(255,255,255,0.25);
+      position: relative;
+      margin-top:15px;
+      z-index: 99;
+      .preHome-loader-bar-loading{
+        background: white;
+        position: absolute;
+        top:0;
+        left: 0;
+        bottom: 0;
+        transition: 0.3s;
+      }
+    }
+  }
   .preload-content{
     display: none;
+  }
+  &.preHome-out{
+    opacity: 0;
+    background: transparent;
+    transition: opacity 0.3s 200s, background 0.3s 1s;
+    .preHome-loader-label{
+      .logo{
+        transform: scale(0);
+        transition: 0.5s;
+        svg{
+          transform: scale(2.5);
+          transition: 0.5s;
+        }
+      }
+    }
+    .preHome-loader-bar{
+      width: 100%;
+      //transform: translateX(-100%);
+      opacity: 0;
+      transition: width 0.5s 0.5s, opacity 0.4s 2s;
+    }
   }
 }

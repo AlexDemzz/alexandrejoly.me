@@ -286,6 +286,7 @@ body:after {
   transition: 0.3s; }
 
 .about {
+  padding-top: 125px;
   animation: about-enter 2s forwards;
   min-height: 70vh; }
   .about .about-text-wrapper {
@@ -296,7 +297,8 @@ body:after {
       max-width: 1300px;
       width: 100%;
       font-family: "hk_groteskregular", sans-serif;
-      animation: about-enter-text 1.5s forwards; }
+      animation: about-enter-text 1.5s forwards;
+      line-height: 80px; }
       .about .about-text-wrapper p span {
         font-family: "hk_groteskbold", sans-serif;
         position: relative; }
