@@ -67,6 +67,15 @@ class App extends Component {
         this.setState({appLoadedHide : status});
     }
 
+    // componentWillReceiveProps = (nextProps) => {
+    //     if(nextProps.location.pathname !== this.props.location.pathname){
+    //         let path = nextProps.location.pathname.split('/');
+    //         if(path[1] === 'work'){
+    //             this.setState({transitionName: 'project-to-',transitionDelay: 2000});
+    //         }
+    //     }
+    // }
+
     render() {
         return (
             <Router>
@@ -74,7 +83,7 @@ class App extends Component {
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
                         <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
                             {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
-                            <div>
+                            <div className="app-wrapper">
                                 <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
                                 <TransitionGroup className='height100' onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
                                     <CSSTransition

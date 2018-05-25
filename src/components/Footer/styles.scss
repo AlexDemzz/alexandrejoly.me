@@ -1,7 +1,7 @@
 @import "../../assets/scss/var.scss";
 footer{
   &.no-fixed{
-    position: static;
+    position: absolute;
     mix-blend-mode: difference;
   }
   position: fixed;

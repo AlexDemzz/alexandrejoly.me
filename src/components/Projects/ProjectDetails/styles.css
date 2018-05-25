@@ -70,35 +70,51 @@
   100% {
     color: white; } }
 
+@-webkit-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@-moz-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@-o-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
 @-webkit-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @-moz-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @-o-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
@@ -266,6 +282,102 @@
   100% {
     opacity: 1; } }
 
+@-webkit-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-moz-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-o-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-webkit-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-moz-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-o-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-webkit-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-moz-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-o-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-webkit-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@-moz-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@-o-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
 ::-webkit-scrollbar-track {
   -webkit-box-shadow: inherit;
   background-color: transparent; }
@@ -280,7 +392,9 @@
 
 .project-details {
   width: 100%;
-  padding-top: 125px; }
+  padding-top: 125px;
+  z-index: 998;
+  padding-bottom: 100px; }
   .project-details .project-title {
     white-space: nowrap;
     font-size: 144px;
@@ -328,7 +442,7 @@
       animation: text-appear-from-bottom 0.3s forwards;
       position: relative;
       top: 15px;
-      animation-delay: 1s; }
+      animation-delay: 0.5s; }
   .project-details .content {
     padding: 10px 0; }
   .project-details .project-details-text .content p {
@@ -433,7 +547,10 @@
   .project-details .project-details-images {
     min-height: 2048px;
     background: black;
-    position: relative; }
+    position: relative;
+    bottom: 0px;
+    opacity: 1;
+    transition: 0.5s; }
     .project-details .project-details-images > div.visible img {
       animation: fade-translate-appear--small 0.5s forwards; }
     .project-details .project-details-images img {
@@ -460,6 +577,15 @@
       -moz-user-drag: none;
       -o-user-drag: none;
       user-drag: none; }
+  .project-details.project-details--out .project-details-images {
+    position: relative;
+    bottom: 400px;
+    opacity: 0;
+    transition: bottom 1s, opacity 0.5s; }
+  .project-details.project-details--out .next-project {
+    opacity: 0;
+    transition: 0.2s;
+    transition-delay: 0.5s; }
 
 .next-project {
   display: -webkit-box;
@@ -470,7 +596,10 @@
   -webkit-justify-content: center;
   justify-content: center;
   -webkit-flex-flow: column nowrap;
-  flex-flow: column nowrap; }
+  flex-flow: column nowrap;
+  opacity: 1;
+  z-index: 0;
+  position: relative; }
   .next-project p {
     margin-top: 50px;
     margin-bottom: 50px;
@@ -480,56 +609,25 @@
 
 .fill-scroll-bottom {
   position: absolute;
-  bottom: -100px;
-  width: 100%;
-  left: 0;
-  right: 0;
+  bottom: 0px;
+  width: 150%;
+  left: auto;
+  right: auto;
+  margin: 0 auto;
   background: white;
   transition: 1s;
-  transition-timing-function: ease-out; }
+  transition-timing-function: ease-out;
+  z-index: 9; }
+  .fill-scroll-bottom.out {
+    animation: fill-scroll-bottom--out 1.5s forwards;
+    animation-delay: 1.5s;
+    position: fixed;
+    bottom: 0;
+    height: 100vh !important;
+    transition: 1.5s; }
 
 .home-to-project-enter-active .project-details *, .home-to-project-enter-active .project-details *:before, .home-to-project-enter-active .project-details *:after {
   animation: none !important; }
 
 .home-to-project-enter-done .project-title {
   animation: none !important; }
-
-@-webkit-keyframes block-appear--line {
-  0% {
-    width: 0px; }
-  100% {
-    width: 30px; } }
-
-@-moz-keyframes block-appear--line {
-  0% {
-    width: 0px; }
-  100% {
-    width: 30px; } }
-
-@-o-keyframes block-appear--line {
-  0% {
-    width: 0px; }
-  100% {
-    width: 30px; } }
-
-@keyframes block-appear--line {
-  0% {
-    width: 0px; }
-  100% {
-    width: 30px; } }
-
-@-webkit-keyframes text-appear-from-bottom {
-  100% {
-    top: 0px; } }
-
-@-moz-keyframes text-appear-from-bottom {
-  100% {
-    top: 0px; } }
-
-@-o-keyframes text-appear-from-bottom {
-  100% {
-    top: 0px; } }
-
-@keyframes text-appear-from-bottom {
-  100% {
-    top: 0px; } }

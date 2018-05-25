@@ -8,21 +8,40 @@ class ProjectDetails extends React.Component{
     state = {
         scrollIsBot : false,
         scrollBottomNumber: 0,
+        preventDoublePushLoc: false,
+        wheelTransEnd: 0,
+        ready: true,
     }
 
     projectIdEvent = (id) => {
         this.props.projectIdEvent(id);
     };
+    
+    componentWillReceiveProps(nextProps){
+        if(nextProps.match.params.id !== this.props.match.params.id){
+            console.log('RELOAD PAGE');
+            this.setState({preventDoublePushLoc: false});
+            this.setState({ready: false});
+            setTimeout(()=>{
+                this.setState({ready: true});
+            },1000);
+        }
+    }
 
     componentDidMount(){
+        this.setState({ready: true});
+        console.log('COMPONENET DID MOUNT');
         this.projectIdEvent(this.props.match.params.id);
         // this.SmoothScroll(document,50,12);
-        document.addEventListener('scroll', this.handleScroll)
-    };
-
-    componentWillMount() {
+        document.addEventListener('scroll', this.handleScroll);
         document.body.style.overflow = '';
-    }
+
+
+
+
+
+
+    };
 
     SmoothScroll = (target, speed, smooth) => {
     if (target == document)
@@ -89,29 +108,52 @@ class ProjectDetails extends React.Component{
 
     handleWheel = (e, touch = false) => {
         let increaseNumber = 1;
-        if(touch){
-            increaseNumber = 0.3;
-        }
+        // if(touch){
+        //     increaseNumber = 0.3;
+        // }
         const resetScrollElem = () => {
             this.setState({scrollBottomNumber: 0});
+            this.setState({wheelTransEnd: 0});
             document.body.classList.remove('mix-bend-mode-difference');
         }
        if(this.state.scrollIsBot){
            if (e.nativeEvent.wheelDelta > 0) {
                resetScrollElem();
            } else {
-               if(this.state.scrollBottomNumber<=26){
+               if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight){
                    this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
                    document.body.classList.add('mix-bend-mode-difference');
                }else{
-                   setTimeout(()=>{
-                       resetScrollElem();
-                       if(this.nextProject().id){
-                           this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
-                       }else{
-                           this.props.history.push(`/`);
-                       }
-                   }, 1000);
+                   const element = this.refs.fillScrollBottom;
+                   if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetails){
+                       this.setState({preventDoublePushLoc: true});
+                       this.refs.projectDetails.classList.add('project-details--out');
+                       this.refs.fillScrollBottom.style.height = '';
+                       this.refs.fillScrollBottom.classList.add('out');
+                       setTimeout(()=>{
+                           if(this.refs.fillScrollBottom){
+                               this.refs.fillScrollBottom.classList.remove('out');
+                           }
+                       },3100);
+                       setTimeout(()=>{
+                           resetScrollElem();
+                           document.body.scrollTop = document.documentElement.scrollTop = 0;
+                           // var nodes = this.refs.projectDetailsHeader.childNodes;
+                           // for(var i=0; i<nodes.length; i++) {
+                           //     nodes[i].style.animation = 'none';
+                           // }
+                           // setTimeout(()=>{
+                           //     for(var i=0; i<nodes.length; i++) {
+                           //         nodes[i].style.animation = '';
+                           //     }
+                           // },2000);
+                           if(this.nextProject().id){
+                               this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
+                           }else{
+                               this.props.history.push(`/`);
+                           }
+                       }, 1000);
+                   }
                }
            }
        }
@@ -158,7 +200,7 @@ class ProjectDetails extends React.Component{
                     );
                     return (
                         <div className="project-details-wrapper" key={project.id}>
-                            <div className="project-details-header-fixed">
+                            <div className="project-details-header project-details-header-fixed" ref="projectDetailsHeader">
                                 <h2 className="project-title">{project.title}</h2>
                                 <div className="project-details-infos">
                                     <div className="project-details-infos-start">
@@ -198,15 +240,17 @@ class ProjectDetails extends React.Component{
         return(
             <div>
                 <div className="container" onWheel={e => this.handleWheel(e)} onTouchMove={e => this.handleWheel(e, true)}>
-                    <div className="project-details">
-                        {project}
-                        <div className="next-project">
-                            <p>Scroll to discover</p>
-                            <h3 className="project-title">{this.nextProject().title}</h3>
+                    {this.state.ready ?
+                        <div className="project-details" ref="projectDetails">
+                            {project}
+                            <div className="next-project" ref="nextProjectRef">
+                                <p>Scroll to discover</p>
+                                <h3 className="project-title">{this.nextProject().title}</h3>
+                            </div>
                         </div>
-                    </div>
+                    : <div style={{height: '100vh', width: '100%'}}/>}
                 </div>
-                <div className="fill-scroll-bottom" style={{height: this.state.scrollBottomNumber/3 + '%'}}/>
+                <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}/>
             </div>
         )
     }

@@ -38,6 +38,36 @@ $purpleGradientEnd: #E100FF;
   animation-delay: 0.4s;
 }
 
+@mixin fadeTranslateAnimationReverse(){
+  opacity: 1;
+  animation: fade-translate-appear 0.5s forwards;
+  animation-direction: reverse;
+  //animation-delay: 0.4s;
+}
+
+@mixin blockAnimationReverse(){
+  position: relative;
+  animation: block-appear--text--reverse 0s forwards;
+  animation-delay: 0.3s;
+  overflow: hidden;
+  color: white;
+  &:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    bottom: 0;
+    width: 5%;
+    max-width: 0px;
+    height: 100%;
+    background: white!important;
+    animation: block-appear--block 3s forwards;
+    animation-delay: 0s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
+
+
 @mixin blockAnimation(){
   position: relative;
   animation: block-appear--text 0.1s forwards;
@@ -60,6 +90,22 @@ $purpleGradientEnd: #E100FF;
   }
 }
 
+@mixin text-reveal-and-stroke(){
+  transform-origin: 0 0;
+  transform: skewY(-5deg);
+  opacity: 0;
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+  transition: opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
+}
+
+@mixin text-reveal-and-stroke--revealed(){
+  transform: skewY(0deg);
+  opacity: 1;
+  -webkit-text-stroke: 2px white;
+  color: white;
+  transition: opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
+}
 
 .text-reveal{
   transform-origin: 0 0;
@@ -91,16 +137,24 @@ $purpleGradientEnd: #E100FF;
   }
 }
 
+@include keyframes(block-appear--text--reverse){
+  100%{
+    color: transparent;
+  }
+}
+
 @include keyframes(fade-translate-appear){
-  0%{
+  from{
     opacity: 0;
     transform: translateY(20%);
   }
-  100%{
+  to{
     opacity: 1;
     transform: translateY(0%);
   }
 }
+
+
 @include keyframes(fade-translate-appear--small){
   0%{
     opacity: 0;
@@ -158,4 +212,38 @@ $purpleGradientEnd: #E100FF;
   100%{
     opacity: 1;
   }
+}
+
+@include keyframes(fill-scroll-bottom--out){
+  0%{
+    top: 0;
+    bottom: inherit;
+  }
+  100%{
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999;
+  }
+}
+
+@include keyframes(block-appear--line){
+  0%{
+    width: 0px;
+  }
+  100%{
+    width: 30px;
+  }
+}
+
+@include keyframes(text-appear-from-bottom){
+   100%{
+     top:0px;
+   }
+ }
+
+@include keyframes(text-appear-from-bottom--reverse){
+   100%{
+     top:15px;
+   }
 }

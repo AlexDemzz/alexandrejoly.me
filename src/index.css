@@ -73,35 +73,51 @@
   100% {
     color: white; } }
 
+@-webkit-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@-moz-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@-o-keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
+@keyframes block-appear--text--reverse {
+  100% {
+    color: transparent; } }
+
 @-webkit-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @-moz-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @-o-keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
 @keyframes fade-translate-appear {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20%); }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0%); } }
 
@@ -269,6 +285,102 @@
   100% {
     opacity: 1; } }
 
+@-webkit-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-moz-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-o-keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@keyframes fill-scroll-bottom--out {
+  0% {
+    top: 0;
+    bottom: inherit; }
+  100% {
+    top: 0;
+    bottom: inherit;
+    height: 0vh;
+    z-index: 99999999999999; } }
+
+@-webkit-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-moz-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-o-keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@keyframes block-appear--line {
+  0% {
+    width: 0px; }
+  100% {
+    width: 30px; } }
+
+@-webkit-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-moz-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-o-keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@keyframes text-appear-from-bottom {
+  100% {
+    top: 0px; } }
+
+@-webkit-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@-moz-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@-o-keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
+@keyframes text-appear-from-bottom--reverse {
+  100% {
+    top: 15px; } }
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -324,6 +436,9 @@ body {
   backface-visibility: hidden; }
   body * {
     backface-visibility: hidden; }
+  body .app-wrapper {
+    position: relative;
+    height: 100%; }
   body.mix-bend-mode-difference .project-details {
     mix-blend-mode: difference; }
   body .container {
@@ -373,7 +488,6 @@ body {
     order: -5;
     transition: 0.3s; }
   .height100 .project-details {
-    z-index: 9999;
     position: relative; }
 
 /*Animation*/
@@ -412,6 +526,38 @@ body {
   right: inherit;
   left: 0;
   width: 100%; }
+
+.header-link-exit .project-details .subtitle span {
+  animation: none; }
+
+.header-link-exit .project-details .project-title {
+  transform: skewY(0deg);
+  opacity: 1;
+  -webkit-text-stroke: 2px white;
+  color: white;
+  transition: opacity 0.3s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s;
+  animation: none; }
+
+.header-link-exit .project-details .project-details-text .content p {
+  animation: none; }
+
+.header-link-exit .project-details .project-details-infos .project-details-infos-start .info p {
+  animation: none; }
+  .header-link-exit .project-details .project-details-infos .project-details-infos-start .info p:before {
+    animation: none; }
+
+.header-link-exit .project-details .project-details-infos .project-details-infos-start .info .line {
+  animation: none; }
+
+.header-link-exit .project-details .project-details-infos .project-details-infos-end p {
+  animation: none; }
+  .header-link-exit .project-details .project-details-infos .project-details-infos-end p:before {
+    animation: none; }
+
+.header-link-exit .project-details .project-details-images {
+  opacity: 1;
+  transition: 0.3s;
+  transform: translateY(0px); }
 
 .header-link-exit-active.projects .project:nth-of-type(1) .project-title {
   transition-delay: 0.25s !important; }
@@ -621,6 +767,75 @@ body {
       width: 0%;
       transition: 0.5s; }
 
+.header-link-exit-active .project-details .subtitle span {
+  animation: text-appear-from-bottom--reverse 0.3s forwards;
+  top: 0px; }
+
+.header-link-exit-active .project-details .project-title {
+  transform-origin: 0 0;
+  transform: skewY(-5deg);
+  opacity: 0;
+  color: transparent;
+  -webkit-text-stroke: 2px white;
+  transition: opacity 0.3s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s; }
+
+.header-link-exit-active .project-details .project-details-text .subtitle span {
+  animation-delay: 0.3s !important; }
+
+.header-link-exit-active .project-details .project-details-text .content p {
+  opacity: 1;
+  animation: fade-translate-appear 0.5s forwards;
+  animation-direction: reverse; }
+
+.header-link-exit-active .project-details .project-details-infos .project-details-infos-start .info p {
+  position: relative;
+  animation: block-appear--text--reverse 0s forwards;
+  animation-delay: 0.3s;
+  overflow: hidden;
+  color: white; }
+  .header-link-exit-active .project-details .project-details-infos .project-details-infos-start .info p:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    bottom: 0;
+    width: 5%;
+    max-width: 0px;
+    height: 100%;
+    background: white !important;
+    animation: block-appear--block 3s forwards;
+    animation-delay: 0s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+
+.header-link-exit-active .project-details .project-details-infos .project-details-infos-start .info .line {
+  width: 30px;
+  animation: block-appear--line 0.5s reverse forwards; }
+
+.header-link-exit-active .project-details .project-details-infos .project-details-infos-end p {
+  position: relative;
+  animation: block-appear--text--reverse 0s forwards;
+  animation-delay: 0.3s;
+  overflow: hidden;
+  color: white; }
+  .header-link-exit-active .project-details .project-details-infos .project-details-infos-end p:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    bottom: 0;
+    width: 5%;
+    max-width: 0px;
+    height: 100%;
+    background: white !important;
+    animation: block-appear--block 3s forwards;
+    animation-delay: 0s;
+    animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1); }
+
+.header-link-exit-active .project-details .project-details-images {
+  opacity: 0;
+  transition: 0.3s;
+  transform: translateY(100px); }
+
 .header-link-enter.projects {
   opacity: 0;
   height: 0;
@@ -782,47 +997,7 @@ body {
     transition: 0.3s; }
 
 .home-to-project-enter-active.projects {
-  height: 100vh;
-  transition: 0s; }
-  .home-to-project-enter-active.projects .project.active .line {
-    width: 0px;
-    background: transparent; }
-
-.home-to-project-enter-active .project-details {
-  opacity: 1;
-  transform: translateY(0%);
-  transition: 1.3s;
-  transition-delay: 1.5s; }
-  .home-to-project-enter-active .project-details .project-title {
-    display: none; }
-
-.home-to-project-exit.projects .project.not-active-before {
-  opacity: 0; }
-
-.home-to-project-exit-active.projects {
-  height: 30vh;
-  transition: 0.5s;
-  transition-delay: 1.5s; }
-  .home-to-project-exit-active.projects .project.active .project-title {
-    font-size: 144px;
-    margin-left: -20px; }
-  .home-to-project-exit-active.projects .project.active .hit-me {
-    animation: hitMe--hidden 0.5s forwards;
-    -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-    animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75); }
-  .home-to-project-exit-active.projects .project.not-active-before {
-    max-width: 0%;
-    opacity: 0;
-    transition: 0.7s;
-    transition-delay: 0.4s;
-    transition-timing-function: ease-in-out !important; }
-
-.home-to-project-exit-active .project-details {
-  opacity: 0;
-  transition: 1s;
-  height: 0px; }
-  .home-to-project-exit-active .project-details .project-title {
-    display: none; }
+  display: none; }
 
 .home-to-project-enter .project-details .project-title {
   visibility: hidden; }

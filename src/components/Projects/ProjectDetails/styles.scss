@@ -21,6 +21,8 @@
 .project-details{
   width: 100%;
   padding-top: 125px;
+  z-index: 998;
+  padding-bottom: 100px;
   //transition: 0.5s;
   //transition-timing-function: ease-in;
   .project-details-header-fixed{
@@ -59,7 +61,7 @@
       animation: text-appear-from-bottom 0.3s forwards;
       position: relative;
       top: 15px;
-      animation-delay: 1s;
+      animation-delay: 0.5s;
     }
   }
   .content{
@@ -130,6 +132,9 @@
     //margin-top: 700px;
     background: black;
     position: relative;
+    bottom: 0px;
+    opacity: 1;
+    transition: 0.5s;
     >div.visible{
       img{
         animation: fade-translate-appear--small 0.5s forwards;
@@ -145,9 +150,25 @@
       @include nodrag();
     }
   }
+  &.project-details--out{
+    .project-details-images{
+      position: relative;
+      bottom: 400px;
+      opacity: 0;
+      transition: bottom 1s, opacity 0.5s;
+    }
+    .next-project{
+      opacity: 0;
+      transition: 0.2s;
+      transition-delay: 0.5s;
+    }
+  }
 }
 .next-project{
   @include flex(c,c,col);
+  opacity: 1;
+  z-index: 0;
+  position: relative;
   p{
     margin-top: 50px;
     margin-bottom: 50px;
@@ -160,13 +181,23 @@
 
 .fill-scroll-bottom{
   position: absolute;
-  bottom: -100px;
-  width: 100%;
-  left: 0;
-  right: 0;
+  bottom: 0px;
+  width: 150%;
+  left: auto;
+  right: auto;
+  margin: 0 auto;
   background: white;
   transition: 1s;
   transition-timing-function: ease-out;
+  z-index: 9;
+  &.out{
+    animation: fill-scroll-bottom--out 1.5s forwards;
+    animation-delay: 1.5s;
+    position: fixed;
+    bottom: 0;
+    height: 100vh!important;
+    transition: 1.5s;
+  }
 }
 
 
@@ -184,18 +215,4 @@
 }
 
 
-@include keyframes(block-appear--line){
-  0%{
-    width: 0px;
-  }
-  100%{
-    width: 30px;
-  }
-}
-
-@include keyframes(text-appear-from-bottom){
-  100%{
-    top:0px;
-  }
-}
 
