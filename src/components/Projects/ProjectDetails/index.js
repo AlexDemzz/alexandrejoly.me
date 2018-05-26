@@ -24,23 +24,26 @@ class ProjectDetails extends React.Component{
             this.setState({ready: false});
             setTimeout(()=>{
                 this.setState({ready: true});
-            },1000);
+            },200);
         }
     }
 
+    componentWillUnmount(){
+        document.removeEventListener('scroll', this.handleScroll);
+    }
     componentDidMount(){
         this.setState({ready: true});
         console.log('COMPONENET DID MOUNT');
         this.projectIdEvent(this.props.match.params.id);
-        // this.SmoothScroll(document,50,12);
+        // this.SmoothScroll(document,100,12);
         document.addEventListener('scroll', this.handleScroll);
         document.body.style.overflow = '';
 
-
-
-
-
-
+        setDefaultProps({
+            bounce: true,
+            visibleClassName: 'visible',
+            percent: 5
+        });
     };
 
     SmoothScroll = (target, speed, smooth) => {
@@ -115,26 +118,27 @@ class ProjectDetails extends React.Component{
             this.setState({scrollBottomNumber: 0});
             this.setState({wheelTransEnd: 0});
             document.body.classList.remove('mix-bend-mode-difference');
+            this.refs.projectDetailsPage.classList.remove('project-details-page--out');
         }
        if(this.state.scrollIsBot){
            if (e.nativeEvent.wheelDelta > 0) {
                resetScrollElem();
            } else {
-               if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight){
+               if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+100){
                    this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
                    document.body.classList.add('mix-bend-mode-difference');
                }else{
                    const element = this.refs.fillScrollBottom;
                    if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetails){
                        this.setState({preventDoublePushLoc: true});
-                       this.refs.projectDetails.classList.add('project-details--out');
+                       this.refs.projectDetailsPage.classList.add('project-details-page--out');
                        this.refs.fillScrollBottom.style.height = '';
                        this.refs.fillScrollBottom.classList.add('out');
                        setTimeout(()=>{
                            if(this.refs.fillScrollBottom){
                                this.refs.fillScrollBottom.classList.remove('out');
                            }
-                       },3100);
+                       },2100);
                        setTimeout(()=>{
                            resetScrollElem();
                            document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -168,12 +172,6 @@ class ProjectDetails extends React.Component{
     }
 
     render(){
-        setDefaultProps({
-            bounce: true,
-            visibleClassName: 'visible',
-            percent: 5
-        });
-
         const project = projectsList.map(project => {
                 if (project.id === this.props.match.params.id){
                     let imgs = project.images.map(
@@ -238,17 +236,17 @@ class ProjectDetails extends React.Component{
                 }
             });
         return(
-            <div>
-                <div className="container" onWheel={e => this.handleWheel(e)} onTouchMove={e => this.handleWheel(e, true)}>
+            <div className="project-details-page" ref="projectDetailsPage" onWheel={e => this.handleWheel(e)} onTouchMove={e => this.handleWheel(e, true)}>
+                <div className="container">
                     {this.state.ready ?
                         <div className="project-details" ref="projectDetails">
                             {project}
-                            <div className="next-project" ref="nextProjectRef">
-                                <p>Scroll to discover</p>
-                                <h3 className="project-title">{this.nextProject().title}</h3>
-                            </div>
                         </div>
                     : <div style={{height: '100vh', width: '100%'}}/>}
+                </div>
+                <div className="next-project" ref="nextProjectRef">
+                    <p>Scroll to discover</p>
+                    <h3 className="project-title">{this.nextProject().title}</h3>
                 </div>
                 <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}/>
             </div>

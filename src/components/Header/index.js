@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter,NavLink} from "react-router-dom";
 
 class Header extends React.Component{
 
@@ -9,7 +9,7 @@ class Header extends React.Component{
     }
 
     sendGetClickEvent = () => {
-        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: {enter: 1500, exit: 1000}});
+        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: {enter: 1500, exit: 1500}});
     }
 
     sendCursorEvent = (hoverStatus) => {
@@ -58,7 +58,7 @@ class Header extends React.Component{
                     <div className="header-logo">
                         <Link to={{ pathname: `/`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
                             { this.state.backButton ?
-                                <div className="header-title back-btn">{this.backArrow()} <h1>Back</h1></div> :
+                                <div className="header-title back-btn">{this.backArrow()} <h1>Back to home</h1></div> :
                                 <div className="header-title">
                                 {
                                     <svg id="Calque_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 354 500">
@@ -75,19 +75,19 @@ class Header extends React.Component{
                 <div className="header-right-side">
                     <nav onMouseOver={() => this.sendGetClickEvent()}>
                         <ul>
-                            <li className="active" onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
-                                <Link to={{ pathname: `/`}} >
+                            <li onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                                <NavLink exact={true} to={{ pathname: `/`}} activeClassName='active' >
                                     <div>
-                                        <p>work</p>
+                                        <p>works</p>
                                     </div>
-                                </Link>
+                                </NavLink>
                             </li>
-                            <li>
-                                <Link to={{ pathname: `/about`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                            <li onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
+                                <NavLink exact={true} to={{ pathname: `/about`}}  activeClassName='active'>
                                     <div>
                                         <p>about</p>
                                     </div>
-                                </Link>
+                                </NavLink>
                             </li>
                         </ul>
                     </nav>

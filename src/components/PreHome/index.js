@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.css';
 import projectsList from '../../projects';
 import CountUp from 'react-countup';
+import { withRouter } from "react-router-dom";
 
 class PreHome extends React.Component{
     state = {
@@ -11,13 +12,16 @@ class PreHome extends React.Component{
         loadedNumber: 0,
         completeCount: 0,
         showElem: false,
+        intervalTimer: null,
     }
 
     imgLoaded = () => {
-        setTimeout(()=>{
-            this.setState({imgsLoaded: this.state.imgsLoaded+1});
-            this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)});
-        },1000)
+        // setTimeout(()=>{
+        //     this.setState({imgsLoaded: this.state.imgsLoaded+1});
+        //     this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)});
+        // },1000);
+        this.setState({imgsLoaded: this.state.imgsLoaded+1});
+        this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+7});
     }
 
     componentDidUpdate(){
@@ -25,13 +29,18 @@ class PreHome extends React.Component{
         if(this.state.imgLength === this.state.imgsLoaded){
             setTimeout(()=>{
                 if(this.refs.preHome){
-                    this.refs.preHome.classList.add('preHome-out');
+                    if(!this.props.location.pathname.split('/')[1]){
+                        this.refs.preHome.classList.add('preHome-out');
+                    }else{
+                        this.refs.preHome.classList.add('preHome-out');
+                        this.refs.preHome.classList.add('preHome-out--not-home');
+                    }
                     setTimeout(()=>{
                         this.props.getAppLoaded(true);
                         setTimeout(()=>{
                             this.props.getAppLoadedHide(true);
                         },1500);
-                    },1500);
+                    },1000);
                 }
             },1000)
         }
@@ -43,15 +52,19 @@ class PreHome extends React.Component{
                 {this.setState({imgLength: this.state.imgLength ++});}
             );
         });
-        setInterval(()=>{
+        const intervalTimer = setInterval(()=>{
             this.setState({timer: this.state.timer+1000});
         },1000)
+        this.setState({intervalTimer});
 
         setTimeout(()=>{
             this.setState({showElem: true});
         },200);
     }
 
+    componentWillUnmount(){
+        clearInterval(this.state.intervalTimer);
+    }
 
 
     render(){
@@ -96,4 +109,4 @@ class PreHome extends React.Component{
     }
 }
 
-export default PreHome;
+export default withRouter(PreHome);

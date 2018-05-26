@@ -15,7 +15,6 @@ class Project extends React.Component{
         showIcon: false,
         preventHide: false,
         animationEnd: true,
-        showHitMeBubble: true,
         active: false,
         imgI: 0
     };
@@ -80,7 +79,6 @@ class Project extends React.Component{
     };
 
     hitAnimation = () => {
-
         this.props.getIfElementHit(false);
         // function rotate_degree(obj) {
         //     var matrix = obj.css("-webkit-transform") ||
@@ -199,7 +197,8 @@ class Project extends React.Component{
         if(!$activeElem.classList.contains('active') && !e.target.classList.contains('icon-img')){
             this.setState({preventHide: false});
             this.setState({'showIcon': true});
-            if (this.state.showHitMeBubble) {
+            if (this.props.showHitBubble) {
+                console.log('POPIN');
                 setTimeout(() => {
                     this.popIn();
                 }, 1000);
@@ -246,18 +245,26 @@ class Project extends React.Component{
     }
 
     hideIcon = (e) => {
-        const $activeElem = e.currentTarget;
-        if(!this.state.redirection && !e.target.classList.contains('icon-img')){
-            for(let i=0; i<this.refs.imgWrapper.childNodes.length;i++){
-                this.refs.imgWrapper.childNodes[i].remove();
+        const removeAllProjectImg = () => {
+            let elements = document.getElementsByClassName('img-wrapper');
+            while(elements.length > 0){
+                elements[0].parentNode.removeChild(elements[0]);
             }
             this.setState({imgI: 0});
+        }
+
+        const removeActiveClass = () => {
             const project = $activeElem;
             const $projects = document.getElementsByClassName('project');
             for(let i=0; i < $projects.length; i++){
                 $projects[i].classList.remove('active');
             }
+        }
 
+        const $activeElem = e.currentTarget;
+        if(!this.state.redirection && !e.target.classList.contains('icon-img')){
+            removeAllProjectImg();
+            removeActiveClass();
             // project.classList.add('active--hidden');
             // this.refs.line.style.webkitAnimation = 'none';
             // this.refs.line.style.visibility = 'hidden';

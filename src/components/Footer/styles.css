@@ -289,8 +289,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
@@ -299,8 +298,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
@@ -309,8 +307,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
@@ -319,8 +316,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -392,9 +388,9 @@ footer {
   justify-content: space-between;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  max-width: 1600px;
+  max-width: inherit;
   width: 100%;
-  padding: 20px;
+  padding: 0 70px;
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 30px;
@@ -409,14 +405,33 @@ footer {
     opacity: 0;
     transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s;
     font-size: 20px;
-    font-family: "hk_groteskmedium", sans-serif; }
+    font-family: "hk_groteskregular", sans-serif; }
     footer p a {
       text-decoration: none;
-      border-bottom: solid 1px white;
-      font-family: "hk_groteskmedium", sans-serif; }
+      font-family: "hk_groteskbold", sans-serif;
+      position: relative;
+      transition: 0.2s; }
+      footer p a:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #7F00FF;
+        height: 40%;
+        z-index: -1;
+        transition: 0.2s; }
+      footer p a:hover {
+        color: #7F00FF;
+        transition: 0.2s; }
+        footer p a:hover:before {
+          background: white;
+          height: 100%;
+          transition: 0.2s; }
   footer .shy {
     color: #333;
-    font-family: "hk_groteskmedium", sans-serif; }
+    font-family: "hk_groteskregular", sans-serif;
+    font-size: 16px; }
   footer.show p {
     transform-origin: 0 0;
     transform: skewY(0deg);

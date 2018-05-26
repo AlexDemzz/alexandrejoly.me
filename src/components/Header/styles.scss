@@ -6,7 +6,7 @@ header{
   top: 0;
   left: 0;
   right: 0;
-  @include container(1600px);
+  @include container(inherit, 70px);
   margin-top:30px;
   box-sizing: border-box;
   z-index: 999;
@@ -74,13 +74,6 @@ header{
           &:last-of-type{
             margin-right:0;
           }
-          &.active{
-            a{
-              p{
-                color: white;
-              }
-            }
-          }
           &:hover{
             p{
               transform: translateY(-27px);
@@ -92,7 +85,7 @@ header{
             a{
               p{
                 &:after{
-                  content: 'work';
+                  content: 'works';
                 }
               }
             }
@@ -116,6 +109,11 @@ header{
             text-decoration: none;
             display: flex;
             height: 100%;
+            &.active{
+              p{
+                color: white;
+              }
+            }
             div{
               margin: 10px;
               box-sizing: content-box;

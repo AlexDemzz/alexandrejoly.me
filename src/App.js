@@ -38,6 +38,7 @@ class App extends Component {
 
     cursorDeplacement = e => {
         this.setState({x:e.clientX, y: e.clientY});
+        // this.bottomLineColors();
     };
 
     cursorEvent = (hover, hold, holdEnd = false) => {
@@ -66,6 +67,21 @@ class App extends Component {
     getAppLoadedHide = (status) => {
         this.setState({appLoadedHide : status});
     }
+
+    // bottomLineColors = () => {
+    //     function getRandomColor() {
+    //         var letters = '0123456789ABCDEF';
+    //         var color = '#';
+    //         for (var i = 0; i < 6; i++) {
+    //             color += letters[Math.floor(Math.random() * 16)];
+    //         }
+    //         return color;
+    //     }
+    //     console.log(this.refs.bottomLine);
+    //     if(document.getElementsByClassName('bottom-line')[0]){
+    //         document.getElementsByClassName('bottom-line')[0].style.background = getRandomColor();
+    //     }
+    // }
 
     // componentWillReceiveProps = (nextProps) => {
     //     if(nextProps.location.pathname !== this.props.location.pathname){
@@ -99,6 +115,7 @@ class App extends Component {
                                 </TransitionGroup>
                                 <Footer appLoaded={this.state.appLoaded}/>
                             </div>
+                        <div className="bottom-line"/>
                     </div>
                 )}
                 />

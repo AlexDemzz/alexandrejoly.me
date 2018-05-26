@@ -316,10 +316,10 @@ $wr: wrap-reverse;
   user-drag: none;
 }
 
-@mixin container($maxwidth, $padding: 20px){
+@mixin container($maxwidth: inherit, $padding: 20px){
   max-width: $maxwidth;
   width: 100%;
-  padding: $padding;
+  padding: 0 $padding;
   margin: 0 auto;
   box-sizing: border-box;
 }

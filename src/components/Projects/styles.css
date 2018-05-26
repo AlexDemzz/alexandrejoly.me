@@ -289,8 +289,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
@@ -299,8 +298,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
@@ -309,8 +307,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
@@ -319,8 +316,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -402,9 +398,9 @@
   position: relative; }
   .projects > h3 {
     display: block;
-    max-width: 1600px;
+    max-width: inherit;
     width: 100%;
-    padding: 0;
+    padding: 0 70px;
     margin: 0 auto;
     box-sizing: border-box;
     position: absolute;
@@ -415,11 +411,7 @@
     font-family: "hk_grotesksemibold", sans-serif; }
 
 .projects-drag-area {
-  max-width: 1600px;
   width: 100%;
-  padding: 0;
-  margin: 0 auto;
-  box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

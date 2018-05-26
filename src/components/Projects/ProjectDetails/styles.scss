@@ -20,9 +20,9 @@
 
 .project-details{
   width: 100%;
-  padding-top: 125px;
+  //padding-top: 125px;
+  margin-top: -20px;
   z-index: 998;
-  padding-bottom: 100px;
   //transition: 0.5s;
   //transition-timing-function: ease-in;
   .project-details-header-fixed{
@@ -32,17 +32,6 @@
     //right: 0;
     //width: 100%;
     //@include container(1600px);
-  }
-  .project-title{
-    white-space: nowrap;
-    font-size: 144px;
-    z-index: 10;
-    font-family: $hkBold;
-    height: 30vh;
-    margin-top: 0px;
-    margin-left: -12px;
-    @include flex(c,fs);
-    animation: fadeIn--fixDetails 1s forwards;
   }
   @for $i from 1 to 10 {
     div:nth-child(#{$i}) .subtitle span, div>div:nth-child(#{$i}) .subtitle span{
@@ -83,6 +72,7 @@
   .project-details-infos{
     width: 100%;
     max-width: 1200px;
+    margin-top: -30vh;
     @include flex(fe,sb);
     margin-bottom:60px;
     >div{
@@ -150,34 +140,53 @@
       @include nodrag();
     }
   }
-  &.project-details--out{
-    .project-details-images{
-      position: relative;
-      bottom: 400px;
-      opacity: 0;
-      transition: bottom 1s, opacity 0.5s;
+}
+
+.project-details-page{
+  .next-project {
+    @include flex(c, c, col);
+    opacity: 1;
+    z-index: 999999;
+    position: relative;
+    padding-bottom: 100px;
+    p {
+      margin-top: 50px;
+      margin-bottom: 50px;
+      font-size: 30px;
     }
-    .next-project{
-      opacity: 0;
-      transition: 0.2s;
-      transition-delay: 0.5s;
+    h3 {
+      margin-top:50px;
+      margin-bottom: 50px;
+      height: auto;
     }
   }
 }
-.next-project{
-  @include flex(c,c,col);
-  opacity: 1;
-  z-index: 0;
-  position: relative;
-  p{
-    margin-top: 50px;
-    margin-bottom: 50px;
-    font-size: 30px;
+.project-details-page--out{
+  .project-details-images{
+    position: relative;
+    bottom: 400px;
+    opacity: 0;
+    transition: bottom 1s, opacity 0.5s;
   }
-  h3{
-    margin-bottom: 50px;
+  .next-project{
+    opacity: 0;
+    transition: 0.2s;
   }
 }
+.project-details-page{
+  padding-bottom:100px;
+  .project-title{
+    white-space: nowrap;
+    font-size: 144px;
+    z-index: 10;
+    font-family: $hkBold;
+    height: 100vh;
+    margin-left: -12px;
+    @include flex(c,fs);
+    animation: fadeIn--fixDetails 1s forwards;
+  }
+}
+
 
 .fill-scroll-bottom{
   position: absolute;
@@ -187,16 +196,16 @@
   right: auto;
   margin: 0 auto;
   background: white;
-  transition: 1s;
+  transition: 0.5s;
   transition-timing-function: ease-out;
-  z-index: 9;
+  z-index: 99999;
   &.out{
-    animation: fill-scroll-bottom--out 1.5s forwards;
-    animation-delay: 1.5s;
+    animation: fill-scroll-bottom--out 1s forwards;
+    animation-delay: 1s;
     position: fixed;
     bottom: 0;
     height: 100vh!important;
-    transition: 1.5s;
+    transition: 1s;
   }
 }
 

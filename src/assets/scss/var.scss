@@ -90,21 +90,27 @@ $purpleGradientEnd: #E100FF;
   }
 }
 
+@mixin fake-text-stroke($color){
+  //text-shadow: inset 2px 0 0 $color, inset -2px 0 0 $color, inset 0 2px 0 $color, inset 0 -2px 0 $color, 1px 1px $color, inset -1px -1px 0 $color, inset 1px -1px 0 $color, inset -1px 1px 0 $color;
+  //text-shadow: 0px -1px 0px $color;
+  box-shadow: inset 0 0 0 -2px $color;
+}
+
 @mixin text-reveal-and-stroke(){
   transform-origin: 0 0;
   transform: skewY(-5deg);
   opacity: 0;
-  color: transparent;
-  -webkit-text-stroke: 2px white;
-  transition: opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
+  color: black;
+  @include fake-text-stroke(white);
+  transition: all 0.3s, opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
 }
 
 @mixin text-reveal-and-stroke--revealed(){
   transform: skewY(0deg);
   opacity: 1;
-  -webkit-text-stroke: 2px white;
+  @include fake-text-stroke(transparent);
   color: white;
-  transition: opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
+  transition: all 0.3s, opacity 0.3s ease,transform 1s cubic-bezier(.215,.61,.355,1), color 0.3s;
 }
 
 .text-reveal{
@@ -223,7 +229,6 @@ $purpleGradientEnd: #E100FF;
     top: 0;
     bottom: inherit;
     height: 0vh;
-    z-index: 99999999999999;
   }
 }
 

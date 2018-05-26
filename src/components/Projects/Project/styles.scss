@@ -22,20 +22,31 @@
 
 .project-hold{
   .project{
-    &:not(.active){
-      transition: 1s;
-      opacity: 0!important;
+    &.active{
+      .project-img-wrapper{
+        //.img-wrapper{
+        //  top: 0!important;
+        //  transition: 0.3s;
+        //  left: 0!important;
+        //  &:last-of-type{
+        //    &:before{
+        //      height: 100%;
+        //      transition: 1s;
+        //    }
+        //  }
+        //}
+      }
     }
   }
 }
-
-.redirection{
-  .project{
-    &:not(.active){
-      visibility: hidden;
-    }
-  }
-}
+//
+//.redirection{
+//  .project{
+//    &:not(.active){
+//      visibility: hidden;
+//    }
+//  }
+//}
 
 
 .project{
@@ -88,7 +99,7 @@
     .icon{
       .hit-me{
         display: block;
-        opacity: 1;
+        opacity: 0;
         transform: scale(1) translateY(4px);
         transition: 0.3s;
         @include transitionElastic();
@@ -137,10 +148,10 @@
       }
     }
     .project-title{
-      -webkit-text-stroke-width: 2px!important;
-      -webkit-text-stroke-color: white!important;
-      color: transparent!important;
-      transition: all 0.3s 0s!important;
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: white;
+      color: transparent;
+      transition: all 0.3s 0s;
       //transition-delay: 0s!important;
     }
   }
@@ -154,6 +165,7 @@
     height:70vh;
     opacity: 0;
     pointer-events: none;
+    transform: translateY(25px);
     .img-wrapper{
       overflow: hidden;
       width: 100%;
@@ -163,10 +175,23 @@
       bottom: 0;
       top: 0;
       display: none;
+      animation: project-img-pop 0.1s forwards;
+      @include animationElastic--light();
+      transition: 0.3s;
+      &:before{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: $purpleGradientStart;
+        height: 0%;
+        z-index: 99;
+        transition: 1.5s;
+      }
       &:last-of-type{
         img{
-          animation-direction: inherit;
-          animation-timing-function: linear;
+          animation-timing-function: ease;
         }
       }
       @for $i from 1 to 30 {
@@ -178,7 +203,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        animation: img-movement 10s alternate infinite;
+        animation: img-movement 20s infinite alternate;
         animation-timing-function: ease-in-out;
       }
     }
@@ -333,8 +358,8 @@
   .project{
     &:not(.active){
       .project-title{
-        animation: remove-stroke 0.1s forwards;
-        animation-delay: 2s;
+        //animation: remove-stroke 0.1s forwards;
+        //animation-delay: 2s;
       }
     }
   }
@@ -528,5 +553,14 @@
   }
   100%{
     transform: translateY(-4px);
+  }
+}
+
+@include keyframes(project-img-pop){
+  0%{
+    transform: scale(0.8);
+  }
+  100%{
+    transform: scale(1);
   }
 }

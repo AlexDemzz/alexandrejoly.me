@@ -289,8 +289,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
@@ -299,8 +298,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
@@ -309,8 +307,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
@@ -319,8 +316,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -393,9 +389,9 @@ header {
   top: 0;
   left: 0;
   right: 0;
-  max-width: 1600px;
+  max-width: inherit;
   width: 100%;
-  padding: 20px;
+  padding: 0 70px;
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 30px;
@@ -496,15 +492,13 @@ header {
       transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s; }
       header .header-right-side nav ul li:last-of-type {
         margin-right: 0; }
-      header .header-right-side nav ul li.active a p {
-        color: white; }
       header .header-right-side nav ul li:hover p {
         transform: translateY(-27px);
         transition: 0.2s; }
       header .header-right-side nav ul li:nth-of-type(1) {
         margin-right: 5px; }
         header .header-right-side nav ul li:nth-of-type(1) a p:after {
-          content: 'work'; }
+          content: 'works'; }
       header .header-right-side nav ul li:nth-of-type(2) a p:after {
         content: 'about'; }
       header .header-right-side nav ul li a {
@@ -520,6 +514,8 @@ header {
         text-decoration: none;
         display: flex;
         height: 100%; }
+        header .header-right-side nav ul li a.active p {
+          color: white; }
         header .header-right-side nav ul li a div {
           margin: 10px;
           box-sizing: content-box;

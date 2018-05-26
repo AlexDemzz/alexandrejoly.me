@@ -289,8 +289,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
@@ -299,8 +298,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
@@ -309,8 +307,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
@@ -319,8 +316,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -385,13 +381,6 @@
     -webkit-text-stroke-width: 0px !important; }
   .projects .projects-drag-area.dir-right .projects-drag-area-wrapper .project *, .projects .projects-drag-area.dir-left .projects-drag-area-wrapper .project * {
     pointer-events: none !important; }
-
-.project-hold .project:not(.active) {
-  transition: 1s;
-  opacity: 0 !important; }
-
-.redirection .project:not(.active) {
-  visibility: hidden; }
 
 .project {
   padding-right: 20px;
@@ -461,7 +450,7 @@
       opacity: 1; }
     .project.active .icon .hit-me {
       display: block;
-      opacity: 1;
+      opacity: 0;
       transform: scale(1) translateY(4px);
       transition: 0.3s;
       -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
@@ -499,10 +488,10 @@
       -webkit-animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27);
       animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
     .project.active .project-title {
-      -webkit-text-stroke-width: 2px !important;
-      -webkit-text-stroke-color: white !important;
-      color: transparent !important;
-      transition: all 0.3s 0s !important; }
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: white;
+      color: transparent;
+      transition: all 0.3s 0s; }
   .project .project-img-wrapper {
     position: absolute;
     right: 40%;
@@ -512,7 +501,8 @@
     margin: auto;
     height: 70vh;
     opacity: 0;
-    pointer-events: none; }
+    pointer-events: none;
+    transform: translateY(25px); }
     .project .project-img-wrapper .img-wrapper {
       overflow: hidden;
       width: 100%;
@@ -521,10 +511,23 @@
       left: 0;
       bottom: 0;
       top: 0;
-      display: none; }
+      display: none;
+      animation: project-img-pop 0.1s forwards;
+      -webkit-animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      animation-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
+      transition: 0.3s; }
+      .project .project-img-wrapper .img-wrapper:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #7F00FF;
+        height: 0%;
+        z-index: 99;
+        transition: 1.5s; }
       .project .project-img-wrapper .img-wrapper:last-of-type img {
-        animation-direction: inherit;
-        animation-timing-function: linear; }
+        animation-timing-function: ease; }
       .project .project-img-wrapper .img-wrapper img {
         animation-duration: 0s; }
       .project .project-img-wrapper .img-wrapper img {
@@ -587,7 +590,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        animation: img-movement 10s alternate infinite;
+        animation: img-movement 20s infinite alternate;
         animation-timing-function: ease-in-out; }
   .project .icon {
     margin-left: 20px;
@@ -771,10 +774,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover; }
-
-.show .project:not(.active) .project-title {
-  animation: remove-stroke 0.1s forwards;
-  animation-delay: 2s; }
 
 @-webkit-keyframes kf-project-picture {
   0% {
@@ -1327,3 +1326,27 @@
     transform: translateY(4px); }
   100% {
     transform: translateY(-4px); } }
+
+@-webkit-keyframes project-img-pop {
+  0% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1); } }
+
+@-moz-keyframes project-img-pop {
+  0% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1); } }
+
+@-o-keyframes project-img-pop {
+  0% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1); } }
+
+@keyframes project-img-pop {
+  0% {
+    transform: scale(0.8); }
+  100% {
+    transform: scale(1); } }

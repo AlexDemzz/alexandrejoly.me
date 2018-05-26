@@ -9,23 +9,46 @@ footer{
   left: 0;
   right: 0;
   @include flex(fe,sb);
-  @include container(1600px);
+  @include container(inherit, 70px);
   margin-top:30px;
   padding-bottom: 30px;
   box-sizing: border-box;
   p{
     @include waveAppearBefore();
     font-size: 20px;
-    font-family: $hkMedium;
+    font-family: $hkRegular;
     a{
       text-decoration: none;
-      border-bottom: solid 1px white;
-      font-family: $hkMedium;
+      //border-bottom: solid 1px white;
+      font-family: $hkBold;
+      position: relative;
+      transition: 0.2s;
+      &:before{
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: $purpleGradientStart;
+        height: 40%;
+        z-index: -1;
+        transition: 0.2s;
+      }
+      &:hover{
+        color: $purpleGradientStart;
+        transition: 0.2s;
+        &:before{
+          background: white;
+          height: 100%;
+          transition: 0.2s;
+        }
+      }
     }
   }
   .shy{
     color: #333;
-    font-family: $hkMedium;
+    font-family: $hkRegular;
+    font-size: 16px;
   }
   &.show{
     p{

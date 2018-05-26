@@ -10,8 +10,8 @@ class Footer extends React.Component{
     render(){
         return(
             <footer id="footer" ref="footer">
-                <p>Find me on <a href="">LinkedIn</a> or say Hello! by <a href="">mail</a> 🔥</p>
-                <p className="shy">Designed & Dev by me</p>
+                <p>Find me on <a href="https://www.linkedin.com/in/alexandre-joly-a23154107/" target="_blank">LinkedIn</a> or say Hello by <a href="">mail</a> 🔥</p>
+                <p className="shy">Designed & dev with passion</p>
             </footer>
         )
     }

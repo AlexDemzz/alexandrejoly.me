@@ -289,8 +289,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
@@ -299,8 +298,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
@@ -309,8 +307,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
@@ -319,8 +316,7 @@
   100% {
     top: 0;
     bottom: inherit;
-    height: 0vh;
-    z-index: 99999999999999; } }
+    height: 0vh; } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -449,14 +445,14 @@
         flex-flow: row nowrap; }
         .PreHome .preHome-loader .preHome-loader-label .logo svg {
           fill: white;
-          width: 65px;
+          width: 40px;
           transition: 0.5s; }
     .PreHome .preHome-loader .preHome-loader-bar {
       width: 146px;
       height: 7px;
       background: rgba(255, 255, 255, 0.25);
       position: relative;
-      margin-top: 15px;
+      margin-top: 12px;
       z-index: 99; }
       .PreHome .preHome-loader .preHome-loader-bar .preHome-loader-bar-loading {
         background: white;
@@ -475,9 +471,13 @@
       transform: scale(0);
       transition: 0.5s; }
       .PreHome.preHome-out .preHome-loader-label .logo svg {
-        transform: scale(2.5);
+        transform: scale(4);
         transition: 0.5s; }
     .PreHome.preHome-out .preHome-loader-bar {
       width: 100%;
+      opacity: 0;
+      transition: width 0.5s 0.5s, opacity 0.6s 1.5s; }
+    .PreHome.preHome-out.preHome-out--not-home .preHome-loader-bar {
+      width: 0%;
       opacity: 0;
       transition: width 0.5s 0.5s, opacity 0.4s 2s; }

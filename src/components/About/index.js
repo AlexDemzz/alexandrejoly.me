@@ -15,7 +15,7 @@ class About extends React.Component{
     }
 
     uiAnimationEventOut = () => {
-        document.body.style.background = '#000';
+        document.body.style.background = '';
     }
     
     userExperienceEvent = () => {
@@ -27,6 +27,12 @@ class About extends React.Component{
 
     componentWillMount() {
         document.body.style.overflow = 'hidden';
+    }
+
+    componentWillUnmount(){
+        document.body.style.overflow = '';
+        document.body.classList.remove('bg-user-experience');
+        document.body.style.background = '';
     }
 
     render(){
