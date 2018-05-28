@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import particles1 from '../../../assets/img/particles1.svg'
 import particles2 from '../../../assets/img/particles2.svg'
-import { withRouter } from "react-router-dom";
+import { withRouter, NavLink } from "react-router-dom";
 
 class Project extends React.Component{
     distance = 0;
@@ -24,6 +24,7 @@ class Project extends React.Component{
     };
 
     sendCursorEvent = (hoverStatus, holdStatus) => {
+        console.log('hoverStatus : ',hoverStatus);
         this.props.cursorEvent(hoverStatus, holdStatus);
     };
 
@@ -40,12 +41,16 @@ class Project extends React.Component{
         console.log($activeElem);
         $activeElem.classList.add('active');
 
-
-        this.holdInterval = setInterval(() => {
-            if(this.state.mouseDown && this.props.holdEnd){
-                this.redirect(this.props.details);
-            }
-        }, 100);
+        // this.refs.projectTitle.addEventListener('transitionend', (event) => {
+        //     console.log(event);
+        //     this.redirect(this.props.details);
+        // });
+        
+        // this.holdInterval = setInterval(() => {
+        //     // if(this.state.mouseDown && this.props.holdEnd){
+        //     //     this.redirect(this.props.details);
+        //     // }
+        // }, 100);
     };
 
     onMouseUp = e => {
@@ -302,27 +307,28 @@ class Project extends React.Component{
         }
     };
 
+    // componentWillReceiveProps(nextProps){
+    //     if(nextProps.holdEnd !== this.props.holdEnd){
+    //         if(this.state.mouseDown){
+    //             this.redirect(this.props.details);
+    //         }
+    //     }
+    // }
+
     render(){
-        // const images = this.props.details.images.map((image, key) => {
-        //     return(
-        //         <div className="img-wrapper" key={key}>
-        //             <img src={image} alt=""/>
-        //         </div>
-        //     )
-        // })
         return(
-            <div ref="project" className={`project js-project ${this.props.active === true ?  'active' : ''}`} onMouseEnter={(e) => this.showIcon(e)} onMouseLeave={(e) => this.hideIcon(e)}>
+            <div ref="project"
+                className={`project js-project ${this.props.active === true ?  'active' : ''}`}
+                onMouseEnter={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
+                onMouseLeave={(e) => {this.hideIcon(e); this.sendCursorEvent(false, false)}}>
                 <div className="project-wrapper">
-                    <a
-                        onMouseEnter={() => this.sendCursorEvent(true, false)}
-                        onMouseLeave={() => this.sendCursorEvent(false, false)}
-                        onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
-                        onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
+                    <NavLink activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"
+                        // onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
+                        // onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
                         onMouseMove={(e) => this.preventHold(e)}>
-                        <h2 className="project-title">{this.props.details.title}</h2>
-                    </a>
+                        <h2 className="project-title" ref="projectTitle" data-hover={this.props.details.title}>{this.props.details.title}</h2>
+                    </NavLink>
                     <div className="project-img-wrapper" ref='imgWrapper'>
-                        {/*{images}*/}
                     </div>
                     <div className="icon" ref='icon' onMouseDown={e => this.iconHit(e)}>
                         <div className="hit-me" ref="hitMe">

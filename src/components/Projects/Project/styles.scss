@@ -1,5 +1,4 @@
 @import "../../../assets/scss/var.scss";
-
 .projects{
   .projects-drag-area{
     &.dir-right, &.dir-left{
@@ -23,18 +22,10 @@
 .project-hold{
   .project{
     &.active{
-      .project-img-wrapper{
-        //.img-wrapper{
-        //  top: 0!important;
-        //  transition: 0.3s;
-        //  left: 0!important;
-        //  &:last-of-type{
-        //    &:before{
-        //      height: 100%;
-        //      transition: 1s;
-        //    }
-        //  }
-        //}
+      .project-title{
+        &:after{
+          width: 100%;
+        }
       }
     }
   }
@@ -59,6 +50,8 @@
   flex: 0 0 auto;
   position: relative;
   left: 0;
+  text-decoration: none;
+  @include nodrag();
   .project-wrapper{
     @include flex(c,c);
     height: 100%;
@@ -175,8 +168,8 @@
       bottom: 0;
       top: 0;
       display: none;
-      animation: project-img-pop 0.1s forwards;
-      @include animationElastic--light();
+      //animation: project-img-pop 0.1s forwards;
+      //@include animationElastic--light();
       transition: 0.3s;
       &:before{
         content: '';
@@ -327,11 +320,19 @@
     color: white;
     //transition: all 0s 0s!important;
     margin-left: -12px;
-    //&:hover{
-    //  $strokeColor: white;
-    //  color: transparent;
-    //  -webkit-text-stroke: 2px white;
-    //}
+    position: relative;
+    line-height: 200px;
+    &:after {
+      content: attr(data-hover);
+      position: absolute;
+      color: white;
+      left: 0;
+      width: 0;
+      transition: width 2s;
+      transition-timing-function: linear;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
   .project-container{
     width: 0%;

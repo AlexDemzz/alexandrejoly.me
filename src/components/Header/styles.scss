@@ -52,7 +52,7 @@ header{
         //margin-bottom:30px;
         svg{
           fill: white;
-          width: 40px;
+          width: 22px;
           transition: margin 0.3s;
           @include waveAppearBefore();
         }
@@ -139,10 +139,11 @@ header{
         a{
           svg{
             @include waveAppearAfter();
+            transition-delay: 0.3s;
           }
           h1{
             @include waveAppearAfter();
-            transition-delay: 0.2s;
+            transition-delay: 0.6s;
           }
         }
       }
@@ -152,7 +153,7 @@ header{
       ul{
         li{
           @include waveAppearAfter();
-          transition-delay: 0.4s;
+          transition-delay: 0.9s;
         }
       }
     }

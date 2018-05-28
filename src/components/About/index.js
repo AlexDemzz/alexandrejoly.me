@@ -29,6 +29,17 @@ class About extends React.Component{
         document.body.style.overflow = 'hidden';
     }
 
+    componentDidUpdate(prevProps){
+        if(prevProps.appLoaded === false && prevProps.appLoaded !== this.props.appLoaded){
+            if(this.props.appLoaded){
+                var all = document.getElementsByTagName("*");
+                for (var i=0, max=all.length; i < max; i++) {
+                    all[i].style.animation = '';
+                }
+            }
+        }
+    }
+
     componentWillUnmount(){
         document.body.style.overflow = '';
         document.body.classList.remove('bg-user-experience');

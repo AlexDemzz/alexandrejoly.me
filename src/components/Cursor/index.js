@@ -27,12 +27,12 @@ class Cursor extends React.Component{
     };
 
     getCursorEvent = () => {
-        const element = document.getElementsByClassName('main')[0];
-        element.addEventListener('transitionend', () => {
-            if(this.props.hold){
-                this.sendCursorEvent(false, false, true);
-            }
-        });
+        // const element = document.getElementsByClassName('main')[0];
+        // element.addEventListener('transitionend', () => {
+        //     if(this.props.hold){
+        //         this.sendCursorEvent(false, false, true);
+        //     }
+        // });
     };
 
     render(){

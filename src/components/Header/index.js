@@ -34,13 +34,17 @@ class Header extends React.Component{
         }
     }
 
-    componentDidUpdate(){
-        if(this.props.appLoaded){
-            this.refs.header.classList.add('show');
+    componentDidUpdate(prevProps){
+        if(prevProps.appLoaded !== this.props.appLoaded){
+            if(this.props.appLoaded){
+                this.refs.header.classList.add('show');
+            }
         }
     }
+
     componentDidMount(){
         this.enableBackBtn(this.props.location.pathname);
+        this.refs.header.classList.add('show');
     }
 
     backArrow = () => (

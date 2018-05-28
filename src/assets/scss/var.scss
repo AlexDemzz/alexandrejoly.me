@@ -222,13 +222,14 @@ $purpleGradientEnd: #E100FF;
 
 @include keyframes(fill-scroll-bottom--out){
   0%{
-    top: 0;
+    top: -40px;
     bottom: inherit;
   }
   100%{
-    top: 0;
+    top: -40px;
     bottom: inherit;
     height: 0vh;
+    padding-top:0px;
   }
 }
 
@@ -251,4 +252,16 @@ $purpleGradientEnd: #E100FF;
    100%{
      top:15px;
    }
+}
+
+
+@include keyframes(fade-in-translate){
+  from{
+    transform: translateY(200px);
+    opacity: 0;
+  }
+  to{
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }

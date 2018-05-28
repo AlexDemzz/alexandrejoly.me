@@ -33,8 +33,11 @@ class Projects extends React.Component{
     };
 
     scrollAnimation = (status, direction = false, deg) => {
-        let posDeg = Math.abs(deg)*5;
-        posDeg >= 20 ?  posDeg = 20 : posDeg;
+        let posDeg = Math.abs(deg)*2;
+        posDeg >= 40 ?  posDeg = 40 : posDeg;
+        let rotateZ = Math.abs(deg)/5;
+        console.log('rotateZ',rotateZ);
+        rotateZ >= 4 ?  rotateZ = 4 : rotateZ;
         let $projects = document.getElementsByClassName('js-project');
         if(status){
             for(let i=0; i < $projects.length ; i++){
@@ -47,16 +50,20 @@ class Projects extends React.Component{
                     $projects[i].style.transform = `skew(-${posDeg}deg)`;
                     this.refs.projectsDraggableArea.classList.remove('dir-left');
                     this.refs.projectsDraggableArea.classList.add('dir-right');
+                    this.refs.projectsDragAreaWrapper.style.transform = `scale(0.8) rotateZ(-${rotateZ}deg)`
+
                 }else if(direction === 'prev'){
                     $projects[i].style.transform = `skew(${posDeg}deg)`;
                     this.refs.projectsDraggableArea.classList.remove('dir-right');
                     this.refs.projectsDraggableArea.classList.add('dir-left');
+                    this.refs.projectsDragAreaWrapper.style.transform = `scale(0.8) rotateZ(${rotateZ}deg)`
                 }
             }
         }else{
             for(let i=0; i < $projects.length ; i++) {
                 $projects[i].style.transform = 'skew(0deg)';
             }
+            this.refs.projectsDragAreaWrapper.style.transform = 'scale(1) rotateZ(0deg)'
         }
     };
 
@@ -88,12 +95,10 @@ class Projects extends React.Component{
             this.setState({ prevPath: this.props.location })
         }
     }
-    componentDidUpdate(){
-        if(this.props.appLoaded){
-            this.refs.projects.classList.add('show');
-        }
-    }
 
+    componentWillUnmount(){
+        this.refs.projects.classList.remove('show');
+    }
     componentDidMount(){
         let $projects = document.getElementsByClassName('js-project');
         let projectsSize = [];
@@ -109,6 +114,7 @@ class Projects extends React.Component{
         this.setState({projectsSize});
         console.log('-----');
         console.log(this.props.history);
+        this.refs.projects.classList.add('show');
         if(this.props.history.action === 'POP'){
             this.refs.projects.classList.add('init-projects');
         }

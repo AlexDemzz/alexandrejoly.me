@@ -14,7 +14,7 @@
 
 ::-webkit-scrollbar-thumb
 {
-  background-color: white;
+  background-color: #212121;
 }
 
 
@@ -72,7 +72,7 @@
   .project-details-infos{
     width: 100%;
     max-width: 1200px;
-    margin-top: -30vh;
+    //margin-top: -30vh;
     @include flex(fe,sb);
     margin-bottom:60px;
     >div{
@@ -143,6 +143,7 @@
 }
 
 .project-details-page{
+  padding-top: 125px;
   .next-project {
     @include flex(c, c, col);
     opacity: 1;
@@ -180,25 +181,56 @@
     font-size: 144px;
     z-index: 10;
     font-family: $hkBold;
-    height: 100vh;
     margin-left: -12px;
     @include flex(c,fs);
-    animation: fadeIn--fixDetails 1s forwards;
+    position: relative;
+    top: 144px;
+    animation: text-appear-from-bottom 1s forwards;
+  }
+  .project-title-container{
+    overflow: hidden;
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
 }
 
 
 .fill-scroll-bottom{
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   width: 150%;
   left: auto;
   right: auto;
   margin: 0 auto;
-  background: white;
+  //background: white;
   transition: 0.5s;
   transition-timing-function: ease-out;
   z-index: 99999;
+  overflow: hidden;
+  padding-top: 40px;
+  .fill-scroll-bottom-bg{
+    background: white;
+    width: 100%;
+    height: 90%;
+    position: absolute;
+    bottom: -40px;
+    left: auto;
+    right: auto;
+  }
+  &:after{
+    content: '';
+    position: absolute;
+    top: 40px;
+    left: -5%;
+    right: 0;
+    background: white;
+    width: 100%;
+    height: 100%;
+    transform: rotateZ(0deg);
+    transition: 0.5s;
+    transition-timing-function: ease-out;
+    transform-origin: 0 0;
+  }
   &.out{
     animation: fill-scroll-bottom--out 1s forwards;
     animation-delay: 1s;
@@ -206,6 +238,13 @@
     bottom: 0;
     height: 100vh!important;
     transition: 1s;
+  }
+  &.scrolling{
+    &:after{
+      transform: rotateZ(1deg);
+      transition: 0.5s;
+      transition-timing-function: ease-out;
+    }
   }
 }
 

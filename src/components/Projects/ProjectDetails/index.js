@@ -32,6 +32,7 @@ class ProjectDetails extends React.Component{
         document.removeEventListener('scroll', this.handleScroll);
     }
     componentDidMount(){
+        var all = document.getElementsByTagName("*");
         this.setState({ready: true});
         console.log('COMPONENET DID MOUNT');
         this.projectIdEvent(this.props.match.params.id);
@@ -108,7 +109,6 @@ class ProjectDetails extends React.Component{
        }
     }
 
-
     handleWheel = (e, touch = false) => {
         let increaseNumber = 1;
         // if(touch){
@@ -127,6 +127,10 @@ class ProjectDetails extends React.Component{
                if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+100){
                    this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
                    document.body.classList.add('mix-bend-mode-difference');
+                   this.refs.fillScrollBottom.classList.add('scrolling');
+                   this.refs.fillScrollBottom.addEventListener('transitionend', () => {
+                       this.refs.fillScrollBottom.classList.remove('scrolling');
+                   });
                }else{
                    const element = this.refs.fillScrollBottom;
                    if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetails){
@@ -197,9 +201,11 @@ class ProjectDetails extends React.Component{
                             <div className="line"/></div>)}
                     );
                     return (
-                        <div className="project-details-wrapper" key={project.id}>
+                        <div className="project-details-wrapper"  ref="projectDetailsWrapper" key={project.id}>
                             <div className="project-details-header project-details-header-fixed" ref="projectDetailsHeader">
-                                <h2 className="project-title">{project.title}</h2>
+                                <div className="project-title-container">
+                                    <h2 className="project-title">{project.title}</h2>
+                                </div>
                                 <div className="project-details-infos">
                                     <div className="project-details-infos-start">
                                         <div className="subtitle">
@@ -248,7 +254,9 @@ class ProjectDetails extends React.Component{
                     <p>Scroll to discover</p>
                     <h3 className="project-title">{this.nextProject().title}</h3>
                 </div>
-                <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}/>
+                <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
+                    <div className="fill-scroll-bottom-bg"/>
+                </div>
             </div>
         )
     }
