@@ -78,49 +78,7 @@ class App extends Component {
     }
 
     componentDidMount(){
-        document.addEventListener('scroll', (e) => {
-            console.log(e);
-            console.log();
-            const $contentWrapper = document.getElementsByClassName('content-wrapper')[0];
-            let st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-            if (st > this.state.lastScrollTop){
-                console.log('down');
-                $contentWrapper.style.transform = 'skewY(0.5deg)';
-            } else {
-                $contentWrapper.style.transform = 'skewY(-0.5deg)';
-            }
-            this.setState({lastScrollTop: st});
-
-            let scrollTimeout = setTimeout(()=>{
-                $contentWrapper.style.transform = 'skewY(0deg)'
-            },500);
-            this.setState({scrollTimeout});
-        });
     }
-
-    // bottomLineColors = () => {
-    //     function getRandomColor() {
-    //         var letters = '0123456789ABCDEF';
-    //         var color = '#';
-    //         for (var i = 0; i < 6; i++) {
-    //             color += letters[Math.floor(Math.random() * 16)];
-    //         }
-    //         return color;
-    //     }
-    //     console.log(this.refs.bottomLine);
-    //     if(document.getElementsByClassName('bottom-line')[0]){
-    //         document.getElementsByClassName('bottom-line')[0].style.background = getRandomColor();
-    //     }
-    // }
-
-    // componentWillReceiveProps = (nextProps) => {
-    //     if(nextProps.location.pathname !== this.props.location.pathname){
-    //         let path = nextProps.location.pathname.split('/');
-    //         if(path[1] === 'work'){
-    //             this.setState({transitionName: 'project-to-',transitionDelay: 2000});
-    //         }
-    //     }
-    // }
 
     render() {
         return (

@@ -208,14 +208,14 @@ class Project extends React.Component{
                     this.popIn();
                 }, 1000);
             };
-            // if (project.classList.contains('active--hidden')) {
+            // if ($activeElem.classList.contains('active--hidden')) {
             //     this.refs.line.style.webkitAnimation = 'none';
             //     this.refs.line.style.visibility = 'hidden';
             //     setTimeout(() => {
             //         this.refs.line.style.visibility = 'visible';
             //         this.refs.line.style.webkitAnimation = '';
             //     }, 0);
-            //     project.classList.remove('active--hidden');
+            //     $activeElem.classList.remove('active--hidden');
             // };
             $activeElem.classList.add('active');
             // this.addRightAndLeftClass($activeElem);
@@ -270,7 +270,7 @@ class Project extends React.Component{
         if(!this.state.redirection && !e.target.classList.contains('icon-img')){
             removeAllProjectImg();
             removeActiveClass();
-            // project.classList.add('active--hidden');
+            // $activeElem.classList.add('active--hidden');
             // this.refs.line.style.webkitAnimation = 'none';
             // this.refs.line.style.visibility = 'hidden';
             setTimeout(() => {
@@ -307,6 +307,10 @@ class Project extends React.Component{
         }
     };
 
+    clickProject = (e) => {
+        console.log(e.currentTarget.parentElement.parentElement);
+    }
+
     // componentWillReceiveProps(nextProps){
     //     if(nextProps.holdEnd !== this.props.holdEnd){
     //         if(this.state.mouseDown){
@@ -322,7 +326,7 @@ class Project extends React.Component{
                 onMouseEnter={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
                 onMouseLeave={(e) => {this.hideIcon(e); this.sendCursorEvent(false, false)}}>
                 <div className="project-wrapper">
-                    <NavLink activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"
+                    <NavLink onClick={e => this.clickProject(e)} activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"
                         // onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
                         // onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
                         onMouseMove={(e) => this.preventHold(e)}>

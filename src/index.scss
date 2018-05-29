@@ -505,39 +505,39 @@ body {
 }
 
 
-.home-to-project-exit-active {
-  &.projects{
-    .project{
-      .icon{
-        .hit-me{
-          display: none;
-        }
-      }
-      .project-title{
-        -webkit-text-stroke: inherit;
-        color: white;
-      }
-      .project-img-wrapper{
-        @include flex(c,c,col);
-        .img-wrapper{
-          animation: none;
-          height: 0%;
-          overflow: hidden;
-          transition: 1s!important;
-          margin: auto;
-        }
-      }
-      &:not(.active){
-        .project-title{
-          @include project-title-exit-transition-end();
-        }
-        .line{
-          @include line-exit-transition-end();
-        }
-      }
-    }
-  }
-}
+//.home-to-project-exit-active {
+//  &.projects{
+//    .project{
+//      .icon{
+//        .hit-me{
+//          display: none;
+//        }
+//      }
+//      .project-title{
+//        -webkit-text-stroke: inherit;
+//        color: white;
+//      }
+//      .project-img-wrapper{
+//        @include flex(c,c,col);
+//        .img-wrapper{
+//          animation: none;
+//          height: 0%;
+//          overflow: hidden;
+//          transition: 1s!important;
+//          margin: auto;
+//        }
+//      }
+//      &:not(.active){
+//        .project-title{
+//          @include project-title-exit-transition-end();
+//        }
+//        .line{
+//          @include line-exit-transition-end();
+//        }
+//      }
+//    }
+//  }
+//}
 
 
 .home-to-project-exit-active {
@@ -548,6 +548,7 @@ body {
   }
   .project{
     &.active{
+      mix-blend-mode: difference;
       .icon{
         .icon-img{
           transform: scale(0.2);
@@ -558,12 +559,13 @@ body {
         .line{
           animation: icon-line-out 1s forwards;
           animation-delay: 0.3s;
-          &:after{
-            content: '';
-            width: 0vw;
-            height: 0vw;
-            //background: $bg;
-          }
+          //&:after{
+          //  content: '';
+          //  width: 200vw;
+          //  height: 200vw;
+          //  background: $bg;
+          //  animation-delay: 1s;
+          //}
         }
       }
     }
@@ -604,11 +606,12 @@ body {
     height: 0px;
     border: solid 0px transparent;
   }
-  //100%{
-  //  opacity: 1;
-  //  width: 200vw;
-  //  height: 200vw;
-  //  @include linearGradient($purpleGradientStart, $purpleGradientEnd);
-  //  //background: black;
-  //}
+  100%{
+    opacity: 1;
+    width: 200vw;
+    height: 200vw;
+    background: white;
+    //@include linearGradient($purpleGradientStart, $purpleGradientEnd);
+    //background: black;
+  }
 }

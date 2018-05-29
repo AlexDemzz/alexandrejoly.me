@@ -20,24 +20,42 @@
 
 .project-details{
   width: 100%;
-  //padding-top: 125px;
   margin-top: -20px;
   z-index: 998;
-  //transition: 0.5s;
-  //transition-timing-function: ease-in;
-  .project-details-header-fixed{
-    //position: fixed;
-    //top: 150px;
-    //left: 0;
-    //right: 0;
-    //width: 100%;
-    //@include container(1600px);
-  }
-  @for $i from 1 to 10 {
-    div:nth-child(#{$i}) .subtitle span, div>div:nth-child(#{$i}) .subtitle span{
-      animation-delay: $i * 0.25s;
+  //.project-details-header-fixed{
+  //  position: fixed;
+  //  top: 150px;
+  //  left: 0;
+  //  right: 0;
+  //  width: 100%;
+  //  @include container(inherit, 70px);
+  //}
+
+  .project-details-infos-row{
+    @include flex(fs,fs);
+    //@include container(1200px);
+    margin-bottom: 150px;
+    .row{
+      width: 25%;
+      p{
+        font-family: $hkRegular;
+        font-size: 16px;
+        line-height: 30px;
+      }
+      &:last-of-type{
+        width: 50%;
+        p{
+          font-size: 20px;
+          line-height: 30px;
+        }
+      }
     }
   }
+  //@for $i from 1 to 10 {
+  //  div:nth-child(#{$i}) .subtitle span, div>div:nth-child(#{$i}) .subtitle span{
+  //    animation-delay: $i * 0.25s;
+  //  }
+  //}
   .subtitle{
     overflow: hidden;
     span{
@@ -159,6 +177,7 @@
       margin-top:50px;
       margin-bottom: 50px;
       height: auto;
+      @include flex(c,c);
     }
   }
 }
@@ -184,13 +203,15 @@
     margin-left: -12px;
     @include flex(c,fs);
     position: relative;
-    top: 144px;
-    animation: text-appear-from-bottom 1s forwards;
+    line-height: 190px;
+    //@include container(1200px);
+    //top: 144px;
+    //animation: text-appear-from-bottom 1s forwards;
   }
   .project-title-container{
     overflow: hidden;
     margin-top: 100px;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
   }
 }
 

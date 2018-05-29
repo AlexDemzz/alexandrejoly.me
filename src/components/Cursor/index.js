@@ -18,23 +18,6 @@ class Cursor extends React.Component{
         }
     };
 
-    sendCursorEvent = (hover, hold, holdend) => {
-        this.props.cursorEvent(hover, hold, holdend);
-    };
-
-    componentDidMount = () => {
-        this.getCursorEvent();
-    };
-
-    getCursorEvent = () => {
-        // const element = document.getElementsByClassName('main')[0];
-        // element.addEventListener('transitionend', () => {
-        //     if(this.props.hold){
-        //         this.sendCursorEvent(false, false, true);
-        //     }
-        // });
-    };
-
     render(){
 
 

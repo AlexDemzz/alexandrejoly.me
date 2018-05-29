@@ -426,24 +426,28 @@
   width: 100%;
   margin-top: -20px;
   z-index: 998; }
-  .project-details div:nth-child(1) .subtitle span, .project-details div > div:nth-child(1) .subtitle span {
-    animation-delay: 0.25s; }
-  .project-details div:nth-child(2) .subtitle span, .project-details div > div:nth-child(2) .subtitle span {
-    animation-delay: 0.5s; }
-  .project-details div:nth-child(3) .subtitle span, .project-details div > div:nth-child(3) .subtitle span {
-    animation-delay: 0.75s; }
-  .project-details div:nth-child(4) .subtitle span, .project-details div > div:nth-child(4) .subtitle span {
-    animation-delay: 1s; }
-  .project-details div:nth-child(5) .subtitle span, .project-details div > div:nth-child(5) .subtitle span {
-    animation-delay: 1.25s; }
-  .project-details div:nth-child(6) .subtitle span, .project-details div > div:nth-child(6) .subtitle span {
-    animation-delay: 1.5s; }
-  .project-details div:nth-child(7) .subtitle span, .project-details div > div:nth-child(7) .subtitle span {
-    animation-delay: 1.75s; }
-  .project-details div:nth-child(8) .subtitle span, .project-details div > div:nth-child(8) .subtitle span {
-    animation-delay: 2s; }
-  .project-details div:nth-child(9) .subtitle span, .project-details div > div:nth-child(9) .subtitle span {
-    animation-delay: 2.25s; }
+  .project-details .project-details-infos-row {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    margin-bottom: 150px; }
+    .project-details .project-details-infos-row .row {
+      width: 25%; }
+      .project-details .project-details-infos-row .row p {
+        font-family: "hk_groteskregular", sans-serif;
+        font-size: 16px;
+        line-height: 30px; }
+      .project-details .project-details-infos-row .row:last-of-type {
+        width: 50%; }
+        .project-details .project-details-infos-row .row:last-of-type p {
+          font-size: 20px;
+          line-height: 30px; }
   .project-details .subtitle {
     overflow: hidden; }
     .project-details .subtitle span {
@@ -614,7 +618,16 @@
     .project-details-page .next-project h3 {
       margin-top: 50px;
       margin-bottom: 50px;
-      height: auto; }
+      height: auto;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap; }
 
 .project-details-page--out .project-details-images {
   position: relative;
@@ -644,12 +657,11 @@
     -webkit-flex-flow: row nowrap;
     flex-flow: row nowrap;
     position: relative;
-    top: 144px;
-    animation: text-appear-from-bottom 1s forwards; }
+    line-height: 190px; }
   .project-details-page .project-title-container {
     overflow: hidden;
     margin-top: 100px;
-    margin-bottom: 100px; }
+    margin-bottom: 150px; }
 
 .fill-scroll-bottom {
   position: absolute;

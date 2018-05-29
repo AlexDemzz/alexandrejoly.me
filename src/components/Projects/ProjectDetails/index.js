@@ -200,39 +200,56 @@ class ProjectDetails extends React.Component{
                                 <p>{work}</p>
                             <div className="line"/></div>)}
                     );
+                    let worksCol = project.works.map(
+                        (work, index) => { return (
+                            <div className="info-col" key={index}>
+                                <p>{work}</p>
+                            </div>
+                        )}
+                    );
                     return (
                         <div className="project-details-wrapper"  ref="projectDetailsWrapper" key={project.id}>
                             <div className="project-details-header project-details-header-fixed" ref="projectDetailsHeader">
                                 <div className="project-title-container">
                                     <h2 className="project-title">{project.title}</h2>
                                 </div>
-                                <div className="project-details-infos">
-                                    <div className="project-details-infos-start">
-                                        <div className="subtitle">
-                                            <span>HOW?</span>
-                                        </div>
-                                        <div className="content">
-                                            {works}
-                                        </div>
+                                <div className="project-details-infos-row">
+                                    <div className="row">
+                                        <p>{project.date}</p>
                                     </div>
-                                    <div className="project-details-infos-end">
-                                        <div className="subtitle">
-                                            <span>WHEN?</span>
-                                        </div>
-                                        <div className="content">
-                                            <p>{project.date}</p>
-                                        </div>
-
+                                    <div className="row">
+                                        <p>{worksCol}</p>
                                     </div>
-                                </div>
-                                <div className="project-details-text">
-                                    <div className="subtitle">
-                                        <span>WHY?</span>
-                                    </div>
-                                    <div className="content">
+                                    <div className="row">
                                         <p>{project.text}</p>
                                     </div>
                                 </div>
+                                {/*<div className="project-details-infos">*/}
+                                    {/*<div className="project-details-infos-start">*/}
+                                        {/*<div className="subtitle">*/}
+                                            {/*<span>HOW?</span>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="content">*/}
+                                            {/*{works}*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+                                    {/*<div className="project-details-infos-end">*/}
+                                        {/*<div className="subtitle">*/}
+                                            {/*<span>WHEN?</span>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="content">*/}
+                                            {/*<p>{project.date}</p>*/}
+                                        {/*</div>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                                {/*<div className="project-details-text">*/}
+                                    {/*<div className="subtitle">*/}
+                                        {/*<span>WHY?</span>*/}
+                                    {/*</div>*/}
+                                    {/*<div className="content">*/}
+                                        {/*<p>{project.text}</p>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
                             </div>
                             <div className="project-details-images">
                                 {imgs}
