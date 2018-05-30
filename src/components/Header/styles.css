@@ -432,8 +432,7 @@ header {
   box-sizing: border-box;
   margin-top: 30px;
   box-sizing: border-box;
-  z-index: 999;
-  mix-blend-mode: difference; }
+  z-index: 999; }
   header .header-left-side {
     display: -webkit-box;
     display: -ms-flexbox;

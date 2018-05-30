@@ -157,7 +157,7 @@ class Projects extends React.Component{
                 if(key === this.props.activeProject){
                     return(
                         <Project projectsSize={this.state.projectsSize}
-                                 showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject === true ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                                 showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }else{
                     return(
@@ -185,6 +185,9 @@ class Projects extends React.Component{
                             </div>
                         </div>
                     </Draggable>
+                </div>
+                <div className="fill-scroll-bottom" ref="fillScrollBottom">
+                    <div className="fill-scroll-bottom-bg"/>
                 </div>
             </div>
         )

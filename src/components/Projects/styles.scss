@@ -47,7 +47,6 @@
 }
 
 .projects-drag-area{
-  //@include container(inherit, 70px);
   width: 100%;
   @include flex(c,fs);
   height: 100%;
@@ -56,7 +55,30 @@
   .projects-drag-area-wrapper{
     @include flex(c,fs);
     transition: 0.5s;
-    //@include transitionElastic();
+  }
+}
+
+.transition-go-to{
+  position: fixed;
+  top: 0;
+  bottom:0;
+  left: 0;
+  width: 0;
+  z-index: 999999999;
+  background: white;
+  overflow: hidden;
+  transition: 1s;
+  transition-timing-function: ease-out;
+  .transition-go-to-wrapper{
+    width: 100vw;
+    height:100%;
+    @include flex(c,c);
+    p{
+      font-size: 36px;
+      font-family: $hkBold;
+      -webkit-text-stroke: 2px black;
+      color: transparent;
+    }
   }
 }
 

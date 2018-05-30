@@ -218,7 +218,7 @@ class ProjectDetails extends React.Component{
                                         <p>{project.date}</p>
                                     </div>
                                     <div className="row">
-                                        <p>{worksCol}</p>
+                                        {worksCol}
                                     </div>
                                     <div className="row">
                                         <p>{project.text}</p>

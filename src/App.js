@@ -89,7 +89,7 @@ class App extends Component {
                         {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
                         {this.state.appLoaded ? <div className="app-wrapper">
                             <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
-                            <TransitionGroup className='height100 content-wrapper' ref="contentWrapper" onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: 2000})}>
+                            <TransitionGroup className='height100 content-wrapper' ref="contentWrapper" onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: {enter: 2100, exit: 2000}})}>
                                 <CSSTransition
                                     key={location.pathname.split('/')[1]}
                                     classNames={this.state.transitionName}
