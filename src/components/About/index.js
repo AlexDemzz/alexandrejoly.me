@@ -1,7 +1,15 @@
 import React from 'react';
 import './styles.css';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
+import ReactIScroll from 'react-iscroll';
+import iScroll from 'iscroll/build/iscroll-probe';
 
 class About extends React.Component{
+    state = {
+        value: 'alexandre.joly36@gmail.com',
+        copied: false,
+    };
+
     uiAnimationEvent = (e) => {
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
@@ -47,19 +55,58 @@ class About extends React.Component{
     }
 
     render(){
+
+        const validSvg = () => (
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6720 8400' fillRule='evenodd'
+                 clipRule='evenodd' shapeRendering='geometricPrecision' textRendering='geometricPrecision'
+                 imageRendering='optimizeQuality'>
+                <defs />
+                <path className='fil0' d='M2659 3838l1989 -1989c33,-33 87,-33 121,0l0 0 341 341c33,33 33,87 0,121l0 0 -2389 2389c-33,33 -87,33 -121,0l0 0 -1092 -1092c-33,-33 -33,-87 0,-121 1,-1 3,-3 5,-4l334 -336 0 0c33,-33 87,-34 121,0l1 1 691 691zm3261 -478c0,-707 -287,-1347 -750,-1810 -463,-463 -1103,-750 -1810,-750 -707,0 -1347,287 -1810,750 -463,463 -750,1103 -750,1810 0,707 287,1347 750,1810 463,463 1103,750 1810,750 707,0 1347,-287 1810,-750 463,-463 750,-1103 750,-1810z'
+                />
+            </svg>
+        );
+
         return(
 
                 <div className="about">
                     <div className="container">
-                        <div className="about-text-wrapper">
-                            <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
-                                Driven by my passion for the javascript, i try to discover and learn new things every day.
-                                <br/>
-                                <br/>
-                                Feel free to <span>contact me</span>,<br/>
-                                i’m looking for a full-time job.
-                            </p>
-                        </div>
+                        <ReactIScroll
+                            ref="reactIScroll"
+                            iScroll={iScroll}
+                            options={{mouseWheel: true, disableTouch: true, disablePointer: true, bounce: false}}>
+                            <div className="about-text-wrapper scroll-container">
+                                <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span className="about-interact" onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span className="about-interact" onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
+                                    Driven by my passion for the javascript, i try to discover and learn new things every day.
+                                    <br/>
+                                    <br/>
+                                    <div className="contact-me">
+                                        <p>Feel free to ,</p>
+                                        <div className="contact-me-copy">
+                                            <div className="contact-me-email">
+                                                <CopyToClipboard text={this.state.value}
+                                                                 onCopy={() => {this.setState({copied: true});
+                                                                     setTimeout(()=>{
+                                                                         this.setState({copied: false});
+                                                                     }, 3000)
+                                                                 }}>
+                                                    <p className="about-interact" ><span>contact me</span></p>
+                                                </CopyToClipboard>
+                                                {this.state.copied ?
+                                                    <div className={`copied`}>
+                                                        <p>{validSvg()}
+                                                        copied to clipboard
+                                                    </p>
+                                                </div> : null}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p> i’m looking for a full-time job.</p>
+                                </p>
+                            </div>
+                        </ReactIScroll>
+                    </div>
+                    <div className="fill-scroll-bottom" ref="fillScrollBottom">
+                        <div className="fill-scroll-bottom-bg"/>
                     </div>
                 </div>
         )

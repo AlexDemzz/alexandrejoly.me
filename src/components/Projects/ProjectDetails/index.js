@@ -2,6 +2,9 @@ import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
 import OnVisible, {setDefaultProps} from 'react-on-visible';
+import ReactIScroll from 'react-iscroll';
+import iScroll from 'iscroll/build/iscroll-probe';
+import Footer from '../../Footer';
 
 class ProjectDetails extends React.Component{
 
@@ -11,6 +14,9 @@ class ProjectDetails extends React.Component{
         preventDoublePushLoc: false,
         wheelTransEnd: 0,
         ready: true,
+        scrolled: 0,
+        prevYPosition: 0,
+        currTransform: 0.5
     }
 
     projectIdEvent = (id) => {
@@ -29,17 +35,12 @@ class ProjectDetails extends React.Component{
     }
 
     componentWillUnmount(){
-        document.removeEventListener('scroll', this.handleScroll);
     }
     componentDidMount(){
         var all = document.getElementsByTagName("*");
         this.setState({ready: true});
         console.log('COMPONENET DID MOUNT');
         this.projectIdEvent(this.props.match.params.id);
-        // this.SmoothScroll(document,100,12);
-        document.addEventListener('scroll', this.handleScroll);
-        document.body.style.overflow = '';
-
         setDefaultProps({
             bounce: true,
             visibleClassName: 'visible',
@@ -47,79 +48,80 @@ class ProjectDetails extends React.Component{
         });
     };
 
-    SmoothScroll = (target, speed, smooth) => {
-    if (target == document)
-        target = (document.documentElement || document.body.parentNode || document.body) // cross browser support for document scrolling
-    var moving = false
-    var pos = target.scrollTop
-    target.addEventListener('mousewheel', scrolled, false)
-    target.addEventListener('DOMMouseScroll', scrolled, false)
-
-    function scrolled(e) {
-        e.preventDefault(); // disable default scrolling
-        var delta = e.delta || e.wheelDelta;
-        if (delta === undefined) {
-            //we are on firefox
-            delta = -e.detail;
-        }
-        delta = Math.max(-1, Math.min(1, delta)) // cap the delta to [-1,1] for cross browser consistency
-
-        pos += -delta * speed
-        pos = Math.max(0, Math.min(pos, target.scrollHeight - target.clientHeight)) // limit scrolling
-
-        if (!moving) update()
+    onScrollStart = () =>{
+        console.log("iScroll starts scrolling")
     }
-
-    function update() {
-        moving = true
-        var delta = (pos - target.scrollTop) / smooth
-        target.scrollTop += delta
-        if (Math.abs(delta) > 0.5)
-            requestFrame(update)
-        else
-            moving = false
-    }
-
-    var requestFrame = function() { // requestAnimationFrame cross browser
-        return (
-            window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function(func) {
-                window.setTimeout(func, 1000 / 50);
-            }
-        );
-    }()
-}
 
     handleScroll = (e) => {
+        // console.log(e);
+        // console.log('MDR',e);
+
+        let newYPosition = e.y;
+
+        const addSkewY = (add) => {
+            let nbr = this.state.currTransform;
+            if(add){
+                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(${nbr}deg)`;
+                this.refs.projectsDetailsImages.style.transform = `skewY(${nbr}deg)`;
+            }else{
+                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(-${nbr}deg)`;
+                this.refs.projectsDetailsImages.style.transform = `skewY(-${nbr}deg)`;
+            }
+        }
+
+
+        if(newYPosition > this.state.prevYPosition){
+            console.log('top');
+            addSkewY(false);
+        }else if(newYPosition < this.state.prevYPosition){
+            console.log('down');
+            addSkewY(true);
+        }
+
+
+
+        this.setState({prevYPosition: e.y});
+
         const wrappedElement = document.getElementsByClassName('next-project')[0];
+        console.log('(this.isBottom(wrappedElement)', this.isBottom(wrappedElement));
         if (this.isBottom(wrappedElement)) {
             this.setState({scrollIsBot: true});
         }else{
             this.setState({scrollIsBot: false});
         }
+        this.state.currTransform <= 1.5 ? this.setState({currTransform: this.state.currTransform+0.05}) : this.setState({currTransform: this.state.currTransform});
     };
+
+    handleScrollStart = (e) => {
+
+        // console.log(e.dirX);
+
+    }
+
+    handleScrollEnd = (e) => {
+        let newYPosition = e.y;
+        this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(0deg)`;
+        this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
+        console.log(this.state.scrolled);
+        this.setState({currTransform: 0});
+
+    }
+
 
     isBottom(el) {
        if(el){
-           return el.getBoundingClientRect().bottom <= window.innerHeight;
+           return el.getBoundingClientRect().bottom-5 <= window.innerHeight;
        }
     }
 
     handleWheel = (e, touch = false) => {
         let increaseNumber = 1;
-        // if(touch){
-        //     increaseNumber = 0.3;
-        // }
         const resetScrollElem = () => {
             this.setState({scrollBottomNumber: 0});
             this.setState({wheelTransEnd: 0});
             document.body.classList.remove('mix-bend-mode-difference');
             this.refs.projectDetailsPage.classList.remove('project-details-page--out');
-        }
+        };
        if(this.state.scrollIsBot){
            if (e.nativeEvent.wheelDelta > 0) {
                resetScrollElem();
@@ -133,7 +135,7 @@ class ProjectDetails extends React.Component{
                    });
                }else{
                    const element = this.refs.fillScrollBottom;
-                   if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetails){
+                   if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
                        this.setState({preventDoublePushLoc: true});
                        this.refs.projectDetailsPage.classList.add('project-details-page--out');
                        this.refs.fillScrollBottom.style.height = '';
@@ -145,7 +147,19 @@ class ProjectDetails extends React.Component{
                        },2100);
                        setTimeout(()=>{
                            resetScrollElem();
-                           document.body.scrollTop = document.documentElement.scrollTop = 0;
+                           let $scrollContainer = document.getElementsByClassName('scroll-container')[0];
+
+
+                           let reactscroll = this.refs.reactIScroll;
+                           $scrollContainer.classList.add('no-transition');
+                           reactscroll.withIScroll((iScroll) => {
+                               iScroll.scrollTo(0,0,0);
+                           });
+
+                            setTimeout(()=>{
+                                $scrollContainer.classList.remove('no-transition');
+                            },1000);
+
                            // var nodes = this.refs.projectDetailsHeader.childNodes;
                            // for(var i=0; i<nodes.length; i++) {
                            //     nodes[i].style.animation = 'none';
@@ -176,11 +190,55 @@ class ProjectDetails extends React.Component{
     }
 
     render(){
+        const projectHeader = projectsList.map(project => {
+            if (project.id === this.props.match.params.id) {
+                let worksCol = project.works.map(
+                    (work, index) => { return (
+                        <div className="info-col" key={index}>
+                            <p>{work}</p>
+                        </div>
+                    )}
+                );
+                return (
+                    <div className="project-details-header project-details-header-fixed" ref="projectDetailsHeader" key={project.id}>
+                        <div className="project-title-container">
+                            <h2 className="project-title">{project.title}</h2>
+                        </div>
+                        <div className="project-details-infos-row">
+                            <div className="row">
+                                <p>{project.date}</p>
+                            </div>
+                            <div className="row">
+                                {worksCol}
+                            </div>
+                            <div className="row">
+                                <p>{project.text}</p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+        });
+        const projectImg = projectsList.map(project => {
+            if (project.id === this.props.match.params.id) {
+                let imgs = project.images.map(
+                    (img, index) => {
+                        return(
+                            <div className="visible" key={index}>
+                                <img src={img} alt=""/>
+                            </div >
+                        )
+                    });
+                return (
+                    <div className="project-details-images" ref="projectsDetailsImages">
+                        {imgs}
+                    </div>
+                )}
+        });
         const project = projectsList.map(project => {
                 if (project.id === this.props.match.params.id){
                     let imgs = project.images.map(
                         (img, index) => {
-                            if(index !== 0){
+                            if(index === null){
                                 return(
                                     <OnVisible key={index}>
                                         <img src={img} alt=""/>
@@ -260,20 +318,36 @@ class ProjectDetails extends React.Component{
             });
         return(
             <div className="project-details-page" ref="projectDetailsPage" onWheel={e => this.handleWheel(e)} onTouchMove={e => this.handleWheel(e, true)}>
-                <div className="container">
-                    {this.state.ready ?
-                        <div className="project-details" ref="projectDetails">
-                            {project}
+                {projectHeader}
+                <ReactIScroll
+
+                    ref="reactIScroll"
+                    iScroll={iScroll}
+                    onScroll={(e) => this.handleScroll(e)}
+                    onScrollStart={(e) => this.handleScrollStart(e)}
+                    onScrollEnd={(e) => this.handleScrollEnd(e)}
+                    options={{probeType: 2, mouseWheel: true, disableTouch: true, disablePointer: true, bounce: false}}>
+                    <div className="container scroll-container">
+
+                        {/*{this.state.ready ?*/}
+                            {/*<div className="project-details" ref="projectDetails">*/}
+                                {/*<div className="project-details-wrapper"  ref="projectDetailsWrapper" >*/}
+                                    {/*{project}*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                            {/*: <div style={{height: '100vh', width: '100%'}}/>}*/}
+                        {projectImg}
+                        <div className="next-project" ref="nextProjectRef">
+                            <p>Scroll to discover</p>
+                            <h3 className="project-title">{this.nextProject().title}</h3>
                         </div>
-                    : <div style={{height: '100vh', width: '100%'}}/>}
-                </div>
-                <div className="next-project" ref="nextProjectRef">
-                    <p>Scroll to discover</p>
-                    <h3 className="project-title">{this.nextProject().title}</h3>
-                </div>
+                        <Footer noFixed={true} appLoaded={true}/>
+                    </div>
+                </ReactIScroll>
                 <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
                     <div className="fill-scroll-bottom-bg"/>
                 </div>
+
             </div>
         )
     }

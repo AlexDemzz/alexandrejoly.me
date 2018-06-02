@@ -228,7 +228,6 @@ class Project extends React.Component{
     };
 
     componentDidMount(){
-        console.log(this.props.details);
     }
 
     getRandomArbitrary = (min, max) => {
@@ -308,22 +307,15 @@ class Project extends React.Component{
     };
 
     clickProject = (e) => {
-        console.log(e.currentTarget.parentElement.parentElement);
+        this.props.cursorEvent(false,false);
+        this.refs.project.style.pointEvents = 'none';
     }
-
-    // componentWillReceiveProps(nextProps){
-    //     if(nextProps.holdEnd !== this.props.holdEnd){
-    //         if(this.state.mouseDown){
-    //             this.redirect(this.props.details);
-    //         }
-    //     }
-    // }
 
     render(){
         return(
             <div ref="project"
                 className={`project js-project ${this.props.active === true ?  'active' : ''}`}
-                onMouseEnter={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
+                onMouseOver={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
                 onMouseLeave={(e) => {this.hideIcon(e); this.sendCursorEvent(false, false)}}>
                 <div className="project-wrapper">
                     <NavLink onClick={e => this.clickProject(e)} activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"

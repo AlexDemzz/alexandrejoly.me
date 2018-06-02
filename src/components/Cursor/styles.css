@@ -488,6 +488,21 @@
         height: 0%;
         border-radius: 9999px;
         transition: 0s; }
+    .cursor .pointer .border {
+      opacity: 0;
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      transform: scale(1.5); }
+      .cursor .pointer .border:after, .cursor .pointer .border:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border: solid 3px #7F00FF;
+        border-radius: 9999px; }
     .cursor .pointer .text {
       display: -webkit-box;
       display: -ms-flexbox;
@@ -531,12 +546,7 @@
     box-sizing: border-box;
     -webkit-transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
     transition-timing-function: cubic-bezier(0.75, -0.5, 0, 1.75);
-    border: solid 2px white; }
-    .cursor.hover .main:after {
-      background: transparent;
-      width: 100%;
-      height: 100%;
-      transition: width 0.3s, height 0.3s; }
+    border: solid 1px white; }
   .cursor.hold {
     mix-blend-mode: difference; }
     .cursor.hold .main:after {
@@ -545,3 +555,67 @@
       height: 0%;
       transition: width 2s, height 2s;
       transition-timing-function: linear; }
+
+@-webkit-keyframes border-hover {
+  from {
+    opacity: 1;
+    transform: scale(1); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@-moz-keyframes border-hover {
+  from {
+    opacity: 1;
+    transform: scale(1); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@-o-keyframes border-hover {
+  from {
+    opacity: 1;
+    transform: scale(1); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@keyframes border-hover {
+  from {
+    opacity: 1;
+    transform: scale(1); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@-webkit-keyframes border-hover-small {
+  from {
+    opacity: 1;
+    transform: scale(0.8); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@-moz-keyframes border-hover-small {
+  from {
+    opacity: 1;
+    transform: scale(0.8); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@-o-keyframes border-hover-small {
+  from {
+    opacity: 1;
+    transform: scale(0.8); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }
+
+@keyframes border-hover-small {
+  from {
+    opacity: 1;
+    transform: scale(0.8); }
+  to {
+    opacity: 0;
+    transform: scale(0.1); } }

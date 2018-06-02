@@ -25,10 +25,19 @@ class Projects extends React.Component{
     };
 
     handleDrag = (event, ui) => {
+        const removeActiveClass = () => {
+            const $projects = document.getElementsByClassName('project');
+            for(let i=0; i < $projects.length; i++){
+                $projects[i].classList.remove('active');
+            }
+        };
+
         if(ui.deltaX>0){
             this.scrollAnimation(true, 'prev', event.movementX);
+            removeActiveClass();
         }else{
             this.scrollAnimation(true, 'next', event.movementX);
+            removeActiveClass();
         }
     };
 

@@ -469,16 +469,28 @@ body {
   margin: 0;
   padding: 0;
   background: #000;
-  overflow-x: hidden;
+  overflow: hidden;
   transition: 0.5s;
+  height: 100vh;
   backface-visibility: hidden; }
+  body .scroll-container {
+    height: auto !important;
+    transition-duration: 1.5s !important;
+    transition-timing-function: cubic-bezier(0.18, 1, 0.21, 1) !important;
+    will-change: transform; }
+    body .scroll-container.no-transition {
+      transition-duration: 0s !important; }
   body * {
     backface-visibility: hidden; }
   body .app-wrapper {
     position: relative;
     height: 100%; }
-  body.mix-bend-mode-difference .next-project {
-    mix-blend-mode: difference; }
+  body.mix-bend-mode-difference footer {
+    opacity: 0;
+    transition: 0.5s; }
+  body.mix-bend-mode-difference .project-details-page > div:nth-of-type(2) {
+    mix-blend-mode: difference;
+    z-index: 999999; }
   body .container {
     max-width: inherit;
     width: 100%;
@@ -532,64 +544,109 @@ body {
     position: relative; }
 
 /*Animation*/
-.home-to-project-exit.projects {
+.home-to-project-exit.projects, .home-to-project-exit.about, .header-link-exit.projects, .header-link-exit.about {
   position: absolute;
   top: 0;
   left: 0; }
-  .home-to-project-exit.projects .fill-scroll-bottom {
+  .home-to-project-exit.projects .container, .home-to-project-exit.about .container, .header-link-exit.projects .container, .header-link-exit.about .container {
+    animation: none; }
+  .home-to-project-exit.projects .fill-scroll-bottom, .home-to-project-exit.about .fill-scroll-bottom, .header-link-exit.projects .fill-scroll-bottom, .header-link-exit.about .fill-scroll-bottom {
     height: 100vh;
     transition: 1s; }
-    .home-to-project-exit.projects .fill-scroll-bottom:after {
+    .home-to-project-exit.projects .fill-scroll-bottom:after, .home-to-project-exit.about .fill-scroll-bottom:after, .header-link-exit.projects .fill-scroll-bottom:after, .header-link-exit.about .fill-scroll-bottom:after {
       transform: rotateZ(0deg);
       transition: 1s;
       transition-timing-function: ease-out; }
 
-.home-to-project-exit-active.projects {
+.home-to-project-exit.project-details-page .container, .home-to-project-exit.project-details-page .project-details-header, .home-to-project-exit.project-details-page .project-details-images, .header-link-exit.project-details-page .container, .header-link-exit.project-details-page .project-details-header, .header-link-exit.project-details-page .project-details-images {
+  opacity: 0;
+  transition: opacity 0s 1s; }
+
+.home-to-project-exit.project-details-page .fill-scroll-bottom, .header-link-exit.project-details-page .fill-scroll-bottom {
+  height: 100vh !important;
+  transition: 1s;
+  animation: fill-scroll-bottom--out 1s forwards;
+  animation-delay: 1s; }
+
+.home-to-project-exit-active.projects, .home-to-project-exit-active.about, .header-link-exit-active.projects, .header-link-exit-active.about {
   position: absolute;
   top: 0;
-  left: 0; }
-  .home-to-project-exit-active.projects .container {
+  left: 0;
+  pointer-events: none; }
+  .home-to-project-exit-active.projects .container, .home-to-project-exit-active.about .container, .header-link-exit-active.projects .container, .header-link-exit-active.about .container {
     opacity: 0;
     transition: opacity 0s 1s; }
-  .home-to-project-exit-active.projects .fill-scroll-bottom {
+  .home-to-project-exit-active.projects .fill-scroll-bottom, .home-to-project-exit-active.about .fill-scroll-bottom, .header-link-exit-active.projects .fill-scroll-bottom, .header-link-exit-active.about .fill-scroll-bottom {
     animation: fill-scroll-bottom--out 1s forwards;
     animation-delay: 1s;
     position: fixed;
     bottom: 0;
     height: 100vh !important;
     transition: 1s; }
-    .home-to-project-exit-active.projects .fill-scroll-bottom:after {
+    .home-to-project-exit-active.projects .fill-scroll-bottom:after, .home-to-project-exit-active.about .fill-scroll-bottom:after, .header-link-exit-active.projects .fill-scroll-bottom:after, .header-link-exit-active.about .fill-scroll-bottom:after {
       transform: rotateZ(0deg);
       transition: 0.5s;
       transition-timing-function: ease-out; }
 
-.home-to-project-enter.project-details-page {
+.home-to-project-enter.projects, .header-link-enter.projects {
+  opacity: 0;
+  transition: opacity 0s; }
+
+.home-to-project-enter.project-details-page, .header-link-enter.project-details-page {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0; }
-  .home-to-project-enter.project-details-page .project-details-infos-row .row .info-col {
+  .home-to-project-enter.project-details-page .project-details-infos-row .row .info-col, .header-link-enter.project-details-page .project-details-infos-row .row .info-col {
     opacity: 0;
     animation: none; }
-  .home-to-project-enter.project-details-page .project-details-infos-row .row p {
+  .home-to-project-enter.project-details-page .project-details-infos-row .row p, .header-link-enter.project-details-page .project-details-infos-row .row p {
     opacity: 0;
     animation: none; }
-  .home-to-project-enter.project-details-page .project-details-infos-row .row:last-of-type p {
+  .home-to-project-enter.project-details-page .project-details-infos-row .row:last-of-type p, .header-link-enter.project-details-page .project-details-infos-row .row:last-of-type p {
     opacity: 0;
     animation: none; }
-  .home-to-project-enter.project-details-page .project-details-images > div.visible img {
+  .home-to-project-enter.project-details-page .project-details-images > div.visible img, .header-link-enter.project-details-page .project-details-images > div.visible img {
     opacity: 0;
     animation: fade-translate-appear--small 0.5s 1.1s forwards; }
 
-.home-to-project-enter-active.project-details-page {
+.home-to-project-enter.about, .header-link-enter.about {
+  position: absolute;
+  top: 0;
+  left: 0; }
+  .home-to-project-enter.about .container, .header-link-enter.about .container {
+    opacity: 0;
+    transition: 0s;
+    animation: none; }
+    .home-to-project-enter.about .container .about-text-wrapper p, .header-link-enter.about .container .about-text-wrapper p {
+      animation: none;
+      line-height: 80px; }
+      .home-to-project-enter.about .container .about-text-wrapper p span:before, .header-link-enter.about .container .about-text-wrapper p span:before {
+        animation: none; }
+
+.home-to-project-enter-active.projects, .header-link-enter-active.projects {
   opacity: 1;
-  transition: 0s 1s; }
-  .home-to-project-enter-active.project-details-page .project-details-infos-row .row .info-col {
+  transition: opacity 0s 1s; }
+
+.home-to-project-enter-active.project-details-page, .header-link-enter-active.project-details-page {
+  opacity: 1;
+  transition: opacity 0s 1s; }
+  .home-to-project-enter-active.project-details-page .project-details-infos-row .row .info-col, .header-link-enter-active.project-details-page .project-details-infos-row .row .info-col {
     opacity: 0;
     animation: project-enter-item 1s 1.1s forwards; }
-  .home-to-project-enter-active.project-details-page .project-details-infos-row .row p {
+  .home-to-project-enter-active.project-details-page .project-details-infos-row .row p, .header-link-enter-active.project-details-page .project-details-infos-row .row p {
     animation: project-enter-item 1s 1.1s forwards; }
-  .home-to-project-enter-active.project-details-page .project-details-infos-row .row:last-of-type p {
+  .home-to-project-enter-active.project-details-page .project-details-infos-row .row:last-of-type p, .header-link-enter-active.project-details-page .project-details-infos-row .row:last-of-type p {
     animation: project-enter-text 1s 1.1s forwards; }
-  .home-to-project-enter-active.project-details-page .project-details-images > div.visible img {
+  .home-to-project-enter-active.project-details-page .project-details-images > div.visible img, .header-link-enter-active.project-details-page .project-details-images > div.visible img {
     animation: fade-translate-appear--small 0.5s 1.1s forwards; }
+
+.home-to-project-enter-active.about .container, .header-link-enter-active.about .container {
+  opacity: 1;
+  transition: 0s 1s;
+  animation: about-enter 2s 1.1s forwards; }
+  .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
+    animation: about-enter-text 1.5s 1.1s forwards;
+    line-height: 80px; }
+    .home-to-project-enter-active.about .container .about-text-wrapper p span:before, .header-link-enter-active.about .container .about-text-wrapper p span:before {
+      animation: about-enter-text-link 0.3s 2.1s forwards; }

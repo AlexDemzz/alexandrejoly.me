@@ -431,9 +431,11 @@ footer {
   box-sizing: border-box;
   margin-top: 30px;
   padding-bottom: 30px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  opacity: 1;
+  transition: 0.5s; }
   footer.no-fixed {
-    position: absolute;
+    position: static;
     mix-blend-mode: difference; }
   footer p {
     transform-origin: 0 0;
@@ -441,12 +443,23 @@ footer {
     opacity: 0;
     transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s;
     font-size: 20px;
-    font-family: "hk_groteskregular", sans-serif; }
+    font-family: "hk_groteskregular", sans-serif;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap; }
     footer p a {
       text-decoration: none;
       font-family: "hk_groteskbold", sans-serif;
       position: relative;
-      transition: 0.2s; }
+      transition: 0.2s;
+      margin: 0 5px;
+      margin-bottom: 3px; }
       footer p a:before {
         content: '';
         position: absolute;

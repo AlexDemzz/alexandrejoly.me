@@ -101,7 +101,9 @@ class App extends Component {
                                     </Switch>
                                 </CSSTransition>
                             </TransitionGroup>
-                            <Footer appLoaded={this.state.appLoaded}/>
+                            {
+                                location.pathname.split('/')[1] !== 'work' ? <Footer appLoaded={this.state.appLoaded}/> : null
+                            }
                         </div> : null}
                         <div className="bottom-line"/>
                     </div>

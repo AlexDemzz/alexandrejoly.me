@@ -430,45 +430,161 @@ body:after {
   transition: 0.3s; }
 
 .about {
-  padding-top: 125px;
-  animation: about-enter 2s forwards;
-  min-height: 70vh; }
-  .about .about-text-wrapper {
-    -webkit-backface-visibility: hidden; }
-    .about .about-text-wrapper p {
-      padding: 30px 0;
-      font-size: 55px;
-      max-width: 1300px;
-      width: 100%;
-      font-family: "hk_groteskregular", sans-serif;
-      animation: about-enter-text 1.5s forwards;
-      line-height: 80px; }
-      .about .about-text-wrapper p span {
-        font-family: "hk_groteskbold", sans-serif;
-        position: relative; }
-        .about .about-text-wrapper p span:hover {
-          color: #7F00FF; }
-          .about .about-text-wrapper p span:hover:before {
-            height: 80%;
-            transition: 0.3s;
-            background: white; }
-        .about .about-text-wrapper p span:before {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          height: 30%;
-          z-index: -1;
-          width: 0%;
-          background: #7F00FF;
-          animation: about-enter-text-link 0.3s forwards;
-          animation-delay: 1.5s;
-          transition: 0.3s; }
+  height: 100vh; }
+  .about .container {
+    animation: about-enter 2s forwards; }
+    .about .container .about-text-wrapper {
+      -webkit-backface-visibility: hidden; }
+      .about .container .about-text-wrapper p {
+        padding: 30px 0;
+        font-size: 55px;
+        max-width: 1300px;
+        width: 100%;
+        font-family: "hk_groteskregular", sans-serif;
+        animation: about-enter-text 1.5s forwards;
+        line-height: 80px; }
+        .about .container .about-text-wrapper p p {
+          margin: 0;
+          padding: 0; }
+        .about .container .about-text-wrapper p .about-interact {
+          font-family: "hk_groteskbold", sans-serif;
+          position: relative; }
+          .about .container .about-text-wrapper p .about-interact:hover {
+            color: #7F00FF; }
+            .about .container .about-text-wrapper p .about-interact:hover:before {
+              height: 80%;
+              transition: 0.3s;
+              background: white; }
+          .about .container .about-text-wrapper p .about-interact:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 30%;
+            z-index: -1;
+            width: 0%;
+            background: #7F00FF;
+            animation: about-enter-text-link 0.3s forwards;
+            animation-delay: 1.5s;
+            transition: 0.3s; }
+        .about .container .about-text-wrapper p .contact-me {
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-align-items: flex-start;
+          align-items: flex-start;
+          -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+          -webkit-flex-flow: row nowrap;
+          flex-flow: row nowrap; }
+          .about .container .about-text-wrapper p .contact-me p {
+            width: inherit; }
+          .about .container .about-text-wrapper p .contact-me .contact-me-copy {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: flex-start;
+            align-items: flex-start;
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+            -webkit-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+            position: relative; }
+            .about .container .about-text-wrapper p .contact-me .contact-me-copy:hover .about-interact span {
+              color: #7F00FF; }
+            .about .container .about-text-wrapper p .contact-me .contact-me-copy:hover .copied {
+              height: 100%;
+              transition: 0.2s; }
+            .about .container .about-text-wrapper p .contact-me .contact-me-copy .about-interact {
+              margin-left: 10px; }
+              .about .container .about-text-wrapper p .contact-me .contact-me-copy .about-interact span {
+                font-family: "hk_groteskbold", sans-serif; }
+            .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied {
+              position: absolute;
+              top: -50px;
+              left: 0;
+              right: 0;
+              z-index: -1;
+              transition: 0.2s;
+              margin-left: 10px; }
+              .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied svg {
+                margin-bottom: -7px;
+                width: 30px;
+                fill: white;
+                margin-right: 10px; }
+              .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied p {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-align-items: center;
+                align-items: center;
+                -webkit-justify-content: center;
+                justify-content: center;
+                -webkit-flex-flow: row nowrap;
+                flex-flow: row nowrap;
+                font-size: 20px;
+                height: 100%;
+                color: white;
+                margin-left: -15px;
+                position: relative;
+                font-family: "hk_groteskbold", sans-serif;
+                animation: text-appear-from-bottom-fade 3s forwards; }
 
-.about.header-link-enter-active {
-  display: none; }
-  .about.header-link-enter-active *, .about.header-link-enter-active *:before, .about.header-link-enter-active *:after {
-    animation: none !important; }
+@-webkit-keyframes text-appear-from-bottom-fade {
+  0% {
+    top: 30px;
+    opacity: 0; }
+  20% {
+    top: 0px;
+    opacity: 1; }
+  80% {
+    top: 0px;
+    opacity: 1; }
+  100% {
+    top: 30px;
+    opacity: 0; } }
+
+@-moz-keyframes text-appear-from-bottom-fade {
+  0% {
+    top: 30px;
+    opacity: 0; }
+  20% {
+    top: 0px;
+    opacity: 1; }
+  80% {
+    top: 0px;
+    opacity: 1; }
+  100% {
+    top: 30px;
+    opacity: 0; } }
+
+@-o-keyframes text-appear-from-bottom-fade {
+  0% {
+    top: 30px;
+    opacity: 0; }
+  20% {
+    top: 0px;
+    opacity: 1; }
+  80% {
+    top: 0px;
+    opacity: 1; }
+  100% {
+    top: 30px;
+    opacity: 0; } }
+
+@keyframes text-appear-from-bottom-fade {
+  0% {
+    top: 30px;
+    opacity: 0; }
+  20% {
+    top: 0px;
+    opacity: 1; }
+  80% {
+    top: 0px;
+    opacity: 1; }
+  100% {
+    top: 30px;
+    opacity: 0; } }
 
 @-webkit-keyframes about-enter-text-link {
   0% {

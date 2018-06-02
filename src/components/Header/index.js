@@ -9,7 +9,7 @@ class Header extends React.Component{
     }
 
     sendGetClickEvent = () => {
-        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: {enter: 1500, exit: 1500}});
+        this.props.getClickEvent({transitionName: 'header-link', transitionDelay: {enter: 3100, exit: 2000}});
     }
 
     sendCursorEvent = (hoverStatus) => {
@@ -20,11 +20,11 @@ class Header extends React.Component{
     enableBackBtn = (currentPath) => {
         let path = currentPath.split('/');
         if(path[1] === 'work'){
-            // this.setState({backButton: true});
-            document.getElementsByTagName('footer')[0].classList.add('no-fixed');
+            this.setState({backButton: true});
+            // document.getElementsByTagName('footer')[0].classList.add('no-fixed');
         }else{
-            // this.setState({backButton: false});
-            document.getElementsByTagName('footer')[0].classList.remove('no-fixed');
+            this.setState({backButton: false});
+            // document.getElementsByTagName('footer')[0].classList.remove('no-fixed');
         }
     };
     
