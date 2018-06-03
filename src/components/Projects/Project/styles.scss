@@ -143,11 +143,12 @@
     .project-title{
       -webkit-text-stroke-width: 2px;
       -webkit-text-stroke-color: white;
-      color: transparent;
+      color: transparent!important;
       transition: all 0s 0s;
       //transition-delay: 0s!important;
+
       &:after {
-        width: 0%;
+        width: 0%!important;
       }
     }
   }

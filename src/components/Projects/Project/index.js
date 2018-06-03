@@ -24,7 +24,6 @@ class Project extends React.Component{
     };
 
     sendCursorEvent = (hoverStatus, holdStatus) => {
-        console.log('hoverStatus : ',hoverStatus);
         this.props.cursorEvent(hoverStatus, holdStatus);
     };
 
@@ -38,7 +37,6 @@ class Project extends React.Component{
         }
         
         let $activeElem = e.currentTarget.parentElement.parentElement;
-        console.log($activeElem);
         $activeElem.classList.add('active');
 
         // this.refs.projectTitle.addEventListener('transitionend', (event) => {
@@ -203,7 +201,6 @@ class Project extends React.Component{
             this.setState({preventHide: false});
             this.setState({'showIcon': true});
             if (this.props.showHitBubble) {
-                console.log('POPIN');
                 setTimeout(() => {
                     this.popIn();
                 }, 1000);
@@ -318,7 +315,7 @@ class Project extends React.Component{
                 onMouseOver={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
                 onMouseLeave={(e) => {this.hideIcon(e); this.sendCursorEvent(false, false)}}>
                 <div className="project-wrapper">
-                    <NavLink onClick={e => this.clickProject(e)} activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"
+                    <NavLink onDragStart={(e) => {e.preventDefault()}} onClick={e => this.clickProject(e)} activeClassName='active' to={{pathname: `/work/${this.props.details.id}/${this.props.details.title.toLowerCase().split(' ').join('-')}`}} className="project-title-container"
                         // onMouseDown={(e) => {this.sendCursorEvent(true, true); this.onMouseDown(e) }}
                         // onMouseUp={(e) => {this.sendCursorEvent(true, false); this.onMouseUp(e) }}
                         onMouseMove={(e) => this.preventHold(e)}>

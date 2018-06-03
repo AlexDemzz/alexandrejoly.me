@@ -25,7 +25,6 @@ class ProjectDetails extends React.Component{
     
     componentWillReceiveProps(nextProps){
         if(nextProps.match.params.id !== this.props.match.params.id){
-            console.log('RELOAD PAGE');
             this.setState({preventDoublePushLoc: false});
             this.setState({ready: false});
             setTimeout(()=>{
@@ -39,7 +38,6 @@ class ProjectDetails extends React.Component{
     componentDidMount(){
         var all = document.getElementsByTagName("*");
         this.setState({ready: true});
-        console.log('COMPONENET DID MOUNT');
         this.projectIdEvent(this.props.match.params.id);
         setDefaultProps({
             bounce: true,
@@ -49,7 +47,6 @@ class ProjectDetails extends React.Component{
     };
 
     onScrollStart = () =>{
-        console.log("iScroll starts scrolling")
     }
 
     handleScroll = (e) => {
@@ -71,10 +68,8 @@ class ProjectDetails extends React.Component{
 
 
         if(newYPosition > this.state.prevYPosition){
-            console.log('top');
             addSkewY(false);
         }else if(newYPosition < this.state.prevYPosition){
-            console.log('down');
             addSkewY(true);
         }
 
@@ -83,7 +78,6 @@ class ProjectDetails extends React.Component{
         this.setState({prevYPosition: e.y});
 
         const wrappedElement = document.getElementsByClassName('next-project')[0];
-        console.log('(this.isBottom(wrappedElement)', this.isBottom(wrappedElement));
         if (this.isBottom(wrappedElement)) {
             this.setState({scrollIsBot: true});
         }else{
@@ -102,7 +96,6 @@ class ProjectDetails extends React.Component{
         let newYPosition = e.y;
         this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(0deg)`;
         this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
-        console.log(this.state.scrolled);
         this.setState({currTransform: 0});
 
     }
@@ -344,7 +337,7 @@ class ProjectDetails extends React.Component{
                         <Footer noFixed={true} appLoaded={true}/>
                     </div>
                 </ReactIScroll>
-                <div className="fill-scroll-bottom"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
+                <div className="fill-scroll-bottom scrolling"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
                     <div className="fill-scroll-bottom-bg"/>
                 </div>
 

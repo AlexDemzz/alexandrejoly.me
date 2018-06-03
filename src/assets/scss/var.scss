@@ -222,11 +222,12 @@ $purpleGradientEnd: #E100FF;
 
 @include keyframes(fill-scroll-bottom--out){
   0%{
-    top: -40px;
+    top: -80px;
     bottom: inherit;
+    height: 110vh;
   }
   100%{
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top:0px;

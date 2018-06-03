@@ -54,6 +54,10 @@ class About extends React.Component{
         document.body.style.background = '';
     }
 
+    sendCursorEvent = (status) =>{
+        this.props.cursorEvent(status, false);
+    }
+
     render(){
 
         const validSvg = () => (
@@ -75,37 +79,39 @@ class About extends React.Component{
                             iScroll={iScroll}
                             options={{mouseWheel: true, disableTouch: true, disablePointer: true, bounce: false}}>
                             <div className="about-text-wrapper scroll-container">
-                                <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span className="about-interact" onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span className="about-interact" onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
-                                    Driven by my passion for the javascript, i try to discover and learn new things every day.
-                                    <br/>
-                                    <br/>
-                                    <div className="contact-me">
-                                        <p>Feel free to ,</p>
-                                        <div className="contact-me-copy">
-                                            <div className="contact-me-email">
-                                                <CopyToClipboard text={this.state.value}
-                                                                 onCopy={() => {this.setState({copied: true});
-                                                                     setTimeout(()=>{
-                                                                         this.setState({copied: false});
-                                                                     }, 3000)
-                                                                 }}>
-                                                    <p className="about-interact" ><span>contact me</span></p>
-                                                </CopyToClipboard>
-                                                {this.state.copied ?
-                                                    <div className={`copied`}>
-                                                        <p>{validSvg()}
-                                                        copied to clipboard
-                                                    </p>
-                                                </div> : null}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p> i’m looking for a full-time job.</p>
-                                </p>
+                               <div className="about-text-wrapper-ctn">
+                                   <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span className="about-interact" onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span className="about-interact" onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
+                                       Driven by my passion for the javascript, i try to discover and learn new things every day.
+                                       <br/>
+                                       <br/>
+                                       <div className="contact-me">
+                                           <p>Feel free to ,</p>
+                                           <div className="contact-me-copy" onMouseOver={()=>this.sendCursorEvent(true)} onMouseLeave={()=>this.sendCursorEvent(false)}>
+                                               <div className="contact-me-email">
+                                                   <CopyToClipboard text={this.state.value}
+                                                                    onCopy={() => {this.setState({copied: true});
+                                                                        setTimeout(()=>{
+                                                                            this.setState({copied: false});
+                                                                        }, 3000)
+                                                                    }}>
+                                                       <p className="about-interact" ><span>contact me</span></p>
+                                                   </CopyToClipboard>
+                                                   {this.state.copied ?
+                                                       <div className={`copied`}>
+                                                           <p>{validSvg()}
+                                                               email copied to clipboard
+                                                           </p>
+                                                       </div> : null}
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <p> i’m looking for a full-time job.</p>
+                                   </p>
+                               </div>
                             </div>
                         </ReactIScroll>
                     </div>
-                    <div className="fill-scroll-bottom" ref="fillScrollBottom">
+                    <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                         <div className="fill-scroll-bottom-bg"/>
                     </div>
                 </div>

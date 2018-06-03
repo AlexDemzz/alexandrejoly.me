@@ -8,6 +8,15 @@
   @include flex(c,c,col);
   @include noselect();
   @include nodrag();
+  &.fluid{
+    transition: 0.2s;
+    transition-timing-function: ease-out;
+    .pointer{
+      .main{
+        transition: 0.3s
+      }
+    }
+  }
   .pointer{
     @include flex(c,c,col);
     .main{

@@ -45,7 +45,6 @@ class Projects extends React.Component{
         let posDeg = Math.abs(deg)*2;
         posDeg >= 40 ?  posDeg = 40 : posDeg;
         let rotateZ = Math.abs(deg)/5;
-        console.log('rotateZ',rotateZ);
         rotateZ >= 4 ?  rotateZ = 4 : rotateZ;
         let $projects = document.getElementsByClassName('js-project');
         if(status){
@@ -101,7 +100,7 @@ class Projects extends React.Component{
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.location !== this.props.location) {
-            this.setState({ prevPath: this.props.location })
+            this.setState({ prevPath: this.props.location });
         }
     }
 
@@ -121,11 +120,9 @@ class Projects extends React.Component{
             }
         }
         this.setState({projectsSize});
-        console.log('-----');
-        console.log(this.props.history);
         this.refs.projects.classList.add('show');
         if(this.props.history.action === 'POP'){
-            this.refs.projects.classList.add('init-projects');
+            this.refs.projects.classList.add('init-projects-end');
         }
     }
 
@@ -195,7 +192,7 @@ class Projects extends React.Component{
                         </div>
                     </Draggable>
                 </div>
-                <div className="fill-scroll-bottom" ref="fillScrollBottom">
+                <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                     <div className="fill-scroll-bottom-bg"/>
                 </div>
             </div>

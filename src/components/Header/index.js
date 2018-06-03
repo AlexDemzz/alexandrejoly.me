@@ -13,7 +13,6 @@ class Header extends React.Component{
     }
 
     sendCursorEvent = (hoverStatus) => {
-        console.log(hoverStatus);
         this.props.cursorEvent(hoverStatus, false);
     }
 

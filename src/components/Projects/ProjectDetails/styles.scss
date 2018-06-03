@@ -231,8 +231,8 @@
     @include flex(c,fs);
     position: relative;
     line-height: 190px;
-    -webkit-text-stroke: 2px white;
-    color: black;
+    //-webkit-text-stroke: 2px white;
+    color: white;
     //@include container(1200px);
     //top: 144px;
     //animation: text-appear-from-bottom 1s forwards;

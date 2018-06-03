@@ -26,6 +26,9 @@ body{
   height: 100vh;
   .container{
     animation: about-enter 2s forwards;
+    .about-text-wrapper-ctn{
+      padding: 150px 0;
+    }
     .about-text-wrapper{
       -webkit-backface-visibility: hidden;
       p{

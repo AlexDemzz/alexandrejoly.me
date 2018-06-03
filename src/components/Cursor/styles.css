@@ -284,40 +284,44 @@
 
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
@@ -443,6 +447,11 @@
   -moz-user-drag: none;
   -o-user-drag: none;
   user-drag: none; }
+  .cursor.fluid {
+    transition: 0.2s;
+    transition-timing-function: ease-out; }
+    .cursor.fluid .pointer .main {
+      transition: 0.3s; }
   .cursor .pointer {
     display: -webkit-box;
     display: -ms-flexbox;

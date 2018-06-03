@@ -287,40 +287,44 @@
 
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
@@ -459,9 +463,6 @@ table {
 #root {
   height: 100%; }
 
-body, html {
-  -webkit-overflow-scrolling: touch; }
-
 .scrollable-area {
   height: 100%; }
 
@@ -551,19 +552,22 @@ body {
   .home-to-project-exit.projects .container, .home-to-project-exit.about .container, .header-link-exit.projects .container, .header-link-exit.about .container {
     animation: none; }
   .home-to-project-exit.projects .fill-scroll-bottom, .home-to-project-exit.about .fill-scroll-bottom, .header-link-exit.projects .fill-scroll-bottom, .header-link-exit.about .fill-scroll-bottom {
-    height: 100vh;
+    height: 110vh;
     transition: 1s; }
     .home-to-project-exit.projects .fill-scroll-bottom:after, .home-to-project-exit.about .fill-scroll-bottom:after, .header-link-exit.projects .fill-scroll-bottom:after, .header-link-exit.about .fill-scroll-bottom:after {
       transform: rotateZ(0deg);
       transition: 1s;
       transition-timing-function: ease-out; }
 
+.home-to-project-exit.projects .container, .header-link-exit.projects .container {
+  animation: inherit; }
+
 .home-to-project-exit.project-details-page .container, .home-to-project-exit.project-details-page .project-details-header, .home-to-project-exit.project-details-page .project-details-images, .header-link-exit.project-details-page .container, .header-link-exit.project-details-page .project-details-header, .header-link-exit.project-details-page .project-details-images {
   opacity: 0;
   transition: opacity 0s 1s; }
 
 .home-to-project-exit.project-details-page .fill-scroll-bottom, .header-link-exit.project-details-page .fill-scroll-bottom {
-  height: 100vh !important;
+  height: 110vh !important;
   transition: 1s;
   animation: fill-scroll-bottom--out 1s forwards;
   animation-delay: 1s; }
@@ -581,7 +585,7 @@ body {
     animation-delay: 1s;
     position: fixed;
     bottom: 0;
-    height: 100vh !important;
+    height: 110vh !important;
     transition: 1s; }
     .home-to-project-exit-active.projects .fill-scroll-bottom:after, .home-to-project-exit-active.about .fill-scroll-bottom:after, .header-link-exit-active.projects .fill-scroll-bottom:after, .header-link-exit-active.about .fill-scroll-bottom:after {
       transform: rotateZ(0deg);
@@ -627,6 +631,12 @@ body {
 .home-to-project-enter-active.projects, .header-link-enter-active.projects {
   opacity: 1;
   transition: opacity 0s 1s; }
+  .home-to-project-enter-active.projects .project .project-title, .header-link-enter-active.projects .project .project-title {
+    animation: project-appear 1s forwards;
+    animation-delay: 1s; }
+    .home-to-project-enter-active.projects .project .project-title:after, .header-link-enter-active.projects .project .project-title:after {
+      animation: project-appear-fill-after 1s forwards;
+      animation-delay: 1s; }
 
 .home-to-project-enter-active.project-details-page, .header-link-enter-active.project-details-page {
   opacity: 1;
@@ -650,3 +660,11 @@ body {
     line-height: 80px; }
     .home-to-project-enter-active.about .container .about-text-wrapper p span:before, .header-link-enter-active.about .container .about-text-wrapper p span:before {
       animation: about-enter-text-link 0.3s 2.1s forwards; }
+
+.home-to-project-enter-done.projects .project .project-title {
+  transform: skewY(0deg);
+  opacity: 1;
+  transition: 1s; }
+  .home-to-project-enter-done.projects .project .project-title:after {
+    width: 100%;
+    transition: 1s; }

@@ -21,7 +21,7 @@ class PreHome extends React.Component{
         //     this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)});
         // },1000);
         this.setState({imgsLoaded: this.state.imgsLoaded+1});
-        this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+7});
+        this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+6});
     }
 
     componentDidUpdate(){
@@ -74,9 +74,7 @@ class PreHome extends React.Component{
         });
 
         const completeCountEvent = () => {
-
             this.setState({completeCount: this.state.completeCount+1});
-            console.log(this.state.completeCount);
         }
 
         const logo = () => (
@@ -92,9 +90,13 @@ class PreHome extends React.Component{
                         {
                             this.state.completeCount<13 ? <CountUp duration={0.50} onComplete={completeCountEvent} start={0} end={this.state.loadedNumber} /> : null
                         }
-
                         {
-                            this.state.showElem && this.state.completeCount>13 ? logo() : null
+                            this.state.showElem && this.state.completeCount>13 ?
+                                <p className="cent-per-cent">
+                                    <span>1</span>
+                                    <span>0</span>
+                                    <span>0</span>
+                                </p> : null
                         }
                     </div>
                     <div className="preHome-loader-bar">

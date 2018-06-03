@@ -48,8 +48,13 @@
     animation-delay: 1s;
     position: fixed;
     bottom: 0;
-    height: 100vh!important;
+    height: 105vh!important;
     transition: 1s;
+    &:after{
+      transform: rotateZ(1deg);
+      transition: 0.5s;
+      transition-timing-function: ease-out;
+    }
   }
   &.scrolling{
     &:after{

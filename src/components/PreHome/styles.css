@@ -284,40 +284,44 @@
 
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
@@ -441,11 +445,9 @@
     -webkit-flex-flow: column nowrap;
     flex-flow: column nowrap;
     width: 100%;
-    margin-bottom: 65px; }
+    margin-bottom: 59px; }
     .PreHome .preHome-loader .preHome-loader-label {
-      font-family: "hk_groteskbold", sans-serif;
-      font-size: 96px;
-      height: 96px;
+      height: 90px;
       position: relative;
       width: 100%;
       display: -webkit-box;
@@ -457,10 +459,82 @@
       justify-content: center;
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap; }
+      .PreHome .preHome-loader .preHome-loader-label span, .PreHome .preHome-loader .preHome-loader-label p {
+        font-family: "hk_groteskbold", sans-serif;
+        font-size: 96px; }
+        .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent {
+          padding-bottom: 14px;
+          position: relative;
+          overflow: hidden; }
+          .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span {
+            position: relative;
+            animation: letter-fall .5s forwards;
+            animation-timing-function: ease-in-out; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:first-of-type, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:first-of-type {
+              letter-spacing: -11px;
+              margin-left: -11px; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(1), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(1) {
+              animation-delay: 0.15s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(2), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(2) {
+              animation-delay: 0.3s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(3), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(3) {
+              animation-delay: 0.45s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(4), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(4) {
+              animation-delay: 0.6s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(5), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(5) {
+              animation-delay: 0.75s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(6), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(6) {
+              animation-delay: 0.9s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(7), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(7) {
+              animation-delay: 1.05s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(8), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(8) {
+              animation-delay: 1.2s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(9), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(9) {
+              animation-delay: 1.35s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(10), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(10) {
+              animation-delay: 1.5s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(11), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(11) {
+              animation-delay: 1.65s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(12), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(12) {
+              animation-delay: 1.8s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(13), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(13) {
+              animation-delay: 1.95s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(14), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(14) {
+              animation-delay: 2.1s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(15), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(15) {
+              animation-delay: 2.25s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(16), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(16) {
+              animation-delay: 2.4s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(17), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(17) {
+              animation-delay: 2.55s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(18), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(18) {
+              animation-delay: 2.7s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(19), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(19) {
+              animation-delay: 2.85s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(20), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(20) {
+              animation-delay: 3s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(21), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(21) {
+              animation-delay: 3.15s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(22), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(22) {
+              animation-delay: 3.3s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(23), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(23) {
+              animation-delay: 3.45s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(24), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(24) {
+              animation-delay: 3.6s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(25), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(25) {
+              animation-delay: 3.75s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(26), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(26) {
+              animation-delay: 3.9s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(27), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(27) {
+              animation-delay: 4.05s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(28), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(28) {
+              animation-delay: 4.2s; }
+            .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(29), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(29) {
+              animation-delay: 4.35s; }
       .PreHome .preHome-loader .preHome-loader-label p, .PreHome .preHome-loader .preHome-loader-label .logo {
         display: flex;
         position: absolute;
-        top: -20px;
+        top: -4px;
         left: auto;
         right: auto;
         margin: auto; }
@@ -517,3 +591,51 @@
       width: 0%;
       opacity: 0;
       transition: width 0.5s 0.5s, opacity 0.4s 2s; }
+
+@-webkit-keyframes letter-fall {
+  0% {
+    bottom: 0px;
+    color: white;
+    -webkit-text-stroke: 2px white; }
+  50% {
+    color: black; }
+  100% {
+    bottom: -100px;
+    color: black;
+    -webkit-text-stroke: 2px white; } }
+
+@-moz-keyframes letter-fall {
+  0% {
+    bottom: 0px;
+    color: white;
+    -webkit-text-stroke: 2px white; }
+  50% {
+    color: black; }
+  100% {
+    bottom: -100px;
+    color: black;
+    -webkit-text-stroke: 2px white; } }
+
+@-o-keyframes letter-fall {
+  0% {
+    bottom: 0px;
+    color: white;
+    -webkit-text-stroke: 2px white; }
+  50% {
+    color: black; }
+  100% {
+    bottom: -100px;
+    color: black;
+    -webkit-text-stroke: 2px white; } }
+
+@keyframes letter-fall {
+  0% {
+    bottom: 0px;
+    color: white;
+    -webkit-text-stroke: 2px white; }
+  50% {
+    color: black; }
+  100% {
+    bottom: -100px;
+    color: black;
+    -webkit-text-stroke: 2px white; } }

@@ -85,7 +85,7 @@ class App extends Component {
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
-                        <Cursor top={this.state.y} left={this.state.x} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
+                        <Cursor top={this.state.y} left={this.state.x} appLoaded={this.state.appLoaded} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
                         {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
                         {this.state.appLoaded ? <div className="app-wrapper">
                             <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
@@ -97,7 +97,7 @@ class App extends Component {
                                     <Switch location={location}>
                                         <Route match exact path="/" render={()=><Projects appLoaded={this.state.appLoaded} setupAnimation={this.state.appLoaded} dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
                                         <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} appLoaded={this.state.appLoaded} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
-                                        <Route match exact path="/about" render={(props)=><About {...props} appLoaded={this.state.appLoaded}/>} />
+                                        <Route match exact path="/about" render={(props)=><About {...props} cursorEvent={this.cursorEvent} appLoaded={this.state.appLoaded}/>}/>
                                     </Switch>
                                 </CSSTransition>
                             </TransitionGroup>

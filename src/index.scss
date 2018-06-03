@@ -7,7 +7,7 @@
   height: 100%;
 }
 body, html{
-  -webkit-overflow-scrolling: touch;
+
 }
 .scrollable-area{
   height: 100%;
@@ -111,7 +111,7 @@ body {
       animation: none;
     }
     .fill-scroll-bottom{
-      height: 100vh;
+      height: 110vh;
       transition: 1s;
       &:after{
         transform: rotateZ(0deg);
@@ -120,13 +120,18 @@ body {
       }
     }
   }
+  &.projects{
+    .container{
+      animation: inherit;
+    }
+  }
   &.project-details-page{
     .container, .project-details-header, .project-details-images{
       opacity: 0;
       transition: opacity 0s 1s;
     }
     .fill-scroll-bottom{
-      height: 100vh!important;
+      height: 110vh!important;
       transition: 1s;
       animation: fill-scroll-bottom--out 1s forwards;
       animation-delay: 1s;
@@ -149,7 +154,7 @@ body {
       animation-delay: 1s;
       position: fixed;
       bottom: 0;
-      height: 100vh!important;
+      height: 110vh!important;
       transition: 1s;
       &:after{
         transform: rotateZ(0deg);
@@ -224,6 +229,16 @@ body {
   &.projects{
     opacity: 1;
     transition: opacity 0s 1s;
+    .project{
+      .project-title{
+        animation: project-appear 1s forwards;
+        animation-delay: 1s;
+        &:after{
+          animation: project-appear-fill-after 1s forwards;
+          animation-delay: 1s;
+        }
+      }
+    }
   }
   &.project-details-page{
     opacity: 1;
@@ -272,19 +287,21 @@ body {
   }
 }
 
-//.home-to-project-enter-done{
-//  &.project-details-page{
-//    .row{
-//      p{
-//        animation: none!important;
-//      }
-//    }
-//    .info-col{
-//      opacity: 1!important;
-//      animation: none!important;
-//    }
-//  }
-//}
+.home-to-project-enter-done{
+  &.projects{
+    .project{
+      .project-title{
+        transform: skewY(0deg);
+        opacity: 1;
+        transition: 1s;
+        &:after{
+          width: 100%;
+          transition: 1s;
+        }
+      }
+    }
+  }
+}
 
 
 

@@ -284,40 +284,44 @@
 
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @-o-keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
 
 @keyframes fill-scroll-bottom--out {
   0% {
-    top: -40px;
-    bottom: inherit; }
+    top: -80px;
+    bottom: inherit;
+    height: 110vh; }
   100% {
-    top: -40px;
+    top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top: 0px; } }
@@ -722,8 +726,7 @@
     flex-flow: row nowrap;
     position: relative;
     line-height: 190px;
-    -webkit-text-stroke: 2px white;
-    color: black; }
+    color: white; }
   .project-details-page .project-title-container {
     overflow: hidden;
     margin-top: 100px;
