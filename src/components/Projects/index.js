@@ -16,7 +16,8 @@ class Projects extends React.Component{
         projectsListWidth: [],
         showHitBubble: true,
         projectsSize: [],
-        dragging: false
+        dragging: false,
+        isMobile: false
     };
 
     handleStart = (event, ui) => {
@@ -59,7 +60,6 @@ class Projects extends React.Component{
                     this.refs.projectsDraggableArea.classList.remove('dir-left');
                     this.refs.projectsDraggableArea.classList.add('dir-right');
                     this.refs.projectsDragAreaWrapper.style.transform = `scale(0.8) rotateZ(-${rotateZ}deg)`
-
                 }else if(direction === 'prev'){
                     $projects[i].style.transform = `skew(${posDeg}deg)`;
                     this.refs.projectsDraggableArea.classList.remove('dir-right');
@@ -106,6 +106,7 @@ class Projects extends React.Component{
 
     componentWillUnmount(){
         this.refs.projects.classList.remove('show');
+        window.removeEventListener('resize', this.getIfMobile);
     }
     componentDidMount(){
         let $projects = document.getElementsByClassName('js-project');
@@ -124,6 +125,8 @@ class Projects extends React.Component{
         if(this.props.history.action === 'POP'){
             this.refs.projects.classList.add('init-projects-end');
         }
+        this.getIfMobile();
+        window.addEventListener('resize', this.getIfMobile);
     }
 
     componentWillMount(){
@@ -155,6 +158,13 @@ class Projects extends React.Component{
     //     clearInterval(timeout);
     // }
 
+    getIfMobile = () => {
+        if(window.innerWidth<480){
+            this.setState({isMobile: true});
+        }else{
+            this.setState({isMobile: false});
+        }
+    }
 
     render(){
         const projects = Object
@@ -176,21 +186,28 @@ class Projects extends React.Component{
             <div className={`projects ${this.props.hold ? 'project-hold' : ''}`} ref="projects">
                 {/*<h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>*/}
                 <div className="container">
-                    <Draggable
-                        axis="x"
-                        handle=".projects-drag-area"
-                        grid={[25, 25]}
-                        defaultPosition={{x: this.state.translateX, y: 0}}
-                        bounds={{left: this.state.projectsSize[this.state.projectsSize.length-1], top: 0, right: 0, bottom: 0}}
-                        onStart={this.handleStart}
-                        onDrag={this.handleDrag}
-                        onStop={this.handleStop}>
-                        <div className="projects-drag-area" ref="projectsDraggableArea">
-                            <div className="projects-drag-area-wrapper" ref="projectsDragAreaWrapper">
-                                {projects}
+                    {!this.state.isMobile ?
+                        <Draggable
+                            axis="x"
+                            handle=".projects-drag-area"
+                            grid={[75, 75]}
+                            defaultPosition={{x: this.state.translateX, y: 0}}
+                            bounds={{left: this.state.projectsSize[this.state.projectsSize.length-1], top: 0, right: 0, bottom: 0}}
+                            onStart={this.handleStart}
+                            onDrag={this.handleDrag}
+                            onStop={this.handleStop}>
+                            <div className="projects-drag-area" ref="projectsDraggableArea">
+                                <div className="projects-drag-area-wrapper" ref="projectsDragAreaWrapper">
+                                    {projects}
+                                </div>
                             </div>
+                        </Draggable>
+                        :
+                        <div className="mobile-projects-wrapper">
+                            {projects}
                         </div>
-                    </Draggable>
+                    }
+
                 </div>
                 <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                     <div className="fill-scroll-bottom-bg"/>

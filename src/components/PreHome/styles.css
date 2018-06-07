@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -459,9 +539,15 @@
       justify-content: center;
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap; }
+      @media only screen and (max-width: 768px) {
+        .PreHome .preHome-loader .preHome-loader-label {
+          height: 60px; } }
       .PreHome .preHome-loader .preHome-loader-label span, .PreHome .preHome-loader .preHome-loader-label p {
         font-family: "hk_groteskbold", sans-serif;
         font-size: 96px; }
+        @media only screen and (max-width: 768px) {
+          .PreHome .preHome-loader .preHome-loader-label span, .PreHome .preHome-loader .preHome-loader-label p {
+            font-size: 66px; } }
         .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent {
           padding-bottom: 14px;
           position: relative;
@@ -473,6 +559,10 @@
             .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:first-of-type, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:first-of-type {
               letter-spacing: -11px;
               margin-left: -11px; }
+              @media only screen and (max-width: 768px) {
+                .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:first-of-type, .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:first-of-type {
+                  letter-spacing: -7px;
+                  margin-left: -7px; } }
             .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(1), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(1) {
               animation-delay: 0.15s; }
             .PreHome .preHome-loader .preHome-loader-label span.cent-per-cent span:nth-last-child(2), .PreHome .preHome-loader .preHome-loader-label p.cent-per-cent span:nth-last-child(2) {
@@ -597,7 +687,7 @@
     bottom: 0px;
     color: white;
     -webkit-text-stroke: 2px white; }
-  50% {
+  1% {
     color: black; }
   100% {
     bottom: -100px;
@@ -609,7 +699,7 @@
     bottom: 0px;
     color: white;
     -webkit-text-stroke: 2px white; }
-  50% {
+  1% {
     color: black; }
   100% {
     bottom: -100px;
@@ -621,7 +711,7 @@
     bottom: 0px;
     color: white;
     -webkit-text-stroke: 2px white; }
-  50% {
+  1% {
     color: black; }
   100% {
     bottom: -100px;
@@ -633,7 +723,7 @@
     bottom: 0px;
     color: white;
     -webkit-text-stroke: 2px white; }
-  50% {
+  1% {
     color: black; }
   100% {
     bottom: -100px;

@@ -2,9 +2,12 @@ import React from 'react';
 import './styles.css';
 import projectsList from '../../../projects';
 import OnVisible, {setDefaultProps} from 'react-on-visible';
-import ReactIScroll from 'react-iscroll';
-import iScroll from 'iscroll/build/iscroll-probe';
+// import ReactIScroll from 'react-iscroll';
+// import iScroll from 'iscroll/build/iscroll-probe';
+import ScrollArea from 'react-scrollbar';
+import {Redirect} from 'react-router';
 import Footer from '../../Footer';
+// import PropTypes from 'prop-types'
 
 class ProjectDetails extends React.Component{
 
@@ -16,7 +19,11 @@ class ProjectDetails extends React.Component{
         ready: true,
         scrolled: 0,
         prevYPosition: 0,
-        currTransform: 0.5
+        currTransform: 0.5,
+        distordTimeout: null,
+        topPosition: 0,
+        isMobile: false,
+        goToHome: false
     }
 
     projectIdEvent = (id) => {
@@ -25,6 +32,10 @@ class ProjectDetails extends React.Component{
     
     componentWillReceiveProps(nextProps){
         if(nextProps.match.params.id !== this.props.match.params.id){
+            setTimeout(()=>{
+                this.updateImagesPosition();
+            },2100);
+            this.refs.projectDetailsPage.classList.remove('reset-scroll');
             this.setState({preventDoublePushLoc: false});
             this.setState({ready: false});
             setTimeout(()=>{
@@ -34,9 +45,19 @@ class ProjectDetails extends React.Component{
     }
 
     componentWillUnmount(){
+        window.removeEventListener("resize", this.updateImagesPosition);
+        document.getElementsByClassName('container')[0].removeEventListener("transitionend", this.onScrollEnd);
+        document.getElementsByClassName('container')[0].removeEventListener("transitionstart", this.onScrollStart);
     }
+
+    onScrollEnd = () => {
+        this.setState({scrollIsBot: true});
+    };
+    onScrollStart = () => {
+        this.setState({scrollIsBot: false});
+    };
+
     componentDidMount(){
-        var all = document.getElementsByTagName("*");
         this.setState({ready: true});
         this.projectIdEvent(this.props.match.params.id);
         setDefaultProps({
@@ -44,134 +65,19 @@ class ProjectDetails extends React.Component{
             visibleClassName: 'visible',
             percent: 5
         });
+
+        setTimeout(()=>{
+            this.updateImagesPosition();
+        },2100);
+        window.addEventListener("resize", this.updateImagesPosition);
+        document.addEventListener("touchstart", this.pageDrag);
+        document.getElementsByClassName('container')[0].addEventListener("transitionend", this.onScrollEnd);
+        document.getElementsByClassName('container')[0].addEventListener("transitionstart", this.onScrollStart);
     };
 
-    onScrollStart = () =>{
-    }
-
-    handleScroll = (e) => {
-        // console.log(e);
-        // console.log('MDR',e);
-
-        let newYPosition = e.y;
-
-        const addSkewY = (add) => {
-            let nbr = this.state.currTransform;
-            if(add){
-                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(${nbr}deg)`;
-                this.refs.projectsDetailsImages.style.transform = `skewY(${nbr}deg)`;
-            }else{
-                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(-${nbr}deg)`;
-                this.refs.projectsDetailsImages.style.transform = `skewY(-${nbr}deg)`;
-            }
-        }
-
-
-        if(newYPosition > this.state.prevYPosition){
-            addSkewY(false);
-        }else if(newYPosition < this.state.prevYPosition){
-            addSkewY(true);
-        }
-
-
-
-        this.setState({prevYPosition: e.y});
-
-        const wrappedElement = document.getElementsByClassName('next-project')[0];
-        if (this.isBottom(wrappedElement)) {
-            this.setState({scrollIsBot: true});
-        }else{
-            this.setState({scrollIsBot: false});
-        }
-        this.state.currTransform <= 1.5 ? this.setState({currTransform: this.state.currTransform+0.05}) : this.setState({currTransform: this.state.currTransform});
-    };
-
-    handleScrollStart = (e) => {
-
-        // console.log(e.dirX);
-
-    }
-
-    handleScrollEnd = (e) => {
-        let newYPosition = e.y;
-        this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(0deg)`;
-        this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
-        this.setState({currTransform: 0});
-
-    }
-
-
-    isBottom(el) {
-       if(el){
-           return el.getBoundingClientRect().bottom-5 <= window.innerHeight;
-       }
-    }
-
-    handleWheel = (e, touch = false) => {
-        let increaseNumber = 1;
-        const resetScrollElem = () => {
-            this.setState({scrollBottomNumber: 0});
-            this.setState({wheelTransEnd: 0});
-            document.body.classList.remove('mix-bend-mode-difference');
-            this.refs.projectDetailsPage.classList.remove('project-details-page--out');
-        };
-       if(this.state.scrollIsBot){
-           if (e.nativeEvent.wheelDelta > 0) {
-               resetScrollElem();
-           } else {
-               if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+100){
-                   this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
-                   document.body.classList.add('mix-bend-mode-difference');
-                   this.refs.fillScrollBottom.classList.add('scrolling');
-                   this.refs.fillScrollBottom.addEventListener('transitionend', () => {
-                       this.refs.fillScrollBottom.classList.remove('scrolling');
-                   });
-               }else{
-                   const element = this.refs.fillScrollBottom;
-                   if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
-                       this.setState({preventDoublePushLoc: true});
-                       this.refs.projectDetailsPage.classList.add('project-details-page--out');
-                       this.refs.fillScrollBottom.style.height = '';
-                       this.refs.fillScrollBottom.classList.add('out');
-                       setTimeout(()=>{
-                           if(this.refs.fillScrollBottom){
-                               this.refs.fillScrollBottom.classList.remove('out');
-                           }
-                       },2100);
-                       setTimeout(()=>{
-                           resetScrollElem();
-                           let $scrollContainer = document.getElementsByClassName('scroll-container')[0];
-
-
-                           let reactscroll = this.refs.reactIScroll;
-                           $scrollContainer.classList.add('no-transition');
-                           reactscroll.withIScroll((iScroll) => {
-                               iScroll.scrollTo(0,0,0);
-                           });
-
-                            setTimeout(()=>{
-                                $scrollContainer.classList.remove('no-transition');
-                            },1000);
-
-                           // var nodes = this.refs.projectDetailsHeader.childNodes;
-                           // for(var i=0; i<nodes.length; i++) {
-                           //     nodes[i].style.animation = 'none';
-                           // }
-                           // setTimeout(()=>{
-                           //     for(var i=0; i<nodes.length; i++) {
-                           //         nodes[i].style.animation = '';
-                           //     }
-                           // },2000);
-                           if(this.nextProject().id){
-                               this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
-                           }else{
-                               this.props.history.push(`/`);
-                           }
-                       }, 1000);
-                   }
-               }
-           }
-       }
+    updateImagesPosition = () => {
+        this.setState({scrollBottomNumber:0});
+        this.refs.projectsDetailsImages.style.marginTop = `${this.refs.projectDetailsHeader.offsetHeight+document.getElementsByClassName('header')[0].offsetHeight}px`;
     }
 
     nextProject = () => {
@@ -180,8 +86,114 @@ class ProjectDetails extends React.Component{
         }else{
             return {title: 'Home'};
         }
-    }
+    };
 
+
+
+    handleScrollWheel = (value) => {
+        let newYPosition = -value.topPosition;
+        if(value.topPosition){
+            this.setState({topPosition: value.topPosition+100});
+        }
+        clearInterval(this.state.distordTimeout);
+        const addSkewY = (add) => {
+            let nbr = this.state.currTransform;
+            if(add){
+                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(-${nbr}deg)`;
+                this.refs.projectsDetailsImages.style.transform = `skewY(-${nbr}deg)`;
+            }else{
+                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(${nbr}deg)`;
+                this.refs.projectsDetailsImages.style.transform = `skewY(${nbr}deg)`;
+            }
+        };
+        if(newYPosition > this.state.prevYPosition){
+            addSkewY(false);
+        }else if(newYPosition < this.state.prevYPosition){
+            addSkewY(true);
+        }
+        this.setState({prevYPosition: -value.topPosition});
+        this.state.currTransform <= 1.5 ? this.setState({currTransform: this.state.currTransform+0.5}) : this.setState({currTransform: this.state.currTransform});
+
+        const distordTimeout = setTimeout(()=>{
+            this.refs.projectDetailsHeader.style.transform = `translate3d(0,${newYPosition/3}px,0) skewY(0deg)`;
+            this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
+            this.setState({currTransform: 0});
+        }, 200);
+
+        this.setState({distordTimeout});
+        if(value.topPosition + value.containerHeight >= value.realHeight){
+            console.log('down');
+            let increaseNumber = 1.5;
+            let changePageoffsetHeightAdd = 160;
+            if(this.state.isMobile){
+                changePageoffsetHeightAdd = 160;
+                increaseNumber = 0.5;
+            }
+
+            function vhTOpx(value) {
+                var w = window,
+                    d = document,
+                    e = d.documentElement,
+                    g = d.getElementsByTagName('body')[0],
+                    y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+
+                var result = (y*value)/100;
+                return(result);
+            }
+
+
+
+            this.refs.fillScrollBottom.classList.remove('animate');
+            console.log('vhTOpx(this.refs.fillScrollBottom.offsetHeight)', vhTOpx(this.refs.fillScrollBottom.offsetHeight));
+            console.log('this.refs.fillScrollBottom.offsetHeight', this.refs.fillScrollBottom.offsetHeight);
+            console.log('this.refs.nextProjectRef.offsetHeight', this.refs.nextProjectRef.offsetHeight);
+            if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+changePageoffsetHeightAdd){
+                this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
+                document.body.classList.add('mix-bend-mode-difference');
+                this.refs.fillScrollBottom.classList.add('scrolling');
+                this.refs.fillScrollBottom.addEventListener('transitionend', () => {
+                    this.refs.fillScrollBottom.classList.remove('scrolling');
+                });
+            }else{
+                if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
+                    if(this.nextProject().id){
+                        this.setState({preventDoublePushLoc: true});
+                        this.refs.projectDetailsPage.classList.add('project-details-page--out');
+                        this.refs.fillScrollBottom.style.height = '';
+                        this.refs.fillScrollBottom.classList.add('out');
+                        setTimeout(()=>{
+                            if(this.refs.fillScrollBottom){
+                                this.refs.fillScrollBottom.classList.remove('out');
+                            }
+                        },2100);
+                        setTimeout(()=>{
+                                this.resetScrollElem();
+                                this.refs.fillScrollBottom.classList.add('animate');
+                                this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
+                        }, 1000);
+                    }else{
+                        this.setState({goToHome: true});
+                    }
+                }
+            }
+        }else if(value.topPosition && this.refs.fillScrollBottom && this.refs.fillScrollBottom.offsetHeight>0){
+            this.resetScrollElem();
+        }
+    };
+
+    resetScrollElem = () => {
+        if(this.refs.projectDetailsPage){
+            this.setState({scrollBottomNumber: 0});
+            this.refs.projectDetailsPage.classList.add('reset-scroll');
+            document.body.classList.remove('mix-bend-mode-difference');
+            this.refs.projectDetailsPage.classList.remove('project-details-page--out');
+        }
+    };
+
+    pageDrag = () => {
+        this.setState({isMobile: true});
+        document.body.classList.add('remove-scroll-transition');
+    }
     render(){
         const projectHeader = projectsList.map(project => {
             if (project.id === this.props.match.params.id) {
@@ -211,7 +223,7 @@ class ProjectDetails extends React.Component{
                     </div>
                 )}
         });
-        const projectImg = projectsList.map(project => {
+        const projectImg = projectsList.map((project, index) => {
             if (project.id === this.props.match.params.id) {
                 let imgs = project.images.map(
                     (img, index) => {
@@ -222,7 +234,7 @@ class ProjectDetails extends React.Component{
                         )
                     });
                 return (
-                    <div className="project-details-images" ref="projectsDetailsImages">
+                    <div className="project-details-images" ref="projectsDetailsImages" key={index}>
                         {imgs}
                     </div>
                 )}
@@ -309,18 +321,20 @@ class ProjectDetails extends React.Component{
                     )
                 }
             });
-        return(
-            <div className="project-details-page" ref="projectDetailsPage" onWheel={e => this.handleWheel(e)} onTouchMove={e => this.handleWheel(e, true)}>
-                {projectHeader}
-                <ReactIScroll
 
-                    ref="reactIScroll"
-                    iScroll={iScroll}
-                    onScroll={(e) => this.handleScroll(e)}
-                    onScrollStart={(e) => this.handleScrollStart(e)}
-                    onScrollEnd={(e) => this.handleScrollEnd(e)}
-                    options={{probeType: 2, mouseWheel: true, disableTouch: true, disablePointer: true, bounce: false}}>
-                    <div className="container scroll-container">
+        return(
+            <div className="project-details-page" ref="projectDetailsPage">
+                {this.state.goToHome ? <Redirect to='/'/> : null}
+                {projectHeader}
+                <ScrollArea
+                    speed={1}
+                    className="scroll-container"
+                    contentClassName="container"
+                    smoothScrolling={this.state.isMobile}
+                    horizontal={false}
+                    onScroll={(value) => this.handleScrollWheel(value)}
+                >
+
 
                         {/*{this.state.ready ?*/}
                             {/*<div className="project-details" ref="projectDetails">*/}
@@ -335,14 +349,17 @@ class ProjectDetails extends React.Component{
                             <h3 className="project-title">{this.nextProject().title}</h3>
                         </div>
                         <Footer noFixed={true} appLoaded={true}/>
-                    </div>
-                </ReactIScroll>
-                <div className="fill-scroll-bottom scrolling"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
-                    <div className="fill-scroll-bottom-bg"/>
-                </div>
-
+                        <div className="fill-scroll-bottom scrolling"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
+                            <div className="fill-scroll-bottom-bg"/>
+                        </div>
+                </ScrollArea>
             </div>
         )
     }
 }
+
+// ProjectDetails.contextTypes = {
+//     scrollArea: React.PropTypes.object
+// };
+
 export default ProjectDetails;

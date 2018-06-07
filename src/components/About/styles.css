@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -441,39 +521,67 @@ body:after {
       padding: 150px 0; }
     .about .container .about-text-wrapper {
       -webkit-backface-visibility: hidden; }
+      .about .container .about-text-wrapper .container {
+        max-width: inherit;
+        width: 100%;
+        padding: 0 0px;
+        margin: 0 auto;
+        box-sizing: border-box; }
       .about .container .about-text-wrapper p {
-        padding: 30px 0;
+        padding: 0px 0;
         font-size: 55px;
         max-width: 1300px;
         width: 100%;
         font-family: "hk_groteskregular", sans-serif;
-        animation: about-enter-text 1.5s forwards;
+        animation: about-enter-text 1.5s;
         line-height: 80px; }
-        .about .container .about-text-wrapper p p {
+        @media only screen and (max-width: 768px) {
+          .about .container .about-text-wrapper p {
+            animation: about-enter-text--mobile 1.5s;
+            font-size: 20px;
+            line-height: 35px; } }
+      .about .container .about-text-wrapper .about-interact {
+        font-family: "hk_groteskbold", sans-serif;
+        position: relative;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        margin-top: -12px; }
+        .about .container .about-text-wrapper .about-interact:hover {
+          color: #7F00FF; }
+          .about .container .about-text-wrapper .about-interact:hover:before {
+            height: 80%;
+            transition: 0.3s;
+            background: white; }
+        .about .container .about-text-wrapper .about-interact:before {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 30%;
+          z-index: -1;
+          width: 0%;
+          background: #7F00FF;
+          animation: about-enter-text-link 0.3s forwards;
+          animation-delay: 1.5s;
+          transition: 0.3s; }
+      .about .container .about-text-wrapper .contact-me {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-align-items: flex-start;
+        align-items: flex-start;
+        -webkit-justify-content: flex-start;
+        justify-content: flex-start;
+        -webkit-flex-flow: row nowrap;
+        flex-flow: row nowrap; }
+        .about .container .about-text-wrapper .contact-me p {
+          width: inherit;
           margin: 0;
           padding: 0; }
-        .about .container .about-text-wrapper p .about-interact {
-          font-family: "hk_groteskbold", sans-serif;
-          position: relative; }
-          .about .container .about-text-wrapper p .about-interact:hover {
-            color: #7F00FF; }
-            .about .container .about-text-wrapper p .about-interact:hover:before {
-              height: 80%;
-              transition: 0.3s;
-              background: white; }
-          .about .container .about-text-wrapper p .about-interact:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 30%;
-            z-index: -1;
-            width: 0%;
-            background: #7F00FF;
-            animation: about-enter-text-link 0.3s forwards;
-            animation-delay: 1.5s;
-            transition: 0.3s; }
-        .about .container .about-text-wrapper p .contact-me {
+        .about .container .about-text-wrapper .contact-me .contact-me-email {
+          margin-top: -3px; }
+        .about .container .about-text-wrapper .contact-me .contact-me-copy {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
@@ -482,59 +590,52 @@ body:after {
           -webkit-justify-content: flex-start;
           justify-content: flex-start;
           -webkit-flex-flow: row nowrap;
-          flex-flow: row nowrap; }
-          .about .container .about-text-wrapper p .contact-me p {
-            width: inherit; }
-          .about .container .about-text-wrapper p .contact-me .contact-me-copy {
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-align-items: flex-start;
-            align-items: flex-start;
-            -webkit-justify-content: flex-start;
-            justify-content: flex-start;
-            -webkit-flex-flow: row nowrap;
-            flex-flow: row nowrap;
-            position: relative; }
-            .about .container .about-text-wrapper p .contact-me .contact-me-copy:hover .about-interact span {
-              color: #7F00FF; }
-            .about .container .about-text-wrapper p .contact-me .contact-me-copy:hover .copied {
+          flex-flow: row nowrap;
+          position: relative; }
+          .about .container .about-text-wrapper .contact-me .contact-me-copy:hover .about-interact span {
+            color: #7F00FF; }
+          .about .container .about-text-wrapper .contact-me .contact-me-copy:hover .copied {
+            height: 100%;
+            transition: 0.2s; }
+          .about .container .about-text-wrapper .contact-me .contact-me-copy .about-interact {
+            margin-left: 10px; }
+            .about .container .about-text-wrapper .contact-me .contact-me-copy .about-interact span {
+              font-family: "hk_groteskbold", sans-serif; }
+          .about .container .about-text-wrapper .contact-me .contact-me-copy .copied {
+            position: absolute;
+            top: -50px;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            transition: 0.2s;
+            margin-left: 10px; }
+            .about .container .about-text-wrapper .contact-me .contact-me-copy .copied svg {
+              margin-bottom: -7px;
+              width: 30px;
+              fill: white;
+              margin-right: 10px; }
+            .about .container .about-text-wrapper .contact-me .contact-me-copy .copied p {
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-align-items: center;
+              align-items: center;
+              -webkit-justify-content: center;
+              justify-content: center;
+              -webkit-flex-flow: row nowrap;
+              flex-flow: row nowrap;
+              font-size: 20px;
               height: 100%;
-              transition: 0.2s; }
-            .about .container .about-text-wrapper p .contact-me .contact-me-copy .about-interact {
-              margin-left: 10px; }
-              .about .container .about-text-wrapper p .contact-me .contact-me-copy .about-interact span {
-                font-family: "hk_groteskbold", sans-serif; }
-            .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied {
-              position: absolute;
-              top: -50px;
-              left: 0;
-              right: 0;
-              z-index: -1;
-              transition: 0.2s;
-              margin-left: 10px; }
-              .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied svg {
-                margin-bottom: -7px;
-                width: 30px;
-                fill: white;
-                margin-right: 10px; }
-              .about .container .about-text-wrapper p .contact-me .contact-me-copy .copied p {
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: flex;
-                -webkit-align-items: center;
-                align-items: center;
-                -webkit-justify-content: center;
-                justify-content: center;
-                -webkit-flex-flow: row nowrap;
-                flex-flow: row nowrap;
-                font-size: 20px;
-                height: 100%;
-                color: white;
-                margin-left: -15px;
-                position: relative;
-                font-family: "hk_groteskbold", sans-serif;
-                animation: text-appear-from-bottom-fade 3s forwards; }
+              color: white;
+              margin-left: -15px;
+              position: relative;
+              font-family: "hk_groteskbold", sans-serif;
+              animation: text-appear-from-bottom-fade 3s forwards; }
+              @media only screen and (max-width: 768px) {
+                .about .container .about-text-wrapper .contact-me .contact-me-copy .copied p {
+                  font-size: 16px;
+                  white-space: nowrap;
+                  margin-top: 15px; } }
 
 @-webkit-keyframes text-appear-from-bottom-fade {
   0% {
@@ -639,6 +740,30 @@ body:after {
     line-height: 150px; }
   100% {
     line-height: 80px; } }
+
+@-webkit-keyframes about-enter-text--mobile {
+  0% {
+    line-height: 80px; }
+  100% {
+    line-height: 35px; } }
+
+@-moz-keyframes about-enter-text--mobile {
+  0% {
+    line-height: 80px; }
+  100% {
+    line-height: 35px; } }
+
+@-o-keyframes about-enter-text--mobile {
+  0% {
+    line-height: 80px; }
+  100% {
+    line-height: 35px; } }
+
+@keyframes about-enter-text--mobile {
+  0% {
+    line-height: 80px; }
+  100% {
+    line-height: 35px; } }
 
 @-webkit-keyframes about-enter {
   0% {

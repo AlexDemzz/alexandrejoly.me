@@ -31,92 +31,109 @@ body{
     }
     .about-text-wrapper{
       -webkit-backface-visibility: hidden;
+      .container{
+        @include container(inherit, 0px);
+      }
       p{
-        padding: 30px 0;
+        padding: 0px 0;
         font-size: 55px;
         max-width: 1300px;
         width: 100%;
         font-family: $hkRegular;
-        animation: about-enter-text 1.5s forwards;
+        animation: about-enter-text 1.5s;
         line-height: 80px;
+        @include media($m){
+          animation: about-enter-text--mobile 1.5s;
+          font-size: 20px;
+          line-height: 35px;
+        }
+      }
+      .about-interact{
+        font-family: $hkBold;
+        position: relative;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        margin-top: -12px;
+        &:hover{
+          color: $purpleGradientStart;
+          &:before{
+            height: 80%;
+            transition: 0.3s;
+            background: white;
+          }
+        }
+        &:before{
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          height: 30%;
+          z-index: -1;
+          width: 0%;
+          background: $purpleGradientStart;
+          animation: about-enter-text-link 0.3s forwards;
+          animation-delay: 1.5s;
+          transition: 0.3s;
+        }
+      }
+      .contact-me{
+        @include flex(fs,fs,r);
         p{
+          width: inherit;
           margin: 0;
           padding: 0;
         }
-        .about-interact{
-          font-family: $hkBold;
+        .contact-me-email{
+          margin-top: -3px;
+        }
+        .contact-me-copy{
+          @include flex(fs,fs,r);
           position: relative;
           &:hover{
-            color: $purpleGradientStart;
-            &:before{
-              height: 80%;
-              transition: 0.3s;
-              background: white;
-            }
-          }
-          &:before{
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 30%;
-            z-index: -1;
-            width: 0%;
-            background: $purpleGradientStart;
-            animation: about-enter-text-link 0.3s forwards;
-            animation-delay: 1.5s;
-            transition: 0.3s;
-          }
-        }
-        .contact-me{
-          @include flex(fs,fs,r);
-          p{
-            width: inherit;
-          }
-          .contact-me-copy{
-            @include flex(fs,fs,r);
-            position: relative;
-            &:hover{
-              .about-interact{
-                span{
-                  color: $purpleGradientStart;
-                }
-              }
-              .copied{
-                height: 100%;
-                transition: 0.2s;
-              }
-            }
             .about-interact{
-              margin-left: 10px;
               span{
-                font-family: $hkBold;
+                color: $purpleGradientStart;
               }
             }
-
             .copied{
-              position: absolute;
-              top: -50px;
-              left:0;
-              right: 0;
-              z-index: -1;
+              height: 100%;
               transition: 0.2s;
-              margin-left: 10px;
-              svg{
-                margin-bottom: -7px;
-                width: 30px;
-                fill: white;
-                margin-right:10px;
-              }
-              p{
-                @include flex(c,c);
-                font-size: 20px;
-                height: 100%;
-                color: white;
-                margin-left: -15px;
-                position: relative;
-                font-family: $hkBold;
-                animation: text-appear-from-bottom-fade 3s forwards;
+            }
+          }
+          .about-interact{
+            margin-left: 10px;
+            span{
+              font-family: $hkBold;
+            }
+          }
+          .copied{
+            position: absolute;
+            top: -50px;
+            left:0;
+            right: 0;
+            z-index: -1;
+            transition: 0.2s;
+            margin-left: 10px;
+            svg{
+              margin-bottom: -7px;
+              width: 30px;
+              fill: white;
+              margin-right:10px;
+            }
+            p{
+              @include flex(c,c);
+              font-size: 20px;
+              height: 100%;
+              color: white;
+              margin-left: -15px;
+              position: relative;
+              font-family: $hkBold;
+              animation: text-appear-from-bottom-fade 3s forwards;
+              @include media($m){
+                font-size: 16px;
+                white-space: nowrap;
+                margin-top:15px;
               }
             }
           }
@@ -160,6 +177,15 @@ body{
   }
   100%{
     line-height: 80px;
+  }
+}
+
+@include keyframes(about-enter-text--mobile){
+  0%{
+    line-height: 80px;
+  }
+  100%{
+    line-height: 35px;
   }
 }
 

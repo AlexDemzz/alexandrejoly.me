@@ -62,12 +62,12 @@ class Header extends React.Component{
     render(){
 
         return(
-            <header ref="header">
+            <header ref="header" className={`header show ${this.state.backButton ? 'center' : ''}`}>
                 <div className="header-left-side">
                     <div className="header-logo">
                         <Link to={{ pathname: `/`}} onMouseOver={() => this.sendCursorEvent(true)} onMouseOut={() => this.sendCursorEvent(false)}>
                             { this.state.backButton ?
-                                <div className="header-title back-btn">{this.backArrow()} <h1>Back to home</h1></div> :
+                                <div className="header-title back-btn">{this.backArrow()} <h1>Home</h1></div> :
                                 <div className="header-title">
                                 {
 

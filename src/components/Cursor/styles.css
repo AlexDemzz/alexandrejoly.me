@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -418,7 +498,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 99999999999999999999999999999;
+  z-index: 999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
   pointer-events: none;
   display: -webkit-box;
   display: -ms-flexbox;

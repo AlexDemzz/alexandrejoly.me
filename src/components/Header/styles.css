@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -434,9 +514,27 @@ header {
   padding: 0 70px;
   margin: 0 auto;
   box-sizing: border-box;
-  margin-top: 30px;
+  padding-top: 30px;
   box-sizing: border-box;
   z-index: 999; }
+  header.center {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-flex-flow: row nowrap;
+    flex-flow: row nowrap; }
+  @media only screen and (max-width: 768px) {
+    header {
+      max-width: inherit;
+      width: 100%;
+      padding: 0 30px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      padding-top: 30px; } }
   header .header-left-side {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -487,6 +585,9 @@ header {
       justify-content: center;
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap; }
+      @media only screen and (max-width: 768px) {
+        header .header-left-side .header-logo {
+          height: 100%; } }
       header .header-left-side .header-logo a {
         text-decoration: none;
         display: -webkit-box;
@@ -506,14 +607,23 @@ header {
           transform: skewY(10deg);
           opacity: 0;
           transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s; }
+          @media only screen and (max-width: 768px) {
+            header .header-left-side .header-logo a svg {
+              width: 17px; } }
         header .header-left-side .header-logo a h1 {
           transform-origin: 0 0;
           transform: skewY(10deg);
           opacity: 0;
           transition: opacity 0.5s ease, transform 1s cubic-bezier(0.215, 0.61, 0.355, 1), color 0.3s;
-          margin-left: 20px;
+          margin-left: 0px;
           font-size: 20px;
           font-family: "hk_groteskbold", sans-serif; }
+          @media only screen and (max-width: 768px) {
+            header .header-left-side .header-logo a h1 {
+              font-size: 16px; } }
+  @media only screen and (max-width: 768px) {
+    header .header-right-side {
+      margin-top: 3px; } }
   header .header-right-side nav ul {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -553,6 +663,9 @@ header {
         text-decoration: none;
         display: flex;
         height: 100%; }
+        @media only screen and (max-width: 768px) {
+          header .header-right-side nav ul li a {
+            font-size: 16px; } }
         header .header-right-side nav ul li a.active p {
           color: white; }
         header .header-right-side nav ul li a div {
@@ -572,8 +685,14 @@ header {
           flex-flow: column nowrap;
           height: 30px;
           color: grey; }
+          @media only screen and (max-width: 768px) {
+            header .header-right-side nav ul li a p {
+              height: 17px; } }
           header .header-right-side nav ul li a p:after {
             margin-top: 7px; }
+            @media only screen and (max-width: 768px) {
+              header .header-right-side nav ul li a p:after {
+                margin-top: 11px; } }
   header.show .header-left-side .header-logo a svg {
     transform-origin: 0 0;
     transform: skewY(0deg);

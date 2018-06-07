@@ -125,14 +125,26 @@
     transition-duration: 2s;
     transition-timing-function: cubic-bezier(.18,1,.21,1)!important;
     will-change: transform;
+    @include media($m){
+      @include container(inherit, 30px);
+      padding-top: 50px;
+      top: 60px;
+    }
   }
   .project-details-infos-row{
     @include flex(fs,fs);
     //@include container(1200px);
-    margin-bottom: 150px;
+    margin-bottom: 70px;
+    @include media($m){
+      @include flex(fs,fs, r, w);
+      margin-bottom: 20px;
+    }
     .row{
       position: relative;
       width: 25%;
+      @include media($m){
+        width: 50%;
+      }
       .info-col{
         opacity: 0;
         animation: project-enter-item 1s forwards;
@@ -150,11 +162,19 @@
       }
       &:last-of-type{
         width: 50%;
-        min-height: 200px;
+        //min-height: 200px;
+        @include media($m){
+          width: 100%;
+          margin-top: 30px;
+        }
         p{
-          font-size: 24px;
+          font-size: 20px;
           line-height: 40px;
-          animation: project-enter-text 1s forwards;
+          animation: project-enter-text 1s;
+          @include media($m){
+            font-size: 16px;
+            line-height: 30px;
+          }
         }
       }
     }
@@ -166,6 +186,7 @@
     bottom: 0px;
     opacity: 1;
     transition: 0.5s;
+    pointer-events: none;
     >div.visible{
       img{
         animation: fade-translate-appear--small 0.5s forwards;
@@ -173,12 +194,18 @@
     }
     img{
       opacity: 0;
-      margin-bottom: 100px;
+      margin-bottom: 150px;
       width: 100%;
       height: auto;
       object-fit: cover;
       @include noselect();
       @include nodrag();
+      @include media($l){
+        margin-bottom: 80px;
+      }
+      @include media($m){
+        margin-bottom: 50px;
+      }
     }
   }
   .next-project {
@@ -188,10 +215,21 @@
     position: relative;
     padding-bottom: 100px;
     width: 100%;
+    @include media($l){
+      padding-bottom: 80px;
+    }
+    @include media($m){
+      padding-bottom: 30px;
+    }
     p {
       margin-top: 50px;
       margin-bottom: 50px;
       font-size: 30px;
+      @include media($m){
+        margin-top: 20px;
+        margin-bottom:  20px;
+        font-size: 20px;
+      }
     }
     h3 {
       margin-top:50px;
@@ -200,6 +238,10 @@
       @include flex(c,c);
       color: white;
       -webkit-text-stroke: inherit;
+      @include media($m){
+        margin-top: 20px;
+        margin-bottom:  20px;
+      }
     }
   }
   .fill-scroll-bottom{
@@ -208,6 +250,14 @@
   }
 }
 .project-details-page--out{
+  &.reset-scroll{
+    .scroll-container{
+      .container{
+        height: 0;
+        transition: 0s;
+      }
+    }
+  }
   .project-details-images{
     position: relative;
     bottom: 400px;
@@ -236,11 +286,33 @@
     //@include container(1200px);
     //top: 144px;
     //animation: text-appear-from-bottom 1s forwards;
+    @include media($xl){
+      font-size: 100px;
+      line-height: 150px;
+    }
+    @include media($m){
+      font-size: 60px;
+      margin-left: -5px;
+      line-height: 100px;
+    }
+    @include media($s){
+      font-size: 40px;
+      line-height: 70px;
+      margin-left: 0px;
+    }
   }
   .project-title-container{
     overflow: hidden;
-    margin-top: 100px;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
+    @include media($xl){
+      margin-bottom: 80px;
+    }
+    @include media($m){
+      margin-bottom: 60px;
+    }
+    @include media($s){
+      margin-bottom: 30px;
+    }
   }
 }
 

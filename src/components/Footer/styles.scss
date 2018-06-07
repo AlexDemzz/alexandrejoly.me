@@ -1,25 +1,37 @@
 @import "../../assets/scss/var.scss";
+.container{
+  footer{
+    @include container(inherit, 0px);
+  }
+}
 footer{
   &.no-fixed{
     position: static;
     mix-blend-mode: difference;
+    margin-bottom: 30px;
   }
   position: fixed;
-  bottom: 0;
+  bottom: 15px;
   left: 0;
   right: 0;
   @include flex(fe,sb);
   @include container(inherit, 70px);
   margin-top:30px;
-  padding-bottom: 30px;
   box-sizing: border-box;
   opacity: 1;
   transition: 0.5s;
+  @include media($m) {
+    @include container(inherit, 30px);
+    @include flex(c,c,col);
+  }
   p{
     @include waveAppearBefore();
     font-size: 20px;
     font-family: $hkRegular;
     @include flex(c,c);
+    @include media($m) {
+      font-size: 16px;
+    }
     a{
       text-decoration: none;
       //border-bottom: solid 1px white;
@@ -54,6 +66,10 @@ footer{
     color: #333;
     font-family: $hkRegular;
     font-size: 16px;
+    @include media($m) {
+      margin-top: 20px;
+      display: none;
+    }
   }
   &.show{
     p{

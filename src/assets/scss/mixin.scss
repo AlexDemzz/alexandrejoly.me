@@ -339,3 +339,15 @@ $wr: wrap-reverse;
     @content;
   }
 }
+
+$xs: "(max-width: 320px)";
+$s: "(max-width: 480px)";
+$m: "(max-width: 768px)";
+$l: "(max-width: 1024px)";
+$xl: "(max-width: 1300px)";
+
+@mixin media($media) {
+  @media only screen and #{$media} {
+    @content;
+  }
+}

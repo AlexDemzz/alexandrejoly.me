@@ -43,7 +43,7 @@
 .project{
   padding-right:20px;
   @include flex(c,c);
-  transition: 0.2s;
+  transition: 0.5s;
   transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
@@ -214,6 +214,10 @@
     position: relative;
     transition: 0.2s;
     pointer-events: all;
+    @include media($m){
+      width: 170px;
+      margin-top:20px;
+    }
     *{
       @include noselect();
       @include nodrag();
@@ -270,6 +274,10 @@
       margin: auto;
       @include flex(c,c);
       pointer-events: none;
+      @include media($m){
+        width: 90px;
+        height: 90px;
+      }
       img{
         opacity: 0;
         position: absolute;
@@ -292,9 +300,16 @@
         transition: 0.2s;
         //@include transitionElastic();
         //pointer-events: none;
+        @include media($m){
+          width: 60px;
+          height: 60px;
+        }
       }
     }
     $lineHeight: 7px;
+    @include media($m){
+      $lineHeight: 4px;
+    }
     .line{
       height: $lineHeight;
       width: 100%;
@@ -329,6 +344,19 @@
     transition: all 0s 0s;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: white;
+    @include media($xl){
+      font-size: 100px;
+      line-height: 150px;
+    }
+    @include media($m){
+      font-size: 60px;
+      line-height: 100px;
+      -webkit-text-stroke-width: 1px;
+    }
+    @include media($s){
+      font-size: 40px;
+      line-height: 70px;
+    }
     &:after {
       content: attr(data-hover);
       position: absolute;
@@ -354,6 +382,10 @@
     .picture-container{
       width: 500px;
       height: 500px;
+      @include media($m) {
+        width: 300px;
+        height: 300px;
+      }
       img{
         width: 100%;
         height: 100%;

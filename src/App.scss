@@ -8,18 +8,19 @@
 }
 .fill-scroll-bottom{
   position: fixed;
-  bottom: 0;
+  bottom: -5px;
   width: 150%;
   left: auto;
   right: auto;
   margin: 0 auto;
   height: 0vh;
   //background: white;
-  transition: 0.5s;
+  transition: 0s;
   transition-timing-function: ease-out;
   z-index: 99999;
   overflow: hidden;
   padding-top: 40px;
+  transition: 0.5s;
   .fill-scroll-bottom-bg{
     background: white;
     width: 100%;
@@ -32,7 +33,7 @@
   &:after{
     content: '';
     position: absolute;
-    top: 40px;
+    top: 35px;
     left: -5%;
     right: 0;
     background: white;
@@ -44,19 +45,21 @@
     transform-origin: 0 0;
   }
   &.out{
-    animation: fill-scroll-bottom--out 1s forwards;
-    animation-delay: 1s;
     position: fixed;
     bottom: 0;
-    height: 105vh!important;
+    height: calc(100vh + 40px)!important;
     transition: 1s;
     &:after{
       transform: rotateZ(1deg);
       transition: 0.5s;
       transition-timing-function: ease-out;
     }
+    &.animate{
+      animation: fill-scroll-bottom--out 1s forwards;
+    }
   }
   &.scrolling{
+    transition: 0.5s;
     &:after{
       transform: rotateZ(1deg);
       transition: 0.5s;

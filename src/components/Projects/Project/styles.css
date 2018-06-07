@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -434,7 +514,7 @@
   justify-content: center;
   -webkit-flex-flow: row nowrap;
   flex-flow: row nowrap;
-  transition: 0.2s;
+  transition: 0.5s;
   transition-timing-function: ease-out;
   height: 100%;
   z-index: 999999;
@@ -654,6 +734,10 @@
     position: relative;
     transition: 0.2s;
     pointer-events: all; }
+    @media only screen and (max-width: 768px) {
+      .project .icon {
+        width: 170px;
+        margin-top: 20px; } }
     .project .icon * {
       -webkit-touch-callout: none;
       /* iOS Safari */
@@ -738,6 +822,10 @@
       -webkit-flex-flow: row nowrap;
       flex-flow: row nowrap;
       pointer-events: none; }
+      @media only screen and (max-width: 768px) {
+        .project .icon .icon-particles {
+          width: 90px;
+          height: 90px; } }
       .project .icon .icon-particles img {
         opacity: 0;
         position: absolute;
@@ -755,8 +843,12 @@
         height: 100px;
         fill: white;
         transition: 0.2s; }
+        @media only screen and (max-width: 768px) {
+          .project .icon .icon-img svg {
+            width: 60px;
+            height: 60px; } }
     .project .icon .line {
-      height: 7px;
+      height: 4px;
       width: 100%;
       background: #fff;
       position: absolute;
@@ -809,6 +901,19 @@
     transition: all 0s 0s;
     -webkit-text-stroke-width: 2px;
     -webkit-text-stroke-color: white; }
+    @media only screen and (max-width: 1300px) {
+      .project .project-title {
+        font-size: 100px;
+        line-height: 150px; } }
+    @media only screen and (max-width: 768px) {
+      .project .project-title {
+        font-size: 60px;
+        line-height: 100px;
+        -webkit-text-stroke-width: 1px; } }
+    @media only screen and (max-width: 480px) {
+      .project .project-title {
+        font-size: 40px;
+        line-height: 70px; } }
     .project .project-title:after {
       content: attr(data-hover);
       position: absolute;
@@ -832,6 +937,10 @@
     .project .project-container .picture-container {
       width: 500px;
       height: 500px; }
+      @media only screen and (max-width: 768px) {
+        .project .project-container .picture-container {
+          width: 300px;
+          height: 300px; } }
       .project .project-container .picture-container img {
         width: 100%;
         height: 100%;

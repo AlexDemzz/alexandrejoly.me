@@ -285,8 +285,7 @@
 @-webkit-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -296,8 +295,7 @@
 @-moz-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -307,8 +305,7 @@
 @-o-keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
-    bottom: inherit;
-    height: 110vh; }
+    bottom: inherit; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -318,8 +315,91 @@
 @keyframes fill-scroll-bottom--out {
   0% {
     top: -80px;
+    bottom: inherit; }
+  100% {
+    top: -80px;
     bottom: inherit;
-    height: 110vh; }
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-webkit-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-moz-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@-o-keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  100% {
+    top: -80px;
+    bottom: inherit;
+    height: 0vh;
+    padding-top: 0px; } }
+
+@keyframes fill-scroll-bottom--out--full {
+  0% {
+    top: initial;
+    bottom: 0;
+    padding-top: 40px; }
+  49.99% {
+    top: initial;
+    bottom: 0;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
+  50% {
+    top: -80px;
+    bottom: initial;
+    height: calc(100vh + 40px);
+    padding-top: 40px; }
   100% {
     top: -80px;
     bottom: inherit;
@@ -414,9 +494,16 @@
     transform: translateY(0px);
     opacity: 1; } }
 
+.container footer {
+  max-width: inherit;
+  width: 100%;
+  padding: 0 0px;
+  margin: 0 auto;
+  box-sizing: border-box; }
+
 footer {
   position: fixed;
-  bottom: 0;
+  bottom: 15px;
   left: 0;
   right: 0;
   display: -webkit-box;
@@ -434,13 +521,29 @@ footer {
   margin: 0 auto;
   box-sizing: border-box;
   margin-top: 30px;
-  padding-bottom: 30px;
   box-sizing: border-box;
   opacity: 1;
   transition: 0.5s; }
   footer.no-fixed {
     position: static;
-    mix-blend-mode: difference; }
+    mix-blend-mode: difference;
+    margin-bottom: 30px; }
+  @media only screen and (max-width: 768px) {
+    footer {
+      max-width: inherit;
+      width: 100%;
+      padding: 0 30px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-flow: column nowrap;
+      flex-flow: column nowrap; } }
   footer p {
     transform-origin: 0 0;
     transform: skewY(10deg);
@@ -457,6 +560,9 @@ footer {
     justify-content: center;
     -webkit-flex-flow: row nowrap;
     flex-flow: row nowrap; }
+    @media only screen and (max-width: 768px) {
+      footer p {
+        font-size: 16px; } }
     footer p a {
       text-decoration: none;
       font-family: "hk_groteskbold", sans-serif;
@@ -485,6 +591,10 @@ footer {
     color: #333;
     font-family: "hk_groteskregular", sans-serif;
     font-size: 16px; }
+    @media only screen and (max-width: 768px) {
+      footer .shy {
+        margin-top: 20px;
+        display: none; } }
   footer.show p {
     transform-origin: 0 0;
     transform: skewY(0deg);

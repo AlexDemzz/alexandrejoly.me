@@ -9,6 +9,7 @@ import Cursor from './components/Cursor';
 import About from './components/About';
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { isMobile } from "react-device-detect";
 // import ReallySmoothScroll from 'really-smooth-scroll';
 
 // import projectsList from './projects';
@@ -39,11 +40,11 @@ class App extends Component {
 
     getClickEvent = (param) => {
         this.setState({transitionName: param.transitionName, transitionDelay: param.transitionDelay});
-    }
+    };
 
     getDragPosition = (pos) => {
         this.setState({translateX: pos});
-    }
+    };
 
     cursorDeplacement = e => {
         this.setState({x:e.clientX, y: e.clientY});
@@ -57,12 +58,12 @@ class App extends Component {
         }else{
             this.setState({holdEnd: false});
         }
-    }
+    };
 
 
     transitionName = (name) => {
 
-    }
+    };
 
     getProjectsDetailsProjectId = (activeId) => {
         this.setState({active: Number(activeId)});
@@ -71,21 +72,30 @@ class App extends Component {
 
     getAppLoaded = (status) => {
         this.setState({appLoaded : status});
-    }
+    };
 
     getAppLoadedHide = (status) => {
         this.setState({appLoadedHide : status});
-    }
+    };
 
     componentDidMount(){
-    }
+        this.isTouchDevice();
+    };
+    
+    isTouchDevice = () => {
+        if(isMobile){
+            document.body.classList.add('touch-device');
+        }
+    };
 
     render() {
         return (
             <Router>
                 <Route render={({location}) => (
                     <div className="App" onMouseMove={e => this.cursorDeplacement(e)}>
-                        <Cursor top={this.state.y} left={this.state.x} appLoaded={this.state.appLoaded} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/>
+                        {
+                            !isMobile ? <Cursor top={this.state.y} left={this.state.x} appLoaded={this.state.appLoaded} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/> : null
+                        }
                         {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
                         {this.state.appLoaded ? <div className="app-wrapper">
                             <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>

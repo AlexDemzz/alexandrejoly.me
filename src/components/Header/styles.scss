@@ -7,10 +7,17 @@ header{
   left: 0;
   right: 0;
   @include container(inherit, 70px);
-  margin-top:30px;
+  padding-top:30px;
   box-sizing: border-box;
   z-index: 999;
   //mix-blend-mode: difference;
+  &.center{
+    @include flex(c,sb);
+  }
+  @include media($m){
+    @include container(inherit, 30px);
+    padding-top:30px;
+  }
   .header-left-side{
     @include flex(fs,fs,col);
     position: relative;
@@ -46,6 +53,9 @@ header{
     .header-logo{
       height: 80px;
       @include flex(c,c);
+      @include media($m){
+        height: 100%;
+      }
       a{
         text-decoration: none;
         @include flex(c,c);
@@ -55,17 +65,26 @@ header{
           width: 22px;
           transition: margin 0.3s;
           @include waveAppearBefore();
+          @include media($m){
+            width: 17px;
+          }
         }
         h1{
           @include waveAppearBefore();
-          margin-left:20px;
+          margin-left:0px;
           font-size: 20px;
           font-family: $hkBold;
+          @include media($m){
+            font-size: 16px;
+          }
         }
       }
     }
   }
   .header-right-side{
+    @include media($m){
+      margin-top: 3px;
+    }
     nav{
       ul{
         @include flex(c,c);
@@ -109,6 +128,9 @@ header{
             text-decoration: none;
             display: flex;
             height: 100%;
+            @include media($m){
+              font-size: 16px;
+            }
             &.active{
               p{
                 color: white;
@@ -124,8 +146,14 @@ header{
               @include flex(fs,fs,col);
               height: 30px;
               color: grey;
+              @include media($m){
+                height: 17px;
+              }
               &:after{
                 margin-top:7px;
+                @include media($m){
+                  margin-top: 11px;
+                }
               }
             }
           }
