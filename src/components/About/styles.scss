@@ -173,19 +173,29 @@ body{
 
 @include keyframes(about-enter-text){
   0%{
+    pointer-events: none;
     line-height: 150px;
+  }
+  99%{
+    pointer-events: none;
   }
   100%{
     line-height: 80px;
+    pointer-events: all;
   }
 }
 
 @include keyframes(about-enter-text--mobile){
   0%{
+    pointer-events: none;
     line-height: 80px;
+  }
+  99%{
+    pointer-events: none;
   }
   100%{
     line-height: 35px;
+    pointer-events: all;
   }
 }
 

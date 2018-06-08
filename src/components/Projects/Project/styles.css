@@ -848,7 +848,7 @@
             width: 60px;
             height: 60px; } }
     .project .icon .line {
-      height: 4px;
+      height: 7px;
       width: 100%;
       background: #fff;
       position: absolute;
@@ -859,6 +859,9 @@
       margin: auto;
       box-sizing: border-box;
       pointer-events: all; }
+      @media only screen and (max-width: 768px) {
+        .project .icon .line {
+          height: 4px; } }
   .project a {
     text-decoration: none;
     display: -webkit-box;

@@ -307,9 +307,6 @@
       }
     }
     $lineHeight: 7px;
-    @include media($m){
-      $lineHeight: 4px;
-    }
     .line{
       height: $lineHeight;
       width: 100%;
@@ -322,6 +319,9 @@
       margin: auto;
       box-sizing: border-box;
       pointer-events: all;
+      @include media($m){
+        height: 4px;
+      }
     }
   }
   a{
