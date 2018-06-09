@@ -42,6 +42,11 @@ body{
         font-family: $hkRegular;
         animation: about-enter-text 1.5s;
         line-height: 80px;
+        @include media($l){
+          animation: about-enter-text--tablet 1.5s;
+          font-size: 36px;
+          line-height: 60px;
+        }
         @include media($m){
           animation: about-enter-text--mobile 1.5s;
           font-size: 20px;
@@ -195,6 +200,20 @@ body{
   }
   100%{
     line-height: 35px;
+    pointer-events: all;
+  }
+}
+
+@include keyframes(about-enter-text--tablet){
+  0%{
+    pointer-events: none;
+    line-height: 120px;
+  }
+  99%{
+    pointer-events: none;
+  }
+  100%{
+    line-height: 60px;
     pointer-events: all;
   }
 }

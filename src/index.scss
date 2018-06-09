@@ -283,6 +283,11 @@ body {
         p{
           animation: about-enter-text 1.5s 1.1s forwards;
           line-height: 80px;
+          @include media($l){
+            animation: about-enter-text--tablet 1.5s 1.1s;
+            font-size: 36px;
+            line-height: 60px;
+          }
           @include media($m){
             animation: about-enter-text--mobile 1.5s 1.1s;
             font-size: 20px;

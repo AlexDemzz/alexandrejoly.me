@@ -741,6 +741,11 @@ body {
   .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
     animation: about-enter-text 1.5s 1.1s forwards;
     line-height: 80px; }
+    @media only screen and (max-width: 1024px) {
+      .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
+        animation: about-enter-text--tablet 1.5s 1.1s;
+        font-size: 36px;
+        line-height: 60px; } }
     @media only screen and (max-width: 768px) {
       .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
         animation: about-enter-text--mobile 1.5s 1.1s;
