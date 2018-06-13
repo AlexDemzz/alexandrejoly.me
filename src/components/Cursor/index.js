@@ -48,16 +48,14 @@ class Cursor extends React.Component{
     // }
 
     render(){
-
-
         return(
            <div className={`cursor ${this.classHovered()} ${this.classHold()}`} style={{top: this.props.top, left: this.props.left}}>
                <div className="pointer">
                    <div className="main" ref="main"/>
                    <div className="border"/>
-                   <div className="text">
-                       <p className={this.props.hold ? 'text-p--show' : 'text-p--hide'}>Hold to discover</p>
-                   </div>
+                   {/*<div className="text">*/}
+                       {/*<p className={this.props.hold ? 'text-p--show' : 'text-p--hide'}>Hold to discover</p>*/}
+                   {/*</div>*/}
                </div>
            </div>
         )

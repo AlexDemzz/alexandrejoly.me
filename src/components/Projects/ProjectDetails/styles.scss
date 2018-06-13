@@ -117,18 +117,22 @@
   will-change: transition;
   .project-details-header-fixed{
     position: fixed;
-    top: 150px;
-    left: 0;
-    right: 0;
     width: 100%;
     @include container(inherit, 70px);
-    transition-duration: 2s;
+    transition: all 1.5s!important;
     transition-timing-function: cubic-bezier(.18,1,.21,1)!important;
     will-change: transform;
+    padding-top: 150px;
     @include media($m){
       @include container(inherit, 30px);
       padding-top: 50px;
       top: 60px;
+    }
+  }
+  .scrollarea-content{
+    .project-details-header-fixed{
+      position: static;
+      visibility: hidden;
     }
   }
   .project-details-infos-row{
@@ -174,6 +178,7 @@
           @include media($m){
             font-size: 16px;
             line-height: 30px;
+            animation: project-enter-text--mobile 1s;
           }
         }
       }
@@ -181,25 +186,33 @@
   }
   .project-details-images{
     @include container(1200px, 0px);
-    margin-top: 90vh;
+    margin-top: 100px;
     position: relative;
     bottom: 0px;
     opacity: 1;
     transition: 0.5s;
     pointer-events: none;
+    @include media($m){
+    margin-top: 50px;
+    }
     >div.visible{
       img{
         animation: fade-translate-appear--small 0.5s forwards;
       }
     }
+    >div{
+
+    }
     img{
+
       opacity: 0;
-      margin-bottom: 150px;
       width: 100%;
       height: auto;
-      object-fit: cover;
+      max-height: 90vh;
+      object-fit: contain;
       @include noselect();
       @include nodrag();
+      margin-bottom: 150px;
       @include media($l){
         margin-bottom: 80px;
       }
@@ -332,6 +345,9 @@
 
 @include keyframes(project-enter-text){
   0%{
+    opacity: 0;
+  }
+  1%{
     position: absolute;
     top: 0;
     left: 0;
@@ -352,8 +368,28 @@
   }
 }
 
+@include keyframes(project-enter-text--mobile){
+  0%{
+    opacity: 0;
+  }
+  1%{
+    transform: translateY(100px);
+    opacity: 0;
+    line-height: 70px;
+  }
+  100%{
+    position: static;
+    opacity: 1;
+    line-height: 30px;
+    transform: translateY(0px);
+  }
+}
+
 @include keyframes(project-enter-item){
   0%{
+    opacity: 0;
+  }
+  1%{
     transform: translateY(100px);
     opacity: 0;
   }

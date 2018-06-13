@@ -127,6 +127,9 @@
       .line{
         animation: line-to-cicle 1s forwards;
         animation-delay: 0s;
+        @include media($m){
+          animation: line-to-cicle--mobile 1s forwards;
+        }
       }
       &.animate{
         .icon-particles{
@@ -146,9 +149,14 @@
       color: transparent!important;
       transition: all 0s 0s;
       //transition-delay: 0s!important;
-
+      @include media($m){
+        -webkit-text-stroke-width: 1px;
+      }
       &:after {
         width: 0%!important;
+        @include media($s){
+          width: 100%!important;
+        }
       }
     }
   }
@@ -214,6 +222,10 @@
     position: relative;
     transition: 0.2s;
     pointer-events: all;
+    @include media($xl){
+      width: 200px;
+      margin-top:33px;
+    }
     @include media($m){
       width: 170px;
       margin-top:20px;
@@ -543,6 +555,45 @@
     background: transparent;
     box-sizing: border-box;
     border: solid 7px #252525;
+  }
+}
+
+@include keyframes(line-to-cicle--mobile){
+  $lineHeight: 4px;
+  0%{
+    max-width: 200px;
+  }
+  30%{
+    max-width: $lineHeight;
+    height: $lineHeight;
+  }
+  31%{
+    border-radius: 999px;
+    max-width: $lineHeight;
+    height: $lineHeight;
+    border: solid 0px $purpleGradientStart;
+  }
+  42%{
+    background: #0a0a0a;
+    border: solid 15px $purpleGradientStart;
+  }
+  79%{
+    max-width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px $purpleGradientStart;
+  }
+  100%{
+    max-width: 150px;
+    width:150px;
+    height: 150px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-sizing: border-box;
+    border: solid $lineHeight #252525;
   }
 }
 

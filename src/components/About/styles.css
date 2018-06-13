@@ -762,6 +762,38 @@ body:after {
     line-height: 80px;
     pointer-events: all; } }
 
+@-webkit-keyframes about-leave {
+  0% {
+    pointer-events: none;
+    transform: translateY(0px); }
+  100% {
+    pointer-events: all;
+    transform: translateY(-200px); } }
+
+@-moz-keyframes about-leave {
+  0% {
+    pointer-events: none;
+    transform: translateY(0px); }
+  100% {
+    pointer-events: all;
+    transform: translateY(-200px); } }
+
+@-o-keyframes about-leave {
+  0% {
+    pointer-events: none;
+    transform: translateY(0px); }
+  100% {
+    pointer-events: all;
+    transform: translateY(-200px); } }
+
+@keyframes about-leave {
+  0% {
+    pointer-events: none;
+    transform: translateY(0px); }
+  100% {
+    pointer-events: all;
+    transform: translateY(-200px); } }
+
 @-webkit-keyframes about-enter-text--mobile {
   0% {
     pointer-events: none;

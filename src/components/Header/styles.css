@@ -642,6 +642,7 @@ header {
       header .header-right-side nav ul li:last-of-type {
         margin-right: 0; }
       header .header-right-side nav ul li:hover p {
+        color: white;
         transform: translateY(-27px);
         transition: 0.2s; }
       header .header-right-side nav ul li:nth-of-type(1) {

@@ -17,7 +17,9 @@ class Projects extends React.Component{
         showHitBubble: true,
         projectsSize: [],
         dragging: false,
-        isMobile: false
+        isMobile: false,
+        touchMouvement: 0,
+        lastDir: null
     };
 
     handleStart = (event, ui) => {
@@ -34,19 +36,45 @@ class Projects extends React.Component{
         };
 
         if(ui.deltaX>0){
+            this.setState({lastDir: 'prev'});
+            if(this.state.lastDir !== 'prev'){
+                this.setState({touchMouvement: 0});
+                console.log('reset');
+            }else{
+                this.setState({touchMouvement: this.state.touchMouvement+1});
+            }
             this.scrollAnimation(true, 'prev', event.movementX);
             removeActiveClass();
         }else{
+            this.setState({lastDir: 'next'});
+            if(this.state.lastDir !== 'next'){
+                this.setState({touchMouvement: 0});
+                console.log('reset');
+            }else{
+                this.setState({touchMouvement: this.state.touchMouvement+1});
+            }
             this.scrollAnimation(true, 'next', event.movementX);
             removeActiveClass();
         }
     };
 
     scrollAnimation = (status, direction = false, deg) => {
-        let posDeg = Math.abs(deg)*2;
-        posDeg >= 40 ?  posDeg = 40 : posDeg;
-        let rotateZ = Math.abs(deg)/5;
-        rotateZ >= 4 ?  rotateZ = 4 : rotateZ;
+        let posDeg = 0;
+        let rotateZ = 0;
+        if(deg){
+            posDeg = Math.abs(deg)*2;
+                posDeg >= 40 ?  posDeg = 40 : posDeg;
+            rotateZ = Math.abs(deg)/5;
+                rotateZ >= 4 ?  rotateZ = 4 : rotateZ;
+        }else{
+            posDeg = Math.abs(this.state.touchMouvement)*2;
+                posDeg >= 40 ?  posDeg = 40 : posDeg;
+            rotateZ = Math.abs(this.state.touchMouvement)/5;
+                rotateZ >= 4 ?  rotateZ = 4 : rotateZ;
+        }
+
+
+
         let $projects = document.getElementsByClassName('js-project');
         if(status){
             for(let i=0; i < $projects.length ; i++){
@@ -79,6 +107,8 @@ class Projects extends React.Component{
         this.scrollAnimation(false);
         this.sendDragPosition(ui.x);
         this.setState({dragging: false});
+        this.setState({touchMouvement: 0});
+        console.log('full reset');
     };
 
     getMaxBoundLeft = () => {
@@ -159,7 +189,7 @@ class Projects extends React.Component{
     // }
 
     getIfMobile = () => {
-        if(window.innerWidth<480){
+        if(document.documentElement.clientWidth<480){
             this.setState({isMobile: true});
         }else{
             this.setState({isMobile: false});

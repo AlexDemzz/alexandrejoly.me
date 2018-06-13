@@ -22,6 +22,12 @@ body {
   .scrollbar-container{
     display: none;
   }
+  &.no-transition{
+    *, *:after, *:before{
+      transition: none!important;
+      transition-duration: 0s!important;
+    }
+  }
   .scroll-container{
     height: 100vh!important;
     .container{
@@ -132,6 +138,13 @@ body {
         transform: rotateZ(0deg);
         transition: 1s;
         transition-timing-function: ease-out;
+      }
+    }
+  }
+  &.about{
+    .about-text-wrapper{
+      p{
+        animation: about-leave 1s!important;
       }
     }
   }
@@ -262,6 +275,9 @@ body {
         &:last-of-type{
           p{
             animation: project-enter-text 1s 1.1s forwards;
+            @include media($m){
+              animation: project-enter-text--mobile 1s 1.1s forwards;
+            }
           }
         }
       }

@@ -190,6 +190,17 @@ body{
   }
 }
 
+@include keyframes(about-leave){
+  0%{
+    pointer-events: none;
+    transform: translateY(0px);
+  }
+  100%{
+    pointer-events: all;
+    transform: translateY(-200px);
+  }
+}
+
 @include keyframes(about-enter-text--mobile){
   0%{
     pointer-events: none;

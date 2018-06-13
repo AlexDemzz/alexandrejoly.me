@@ -606,6 +606,9 @@
     .project.active .icon .line {
       animation: line-to-cicle 1s forwards;
       animation-delay: 0s; }
+      @media only screen and (max-width: 768px) {
+        .project.active .icon .line {
+          animation: line-to-cicle--mobile 1s forwards; } }
     .project.active .icon.animate .icon-particles {
       animation: icon-pop-in--particles 0.7s forwards;
       animation-delay: 0.8s; }
@@ -619,8 +622,14 @@
       -webkit-text-stroke-color: white;
       color: transparent !important;
       transition: all 0s 0s; }
+      @media only screen and (max-width: 768px) {
+        .project.active .project-title {
+          -webkit-text-stroke-width: 1px; } }
       .project.active .project-title:after {
         width: 0% !important; }
+        @media only screen and (max-width: 480px) {
+          .project.active .project-title:after {
+            width: 100% !important; } }
   .project .project-img-wrapper {
     position: absolute;
     right: 40%;
@@ -734,6 +743,10 @@
     position: relative;
     transition: 0.2s;
     pointer-events: all; }
+    @media only screen and (max-width: 1300px) {
+      .project .icon {
+        width: 200px;
+        margin-top: 33px; } }
     @media only screen and (max-width: 768px) {
       .project .icon {
         width: 170px;
@@ -1352,6 +1365,130 @@
     background: transparent;
     box-sizing: border-box;
     border: solid 7px #252525; } }
+
+@-webkit-keyframes line-to-cicle--mobile {
+  0% {
+    max-width: 200px; }
+  30% {
+    max-width: 4px;
+    height: 4px; }
+  31% {
+    border-radius: 999px;
+    max-width: 4px;
+    height: 4px;
+    border: solid 0px #7F00FF; }
+  42% {
+    background: #0a0a0a;
+    border: solid 15px #7F00FF; }
+  79% {
+    max-width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #7F00FF; }
+  100% {
+    max-width: 150px;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-sizing: border-box;
+    border: solid 4px #252525; } }
+
+@-moz-keyframes line-to-cicle--mobile {
+  0% {
+    max-width: 200px; }
+  30% {
+    max-width: 4px;
+    height: 4px; }
+  31% {
+    border-radius: 999px;
+    max-width: 4px;
+    height: 4px;
+    border: solid 0px #7F00FF; }
+  42% {
+    background: #0a0a0a;
+    border: solid 15px #7F00FF; }
+  79% {
+    max-width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #7F00FF; }
+  100% {
+    max-width: 150px;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-sizing: border-box;
+    border: solid 4px #252525; } }
+
+@-o-keyframes line-to-cicle--mobile {
+  0% {
+    max-width: 200px; }
+  30% {
+    max-width: 4px;
+    height: 4px; }
+  31% {
+    border-radius: 999px;
+    max-width: 4px;
+    height: 4px;
+    border: solid 0px #7F00FF; }
+  42% {
+    background: #0a0a0a;
+    border: solid 15px #7F00FF; }
+  79% {
+    max-width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #7F00FF; }
+  100% {
+    max-width: 150px;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-sizing: border-box;
+    border: solid 4px #252525; } }
+
+@keyframes line-to-cicle--mobile {
+  0% {
+    max-width: 200px; }
+  30% {
+    max-width: 4px;
+    height: 4px; }
+  31% {
+    border-radius: 999px;
+    max-width: 4px;
+    height: 4px;
+    border: solid 0px #7F00FF; }
+  42% {
+    background: #0a0a0a;
+    border: solid 15px #7F00FF; }
+  79% {
+    max-width: 50px;
+    height: 50px;
+    border-radius: 999px;
+    opacity: 1;
+    background: transparent;
+    border: solid 1px #7F00FF; }
+  100% {
+    max-width: 150px;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    border-radius: 999px;
+    background: transparent;
+    box-sizing: border-box;
+    border: solid 4px #252525; } }
 
 @-webkit-keyframes circle-to-line {
   0% {

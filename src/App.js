@@ -35,7 +35,9 @@ class App extends Component {
         appLoadedHide: false,
         scrollTimeout: null,
         lastScrollTop: 0,
-        scrollY: 0
+        scrollY: 0,
+        support: true,
+        resizeTimeout: null
     };
 
     getClickEvent = (param) => {
@@ -80,7 +82,24 @@ class App extends Component {
 
     componentDidMount(){
         this.isTouchDevice();
+        this.websiteSupport();
+        window.addEventListener('resize', this.removeAnimationDuringResize);
     };
+
+    removeAnimationDuringResize = () => {
+        document.body.classList.add('no-transition');
+        let resizeTimeout = setTimeout(() => {
+            document.body.classList.remove('no-transition');
+        },100);
+        this.setState({resizeTimeout});
+    }
+    
+    websiteSupport = () => {
+    if('CSS' in window && 'supports' in window.CSS) {
+        let support = window.CSS.supports('mix-blend-mode','difference');
+        this.setState({support});
+    }
+}
     
     isTouchDevice = () => {
         if(isMobile){
@@ -96,26 +115,38 @@ class App extends Component {
                         {
                             !isMobile ? <Cursor top={this.state.y} left={this.state.x} appLoaded={this.state.appLoaded} hovered={this.state.hover} hold={this.state.hold} cursorEvent={this.cursorEvent}/> : null
                         }
-                        {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
-                        {this.state.appLoaded ? <div className="app-wrapper">
-                            <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
-                            <TransitionGroup className='height100 content-wrapper' ref="contentWrapper" onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: {enter: 2100, exit: 2000}})}>
-                                <CSSTransition
-                                    key={location.pathname.split('/')[1]}
-                                    classNames={this.state.transitionName}
-                                    timeout={this.state.transitionDelay}>
-                                    <Switch location={location}>
-                                        <Route match exact path="/" render={()=><Projects appLoaded={this.state.appLoaded} setupAnimation={this.state.appLoaded} dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
-                                        <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} appLoaded={this.state.appLoaded} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
-                                        <Route match exact path="/about" render={(props)=><About {...props} cursorEvent={this.cursorEvent} appLoaded={this.state.appLoaded}/>}/>
-                                    </Switch>
-                                </CSSTransition>
-                            </TransitionGroup>
-                            {
-                                location.pathname.split('/')[1] !== 'work' ? <Footer appLoaded={this.state.appLoaded}/> : null
-                            }
-                        </div> : null}
-                        <div className="bottom-line"/>
+                        {this.state.support ?
+                            <div style={{width: '100%', height: '100%'}}>
+                                {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
+                                {this.state.appLoaded ?
+                                    <div className="app-wrapper">
+                                        <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
+                                        <TransitionGroup className='height100 content-wrapper' ref="contentWrapper" onMouseDown={() => this.getClickEvent({transitionName: 'home-to-project', transitionDelay: {enter: 2100, exit: 2000}})}>
+                                            <CSSTransition
+                                                key={location.pathname.split('/')[1]}
+                                                classNames={this.state.transitionName}
+                                                timeout={this.state.transitionDelay}>
+                                                <Switch location={location}>
+                                                    <Route match exact path="/" render={()=><Projects appLoaded={this.state.appLoaded} setupAnimation={this.state.appLoaded} dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
+                                                    <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} appLoaded={this.state.appLoaded} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
+                                                    <Route match exact path="/about" render={(props)=><About {...props} cursorEvent={this.cursorEvent} appLoaded={this.state.appLoaded}/>}/>
+                                                </Switch>
+                                            </CSSTransition>
+                                        </TransitionGroup>
+                                        {
+                                            location.pathname.split('/')[1] !== 'work' ? <Footer appLoaded={this.state.appLoaded}/> : null
+                                        }
+                                    </div> : null}
+                                <div className="bottom-line"/>
+                            </div>
+                            :
+                            <div className="browser-not-supported">
+                                <p>Browser not supported</p>
+                                <p>
+                                    Get to the newest version of <a href="https://www.google.com/intl/en/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/">Mozilla Firefox</a>
+                                </p>
+                            </div>
+                        }
                     </div>
                 )}
                 />
