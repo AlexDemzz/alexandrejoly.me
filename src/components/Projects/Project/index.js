@@ -311,7 +311,7 @@ class Project extends React.Component{
     render(){
         return(
             <div ref="project"
-                className={`project js-project ${this.props.active === true ?  'active' : ''}`}
+                className={`project js-project ${this.props.active === true ?  'active' : ''}  ${this.props.details.title === 'Daye' ?  'mobile' : ''}`}
                 onMouseOver={(e) => {this.showIcon(e); this.sendCursorEvent(true, false)}}
                 onMouseLeave={(e) => {this.hideIcon(e); this.sendCursorEvent(false, false)}}>
                 <div className="project-wrapper">

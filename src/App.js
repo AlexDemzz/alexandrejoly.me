@@ -97,6 +97,9 @@ class App extends Component {
     websiteSupport = () => {
     if('CSS' in window && 'supports' in window.CSS) {
         let support = window.CSS.supports('mix-blend-mode','difference');
+        if(/*@cc_on!@*/false || !!document.documentMode){
+            support = false;
+        }
         this.setState({support});
     }
 }
@@ -143,7 +146,7 @@ class App extends Component {
                             <div className="browser-not-supported">
                                 <p>Browser not supported</p>
                                 <p>
-                                    Get to the newest version of <a href="https://www.google.com/intl/en/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/">Mozilla Firefox</a>
+                                    Get the newest version of <a href="https://www.google.com/intl/en/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/">Mozilla Firefox</a>
                                 </p>
                             </div>
                         }

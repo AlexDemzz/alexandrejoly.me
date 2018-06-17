@@ -264,10 +264,13 @@
 }
 .project-details-page--out{
   &.reset-scroll{
+    .project-details-header-fixed{
+      transition: 0s!important;
+    }
     .scroll-container{
       .container{
         height: 0;
-        transition: 0s;
+        transition: height 0s!important;
       }
     }
   }

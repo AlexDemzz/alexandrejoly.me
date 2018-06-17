@@ -238,24 +238,28 @@ $purpleGradientEnd: #E100FF;
     top: initial;
     bottom: 0;
     padding-top:40px;
+    transform: skewY(0deg);
   }
   49.99%{
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top:40px;
+    transform: skewY(0deg);
   }
   50%{
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top:40px;
+    transform: skewY(-1deg);
   }
   100%{
     top: -80px;
     bottom: inherit;
     height: 0vh;
     padding-top:0px;
+    transform: skewY(-1deg);
   }
 }
 

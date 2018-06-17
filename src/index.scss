@@ -33,9 +33,9 @@ body {
     .container{
       height: auto;
       //transition: 0.2s;
-      transition: all 1.5s!important;
-      transition-timing-function: cubic-bezier(.18,1,.21,1)!important;
-      will-change: margin-top;
+      //transition: all 1.5s!important;
+      //transition-timing-function: cubic-bezier(.18,1,.21,1)!important;
+      //will-change: margin-top;
     }
     &.no-transition{
       transition-duration: 0s!important;
@@ -66,6 +66,10 @@ body {
       mix-blend-mode: difference;
       z-index: 999999;
     }
+  }
+  .next-project{
+    mix-blend-mode: difference;
+    z-index: 999999;
   }
   .container{
     @include container(inherit, 70px);
@@ -134,7 +138,7 @@ body {
       animation: none;
     }
     .fill-scroll-bottom{
-      &:after{
+      .fill-scroll-bottom-inertia{
         transform: rotateZ(0deg);
         transition: 1s;
         transition-timing-function: ease-out;
@@ -159,6 +163,7 @@ body {
       transition: opacity 0s 1s;
     }
     .fill-scroll-bottom{
+      z-index: 99999999;
       animation: fill-scroll-bottom--out--full 2s forwards;
     }
   }
@@ -176,7 +181,7 @@ body {
     }
     .fill-scroll-bottom{
       animation: fill-scroll-bottom--out--full 2s forwards;
-      &:after{
+      .fill-scroll-bottom-inertia{
         transform: rotateZ(1deg);
         transition: 0.5s;
         transition-timing-function: ease-out;

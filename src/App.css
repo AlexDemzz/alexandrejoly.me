@@ -326,85 +326,101 @@
   0% {
     top: initial;
     bottom: 0;
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   49.99% {
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   50% {
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(-1deg); }
   100% {
     top: -80px;
     bottom: inherit;
     height: 0vh;
-    padding-top: 0px; } }
+    padding-top: 0px;
+    transform: skewY(-1deg); } }
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
     top: initial;
     bottom: 0;
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   49.99% {
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   50% {
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(-1deg); }
   100% {
     top: -80px;
     bottom: inherit;
     height: 0vh;
-    padding-top: 0px; } }
+    padding-top: 0px;
+    transform: skewY(-1deg); } }
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
     top: initial;
     bottom: 0;
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   49.99% {
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   50% {
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(-1deg); }
   100% {
     top: -80px;
     bottom: inherit;
     height: 0vh;
-    padding-top: 0px; } }
+    padding-top: 0px;
+    transform: skewY(-1deg); } }
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
     top: initial;
     bottom: 0;
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   49.99% {
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(0deg); }
   50% {
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
-    padding-top: 40px; }
+    padding-top: 40px;
+    transform: skewY(-1deg); }
   100% {
     top: -80px;
     bottom: inherit;
     height: 0vh;
-    padding-top: 0px; } }
+    padding-top: 0px;
+    transform: skewY(-1deg); } }
 
 @-webkit-keyframes block-appear--line {
   0% {
@@ -530,8 +546,7 @@
   right: auto;
   margin: 0 auto;
   height: 0vh;
-  transition: 0s;
-  transition-timing-function: ease-out;
+  transition-timing-function: ease-in-out;
   z-index: 99999;
   overflow: hidden;
   padding-top: 40px;
@@ -544,8 +559,7 @@
     bottom: -40px;
     left: auto;
     right: auto; }
-  .fill-scroll-bottom:after {
-    content: '';
+  .fill-scroll-bottom .fill-scroll-bottom-inertia {
     position: absolute;
     top: 35px;
     left: -5%;
@@ -559,13 +573,13 @@
     transform-origin: 0 0; }
   .fill-scroll-bottom.out {
     animation: fill-scroll-bottom--out--full 2s; }
-    .fill-scroll-bottom.out:after {
+    .fill-scroll-bottom.out .fill-scroll-bottom-inertia {
       transform: rotateZ(1deg);
       transition: 0.5s;
       transition-timing-function: ease-out; }
   .fill-scroll-bottom.scrolling {
     transition: 0.5s; }
-    .fill-scroll-bottom.scrolling:after {
+    .fill-scroll-bottom.scrolling .fill-scroll-bottom-inertia {
       transform: rotateZ(1deg);
       transition: 0.5s;
       transition-timing-function: ease-out; }

@@ -241,6 +241,7 @@ class Projects extends React.Component{
                 </div>
                 <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                     <div className="fill-scroll-bottom-bg"/>
+                    <div className="fill-scroll-bottom-inertia"/>
                 </div>
             </div>
         )

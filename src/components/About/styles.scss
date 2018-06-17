@@ -34,25 +34,6 @@ body{
       .container{
         @include container(inherit, 0px);
       }
-      p{
-        padding: 0px 0;
-        font-size: 55px;
-        max-width: 1300px;
-        width: 100%;
-        font-family: $hkRegular;
-        animation: about-enter-text 1.5s;
-        line-height: 80px;
-        @include media($l){
-          animation: about-enter-text--tablet 1.5s;
-          font-size: 36px;
-          line-height: 60px;
-        }
-        @include media($m){
-          animation: about-enter-text--mobile 1.5s;
-          font-size: 20px;
-          line-height: 35px;
-        }
-      }
       .about-interact{
         font-family: $hkBold;
         position: relative;
@@ -80,6 +61,25 @@ body{
           animation: about-enter-text-link 0.3s forwards;
           animation-delay: 1.5s;
           transition: 0.3s;
+        }
+      }
+      p{
+        padding: 0px 0;
+        font-size: 55px;
+        max-width: 1300px;
+        width: 100%;
+        font-family: $hkRegular;
+        animation: about-enter-text 1.5s;
+        line-height: 80px;
+        @include media($l){
+          animation: about-enter-text--tablet 1.5s;
+          font-size: 36px;
+          line-height: 60px;
+        }
+        @include media($m){
+          animation: about-enter-text--mobile 1.5s;
+          font-size: 20px;
+          line-height: 35px;
         }
       }
       .contact-me{
@@ -116,29 +116,39 @@ body{
             position: absolute;
             top: -50px;
             left:0;
-            right: 0;
             z-index: -1;
             transition: 0.2s;
+            pointer-events: none;
             margin-left: 10px;
-            svg{
-              margin-bottom: -7px;
-              width: 30px;
-              fill: white;
-              margin-right:10px;
+            @include media($l){
+              top: -24px;
+              left: -30%;
             }
-            p{
+            @include media($s){
+              left: -80%;
+            }
+            >div{
               @include flex(c,c);
-              font-size: 20px;
-              height: 100%;
-              color: white;
-              margin-left: -15px;
-              position: relative;
-              font-family: $hkBold;
               animation: text-appear-from-bottom-fade 3s forwards;
-              @include media($m){
-                font-size: 16px;
+              svg{
+                margin-bottom: -7px;
+                width: 30px;
+                fill: white;
+                margin-right:10px;
+                @include media($m){
+                  width: 20px;
+                }
+              }
+              span{
+                font-size: 20px;
+                color: white;
+                position: relative;
+                font-family: $hkBold;
                 white-space: nowrap;
-                margin-top:15px;
+                @include media($m){
+                  font-size: 16px;
+                  white-space: nowrap;
+                }
               }
             }
           }
@@ -150,19 +160,19 @@ body{
 
 @include keyframes(text-appear-from-bottom-fade){
   0%{
-    top: 30px;
+    transform: translateY(30px);
     opacity: 0;
   }
   20%{
-    top: 0px;
+    transform: translateY(0px);
     opacity: 1;
   }
   80%{
-    top: 0px;
+    transform: translateY(0px);
     opacity: 1;
   }
   100%{
-    top: 30px;
+    transform: translateY(30px);
     opacity: 0;
   }
 }

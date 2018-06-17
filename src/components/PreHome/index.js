@@ -20,8 +20,10 @@ class PreHome extends React.Component{
         //     this.setState({imgsLoaded: this.state.imgsLoaded+1});
         //     this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)});
         // },1000);
-        this.setState({imgsLoaded: this.state.imgsLoaded+1});
-        this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+6});
+        if(this.state.loadedNumber < 100){
+            this.setState({imgsLoaded: this.state.imgsLoaded+1});
+            this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+6});
+        }
     }
 
     componentDidUpdate(){
@@ -91,7 +93,7 @@ class PreHome extends React.Component{
                             this.state.completeCount<13 ? <CountUp duration={0.50} onComplete={completeCountEvent} start={0} end={this.state.loadedNumber} /> : null
                         }
                         {
-                            this.state.showElem && this.state.completeCount>13 ?
+                            this.state.showElem && this.state.completeCount>12 ?
                                 <p className="cent-per-cent">
                                     <span>1</span>
                                     <span>0</span>

@@ -77,7 +77,7 @@ class About extends React.Component{
                             speed={1}
                             className="about-text-wrapper scroll-container"
                             contentClassName="container"
-                            smoothScrolling={this.state.isMobile}
+                            smoothScrolling={false}
                             horizontal={false}
                         >
                            <div className="about-text-wrapper-ctn">
@@ -101,9 +101,9 @@ class About extends React.Component{
                                                </CopyToClipboard>
                                                {this.state.copied ?
                                                    <div className={`copied`}>
-                                                           <span>{validSvg()}
-                                                               email copied to clipboard
-                                                           </span>
+                                                           <div>{validSvg()}
+                                                              <span>email copied to clipboard</span>
+                                                           </div>
                                                    </div> : null}
                                            </div>
                                        </div>
@@ -115,6 +115,7 @@ class About extends React.Component{
                     </div>
                     <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                         <div className="fill-scroll-bottom-bg"/>
+                        <div className="fill-scroll-bottom-inertia"/>
                     </div>
                 </div>
         )

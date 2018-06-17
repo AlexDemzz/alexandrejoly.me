@@ -36,8 +36,7 @@
   margin: 0 auto;
   height: 0vh;
   //background: white;
-  transition: 0s;
-  transition-timing-function: ease-out;
+  transition-timing-function: ease-in-out;
   z-index: 99999;
   overflow: hidden;
   padding-top: 40px;
@@ -51,8 +50,7 @@
     left: auto;
     right: auto;
   }
-  &:after{
-    content: '';
+  .fill-scroll-bottom-inertia{
     position: absolute;
     top: 35px;
     left: -5%;
@@ -67,7 +65,7 @@
   }
   &.out{
     animation: fill-scroll-bottom--out--full 2s;
-    &:after{
+    .fill-scroll-bottom-inertia{
       transform: rotateZ(1deg);
       transition: 0.5s;
       transition-timing-function: ease-out;
@@ -83,7 +81,7 @@
   //}
   &.scrolling{
     transition: 0.5s;
-    &:after{
+    .fill-scroll-bottom-inertia{
       transform: rotateZ(1deg);
       transition: 0.5s;
       transition-timing-function: ease-out;

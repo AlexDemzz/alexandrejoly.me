@@ -24,7 +24,8 @@ class ProjectDetails extends React.Component{
         topPosition: 0,
         isMobile: false,
         goToHome: false,
-        fixedHeaderHeight: 0
+        fixedHeaderHeight: 0,
+        scrollInertiaTO: null,
     }
 
     projectIdEvent = (id) => {
@@ -33,31 +34,15 @@ class ProjectDetails extends React.Component{
     
     componentWillReceiveProps(nextProps){
         if(nextProps.match.params.id !== this.props.match.params.id){
-
-            console.log(document.getElementsByClassName('scrollarea-content')[0].getComputedStyle);
-            // if(document.getElementsByClassName('scrollarea-content')[0] && document.getElementsByClassName('scrollarea-content')[0].getComputedStyle.marginTop){
-            //     let lastYPosition = document.getElementsByClassName('scrollarea-content')[0].getComputedStyle.marginTop;
-            //     this.refs.projectDetailsHeader.style.transform = `translate3d(0,${lastYPosition/3}px,0) skewY(0deg)`;
-            // }
-
-
             setTimeout(()=>{
                 this.updateImagesPosition();
                 this.refs.fillScrollBottom.classList.remove('out');
+                this.setState({preventDoublePushLoc: false});
             },2100);
-            console.log('CHANGEID');
-            this.refs.projectDetailsPage.classList.remove('reset-scroll');
-            this.setState({preventDoublePushLoc: false});
             this.setState({ready: false});
             setTimeout(()=>{
                 this.setState({ready: true});
             },200);
-
-            // if(this.refs.projectDetailsPage.classList.hasClass('reset-scroll')){
-            //
-            // }else{
-            //
-            // }
         }
     }
 
@@ -90,11 +75,11 @@ class ProjectDetails extends React.Component{
     };
 
     updateImagesPosition = () => {
-        this.setState({scrollBottomNumber:0});
-        const fixedHeaderHeight = this.refs.projectDetailsHeader.offsetHeight+document.getElementsByClassName('header')[0].offsetHeight;
-        console.log('fixedHeaderHeight', this.refs.projectDetailsHeader.offsetHeight);
-        console.log('fixedHeaderHeight', document.getElementsByClassName('header')[0].offsetHeight);
-        this.setState({fixedHeaderHeight});
+        if(this.refs.projectDetailsHeader && document.getElementsByClassName('header')[0]){
+            this.setState({scrollBottomNumber:0});
+            const fixedHeaderHeight = this.refs.projectDetailsHeader.offsetHeight+document.getElementsByClassName('header')[0].offsetHeight;
+            this.setState({fixedHeaderHeight});
+        }
     }
 
     nextProject = () => {
@@ -141,21 +126,16 @@ class ProjectDetails extends React.Component{
 
         this.setState({distordTimeout});
         if(value.topPosition + value.containerHeight >= value.realHeight){
-            console.log('down');
             let increaseNumber = 1.5;
             let changePageoffsetHeightAdd = 160;
-            if(this.state.isMobile){
-                changePageoffsetHeightAdd = 160;
-                increaseNumber = 0.5;
-            }
+            // if(this.state.isMobile){
+            //     changePageoffsetHeightAdd = 160;
+            //     increaseNumber = 1.5;
+            // }
             this.refs.fillScrollBottom.classList.remove('animate');
             if(this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+changePageoffsetHeightAdd){
                 this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
-                document.body.classList.add('mix-bend-mode-difference');
-                this.refs.fillScrollBottom.classList.add('scrolling');
-                this.refs.fillScrollBottom.addEventListener('transitionend', () => {
-                    this.refs.fillScrollBottom.classList.remove('scrolling');
-                });
+                this.inertiaFillScrollBottom();
             }else{
                 if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
                     if(this.nextProject().id){
@@ -164,6 +144,11 @@ class ProjectDetails extends React.Component{
                         this.refs.fillScrollBottom.classList.add('out');
                         setTimeout(()=>{
                                 this.resetScrollElem();
+                                this.refs.projectDetailsPage.classList.add('reset-scroll');
+                                setTimeout(()=>{
+                                    this.refs.projectDetailsPage.classList.remove('reset-scroll');
+                                    this.refs.projectDetailsPage.classList.remove('project-details-page--out');
+                                },50);
                                 this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
                         }, 1000);
                     }else{
@@ -176,19 +161,29 @@ class ProjectDetails extends React.Component{
         }
     };
 
+    inertiaFillScrollBottom = () => {
+        let nbr = this.state.currTransform;
+        nbr >= 1 ? nbr=1 : nbr;
+        this.refs.fillScrollBottom.classList.add('scrolling');
+        this.refs.fillScrollBottomInertia.style.transform = `rotateZ(${nbr}deg)`;
+        clearTimeout(this.state.scrollInertiaTO);
+        let scrollInertiaTO = setTimeout(()=>{
+            this.refs.fillScrollBottom.classList.remove('scrolling');
+            this.refs.fillScrollBottomInertia.style.transform = `rotateZ(0deg)`;
+        },300);
+        this.setState({scrollInertiaTO});
+    }
+
     resetScrollElem = () => {
         if(this.refs.projectDetailsPage){
             this.setState({scrollBottomNumber: 0});
             this.refs.fillScrollBottom.style.height = '';
-            this.refs.projectDetailsPage.classList.add('reset-scroll');
-            document.body.classList.remove('mix-bend-mode-difference');
-            this.refs.projectDetailsPage.classList.remove('project-details-page--out');
         }
     };
 
     pageDrag = () => {
         this.setState({isMobile: true});
-        document.body.classList.add('remove-scroll-transition');
+        // document.body.classList.add('remove-scroll-transition');
     }
     render(){
         const projectHeader = projectsList.map(project => {
@@ -326,7 +321,7 @@ class ProjectDetails extends React.Component{
                     speed={1}
                     className="scroll-container"
                     contentClassName="container"
-                    smoothScrolling={this.state.isMobile}
+                    smoothScrolling={false}
                     // smoothScrolling={true}
                     horizontal={false}
                     onScroll={(value) => this.handleScrollWheel(value)}
@@ -349,6 +344,7 @@ class ProjectDetails extends React.Component{
                         <Footer noFixed={true} appLoaded={true}/>
                         <div className="fill-scroll-bottom scrolling"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
                             <div className="fill-scroll-bottom-bg"/>
+                            <div className="fill-scroll-bottom-inertia" ref="fillScrollBottomInertia"/>
                         </div>
                 </ScrollArea>
             </div>
