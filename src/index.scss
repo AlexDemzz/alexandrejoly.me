@@ -22,13 +22,16 @@ body {
   .scrollbar-container{
     display: none;
   }
+  .scrollbar-track{
+    display: none!important;
+  }
   &.no-transition{
     *, *:after, *:before{
       transition: none!important;
       transition-duration: 0s!important;
     }
   }
-  .scroll-container{
+  .scroll-content{
     height: 100vh!important;
     .container{
       height: auto;

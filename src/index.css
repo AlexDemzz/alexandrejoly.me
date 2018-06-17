@@ -572,14 +572,16 @@ body {
   backface-visibility: hidden; }
   body .scrollbar-container {
     display: none; }
+  body .scrollbar-track {
+    display: none !important; }
   body.no-transition *, body.no-transition *:after, body.no-transition *:before {
     transition: none !important;
     transition-duration: 0s !important; }
-  body .scroll-container {
+  body .scroll-content {
     height: 100vh !important; }
-    body .scroll-container .container {
+    body .scroll-content .container {
       height: auto; }
-    body .scroll-container.no-transition {
+    body .scroll-content.no-transition {
       transition-duration: 0s !important; }
   body.remove-scroll-transition .scroll-container .container {
     transition: all 0s !important; }
