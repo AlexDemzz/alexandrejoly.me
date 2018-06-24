@@ -120,7 +120,7 @@ class App extends Component {
                         }
                         {this.state.support ?
                             <div style={{width: '100%', height: '100%'}}>
-                                {!this.state.appLoadedHide ? <PreHome getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
+                                {!this.state.appLoadedHide ? <PreHome isMobile={isMobile} getAppLoaded={this.getAppLoaded} getAppLoadedHide={this.getAppLoadedHide} /> : null}
                                 {this.state.appLoaded ?
                                     <div className="app-wrapper">
                                         <Header appLoaded={this.state.appLoaded} getClickEvent={this.getClickEvent} cursorEvent={this.cursorEvent}/>
@@ -131,8 +131,8 @@ class App extends Component {
                                                 timeout={this.state.transitionDelay}>
                                                 <Switch location={location}>
                                                     <Route match exact path="/" render={()=><Projects appLoaded={this.state.appLoaded} setupAnimation={this.state.appLoaded} dragPosition={this.state.translateX} getDragPosition={this.getDragPosition} activeProject={this.state.active} cursorEvent={this.cursorEvent} holdEnd={this.state.holdEnd} hold={this.state.hold} prevPath={this.state.prevPath}/>}/>
-                                                    <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} appLoaded={this.state.appLoaded} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
-                                                    <Route match exact path="/about" render={(props)=><About {...props} cursorEvent={this.cursorEvent} appLoaded={this.state.appLoaded}/>}/>
+                                                    <Route match path={`/work/:id/:workName`} render={(props)=><ProjectDetails {...props} isMobile={isMobile} appLoaded={this.state.appLoaded} projectIdEvent={this.getProjectsDetailsProjectId}/>} />
+                                                    <Route match exact path="/about" render={(props)=><About {...props} isMobile={isMobile} cursorEvent={this.cursorEvent} appLoaded={this.state.appLoaded}/>}/>
                                                 </Switch>
                                             </CSSTransition>
                                         </TransitionGroup>

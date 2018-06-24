@@ -235,12 +235,16 @@ $purpleGradientEnd: #E100FF;
 
 @include keyframes(fill-scroll-bottom--out--full){
   0%{
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top:40px;
     transform: skewY(0deg);
   }
   49.99%{
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
@@ -248,6 +252,8 @@ $purpleGradientEnd: #E100FF;
     transform: skewY(0deg);
   }
   50%{
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
@@ -255,6 +261,8 @@ $purpleGradientEnd: #E100FF;
     transform: skewY(-1deg);
   }
   100%{
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;

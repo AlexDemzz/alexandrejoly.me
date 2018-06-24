@@ -324,23 +324,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -349,23 +357,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -374,23 +390,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -399,23 +423,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -871,6 +903,27 @@
     width: 100%;
     transition: 1s; }
 
+.projects .img-mobile-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 40%;
+  height: 50vh;
+  margin: auto; }
+  .projects .img-mobile-wrapper > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
+    .projects .img-mobile-wrapper > div img {
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+      object-fit: cover; }
+
 .projects .mobile-projects-wrapper {
   height: 100vh;
   width: 100%;
@@ -884,6 +937,7 @@
   -webkit-flex-flow: column nowrap;
   flex-flow: column nowrap; }
   .projects .mobile-projects-wrapper .project {
+    mix-blend-mode: difference;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -903,6 +957,20 @@
       -webkit-text-stroke-width: 0px;
       font-family: "hk_groteskbold", sans-serif; }
     .projects .mobile-projects-wrapper .project .icon {
-      pointer-events: none;
-      display: none;
-      animation: none; }
+      width: 60px;
+      margin-top: 13px;
+      margin-left: 10px; }
+      .projects .mobile-projects-wrapper .project .icon .hit-me {
+        padding: 10px 15px; }
+        .projects .mobile-projects-wrapper .project .icon .hit-me p {
+          font-size: 14px; }
+      .projects .mobile-projects-wrapper .project .icon .icon-img {
+        animation: icon-pop-in 0.2s 0.8s forwards;
+        animation-timing-function: cubic-bezier(0.32, 2, 0.55, 0.27); }
+        .projects .mobile-projects-wrapper .project .icon .icon-img svg {
+          width: 35px;
+          height: 35px; }
+      .projects .mobile-projects-wrapper .project .icon .line {
+        pointer-events: none;
+        display: none;
+        animation: none; }

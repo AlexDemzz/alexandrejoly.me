@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.css';
 import Project from './Project/';
-
+import Shake from 'shake.js';
 import Draggable from 'react-draggable';
 import projectsList from '../../projects'
 import { withRouter } from "react-router-dom";
@@ -19,7 +19,9 @@ class Projects extends React.Component{
         dragging: false,
         isMobile: false,
         touchMouvement: 0,
-        lastDir: null
+        lastDir: null,
+        projectsImgs: [],
+        destroyImgTO: null
     };
 
     handleStart = (event, ui) => {
@@ -137,6 +139,7 @@ class Projects extends React.Component{
     componentWillUnmount(){
         this.refs.projects.classList.remove('show');
         window.removeEventListener('resize', this.getIfMobile);
+        window.removeEventListener('shake', this.shakeEvent, false);
     }
     componentDidMount(){
         let $projects = document.getElementsByClassName('js-project');
@@ -157,6 +160,64 @@ class Projects extends React.Component{
         }
         this.getIfMobile();
         window.addEventListener('resize', this.getIfMobile);
+        let myShakeEvent = new Shake({
+            threshold: 7,
+            timeout: 100
+        });
+        myShakeEvent.start();
+        window.addEventListener('shake', this.shakeEvent, false);
+        this.getProjectsImg();
+    }
+
+    getProjectsImg = () => {
+        let projectsImgs = projectsList.map((project, index) => {
+            return project.images;
+        });
+        let array = [];
+        for(let i = 0; i<projectsImgs.length; i++){
+            array.push(...projectsImgs[i]);
+        }
+        this.setState({projectsImgs: array});
+    }
+
+    shakeEvent= () => {
+        const removeAllProjectImg = () => {
+            let elements = document.getElementsByClassName('img-wrapper');
+            while(elements.length > 0){
+                elements[0].parentNode.removeChild(elements[0]);
+            }
+            this.setState({imgI: 0});
+        }
+
+        let numderDelay = 10;
+        let numberIndex = 0;
+        let newImg = this.img_create(this.state.projectsImgs[this.getRandomArbitrary(0,this.state.projectsImgs.length-1)], '', '');
+        this.refs.imgWrapper.appendChild(newImg);
+
+        this.setState({imgI: this.state.imgI+1});
+        clearTimeout(this.state.destroyImgTO);
+        let destroyImgTO = setTimeout(()=>{
+            removeAllProjectImg();
+        },1000);
+        this.setState({destroyImgTO});
+    }
+
+    getRandomArbitrary = (min, max) => {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    img_create = (src, alt, title) => {
+        let wrapper = document.createElement('div');
+        wrapper.className = 'img-wrapper';
+        wrapper.style.display = 'block';
+        let img = document.createElement('img');
+        img.src = src;
+        if ( alt != null ) img.alt = alt;
+        if ( title != null ) img.title = title;
+        wrapper.appendChild(img);
+        wrapper.style.top = `${this.getRandomArbitrary(-40,40)}px`;
+        wrapper.style.left = `${this.getRandomArbitrary(-40,40)}px`;
+        return wrapper;
     }
 
     componentWillMount(){
@@ -202,12 +263,12 @@ class Projects extends React.Component{
             .map(key => {
                 if(key === this.props.activeProject){
                     return(
-                        <Project projectsSize={this.state.projectsSize}
+                        <Project projectsSize={this.state.projectsSize} isMobileSize={this.state.isMobile}
                                  showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={true} className={this.props.activeProject ? 'active' : ''} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }else{
                     return(
-                        <Project projectsSize={this.state.projectsSize} showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
+                        <Project projectsSize={this.state.projectsSize} isMobileSize={this.state.isMobile} showHitBubble={this.state.showHitBubble} getIfElementHit={this.getIfElementHit} active={false} holdEnd={this.props.holdEnd} cursorEvent={this.props.cursorEvent} key={key} details={projectsList[key]}/>
                     )
                 }
             });
@@ -216,6 +277,7 @@ class Projects extends React.Component{
             <div className={`projects ${this.props.hold ? 'project-hold' : ''}`} ref="projects">
                 {/*<h3>Creative front-end developer based in France<br/>obessed with UI animations</h3>*/}
                 <div className="container">
+                    <div className="img-mobile-wrapper" ref="imgWrapper"/>
                     {!this.state.isMobile ?
                         <Draggable
                             axis="x"

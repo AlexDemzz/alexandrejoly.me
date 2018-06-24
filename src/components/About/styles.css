@@ -324,23 +324,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -349,23 +357,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -374,23 +390,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -399,23 +423,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -524,6 +556,12 @@ body:after {
   opacity: 0;
   transition: 0.3s;
   z-index: -1; }
+  @media only screen and (max-width: 768px) {
+    body:after {
+      background-size: 15px 15px; } }
+  @media only screen and (max-width: 480px) {
+    body:after {
+      background-size: 10px 10px; } }
 
 .bg-user-experience:after {
   opacity: 1;
@@ -535,6 +573,12 @@ body:after {
     animation: about-enter 2s forwards; }
     .about .container .about-text-wrapper-ctn {
       padding: 150px 0; }
+    .about .container .classicScroll .container {
+      max-width: inherit;
+      width: 100%;
+      padding: 0 0px;
+      margin: 0 auto;
+      box-sizing: border-box; }
     .about .container .about-text-wrapper {
       -webkit-backface-visibility: hidden; }
       .about .container .about-text-wrapper .container {
@@ -622,50 +666,6 @@ body:after {
             margin-left: 10px; }
             .about .container .about-text-wrapper .contact-me .contact-me-copy .about-interact span {
               font-family: "hk_groteskbold", sans-serif; }
-          .about .container .about-text-wrapper .contact-me .contact-me-copy .copied {
-            position: absolute;
-            top: -50px;
-            left: 0;
-            z-index: -1;
-            transition: 0.2s;
-            pointer-events: none;
-            margin-left: 10px; }
-            @media only screen and (max-width: 1024px) {
-              .about .container .about-text-wrapper .contact-me .contact-me-copy .copied {
-                top: -24px;
-                left: -30%; } }
-            @media only screen and (max-width: 480px) {
-              .about .container .about-text-wrapper .contact-me .contact-me-copy .copied {
-                left: -80%; } }
-            .about .container .about-text-wrapper .contact-me .contact-me-copy .copied > div {
-              display: -webkit-box;
-              display: -ms-flexbox;
-              display: flex;
-              -webkit-align-items: center;
-              align-items: center;
-              -webkit-justify-content: center;
-              justify-content: center;
-              -webkit-flex-flow: row nowrap;
-              flex-flow: row nowrap;
-              animation: text-appear-from-bottom-fade 3s forwards; }
-              .about .container .about-text-wrapper .contact-me .contact-me-copy .copied > div svg {
-                margin-bottom: -7px;
-                width: 30px;
-                fill: white;
-                margin-right: 10px; }
-                @media only screen and (max-width: 768px) {
-                  .about .container .about-text-wrapper .contact-me .contact-me-copy .copied > div svg {
-                    width: 20px; } }
-              .about .container .about-text-wrapper .contact-me .contact-me-copy .copied > div span {
-                font-size: 20px;
-                color: white;
-                position: relative;
-                font-family: "hk_groteskbold", sans-serif;
-                white-space: nowrap; }
-                @media only screen and (max-width: 768px) {
-                  .about .container .about-text-wrapper .contact-me .contact-me-copy .copied > div span {
-                    font-size: 16px;
-                    white-space: nowrap; } }
 
 @-webkit-keyframes text-appear-from-bottom-fade {
   0% {
@@ -789,34 +789,42 @@ body:after {
 
 @-webkit-keyframes about-leave {
   0% {
+    opacity: 1;
     pointer-events: none;
     transform: translateY(0px); }
   100% {
     pointer-events: all;
+    opacity: 0;
     transform: translateY(-200px); } }
 
 @-moz-keyframes about-leave {
   0% {
+    opacity: 1;
     pointer-events: none;
     transform: translateY(0px); }
   100% {
     pointer-events: all;
+    opacity: 0;
     transform: translateY(-200px); } }
 
 @-o-keyframes about-leave {
   0% {
+    opacity: 1;
     pointer-events: none;
     transform: translateY(0px); }
   100% {
     pointer-events: all;
+    opacity: 0;
     transform: translateY(-200px); } }
 
 @keyframes about-leave {
   0% {
+    opacity: 1;
     pointer-events: none;
     transform: translateY(0px); }
   100% {
     pointer-events: all;
+    opacity: 0;
     transform: translateY(-200px); } }
 
 @-webkit-keyframes about-enter-text--mobile {

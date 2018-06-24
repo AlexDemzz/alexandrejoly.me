@@ -7,6 +7,7 @@ import { withRouter, NavLink } from "react-router-dom";
 class Project extends React.Component{
     distance = 0;
     holdInterval;
+    rmHitMeHiddenTO;
 
     state = {
         mouseDown: false,
@@ -14,7 +15,6 @@ class Project extends React.Component{
         redirection: false,
         showIcon: false,
         preventHide: false,
-        animationEnd: true,
         active: false,
         imgI: 0
     };
@@ -56,6 +56,12 @@ class Project extends React.Component{
         clearInterval(this.holdInterval);
         this.distance = 0;
     };
+
+    componentWillUnmount(){
+        clearTimeout(this.popInTO);
+        clearTimeout(this.rmHitMeHiddenTO);
+        clearInterval(this.holdInterval);
+    }
 
     preventHold = (e) => {
         if(this.state.mouseDown) {
@@ -190,7 +196,7 @@ class Project extends React.Component{
         let $hitMe = this.refs.hitMe;
         $hitMe.classList.remove('hit-me--show');
         $hitMe.classList.add('hit-me--hidden');
-        setTimeout(()=>{
+        this.rmHitMeHiddenTO = setTimeout(()=>{
             $hitMe.classList.remove('hit-me--hidden');
         },300);
     };
@@ -201,7 +207,7 @@ class Project extends React.Component{
             this.setState({preventHide: false});
             this.setState({'showIcon': true});
             if (this.props.showHitBubble) {
-                setTimeout(() => {
+                this.popInTO = setTimeout(() => {
                     this.popIn();
                 }, 1000);
             };
@@ -216,10 +222,6 @@ class Project extends React.Component{
             // };
             $activeElem.classList.add('active');
             // this.addRightAndLeftClass($activeElem);
-            this.setState({animationEnd: false});
-            setTimeout(() => {
-                this.setState({animationEnd: true});
-            }, 1000);
         }
 
     };
@@ -263,7 +265,7 @@ class Project extends React.Component{
         }
 
         const $activeElem = e.currentTarget;
-        if(!this.state.redirection && !e.target.classList.contains('icon-img')){
+        if(!this.state.redirection && !e.target.classList.contains('icon-img') && !this.props.isMobileSize){
             removeAllProjectImg();
             removeActiveClass();
             // $activeElem.classList.add('active--hidden');

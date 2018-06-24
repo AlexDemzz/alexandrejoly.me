@@ -80,7 +80,8 @@
       height:7px;
       background: rgba(255,255,255,0.25);
       position: relative;
-      margin-top:12px;
+      //margin-top:3px;
+      margin-top:13px;
       z-index: 99;
       .preHome-loader-bar-loading{
         background: white;
@@ -98,7 +99,10 @@
   &.preHome-out{
     opacity: 0;
     background: transparent;
-    transition: opacity 0.3s 200s, background 0.3s 1s;
+    transition: opacity 0.3s 1.7s, background 0.3s 1s;
+    &.with-shake{
+      transition: opacity 0.3s 2.7s, background 0.3s 1s;
+    }
     .preHome-loader-label{
       .logo{
         transform: scale(0);
@@ -109,13 +113,24 @@
         }
       }
     }
-    .preHome-loader-bar{
-      width: 100%;
-      //transform: translateX(-100%);
-      opacity: 0;
-      transition: width 0.5s 0.5s, opacity 0.6s 1.5s;
+    @media only screen and (min-width: 480px) {
+      .preHome-loader-bar{
+        width: 100%;
+        //transform: translateX(-100%);
+        opacity: 0;
+        transition: width 0.5s 0.5s, opacity 0.6s 1.5s;
+      }
+      &.preHome-out--not-home{
+        .preHome-loader-bar{
+          width: 0%;
+          //transform: translateX(-100%);
+          opacity: 0;
+          border-radius: 99px;
+          transition: width 0.5s 0.5s, opacity 0.4s 2s, border-radius 0.3s 0.5s;
+        }
+      }
     }
-    &.preHome-out--not-home{
+    @include media($m){
       .preHome-loader-bar{
         width: 0%;
         //transform: translateX(-100%);
@@ -123,9 +138,73 @@
         transition: width 0.5s 0.5s, opacity 0.4s 2s;
       }
     }
+    &.preHome-out--not-home{
+      .preHome-shake{
+        display: none!important;
+      }
+    }
+    .preHome-shake{
+      opacity: 1;
+      transition: opacity 0.3s 1s;
+      //animation: fade-out 0.3s 2.7s forwards;
+    }
   }
 }
 
+.preHome-shake{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  opacity: 0;
+  @media only screen and (min-width: 480px) {
+    display: none;
+  }
+  @include flex(c,c,col);
+  .shake-icon{
+    transform-origin: center bottom;
+    animation: shaking-phone 0.2s alternate infinite;
+    img{
+      width: 60px;
+      height: auto;
+    }
+  }
+  p{
+    margin-top: 25px;
+    font-family: $hkSemiBold;
+    font-size: 18px;
+  }
+}
+
+@include keyframes(shaking-phone){
+  0%{
+    transform: rotateZ(0deg);
+    margin-left: 0px;
+  }
+  50%{
+    transform: rotateZ(3deg);
+    margin-left: 5px;
+  }
+  75%{
+    transform: rotateZ(0deg);
+    margin-left: 0px;
+  }
+  100%{
+    transform: rotateZ(-3deg);
+    margin-left: -5px;
+  }
+}
+
+@include keyframes(fade-out){
+  0%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
 @include keyframes(letter-fall){
   0%{
     bottom: 0px;

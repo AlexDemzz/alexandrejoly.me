@@ -324,23 +324,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -349,23 +357,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -374,23 +390,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -399,23 +423,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -512,6 +544,50 @@
 
 .App {
   position: relative; }
+  .App .copied {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    z-index: -1;
+    transition: 0.2s;
+    pointer-events: none;
+    margin-left: 10px; }
+    @media only screen and (max-width: 1024px) {
+      .App .copied {
+        top: -24px;
+        left: -30%; } }
+    @media only screen and (max-width: 480px) {
+      .App .copied {
+        left: -80%; } }
+    .App .copied > div {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      align-items: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-flex-flow: row nowrap;
+      flex-flow: row nowrap;
+      animation: text-appear-from-bottom-fade 3s forwards; }
+      .App .copied > div svg {
+        margin-bottom: -7px;
+        width: 30px;
+        fill: white;
+        margin-right: 10px; }
+        @media only screen and (max-width: 768px) {
+          .App .copied > div svg {
+            width: 20px; } }
+      .App .copied > div span {
+        font-size: 20px;
+        color: white;
+        position: relative;
+        font-family: "hk_groteskbold", sans-serif;
+        white-space: nowrap; }
+        @media only screen and (max-width: 768px) {
+          .App .copied > div span {
+            font-size: 16px;
+            white-space: nowrap; } }
   .App .browser-not-supported {
     width: 100%;
     height: 100vh;
@@ -550,7 +626,8 @@
   z-index: 99999;
   overflow: hidden;
   padding-top: 40px;
-  transition: 0.5s; }
+  transition: 0.5s;
+  pointer-events: none; }
   .fill-scroll-bottom .fill-scroll-bottom-bg {
     background: white;
     width: 100%;

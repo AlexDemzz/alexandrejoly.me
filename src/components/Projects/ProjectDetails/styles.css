@@ -324,23 +324,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -349,23 +357,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -374,23 +390,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -399,23 +423,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -654,7 +686,7 @@
     padding: 0 70px;
     margin: 0 auto;
     box-sizing: border-box;
-    transition: all 1.5s !important;
+    transition: transform 1.5s !important;
     transition-timing-function: cubic-bezier(0.18, 1, 0.21, 1) !important;
     will-change: transform;
     padding-top: 150px; }
@@ -667,9 +699,23 @@
         box-sizing: border-box;
         padding-top: 50px;
         top: 60px; } }
-  .project-details-page .scrollarea-content .project-details-header-fixed {
+    @media only screen and (max-width: 480px) {
+      .project-details-page .project-details-header-fixed {
+        max-width: inherit;
+        width: 100%;
+        padding: 0 30px;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding-top: 50px;
+        top: 60px; } }
+  .project-details-page .scroll-content .project-details-header-fixed, .project-details-page .classicScroll .project-details-header-fixed {
     position: static;
-    visibility: hidden; }
+    max-width: inherit;
+    width: 100%;
+    padding: 0 0px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding-top: 100px; }
   .project-details-page .project-details-infos-row {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -891,7 +937,7 @@
     color: white; }
     @media only screen and (max-width: 1300px) {
       .project-details-page .project-title {
-        font-size: 100px;
+        font-size: 90px;
         line-height: 150px; } }
     @media only screen and (max-width: 768px) {
       .project-details-page .project-title {

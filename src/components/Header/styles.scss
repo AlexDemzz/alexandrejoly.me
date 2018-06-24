@@ -9,7 +9,7 @@ header{
   @include container(inherit, 70px);
   padding-top:30px;
   box-sizing: border-box;
-  z-index: 999;
+  z-index: 9999999;
   //mix-blend-mode: difference;
   &.center{
     @include flex(c,sb);

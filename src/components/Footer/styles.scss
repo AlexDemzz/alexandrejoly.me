@@ -24,6 +24,60 @@ footer{
     @include container(inherit, 30px);
     @include flex(c,c,col);
   }
+  .content{
+    @include flex(c,fs);
+    @include media($s){
+      @include flex(c,c,col);
+    }
+    >div{
+      @include flex(c,fs);
+    }
+    position: relative;
+    .copied{
+      left: 0;
+      right: 0;
+      top: -30px;
+      >div{
+        svg{
+          width: 20px;
+        }
+        span{
+          font-size: 16px;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+  a, .about-interact{
+    text-decoration: none;
+    padding: 5px 0;
+    //border-bottom: solid 1px white;
+    font-family: $hkBold;
+    position: relative;
+    transition: 0.2s;
+    margin: 0 5px;
+    margin-bottom: 3px;
+    &:before{
+      content: '';
+      position: absolute;
+      bottom: 0%;
+      left: 0;
+      right: 0;
+      background: $purpleGradientStart;
+      height: 40%;
+      z-index: -1;
+      transition: 0.2s;
+    }
+    &:hover{
+      color: $purpleGradientStart;
+      transition: 0.2s;
+      &:before{
+        background: white;
+        height: 100%;
+        transition: 0.2s;
+      }
+    }
+  }
   p{
     @include waveAppearBefore();
     font-size: 20px;
@@ -31,35 +85,6 @@ footer{
     @include flex(c,c);
     @include media($m) {
       font-size: 16px;
-    }
-    a{
-      text-decoration: none;
-      //border-bottom: solid 1px white;
-      font-family: $hkBold;
-      position: relative;
-      transition: 0.2s;
-      margin: 0 5px;
-      margin-bottom: 3px;
-      &:before{
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: $purpleGradientStart;
-        height: 40%;
-        z-index: -1;
-        transition: 0.2s;
-      }
-      &:hover{
-        color: $purpleGradientStart;
-        transition: 0.2s;
-        &:before{
-          background: white;
-          height: 100%;
-          transition: 0.2s;
-        }
-      }
     }
   }
   .shy{

@@ -7,7 +7,7 @@ import Scrollbar from 'react-smooth-scrollbar';
 // import ReactIScroll from 'react-iscroll';
 // import iScroll from 'iscroll/build/iscroll-probe';
 // import ScrollArea from 'react-scrollbar';
-import {Redirect} from 'react-router';
+import {Redirect, NavLink} from 'react-router-dom';
 import Footer from '../../Footer';
 // import PropTypes from 'prop-types'
 
@@ -31,7 +31,8 @@ class ProjectDetails extends React.Component{
         inertia:0,
         currYPosition: 0,
         scrollLimit: null,
-        scrollDirTop: null
+        scrollDirTop: null,
+        lastClientY: 0
     }
 
     projectIdEvent = (id) => {
@@ -40,8 +41,8 @@ class ProjectDetails extends React.Component{
     
     componentWillReceiveProps(nextProps){
         if(nextProps.match.params.id !== this.props.match.params.id){
+            this.updateImagesPosition();
             setTimeout(()=>{
-                this.updateImagesPosition();
                 this.refs.fillScrollBottom.classList.remove('out');
                 this.setState({preventDoublePushLoc: false});
             },2100);
@@ -54,8 +55,10 @@ class ProjectDetails extends React.Component{
 
     componentWillUnmount(){
         window.removeEventListener("resize", this.updateImagesPosition);
-        document.getElementsByClassName('container')[0].removeEventListener("transitionend", this.onScrollEnd);
-        document.getElementsByClassName('container')[0].removeEventListener("transitionstart", this.onScrollStart);
+        document.removeEventListener("touchstart", this.pageDrag);
+        this.resetScrollElem();
+        // document.getElementsByClassName('container')[0].removeEventListener("transitionend", this.onScrollEnd);
+        // document.getElementsByClassName('container')[0].removeEventListener("transitionstart", this.onScrollStart);
     }
 
     onScrollEnd = () => {
@@ -81,10 +84,12 @@ class ProjectDetails extends React.Component{
     };
 
     updateImagesPosition = () => {
-        if(this.refs.projectDetailsHeader && document.getElementsByClassName('header')[0]){
-            this.setState({scrollBottomNumber:0});
-            const fixedHeaderHeight = this.refs.projectDetailsHeader.offsetHeight+document.getElementsByClassName('header')[0].offsetHeight;
-            this.setState({fixedHeaderHeight});
+        if(!this.props.isMobile){
+            if(this.refs.projectDetailsHeader && document.getElementsByClassName('header')[0]){
+                this.setState({scrollBottomNumber:0});
+                const fixedHeaderHeight = this.refs.projectDetailsHeader.offsetHeight+document.getElementsByClassName('header')[0].offsetHeight;
+                this.setState({fixedHeaderHeight});
+            }
         }
     }
 
@@ -96,78 +101,98 @@ class ProjectDetails extends React.Component{
         }
     };
 
-
+    // getScrollDirection = (e) => {
+    //     if(e.deltaY < 0){
+    //         this.setState({scrollDirTop: true});
+    //     }else{
+    //         this.setState({scrollDirTop: false});
+    //     }
+    // }
 
     handleScrollDistord = (e) => {
-        let inertia = this.state.inertia+0.2;
-        inertia >= 3 ? inertia = 3 : inertia;
-        this.setState({inertia});
-        const addSkewY = (add) => {
-            if(add){
-                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${this.state.currYPosition}px,0) skewY(${inertia}deg)`;
-                this.refs.projectsDetailsImages.style.transform = `skewY(${inertia}deg)`;
-            }else{
-                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${this.state.currYPosition}px,0) skewY(-${inertia}deg)`;
-                this.refs.projectsDetailsImages.style.transform = `skewY(-${inertia}deg)`;
-            }
-        };
-        if(e.deltaY < 0){
-            addSkewY(false);
-            this.setState({scrollDirTop: true});
-        }else{
-            this.setState({scrollDirTop: false});
-            addSkewY(true);
-        }
-        clearTimeout(this.state.distordTimeout);
-        const distordTimeout = setTimeout(()=>{
-            if(this.refs.projectDetailsHeader && this.refs.projectsDetailsImages){
-                this.setState({inertia: 0});
-                this.refs.projectDetailsHeader.style.transform = `translate3d(0,${this.state.currYPosition}px,0) skewY(0deg)`;
-                this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
-                this.setState({currTransform: 0});
-            }
-        }, 200);
-        this.setState({distordTimeout});
-
-
-        const { scrollbar } = this.$container;
-        if(e.deltaY > 0 && this.state.scrollLimit>=100 && -this.state.currYPosition >= this.state.scrollLimit){
-            let increaseNumber = 1.5;
-            let changePageoffsetHeightAdd = 50;
-            this.refs.fillScrollBottom.classList.remove('animate');
-            if( this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+changePageoffsetHeightAdd){
-                this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
-                this.inertiaFillScrollBottom();
-            }else{
-                if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
-                    if(this.nextProject().id){
-                        this.setState({preventDoublePushLoc: true});
-                        this.refs.projectDetailsPage.classList.add('project-details-page--out');
-                        this.refs.fillScrollBottom.classList.add('out');
-                        setTimeout(()=>{
-                            this.resetScrollElem();
-                            this.$container['scrollbar'].scrollTop = 0;
-                            setTimeout(()=>{
-                                this.refs.projectDetailsPage.classList.remove('project-details-page--out');
-                            },50);
-                            this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
-                        }, 1000);
+        if(!this.props.isMobile){
+            console.log('touch');
+            let inertia = this.state.inertia+0.2;
+            inertia >= 3 ? inertia = 3 : inertia;
+            this.setState({inertia});
+            const addSkewY = (add) => {
+                if(-this.state.currYPosition < this.state.scrollLimit && -this.state.currYPosition > 0){
+                    if(add){
+                        this.refs.projectDetailsHeader.style.transform = `skewY(${inertia/1.5}deg)`;
+                        this.refs.projectsDetailsImages.style.transform = `skewY(${inertia}deg)`;
                     }else{
-                        this.setState({goToHome: true});
+                        this.refs.projectDetailsHeader.style.transform = `skewY(-${inertia/1.5}deg)`;
+                        this.refs.projectsDetailsImages.style.transform = `skewY(-${inertia}deg)`;
                     }
                 }
+            };
+            if(e.deltaY < 0){
+                addSkewY(false);
+            }else{
+                addSkewY(true);
             }
-        }else if(e.deltaY < 0){
-            this.resetScrollElem();
+            clearTimeout(this.state.distordTimeout);
+            const distordTimeout = setTimeout(()=>{
+                if(this.refs.projectDetailsHeader && this.refs.projectsDetailsImages){
+                    this.setState({inertia: 0});
+                    this.refs.projectDetailsHeader.style.transform = `skewY(0deg)`;
+                    this.refs.projectsDetailsImages.style.transform = 'skewY(0deg)';
+                    this.setState({currTransform: 0});
+                }
+            }, 200);
+            this.setState({distordTimeout});
+
+
+            const { scrollbar } = this.$container;
+            if(e.deltaY > 0 && this.state.scrollLimit>=100 && -this.state.currYPosition >= this.state.scrollLimit){
+                let increaseNumber = 1.5;
+                let changePageoffsetHeightAdd = 50;
+                this.refs.fillScrollBottom.classList.remove('animate');
+                if( this.refs.fillScrollBottom.offsetHeight <= this.refs.nextProjectRef.offsetHeight+changePageoffsetHeightAdd){
+                    this.setState({scrollBottomNumber: this.state.scrollBottomNumber+increaseNumber});
+                    this.inertiaFillScrollBottom();
+                    document.body.classList.add('mix-bend-mode-difference');
+                }else{
+                    if(!this.state.preventDoublePushLoc && this.refs.fillScrollBottom && this.refs.projectDetailsPage){
+                        this.transitionNextPage();
+                    }
+                }
+            }else if(e.deltaY < 0){
+                this.resetScrollElem();
+            }
         }
-
-
     }
+
+    transitionNextPage = () => {
+        if(this.nextProject().id){
+            this.setState({preventDoublePushLoc: true});
+            this.refs.projectDetailsPage.classList.add('project-details-page--out');
+            this.refs.fillScrollBottom.classList.add('out');
+            setTimeout(()=>{
+                this.resetScrollElem();
+                if(this.props.isMobile){
+                    this.refs.classicScroll.scrollTo(0,0);
+                }else{
+                    this.$container['scrollbar'].scrollTop = 0;
+                }
+
+                setTimeout(()=>{
+                    this.refs.projectDetailsPage.classList.remove('project-details-page--out');
+                },50);
+
+                this.props.history.push(`/work/${this.nextProject().id}/${this.nextProject().title.toLowerCase().split(' ').join('-')}`);
+            }, 1000);
+        }else{
+            this.setState({goToHome: true});
+        }
+    }
+
     handleScrollWheel = (e) =>{
         // console.log(e);
         let newYPosition = -e['offset'].y;
         this.setState({currYPosition: newYPosition});
-        this.setState({scrollLimit: e['limit'].y})
+        this.setState({scrollLimit: e['limit'].y});
+        this.refs.projectDetailsHeader.style.marginTop = `${newYPosition/2}px`;
     }
 
     inertiaFillScrollBottom = () => {
@@ -187,6 +212,7 @@ class ProjectDetails extends React.Component{
         if(this.refs.projectDetailsPage){
             this.setState({scrollBottomNumber: 0});
             this.refs.fillScrollBottom.style.height = '';
+            document.body.classList.remove('mix-bend-mode-difference');
         }
     };
 
@@ -322,26 +348,48 @@ class ProjectDetails extends React.Component{
                 }
             });
 
+        const goTo = () => {
+            if(this.nextProject().id){
+                return (
+                    <span>discover</span>
+                )
+            }else{
+                return (
+                    <span>back</span>
+                )
+            }
+        }
+
+        const content = () => (
+            <div className="container">
+                {this.props.isMobile ?
+                    projectHeader :
+                    <div style={{height: this.state.fixedHeaderHeight, width: '100%', pointerEvents: 'none'}}/>
+                }
+                {projectImg}
+                <div className="next-project" ref="nextProjectRef">
+                    {this.props.isMobile ? <p>Touch to {goTo()}</p> : <p>Scroll to {goTo()}</p>}
+                    {this.props.isMobile ? <h3 onClick={() => this.transitionNextPage()} className="project-title">{this.nextProject().title}</h3> : <h3 className="project-title">{this.nextProject().title}</h3>}
+
+                </div>
+                <Footer noFixed={true} appLoaded={true}/>
+            </div>
+        )
+
         return(
             <div className="project-details-page" ref="projectDetailsPage" onWheel={(e) => this.handleScrollDistord(e)}>
                 {this.state.goToHome ? <Redirect to='/'/> : null}
-                {projectHeader}
-                <Scrollbar
+                {this.props.isMobile ?  null : projectHeader}
+                {this.props.isMobile ?
+                    <div style={{overflow: 'auto', height: '100%'}} ref="classicScroll" className="classicScroll">{content()}</div> :
+                    <Scrollbar
                     damping={0.05}
                     alwaysShowTracks={false}
-                    onScroll={(e)=> this.handleScrollWheel(e)}
-                    ref={c => this.$container = c}
-                    >
-                   <div className="container">
-                       <div style={{height: this.state.fixedHeaderHeight, width: '100%', pointerEvents: 'none'}}/>
-                       {projectImg}
-                       <div className="next-project" ref="nextProjectRef">
-                           <p>Scroll to discover</p>
-                           <h3 className="project-title">{this.nextProject().title}</h3>
-                       </div>
-                       <Footer noFixed={true} appLoaded={true}/>
-                   </div>
-                </Scrollbar>
+                    onScroll={(e)=> {this.handleScrollWheel(e)}}
+                    ref={c => this.$container = c}>
+                        {content()}
+                    </Scrollbar>}
+
 
                 <div className="fill-scroll-bottom scrolling"  ref="fillScrollBottom" style={{height: this.state.scrollBottomNumber*2 + 'vh'}}>
                     <div className="fill-scroll-bottom-bg"/>

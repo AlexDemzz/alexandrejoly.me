@@ -1,7 +1,7 @@
 import React from 'react';
 import './styles.css';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import ScrollArea from 'react-scrollbar';
+import Scrollbar from 'react-smooth-scrollbar';
 
 class About extends React.Component{
     state = {
@@ -69,49 +69,55 @@ class About extends React.Component{
             </svg>
         );
 
+        const content = () => (
+            <div className="container">
+                <div className="about-text-wrapper">
+                    <div className="about-text-wrapper-ctn">
+                        <div>
+                            <p>Hi ! I’m Alexandre, a French creative Front-end Developper, My special field of knowledge is <span className="about-interact" onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span className="about-interact" onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
+                                Leaded by my great interest for Javascript, I try to discover and learn new things everyday.
+                                <br/>
+                                <br/>
+                            </p>
+                            <div className="contact-me">
+                                <p>Feel free to</p>
+                                <div className="contact-me-copy" onMouseOver={()=>this.sendCursorEvent(true)} onMouseLeave={()=>this.sendCursorEvent(false)}>
+                                    <div className="contact-me-email">
+                                        <CopyToClipboard text={this.state.value}
+                                                         onCopy={() => {this.setState({copied: true});
+                                                             setTimeout(()=>{
+                                                                 this.setState({copied: false});
+                                                             }, 3000)
+                                                         }}>
+                                            <p className="about-interact" ><span>contact me</span></p>
+                                        </CopyToClipboard>
+                                        {this.state.copied ?
+                                            <div className={`copied`}>
+                                                <div>{validSvg()}
+                                                    <span>email copied to clipboard</span>
+                                                </div>
+                                            </div> : null}
+                                    </div>
+                                </div>
+                            </div>
+                            <p>I’m now free to any job proposition !</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+
         return(
 
                 <div className="about">
                     <div className="container">
-                        <ScrollArea
-                            speed={1}
-                            className="about-text-wrapper scroll-container"
-                            contentClassName="container"
-                            smoothScrolling={false}
-                            horizontal={false}
-                        >
-                           <div className="about-text-wrapper-ctn">
-                               <div>
-                                   <p>Hello, i’m Alexandre, i’m a French Creative Front-end Developer, i have a keen interrest with <span className="about-interact" onMouseMove={(e) => this.uiAnimationEvent(e)} onMouseLeave={() => this.uiAnimationEventOut()}>UI animations</span> and <span className="about-interact" onMouseEnter={() => this.userExperienceEvent()} onMouseLeave={() => this.userExperienceEventOut()}>user experience</span>.
-                                       Driven by my passion for the javascript, i try to discover and learn new things every day.
-                                       <br/>
-                                       <br/>
-                                   </p>
-                                   <div className="contact-me">
-                                       <p>Feel free to</p>
-                                       <div className="contact-me-copy" onMouseOver={()=>this.sendCursorEvent(true)} onMouseLeave={()=>this.sendCursorEvent(false)}>
-                                           <div className="contact-me-email">
-                                               <CopyToClipboard text={this.state.value}
-                                                                onCopy={() => {this.setState({copied: true});
-                                                                    setTimeout(()=>{
-                                                                        this.setState({copied: false});
-                                                                    }, 3000)
-                                                                }}>
-                                                   <p className="about-interact" ><span>contact me</span></p>
-                                               </CopyToClipboard>
-                                               {this.state.copied ?
-                                                   <div className={`copied`}>
-                                                           <div>{validSvg()}
-                                                              <span>email copied to clipboard</span>
-                                                           </div>
-                                                   </div> : null}
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <p> i’m looking for a full-time job.</p>
-                               </div>
-                           </div>
-                        </ScrollArea>
+                        {this.props.isMobile ?
+                            <div style={{overflow: 'auto', height: '100%'}} ref="classicScroll" className="classicScroll">{content()}</div> :
+                            <Scrollbar
+                                damping={0.05}
+                                alwaysShowTracks={false}>
+                                {content()}
+                            </Scrollbar>}
                     </div>
                     <div className="fill-scroll-bottom scrolling" ref="fillScrollBottom">
                         <div className="fill-scroll-bottom-bg"/>

@@ -44,6 +44,12 @@ body {
       transition-duration: 0s!important;
     }
   }
+  .classicScroll{
+    .container{
+      height: auto;
+      //@include container(inherit, 0px);
+    }
+  }
   &.remove-scroll-transition{
     .scroll-container{
       .container{
@@ -62,12 +68,14 @@ body {
     height: 100%;
   }
   &.mix-bend-mode-difference{
-    //.next-project{
-    //  mix-blend-mode: difference;
-    //}
-    .next-project{
-      mix-blend-mode: difference;
-      z-index: 999999;
+    .project-details-page{
+      section{
+        mix-blend-mode: difference;
+        z-index: 999999;
+      }
+    }
+    footer{
+      opacity: 0;
     }
   }
   .next-project{
@@ -95,7 +103,10 @@ body {
   }
   &.touch-device{
     *{
-      cursor: auto!important;
+      cursor: default!important;
+    }
+    a{
+      cursor: pointer!important;
     }
   }
 }
@@ -163,7 +174,8 @@ body {
   &.project-details-page{
     .project-details-header, .project-details-images, .next-project{
       opacity: 0;
-      transition: opacity 0s 1s;
+      transition: opacity 1s, transform 1s!important;
+      transform: translateY(-200px);
     }
     .fill-scroll-bottom{
       z-index: 99999999;
@@ -302,25 +314,25 @@ body {
     .container{
       opacity: 1;
       transition: 0s 1s;
-      animation: about-enter 2s 1.1s forwards;
+      animation: about-enter 2s 0.9s forwards;
       .about-text-wrapper{
         p{
-          animation: about-enter-text 1.5s 1.1s forwards;
+          animation: about-enter-text 1.5s 0.9s forwards;
           line-height: 80px;
           @include media($l){
-            animation: about-enter-text--tablet 1.5s 1.1s;
+            animation: about-enter-text--tablet 1.5s 0.9s;
             font-size: 36px;
             line-height: 60px;
           }
           @include media($m){
-            animation: about-enter-text--mobile 1.5s 1.1s;
+            animation: about-enter-text--mobile 1.5s 0.9s;
             font-size: 20px;
             line-height: 35px;
           }
-          span{
-            &:before{
-              animation: about-enter-text-link 0.3s 2.1s forwards;
-            }
+        }
+        .about-interact{
+          &:before{
+            animation: about-enter-text-link 0.3s 2.1s forwards;
           }
         }
       }

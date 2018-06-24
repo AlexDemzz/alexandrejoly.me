@@ -327,23 +327,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -352,23 +360,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -377,23 +393,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -402,23 +426,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -583,6 +615,8 @@ body {
       height: auto; }
     body .scroll-content.no-transition {
       transition-duration: 0s !important; }
+  body .classicScroll .container {
+    height: auto; }
   body.remove-scroll-transition .scroll-container .container {
     transition: all 0s !important; }
   body * {
@@ -592,9 +626,11 @@ body {
   body .app-wrapper {
     position: relative;
     height: 100%; }
-  body.mix-bend-mode-difference .next-project {
+  body.mix-bend-mode-difference .project-details-page section {
     mix-blend-mode: difference;
     z-index: 999999; }
+  body.mix-bend-mode-difference footer {
+    opacity: 0; }
   body .next-project {
     mix-blend-mode: difference;
     z-index: 999999; }
@@ -619,7 +655,9 @@ body {
       /* Gecko Browsers */
       color: white; }
   body.touch-device * {
-    cursor: auto !important; }
+    cursor: default !important; }
+  body.touch-device a {
+    cursor: pointer !important; }
 
 .height100 {
   height: 100%;
@@ -679,7 +717,8 @@ body {
 
 .home-to-project-exit.project-details-page .project-details-header, .home-to-project-exit.project-details-page .project-details-images, .home-to-project-exit.project-details-page .next-project, .header-link-exit.project-details-page .project-details-header, .header-link-exit.project-details-page .project-details-images, .header-link-exit.project-details-page .next-project {
   opacity: 0;
-  transition: opacity 0s 1s; }
+  transition: opacity 1s, transform 1s !important;
+  transform: translateY(-200px); }
 
 .home-to-project-exit.project-details-page .fill-scroll-bottom, .header-link-exit.project-details-page .fill-scroll-bottom {
   z-index: 99999999;
@@ -765,22 +804,22 @@ body {
 .home-to-project-enter-active.about .container, .header-link-enter-active.about .container {
   opacity: 1;
   transition: 0s 1s;
-  animation: about-enter 2s 1.1s forwards; }
+  animation: about-enter 2s 0.9s forwards; }
   .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
-    animation: about-enter-text 1.5s 1.1s forwards;
+    animation: about-enter-text 1.5s 0.9s forwards;
     line-height: 80px; }
     @media only screen and (max-width: 1024px) {
       .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
-        animation: about-enter-text--tablet 1.5s 1.1s;
+        animation: about-enter-text--tablet 1.5s 0.9s;
         font-size: 36px;
         line-height: 60px; } }
     @media only screen and (max-width: 768px) {
       .home-to-project-enter-active.about .container .about-text-wrapper p, .header-link-enter-active.about .container .about-text-wrapper p {
-        animation: about-enter-text--mobile 1.5s 1.1s;
+        animation: about-enter-text--mobile 1.5s 0.9s;
         font-size: 20px;
         line-height: 35px; } }
-    .home-to-project-enter-active.about .container .about-text-wrapper p span:before, .header-link-enter-active.about .container .about-text-wrapper p span:before {
-      animation: about-enter-text-link 0.3s 2.1s forwards; }
+  .home-to-project-enter-active.about .container .about-text-wrapper .about-interact:before, .header-link-enter-active.about .container .about-text-wrapper .about-interact:before {
+    animation: about-enter-text-link 0.3s 2.1s forwards; }
 
 .home-to-project-enter-done.projects .project .project-title {
   transform: skewY(0deg);

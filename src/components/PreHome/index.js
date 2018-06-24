@@ -3,6 +3,7 @@ import './styles.css';
 import projectsList from '../../projects';
 import CountUp from 'react-countup';
 import { withRouter } from "react-router-dom";
+import shakeIcon from "../../assets/img/shakephone.svg"
 
 class PreHome extends React.Component{
     state = {
@@ -13,16 +14,13 @@ class PreHome extends React.Component{
         completeCount: 0,
         showElem: false,
         intervalTimer: null,
+        isMobile: false
     }
 
     imgLoaded = () => {
-        // setTimeout(()=>{
-        //     this.setState({imgsLoaded: this.state.imgsLoaded+1});
-        //     this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)});
-        // },1000);
         if(this.state.loadedNumber < 100){
             this.setState({imgsLoaded: this.state.imgsLoaded+1});
-            this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+6});
+            this.setState({loadedNumber: Math.round(this.state.imgsLoaded*100/this.state.imgLength)+5});
         }
     }
 
@@ -32,19 +30,36 @@ class PreHome extends React.Component{
             setTimeout(()=>{
                 if(this.refs.preHome){
                     if(!this.props.location.pathname.split('/')[1]){
-                        this.refs.preHome.classList.add('preHome-out');
+                        if(!this.state.isMobile && !this.props.isMobile){
+                            this.refs.preHome.classList.add('preHome-out');
+                        }else{
+                            this.refs.preHome.classList.add('preHome-out');
+                            this.refs.preHome.classList.add('with-shake');
+                        }
                     }else{
                         this.refs.preHome.classList.add('preHome-out');
                         this.refs.preHome.classList.add('preHome-out--not-home');
+                    }
+                    let addMobileTime = 0;
+                    if(this.state.isMobile && this.props.isMobile && !this.props.location.pathname.split('/')[1]){
+                        addMobileTime = 2000;
                     }
                     setTimeout(()=>{
                         this.props.getAppLoaded(true);
                         setTimeout(()=>{
                             this.props.getAppLoadedHide(true);
-                        },1500);
-                    },1000);
+                        },1500 + addMobileTime);
+                    },1000 + addMobileTime);
                 }
             },1000)
+        }
+    }
+
+    getIfMobile = () => {
+        if(document.documentElement.clientWidth<480){
+            this.setState({isMobile: true});
+        }else{
+            this.setState({isMobile: false});
         }
     }
 
@@ -62,10 +77,14 @@ class PreHome extends React.Component{
         setTimeout(()=>{
             this.setState({showElem: true});
         },200);
+
+        this.getIfMobile();
+        window.addEventListener('resize', this.getIfMobile);
     }
 
     componentWillUnmount(){
         clearInterval(this.state.intervalTimer);
+        window.removeEventListener('resize', this.getIfMobile);
     }
 
 
@@ -74,6 +93,7 @@ class PreHome extends React.Component{
                 let renderImg = project.images.map((img, key) => <img key={key} onLoad={() => this.imgLoaded()} src={img} alt=""/>);
                 return renderImg
         });
+
 
         const completeCountEvent = () => {
             this.setState({completeCount: this.state.completeCount+1});
@@ -93,7 +113,7 @@ class PreHome extends React.Component{
                             this.state.completeCount<13 ? <CountUp duration={0.50} onComplete={completeCountEvent} start={0} end={this.state.loadedNumber} /> : null
                         }
                         {
-                            this.state.showElem && this.state.completeCount>12 ?
+                            this.state.showElem && this.state.completeCount>13 ?
                                 <p className="cent-per-cent">
                                     <span>1</span>
                                     <span>0</span>
@@ -104,6 +124,14 @@ class PreHome extends React.Component{
                     <div className="preHome-loader-bar">
                         <div className="preHome-loader-bar-loading" style={{width: this.state.loadedNumber + '%'}}/>
                     </div>
+                    {this.state.isMobile && this.props.isMobile ?
+                        <div className="preHome-shake">
+                            <div className="shake-icon">
+                                <img src={shakeIcon} alt=""/>
+                            </div>
+                            <p>Shake it</p>
+                        </div>
+                        : null}
                 </div>
                 {
                     this.state.showElem ? <div className="preload-content">{imgs}</div> : null

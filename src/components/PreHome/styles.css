@@ -324,23 +324,31 @@
 
 @-webkit-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -349,23 +357,31 @@
 
 @-moz-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -374,23 +390,31 @@
 
 @-o-keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -399,23 +423,31 @@
 
 @keyframes fill-scroll-bottom--out--full {
   0% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     padding-top: 40px;
     transform: skewY(0deg); }
   49.99% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: initial;
     bottom: 0;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(0deg); }
   50% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: initial;
     height: calc(100vh + 40px);
     padding-top: 40px;
     transform: skewY(-1deg); }
   100% {
+    z-index: 9999999999999999;
+    pointer-events: all;
     top: -80px;
     bottom: inherit;
     height: 0vh;
@@ -668,7 +700,7 @@
       height: 7px;
       background: rgba(255, 255, 255, 0.25);
       position: relative;
-      margin-top: 12px;
+      margin-top: 13px;
       z-index: 99; }
       .PreHome .preHome-loader .preHome-loader-bar .preHome-loader-bar-loading {
         background: white;
@@ -682,21 +714,146 @@
   .PreHome.preHome-out {
     opacity: 0;
     background: transparent;
-    transition: opacity 0.3s 200s, background 0.3s 1s; }
+    transition: opacity 0.3s 1.7s, background 0.3s 1s; }
+    .PreHome.preHome-out.with-shake {
+      transition: opacity 0.3s 2.7s, background 0.3s 1s; }
     .PreHome.preHome-out .preHome-loader-label .logo {
       transform: scale(0);
       transition: 0.5s; }
       .PreHome.preHome-out .preHome-loader-label .logo svg {
         transform: scale(4);
         transition: 0.5s; }
-    .PreHome.preHome-out .preHome-loader-bar {
-      width: 100%;
-      opacity: 0;
-      transition: width 0.5s 0.5s, opacity 0.6s 1.5s; }
-    .PreHome.preHome-out.preHome-out--not-home .preHome-loader-bar {
-      width: 0%;
-      opacity: 0;
-      transition: width 0.5s 0.5s, opacity 0.4s 2s; }
+    @media only screen and (min-width: 480px) {
+      .PreHome.preHome-out .preHome-loader-bar {
+        width: 100%;
+        opacity: 0;
+        transition: width 0.5s 0.5s, opacity 0.6s 1.5s; }
+      .PreHome.preHome-out.preHome-out--not-home .preHome-loader-bar {
+        width: 0%;
+        opacity: 0;
+        border-radius: 99px;
+        transition: width 0.5s 0.5s, opacity 0.4s 2s, border-radius 0.3s 0.5s; } }
+    @media only screen and (max-width: 768px) {
+      .PreHome.preHome-out .preHome-loader-bar {
+        width: 0%;
+        opacity: 0;
+        transition: width 0.5s 0.5s, opacity 0.4s 2s; } }
+    .PreHome.preHome-out.preHome-out--not-home .preHome-shake {
+      display: none !important; }
+    .PreHome.preHome-out .preHome-shake {
+      opacity: 1;
+      transition: opacity 0.3s 1s; }
+
+.preHome-shake {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  opacity: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-flex-flow: column nowrap;
+  flex-flow: column nowrap; }
+  @media only screen and (min-width: 480px) {
+    .preHome-shake {
+      display: none; } }
+  .preHome-shake .shake-icon {
+    transform-origin: center bottom;
+    animation: shaking-phone 0.2s alternate infinite; }
+    .preHome-shake .shake-icon img {
+      width: 60px;
+      height: auto; }
+  .preHome-shake p {
+    margin-top: 25px;
+    font-family: "hk_grotesksemibold", sans-serif;
+    font-size: 18px; }
+
+@-webkit-keyframes shaking-phone {
+  0% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  50% {
+    transform: rotateZ(3deg);
+    margin-left: 5px; }
+  75% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  100% {
+    transform: rotateZ(-3deg);
+    margin-left: -5px; } }
+
+@-moz-keyframes shaking-phone {
+  0% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  50% {
+    transform: rotateZ(3deg);
+    margin-left: 5px; }
+  75% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  100% {
+    transform: rotateZ(-3deg);
+    margin-left: -5px; } }
+
+@-o-keyframes shaking-phone {
+  0% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  50% {
+    transform: rotateZ(3deg);
+    margin-left: 5px; }
+  75% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  100% {
+    transform: rotateZ(-3deg);
+    margin-left: -5px; } }
+
+@keyframes shaking-phone {
+  0% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  50% {
+    transform: rotateZ(3deg);
+    margin-left: 5px; }
+  75% {
+    transform: rotateZ(0deg);
+    margin-left: 0px; }
+  100% {
+    transform: rotateZ(-3deg);
+    margin-left: -5px; } }
+
+@-webkit-keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-moz-keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@-o-keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
+
+@keyframes fade-out {
+  0% {
+    opacity: 1; }
+  100% {
+    opacity: 0; } }
 
 @-webkit-keyframes letter-fall {
   0% {
