@@ -962,6 +962,32 @@
       .project-details-page .project-title-container {
         margin-bottom: 30px; } }
 
+.about-interact {
+  text-decoration: none;
+  padding: 5px 0;
+  font-family: "hk_groteskbold", sans-serif;
+  position: relative;
+  transition: 0.2s;
+  margin: 0 5px;
+  margin-bottom: 3px; }
+  .about-interact:before {
+    content: '';
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    right: 0;
+    background: #7F00FF;
+    height: 40%;
+    z-index: -1;
+    transition: 0.2s; }
+  .about-interact:hover {
+    color: #7F00FF;
+    transition: 0.2s; }
+    .about-interact:hover:before {
+      background: white;
+      height: 100% !important;
+      transition: 0.2s; }
+
 @-webkit-keyframes project-enter-text {
   0% {
     opacity: 0; }
