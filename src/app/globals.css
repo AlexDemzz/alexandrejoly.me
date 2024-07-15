@@ -4,7 +4,7 @@
 
   @layer base {
     :root {
-      --background: 0 0% 100%;
+      --background: 29 50% 94%;
       --foreground: 222.2 84% 4.9%;
 
       --card: 0 0% 100%;
@@ -28,6 +28,7 @@
       --destructive: 0 84.2% 60.2%;
       --destructive-foreground: 210 40% 98%;
 
+      --grid: 24 7% 73%;
       --border: 214.3 31.8% 91.4%;
       --input: 214.3 31.8% 91.4%;
       --ring: 222.2 84% 4.9%;
@@ -36,7 +37,8 @@
     }
 
     .dark {
-      --background: 222.2 84% 4.9%;
+      --background: 0 0% 0%;
+      /* --background: 222.2 84% 4.9%; */
       --foreground: 210 40% 98%;
 
       --card: 222.2 84% 4.9%;
@@ -69,8 +71,18 @@
   @layer base {
     * {
       @apply border-border;
+      cursor:none!important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     body {
       @apply bg-background text-foreground;
+    }
+    ::selection {
+      color: hsl(var(--background));
+      background: hsl(var(--foreground));
+    }
+    .pointer-events-none-child , .pointer-events-none-child > * {
+      pointer-events: none!important;
     }
   }
