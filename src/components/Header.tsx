@@ -32,6 +32,7 @@ const Header = () => {
                 Contact
               </Link>
             </TagIndicator>
+            <ModeToggle />
           </nav>
         </div>
       </div>

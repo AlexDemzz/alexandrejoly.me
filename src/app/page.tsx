@@ -4,9 +4,10 @@ import AwardItem from "@/components/AwardItem";
 import MainBlob from "@/components/MainBlob";
 import ProjectItem from "@/components/ProjectItem";
 import TagIndicator from "@/components/TagIndicator";
-import Link from "next/link";
+import { useProjects } from "@/lib/hooks";
 
 export default function Home() {
+  const projects = useProjects();
   const originalWarn = console.warn;
   console.warn = (message) => {
     if (
@@ -57,31 +58,17 @@ export default function Home() {
         </TagIndicator>
         <div className="mt-16">
           <TagIndicator tag="table" position="top">
-            <ProjectItem
-              n={"001"}
-              title="Yoojo"
-              date={"2018-now"}
-              categories={["React.js", "UI/UX Design, Visual Identity"]}
-            />
-            <ProjectItem
-              n={"002"}
-              title="Simplr Design system"
-              date={"2018-now"}
-              categories={["UI/UX Design"]}
-            />
-            <ProjectItem
-              n={"003"}
-              title="Simplr Icons"
-              date={"2018-now"}
-              categories={["Iconography"]}
-            />
-            <ProjectItem
-              n={"004"}
-              title="Portfolio 2018"
-              date={"2018"}
-              categories={["React.js, Visual Identity, UI/UX Design"]}
-              className={"border-b"}
-            />
+            {projects.map((project, i) => (
+              <ProjectItem
+                key={project.id}
+                id={project.id}
+                n={(i + 1).toString().padStart(3, "0")}
+                title={project.title}
+                date={project.date}
+                categories={project.tags}
+                images={project.images}
+              />
+            ))}
           </TagIndicator>
         </div>
       </div>

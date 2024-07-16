@@ -7,9 +7,8 @@ Globals.assign({
 });
 
 const getWrapperSize = ({ isHover, isMouseDown }) => {
-  if (isMouseDown) return 48;
-  if (isHover) return 56;
-  return 64;
+  const baseSize = isHover ? 80 : 56;
+  return isMouseDown ? baseSize * 0.75 : baseSize;
 };
 
 const CursorWrapper = ({ children }) => {

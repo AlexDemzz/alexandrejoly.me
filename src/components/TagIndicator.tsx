@@ -10,7 +10,7 @@ const TagIndicator = ({
     <div className={`relative ${className}`}>
       {children}
       <div
-        className={`font-mono bg-background text-foreground inline font-bold absolute mix-blend-difference select-none ${
+        className={`font-mono bg-foreground text-background inline font-bold absolute select-none ${
           position === "bottom" && "bottom-[-24px]"
         } ${position === "top" && "top-[-24px]"} left-0 text-sm`}
       >

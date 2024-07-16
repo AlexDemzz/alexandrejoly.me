@@ -1,3 +1,5 @@
 import useMousePosition from "./useMousePosition";
+import useMouseAcceleration from "./useMouseAcceleration";
+import useProjects from "./useProjects";
 
-export { useMousePosition };
+export { useMousePosition, useProjects, useMouseAcceleration };
