@@ -5,6 +5,7 @@ import MainBlob from "@/components/MainBlob";
 import ProjectItem from "@/components/ProjectItem";
 import TagIndicator from "@/components/TagIndicator";
 import { useProjects } from "@/lib/hooks";
+import Hero from "./Hero";
 
 export default function Home() {
   const projects = useProjects();
@@ -22,34 +23,7 @@ export default function Home() {
 
   return (
     <main>
-      <div className="container pb-32">
-        <TagIndicator
-          tag="canvas"
-          position="top"
-          className="w-[500px] h-[100px] flex items-center justify-center ml-auto mt-[200px]"
-        >
-          <MainBlob />
-        </TagIndicator>
-        <TagIndicator tag="h1" position="top" className="mb-10">
-          <h1 className="grid grid-cols-6">
-            <span className="block text-[140px] font-black col-span-6 tracking-tighter leading-none">
-              Creative
-            </span>
-            <span className="block text-[140px] font-black col-start-2 col-span-5 tracking-tighter leading-none">
-              Developer
-            </span>
-          </h1>
-        </TagIndicator>
-        <TagIndicator tag="p" position="top" className="grid grid-cols-6">
-          <p className="text-2xl font-medium col-span-3">
-            I’m a front-end developer and UI/UX designer, I transform ideas into
-            dynamic digital experiences. My mission is to create stunning,
-            intuitive, and engaging interfaces that meet today's needs and adapt
-            to tomorrow's challenges.
-          </p>
-        </TagIndicator>
-      </div>
-
+      <Hero />
       <div className="container py-32">
         <TagIndicator tag="h2" position="top">
           <h2 className="uppercase tracking-tighter font-black text-5xl">

@@ -1,5 +1,10 @@
 import React from "react";
 
+const getRandomChar = () => {
+  const chars = "!#$%&()*+,-./:;<=>?@[]^_{|}~";
+  return chars[Math.floor(Math.random() * chars.length)];
+};
+
 const TagIndicator = ({
   children,
   tag,

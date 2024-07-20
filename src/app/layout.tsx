@@ -6,18 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import BgGrid from "@/components/BgGrid";
-
-const originalWarn = console.warn;
-console.warn = (message) => {
-  if (
-    message.includes(
-      "Cannot call the manual advancement of rafz whilst frameLoop is not set as demand"
-    )
-  ) {
-    return;
-  }
-  originalWarn(message);
-};
+import AppProvider from "@/lib/Providers/AppProvider";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly — Portfolio",
@@ -42,10 +31,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Cursor />
-          <Header />
-          {children}
-          <BgGrid />
+          <AppProvider>
+            <Cursor />
+            <Header />
+            {children}
+            <BgGrid />
+          </AppProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -18,8 +18,6 @@ const ProjectItem = ({
   const [isHover, setIsHover] = useState(false);
   const mouseAcceleration = useMouseAcceleration();
 
-  console.log("mousePosition", mouseAcceleration);
-
   const imagePosition = useSpring({
     to: {
       x: mouseAcceleration.x,
@@ -67,7 +65,7 @@ const ProjectItem = ({
                 transform: "translate(10%, -110%)",
               }}
               className={
-                "fixed z-10 pointer-events-none overflow-hidden w-[400px] h-[250px] bg-foreground flex items-center justify-center"
+                "fixed z-10 pointer-events-none overflow-hidden w-[400px] h-[250px] bg-foreground border-2 border-foreground flex items-center justify-center"
               }
             >
               <animated.div style={imagePositionDelayed}>
@@ -78,7 +76,7 @@ const ProjectItem = ({
         ) : null
       )}
       <Link
-        href={id}
+        href={`/projects/${id}`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
         className={`border-t border-foreground grid grid-cols-3 py-6 ${className} hover:bg-foreground hover:text-background`}

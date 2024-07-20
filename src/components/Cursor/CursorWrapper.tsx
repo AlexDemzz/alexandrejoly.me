@@ -7,7 +7,7 @@ Globals.assign({
 });
 
 const getWrapperSize = ({ isHover, isMouseDown }) => {
-  const baseSize = isHover ? 80 : 56;
+  const baseSize = isHover ? 80 : 40;
   return isMouseDown ? baseSize * 0.75 : baseSize;
 };
 

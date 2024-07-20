@@ -54,7 +54,6 @@ const Mesh = ({ isMoving, isMouseDown, isHover }) => {
         distort={distort}
         radius={radius}
         color={"white"}
-        blending={THREE.AdditiveBlending}
       />
     </animated.mesh>
   );
