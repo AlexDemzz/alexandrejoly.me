@@ -79,6 +79,9 @@
     body {
       @apply bg-background text-foreground;
     }
+    .container {
+      max-width: 100%!important;
+    }
     ::selection {
       color: hsl(var(--background));
       background: hsl(var(--foreground));

@@ -1,8 +1,12 @@
 "use client";
-import { Globals } from "@react-spring/three";
 import { Canvas } from "@react-three/fiber";
-import Mesh from "./Mesh";
 import CursorWrapper from "./CursorWrapper";
+import Mesh from "./Mesh";
+import { Globals } from "@react-spring/web";
+
+Globals.assign({
+  frameLoop: "always",
+});
 
 const Cursor = () => {
   return (

@@ -13,7 +13,7 @@ export default function useProjects() {
     },
     {
       id: "simplr-design-system",
-      title: "Simplr Design system",
+      title: "Simplr Design System",
       description:
         "Excepteur labore exercitation consectetur aute. Voluptate elit nulla esse nostrud esse incididunt fugiat amet minim dolor adipisicing in enim laborum.",
       tags: ["UI/UX Design"],

@@ -1,7 +1,13 @@
 import { useSpring, animated } from "@react-spring/web";
 import React, { useState, useEffect, useRef } from "react";
 
-const Trail = ({ children, className, delay = 0, noSplit = false }) => {
+const Trail = ({
+  children,
+  className,
+  delay = 0,
+  noSplit = false,
+  as: Component = "div",
+}) => {
   const [show, setShow] = useState(false);
   const items = React.Children.toArray(
     noSplit ? children : children.split(/(\s+)/)
@@ -28,7 +34,7 @@ const Trail = ({ children, className, delay = 0, noSplit = false }) => {
   }, [tempRef]);
 
   return (
-    <div ref={containerRef}>
+    <Component ref={containerRef}>
       {/* Temp element to measure height */}
       <span ref={tempRef} className={`invisible absolute ${className}`}>
         {items[0]}
@@ -44,8 +50,7 @@ const Trail = ({ children, className, delay = 0, noSplit = false }) => {
           >
             <animated.span
               style={{
-                opacity: spring.opacity,
-                transform: spring.y.to((y) => `translateY(${y}px)`),
+                ...spring,
                 display: "inline-block",
                 whiteSpace: "pre",
               }}
@@ -55,7 +60,7 @@ const Trail = ({ children, className, delay = 0, noSplit = false }) => {
             </animated.span>
           </span>
         ))}
-    </div>
+    </Component>
   );
 };
 

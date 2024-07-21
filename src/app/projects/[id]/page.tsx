@@ -3,8 +3,7 @@ import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
 import { useProjects } from "@/lib/hooks";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import ProjectTitle from "./ProjectTitle";
+import { useState } from "react";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const originalWarn = console.warn;
@@ -27,9 +26,9 @@ const Project = ({ params }: { params: { id: string } }) => {
       <div className="py-24">
         <TagIndicator tag="h1" position="top">
           <h1>
-            <ProjectTitle className="text-[13rem] font-black tracking-tighter leading-none uppercase">
+            <Trail className="text-[13rem] font-black tracking-tighter leading-none uppercase">
               {data.title}
-            </ProjectTitle>
+            </Trail>
             <Trail className="text-[13rem] font-black tracking-tighter leading-none uppercase">
               {data.title}
             </Trail>

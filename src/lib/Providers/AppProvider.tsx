@@ -4,6 +4,7 @@ import React, { createContext, useState, ReactNode } from "react";
 
 interface AppContextState {
   glassesMode: boolean;
+  canEnabledGlassesMode: boolean;
 }
 
 type AppContextValue = [
@@ -19,7 +20,10 @@ interface AppProviderProps {
 }
 
 const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const [state, setState] = useState<AppContextState>({ glassesMode: false });
+  const [state, setState] = useState<AppContextState>({
+    glassesMode: false,
+    canEnabledGlassesMode: false,
+  });
 
   return (
     <AppContext.Provider value={[state, setState]}>

@@ -19,20 +19,11 @@ const Mesh = () => {
   const { gl, scene, camera, size } = useThree();
   const effect = useRef();
 
-  const props = useSpring({
-    scaleX: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
-    scaleY: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
-    scaleZ: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
-    x:
-      (mouseAcceleration.horizontalDirection *
-        mouseAcceleration.horizontalSpeed) /
-      30000,
-    y:
-      (mouseAcceleration.verticalDirection * mouseAcceleration.verticalSpeed) /
-      30000,
-
+  const [springProps, api] = useSpring(() => ({
+    scale: 0.5 * glassesModeMultiplier,
+    opacity: 0,
     config: config.wobbly,
-  });
+  }));
 
   useEffect(() => {
     effect.current = new AnaglyphEffect(gl);
@@ -49,6 +40,13 @@ const Mesh = () => {
     };
   }, []);
 
+  useEffect(() => {
+    api.start({
+      scale: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
+      opacity: 1,
+    });
+  }, [mouseDown, glassesModeMultiplier, api]);
+
   useFrame(({ clock }) => {
     myMesh.current.rotation.x = clock.getElapsedTime();
     myMesh.current.rotation.y = clock.getElapsedTime();
@@ -58,11 +56,10 @@ const Mesh = () => {
     <>
       <a.mesh
         ref={myMesh}
-        position-x={props.x}
-        position-y={props.y}
-        scale-x={props.scaleX}
-        scale-y={props.scaleY}
-        scale-z={props.scaleZ}
+        position-x={springProps.x}
+        position-y={springProps.y}
+        scale={springProps.scale}
+        style={{ opacity: springProps.opacity }}
       >
         <torusGeometry args={[1, 0.2, 16, 100]} />
         <MeshWobbleMaterial

@@ -27,23 +27,22 @@ export default function Home() {
       <div className="container py-32">
         <TagIndicator tag="h2" position="top">
           <h2 className="uppercase tracking-tighter font-black text-5xl">
-            Projects
+            Featured projects
           </h2>
         </TagIndicator>
-        <div className="mt-16">
-          <TagIndicator tag="table" position="top">
-            {projects.map((project, i) => (
-              <ProjectItem
-                key={project.id}
-                id={project.id}
-                n={(i + 1).toString().padStart(3, "0")}
-                title={project.title}
-                date={project.date}
-                categories={project.tags}
-                images={project.images}
-              />
-            ))}
-          </TagIndicator>
+        <div className="mt-16 space-y-36">
+          {projects.map((project, i) => (
+            <ProjectItem
+              key={project.id}
+              id={project.id}
+              n={(i + 1).toString().padStart(3, "0")}
+              title={project.title}
+              date={project.date}
+              categories={project.tags}
+              images={project.images}
+              reverse={i % 2}
+            />
+          ))}
         </div>
       </div>
       <div className="container py-32">

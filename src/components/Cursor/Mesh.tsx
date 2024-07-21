@@ -1,25 +1,28 @@
 "use client";
-import { animated, config, Globals, useSpring } from "@react-spring/three";
+import { useMouseAcceleration } from "@/lib/hooks";
+import { animated, config, useSpring } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
-import { useEffect, useRef, useState } from "react";
-import * as THREE from "three";
+import { useRef } from "react";
 
 const AnimatedMaterial = animated(MeshDistortMaterial);
 
 const Mesh = ({ isMoving, isMouseDown, isHover }) => {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [prevMousePos, setPrevMousePos] = useState({ x: 0, y: 0 });
+  const mouseAcceleration = useMouseAcceleration();
   const myMesh = useRef();
 
-  const getSize = (pos) => {
+  const getSize = () => {
     if (isHover) return 2;
-    if (isMoving) return 1 + Math.abs(mousePos[pos] - prevMousePos[pos]);
+    if (isMoving)
+      return Math.min(
+        Math.max((mouseAcceleration.acceleration / 1000000) * 1.1 + 1, 1),
+        1.1
+      );
     return 1;
   };
 
   const { scaleX, scaleY } = useSpring({
-    scaleY: getSize("y"),
-    scaleX: getSize("x"),
+    scaleY: getSize(),
+    scaleX: getSize(),
     config: config.wobbly,
   });
 
@@ -29,22 +32,6 @@ const Mesh = ({ isMoving, isMouseDown, isHover }) => {
     distort: isMoving ? 1 : 0.5,
     config: config.wobbly,
   });
-
-  useEffect(() => {
-    const handleMouseMove = (event) => {
-      const x = (event.clientX / window.innerWidth) * 2 - 1;
-      const y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      setPrevMousePos(mousePos);
-      setMousePos({ x, y });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [mousePos]);
 
   return (
     <animated.mesh scale-x={scaleX} scale-y={scaleY} ref={myMesh}>

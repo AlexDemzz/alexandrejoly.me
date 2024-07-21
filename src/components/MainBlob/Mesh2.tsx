@@ -21,7 +21,13 @@ const Mesh = () => {
   const { gl, scene, camera, size } = useThree();
   const effect = useRef();
 
-  const props = useSpring({
+  const [springProps, api] = useSpring(() => ({
+    scale: 0.5 * glassesModeMultiplier,
+    opacity: 0,
+    config: config.wobbly,
+  }));
+
+  const animatedProps = useSpring({
     scaleX: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
     scaleY: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
     scaleZ: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
@@ -60,6 +66,13 @@ const Mesh = () => {
     };
   }, []);
 
+  useEffect(() => {
+    api.start({
+      scale: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
+      opacity: 1,
+    });
+  }, [mouseDown, glassesModeMultiplier, api]);
+
   useFrame(() => {
     effect.current.render(scene, camera);
   }, 1);
@@ -68,19 +81,20 @@ const Mesh = () => {
     <>
       <a.mesh
         ref={myMesh}
-        rotation={props.rotation}
-        position-x={props.x}
-        position-y={props.y}
-        scale-x={props.scaleX}
-        scale-y={props.scaleY}
-        scale-z={props.scaleZ}
+        rotation={animatedProps.rotation}
+        position-x={animatedProps.x}
+        position-y={animatedProps.y}
+        scale-x={springProps.scale}
+        scale-y={springProps.scale}
+        scale-z={springProps.scale}
+        style={{ opacity: springProps.opacity }}
       >
         <sphereGeometry args={[1, 0.2, 16, 100]} />
         <AnimatedMaterial
           attach="material"
           color={theme === "dark" ? "white" : "black"}
           speed={8}
-          distort={props.distort}
+          distort={animatedProps.distort}
         />
       </a.mesh>
     </>
