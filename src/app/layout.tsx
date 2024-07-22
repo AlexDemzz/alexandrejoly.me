@@ -35,14 +35,13 @@ export default function RootLayout({
         >
           <AppProvider>
             <Cursor />
-
+            <Header />
             <Template>
-              <Header />
               {children}
               <Footer />
-              <BgGrid />
             </Template>
           </AppProvider>
+          <BgGrid />
         </ThemeProvider>
       </body>
     </html>
