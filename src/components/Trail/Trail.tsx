@@ -1,18 +1,18 @@
-import { useSpring, animated } from "@react-spring/web";
+import { useSpring, animated, useInView } from "@react-spring/web";
 import React, { useState, useEffect, useRef } from "react";
 
 const Trail = ({
   children,
-  className,
+  className = "",
   delay = 0,
   noSplit = false,
   as: Component = "div",
 }) => {
+  const [containerRef, inView] = useInView();
   const [show, setShow] = useState(false);
   const items = React.Children.toArray(
     noSplit ? children : children.split(/(\s+)/)
-  ); // Split the children text into words
-  const containerRef = useRef(null);
+  );
   const tempRef = useRef(null);
   const [height, setHeight] = useState(0);
 
@@ -29,9 +29,11 @@ const Trail = ({
   useEffect(() => {
     if (tempRef.current && tempRef.current.offsetHeight > 0) {
       setHeight(tempRef.current.offsetHeight);
-      setShow(true);
+      if (inView) {
+        setShow(true);
+      }
     }
-  }, [tempRef]);
+  }, [tempRef, inView]);
 
   return (
     <Component ref={containerRef}>

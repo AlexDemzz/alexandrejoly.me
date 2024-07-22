@@ -1,9 +1,16 @@
 "use client";
 import React, { useRef, useCallback, useEffect, useState } from "react";
-import { useSprings, animated, config } from "@react-spring/web";
+import {
+  useSprings,
+  animated,
+  config,
+  useIsomorphicLayoutEffect,
+  useInView,
+} from "@react-spring/web";
 import { HI_LANGUAGES } from "@/lib/constants";
 
 const Hi = () => {
+  const [ref, inView] = useInView();
   const items = HI_LANGUAGES;
   const itemHeight = 24;
   const visible = 3;
@@ -52,12 +59,14 @@ const Hi = () => {
     return () => clearInterval(interval);
   }, [itemHeight]);
 
-  useEffect(() => {
-    runSprings(scrollPos, 100);
-  }, [scrollPos, runSprings]);
+  useIsomorphicLayoutEffect(() => {
+    if (inView) {
+      runSprings(scrollPos, 100);
+    }
+  }, [scrollPos, runSprings, inView]);
 
   return (
-    <div className="overflow-hidden h-6 relative w-full">
+    <div className="overflow-hidden h-6 relative w-full" ref={ref}>
       {springs.map((props, i) => (
         <animated.div
           key={i}

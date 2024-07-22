@@ -1,14 +1,14 @@
 import BgGrid from "@/components/BgGrid";
 import Cursor from "@/components/Cursor";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/theme-provider";
 import AppProvider from "@/lib/Providers/AppProvider";
-import PreloaderProvider from "@/lib/Providers/Preloader";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import "./globals.css";
-import Footer from "@/components/Footer";
+import Template from "./template";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly — Portfolio",
@@ -35,12 +35,13 @@ export default function RootLayout({
         >
           <AppProvider>
             <Cursor />
-            <Header />
-            <PreloaderProvider>
+
+            <Template>
+              <Header />
               {children}
               <Footer />
-            </PreloaderProvider>
-            <BgGrid />
+              <BgGrid />
+            </Template>
           </AppProvider>
         </ThemeProvider>
       </body>

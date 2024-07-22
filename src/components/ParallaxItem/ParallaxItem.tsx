@@ -1,15 +1,12 @@
 "use client";
-import React from "react";
 import {
-  useSpring,
   animated,
-  useScroll,
   useIsomorphicLayoutEffect,
+  useScroll,
+  useSpring,
 } from "@react-spring/web";
-import Image from "next/image";
 
 const ScrollImage = ({ children, className = "", speed = 5 }) => {
-  // Calculez la tension et la friction en fonction de la valeur de speed
   const tension = 200 - speed * 20;
   const friction = 20 + speed * 10;
 

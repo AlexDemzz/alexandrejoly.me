@@ -1,6 +1,7 @@
 import { DRIBBBLE_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
 import Link from "next/link";
 import Hi from "./Hi";
+import HeartBeat from "./HeartBeat";
 
 const Footer = () => {
   return (
@@ -19,7 +20,9 @@ const Footer = () => {
           <Link href={GITHUB_URL}>Github</Link>
         </div>
         <div className="col-span-4 md:col-span-3 text-end">
-          <Link href={LINKEDIN_URL}>Made with ♥ by Alexandre Joly</Link>
+          <Link href={LINKEDIN_URL}>
+            Made with <HeartBeat /> by Alexandre Joly
+          </Link>
           <div>{new Date().getFullYear()}©</div>
         </div>
       </div>

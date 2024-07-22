@@ -1,4 +1,5 @@
 "use client";
+import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
 import { useProjects } from "@/lib/hooks";
@@ -76,7 +77,9 @@ const Project = ({ params }: { params: { id: string } }) => {
                 position="top"
                 key={`project-${data.id}-image-${i}`}
               >
-                <Image alt="" src={src} className="w-full" />
+                <ParallaxItem className="w-full overflow-hidden">
+                  <Image alt="" src={src} className="w-full" />
+                </ParallaxItem>
               </TagIndicator>
             ))}
           </div>

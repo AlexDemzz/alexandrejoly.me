@@ -10,7 +10,7 @@ const Header = () => {
       <div className="container">
         <div className="flex justify-between items-center w-full py-6 relative z-20">
           <TagIndicator tag="header" animate={false}>
-            <Link href="/">
+            <Link href="/" scroll={false}>
               <Logo />
             </Link>
           </TagIndicator>

@@ -1,28 +1,48 @@
+"use client";
 import { ArrowUpRight } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import TagIndicator from "./TagIndicator";
+import HoverImage from "./HoverImage/HoverImage";
+import { useProjects } from "@/lib/hooks";
+import Link from "next/link";
+import { AWARDS_URL } from "@/lib/constants";
+import Trail from "./Trail";
 
 const AwardItem = ({ title }) => {
+  const [isHover, setIsHover] = useState(false);
+  const projects = useProjects();
+  const project = projects.find((p) => p.id === "portfolio-2018");
   return (
-    <TagIndicator tag="a" position="top">
-      <div className="flex align-items-center">
-        <div>
-          <div className="text-7xl font-bold">
-            {title}
-            <sup className="font-features sups font-mono mr-4 text-base">
-              2018
-            </sup>
+    <>
+      <HoverImage visible={isHover} images={project.images}></HoverImage>
+      <Link
+        target="_blank"
+        href={AWARDS_URL}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <TagIndicator tag="a" position="top">
+          <div className="flex align-items-center">
+            <div>
+              <Trail className="text-5xl font-bold">{title}</Trail>
+              <span className="font-mono">
+                <Trail as="span" className={"mr-2"}>
+                  alexandrejoly.me
+                </Trail>
+                <Trail
+                  noSplit
+                  as="sup"
+                  className="font-features sups font-mono mr-4 text-sm"
+                >
+                  (v1.0 — 2018)
+                </Trail>
+              </span>
+            </div>
+            <ArrowUpRight />
           </div>
-          <span className="font-mono">
-            alexandrejoly.me
-            <sup className="font-features sups font-mono mr-4 text-base">
-              (1.0)
-            </sup>
-          </span>
-        </div>
-        <ArrowUpRight />
-      </div>
-    </TagIndicator>
+        </TagIndicator>
+      </Link>
+    </>
   );
 };
 
