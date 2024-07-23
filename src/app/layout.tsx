@@ -36,10 +36,8 @@ export default function RootLayout({
           <AppProvider>
             <Cursor />
             <Header />
-            <Template>
-              {children}
-              <Footer />
-            </Template>
+            <Template>{children}</Template>
+            <Footer />
           </AppProvider>
           <BgGrid />
         </ThemeProvider>

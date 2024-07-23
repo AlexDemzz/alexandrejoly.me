@@ -1,9 +1,27 @@
-import React, { useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 
 const Marquee = ({ children }) => {
-  const [oddOutline, setOddOutline] = useState(false);
+  const [duration, setDuration] = useState(3); // Initial duration
+  const marqueeRef = useRef(null);
   const controls = useAnimationControls();
+
+  useEffect(() => {
+    const calculateDuration = () => {
+      if (marqueeRef.current) {
+        const width = marqueeRef.current.offsetWidth;
+        // Adjust the duration based on the width (e.g., larger width -> longer duration)
+        const newDuration = width / 500; // Adjust this ratio as needed
+        setDuration(newDuration);
+      }
+    };
+
+    calculateDuration();
+    window.addEventListener("resize", calculateDuration);
+
+    return () => window.removeEventListener("resize", calculateDuration);
+  }, [children]);
 
   useEffect(() => {
     controls.start({
@@ -12,16 +30,16 @@ const Marquee = ({ children }) => {
         x: {
           repeat: Infinity,
           repeatType: "loop",
-          duration: 3,
+          duration: duration,
           ease: "linear",
         },
       },
     });
-  }, []);
+  }, [controls, duration]);
 
   return (
     <div className="overflow-hidden whitespace-nowrap">
-      <motion.div className="inline-block" animate={controls}>
+      <motion.div className="inline-block" animate={controls} ref={marqueeRef}>
         <span className="mr-8">{children}</span>
         <span className="mr-8">{children}</span>
       </motion.div>

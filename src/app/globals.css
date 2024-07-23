@@ -82,7 +82,7 @@
 
     * {
       @apply border-border;
-      /* cursor:none!important; */
+      cursor:none!important;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }

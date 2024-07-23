@@ -1,3 +1,4 @@
+"use client";
 import { MOTION_TRANSITION } from "@/lib/constants";
 import { motion, useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";

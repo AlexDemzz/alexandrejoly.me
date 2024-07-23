@@ -1,7 +1,14 @@
+"use client";
+
+import { useColumns } from "@/lib/hooks";
+import { useEffect, useState } from "react";
+
 const BgGrid = () => {
+  const columns = useColumns();
+
   return (
     <div className="container h-[100vh] flex items-stretch w-full fixed top-0 right-0 left-0 -z-10">
-      {new Array(8).fill("").map((_, i, arr) => (
+      {new Array(columns).fill("").map((_, i, arr) => (
         <>
           <div
             className={`border-grid ${

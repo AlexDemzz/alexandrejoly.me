@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import GlassesButton from "../Header/GlassesButton";
 import { MOTION_TRANSITION } from "@/lib/constants";
+import { usePathname } from "next/navigation";
 
 const getWrapperSize = ({ isHover, isMouseDown }) => {
   const baseSize = isHover ? 80 : 40;
@@ -20,6 +21,20 @@ const CursorWrapper = ({ children }) => {
   const [isHover, setIsHover] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const mouseAcceleration = useMouseAcceleration();
+  const pathname = usePathname();
+
+  const size = useSpring(
+    getWrapperSize({ isHover, isMouseDown }),
+    MOTION_TRANSITION
+  );
+
+  useEffect(() => {
+    setIsHover(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    size.set(getWrapperSize({ isHover, isMouseDown }));
+  }, [size, isHover, isMouseDown]);
 
   useEffect(() => {
     const handleMouseOver = (event) => {
@@ -81,7 +96,6 @@ const CursorWrapper = ({ children }) => {
     };
   }, [x, y, xSpring, ySpring]);
 
-  const size = getWrapperSize({ isHover, isMouseDown });
   return (
     <>
       {mouseAcceleration && (

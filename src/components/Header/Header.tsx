@@ -3,6 +3,7 @@ import Link from "next/link";
 import TagIndicator from "../TagIndicator";
 import GlassesButton from "./GlassesButton";
 import Logo from "../Logo";
+import { ModeToggle } from "../ModeToggle";
 
 const Header = () => {
   return (

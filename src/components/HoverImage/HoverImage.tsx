@@ -4,7 +4,7 @@ import { useMouseAcceleration } from "@/lib/hooks";
 import { motion, AnimatePresence, useSpring } from "framer-motion";
 import BackgroundVideo from "next-video/background-video";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const HoverImage = ({
   visible,
@@ -14,6 +14,10 @@ const HoverImage = ({
   visible: boolean;
   images: string[];
 }) => {
+  const [currIndex, setCurrIndex] = useState(0);
+  const [distance, setDistance] = useState(0); // État pour la distance parcourue
+  const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 }); // État pour stocker la dernière position de la souris
+
   const mouseAcceleration = useMouseAcceleration();
 
   const xSpring = useSpring(0, { stiffness: 300, damping: 30 });
@@ -22,24 +26,49 @@ const HoverImage = ({
   const delayedXSpring = useSpring(0, { stiffness: 300, damping: 30 });
   const delayedYSpring = useSpring(0, { stiffness: 300, damping: 30 });
 
+  const updateDelayed = useCallback(() => {
+    delayedXSpring.set(
+      (mouseAcceleration.horizontalDirection *
+        -1 *
+        mouseAcceleration.horizontalSpeed) /
+        10
+    );
+    delayedYSpring.set(
+      (mouseAcceleration.verticalDirection *
+        -1 *
+        mouseAcceleration.verticalSpeed) /
+        10
+    );
+  }, [
+    delayedXSpring,
+    delayedYSpring,
+    mouseAcceleration.horizontalDirection,
+    mouseAcceleration.horizontalSpeed,
+    mouseAcceleration.verticalDirection,
+    mouseAcceleration.verticalSpeed,
+  ]);
+
   useEffect(() => {
     const handleMouseMove = (event) => {
+      const dx = event.clientX - lastMousePosition.x;
+      const dy = event.clientY - lastMousePosition.y;
+      const newDistance = Math.sqrt(dx * dx + dy * dy);
+      setDistance((prevDistance) => {
+        const totalDistance = prevDistance + newDistance;
+        if (totalDistance >= 50) {
+          setCurrIndex(
+            (prevIndex) => (prevIndex + 1) % (images?.length || videos.length)
+          );
+          return totalDistance - 50;
+        }
+        return totalDistance;
+      });
+      setLastMousePosition({ x: event.clientX, y: event.clientY });
       xSpring.set(event.clientX);
       ySpring.set(event.clientY);
-
-      delayedXSpring.set(
-        (mouseAcceleration.horizontalDirection *
-          -1 *
-          mouseAcceleration.horizontalSpeed) /
-          10
-      );
-      delayedYSpring.set(
-        (mouseAcceleration.verticalDirection *
-          -1 *
-          mouseAcceleration.verticalSpeed) /
-          10
-      );
+      updateDelayed();
     };
+    updateDelayed();
     document.addEventListener("mousemove", handleMouseMove);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
@@ -49,10 +78,11 @@ const HoverImage = ({
     ySpring,
     delayedXSpring,
     delayedYSpring,
-    mouseAcceleration.horizontalDirection,
-    mouseAcceleration.horizontalSpeed,
-    mouseAcceleration.verticalDirection,
-    mouseAcceleration.verticalSpeed,
+    lastMousePosition.x,
+    lastMousePosition.y,
+    images?.length,
+    videos?.length,
+    updateDelayed,
   ]);
 
   const variants = {
@@ -86,20 +116,23 @@ const HoverImage = ({
                 y: ySpring,
                 transform: "translate(10%, -110%)",
               }}
-              className="fixed z-10 pointer-events-none overflow-hidden w-[400px] h-[250px] bg-foreground border-foreground flex items-center justify-center"
+              className="fixed z-10 pointer-events-none overflow-hidden w-[400px] h-[200px] bg-foreground border-foreground flex items-center justify-center"
             >
               <motion.div
                 style={{
-                  scale: 1.3,
                   x: delayedXSpring,
                   y: delayedYSpring,
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 {videos ? (
-                  <BackgroundVideo src={videos[0]} />
+                  <BackgroundVideo src={videos[currIndex]} />
                 ) : (
-                  <Image src={images[0]} alt="" className="object-fill" />
+                  <Image
+                    src={images[currIndex]}
+                    alt=""
+                    className="object-fill"
+                  />
                 )}
               </motion.div>
             </motion.div>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useContext, useRef } from "react";
+import { useColumns } from "@/lib/hooks";
 
 function FrozenRouter(props: { children: React.ReactNode }) {
   const context = useContext(LayoutRouterContext ?? {});
@@ -19,7 +20,7 @@ function FrozenRouter(props: { children: React.ReactNode }) {
 
 export default function Template({ children }: { children: React.ReactNode }) {
   let pathname = usePathname();
-  const numBars = 8;
+  const columns = useColumns();
   const [exitComplete, setExitComplete] = useState(false);
   // const [showChildren, setShowChildren] = useState(true);
 
@@ -38,10 +39,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
       >
         <motion.div key={pathname}>
           <div className="container h-[100vh] flex items-stretch w-full fixed top-0 right-0 left-0 z-[999] bottom-0 pointer-events-none">
-            {new Array(numBars).fill("").map((_, i) => (
+            {new Array(columns).fill("").map((_, i) => (
               <motion.div
                 className={`bg-background border-b-foreground border-grid border-b-[1rem] ${
-                  i < numBars - 1 ? "border-l" : "border-l border-r"
+                  i < columns - 1 ? "border-l" : "border-l border-r"
                 } flex-1`}
                 initial={{ y: "0%" }}
                 animate={{ y: "-100%" }}
