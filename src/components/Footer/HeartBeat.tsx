@@ -1,35 +1,40 @@
 "use client";
-import {
-  useSpring,
-  animated,
-  useIsomorphicLayoutEffect,
-} from "@react-spring/web";
+import { motion, useAnimationControls } from "framer-motion";
+import { useEffect } from "react";
 
 const HeartBeat = () => {
-  const [styles, api] = useSpring(() => ({
-    from: { scale: 1 },
-  }));
+  const controls = useAnimationControls();
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     const startBeat = async () => {
       while (true) {
-        await api.start({ scale: 1.6 });
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Pause courte
-        await api.start({ scale: 1 });
-        await new Promise((resolve) => setTimeout(resolve, 200)); // Pause courte
-        await api.start({ scale: 1.6 });
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Pause courte
-        await api.start({ scale: 1 });
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Pause longue
+        await controls.start({
+          scale: 1.2,
+          transition: { duration: 0.2, ease: "easeInOut" },
+        });
+        await controls.start({
+          scale: 1,
+          transition: { duration: 0.2, ease: "easeInOut" },
+        });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        await controls.start({
+          scale: 1.2,
+          transition: { duration: 0.2, ease: "easeInOut" },
+        });
+        await controls.start({
+          scale: 1,
+          transition: { duration: 0.2, ease: "easeInOut" },
+        });
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
     };
     startBeat();
-  }, [api]);
+  }, [controls]);
 
   return (
-    <animated.span style={styles} className="inline-block">
+    <motion.span animate={controls} className="inline-block">
       ♥
-    </animated.span>
+    </motion.span>
   );
 };
 

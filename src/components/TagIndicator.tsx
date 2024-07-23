@@ -1,5 +1,6 @@
-import { config, useSpring, animated } from "@react-spring/web";
-import React, { useEffect, useState } from "react";
+import { MOTION_TRANSITION } from "@/lib/constants";
+import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 
 const getRandomChar = () => {
   const chars = "!#$%&()*+,-./:;<=>?@[]^_{|}~";
@@ -15,34 +16,27 @@ const TagIndicator = ({
   animate = true,
 }) => {
   const height = 24;
-  const [show, setShow] = useState(false);
-
-  const style = useSpring({
-    y: show ? 0 : height,
-    from: { y: height },
-    delay,
-  });
-
-  useEffect(() => {
-    setShow(true);
-  }, []);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} ref={ref}>
       {children}
       <div
         className={`absolute select-none overflow-hidden h-[24px] ${
           position === "bottom" && "bottom-[-24px]"
         } ${position === "top" && "top-[-24px]"}`}
       >
-        <animated.div
-          style={animate ? style : {}}
+        <motion.div
+          initial={{ y: height }}
+          animate={{ y: isInView ? 0 : height }}
+          transition={{ delay: delay / 1000, ...MOTION_TRANSITION }}
           className={`font-mono bg-foreground text-background font-bold left-0 text-sm`}
         >
           <span>{"<"}</span>
           {tag}
           <span>{"/>"}</span>
-        </animated.div>
+        </motion.div>
       </div>
     </div>
   );

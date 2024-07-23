@@ -70,9 +70,19 @@
   }
 
   @layer base {
+
+    .font-outline-2 {
+      -webkit-text-stroke: 2px hsl(var(--foreground));
+      color: transparent;
+    }
+    .font-outline-4 {
+      -webkit-text-stroke: 4px hsl(var(--foreground));
+      color: transparent;
+    }
+
     * {
       @apply border-border;
-      cursor:none!important;
+      /* cursor:none!important; */
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }

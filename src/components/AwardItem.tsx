@@ -9,18 +9,9 @@ import { AWARDS_URL } from "@/lib/constants";
 import Trail from "./Trail";
 
 const AwardItem = ({ title }) => {
-  const [isHover, setIsHover] = useState(false);
-  const projects = useProjects();
-  const project = projects.find((p) => p.id === "portfolio-2018");
   return (
     <>
-      <HoverImage visible={isHover} images={project.images}></HoverImage>
-      <Link
-        target="_blank"
-        href={AWARDS_URL}
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-      >
+      <Link target="_blank" href={AWARDS_URL}>
         <TagIndicator tag="a" position="top">
           <div className="flex align-items-center">
             <div>

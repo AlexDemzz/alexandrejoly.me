@@ -11,4 +11,19 @@ export const HI_LANGUAGES = [
   "Hello!",
   "Bonjour!",
   "你好!",
+  "Hola!",
 ];
+
+export const MOTION_TRANSITION = {
+  type: "spring",
+  tension: 180,
+  friction: 12,
+  bounce: 0.5,
+};
+
+export const DEFAULT_TRANSITION = {
+  type: "spring",
+  tension: 170,
+  friction: 26,
+  bounce: 0.25,
+};

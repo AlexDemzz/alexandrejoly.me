@@ -1,37 +1,40 @@
-import Glitch from "@/components/Glitch";
 import MainBlob from "@/components/MainBlob";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
 import { useApp } from "@/lib/hooks";
-import { animated, useSpring } from "@react-spring/web";
+import { motion, useSpring } from "framer-motion";
+import { useEffect } from "react";
 
 const Hero = () => {
   const [{ glassesMode }, setState] = useApp();
 
-  const animationProps = useSpring({
-    transform: glassesMode ? "scale(0.7)" : "scale(1)",
-    opacity: glassesMode ? 0.3 : 1,
-  });
+  const scale = useSpring(1);
+  const opacity = useSpring(1);
+
+  useEffect(() => {
+    scale.set(glassesMode ? 0.7 : 1);
+    opacity.set(glassesMode ? 0.3 : 1);
+  }, [glassesMode, scale, opacity]);
 
   return (
     <div
       className="container pb-32"
-      onClick={() => setState((o) => ({ ...o, glassesMode: !o.glassesMode }))}
-      onMouseEnter={() =>
-        setState((o) => ({ ...o, canEnabledGlassesMode: true }))
-      }
-      onMouseLeave={() =>
-        setState((o) => ({ ...o, canEnabledGlassesMode: false }))
-      }
+      onClick={() => {
+        setState((o) => ({ ...o, glassesMode: !o.glassesMode }));
+      }}
+      onMouseEnter={(e) => {
+        setState((o) => ({ ...o, canEnabledGlassesMode: true }));
+      }}
+      onMouseLeave={(e) => {
+        setState((o) => ({ ...o, canEnabledGlassesMode: false }));
+      }}
     >
       <div className="w-full h-[100vh] flex items-center justify-center ml-auto absolute top-0 left-0 right-0 z-10">
-        <TagIndicator tag="cursor" position="top" className="">
-          <MainBlob />
-        </TagIndicator>
+        <MainBlob />
       </div>
-      <animated.div
-        className={`mt-28 mb-10 relative ${glassesMode ? "z-0" : "z-20"}`}
-        style={animationProps}
+      <motion.div
+        className={`pt-28 pb-10 relative ${glassesMode ? "z-0" : "z-20"}`}
+        style={{ scale, opacity }}
       >
         <h1 className="grid grid-cols-8">
           <TagIndicator
@@ -71,7 +74,7 @@ const Hero = () => {
             </Trail>
           </TagIndicator>
         </div>
-      </animated.div>
+      </motion.div>
     </div>
   );
 };

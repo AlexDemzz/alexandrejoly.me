@@ -1,19 +1,14 @@
 "use client";
+import { useApp, useMouseAcceleration } from "@/lib/hooks";
 import {
-  animated,
-  config,
-  easings,
-  Globals,
+  AnimatePresence,
+  motion,
+  useMotionValue,
   useSpring,
-  useTransition,
-} from "@react-spring/web";
-import { useEffect, useRef, useState } from "react";
+} from "framer-motion";
+import { useEffect, useState } from "react";
 import GlassesButton from "../Header/GlassesButton";
-import { useApp } from "@/lib/hooks";
-
-Globals.assign({
-  frameLoop: "always",
-});
+import { MOTION_TRANSITION } from "@/lib/constants";
 
 const getWrapperSize = ({ isHover, isMouseDown }) => {
   const baseSize = isHover ? 80 : 40;
@@ -22,55 +17,11 @@ const getWrapperSize = ({ isHover, isMouseDown }) => {
 
 const CursorWrapper = ({ children }) => {
   const [{ canEnabledGlassesMode }] = useApp();
-  const [mousePos, setMousePos] = useState(null);
   const [isHover, setIsHover] = useState(false);
-  const [isMoving, setIsMoving] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
-  const moveTimeout = useRef(null);
-
-  const props = useSpring({
-    to: { x: mousePos?.x, y: mousePos?.y },
-    config: {
-      mass: 0,
-      friction: 0,
-      tension: 0,
-    },
-  });
-
-  const wrapperProps = useSpring({
-    to: {
-      x: mousePos?.x,
-      y: mousePos?.y,
-    },
-  });
-
-  const wrapperSizeProps = useSpring({
-    to: {
-      borderWidth: isHover ? 4 : 2,
-      width: getWrapperSize({ isHover, isMouseDown }),
-      height: getWrapperSize({ isHover, isMouseDown }),
-    },
-    config: { duration: 100, easing: easings.easeOutQuad },
-  });
-
-  const glassesButtonTransition = useTransition(canEnabledGlassesMode, {
-    from: { scale: 0.8, opacity: 0, rotate: -10 },
-    enter: { scale: 1, opacity: 1, rotate: 0 },
-    leave: { scale: 0.8, opacity: 0, rotate: -10 },
-    config: config.wobbly,
-  });
+  const mouseAcceleration = useMouseAcceleration();
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
-      setMousePos({ x: event.clientX, y: event.clientY });
-      setIsMoving(true);
-
-      clearTimeout(moveTimeout.current);
-      moveTimeout.current = setTimeout(() => {
-        setIsMoving(false);
-      }, 100);
-    };
-
     const handleMouseOver = (event) => {
       event.stopPropagation();
       const target = event.target.closest(
@@ -91,66 +42,98 @@ const CursorWrapper = ({ children }) => {
       }
     };
 
-    const handleMouseDown = (event) => {
+    const handleMouseDown = () => {
       setIsMouseDown(true);
     };
 
-    const handleMouseUp = (event) => {
+    const handleMouseUp = () => {
       setIsMouseDown(false);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseout", handleMouseOut);
     document.addEventListener("mousedown", handleMouseDown);
     document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
-      document.addEventListener("mousedown", handleMouseDown);
-      document.addEventListener("mouseup", handleMouseUp);
-      clearTimeout(moveTimeout.current);
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const xSpring = useSpring(0, { stiffness: 300, damping: 30 });
+  const ySpring = useSpring(0, { stiffness: 300, damping: 30 });
+
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      x.set(event.clientX);
+      y.set(event.clientY);
+      xSpring.set(event.clientX);
+      ySpring.set(event.clientY);
+    };
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [x, y, xSpring, ySpring]);
+
+  const size = getWrapperSize({ isHover, isMouseDown });
   return (
     <>
-      {mousePos && (
+      {mouseAcceleration && (
         <>
-          <animated.div
-            style={{ ...props, transform: "translate(-50%, -50%)" }}
-            className={
-              "fixed w-16 h-16 mix-blend-difference pointer-events-none-child z-[9999]"
-            }
-          >
-            {children({ isHover, isMoving, isMouseDown })}
-          </animated.div>
-          {glassesButtonTransition(
-            (style, item) =>
-              item && (
-                <animated.div
-                  style={{
-                    ...wrapperProps,
-                    ...style,
-                    transform: "translate(0%, -110%)",
-                  }}
-                  className={
-                    "fixed mix-blend-difference pointer-events-none-child z-[9999]"
-                  }
-                >
-                  <GlassesButton isMouseDown={isMouseDown} />
-                </animated.div>
-              )
-          )}
-          <animated.div
+          <motion.div
             style={{
-              ...wrapperProps,
-              ...wrapperSizeProps,
-              transform: "translate(-50%, -50%)",
+              x,
+              y,
+              translateX: "-50%",
+              translateY: "-50%",
+              pointerEvents: "none",
             }}
-            className={`fixed rounded-full border border-white w-16 h-16 z-[9999] pointer-events-none mix-blend-difference`}
+            transition={{ duration: 0 }}
+            className="fixed w-16 h-16 mix-blend-difference z-[9999]"
+          >
+            {children({
+              isHover,
+              isMoving: mouseAcceleration.speed > 0,
+              isMouseDown,
+            })}
+          </motion.div>
+          <AnimatePresence>
+            {canEnabledGlassesMode && (
+              <motion.div
+                style={{
+                  x: xSpring,
+                  y: ySpring,
+                  translateY: "-110%",
+                  pointerEvents: "none",
+                }}
+                initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
+                animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                exit={{ scale: 0.5, opacity: 0, rotate: -20 }}
+                transition={{ ...MOTION_TRANSITION }}
+                className="fixed mix-blend-difference z-[9999]"
+              >
+                <GlassesButton isMouseDown={isMouseDown} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.div
+            style={{
+              x: xSpring,
+              y: ySpring,
+              width: size,
+              height: size,
+              borderWidth: isHover ? 4 : 2,
+              translateX: "-50%",
+              translateY: "-50%",
+              pointerEvents: "none",
+            }}
+            className="fixed rounded-full border border-white z-[9999] mix-blend-difference"
           />
         </>
       )}

@@ -1,4 +1,5 @@
-import { useSpring, animated, useInView } from "@react-spring/web";
+import { DEFAULT_TRANSITION, MOTION_TRANSITION } from "@/lib/constants";
+import { motion, useInView } from "framer-motion";
 import React, { useState, useEffect, useRef } from "react";
 
 const Trail = ({
@@ -8,35 +9,26 @@ const Trail = ({
   noSplit = false,
   as: Component = "div",
 }) => {
-  const [containerRef, inView] = useInView();
   const [show, setShow] = useState(false);
   const items = React.Children.toArray(
     noSplit ? children : children.split(/(\s+)/)
   );
   const tempRef = useRef(null);
   const [height, setHeight] = useState(0);
-
-  const springs = items.map((_, index) =>
-    useSpring({
-      opacity: show ? 1 : 0,
-      y: show ? 0 : height,
-      from: { opacity: 0, y: height },
-
-      delay: index * 20 + delay,
-    })
-  );
+  const inViewRef = useRef(null);
+  const isInView = useInView(inViewRef, { once: true });
 
   useEffect(() => {
     if (tempRef.current && tempRef.current.offsetHeight > 0) {
       setHeight(tempRef.current.offsetHeight);
-      if (inView) {
+      if (isInView) {
         setShow(true);
       }
     }
-  }, [tempRef, inView]);
+  }, [tempRef, isInView]);
 
   return (
-    <Component ref={containerRef}>
+    <Component ref={inViewRef}>
       {/* Temp element to measure height */}
       <span ref={tempRef} className={`invisible absolute ${className}`}>
         {items[0]}
@@ -44,22 +36,24 @@ const Trail = ({
       {!height && <span className={`${className} opacity-0`}>{items[0]}</span>}
 
       {!!height &&
-        springs.map((spring, index) => (
+        items.map((item, index) => (
           <span
             style={{ height }}
             className="overflow-y-hidden inline-block"
             key={index}
           >
-            <animated.span
-              style={{
-                ...spring,
-                display: "inline-block",
-                whiteSpace: "pre",
+            <motion.span
+              initial={{ opacity: 0, y: height }}
+              animate={{ opacity: show ? 1 : 0, y: show ? 0 : height }}
+              transition={{
+                delay: index * 0.02 + delay / 1000,
+                ...DEFAULT_TRANSITION,
               }}
+              style={{ display: "inline-block", whiteSpace: "pre" }}
               className={className}
             >
-              {items[index]}
-            </animated.span>
+              {item}
+            </motion.span>
           </span>
         ))}
     </Component>

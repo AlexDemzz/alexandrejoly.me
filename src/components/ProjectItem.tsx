@@ -3,7 +3,9 @@ import Link from "next/link";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
 import { useState } from "react";
-import { animated, config, useSpring } from "@react-spring/web";
+import { motion } from "framer-motion";
+import BackgroundVideo from "next-video/background-video";
+import { MOTION_TRANSITION } from "@/lib/constants";
 
 const ProjectItem = ({
   n,
@@ -13,15 +15,11 @@ const ProjectItem = ({
   className = "",
   id,
   images,
+  videos,
   reverse,
 }) => {
   const titles = title.split(" ");
   const [isHover, setIsHover] = useState(false);
-
-  const imageProps = useSpring({
-    scale: isHover ? 1.1 : 1,
-    config: config.wobbly,
-  });
 
   return (
     <Link
@@ -37,15 +35,23 @@ const ProjectItem = ({
             reverse ? "col-start-5 order-last" : "col-start-2"
           } h-[500px]`}
         >
-          <animated.div style={imageProps} className="h-full w-full">
+          <motion.div
+            animate={{ scale: isHover ? 1.1 : 1 }}
+            transition={{ ...MOTION_TRANSITION }}
+            className="h-full w-full"
+          >
             <ParallaxItem className="h-full w-full overflow-hidden">
-              <Image
-                src={images[0]}
-                className="object-cover h-[700px] w-full"
-                alt={`Project Image for ${title}`}
-              />
+              {videos ? (
+                <BackgroundVideo src={videos[0]} />
+              ) : (
+                <Image
+                  src={images[0]}
+                  className="object-cover h-[700px] w-full"
+                  alt={`Project Image for ${title}`}
+                />
+              )}
             </ParallaxItem>
-          </animated.div>
+          </motion.div>
         </div>
         <div
           className={`flex flex-col justify-center col-span-3 ${
