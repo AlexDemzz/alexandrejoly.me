@@ -17,15 +17,23 @@ const Project = ({ params }: { params: { id: string } }) => {
       <div className="py-24">
         <ProjectHero data={data} />
         <div className="mt-24">
-          <div className="grid grid-cols-1 gap-16">
+          <div className="grid grid-cols-1 gap-10">
             {data?.images?.map((src, i, arr) => (
               <TagIndicator
                 tag="image"
                 position="top"
                 key={`project-${data.id}-image-${i}`}
               >
-                <ParallaxItem className="w-full overflow-hidden">
-                  <Image alt="" src={src} className="w-full" />
+                <ParallaxItem
+                  overflow={false}
+                  className="w-full"
+                  range={[50, -50]}
+                >
+                  <Image
+                    alt=""
+                    src={src}
+                    className="w-full object-cover h-full"
+                  />
                 </ParallaxItem>
               </TagIndicator>
             ))}
@@ -35,8 +43,15 @@ const Project = ({ params }: { params: { id: string } }) => {
                 position="top"
                 key={`project-${data.id}-image-${i}`}
               >
-                <ParallaxItem className="w-full overflow-hidden">
-                  <BackgroundVideo src={src} />
+                <ParallaxItem
+                  overflow={false}
+                  className="w-full"
+                  range={[0, 0]}
+                >
+                  <BackgroundVideo
+                    src={src}
+                    className="w-full object-cover h-full"
+                  />
                 </ParallaxItem>
               </TagIndicator>
             ))}

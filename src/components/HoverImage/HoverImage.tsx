@@ -1,22 +1,22 @@
 "use client";
 import Portal from "@/components/Portal";
-import { useMouseAcceleration } from "@/lib/hooks";
+import { useMouseAcceleration, useMouseIndexSwitcher } from "@/lib/hooks";
 import { motion, AnimatePresence, useSpring } from "framer-motion";
 import BackgroundVideo from "next-video/background-video";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const HoverImage = ({
-  visible,
   images,
   videos,
+  children,
 }: {
   visible: boolean;
   images: string[];
 }) => {
-  const [currIndex, setCurrIndex] = useState(0);
-  const [distance, setDistance] = useState(0); // État pour la distance parcourue
-  const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 }); // État pour stocker la dernière position de la souris
+  const [isHover, setIsHover] = useState(false);
+  const containerRef = useRef();
+  const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
 
   const mouseAcceleration = useMouseAcceleration();
 
@@ -50,20 +50,6 @@ const HoverImage = ({
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      const dx = event.clientX - lastMousePosition.x;
-      const dy = event.clientY - lastMousePosition.y;
-      const newDistance = Math.sqrt(dx * dx + dy * dy);
-      setDistance((prevDistance) => {
-        const totalDistance = prevDistance + newDistance;
-        if (totalDistance >= 50) {
-          setCurrIndex(
-            (prevIndex) => (prevIndex + 1) % (images?.length || videos.length)
-          );
-          return totalDistance - 50;
-        }
-        return totalDistance;
-      });
-      setLastMousePosition({ x: event.clientX, y: event.clientY });
       xSpring.set(event.clientX);
       ySpring.set(event.clientY);
       updateDelayed();
@@ -73,17 +59,7 @@ const HoverImage = ({
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [
-    xSpring,
-    ySpring,
-    delayedXSpring,
-    delayedYSpring,
-    lastMousePosition.x,
-    lastMousePosition.y,
-    images?.length,
-    videos?.length,
-    updateDelayed,
-  ]);
+  }, [xSpring, ySpring, delayedXSpring, delayedYSpring, updateDelayed]);
 
   const variants = {
     enter: {
@@ -101,9 +77,14 @@ const HoverImage = ({
   };
 
   return (
-    <div>
+    <div
+      ref={containerRef}
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+    >
+      {children}
       <AnimatePresence>
-        {visible && (
+        {isHover && (
           <Portal>
             <motion.div
               initial="initial"
@@ -115,13 +96,15 @@ const HoverImage = ({
                 x: xSpring,
                 y: ySpring,
                 transform: "translate(10%, -110%)",
+                pointerEvents: "none",
               }}
-              className="fixed z-10 pointer-events-none overflow-hidden w-[400px] h-[200px] bg-foreground border-foreground flex items-center justify-center"
+              className="fixed z-10 overflow-hidden w-[400px] h-[200px] bg-foreground border-foreground flex items-center justify-center"
             >
               <motion.div
                 style={{
                   x: delayedXSpring,
                   y: delayedYSpring,
+                  pointerEvents: "none",
                 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >

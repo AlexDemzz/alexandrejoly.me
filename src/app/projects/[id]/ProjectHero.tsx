@@ -38,7 +38,7 @@ const ProjectHero = ({ data }) => {
           </TagIndicator>
         </div>
 
-        <div className="col-span-8 md:col-span-3">
+        <div className="col-span-8 md:col-span-2 md:col-start-7">
           <TagIndicator tag="div" position="top">
             <div className="flex flex-wrap gap-3">
               {data?.tags.map((tag, i, arr) => (

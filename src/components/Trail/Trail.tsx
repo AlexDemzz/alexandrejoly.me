@@ -19,14 +19,23 @@ const Trail = ({
   const inViewRef = useRef(null);
   const isInView = useInView(inViewRef, { once: true });
 
-  useEffect(() => {
+  const updateHeight = () => {
     if (tempRef.current && tempRef.current.offsetHeight > 0) {
       setHeight(tempRef.current.offsetHeight);
-      if (isInView) {
-        setShow(true);
-      }
     }
-  }, [tempRef, isInView]);
+  };
+
+  useEffect(() => {
+    updateHeight();
+    if (isInView) {
+      setShow(true);
+    }
+
+    window.addEventListener("resize", updateHeight);
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, [isInView]);
 
   return (
     <Component ref={inViewRef}>

@@ -3,6 +3,7 @@ import Image from "@/images/alexandrejoly-1.gif";
 import SimplrIcons1 from "@/images/simplr-icons/1.webp";
 import SimplrIcons2 from "@/images/simplr-icons/2.webp";
 import SimplrIcons3 from "@/images/simplr-icons/3.webp";
+import SimplrIcons4 from "@/images/simplr-icons/4.webp";
 
 import Portfolio1 from "/videos/1.webm";
 import Portfolio2 from "/videos/2.webm";
@@ -45,7 +46,7 @@ export default function useProjects() {
         "This icon pack was meticulously designed to align with the efficiency of the Simplr Design System. Each icon in the pack was created to address specific needs, ensuring a cohesive and streamlined visual experience.",
       tags: ["Iconography"],
       date: "2018-now",
-      images: [SimplrIcons1, SimplrIcons2, SimplrIcons3],
+      images: [SimplrIcons1, SimplrIcons2, SimplrIcons3, SimplrIcons4],
     },
     {
       id: "portfolio-2018",

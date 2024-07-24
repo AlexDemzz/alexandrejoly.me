@@ -15,7 +15,7 @@ const AwardItem = ({ title }) => {
         <TagIndicator tag="a" position="top">
           <div className="flex align-items-center">
             <div>
-              <Trail className="text-5xl font-bold">{title}</Trail>
+              <Trail className="text-3xl md:text-5xl font-bold">{title}</Trail>
               <span className="font-mono">
                 <Trail as="span" className={"mr-2"}>
                   alexandrejoly.me

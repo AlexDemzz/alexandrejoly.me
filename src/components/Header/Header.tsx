@@ -7,7 +7,7 @@ import { ModeToggle } from "../ModeToggle";
 
 const Header = () => {
   return (
-    <div className="sticky top-0 z-50 mix-blend-difference">
+    <div className="fixed top-0 z-50 right-0 left-0 mix-blend-difference">
       <div className="container">
         <div className="flex justify-between items-center w-full py-6 relative z-20">
           <TagIndicator tag="header" animate={false}>
@@ -17,7 +17,7 @@ const Header = () => {
           </TagIndicator>
           <nav className="flex items-center gap-7">
             <TagIndicator tag="a" animate={false}>
-              <Link href="/contact" className="font-semibold text-xl">
+              <Link href="/contact" className="font-semibold md:text-xl">
                 Contact
               </Link>
             </TagIndicator>

@@ -18,7 +18,7 @@ const Hero = () => {
 
   return (
     <div
-      className="container pb-32"
+      className="container h-[100vh] min-h-[700px] flex flex-col justify-center py-32 relative"
       onClick={() => {
         setState((o) => ({ ...o, glassesMode: !o.glassesMode }));
       }}
@@ -29,44 +29,47 @@ const Hero = () => {
         setState((o) => ({ ...o, canEnabledGlassesMode: false }));
       }}
     >
-      <div className="w-full h-[100vh] flex items-center justify-center ml-auto absolute top-0 left-0 right-0 z-10">
+      <div className="w-full flex items-center justify-center ml-auto absolute top-0 left-0 right-0 left-0 bottom-0 z-10">
         <MainBlob />
       </div>
       <motion.div
-        className={`pt-28 pb-10 relative ${glassesMode ? "z-0" : "z-20"}`}
+        className={`pt-28 md:pb-10 relative ${glassesMode ? "z-0" : "z-20"}`}
         style={{ scale, opacity }}
       >
-        <h1 className="grid grid-cols-8">
+        <h1 className="grid grid-cols-1 md:grid-cols-8">
           <TagIndicator
             tag="h1"
             position="top"
-            className="col-span-7 col-start-2"
+            className="md:col-span-7 md:col-start-2"
             delay={100}
           >
             <Trail
-              className="text-[200px] font-black tracking-tighter leading-none select-none"
+              className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
               delay={200}
             >
               Creative
             </Trail>
           </TagIndicator>
-          <div className="relative col-start-3 col-span-8">
+          <div className="relative md:col-start-3 md:col-span-8">
             <Trail
-              className="text-[200px] font-black tracking-tighter leading-none select-none"
+              className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
               delay={400}
             >
               Developer
             </Trail>
           </div>
         </h1>
-        <div className="grid grid-cols-8 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-8 mt-20">
           <TagIndicator
             tag="p"
             position="top"
-            className="col-span-3 col-start-2"
+            className="md:col-span-3 md:col-start-2"
             delay={500}
           >
-            <Trail className="text-2xl font-medium select-none" delay={600}>
+            <Trail
+              className="text-xl md:text-2xl font-medium select-none"
+              delay={600}
+            >
               I’m a front-end developer and UI/UX designer, I transform ideas
               into dynamic digital experiences. My mission is to create
               stunning, intuitive, and engaging interfaces that meet today's
