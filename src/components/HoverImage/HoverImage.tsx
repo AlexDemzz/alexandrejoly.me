@@ -18,7 +18,7 @@ const HoverImage = ({
 }) => {
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef(null);
-  const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
+  const currIndex = useMouseIndexSwitcher(containerRef, images || videos || []);
 
   const mouseAcceleration = useMouseAcceleration();
 
