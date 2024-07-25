@@ -12,9 +12,8 @@ const HoverImage = ({
   videos,
   children,
 }: {
-  visible: boolean;
-  images: StaticImageData[];
-  videos: Asset[];
+  images: StaticImageData[] | undefined;
+  videos: Asset[] | undefined;
   children: React.ReactNode;
 }) => {
   const [isHover, setIsHover] = useState(false);
