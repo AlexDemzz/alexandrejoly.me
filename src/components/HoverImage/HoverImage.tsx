@@ -17,7 +17,7 @@ const HoverImage = ({
   children: React.ReactNode;
 }) => {
   const [isHover, setIsHover] = useState(false);
-  const containerRef = useRef();
+  const containerRef = useRef(null);
   const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
 
   const mouseAcceleration = useMouseAcceleration();
@@ -51,7 +51,7 @@ const HoverImage = ({
   ]);
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       xSpring.set(event.clientX);
       ySpring.set(event.clientY);
       updateDelayed();
@@ -114,7 +114,7 @@ const HoverImage = ({
                   <BackgroundVideo src={videos[currIndex]} />
                 ) : (
                   <Image
-                    src={images[currIndex]}
+                    src={images ? images[currIndex] : ""}
                     alt=""
                     className="object-fill"
                   />

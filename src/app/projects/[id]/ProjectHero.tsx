@@ -2,8 +2,10 @@
 import Marquee from "@/components/Marquee";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
+import { Project } from "@/lib/types";
 import { motion, useScroll, useTransform } from "framer-motion";
-const ProjectHero = ({ data }) => {
+
+const ProjectHero = ({ data }: { data: Project }) => {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 1000]);
 
