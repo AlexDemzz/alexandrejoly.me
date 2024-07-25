@@ -1,9 +1,10 @@
 "use client";
 import Portal from "@/components/Portal";
 import { useMouseAcceleration, useMouseIndexSwitcher } from "@/lib/hooks";
-import { motion, AnimatePresence, useSpring } from "framer-motion";
+import { AnimatePresence, motion, useSpring } from "framer-motion";
 import BackgroundVideo from "next-video/background-video";
-import Image from "next/image";
+import { Asset } from "next-video/dist/assets.js";
+import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const HoverImage = ({
@@ -12,7 +13,9 @@ const HoverImage = ({
   children,
 }: {
   visible: boolean;
-  images: string[];
+  images: StaticImageData[];
+  videos: Asset[];
+  children: React.ReactNode;
 }) => {
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef();
