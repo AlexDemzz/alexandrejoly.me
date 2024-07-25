@@ -1,17 +1,13 @@
-import Marquee from "@/components/Marquee";
 import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
-import Trail from "@/components/Trail";
 import { useProjects } from "@/lib/hooks";
 import BackgroundVideo from "next-video/background-video";
 import Image from "next/image";
-import { useState } from "react";
 import ProjectHero from "./ProjectHero";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const projects = useProjects();
-  const data = projects.find((p) => p.id === params.id);
-  console.log("data", data);
+  const data = projects.find((p) => p.id === params.id) || projects[0];
   return (
     <div className="container pt-10">
       <div className="py-24">

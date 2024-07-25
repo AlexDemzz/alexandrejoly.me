@@ -7,6 +7,6 @@ export interface Project {
   description: string;
   tags: string[];
   date: string;
-  images: StaticImageData[];
-  videos: Asset[];
+  images?: StaticImageData[];
+  videos?: Asset[];
 }

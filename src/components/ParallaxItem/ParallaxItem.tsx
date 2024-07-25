@@ -14,7 +14,7 @@ const ParallaxItem = ({
   className = "",
   speed = 5,
   overflow = true,
-  delay,
+  delay = 0,
   range = [-100, 100],
 }) => {
   const containerRef = useRef(null);
