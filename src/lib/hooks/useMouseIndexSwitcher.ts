@@ -1,14 +1,17 @@
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
 
-export default function useMouseIndexSwitcher(ref, arr) {
+export default function useMouseIndexSwitcher(
+  ref: React.RefObject<HTMLDivElement>,
+  arr: any[]
+) {
   const DISTANCE = 300;
   const [currIndex, setCurrIndex] = useState(0);
   const distance = useRef(0);
   const lastMousePosition = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback(
-    (event) => {
+    (event: MouseEvent) => {
       console.log("move");
       const dx = event.clientX - lastMousePosition.current.x;
       const dy = event.clientY - lastMousePosition.current.y;
