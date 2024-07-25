@@ -7,7 +7,7 @@ const AnimatedGrid = ({
   onAnimationEnd = () => undefined,
 }: {
   animate?: boolean;
-  onAnimationEnd: () => void;
+  onAnimationEnd?: () => void;
 }) => {
   const [paddingX, setPaddingX] = useState("3rem");
   const columns = useColumns();
