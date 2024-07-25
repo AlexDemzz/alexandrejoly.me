@@ -145,6 +145,7 @@ const useMouseAcceleration = (): MouseAcceleration => {
       window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(rafRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return mouseMetrics;

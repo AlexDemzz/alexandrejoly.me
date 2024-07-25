@@ -65,7 +65,7 @@ const Loading = ({ onComplete }: { onComplete: () => void }) => {
     };
 
     loadAssets();
-  }, []);
+  }, [percent]);
 
   const handleAnimationEnd = () => {
     onComplete();

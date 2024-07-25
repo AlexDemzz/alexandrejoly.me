@@ -10,13 +10,13 @@ const Header = () => {
     <div className="fixed top-0 z-50 right-0 left-0 mix-blend-difference">
       <div className="container">
         <div className="flex justify-between items-center w-full py-6 relative z-20">
-          <TagIndicator tag="header" animate={false}>
+          <TagIndicator tag="header">
             <Link href="/" scroll={false}>
               <Logo />
             </Link>
           </TagIndicator>
           <nav className="flex items-center gap-7">
-            <TagIndicator tag="a" animate={false}>
+            <TagIndicator tag="a">
               <Link href="/contact" className="font-semibold md:text-xl">
                 Contact
               </Link>
