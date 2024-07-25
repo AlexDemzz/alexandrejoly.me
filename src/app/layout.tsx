@@ -10,6 +10,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Template from "./template";
 import PreloaderProvider from "@/lib/Providers/Preloader";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly — Portfolio",
@@ -28,6 +30,8 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body>
+        <Analytics />
+        <SpeedInsights />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
