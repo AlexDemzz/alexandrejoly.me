@@ -2,7 +2,13 @@ import { useColumns } from "@/lib/hooks";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const AnimatedGrid = ({ animate = true, onAnimationEnd = () => undefined }) => {
+const AnimatedGrid = ({
+  animate = true,
+  onAnimationEnd = () => undefined,
+}: {
+  animate?: boolean;
+  onAnimationEnd: () => void;
+}) => {
   const [paddingX, setPaddingX] = useState("3rem");
   const columns = useColumns();
 
@@ -33,9 +39,9 @@ const AnimatedGrid = ({ animate = true, onAnimationEnd = () => undefined }) => {
             exit={{ y: "0%" }}
             transition={{ delay: i * 0.03, tension: 180, friction: 12 }}
             key={`grid-elem-${i}`}
-            onAnimationEnd={(e) => {
+            onAnimationEnd={() => {
               if (i === arr.length - 1) {
-                onAnimationEnd(e);
+                onAnimationEnd();
               }
             }}
           />
