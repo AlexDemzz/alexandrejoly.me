@@ -9,11 +9,17 @@ const Trail = ({
   delay = 0,
   noSplit = false,
   as: Component = "div",
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  noSplit?: boolean;
+  as?: keyof JSX.IntrinsicElements | React.ElementType;
 }) => {
   const items = React.Children.toArray(
-    noSplit ? children : children.split(/(\s+)/)
+    noSplit || typeof children !== "string" ? children : children.split(/(\s+)/)
   );
-  const tempRef = useRef(null);
+  const tempRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
   const inViewRef = useRef(null);
   const isInView = useInView(inViewRef, { once: true });

@@ -42,13 +42,12 @@ export default function Home() {
             <ProjectItem
               key={project.id}
               id={project.id}
-              n={(i + 1).toString().padStart(3, "0")}
               title={project.title}
               date={project.date}
               categories={project.tags}
               images={project.images}
               videos={project.videos}
-              reverse={i % 2}
+              reverse={!!(i % 2)}
             />
           ))}
         </div>

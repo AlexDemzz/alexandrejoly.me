@@ -8,7 +8,7 @@ import Link from "next/link";
 import { AWARDS_URL } from "@/lib/constants";
 import Trail from "./Trail";
 
-const AwardItem = ({ title }) => {
+const AwardItem = ({ title }: { title: string }) => {
   return (
     <>
       <Link target="_blank" href={AWARDS_URL}>

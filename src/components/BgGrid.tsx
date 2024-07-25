@@ -1,7 +1,6 @@
 "use client";
 
 import { useColumns } from "@/lib/hooks";
-import { useEffect, useState } from "react";
 
 const BgGrid = () => {
   const columns = useColumns();

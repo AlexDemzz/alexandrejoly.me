@@ -3,21 +3,22 @@ import { MOTION_TRANSITION } from "@/lib/constants";
 import { motion, useInView } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
-const getRandomChar = () => {
-  const chars = "!#$%&()*+,-./:;<=>?@[]^_{|}~";
-  return chars[Math.floor(Math.random() * chars.length)];
-};
+interface TagIndicatorProps {
+  tag: string;
+  position?: "top" | "bottom";
+  className?: string;
+  delay?: number;
+}
 
-const TagIndicator = ({
+const TagIndicator: React.FC<React.PropsWithChildren<TagIndicatorProps>> = ({
   children,
   tag,
   position = "bottom",
   className = "",
   delay = 0,
-  animate = true,
 }) => {
   const height = 24;
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
 
   return (

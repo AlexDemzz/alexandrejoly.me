@@ -1,10 +1,11 @@
 "use client";
 import { useApp, useMouseAcceleration } from "@/lib/hooks";
-import { a, animated, config, useSpring } from "@react-spring/three";
+import { a, animated, config, useSpring, to } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
+import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
 extend({ AnaglyphEffect });
@@ -17,13 +18,12 @@ const Mesh = () => {
   const [{ glassesMode }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const mouseAcceleration = useMouseAcceleration();
-  const myMesh = useRef();
+  const myMesh = useRef<MeshType>(null);
   const { gl, scene, camera, size } = useThree();
-  const effect = useRef();
+  const effect = useRef<AnaglyphEffect | null>(null);
 
   const [springProps, api] = useSpring(() => ({
     scale: 0.5 * glassesModeMultiplier,
-    opacity: 0,
     config: config.wobbly,
   }));
 
@@ -46,7 +46,7 @@ const Mesh = () => {
           Math.max((mouseAcceleration.acceleration / 100) * 1 + 0.3, 0.3),
           1
         ),
-    rotation: [0, 1 * Math.PI, 0],
+    rotation: to([0, Math.PI, 0], (x, y, z) => [x, y, z]),
     config: config.molasses,
     loop: { reverse: true },
   });
@@ -69,12 +69,11 @@ const Mesh = () => {
   useEffect(() => {
     api.start({
       scale: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
-      opacity: 1,
     });
   }, [mouseDown, glassesModeMultiplier, api]);
 
   useFrame(() => {
-    effect.current.render(scene, camera);
+    if (effect.current) effect.current.render(scene, camera);
   }, 1);
 
   return (
@@ -87,7 +86,6 @@ const Mesh = () => {
         scale-x={springProps.scale}
         scale-y={springProps.scale}
         scale-z={springProps.scale}
-        style={{ opacity: springProps.opacity }}
       >
         <sphereGeometry args={[1, 0.2, 16, 100]} />
         <AnimatedMaterial

@@ -6,7 +6,15 @@ import Mesh from "./Mesh";
 const Cursor = () => {
   return (
     <CursorWrapper>
-      {({ isMoving, isHover, isMouseDown }) => (
+      {({
+        isMoving,
+        isHover,
+        isMouseDown,
+      }: {
+        isMoving: boolean;
+        isHover: boolean;
+        isMouseDown: boolean;
+      }) => (
         <Canvas
           frameloop={"always"}
           camera={{ position: [0, 0, 5], near: 0.1, far: 1000 }}

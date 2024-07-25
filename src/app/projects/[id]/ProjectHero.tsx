@@ -43,7 +43,7 @@ const ProjectHero = ({ data }: { data: Project }) => {
         <div className="col-span-8 md:col-span-2 md:col-start-7">
           <TagIndicator tag="div" position="top">
             <div className="flex flex-wrap gap-2">
-              {data?.tags.map((tag, i, arr) => (
+              {data?.tags?.map((tag, i, arr) => (
                 <Trail
                   noSplit
                   delay={600 + i * 100}

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
@@ -7,19 +7,28 @@ import { motion } from "framer-motion";
 import BackgroundVideo from "next-video/background-video";
 import { MOTION_TRANSITION } from "@/lib/constants";
 import { useMouseIndexSwitcher } from "@/lib/hooks";
+import { Project } from "@/lib/types";
+import { Asset } from "next-video/dist/assets.js";
 
-const ProjectItem = ({
-  n,
+interface ProjectItemProps {
+  title: string;
+  date: string;
+  categories: string[];
+  className?: string;
+  id: string;
+  images?: StaticImageData[];
+  videos?: Asset[];
+  reverse?: boolean;
+}
+
+const ProjectItem: React.FC<ProjectItemProps> = ({
   title,
-  date,
-  categories,
-  className = "",
   id,
   images,
   videos,
   reverse,
 }) => {
-  const containerRef = useRef();
+  const containerRef = useRef<HTMLAnchorElement>(null);
   // const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
   const currIndex = 0;
   const titles = title.split(" ");
@@ -46,12 +55,13 @@ const ProjectItem = ({
             className="h-full w-full flex items-center"
           >
             <ParallaxItem className="w-full" overflow={false}>
-              {videos ? (
+              {videos && (
                 <BackgroundVideo
                   src={videos[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full"
                 />
-              ) : (
+              )}
+              {images && !videos && (
                 <Image
                   src={images[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full"

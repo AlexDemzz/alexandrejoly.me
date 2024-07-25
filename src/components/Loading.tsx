@@ -38,7 +38,7 @@ const assetPaths = [
   Simplr4,
 ];
 
-const Loading = ({ onComplete }) => {
+const Loading = ({ onComplete }: { onComplete: () => void }) => {
   const [percent, setPercent] = useState(0);
   const [oldPercent, setOldPercent] = useState(0);
 
@@ -46,7 +46,7 @@ const Loading = ({ onComplete }) => {
     const totalAssets = assetPaths.length;
     let loadedAssets = 0;
 
-    const updatePercent = (a) => {
+    const updatePercent = (a: number) => {
       const newPercent = (a / totalAssets) * 100;
       setOldPercent(percent);
       setPercent(newPercent);

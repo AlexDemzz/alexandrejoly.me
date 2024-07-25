@@ -1,10 +1,11 @@
 "use client";
-import { useApp, useMouseAcceleration } from "@/lib/hooks";
+import { useApp } from "@/lib/hooks";
 import { a, config, useSpring } from "@react-spring/three";
 import { MeshWobbleMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
+import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
 extend({ AnaglyphEffect });
@@ -14,14 +15,12 @@ const Mesh = () => {
   const [mouseDown, setMouseDown] = useState(false);
   const [{ glassesMode }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
-  const mouseAcceleration = useMouseAcceleration();
-  const myMesh = useRef();
-  const { gl, scene, camera, size } = useThree();
-  const effect = useRef();
+  const myMesh = useRef<MeshType>(null);
+  const { gl, size } = useThree();
+  const effect = useRef<AnaglyphEffect | null>(null);
 
   const [springProps, api] = useSpring(() => ({
     scale: 0.5 * glassesModeMultiplier,
-    opacity: 0,
     config: config.wobbly,
   }));
 
@@ -43,24 +42,19 @@ const Mesh = () => {
   useEffect(() => {
     api.start({
       scale: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
-      opacity: 1,
     });
   }, [mouseDown, glassesModeMultiplier, api]);
 
   useFrame(({ clock }) => {
-    myMesh.current.rotation.x = clock.getElapsedTime();
-    myMesh.current.rotation.y = clock.getElapsedTime();
+    if (myMesh.current) {
+      myMesh.current.rotation.x = clock.getElapsedTime();
+      myMesh.current.rotation.y = clock.getElapsedTime();
+    }
   });
 
   return (
     <>
-      <a.mesh
-        ref={myMesh}
-        position-x={springProps.x}
-        position-y={springProps.y}
-        scale={springProps.scale}
-        style={{ opacity: springProps.opacity }}
-      >
+      <a.mesh ref={myMesh} scale={springProps.scale}>
         <torusGeometry args={[1, 0.2, 16, 100]} />
         <MeshWobbleMaterial
           attach="material"

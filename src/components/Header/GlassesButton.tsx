@@ -5,7 +5,7 @@ import Glasses from "@/images/3d_glasses.svg";
 import { motion } from "framer-motion";
 import { MOTION_TRANSITION } from "@/lib/constants";
 
-const GlassesButton = ({ isMouseDown }) => {
+const GlassesButton = ({ isMouseDown }: { isMouseDown: boolean }) => {
   const [_, setState] = useApp();
 
   const handleGlassClick = () => {

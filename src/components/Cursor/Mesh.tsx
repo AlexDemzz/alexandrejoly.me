@@ -6,9 +6,17 @@ import { useRef } from "react";
 
 const AnimatedMaterial = animated(MeshDistortMaterial);
 
-const Mesh = ({ isMoving, isMouseDown, isHover }) => {
+const Mesh = ({
+  isMoving,
+  isMouseDown,
+  isHover,
+}: {
+  isMoving: boolean;
+  isHover: boolean;
+  isMouseDown: boolean;
+}) => {
   const mouseAcceleration = useMouseAcceleration();
-  const myMesh = useRef();
+  const myMesh = useRef(null);
 
   const getSize = () => {
     if (isHover) return 2;

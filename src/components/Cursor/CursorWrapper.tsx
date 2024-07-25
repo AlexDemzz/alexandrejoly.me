@@ -10,13 +10,20 @@ import { useEffect, useState } from "react";
 import GlassesButton from "../Header/GlassesButton";
 import { MOTION_TRANSITION } from "@/lib/constants";
 import { usePathname } from "next/navigation";
+import { CursorWrapperProps } from "@/lib/types";
 
-const getWrapperSize = ({ isHover, isMouseDown }) => {
+const getWrapperSize = ({
+  isHover,
+  isMouseDown,
+}: {
+  isHover: boolean;
+  isMouseDown: boolean;
+}) => {
   const baseSize = isHover ? 80 : 40;
   return isMouseDown ? baseSize * 0.75 : baseSize;
 };
 
-const CursorWrapper = ({ children }) => {
+const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
   const [{ canEnabledGlassesMode }] = useApp();
   const [isHover, setIsHover] = useState(false);
   const [isMouseDown, setIsMouseDown] = useState(false);
@@ -37,23 +44,20 @@ const CursorWrapper = ({ children }) => {
   }, [size, isHover, isMouseDown]);
 
   useEffect(() => {
-    const handleMouseOver = (event) => {
+    const getClosestElement = (event: MouseEvent) => {
       event.stopPropagation();
-      const target = event.target.closest(
-        'a, button, [type="button"], [tabindex]'
-      );
+      const target = event.target as HTMLElement | null;
+
       if (target) {
-        setIsHover(true);
+        return target.closest('a, button, [type="button"], [tabindex]');
       }
+      return null;
     };
 
-    const handleMouseOut = (event) => {
-      event.stopPropagation();
-      const target = event.target.closest(
-        'a, button, [type="button"], [tabindex]'
-      );
-      if (target) {
-        setIsHover(false);
+    const handleMouseEvent = (event: MouseEvent, isOver: boolean) => {
+      const closestElement = getClosestElement(event);
+      if (closestElement) {
+        setIsHover(isOver);
       }
     };
 
@@ -64,6 +68,11 @@ const CursorWrapper = ({ children }) => {
     const handleMouseUp = () => {
       setIsMouseDown(false);
     };
+
+    const handleMouseOver = (event: MouseEvent) =>
+      handleMouseEvent(event, true);
+    const handleMouseOut = (event: MouseEvent) =>
+      handleMouseEvent(event, false);
 
     document.addEventListener("mouseover", handleMouseOver);
     document.addEventListener("mouseout", handleMouseOut);
@@ -84,7 +93,7 @@ const CursorWrapper = ({ children }) => {
   const ySpring = useSpring(0, { stiffness: 300, damping: 30 });
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       x.set(event.clientX);
       y.set(event.clientY);
       xSpring.set(event.clientX);

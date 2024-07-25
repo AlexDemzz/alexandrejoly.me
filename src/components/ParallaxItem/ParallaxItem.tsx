@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const ParallaxItem = ({
   children,
@@ -16,11 +16,18 @@ const ParallaxItem = ({
   overflow = true,
   delay = 0,
   range = [-100, 100],
+}: {
+  children: React.ReactNode;
+  className?: string;
+  speed?: number;
+  overflow?: boolean;
+  delay?: number;
+  range?: number[];
 }) => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true });
   const [childrenHeight, setChildrenHeight] = useState("100%");
-  const childRef = useRef(null);
+  const childRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateHeight = () => {
@@ -53,11 +60,11 @@ const ParallaxItem = ({
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{
-        delay: delay / 1000,
         opacity: isInView ? 1 : 0,
         y: isInView ? 0 : 50,
       }}
       transition={{
+        delay: delay / 1000,
         ...MOTION_TRANSITION,
       }}
       ref={containerRef}

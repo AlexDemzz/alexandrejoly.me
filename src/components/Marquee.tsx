@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 import { useMouseAcceleration } from "@/lib/hooks";
 
-const Marquee = ({ children }) => {
+type MarqueeProps = React.PropsWithChildren<{}>;
+
+const Marquee: React.FC<MarqueeProps> = ({ children }) => {
   const [duration, setDuration] = useState(3); // Initial duration
-  const marqueeRef = useRef(null);
+  const marqueeRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
   const mouseAcceleration = useMouseAcceleration();
 
