@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-const Portal = ({ children }) => {
-  const [portalNode, setPortalNode] = useState(null);
+const Portal: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
+  const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const node = document.createElement("div");
