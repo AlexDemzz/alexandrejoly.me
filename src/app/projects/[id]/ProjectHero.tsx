@@ -24,7 +24,7 @@ const ProjectHero = ({ data }) => {
       <div className="grid grid-cols-8 mt-16 gap-x-10 md:gap-x-0 gap-y-10">
         <div className="col-span-8 md:col-span-2">
           <TagIndicator tag="div" position="top">
-            <Trail className="text-2xl uppercase font-mono" delay={600}>
+            <Trail className="text-xl font-bold" delay={600}>
               {data.date}
             </Trail>
           </TagIndicator>
@@ -40,12 +40,12 @@ const ProjectHero = ({ data }) => {
 
         <div className="col-span-8 md:col-span-2 md:col-start-7">
           <TagIndicator tag="div" position="top">
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {data?.tags.map((tag, i, arr) => (
                 <Trail
                   noSplit
                   delay={600 + i * 100}
-                  className="border-2 p-3 rounded-full text-base font-bold"
+                  className="bg-foreground text-background px-3 py-2 rounded-full text-base font-bold"
                   key={`project-${data.id}-tag-${i}`}
                 >
                   {tag}

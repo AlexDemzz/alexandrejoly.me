@@ -9,6 +9,7 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import "./globals.css";
 import Template from "./template";
+import PreloaderProvider from "@/lib/Providers/Preloader";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly — Portfolio",
@@ -35,9 +36,11 @@ export default function RootLayout({
         >
           <AppProvider>
             <Cursor />
-            <Header />
-            <Template>{children}</Template>
-            <Footer />
+            <PreloaderProvider>
+              <Header />
+              <Template>{children}</Template>
+              <Footer />
+            </PreloaderProvider>
           </AppProvider>
           <BgGrid />
         </ThemeProvider>

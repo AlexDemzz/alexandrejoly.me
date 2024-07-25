@@ -1,11 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useContext, useRef } from "react";
 import { useColumns } from "@/lib/hooks";
+import Loading from "@/components/Loading";
+import { DEFAULT_TRANSITION } from "@/lib/constants";
+import AnimatedGrid from "@/components/AnimatedGrid";
 
 function FrozenRouter(props: { children: React.ReactNode }) {
   const context = useContext(LayoutRouterContext ?? {});
@@ -19,10 +21,9 @@ function FrozenRouter(props: { children: React.ReactNode }) {
 }
 
 export default function Template({ children }: { children: React.ReactNode }) {
-  let pathname = usePathname();
-  const columns = useColumns();
+  const pathname = usePathname();
+
   const [exitComplete, setExitComplete] = useState(false);
-  // const [showChildren, setShowChildren] = useState(true);
 
   useEffect(() => {
     if (exitComplete) {
@@ -38,25 +39,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
         onExitComplete={() => setExitComplete(true)}
       >
         <motion.div key={pathname}>
-          <div className="container h-[100vh] flex items-stretch w-full fixed top-0 right-0 left-0 z-[999] bottom-0 pointer-events-none">
-            {new Array(columns).fill("").map((_, i) => (
-              <motion.div
-                className={`bg-background border-b-foreground border-grid border-b-[1rem] ${
-                  i < columns - 1 ? "border-l" : "border-l border-r"
-                } flex-1`}
-                initial={{ y: "0%" }}
-                animate={{ y: "-100%" }}
-                exit={{ y: "0%" }}
-                transition={{ delay: i * 0.05, tension: 180, friction: 12 }}
-                key={`grid-elem-${i}`}
-                // onAnimationComplete={() => {
-                //   if (i === 0) {
-                //     setShowChildren(true);
-                //   }
-                // }}
-              />
-            ))}
-          </div>
+          <AnimatedGrid />
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -64,10 +47,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
             transition={{ duration: 0.8, ease: [0.27, 0.94, 0.48, 1.0] }}
             onAnimationStart={() => {
               setExitComplete(false);
-              // setShowChildren(false);
             }}
           >
-            {/* {showChildren && <FrozenRouter>{children}</FrozenRouter>} */}
             <FrozenRouter>{children}</FrozenRouter>
           </motion.div>
         </motion.div>

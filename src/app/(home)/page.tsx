@@ -8,6 +8,7 @@ import { useProjects } from "@/lib/hooks";
 import Hero from "./Hero";
 import Trail from "@/components/Trail";
 import Awards from "./Awards";
+import H2 from "@/components/H2";
 
 export default function Home() {
   const projects = useProjects();
@@ -33,9 +34,7 @@ export default function Home() {
             position="top"
             className="md:col-start-2 md:col-span-6"
           >
-            <h2 className="uppercase tracking-tighter font-bold text-xl md:text-5xl">
-              <Trail>Featured projects</Trail>
-            </h2>
+            <H2>Projects</H2>
           </TagIndicator>
         </div>
         <div className="mt-4 md:mt-16 space-y-10 md:space-y-36">

@@ -1,14 +1,24 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { MOTION_TRANSITION } from "@/lib/constants";
+import {
+  motion,
+  useInView,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
-const ScrollImage = ({
+const ParallaxItem = ({
   children,
   className = "",
   speed = 5,
   overflow = true,
+  delay,
   range = [-100, 100],
 }) => {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true });
   const [childrenHeight, setChildrenHeight] = useState("100%");
   const childRef = useRef(null);
 
@@ -40,7 +50,17 @@ const ScrollImage = ({
   const ySpring = useSpring(y, { stiffness: tension, damping: friction });
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{
+        delay: delay / 1000,
+        opacity: isInView ? 1 : 0,
+        y: isInView ? 0 : 50,
+      }}
+      transition={{
+        ...MOTION_TRANSITION,
+      }}
+      ref={containerRef}
       className={`flex justify-center flex-col ${className}`}
       style={{
         height: overflow ? undefined : childrenHeight,
@@ -50,8 +70,8 @@ const ScrollImage = ({
       <motion.div style={{ y: ySpring }} ref={childRef}>
         {children}
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 
-export default ScrollImage;
+export default ParallaxItem;

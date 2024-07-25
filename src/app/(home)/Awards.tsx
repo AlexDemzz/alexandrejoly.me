@@ -1,4 +1,5 @@
 import AwardItem from "@/components/AwardItem";
+import H2 from "@/components/H2";
 import HoverImage from "@/components/HoverImage/HoverImage";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
@@ -14,9 +15,7 @@ const Awards = () => {
       <div className="grid grid-cols-1 md:grid-cols-8 gap-16 md:gap-0">
         <div className="md:col-span-3 md:col-start-2">
           <TagIndicator tag="h2" position="top">
-            <h2 className="uppercase tracking-tighter font-bold text-xl md:text-5xl">
-              <Trail>Awards</Trail>
-            </h2>
+            <H2>Awards</H2>
           </TagIndicator>
         </div>
         <div className="md:col-span-3 md:col-start-6">

@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
+import { useMouseAcceleration } from "@/lib/hooks";
 
 const Marquee = ({ children }) => {
   const [duration, setDuration] = useState(3); // Initial duration
   const marqueeRef = useRef(null);
   const controls = useAnimationControls();
+  const mouseAcceleration = useMouseAcceleration();
 
   useEffect(() => {
     const calculateDuration = () => {
@@ -38,7 +40,7 @@ const Marquee = ({ children }) => {
   }, [controls, duration]);
 
   return (
-    <div className="overflow-hidden whitespace-nowrap">
+    <div className="whitespace-nowrap">
       <motion.div className="inline-block" animate={controls} ref={marqueeRef}>
         <span className="mr-8">{children}</span>
         <span className="mr-8">{children}</span>

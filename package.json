@@ -12,7 +12,6 @@
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-spring/three": "^9.7.3",
-    "@react-spring/web": "^9.7.3",
     "@react-three/drei": "^9.108.3",
     "@react-three/fiber": "^8.16.8",
     "class-variance-authority": "^0.7.0",

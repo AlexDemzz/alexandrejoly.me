@@ -10,7 +10,6 @@ const Trail = ({
   noSplit = false,
   as: Component = "div",
 }) => {
-  const [show, setShow] = useState(false);
   const items = React.Children.toArray(
     noSplit ? children : children.split(/(\s+)/)
   );
@@ -27,10 +26,6 @@ const Trail = ({
 
   useEffect(() => {
     updateHeight();
-    if (isInView) {
-      setShow(true);
-    }
-
     window.addEventListener("resize", updateHeight);
     return () => {
       window.removeEventListener("resize", updateHeight);
@@ -54,7 +49,7 @@ const Trail = ({
           >
             <motion.span
               initial={{ opacity: 0, y: height }}
-              animate={{ opacity: show ? 1 : 0, y: show ? 0 : height }}
+              animate={{ opacity: isInView ? 1 : 0, y: isInView ? 0 : height }}
               transition={{
                 delay: index * 0.02 + delay / 1000,
                 ...DEFAULT_TRANSITION,

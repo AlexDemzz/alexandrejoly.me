@@ -1,0 +1,12 @@
+import React from "react";
+import Trail from "./Trail";
+
+const H2 = ({ children }) => {
+  return (
+    <h2 className="uppercase tracking-tighter font-black text-xl md:text-6xl">
+      <Trail>{children}</Trail>
+    </h2>
+  );
+};
+
+export default H2;

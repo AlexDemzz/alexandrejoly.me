@@ -1,5 +1,10 @@
-import React from "react";
-import { useSpring, animated, config, Globals } from "@react-spring/web";
+import React, { useEffect } from "react";
+import {
+  motion,
+  useAnimation,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
 
 const BarLoader: React.FC<{
   percent: number;
@@ -8,23 +13,28 @@ const BarLoader: React.FC<{
   width?: number;
   onAnimationEnd: () => void;
 }> = ({ oldPercent, percent, height = 6, width = 100, onAnimationEnd }) => {
-  const animatedProps = useSpring({
-    to: {
-      width: `${(percent / 100) * width}px`,
-    },
-    config: { duration: 400, ease: "easeInOut" },
-    onRest: () => {
-      if (percent === 100) {
-        onAnimationEnd();
-      }
-    },
-  });
+  const controls = useAnimation();
+  const percentMotionValue = useMotionValue(oldPercent);
+  const percentDisplay = useTransform(percentMotionValue, (value) =>
+    value.toFixed(0)
+  );
 
-  const percentProps = useSpring({
-    from: { number: oldPercent },
-    to: { number: percent },
-    config: { duration: 400, ease: "easeInOut" },
-  });
+  useEffect(() => {
+    controls
+      .start({
+        width: `${(percent / 100) * width}px`,
+        transition: { duration: 0.4, ease: "easeInOut" },
+      })
+      .then(() => {
+        if (percent === 100) {
+          setTimeout(() => {
+            onAnimationEnd();
+          }, 1000);
+        }
+      });
+
+    percentMotionValue.set(percent);
+  }, [percent, width, controls, onAnimationEnd, percentMotionValue]);
 
   return (
     <div className="flex flex-col items-center">
@@ -32,16 +42,13 @@ const BarLoader: React.FC<{
         style={{ width, height }}
         className="border rounded-full bg-grid overflow-hidden"
       >
-        <animated.div
-          className="bg-foreground h-full"
-          style={{ ...animatedProps }}
-        />
+        <motion.div className="bg-foreground h-full" animate={controls} />
       </div>
       <div className="text-sm font-bold font-mono mt-2 text-foreground">
         <span>&#91;</span>
-        <animated.div className="inline">
-          {percentProps.number.to((n) => n.toFixed(0))}
-        </animated.div>
+        <motion.span style={{ display: "inline-block" }}>
+          {percentDisplay}
+        </motion.span>
         <span>%</span>
         <span>&#93;</span>
       </div>

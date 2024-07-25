@@ -72,12 +72,9 @@
   @layer base {
 
     .font-outline-2 {
-      -webkit-text-stroke: 2px hsl(var(--foreground));
-      color: transparent;
-    }
-    .font-outline-4 {
-      -webkit-text-stroke: 4px hsl(var(--foreground));
-      color: transparent;
+       text-shadow: 3px 3px 0 hsl(var(--foreground)), -3px -3px 0 hsl(var(--foreground)), 3px -3px 0 hsl(var(--foreground)), -3px 3px 0 hsl(var(--foreground)), 3px 3px 0 hsl(var(--foreground));
+      /* -webkit-text-stroke: 2px hsl(var(--foreground)); */
+      color: hsl(var(--background));
     }
 
     * {

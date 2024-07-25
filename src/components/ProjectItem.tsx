@@ -20,7 +20,8 @@ const ProjectItem = ({
   reverse,
 }) => {
   const containerRef = useRef();
-  const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
+  // const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
+  const currIndex = 0;
   const titles = title.split(" ");
   const [isHover, setIsHover] = useState(false);
 
@@ -44,7 +45,7 @@ const ProjectItem = ({
             transition={{ ...MOTION_TRANSITION }}
             className="h-full w-full flex items-center"
           >
-            <ParallaxItem className="w-full " overflow={false}>
+            <ParallaxItem className="w-full" overflow={false}>
               {videos ? (
                 <BackgroundVideo
                   src={videos[currIndex]}

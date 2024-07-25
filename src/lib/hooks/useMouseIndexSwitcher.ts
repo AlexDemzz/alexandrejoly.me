@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
 export default function useMouseIndexSwitcher(ref, arr) {
   const DISTANCE = 300;
@@ -7,18 +7,21 @@ export default function useMouseIndexSwitcher(ref, arr) {
   const distance = useRef(0);
   const lastMousePosition = useRef({ x: 0, y: 0 });
 
-  const handleMouseMove = (event) => {
-    console.log("move");
-    const dx = event.clientX - lastMousePosition.current.x;
-    const dy = event.clientY - lastMousePosition.current.y;
-    const newDistance = Math.sqrt(dx * dx + dy * dy);
-    distance.current += newDistance;
-    if (distance.current >= DISTANCE) {
-      setCurrIndex((prevIndex) => (prevIndex + 1) % arr.length);
-      distance.current -= DISTANCE;
-    }
-    lastMousePosition.current = { x: event.clientX, y: event.clientY };
-  };
+  const handleMouseMove = useCallback(
+    (event) => {
+      console.log("move");
+      const dx = event.clientX - lastMousePosition.current.x;
+      const dy = event.clientY - lastMousePosition.current.y;
+      const newDistance = Math.sqrt(dx * dx + dy * dy);
+      distance.current += newDistance;
+      if (distance.current >= DISTANCE) {
+        setCurrIndex((prevIndex) => (prevIndex + 1) % arr.length);
+        distance.current -= DISTANCE;
+      }
+      lastMousePosition.current = { x: event.clientX, y: event.clientY };
+    },
+    [lastMousePosition, arr]
+  );
 
   useEffect(() => {
     const handleMouseEnter = () => {
@@ -45,7 +48,7 @@ export default function useMouseIndexSwitcher(ref, arr) {
         handleMouseLeave();
       }
     };
-  }, [ref, arr.length]);
+  }, [ref, arr.length, handleMouseMove]);
 
   return currIndex;
 }

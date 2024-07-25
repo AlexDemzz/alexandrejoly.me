@@ -1,6 +1,7 @@
 import MainBlob from "@/components/MainBlob";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
+import { INTRO } from "@/lib/constants";
 import { useApp } from "@/lib/hooks";
 import { motion, useSpring } from "framer-motion";
 import { useEffect } from "react";
@@ -70,10 +71,7 @@ const Hero = () => {
               className="text-xl md:text-2xl font-medium select-none"
               delay={600}
             >
-              I’m a front-end developer and UI/UX designer, I transform ideas
-              into dynamic digital experiences. My mission is to create
-              stunning, intuitive, and engaging interfaces that meet today's
-              needs and adapt to tomorrow's challenges.
+              {INTRO}
             </Trail>
           </TagIndicator>
         </div>

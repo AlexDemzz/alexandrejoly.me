@@ -15,13 +15,10 @@ export const PreloaderContext = createContext<PreloaderContextType | undefined>(
 const PreloaderProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  console.log("isLoaded", isLoaded);
-
   return (
     <PreloaderContext.Provider value={{ isLoaded, setIsLoaded }}>
-      {/* <Preloader onLoad={() => setIsLoaded(true)} /> */}
-      {/* {isLoaded && children} */}
-      {children}
+      <Preloader onLoad={() => setIsLoaded(true)} />
+      {isLoaded && children}
     </PreloaderContext.Provider>
   );
 };

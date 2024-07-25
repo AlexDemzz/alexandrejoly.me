@@ -13,11 +13,11 @@ const Project = ({ params }: { params: { id: string } }) => {
   const data = projects.find((p) => p.id === params.id);
   console.log("data", data);
   return (
-    <div className="container">
+    <div className="container pt-10">
       <div className="py-24">
         <ProjectHero data={data} />
         <div className="mt-24">
-          <div className="grid grid-cols-1 gap-10">
+          <div className="grid grid-cols-1 gap-20">
             {data?.images?.map((src, i, arr) => (
               <TagIndicator
                 tag="image"
