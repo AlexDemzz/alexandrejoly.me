@@ -3,9 +3,10 @@ import useMouseAcceleration from "./useMouseAcceleration";
 import useProjects from "./useProjects";
 import useApp from "./useApp";
 import useColumns from "./useColumns";
-import useWindowSize from "./useWindowSize";
 import useBreakpoints from "./useBreakpoints";
+import useLoadAssets from "./useLoadAssets";
 import useMouseIndexSwitcher from "./useMouseIndexSwitcher";
+import useTime from "./useTime";
 
 export {
   useMousePosition,
@@ -14,6 +15,7 @@ export {
   useApp,
   useColumns,
   useMouseIndexSwitcher,
-  useWindowSize,
   useBreakpoints,
+  useLoadAssets,
+  useTime,
 };

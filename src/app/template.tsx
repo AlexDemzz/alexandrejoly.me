@@ -41,9 +41,9 @@ export default function Template({ children }: { children: React.ReactNode }) {
         <motion.div key={pathname}>
           <AnimatedGrid />
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.27, 0.94, 0.48, 1.0] }}
             onAnimationStart={() => {
               setExitComplete(false);

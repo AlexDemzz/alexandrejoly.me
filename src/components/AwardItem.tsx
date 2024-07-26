@@ -1,11 +1,8 @@
 "use client";
-import { ArrowUpRight } from "lucide-react";
-import React, { useState } from "react";
-import TagIndicator from "./TagIndicator";
-import HoverImage from "./HoverImage/HoverImage";
-import { useProjects } from "@/lib/hooks";
-import Link from "next/link";
 import { AWARDS_URL } from "@/lib/constants";
+import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import TagIndicator from "./TagIndicator";
 import Trail from "./Trail";
 
 const AwardItem = ({ title }: { title: string }) => {
@@ -25,7 +22,7 @@ const AwardItem = ({ title }: { title: string }) => {
                   as="sup"
                   className="font-features sups font-mono mr-4 text-sm"
                 >
-                  (v1.0 — 2018)
+                  (2018)
                 </Trail>
               </span>
             </div>

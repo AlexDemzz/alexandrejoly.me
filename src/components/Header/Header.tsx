@@ -1,28 +1,29 @@
 "use client";
+import AnimatedLink from "@/components/AnimatedLink";
+import { useTime } from "@/lib/hooks";
 import Link from "next/link";
-import TagIndicator from "../TagIndicator";
-import GlassesButton from "./GlassesButton";
 import Logo from "../Logo";
-import { ModeToggle } from "../ModeToggle";
+import TagIndicator from "../TagIndicator";
 
 const Header = () => {
+  const time = useTime();
   return (
     <div className="fixed top-0 z-50 right-0 left-0 mix-blend-difference">
       <div className="container">
         <div className="flex justify-between items-center w-full py-6 relative z-20">
-          <TagIndicator tag="header">
-            <Link href="/" scroll={false}>
-              <Logo />
-            </Link>
-          </TagIndicator>
+          <AnimatedLink href="/" scroll={false}>
+            <Logo />
+          </AnimatedLink>
+          <div className="bg-foreground text-background font-mono text-sm font-bold px-1 hidden md:block">
+            GMT+2 {time.toString()}
+          </div>
           <nav className="flex items-center gap-7">
-            <TagIndicator tag="a">
-              <Link href="/contact" className="font-semibold md:text-xl">
-                Contact
-              </Link>
-            </TagIndicator>
-            {/* <ModeToggle /> */}
-            {/* <GlassesButton /> */}
+            <AnimatedLink
+              href="/contact"
+              className="uppercase font-bold md:text-base"
+            >
+              Contact
+            </AnimatedLink>
           </nav>
         </div>
       </div>

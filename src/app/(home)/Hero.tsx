@@ -1,4 +1,6 @@
+import GlassesButton from "@/components/Header/GlassesButton";
 import MainBlob from "@/components/MainBlob";
+import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
 import { INTRO } from "@/lib/constants";
@@ -34,9 +36,14 @@ const Hero = () => {
         <MainBlob />
       </div>
       <motion.div
-        className={`pt-28 md:pb-10 relative ${glassesMode ? "z-0" : "z-20"}`}
+        className={`pt-0 md:pt-28 md:pb-10 relative ${
+          glassesMode ? "z-0" : "z-20"
+        }`}
         style={{ scale, opacity }}
       >
+        <div className="block md:hidden mb-10">
+          <GlassesButton isMouseDown={false} animate={false} />
+        </div>
         <h1 className="grid grid-cols-1 md:grid-cols-8">
           <TagIndicator
             tag="h1"
@@ -44,20 +51,24 @@ const Hero = () => {
             className="md:col-span-7 md:col-start-2"
             delay={100}
           >
-            <Trail
-              className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
-              delay={200}
-            >
-              Creative
-            </Trail>
+            <ParallaxItem range={[0, 200]}>
+              <Trail
+                className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
+                delay={200}
+              >
+                Creative
+              </Trail>
+            </ParallaxItem>
           </TagIndicator>
           <div className="relative md:col-start-3 md:col-span-8">
-            <Trail
-              className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
-              delay={400}
-            >
-              Developer
-            </Trail>
+            <ParallaxItem range={[0, 100]} speed={4}>
+              <Trail
+                className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
+                delay={400}
+              >
+                Developer
+              </Trail>
+            </ParallaxItem>
           </div>
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-8 mt-20">
@@ -67,12 +78,14 @@ const Hero = () => {
             className="md:col-span-3 md:col-start-2"
             delay={500}
           >
-            <Trail
-              className="text-xl md:text-2xl font-medium select-none"
-              delay={600}
-            >
-              {INTRO}
-            </Trail>
+            <ParallaxItem range={[0, 100]} speed={3}>
+              <Trail
+                className="text-xl md:text-2xl font-medium select-none"
+                delay={600}
+              >
+                {INTRO}
+              </Trail>
+            </ParallaxItem>
           </TagIndicator>
         </div>
       </motion.div>

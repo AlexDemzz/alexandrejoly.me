@@ -14,8 +14,6 @@ import Yoojo4 from "@/images/yoojo/4.webp";
 
 import Simplr1 from "@/images/simplr-design-system/1.webp";
 import Simplr2 from "@/images/simplr-design-system/2.webp";
-import Simplr3 from "@/images/simplr-design-system/3.webp";
-import Simplr4 from "@/images/simplr-design-system/4.webp";
 
 export default function useProjects() {
   return [
@@ -35,7 +33,7 @@ export default function useProjects() {
         "Simplr is the name of yoojo design system. I designed and created it from scratch, ensuring consistency and efficiency across various applications. This includes standardized components, guidelines, and best practices that streamline the design and development process, making it easier to maintain and scale projects effectively.",
       tags: ["UI/UX Design"],
       date: "Since 2018",
-      images: [Simplr1, Simplr2, Simplr3, Simplr4],
+      images: [Simplr1, Simplr2],
     },
     {
       id: "simplr-icons",

@@ -1,3 +1,4 @@
+"use client";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import ParallaxItem from "./ParallaxItem";
@@ -9,6 +10,7 @@ import { MOTION_TRANSITION } from "@/lib/constants";
 import { useMouseIndexSwitcher } from "@/lib/hooks";
 import { Project } from "@/lib/types";
 import { Asset } from "next-video/dist/assets.js";
+import useBreakpoint from "@/lib/hooks/useBreakpoints";
 
 interface ProjectItemProps {
   title: string;
@@ -28,6 +30,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   videos,
   reverse,
 }) => {
+  const breakpoints = useBreakpoint();
   const containerRef = useRef<HTMLAnchorElement>(null);
   // const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
   const currIndex = 0;
@@ -80,11 +83,14 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             <ParallaxItem
               key={`project-title-${i}`}
               speed={i * 3}
+              range={breakpoints.get({ xs: [-50, 50], md: [-100, 100] })}
               className={`text-6xl md:text-9xl font-black md:-z-10  odd:md:z-[10]  block ${
                 reverse ? "md:-mr-7 odd:md:-mr-10" : "md:-ml-7 odd:md:-ml-10"
               }`}
             >
-              <Trail className="uppercase tracking-tighter">{t}</Trail>
+              <Trail className="uppercase tracking-tighter mix-blend-difference">
+                {t}
+              </Trail>
             </ParallaxItem>
           ))}
         </div>

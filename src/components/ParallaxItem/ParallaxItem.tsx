@@ -34,8 +34,6 @@ const ParallaxItem = ({
       if (childRef.current) {
         const rangeHeight = Math.abs(range[1] - range[0]);
         const newHeight = childRef.current.scrollHeight - rangeHeight;
-        console.log("newHeight", newHeight);
-        console.log(rangeHeight);
         setChildrenHeight(newHeight + "px");
       }
     };

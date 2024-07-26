@@ -10,7 +10,7 @@ type MouseAcceleration = {
   verticalDirection: number;
   horizontalDirection: number;
   acceleration: number;
-  verrticalAcceleration: number;
+  verticalAcceleration: number;
   horizontalAcceleration: number;
 };
 
@@ -24,7 +24,7 @@ const useMouseAcceleration = (): MouseAcceleration => {
     verticalDirection: 0,
     horizontalDirection: 0,
     acceleration: 0,
-    verrticalAcceleration: 0,
+    verticalAcceleration: 0,
     horizontalAcceleration: 0,
   });
 
@@ -79,7 +79,7 @@ const useMouseAcceleration = (): MouseAcceleration => {
       verticalDirection: Math.sign(offsetY),
       horizontalDirection: Math.sign(offsetX),
       acceleration: 10 * (10 * movement - mouseRef.current.prevSpeed),
-      verrticalAcceleration:
+      verticalAcceleration:
         10 * (10 * movementY - mouseRef.current.prevVerticalSpeed),
       horizontalAcceleration:
         10 * (10 * movementX - mouseRef.current.prevHorizontalSpeed),
@@ -90,7 +90,7 @@ const useMouseAcceleration = (): MouseAcceleration => {
       metrics.verticalSpeed === 0 &&
       metrics.horizontalSpeed === 0 &&
       metrics.acceleration === mouseMetrics.acceleration &&
-      metrics.verrticalAcceleration === mouseMetrics.verrticalAcceleration &&
+      metrics.verticalAcceleration === mouseMetrics.verticalAcceleration &&
       metrics.horizontalAcceleration === mouseMetrics.horizontalAcceleration
     ) {
       isCalculating.current = false;

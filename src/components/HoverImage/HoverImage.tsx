@@ -1,6 +1,10 @@
 "use client";
 import Portal from "@/components/Portal";
-import { useMouseAcceleration, useMouseIndexSwitcher } from "@/lib/hooks";
+import {
+  useBreakpoints,
+  useMouseAcceleration,
+  useMouseIndexSwitcher,
+} from "@/lib/hooks";
 import { AnimatePresence, motion, useSpring } from "framer-motion";
 import BackgroundVideo from "next-video/background-video";
 import { Asset } from "next-video/dist/assets.js";
@@ -16,6 +20,7 @@ const HoverImage = ({
   videos: Asset[] | undefined;
   children: React.ReactNode;
 }) => {
+  const breakpoints = useBreakpoints();
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef(null);
   const currIndex = useMouseIndexSwitcher(containerRef, images || videos || []);
@@ -57,11 +62,22 @@ const HoverImage = ({
       updateDelayed();
     };
     updateDelayed();
-    document.addEventListener("mousemove", handleMouseMove);
+    if (breakpoints.get({ xs: false, md: true })) {
+      document.addEventListener("mousemove", handleMouseMove);
+    }
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
+      if (breakpoints.get({ xs: false, md: true })) {
+        document.removeEventListener("mousemove", handleMouseMove);
+      }
     };
-  }, [xSpring, ySpring, delayedXSpring, delayedYSpring, updateDelayed]);
+  }, [
+    xSpring,
+    ySpring,
+    delayedXSpring,
+    delayedYSpring,
+    updateDelayed,
+    breakpoints,
+  ]);
 
   const variants = {
     enter: {

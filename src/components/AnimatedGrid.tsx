@@ -31,8 +31,8 @@ const AnimatedGrid = ({
               width: isXPadding ? paddingX : undefined,
               flex: isXPadding ? undefined : "1",
             }}
-            className={`bg-background border-b-foreground border-grid border-b-[1rem] ${
-              i < columns + 2 - 1 ? "border-r" : ""
+            className={`bg-background border-b-grid border-b ${
+              i < columns + 2 - 1 ? "border-r-grid border-r" : ""
             }`}
             initial={{ y: "0%" }}
             animate={{ y: animate ? "-100%" : "0%" }}

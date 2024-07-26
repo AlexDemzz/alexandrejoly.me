@@ -2,9 +2,11 @@
 import { Canvas } from "@react-three/fiber";
 import CursorWrapper from "./CursorWrapper";
 import Mesh from "./Mesh";
+import { useBreakpoints } from "@/lib/hooks";
 
 const Cursor = () => {
-  return (
+  const breakpoints = useBreakpoints();
+  return breakpoints.get({ xs: false, md: true }) ? (
     <CursorWrapper>
       {({
         isMoving,
@@ -30,6 +32,8 @@ const Cursor = () => {
         </Canvas>
       )}
     </CursorWrapper>
+  ) : (
+    <div />
   );
 };
 

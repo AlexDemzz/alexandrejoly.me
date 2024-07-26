@@ -3,27 +3,26 @@ import { useEffect, useState, useRef, useCallback } from "react";
 
 export default function useMouseIndexSwitcher(
   ref: React.RefObject<HTMLDivElement>,
-  arr: any[]
+  arr: any[],
+  distance: number = 100
 ) {
-  const DISTANCE = 300;
   const [currIndex, setCurrIndex] = useState(0);
-  const distance = useRef(0);
+  const currDistance = useRef(0);
   const lastMousePosition = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
-      console.log("move");
       const dx = event.clientX - lastMousePosition.current.x;
       const dy = event.clientY - lastMousePosition.current.y;
       const newDistance = Math.sqrt(dx * dx + dy * dy);
-      distance.current += newDistance;
-      if (distance.current >= DISTANCE) {
+      currDistance.current += newDistance;
+      if (currDistance.current >= distance) {
         setCurrIndex((prevIndex) => (prevIndex + 1) % arr.length);
-        distance.current -= DISTANCE;
+        currDistance.current -= distance;
       }
       lastMousePosition.current = { x: event.clientX, y: event.clientY };
     },
-    [lastMousePosition, arr]
+    [lastMousePosition, arr, distance]
   );
 
   useEffect(() => {
@@ -35,7 +34,7 @@ export default function useMouseIndexSwitcher(
     const handleMouseLeave = () => {
       console.log("leave");
       document.removeEventListener("mousemove", handleMouseMove);
-      distance.current = 0;
+      currDistance.current = 0;
     };
 
     const currentRef = ref.current;

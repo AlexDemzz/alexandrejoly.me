@@ -69,6 +69,12 @@
     }
   }
 
+  @layer utilities {
+    .cursor-none {
+      cursor: none !important;
+    }
+  }
+
   @layer base {
 
     .font-outline-2 {
@@ -79,7 +85,6 @@
 
     * {
       @apply border-border;
-      cursor:none!important;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
