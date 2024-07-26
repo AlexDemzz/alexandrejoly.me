@@ -18,3 +18,12 @@ export interface CursorWrapperProps {
     isMouseDown: boolean;
   }) => React.ReactNode;
 }
+
+export interface BreakpointsT {
+  xs?: any;
+  sm?: any;
+  md?: any;
+  lg?: any;
+  xl?: any;
+  "2xl"?: any;
+}

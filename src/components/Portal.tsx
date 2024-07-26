@@ -10,7 +10,9 @@ const Portal: React.FC<React.PropsWithChildren<{}>> = ({ children }) => {
     setPortalNode(node);
 
     return () => {
-      document.body.removeChild(node);
+      if (node && node.parentNode === document.body) {
+        document.body.removeChild(node);
+      }
     };
   }, []);
 
