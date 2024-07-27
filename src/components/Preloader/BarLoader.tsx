@@ -1,11 +1,5 @@
+import { animate, motion, useAnimation } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  animate,
-  motion,
-  useAnimation,
-  useMotionValue,
-  useTransform,
-} from "framer-motion";
 
 const BarLoader: React.FC<{
   percent: number;

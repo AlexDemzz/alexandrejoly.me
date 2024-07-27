@@ -5,10 +5,12 @@ import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
 import { INTRO } from "@/lib/constants";
 import { useApp } from "@/lib/hooks";
+import { useWindowSize } from "@uidotdev/usehooks";
 import { motion, useSpring } from "framer-motion";
 import { useEffect } from "react";
 
 const Hero = () => {
+  const { height } = useWindowSize();
   const [{ glassesMode }, setState] = useApp();
 
   const scale = useSpring(1);
@@ -18,6 +20,11 @@ const Hero = () => {
     scale.set(glassesMode ? 0.7 : 1);
     opacity.set(glassesMode ? 0.3 : 1);
   }, [glassesMode, scale, opacity]);
+
+  const fontSizeClass =
+    (height || 0) < 800
+      ? "text-7xl md:text-[12vw] 2xl:text-[150px]"
+      : "text-7xl md:text-[12vw] 2xl:text-[200px]";
 
   return (
     <div
@@ -32,7 +39,7 @@ const Hero = () => {
         setState((o) => ({ ...o, canEnabledGlassesMode: false }));
       }}
     >
-      <div className="w-full flex items-center justify-center ml-auto absolute top-0 left-0 right-0 left-0 bottom-0 z-10">
+      <div className="w-full flex items-center justify-center ml-auto absolute top-0 right-0 left-0 bottom-0 z-10">
         <MainBlob />
       </div>
       <motion.div
@@ -53,7 +60,7 @@ const Hero = () => {
           >
             <ParallaxItem range={[0, 200]}>
               <Trail
-                className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
+                className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={200}
               >
                 Creative
@@ -63,7 +70,7 @@ const Hero = () => {
           <div className="relative md:col-start-3 md:col-span-8">
             <ParallaxItem range={[0, 100]} speed={4}>
               <Trail
-                className="text-7xl md:text-[12vw] 2xl:text-[200px] font-black tracking-tighter leading-none select-none"
+                className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={400}
               >
                 Developer

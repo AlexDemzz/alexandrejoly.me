@@ -10,7 +10,7 @@ const GlassesButton = ({
   animate = true,
 }: {
   isMouseDown: boolean;
-  animate: boolean;
+  animate?: boolean;
 }) => {
   const [_, setState] = useApp();
   const mouseAcceleration = useMouseAcceleration();
@@ -31,10 +31,6 @@ const GlassesButton = ({
     };
     if (animate) handleMouseMove();
   }, [accel, mouseAcceleration, animate]);
-
-  const handleGlassClick = () => {
-    setState((o) => ({ ...o, glassesMode: !o.glassesMode }));
-  };
 
   const pressedStyle = { rotate: 10, scale: 1.2 };
 
