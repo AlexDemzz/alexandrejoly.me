@@ -14,8 +14,10 @@ const Header = () => {
           <AnimatedLink href="/" scroll={false}>
             <Logo />
           </AnimatedLink>
-          <div className="bg-foreground text-background font-mono text-sm font-bold px-1 hidden md:block">
-            GMT+2 {time.toString()}
+          <div className="absolute left-0 right-0 pointer-events-none flex items-center justify-center">
+            <div className="bg-foreground text-background font-mono text-sm font-bold px-1 hidden sm:inline-block">
+              GENEVA, {time.toString()}
+            </div>
           </div>
           <nav className="flex items-center gap-7">
             <AnimatedLink

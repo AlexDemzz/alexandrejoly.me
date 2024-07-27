@@ -57,7 +57,11 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
             transition={{ ...MOTION_TRANSITION }}
             className="h-full w-full flex items-center"
           >
-            <ParallaxItem className="w-full" overflow={false}>
+            <ParallaxItem
+              className="w-full"
+              overflow={false}
+              range={[-100, 100]}
+            >
               {videos && (
                 <BackgroundVideo
                   src={videos[currIndex]}

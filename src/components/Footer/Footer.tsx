@@ -15,7 +15,7 @@ const Footer = () => {
           <AnimatedLink href={`mailto:${EMAIL}`} className="font-semibold">
             {EMAIL}
           </AnimatedLink>
-          <div className="">French developer based in Switzerland.</div>
+          <div className="">French developer based in Geneva.</div>
         </div>
         <div className="col-span-4 md:col-span-2 flex flex-col gap-1">
           <AnimatedLink

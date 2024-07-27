@@ -5,9 +5,11 @@ import { useProjects } from "@/lib/hooks";
 import BackgroundVideo from "next-video/background-video";
 import Image from "next/image";
 import ProjectHero from "./ProjectHero";
+import useBreakpoint from "@/lib/hooks/useBreakpoints";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const projects = useProjects();
+  const breakpoints = useBreakpoint();
   const data = projects.find((p) => p.id === params.id) || projects[0];
   return (
     <div className="pt-4">
@@ -24,8 +26,8 @@ const Project = ({ params }: { params: { id: string } }) => {
                 >
                   <ParallaxItem
                     overflow={false}
-                    className="w-full "
-                    range={[50, -50]}
+                    className="w-full"
+                    range={breakpoints.get({ xs: [-20, 20], md: [50, -50] })}
                   >
                     <Image
                       alt=""

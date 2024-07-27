@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 
-const useLoadAssets = (assetPaths) => {
+interface Asset {
+  src?: string;
+  sources?: { src: string }[];
+}
+
+const useLoadAssets = (assetPaths: Asset[]): number => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -11,7 +16,7 @@ const useLoadAssets = (assetPaths) => {
       setProgress(Math.round((loadedCount / assetPaths.length) * 100));
     };
 
-    const loadImage = (src) => {
+    const loadImage = (src: string): Promise<void> => {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
@@ -26,7 +31,7 @@ const useLoadAssets = (assetPaths) => {
       });
     };
 
-    const loadVideo = (src) => {
+    const loadVideo = (src: string): Promise<void> => {
       return new Promise((resolve) => {
         const video = document.createElement("video");
         video.onloadeddata = () => {

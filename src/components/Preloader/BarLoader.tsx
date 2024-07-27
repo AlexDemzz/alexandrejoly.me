@@ -28,7 +28,7 @@ const BarLoader: React.FC<{
     });
   }, [percent, size, controls, onAnimationEnd]);
 
-  const nodeRef = useRef<React.RefObject<HTMLSpanElement>>();
+  const nodeRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const controls = animate(oldPercent, percent, {
@@ -42,7 +42,7 @@ const BarLoader: React.FC<{
       },
       ease: "easeOut",
       onUpdate(value) {
-        nodeRef.current.textContent = value.toFixed(0);
+        if (nodeRef.current) nodeRef.current.textContent = value.toFixed(0);
       },
     });
     return () => controls.stop();

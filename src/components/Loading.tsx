@@ -19,6 +19,35 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import BarLoader from "./Preloader/BarLoader";
 import { useThrottle } from "@uidotdev/usehooks";
 import { useLoadAssets } from "@/lib/hooks";
+import { motion } from "framer-motion";
+
+const CircleAnimation = () => {
+  const circleVariants = {
+    initial: { pathLength: 0 },
+    animate: {
+      pathLength: 0.75,
+      transition: { duration: 2, ease: "easeInOut" },
+    },
+  };
+
+  return (
+    <svg width="100" height="100" viewBox="0 0 200 200">
+      <motion.circle
+        cx="100"
+        cy="100"
+        r="90"
+        fill="transparent"
+        stroke="hsl(var(--foreground))"
+        strokeWidth="24"
+        strokeLinecap="round"
+        initial="initial"
+        animate="animate"
+        variants={circleVariants}
+        transform="rotate(-180 100 100)"
+      />
+    </svg>
+  );
+};
 
 const assetPaths = [
   SimplrIcons1,
@@ -43,9 +72,12 @@ const Loading = ({ onComplete }: { onComplete: () => void }) => {
     onComplete();
   };
   return (
-    <>
+    <div className="relative flex items-center">
+      {/* <div className="absolute ">
+        <CircleAnimation />
+      </div> */}
       <BarLoader percent={throttledValue} onAnimationEnd={handleAnimationEnd} />
-    </>
+    </div>
   );
 };
 

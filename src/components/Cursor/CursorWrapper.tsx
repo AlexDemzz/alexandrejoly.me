@@ -29,6 +29,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const mouseAcceleration = useMouseAcceleration();
   const pathname = usePathname();
+  const [hasMoved, setHasMoved] = useState(false);
 
   const size = useSpring(
     getWrapperSize({ isHover, isMouseDown }),
@@ -94,6 +95,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
+      setHasMoved(true);
       x.set(event.clientX);
       y.set(event.clientY);
       xSpring.set(event.clientX);
@@ -107,7 +109,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
 
   return (
     <>
-      {mouseAcceleration && (
+      {hasMoved && (
         <>
           <motion.div
             style={{
