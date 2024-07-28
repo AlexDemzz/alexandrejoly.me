@@ -17,7 +17,6 @@ import Simplr2 from "@/images/simplr-design-system/2.webp";
 import Simplr3 from "@/images/simplr-design-system/3.webp";
 
 import { useLoadAssets } from "@/lib/hooks";
-import { useThrottle } from "@uidotdev/usehooks";
 import { motion } from "framer-motion";
 import BarLoader from "./Preloader/BarLoader";
 
@@ -68,7 +67,6 @@ const assetPaths = [
 
 const Loading = ({ onComplete }: { onComplete: () => void }) => {
   const progress = useLoadAssets(assetPaths);
-  const throttledValue = useThrottle(progress, 1000);
   const handleAnimationEnd = () => {
     onComplete();
   };
@@ -77,7 +75,7 @@ const Loading = ({ onComplete }: { onComplete: () => void }) => {
       {/* <div className="absolute ">
         <CircleAnimation />
       </div> */}
-      <BarLoader percent={throttledValue} onAnimationEnd={handleAnimationEnd} />
+      <BarLoader percent={progress} onAnimationEnd={handleAnimationEnd} />
     </div>
   );
 };
