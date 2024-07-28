@@ -6,7 +6,7 @@ import {
   useMouseIndexSwitcher,
 } from "@/lib/hooks";
 import { AnimatePresence, motion, useSpring } from "framer-motion";
-import BackgroundVideo from "next-video/background-video";
+import Video from "next-video";
 import { Asset } from "next-video/dist/assets.js";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -127,7 +127,7 @@ const HoverImage = ({
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 {videos ? (
-                  <BackgroundVideo src={videos[currIndex]} />
+                  <Video src={videos[currIndex]} autoPlay />
                 ) : (
                   <Image
                     src={images ? images[currIndex] : ""}

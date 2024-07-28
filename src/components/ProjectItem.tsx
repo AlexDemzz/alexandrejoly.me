@@ -5,7 +5,7 @@ import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import BackgroundVideo from "next-video/background-video";
+import Video from "next-video";
 import { MOTION_TRANSITION } from "@/lib/constants";
 import { useMouseIndexSwitcher } from "@/lib/hooks";
 import { Project } from "@/lib/types";
@@ -63,7 +63,8 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               range={[-100, 100]}
             >
               {videos && (
-                <BackgroundVideo
+                <Video
+                  autoPlay
                   src={videos[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full pointer-events-none"
                 />
