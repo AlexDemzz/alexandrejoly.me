@@ -1,15 +1,20 @@
-import React, { VideoHTMLAttributes } from "react";
+import React, { useEffect, useRef, VideoHTMLAttributes } from "react";
+import BackgroundVideo from "next-video/background-video";
 
 interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string;
 }
 
 const Video: React.FC<VideoProps> = ({ src, ...rest }) => {
-  return (
-    <video {...rest} controls={false} loop autoPlay muted>
-      <source src={src} type="video/webm" />
-    </video>
-  );
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // useEffect(() => {
+  //   if (videoRef.current) {
+  //     videoRef.current.play();
+  //   }
+  // }, []);
+
+  return <BackgroundVideo src={src} {...rest} />;
 };
 
 export default Video;

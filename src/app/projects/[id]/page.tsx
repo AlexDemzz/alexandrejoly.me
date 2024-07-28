@@ -50,7 +50,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                 >
                   <ParallaxItem
                     overflow={false}
-                    className="w-full pointer-events-none"
+                    className="w-full"
                     range={[0, 0]}
                   >
                     <Video

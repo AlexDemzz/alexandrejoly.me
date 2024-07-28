@@ -62,7 +62,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               {videos && (
                 <Video
                   src={videos[currIndex]}
-                  className="object-cover h-[475px] md:h-[700px] w-full pointer-events-none"
+                  className="object-cover h-[475px] md:h-[700px] w-full"
                 />
               )}
               {images && !videos && (
