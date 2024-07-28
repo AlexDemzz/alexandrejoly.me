@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 const ScrollToDiscover = ({ data }: { data: Project }) => {
   const [ref, { height }] = useMeasure();
-  const foregroundRef = useRef(null);
+  const foregroundRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
   const [{ y }] = useWindowScroll();
