@@ -18,7 +18,7 @@ export default function Home() {
     <main>
       <Hero />
       <div className="container pt-24 md:py-32">
-        <div className="grid grid-cols-8">
+        <div className="grid grid-cols-1 md:grid-cols-8">
           <ParallaxItem
             range={[-20, 50]}
             speed={4}

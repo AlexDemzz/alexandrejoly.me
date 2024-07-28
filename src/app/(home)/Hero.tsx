@@ -23,8 +23,8 @@ const Hero = () => {
 
   const fontSizeClass =
     (height || 0) < 800
-      ? "text-7xl md:text-[12vw] 2xl:text-[150px]"
-      : "text-7xl md:text-[12vw] 2xl:text-[200px]";
+      ? "text-6xl md:text-[12vw] 2xl:text-[150px]"
+      : "text-6xl md:text-[12vw] 2xl:text-[200px]";
 
   return (
     <div
@@ -62,6 +62,7 @@ const Hero = () => {
               <Trail
                 className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={200}
+                split={""}
               >
                 Creative
               </Trail>
@@ -72,13 +73,14 @@ const Hero = () => {
               <Trail
                 className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={400}
+                split={""}
               >
                 Developer
               </Trail>
             </ParallaxItem>
           </div>
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-8 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-8 mt-10 md:mt-20">
           <TagIndicator
             tag="p"
             position="top"

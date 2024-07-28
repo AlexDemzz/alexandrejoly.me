@@ -1,4 +1,3 @@
-"use client";
 import Marquee from "@/components/Marquee";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
@@ -6,9 +5,9 @@ import { Project } from "@/lib/types";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 const ProjectHero = ({ data }: { data: Project }) => {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, 1000]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 800], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 800], [1, 0]);
 
   return (
     <motion.div style={{ y, opacity }}>
@@ -16,7 +15,7 @@ const ProjectHero = ({ data }: { data: Project }) => {
         <div className="text-8xl lg:text-[13rem] font-black tracking-tighter leading-none uppercase overflow-hidden">
           <Marquee>
             <h1 className="mr-8 inline">{data.title}</h1>
-            <span className="font-outline-2" aria-hidden="true">
+            <span className="font-outline-2 text-background" aria-hidden="true">
               {data.title}
             </span>
           </Marquee>

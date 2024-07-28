@@ -1,16 +1,22 @@
 "use client";
 import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
-import { useProjects } from "@/lib/hooks";
+import { useBreakpoints, useProjects } from "@/lib/hooks";
 import BackgroundVideo from "next-video/background-video";
 import Image from "next/image";
 import ProjectHero from "./ProjectHero";
-import useBreakpoint from "@/lib/hooks/useBreakpoints";
+import Trail from "@/components/Trail";
+import ScrollToDiscover from "./ScrollToDiscover";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const projects = useProjects();
-  const breakpoints = useBreakpoint();
+  const breakpoints = useBreakpoints();
   const data = projects.find((p) => p.id === params.id) || projects[0];
+  const nextProjectIndex = projects.findIndex((p) => p.id === data.id);
+  const nextProject = projects[nextProjectIndex + 1] || {
+    id: "/",
+    title: "Home",
+  };
   return (
     <div className="pt-4">
       <div className="py-24">
@@ -58,6 +64,7 @@ const Project = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
+        <ScrollToDiscover data={nextProject} />
       </div>
     </div>
   );

@@ -14,12 +14,12 @@ import Yoojo4 from "@/images/yoojo/4.webp";
 
 import Simplr1 from "@/images/simplr-design-system/1.webp";
 import Simplr2 from "@/images/simplr-design-system/2.webp";
+import Simplr3 from "@/images/simplr-design-system/3.webp";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import BarLoader from "./Preloader/BarLoader";
-import { useThrottle } from "@uidotdev/usehooks";
 import { useLoadAssets } from "@/lib/hooks";
+import { useThrottle } from "@uidotdev/usehooks";
 import { motion } from "framer-motion";
+import BarLoader from "./Preloader/BarLoader";
 
 const CircleAnimation = () => {
   const circleVariants = {
@@ -63,6 +63,7 @@ const assetPaths = [
   Yoojo4,
   Simplr1,
   Simplr2,
+  Simplr3,
 ];
 
 const Loading = ({ onComplete }: { onComplete: () => void }) => {

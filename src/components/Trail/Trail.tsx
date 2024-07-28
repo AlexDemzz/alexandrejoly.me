@@ -9,15 +9,17 @@ const Trail = ({
   delay = 0,
   noSplit = false,
   as: Component = "div",
+  split = /(\s+)/,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   noSplit?: boolean;
+  split?: RegExp | string;
   as?: keyof JSX.IntrinsicElements | React.ElementType;
 }) => {
   const items = React.Children.toArray(
-    noSplit || typeof children !== "string" ? children : children.split(/(\s+)/)
+    noSplit || typeof children !== "string" ? children : children.split(split)
   );
   const tempRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);

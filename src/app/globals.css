@@ -70,18 +70,36 @@
   }
 
   @layer utilities {
-    .cursor-none {
+    .cursor-none * {
       cursor: none !important;
+    }
+    
+    .font-outline-2 {
+      text-shadow: 3px 3px 0 hsl(var(--foreground)), -3px -3px 0 hsl(var(--foreground)), 3px -3px 0 hsl(var(--foreground)), -3px 3px 0 hsl(var(--foreground)), 3px 3px 0 hsl(var(--foreground));
+   }
+
+   .font-outline-1 {
+      text-shadow: 1px 1px 0 hsl(var(--foreground)), -1px -1px 0 hsl(var(--foreground)), 1px -1px 0 hsl(var(--foreground)), -1px 1px 0 hsl(var(--foreground)), 1px 1px 0 hsl(var(--foreground));
+    } 
+
+    .font-outline-2-grid {
+      text-shadow: 3px 3px 0 hsl(var(--grid)), -3px -3px 0 hsl(var(--grid)), 3px -3px 0 hsl(var(--grid)), -3px 3px 0 hsl(var(--grid)), 3px 3px 0 hsl(var(--grid));
+    }
+
+   .font-outline-1-grid {
+      text-shadow: 1px 1px 0 hsl(var(--grid)), -1px -1px 0 hsl(var(--grid)), 1px -1px 0 hsl(var(--grid)), -1px 1px 0 hsl(var(--grid)), 1px 1px 0 hsl(var(--grid));
+    } 
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
 
   @layer base {
-
-    .font-outline-2 {
-       text-shadow: 3px 3px 0 hsl(var(--foreground)), -3px -3px 0 hsl(var(--foreground)), 3px -3px 0 hsl(var(--foreground)), -3px 3px 0 hsl(var(--foreground)), 3px 3px 0 hsl(var(--foreground));
-      /* -webkit-text-stroke: 2px hsl(var(--foreground)); */
-      color: hsl(var(--background));
-    }
 
     * {
       @apply border-border;
