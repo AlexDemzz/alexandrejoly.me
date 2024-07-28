@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useLoadAssets = (assetPaths) => {
+const useLoadAssets = (assetPaths: any) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -11,8 +11,8 @@ const useLoadAssets = (assetPaths) => {
       setProgress(Math.round((loadedCount / assetPaths.length) * 100));
     };
 
-    const loadImage = (src) => {
-      return new Promise((resolve) => {
+    const loadImage = (src: string) => {
+      return new Promise<void>((resolve) => {
         const img = new Image();
         img.onload = () => {
           updateProgress();
@@ -20,14 +20,14 @@ const useLoadAssets = (assetPaths) => {
         };
         img.onerror = () => {
           updateProgress();
-          resolve(); // Consider error as a complete load to avoid blocking
+          resolve();
         };
         img.src = src;
       });
     };
 
-    const loadVideo = (src) => {
-      return new Promise((resolve) => {
+    const loadVideo = (src: string) => {
+      return new Promise<void>((resolve) => {
         const video = document.createElement("video");
         video.onloadeddata = () => {
           updateProgress();
@@ -35,14 +35,14 @@ const useLoadAssets = (assetPaths) => {
         };
         video.onerror = () => {
           updateProgress();
-          resolve(); // Consider error as a complete load to avoid blocking
+          resolve();
         };
         video.src = src;
       });
     };
 
     const loadAssets = async () => {
-      const promises = assetPaths.map((asset) => {
+      const promises = assetPaths.map((asset: any) => {
         if (asset.src) {
           return loadImage(asset.src);
         } else if (
