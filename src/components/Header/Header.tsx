@@ -4,6 +4,7 @@ import { useTime } from "@/lib/hooks";
 import Link from "next/link";
 import Logo from "../Logo";
 import TagIndicator from "../TagIndicator";
+import { EMAIL } from "@/lib/constants";
 
 const Header = () => {
   const time = useTime();
@@ -21,7 +22,7 @@ const Header = () => {
           </div>
           <nav className="flex items-center gap-7">
             <AnimatedLink
-              href="/contact"
+              href={`mailto:${EMAIL}`}
               className="uppercase font-bold md:text-base"
             >
               Contact
