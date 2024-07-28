@@ -7,6 +7,9 @@ import {
   motion,
   useTransform,
   useMotionValueEvent,
+  animate,
+  AnimateSharedLayout,
+  useSpring,
 } from "framer-motion";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +22,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
   const { scrollYProgress } = useScroll({ container: scrollContainerRef });
   const motionHeight = useTransform(scrollYProgress, [0, 1], [0, height]);
   const router = useRouter();
+  const scale = useSpring(1);
 
   useEffect(() => {
     console.log("y", y);
@@ -37,21 +41,26 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
   }, [y, height]);
 
   useMotionValueEvent(motionHeight, "change", (latest) => {
-    console.log("latest", { latest, height });
     if (latest === height) {
-      router.push(data.id, { scroll: false });
+      animate(scale, [1, 1.2, 1], {
+        duration: 0.1,
+        ease: "backInOut",
+        onComplete: () => {
+          router.push(data.id, { scroll: false });
+        },
+      });
     }
   });
 
   return (
     <div className="container pt-20 flex items-center justify-center flex-col">
       <Trail className="font-bold text-3xl">SCROLL TO DISCOVER</Trail>
-      <div className="relative flex items-center justify-center">
+      <motion.div
+        className="relative flex items-center justify-center "
+        style={{ scale: scale }}
+      >
         <div className="text-[8vw] font-black leading-none uppercase overflow-hidden text-center">
-          <Trail
-            className="font-outline-1-grid text-background"
-            aria-hidden="true"
-          >
+          <Trail className="font-outline-1 text-background" aria-hidden="true">
             {data.title}
           </Trail>
         </div>
@@ -67,7 +76,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
             <Trail aria-hidden="true">{data.title}</Trail>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
       <div
         ref={scrollContainerRef}
         className="fixed bottom-0 left-0 right-0 h-[100vh] overflow-y-scroll scroll no-scrollbar"
