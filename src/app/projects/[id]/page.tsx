@@ -51,12 +51,12 @@ const Project = ({ params }: { params: { id: string } }) => {
                 >
                   <ParallaxItem
                     overflow={false}
-                    className="w-full"
+                    className="w-full pointer-events-none"
                     range={[0, 0]}
                   >
                     <BackgroundVideo
                       src={src}
-                      className="w-full object-cover h-[400px] sm:h-full"
+                      className="w-full object-cover h-[400px] sm:h-full "
                     />
                   </ParallaxItem>
                 </TagIndicator>

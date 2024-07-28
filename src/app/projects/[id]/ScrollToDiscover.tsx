@@ -54,12 +54,14 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
 
   return (
     <div className="container pt-20 flex items-center justify-center flex-col">
-      <Trail className="font-bold text-3xl">SCROLL TO DISCOVER</Trail>
+      <Trail className="font-bold text-lg md:text-3xl uppercase">
+        Scroll to discover
+      </Trail>
       <motion.div
         className="relative flex items-center justify-center "
         style={{ scale: scale }}
       >
-        <div className="text-[8vw] font-black leading-none uppercase overflow-hidden text-center">
+        <div className="text-6xl md:text-[8vw] font-black leading-none uppercase overflow-hidden text-center">
           <Trail className="font-outline-1 text-background" aria-hidden="true">
             {data.title}
           </Trail>
@@ -71,7 +73,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
         >
           <div
             ref={ref}
-            className="text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center"
+            className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center"
           >
             <Trail aria-hidden="true">{data.title}</Trail>
           </div>

@@ -1,10 +1,8 @@
 "use client";
 import AnimatedLink from "@/components/AnimatedLink";
-import { useTime } from "@/lib/hooks";
-import Link from "next/link";
-import Logo from "../Logo";
-import TagIndicator from "../TagIndicator";
 import { EMAIL } from "@/lib/constants";
+import { useTime } from "@/lib/hooks";
+import Logo from "../Logo";
 
 const Header = () => {
   const time = useTime();

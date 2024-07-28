@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 const useColumns = () => {
   const [columns, setColumns] = useState(8);
@@ -8,7 +8,7 @@ const useColumns = () => {
     setColumns(window.innerWidth >= 768 ? 8 : 4);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
