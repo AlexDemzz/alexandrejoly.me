@@ -12,11 +12,12 @@ import {
   useSpring,
 } from "framer-motion";
 import { useRouter } from "next/navigation";
+import AnimatedLink from "@/components/AnimatedLink";
 
 const ScrollToDiscover = ({ data }: { data: Project }) => {
   const [ref, { height }] = useMeasure();
   const foregroundRef = useRef<HTMLDivElement>(null);
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
   const [{ y }] = useWindowScroll();
   const { scrollYProgress } = useScroll({ container: scrollContainerRef });
@@ -25,8 +26,8 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
   const scale = useSpring(1);
 
   useEffect(() => {
-    console.log("y", y);
     if (y) {
+      if (scrollContainerRef.current) scrollContainerRef.current.scrollTo(0, 0);
       const viewportHeight = window.innerHeight;
       const documentHeight = document.documentElement.scrollHeight;
       if (viewportHeight + y >= documentHeight) {
@@ -54,39 +55,54 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
 
   return (
     <div className="container pt-20 flex items-center justify-center flex-col">
-      <Trail className="font-bold text-lg md:text-3xl uppercase">
-        Scroll to discover
-      </Trail>
-      <motion.div
-        className="relative flex items-center justify-center "
-        style={{ scale: scale }}
-      >
-        <div className="text-6xl md:text-[8vw] font-black leading-none uppercase overflow-hidden text-center">
-          <Trail className="font-outline-1 text-background" aria-hidden="true">
-            {data.title}
-          </Trail>
-        </div>
+      <div className="hidden md:flex flex-col items-center">
+        <Trail className="font-bold text-lg md:text-3xl uppercase">
+          Scroll to discover
+        </Trail>
         <motion.div
-          className="absolute top-0 left-0 right-0 overflow-hidden"
-          style={{ height: motionHeight }}
-          ref={foregroundRef}
+          className="relative flex items-center justify-center "
+          style={{ scale: scale }}
         >
-          <div
-            ref={ref}
-            className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center"
-          >
-            <Trail aria-hidden="true">{data.title}</Trail>
+          <div className="text-6xl md:text-[8vw] font-black leading-none uppercase overflow-hidden text-center">
+            <Trail
+              className="font-outline-1 text-background"
+              aria-hidden="true"
+            >
+              {data.title}
+            </Trail>
           </div>
+          <motion.div
+            className="absolute top-0 left-0 right-0 overflow-hidden"
+            style={{ height: motionHeight }}
+            ref={foregroundRef}
+          >
+            <div
+              ref={ref}
+              className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center"
+            >
+              <Trail aria-hidden="true">{data.title}</Trail>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
-      <div
-        ref={scrollContainerRef}
-        className="fixed bottom-0 left-0 right-0 h-[100vh] overflow-y-scroll scroll no-scrollbar"
-        style={{
-          pointerEvents: isAtBottom ? "auto" : "none",
-        }}
-      >
-        <div style={{ height: "200vh" }} />
+        <div
+          ref={scrollContainerRef}
+          className="fixed bottom-0 left-0 right-0 h-[100vh] overflow-y-scroll scroll no-scrollbar"
+          style={{
+            pointerEvents: isAtBottom ? "auto" : "none",
+          }}
+        >
+          <div style={{ height: "200vh" }} />
+        </div>
+      </div>
+      <div className="flex md:hidden flex-col items-center">
+        <Trail className="font-bold text-lg md:text-3xl uppercase">
+          Next project
+        </Trail>
+        <div className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center">
+          <AnimatedLink href={data.id}>
+            <Trail aria-hidden="true">{data.title}</Trail>
+          </AnimatedLink>
+        </div>
       </div>
     </div>
   );
