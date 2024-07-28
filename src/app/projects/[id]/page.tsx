@@ -2,10 +2,8 @@
 import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
 import { useBreakpoints, useProjects } from "@/lib/hooks";
-import Video from "next-video";
 import Image from "next/image";
 import ProjectHero from "./ProjectHero";
-import Trail from "@/components/Trail";
 import ScrollToDiscover from "./ScrollToDiscover";
 
 const Project = ({ params }: { params: { id: string } }) => {
@@ -54,8 +52,9 @@ const Project = ({ params }: { params: { id: string } }) => {
                     className="w-full pointer-events-none"
                     range={[0, 0]}
                   >
-                    <Video
+                    <video
                       autoPlay
+                      loop
                       src={src}
                       className="w-full object-cover h-[400px] sm:h-full "
                     />

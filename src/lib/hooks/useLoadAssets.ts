@@ -1,11 +1,6 @@
 import { useState, useEffect } from "react";
 
-interface Asset {
-  src?: string;
-  sources?: { src: string }[];
-}
-
-const useLoadAssets = (assetPaths: Asset[]): number => {
+const useLoadAssets = (assetPaths) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -16,7 +11,7 @@ const useLoadAssets = (assetPaths: Asset[]): number => {
       setProgress(Math.round((loadedCount / assetPaths.length) * 100));
     };
 
-    const loadImage = (src: string): Promise<void> => {
+    const loadImage = (src) => {
       return new Promise((resolve) => {
         const img = new Image();
         img.onload = () => {
@@ -31,7 +26,7 @@ const useLoadAssets = (assetPaths: Asset[]): number => {
       });
     };
 
-    const loadVideo = (src: string): Promise<void> => {
+    const loadVideo = (src) => {
       return new Promise((resolve) => {
         const video = document.createElement("video");
         video.onloadeddata = () => {
@@ -49,19 +44,15 @@ const useLoadAssets = (assetPaths: Asset[]): number => {
     const loadAssets = async () => {
       const promises = assetPaths.map((asset) => {
         if (asset.src) {
-          if (
-            asset.src.endsWith(".webm") ||
-            asset.src.endsWith(".mp4") ||
-            asset.src.endsWith(".m3u8")
-          ) {
-            return loadVideo(asset.src);
-          } else {
-            return loadImage(asset.src);
-          }
-        } else if (asset.sources && asset.sources[0].src) {
-          return loadVideo(asset.sources[0].src);
+          return loadImage(asset.src);
+        } else if (
+          asset.endsWith(".webm") ||
+          asset.endsWith(".mkv") ||
+          asset.endsWith(".mp4")
+        ) {
+          return loadVideo(asset.src);
         }
-        return Promise.resolve(); // Skip if no src or sources are found
+        return Promise.resolve();
       });
 
       await Promise.all(promises);

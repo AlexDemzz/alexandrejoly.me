@@ -1,16 +1,12 @@
 "use client";
+import { MOTION_TRANSITION } from "@/lib/constants";
+import useBreakpoint from "@/lib/hooks/useBreakpoints";
+import { motion } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
+import { useRef, useState } from "react";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
-import { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import Video from "next-video";
-import { MOTION_TRANSITION } from "@/lib/constants";
-import { useMouseIndexSwitcher } from "@/lib/hooks";
-import { Project } from "@/lib/types";
-import { Asset } from "next-video/dist/assets.js";
-import useBreakpoint from "@/lib/hooks/useBreakpoints";
 
 interface ProjectItemProps {
   title: string;
@@ -19,7 +15,7 @@ interface ProjectItemProps {
   className?: string;
   id: string;
   images?: StaticImageData[];
-  videos?: Asset[];
+  videos?: string[];
   reverse?: boolean;
 }
 
@@ -63,7 +59,8 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               range={[-100, 100]}
             >
               {videos && (
-                <Video
+                <video
+                  loop
                   autoPlay
                   src={videos[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full pointer-events-none"
