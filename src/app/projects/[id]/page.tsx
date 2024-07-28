@@ -5,6 +5,7 @@ import { useBreakpoints, useProjects } from "@/lib/hooks";
 import Image from "next/image";
 import ProjectHero from "./ProjectHero";
 import ScrollToDiscover from "./ScrollToDiscover";
+import Video from "@/components/Video";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const projects = useProjects();
@@ -52,9 +53,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                     className="w-full pointer-events-none"
                     range={[0, 0]}
                   >
-                    <video
-                      autoPlay
-                      loop
+                    <Video
                       src={src}
                       className="w-full object-cover h-[400px] sm:h-full "
                     />

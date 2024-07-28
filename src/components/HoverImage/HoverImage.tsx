@@ -8,6 +8,7 @@ import {
 import { AnimatePresence, motion, useSpring } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import Video from "../Video";
 
 const HoverImage = ({
   images,
@@ -125,7 +126,7 @@ const HoverImage = ({
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 {videos ? (
-                  <video autoPlay src={videos[currIndex]} loop />
+                  <Video src={videos[currIndex]} className="object-fill" />
                 ) : (
                   <Image
                     src={images ? images[currIndex] : ""}

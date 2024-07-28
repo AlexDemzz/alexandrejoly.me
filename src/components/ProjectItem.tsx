@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
+import Video from "./Video";
 
 interface ProjectItemProps {
   title: string;
@@ -59,9 +60,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               range={[-100, 100]}
             >
               {videos && (
-                <video
-                  loop
-                  autoPlay
+                <Video
                   src={videos[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full pointer-events-none"
                 />
