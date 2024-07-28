@@ -1,5 +1,6 @@
 "use client";
 import { useApp, useMouseAcceleration } from "@/lib/hooks";
+import useDeviceMotion from "@/lib/hooks/useDeviceMotion";
 import { a, animated, config, useSpring, to } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
@@ -18,9 +19,21 @@ const Mesh = () => {
   const [{ glassesMode }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const mouseAcceleration = useMouseAcceleration();
+  const deviceMotion = useDeviceMotion();
   const myMesh = useRef<MeshType>(null);
   const { gl, scene, camera, size } = useThree();
   const effect = useRef<AnaglyphEffect | null>(null);
+
+  const horizontalDirection =
+    mouseAcceleration.horizontalDirection || deviceMotion.horizontalDirection;
+  const horizontalSpeed =
+    mouseAcceleration.horizontalSpeed || deviceMotion.horizontalSpeed;
+  const verticalDirection =
+    mouseAcceleration.verticalDirection || deviceMotion.verticalDirection;
+  const verticalSpeed =
+    mouseAcceleration.verticalSpeed || deviceMotion.verticalSpeed;
+  const acceleration =
+    mouseAcceleration.acceleration || deviceMotion.acceleration;
 
   const [springProps, api] = useSpring(() => ({
     scale: 0.5 * glassesModeMultiplier,
@@ -31,21 +44,11 @@ const Mesh = () => {
     scaleX: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
     scaleY: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
     scaleZ: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
-    x:
-      (mouseAcceleration.horizontalDirection *
-        mouseAcceleration.horizontalSpeed) /
-      1000,
-    y:
-      (mouseAcceleration.verticalDirection *
-        -1 *
-        mouseAcceleration.verticalSpeed) /
-      1000,
+    x: (horizontalDirection * horizontalSpeed) / 1000,
+    y: (verticalDirection * -1 * verticalSpeed) / 1000,
     distort: mouseDown
       ? 0.9
-      : Math.min(
-          Math.max((mouseAcceleration.acceleration / 100) * 1 + 0.3, 0.3),
-          1
-        ),
+      : Math.min(Math.max((acceleration / 100) * 1 + 0.3, 0.3), 1),
     rotation: to([0, Math.PI, 0], (x, y, z) => [x, y, z]),
     config: config.molasses,
     loop: { reverse: true },
