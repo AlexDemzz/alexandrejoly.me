@@ -5,7 +5,7 @@ interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string;
 }
 
-const Video: React.FC<VideoProps> = ({ src, ...rest }) => {
+const Video: React.FC<VideoProps> = ({ src, className }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // useEffect(() => {
@@ -14,7 +14,7 @@ const Video: React.FC<VideoProps> = ({ src, ...rest }) => {
   //   }
   // }, []);
 
-  return <BackgroundVideo src={src} {...rest} />;
+  return <BackgroundVideo src={src} className={className} />;
 };
 
 export default Video;
