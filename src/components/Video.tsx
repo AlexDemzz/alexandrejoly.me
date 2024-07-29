@@ -18,7 +18,14 @@ const Video: React.FC<VideoProps> = ({ src, className }) => {
         disablePictureInPicture
         width="100%"
         height="100%"
-        url={src}
+        config={{
+          file: {
+            attributes: {
+              style: { height: "100%", objectFit: "cover" },
+            },
+          },
+        }}
+        url={[{ src, type: "video/webm" }]}
       ></ReactPlayer>
     </div>
   );
