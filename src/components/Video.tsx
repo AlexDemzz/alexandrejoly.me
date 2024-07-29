@@ -1,5 +1,5 @@
 import React, { VideoHTMLAttributes } from "react";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 
 interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string;
