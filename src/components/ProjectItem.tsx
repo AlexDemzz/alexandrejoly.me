@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
 import Video from "./Video";
+import { Asset } from "next-video/dist/assets.js";
 
 interface ProjectItemProps {
   title: string;
@@ -16,7 +17,7 @@ interface ProjectItemProps {
   className?: string;
   id: string;
   images?: StaticImageData[];
-  videos?: string[];
+  videos?: Asset[] | string[];
   reverse?: boolean;
 }
 
