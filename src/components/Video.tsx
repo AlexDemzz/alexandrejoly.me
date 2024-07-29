@@ -1,14 +1,23 @@
 import React, { VideoHTMLAttributes } from "react";
-import BackgroundVideo from "next-video/background-video";
-import { Asset } from "next-video/dist/assets.js";
 
-interface VideoProps {
-  src: Asset | string;
-  className?: string;
+interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
+  src: string;
 }
 
-const Video = ({ src, className }: VideoProps) => {
-  return <div>{/* <BackgroundVideo className={className} src={src} /> */}</div>;
+const Video: React.FC<VideoProps> = ({ src, ...rest }) => {
+  return (
+    <video
+      {...rest}
+      controls={false}
+      loop
+      autoPlay
+      muted
+      playsInline
+      disablePictureInPicture
+    >
+      <source src={src} type="video/webm" />
+    </video>
+  );
 };
 
 export default Video;
