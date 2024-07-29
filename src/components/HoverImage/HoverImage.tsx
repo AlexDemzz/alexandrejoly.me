@@ -9,6 +9,7 @@ import { AnimatePresence, motion, useSpring } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Video from "../Video";
+import { Asset } from "next-video/dist/assets.js";
 
 const HoverImage = ({
   images,
@@ -16,7 +17,7 @@ const HoverImage = ({
   children,
 }: {
   images: StaticImageData[] | undefined;
-  videos: string[] | undefined;
+  videos: Asset[] | string[] | undefined;
   children: React.ReactNode;
 }) => {
   const breakpoints = useBreakpoints();

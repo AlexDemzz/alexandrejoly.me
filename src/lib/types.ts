@@ -1,3 +1,4 @@
+import { Asset } from "next-video/dist/assets.js";
 import { StaticImageData } from "next/image";
 
 export interface Project {
@@ -7,7 +8,7 @@ export interface Project {
   tags?: string[];
   date?: string;
   images?: StaticImageData[];
-  videos?: string[];
+  videos?: Asset[] | string[];
 }
 
 export interface CursorWrapperProps {
