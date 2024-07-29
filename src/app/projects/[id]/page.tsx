@@ -65,10 +65,12 @@ const Project = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        {breakpoints.get({
-          xs: <GoNext data={nextProject} />,
-          md: <ScrollToDiscover data={nextProject} />,
-        })}
+        <div className="container pt-20 flex items-center justify-center flex-col">
+          {breakpoints.get({
+            xs: <GoNext data={nextProject} />,
+            md: <ScrollToDiscover data={nextProject} />,
+          })}
+        </div>
       </div>
     </div>
   );

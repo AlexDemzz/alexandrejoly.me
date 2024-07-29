@@ -4,7 +4,7 @@ import { Project } from "@/lib/types";
 
 const GoNext = ({ data }: { data: Project }) => {
   return (
-    <div className="flex md:hidden flex-col items-center">
+    <div className="flex flex-col items-center">
       <Trail className="font-bold text-lg md:text-3xl uppercase">
         {data.id !== "/" ? "Next project" : "Back to"}
       </Trail>
