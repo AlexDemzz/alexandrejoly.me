@@ -27,12 +27,10 @@ export default function useMouseIndexSwitcher(
 
   useEffect(() => {
     const handleMouseEnter = () => {
-      console.log("enter");
       document.addEventListener("mousemove", handleMouseMove);
     };
 
     const handleMouseLeave = () => {
-      console.log("leave");
       document.removeEventListener("mousemove", handleMouseMove);
       currDistance.current = 0;
     };
