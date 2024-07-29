@@ -8,6 +8,10 @@ import Yoojo2 from "@/images/yoojo/2.webp";
 import Yoojo3 from "@/images/yoojo/3.webp";
 import Yoojo4 from "@/images/yoojo/4.webp";
 
+import Portfolio1 from "/videos/1.webm";
+import Portfolio2 from "/videos/2.webm";
+import Portfolio3 from "/videos/3.webm";
+
 import Simplr1 from "@/images/simplr-design-system/1.webp";
 import Simplr2 from "@/images/simplr-design-system/2.webp";
 import Simplr3 from "@/images/simplr-design-system/3.webp";
@@ -48,7 +52,7 @@ export default function useProjects() {
         "In 2018, I created one of my first React.js projects to showcase my skills in UI/UX design and react.js development.",
       tags: ["React.js", "Visual Identity", "UI/UX Design"],
       date: "2018",
-      videos: ["/1.webm", "/2.webm", "/3.webm"],
+      videos: [Portfolio1, Portfolio2, Portfolio3],
     },
   ];
 }
