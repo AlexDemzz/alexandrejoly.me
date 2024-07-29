@@ -32,6 +32,7 @@ const AnimatedGrid = ({
             style={{
               width: isXPadding ? paddingX : undefined,
               flex: isXPadding ? undefined : "1",
+              willChange: "transform",
             }}
             className={`bg-background border-b-grid border-b ${
               i < columns + 2 - 1 ? "border-r-grid border-r" : ""
