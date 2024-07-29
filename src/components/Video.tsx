@@ -6,7 +6,7 @@ interface VideoProps extends HTMLDivElement {
   src: Asset | string;
 }
 
-const Video: React.FC<VideoProps> = ({ src, className }) => {
+const Video = ({ src, className }: VideoProps) => {
   return (
     <div>
       <BackgroundVideo className={className} src={src} />
