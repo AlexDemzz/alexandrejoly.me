@@ -43,7 +43,10 @@ const Trail = ({
   return (
     <Component ref={inViewRef}>
       {/* Temp element to measure height */}
-      <span ref={tempRef} className={`invisible absolute ${className}`}>
+      <span
+        ref={tempRef}
+        className={`invisible absolute whitespace-nowrap w-full overflow-hidden top-0 right-0 left-0 -z-50 ${className}`}
+      >
         {items[0]}
       </span>
       {!height && <span className={`${className} opacity-0`}>{items[0]}</span>}
