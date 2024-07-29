@@ -36,18 +36,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
         onExitComplete={() => setExitComplete(true)}
       >
         <motion.div key={pathname}>
-          <AnimatedGrid />
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 1 }}
-            transition={{ duration: 0.8, ease: [0.27, 0.94, 0.48, 1.0] }}
+          <AnimatedGrid
             onAnimationStart={() => {
               setExitComplete(false);
             }}
-          >
-            <FrozenRouter>{children}</FrozenRouter>
-          </motion.div>
+          />
+          <FrozenRouter>{children}</FrozenRouter>
         </motion.div>
       </AnimatePresence>
     </>

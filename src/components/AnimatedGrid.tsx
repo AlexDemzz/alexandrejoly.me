@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 const AnimatedGrid = ({
   animate = true,
   onAnimationEnd = () => undefined,
+  onAnimationStart = () => undefined,
 }: {
   animate?: boolean;
   onAnimationEnd?: () => void;
+  onAnimationStart?: () => void;
 }) => {
   const [paddingX, setPaddingX] = useState("3rem");
   const columns = useColumns();
@@ -39,6 +41,11 @@ const AnimatedGrid = ({
             exit={{ y: "0%" }}
             transition={{ delay: i * 0.03, tension: 180, friction: 12 }}
             key={`grid-elem-${i}`}
+            onAnimationStart={() => {
+              if (i === 0) {
+                onAnimationStart();
+              }
+            }}
             onAnimationEnd={() => {
               if (i === arr.length - 1) {
                 onAnimationEnd();
