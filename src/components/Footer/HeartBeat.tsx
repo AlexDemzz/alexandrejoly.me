@@ -29,6 +29,7 @@ const HeartBeat = () => {
       }
     };
     startBeat();
+    return () => controls.stop();
   }, [controls]);
 
   return (

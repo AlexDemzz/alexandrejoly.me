@@ -5,11 +5,8 @@ interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
 }
 
 const Video: React.FC<VideoProps> = ({ src, ...rest }) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
   return (
     <video
-      ref={videoRef}
       {...rest}
       controls={false}
       loop

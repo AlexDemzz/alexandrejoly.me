@@ -26,6 +26,7 @@ const BarLoader: React.FC<{
       width: `${percent > 0 ? (percent / 100) * size : 0}px`,
       transition: { duration: 0.4, ease: "easeInOut" },
     });
+    return () => controls.stop();
   }, [percent, size, controls, onAnimationEnd]);
 
   const nodeRef = useRef<HTMLSpanElement>(null);

@@ -37,6 +37,7 @@ const Marquee: React.FC<MarqueeProps> = ({ children }) => {
         },
       },
     });
+    return () => controls.stop();
   }, [controls, duration]);
 
   return (
