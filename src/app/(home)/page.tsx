@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <main>
-      {/* <Hero /> */}
+      <Hero />
       <div className="container pt-24 md:py-32">
         <div className="grid grid-cols-1 md:grid-cols-8">
           <ParallaxItem

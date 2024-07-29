@@ -55,7 +55,7 @@ const Mesh = () => {
   return (
     <>
       <a.mesh ref={myMesh} scale={springProps.scale}>
-        <torusGeometry args={[1, 0.2, 16, 100]} />
+        <torusGeometry args={[1, 0.2, 16, 50]} />
         <MeshWobbleMaterial
           attach="material"
           color={theme === "dark" ? "white" : "black"}

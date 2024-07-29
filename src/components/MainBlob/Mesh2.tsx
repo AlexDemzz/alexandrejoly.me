@@ -90,7 +90,7 @@ const Mesh = () => {
         scale-y={springProps.scale}
         scale-z={springProps.scale}
       >
-        <sphereGeometry args={[1, 0.2, 16, 100]} />
+        <sphereGeometry args={[1, 0.2, 16, 50]} />
         <AnimatedMaterial
           attach="material"
           color={theme === "dark" ? "white" : "black"}
