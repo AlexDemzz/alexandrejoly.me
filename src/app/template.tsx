@@ -34,12 +34,12 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AnimatePresence
-        mode="popLayout"
+        mode="wait"
         initial={false}
         onExitComplete={() => setExitComplete(true)}
       >
         <motion.div key={pathname}>
-          <AnimatedGrid />
+          {/* <AnimatedGrid /> */}
           <motion.div
             initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
