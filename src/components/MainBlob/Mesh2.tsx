@@ -57,6 +57,10 @@ const Mesh = () => {
   useEffect(() => {
     effect.current = new AnaglyphEffect(gl);
     effect.current.setSize(size.width, size.height);
+    return () => {
+      effect.current?.dispose();
+      effect.current = null;
+    };
   }, [gl, size]);
 
   useEffect(() => {
@@ -73,6 +77,9 @@ const Mesh = () => {
     api.start({
       scale: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
     });
+    return () => {
+      api.stop();
+    };
   }, [mouseDown, glassesModeMultiplier, api]);
 
   useFrame(() => {
