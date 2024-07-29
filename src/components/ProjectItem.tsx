@@ -4,11 +4,12 @@ import useBreakpoint from "@/lib/hooks/useBreakpoints";
 import { motion } from "framer-motion";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ParallaxItem from "./ParallaxItem";
 import Trail from "./Trail";
 import Video from "./Video";
 import { Asset } from "next-video/dist/assets.js";
+import { useHover } from "@uidotdev/usehooks";
 
 interface ProjectItemProps {
   title: string;
@@ -29,11 +30,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   reverse,
 }) => {
   const breakpoints = useBreakpoint();
-  const containerRef = useRef<HTMLAnchorElement>(null);
   // const currIndex = useMouseIndexSwitcher(containerRef, images || videos);
   const currIndex = 0;
   const titles = title.split(" ");
-  const [isHover, setIsHover] = useState(false);
+  const [containerRef, isHover] = useHover();
 
   return (
     <Link
@@ -41,8 +41,6 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
       href={`/projects/${id}`}
       scroll={false}
       className="block"
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
     >
       <div className="grid grid-cols-1 md:grid-cols-8 relative z-10">
         <div

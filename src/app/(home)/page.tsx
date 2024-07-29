@@ -10,6 +10,7 @@ import Trail from "@/components/Trail";
 import Awards from "./Awards";
 import H2 from "@/components/H2";
 import ParallaxItem from "@/components/ParallaxItem";
+import Link from "next/link";
 
 export default function Home() {
   const projects = useProjects();
@@ -31,16 +32,19 @@ export default function Home() {
         </div>
         <div className="mt-4 md:mt-16 space-y-10 md:space-y-36">
           {projects.map((project, i) => (
-            <ProjectItem
-              key={project.id}
-              id={project.id}
-              title={project.title}
-              date={project.date}
-              categories={project.tags}
-              images={project.images}
-              videos={project.videos}
-              reverse={!!(i % 2)}
-            />
+            // <ProjectItem
+            //   key={project.id}
+            //   id={project.id}
+            //   title={project.title}
+            //   date={project.date}
+            //   categories={project.tags}
+            //   images={project.images}
+            //   videos={project.videos}
+            //   reverse={!!(i % 2)}
+            // />
+            <Link href={project.id} key={project.id}>
+              {project.title}
+            </Link>
           ))}
         </div>
       </div>
