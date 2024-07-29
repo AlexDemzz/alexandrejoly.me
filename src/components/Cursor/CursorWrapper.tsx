@@ -118,6 +118,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
               translateX: "-50%",
               translateY: "-50%",
               pointerEvents: "none",
+              willChange: "transform",
             }}
             transition={{ duration: 0 }}
             className="fixed w-16 h-16 mix-blend-difference z-[9999]"
@@ -136,6 +137,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
                   y: ySpring,
                   translateY: "-110%",
                   pointerEvents: "none",
+                  willChange: "transform, opacity",
                 }}
                 initial={{ scale: 0.5, opacity: 0, rotate: -20 }}
                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -153,6 +155,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
               y: ySpring,
               width: size,
               height: size,
+              willChange: "transform",
               borderWidth: isHover ? 4 : 2,
               translateX: "-50%",
               translateY: "-50%",
