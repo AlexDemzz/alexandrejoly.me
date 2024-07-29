@@ -10,8 +10,8 @@ const MainBlob = () => {
         <Canvas>
           <ambientLight intensity={0.5} />
           <directionalLight position={[0, 0, 5]} />
-          <Mesh2 />
-          <Mesh />
+          {/* <Mesh2 />
+          <Mesh /> */}
         </Canvas>
       </div>
     </div>
