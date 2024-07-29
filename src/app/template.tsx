@@ -51,7 +51,8 @@ export default function Template({ children }: { children: React.ReactNode }) {
               setExitComplete(false);
             }}
           />
-          <FrozenRouter>{showChildren && children}</FrozenRouter>
+          {/* <FrozenRouter>{showChildren && children}</FrozenRouter> */}
+          {children}
         </motion.div>
       </AnimatePresence>
     </>
