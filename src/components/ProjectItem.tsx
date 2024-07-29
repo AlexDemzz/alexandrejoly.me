@@ -70,6 +70,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                   src={images[currIndex]}
                   className="object-cover h-[475px] md:h-[700px] w-full"
                   alt={`Project Image for ${title}`}
+                  priority
                 />
               )}
             </ParallaxItem>

@@ -37,6 +37,7 @@ const Project = ({ params }: { params: { id: string } }) => {
                     <Image
                       alt=""
                       src={src}
+                      priority
                       className="w-full object-cover h-[400px] sm:h-full"
                     />
                   </ParallaxItem>

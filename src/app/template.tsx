@@ -1,13 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { useColumns } from "@/lib/hooks";
-import Loading from "@/components/Loading";
-import { DEFAULT_TRANSITION } from "@/lib/constants";
 import AnimatedGrid from "@/components/AnimatedGrid";
+import { AnimatePresence, motion } from "framer-motion";
+import { LayoutRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { usePathname } from "next/navigation";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 function FrozenRouter(props: { children: React.ReactNode }) {
   const context = useContext(LayoutRouterContext ?? {});
@@ -33,8 +30,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {children}
-      {/* <AnimatePresence
+      <AnimatePresence
         mode="wait"
         initial={false}
         onExitComplete={() => setExitComplete(true)}
@@ -53,7 +49,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
             <FrozenRouter>{children}</FrozenRouter>
           </motion.div>
         </motion.div>
-      </AnimatePresence> */}
+      </AnimatePresence>
     </>
   );
 }
