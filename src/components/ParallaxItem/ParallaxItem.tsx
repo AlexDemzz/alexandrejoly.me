@@ -37,14 +37,14 @@ const ParallaxItem = ({
         setChildrenHeight(newHeight + "px");
       }
     };
-    if (!overflow) {
+    if (!overflow && isInView) {
       updateHeight();
       window.addEventListener("resize", updateHeight);
     }
     return () => {
       if (!overflow) window.removeEventListener("resize", updateHeight);
     };
-  }, [overflow, range]);
+  }, [overflow, range, isInView]);
 
   const tension = 200 - speed * 20;
   const friction = 20 + speed * 10;
@@ -70,9 +70,13 @@ const ParallaxItem = ({
       style={{
         height: overflow ? undefined : childrenHeight,
         overflow: overflow ? undefined : "hidden",
+        willChange: "transform, opacity",
       }}
     >
-      <motion.div style={{ y: ySpring }} ref={childRef}>
+      <motion.div
+        style={{ y: ySpring, willChange: "transform" }}
+        ref={childRef}
+      >
         {children}
       </motion.div>
     </motion.div>
