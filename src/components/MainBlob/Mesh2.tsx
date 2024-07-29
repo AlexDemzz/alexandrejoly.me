@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
-extend({ AnaglyphEffect });
+// extend({ AnaglyphEffect });
 
 const AnimatedMaterial = animated(MeshDistortMaterial);
 
@@ -20,7 +20,7 @@ const Mesh2 = () => {
   const mouseAcceleration = useMouseAcceleration();
   const myMesh = useRef<MeshType>(null);
   const { gl, scene, camera, size } = useThree();
-  const effect = useRef<AnaglyphEffect | null>(null);
+  // const effect = useRef<AnaglyphEffect | null>(null);
 
   const horizontalDirection = mouseAcceleration.horizontalDirection;
   const horizontalSpeed = mouseAcceleration.horizontalSpeed;
@@ -47,14 +47,14 @@ const Mesh2 = () => {
     loop: { reverse: true },
   });
 
-  useEffect(() => {
-    effect.current = new AnaglyphEffect(gl);
-    effect.current.setSize(size.width, size.height);
-    return () => {
-      effect.current?.dispose();
-      effect.current = null;
-    };
-  }, [gl, size]);
+  // useEffect(() => {
+  //   effect.current = new AnaglyphEffect(gl);
+  //   effect.current.setSize(size.width, size.height);
+  //   return () => {
+  //     effect.current?.dispose();
+  //     effect.current = null;
+  //   };
+  // }, [gl, size]);
 
   useEffect(() => {
     const handleMouseDown = () => setMouseDown(true);
@@ -78,9 +78,9 @@ const Mesh2 = () => {
     };
   }, [mouseDown, glassesModeMultiplier, api]);
 
-  useFrame(() => {
-    if (effect.current) effect.current.render(scene, camera);
-  }, 1);
+  // useFrame(() => {
+  //   if (effect.current) effect.current.render(scene, camera);
+  // }, 1);
 
   return (
     <>

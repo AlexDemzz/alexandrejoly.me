@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
-extend({ AnaglyphEffect });
+// extend({ AnaglyphEffect });
 
 const Mesh = () => {
   const { theme } = useTheme();
@@ -17,21 +17,21 @@ const Mesh = () => {
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const myMesh = useRef<MeshType>(null);
   const { gl, size } = useThree();
-  const effect = useRef<AnaglyphEffect | null>(null);
+  // const effect = useRef<AnaglyphEffect | null>(null);
 
   const [springProps, api] = useSpring(() => ({
     scale: 0.5 * glassesModeMultiplier,
     config: config.wobbly,
   }));
 
-  useEffect(() => {
-    effect.current = new AnaglyphEffect(gl);
-    effect.current.setSize(size.width, size.height);
-    return () => {
-      effect.current?.dispose();
-      effect.current = null;
-    };
-  }, [gl, size]);
+  // useEffect(() => {
+  //   effect.current = new AnaglyphEffect(gl);
+  //   effect.current.setSize(size.width, size.height);
+  //   return () => {
+  //     effect.current?.dispose();
+  //     effect.current = null;
+  //   };
+  // }, [gl, size]);
 
   useEffect(() => {
     const handleMouseDown = () => setMouseDown(true);
