@@ -7,7 +7,7 @@ import AnimatedLink from "@/components/AnimatedLink";
 const Footer = () => {
   return (
     <div className="container py-5">
-      {/* <div className="gap-4 grid grid-cols-1 md:grid-cols-8 md:gap-0">
+      <div className="gap-4 grid grid-cols-1 md:grid-cols-8 md:gap-0">
         <div className="md:col-span-3 space-y-1">
           <div className="flex items-center gap-1">
             SAY <Hi />
@@ -55,7 +55,7 @@ const Footer = () => {
           </span>
           <div>{new Date().getFullYear()} ©</div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

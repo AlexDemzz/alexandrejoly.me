@@ -10,24 +10,33 @@ const Hi = () => {
   const items = HI_LANGUAGES;
 
   useEffect(() => {
+    let isCancelled = false;
+
     if (isInView) {
       const handleAnim = async () => {
-        for (let i = 1; i < items.length; i++) {
+        while (!isCancelled) {
+          for (let i = 1; i < items.length; i++) {
+            await animate(
+              scope.current,
+              { y: HEIGHT * -i },
+              { duration: 0.6, ease: cubicBezier(0.77, 0, 0.18, 1), delay: 1 }
+            );
+            if (isCancelled) return;
+          }
           await animate(
             scope.current,
-            { y: HEIGHT * -i },
-            { duration: 0.6, ease: cubicBezier(0.77, 0, 0.18, 1), delay: 1 }
+            { y: 0 },
+            { duration: 0, ease: "linear", delay: 0.1 }
           );
+          if (isCancelled) return;
         }
-        await animate(
-          scope.current,
-          { y: 0 },
-          { duration: 0, ease: "linear", delay: 0.1 }
-        );
-        handleAnim();
       };
       handleAnim();
     }
+
+    return () => {
+      isCancelled = true;
+    };
   }, [animate, scope, items.length, isInView]);
 
   return (
