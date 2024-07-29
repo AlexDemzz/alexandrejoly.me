@@ -8,11 +8,7 @@ interface VideoProps {
 }
 
 const Video = ({ src, className }: VideoProps) => {
-  return (
-    <div>
-      <BackgroundVideo className={className} src={src} />
-    </div>
-  );
+  return <div>{/* <BackgroundVideo className={className} src={src} /> */}</div>;
 };
 
 export default Video;
