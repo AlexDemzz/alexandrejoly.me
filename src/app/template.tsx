@@ -33,27 +33,27 @@ export default function Template({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <AnimatePresence
+      {children}
+      {/* <AnimatePresence
         mode="wait"
         initial={false}
         onExitComplete={() => setExitComplete(true)}
       >
         <motion.div key={pathname}>
-          {/* <AnimatedGrid /> */}
+          <AnimatedGrid />
           <motion.div
-            // initial={{ opacity: 1 }}
-            // animate={{ opacity: 1 }}
-            // exit={{ opacity: 1 }}
-            // transition={{ duration: 0.8, ease: [0.27, 0.94, 0.48, 1.0] }}
+            initial={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.27, 0.94, 0.48, 1.0] }}
             onAnimationStart={() => {
               setExitComplete(false);
             }}
           >
-            {/* <FrozenRouter>{children}</FrozenRouter> */}
-            {children}
+            <FrozenRouter>{children}</FrozenRouter>
           </motion.div>
         </motion.div>
-      </AnimatePresence>
+      </AnimatePresence> */}
     </>
   );
 }
