@@ -99,7 +99,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
           Next project
         </Trail>
         <div className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center">
-          <AnimatedLink href={data.id}>
+          <AnimatedLink href={data.id} scroll={false}>
             <Trail aria-hidden="true">{data.title}</Trail>
           </AnimatedLink>
         </div>

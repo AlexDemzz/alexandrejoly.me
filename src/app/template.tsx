@@ -34,7 +34,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   return (
     <>
       <AnimatePresence
-        mode={"wait"}
+        mode="popLayout"
         initial={false}
         onExitComplete={() => setExitComplete(true)}
       >
