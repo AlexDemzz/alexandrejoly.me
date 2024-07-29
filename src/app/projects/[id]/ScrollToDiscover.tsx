@@ -56,7 +56,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
   return (
     <div className="flex flex-col items-center">
       <Trail className="font-bold text-lg md:text-3xl uppercase">
-        Scroll to discover
+        {data.id !== "/" ? "Scroll to discover" : "Scroll to back"}
       </Trail>
       <motion.div
         className="relative flex items-center justify-center "
