@@ -17,7 +17,11 @@ function FrozenRouter(props: { children: React.ReactNode }) {
   );
 }
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function Transition({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const [exitComplete, setExitComplete] = useState(false);
   const [showChildren, setShowChildren] = useState(true);
@@ -51,8 +55,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
               setExitComplete(false);
             }}
           />
-          {/* <FrozenRouter>{showChildren && children}</FrozenRouter> */}
-          {children}
+          <FrozenRouter>{showChildren && children}</FrozenRouter>
         </motion.div>
       </AnimatePresence>
     </>

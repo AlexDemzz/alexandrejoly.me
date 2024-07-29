@@ -11,7 +11,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import "./globals.css";
-import Template from "./template";
+import Transition from "./transition";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly — Portfolio",
@@ -42,7 +42,7 @@ export default function RootLayout({
             <Cursor />
             <PreloaderProvider>
               <Header />
-              <Template>{children}</Template>
+              <Transition>{children}</Transition>
               <Footer />
             </PreloaderProvider>
           </AppProvider>
