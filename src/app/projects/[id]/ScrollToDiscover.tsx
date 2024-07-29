@@ -55,7 +55,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
 
   return (
     <div className="container pt-20 flex items-center justify-center flex-col">
-      <div className="hidden md:flex flex-col items-center">
+      <div className="flex flex-col items-center">
         <Trail className="font-bold text-lg md:text-3xl uppercase">
           Scroll to discover
         </Trail>
@@ -92,16 +92,6 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
           }}
         >
           <div style={{ height: "200vh" }} />
-        </div>
-      </div>
-      <div className="flex md:hidden flex-col items-center">
-        <Trail className="font-bold text-lg md:text-3xl uppercase">
-          {data.id !== "/" ? "Next project" : "Back to"}
-        </Trail>
-        <div className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center">
-          <AnimatedLink href={data.id} scroll={false}>
-            <Trail aria-hidden="true">{data.title}</Trail>
-          </AnimatedLink>
         </div>
       </div>
     </div>

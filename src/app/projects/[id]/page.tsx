@@ -6,6 +6,7 @@ import Image from "next/image";
 import ProjectHero from "./ProjectHero";
 import ScrollToDiscover from "./ScrollToDiscover";
 import Video from "@/components/Video";
+import GoNext from "./GoNext";
 
 const Project = ({ params }: { params: { id: string } }) => {
   const projects = useProjects();
@@ -64,7 +65,10 @@ const Project = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-        <ScrollToDiscover data={nextProject} />
+        {breakpoints.get({
+          xs: <GoNext data={nextProject} />,
+          md: <ScrollToDiscover data={nextProject} />,
+        })}
       </div>
     </div>
   );

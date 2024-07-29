@@ -1,5 +1,5 @@
 import React, { VideoHTMLAttributes } from "react";
-import ReactPlayer from "react-player/lazy";
+import BackgroundVideo from "next-video/background-video";
 
 interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
   src: string;
@@ -7,26 +7,8 @@ interface VideoProps extends VideoHTMLAttributes<HTMLVideoElement> {
 
 const Video: React.FC<VideoProps> = ({ src, className }) => {
   return (
-    <div className={className}>
-      <ReactPlayer
-        controls={false}
-        loop
-        playing
-        volume={0}
-        muted
-        playsInline
-        disablePictureInPicture
-        width="100%"
-        height="100%"
-        config={{
-          file: {
-            attributes: {
-              style: { height: "100%", objectFit: "cover" },
-            },
-          },
-        }}
-        url={[{ src, type: "video/webm" }]}
-      ></ReactPlayer>
+    <div>
+      <BackgroundVideo className={className} src={src} />
     </div>
   );
 };
