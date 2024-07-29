@@ -42,7 +42,8 @@ export default function RootLayout({
             <Cursor />
             <PreloaderProvider>
               <Header />
-              <Transition>{children}</Transition>
+              {/* <Transition>{children}</Transition> */}
+              {children}
               <Footer />
             </PreloaderProvider>
           </AppProvider>
