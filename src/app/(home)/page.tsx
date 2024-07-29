@@ -42,7 +42,7 @@ export default function Home() {
             //   videos={project.videos}
             //   reverse={!!(i % 2)}
             // />
-            <Link href={project.id} key={project.id}>
+            <Link href={`/projects/${project.id}`} key={project.id}>
               {project.title}
             </Link>
           ))}
