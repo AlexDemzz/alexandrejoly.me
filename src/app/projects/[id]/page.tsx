@@ -20,7 +20,7 @@ const Project = ({ params }: { params: { id: string } }) => {
   return (
     <div className="pt-4">
       <div className="py-24">
-        {/* <ProjectHero data={data} /> */}
+        <ProjectHero data={data} />
         <div className="container">
           <div className="mt-24">
             <div className="grid grid-cols-1 gap-10 md:gap-20">

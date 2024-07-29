@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <main>
-      {/* <Hero /> */}
+      <Hero />
       <div className="container pt-24 md:py-32">
         <div className="grid grid-cols-1 md:grid-cols-8">
           <ParallaxItem
@@ -32,19 +32,16 @@ export default function Home() {
         </div>
         <div className="mt-4 md:mt-16 space-y-10 md:space-y-36">
           {projects.map((project, i) => (
-            // <ProjectItem
-            //   key={project.id}
-            //   id={project.id}
-            //   title={project.title}
-            //   date={project.date}
-            //   categories={project.tags}
-            //   images={project.images}
-            //   videos={project.videos}
-            //   reverse={!!(i % 2)}
-            // />
-            <Link href={`/projects/${project.id}`} key={project.id}>
-              {project.title}
-            </Link>
+            <ProjectItem
+              key={project.id}
+              id={project.id}
+              title={project.title}
+              date={project.date}
+              categories={project.tags}
+              images={project.images}
+              videos={project.videos}
+              reverse={!!(i % 2)}
+            />
           ))}
         </div>
       </div>
