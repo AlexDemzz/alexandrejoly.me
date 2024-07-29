@@ -13,12 +13,17 @@ const ProjectHero = ({ data }: { data: Project }) => {
     <motion.div style={{ y, opacity }}>
       <h1>
         <div className="text-8xl lg:text-[13rem] font-black tracking-tighter leading-none uppercase overflow-hidden">
-          <Marquee>
-            <h1 className="mr-8 inline">{data.title}</h1>
-            <span className="font-outline-2 text-background" aria-hidden="true">
-              {data.title}
-            </span>
-          </Marquee>
+          <Trail>
+            <Marquee>
+              <h1 className="mr-8 inline">{data.title}</h1>
+              <span
+                className="font-outline-2 text-background"
+                aria-hidden="true"
+              >
+                {data.title}
+              </span>
+            </Marquee>
+          </Trail>
         </div>
       </h1>
       <div className="container">

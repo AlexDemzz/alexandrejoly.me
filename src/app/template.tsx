@@ -19,14 +19,24 @@ function FrozenRouter(props: { children: React.ReactNode }) {
 
 export default function Template({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-
   const [exitComplete, setExitComplete] = useState(false);
+  const [showChildren, setShowChildren] = useState(true);
 
   useEffect(() => {
     if (exitComplete) {
       window.scrollTo({ top: 0 });
+      setShowChildren(false);
+      setTimeout(() => {
+        setShowChildren(true);
+      }, 100);
     }
   }, [pathname, exitComplete]);
+
+  useEffect(() => {
+    return () => {
+      setShowChildren(true);
+    };
+  }, [pathname]);
 
   return (
     <>
@@ -41,7 +51,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
               setExitComplete(false);
             }}
           />
-          <FrozenRouter>{children}</FrozenRouter>
+          <FrozenRouter>{showChildren && children}</FrozenRouter>
         </motion.div>
       </AnimatePresence>
     </>
