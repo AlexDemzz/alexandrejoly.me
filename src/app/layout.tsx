@@ -14,7 +14,7 @@ import "./globals.css";
 import Transition from "./transition";
 
 export const metadata: Metadata = {
-  title: "Alexandre Joly — Portfolio",
+  title: "Alexandre Joly - Portfolio",
   description: "Creative front-end Developer",
 };
 
@@ -40,12 +40,11 @@ export default function RootLayout({
         >
           <AppProvider>
             <Cursor />
-            {/* <PreloaderProvider> */}
-            <Header />
-            {/* <Transition>{children}</Transition> */}
-            {children}
-            <Footer />
-            {/* </PreloaderProvider> */}
+            <PreloaderProvider>
+              <Header />
+              <Transition>{children}</Transition>
+              <Footer />
+            </PreloaderProvider>
           </AppProvider>
           <BgGrid />
         </ThemeProvider>
