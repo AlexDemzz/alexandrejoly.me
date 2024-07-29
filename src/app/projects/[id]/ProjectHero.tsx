@@ -10,9 +10,9 @@ const ProjectHero = ({ data }: { data: Project }) => {
   const opacity = useTransform(scrollY, [0, 800], [1, 0]);
 
   return (
-    <motion.div style={{ y, opacity }}>
+    <motion.div style={{ y, opacity, willChange: "transform, opacity" }}>
       <h1>
-        <div className="text-8xl lg:text-[13rem] font-black tracking-tighter leading-none uppercase overflow-hidden">
+        <div className="text-8xl lg:text-[13rem] font-black tracking-tighter leading-none uppercase overflow-hidden w-full">
           <Trail>
             <Marquee>
               <h1 className="mr-8 inline">{data.title}</h1>
