@@ -40,12 +40,12 @@ export default function RootLayout({
         >
           <AppProvider>
             <Cursor />
-            <PreloaderProvider>
-              <Header />
-              {/* <Transition>{children}</Transition> */}
-              {children}
-              <Footer />
-            </PreloaderProvider>
+            {/* <PreloaderProvider> */}
+            <Header />
+            {/* <Transition>{children}</Transition> */}
+            {children}
+            <Footer />
+            {/* </PreloaderProvider> */}
           </AppProvider>
           <BgGrid />
         </ThemeProvider>
