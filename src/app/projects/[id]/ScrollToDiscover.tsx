@@ -96,7 +96,7 @@ const ScrollToDiscover = ({ data }: { data: Project }) => {
       </div>
       <div className="flex md:hidden flex-col items-center">
         <Trail className="font-bold text-lg md:text-3xl uppercase">
-          Next project
+          {data.id !== "/" ? "Next project" : "Back to"}
         </Trail>
         <div className="text-6xl md:text-[8vw] font-black text-foreground leading-none uppercase overflow-hidden text-center">
           <AnimatedLink href={data.id} scroll={false}>
