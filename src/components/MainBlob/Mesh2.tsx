@@ -1,7 +1,6 @@
 "use client";
 import { useApp, useMouseAcceleration } from "@/lib/hooks";
-import useDeviceMotion from "@/lib/hooks/useDeviceMotion";
-import { a, animated, config, useSpring, to } from "@react-spring/three";
+import { a, animated, config, to, useSpring } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useTheme } from "next-themes";
@@ -13,27 +12,21 @@ extend({ AnaglyphEffect });
 
 const AnimatedMaterial = animated(MeshDistortMaterial);
 
-const Mesh = () => {
+const Mesh2 = () => {
   const { theme } = useTheme();
   const [mouseDown, setMouseDown] = useState(false);
   const [{ glassesMode }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const mouseAcceleration = useMouseAcceleration();
-  const deviceMotion = useDeviceMotion();
   const myMesh = useRef<MeshType>(null);
   const { gl, scene, camera, size } = useThree();
   const effect = useRef<AnaglyphEffect | null>(null);
 
-  const horizontalDirection =
-    mouseAcceleration.horizontalDirection || deviceMotion.horizontalDirection;
-  const horizontalSpeed =
-    mouseAcceleration.horizontalSpeed || deviceMotion.horizontalSpeed;
-  const verticalDirection =
-    mouseAcceleration.verticalDirection || deviceMotion.verticalDirection;
-  const verticalSpeed =
-    mouseAcceleration.verticalSpeed || deviceMotion.verticalSpeed;
-  const acceleration =
-    mouseAcceleration.acceleration || deviceMotion.acceleration;
+  const horizontalDirection = mouseAcceleration.horizontalDirection;
+  const horizontalSpeed = mouseAcceleration.horizontalSpeed;
+  const verticalDirection = mouseAcceleration.verticalDirection;
+  const verticalSpeed = mouseAcceleration.verticalSpeed;
+  const acceleration = mouseAcceleration.acceleration;
 
   const [springProps, api] = useSpring(() => ({
     scale: 0.5 * glassesModeMultiplier,
@@ -64,12 +57,15 @@ const Mesh = () => {
   }, [gl, size]);
 
   useEffect(() => {
-    window.addEventListener("mousedown", () => setMouseDown(true));
-    window.addEventListener("mouseup", () => setMouseDown(false));
+    const handleMouseDown = () => setMouseDown(true);
+    const handleMouseUp = () => setMouseDown(false);
+
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener("mousedown", () => setMouseDown(true));
-      window.removeEventListener("mouseup", () => setMouseDown(false));
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
@@ -109,4 +105,4 @@ const Mesh = () => {
   );
 };
 
-export default Mesh;
+export default Mesh2;

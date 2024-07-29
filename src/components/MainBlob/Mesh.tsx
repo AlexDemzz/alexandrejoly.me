@@ -34,12 +34,15 @@ const Mesh = () => {
   }, [gl, size]);
 
   useEffect(() => {
-    window.addEventListener("mousedown", () => setMouseDown(true));
-    window.addEventListener("mouseup", () => setMouseDown(false));
+    const handleMouseDown = () => setMouseDown(true);
+    const handleMouseUp = () => setMouseDown(false);
+
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      window.removeEventListener("mousedown", () => setMouseDown(true));
-      window.removeEventListener("mouseup", () => setMouseDown(false));
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, []);
 
