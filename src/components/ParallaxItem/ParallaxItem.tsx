@@ -87,7 +87,21 @@
 
 import React from "react";
 
-const ParallaxItem = ({ children }: { children: React.ReactNode }) => {
+const ParallaxItem = ({
+  children,
+  className = "",
+  speed = 5,
+  overflow = true,
+  delay = 0,
+  range = [-100, 100],
+}: {
+  children: React.ReactNode;
+  className?: string;
+  speed?: number;
+  overflow?: boolean;
+  delay?: number;
+  range?: number[];
+}) => {
   return <div>{children}</div>;
 };
 

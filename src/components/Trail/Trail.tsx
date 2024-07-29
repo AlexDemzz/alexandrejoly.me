@@ -80,7 +80,21 @@
 
 import React from "react";
 
-const Trail = ({ children }: { children: React.ReactNode }) => {
+const Trail = ({
+  children,
+  className = "",
+  delay = 0,
+  noSplit = false,
+  as: Component = "div",
+  split = /(\s+)/,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  noSplit?: boolean;
+  split?: RegExp | string;
+  as?: keyof JSX.IntrinsicElements | React.ElementType;
+}) => {
   return <div>{children}</div>;
 };
 
