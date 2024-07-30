@@ -6,6 +6,7 @@ import React, { createContext, useState, ReactNode, useEffect } from "react";
 interface AppContextState {
   glassesMode: boolean;
   canEnabledGlassesMode: boolean;
+  hoverEnabled: boolean;
 }
 
 type AppContextValue = [
@@ -25,6 +26,7 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [state, setState] = useState<AppContextState>({
     glassesMode: false,
     canEnabledGlassesMode: false,
+    hoverEnabled: false,
   });
   const [topReached, setTopReached] = useState(false);
 

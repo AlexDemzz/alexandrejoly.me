@@ -4,7 +4,7 @@ import { a, animated, config, to, useSpring } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useTheme } from "next-themes";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
@@ -15,12 +15,18 @@ const AnimatedMaterial = animated(MeshDistortMaterial);
 const Mesh2 = () => {
   const { theme } = useTheme();
   const [mouseDown, setMouseDown] = useState(false);
-  const [{ glassesMode }] = useApp();
+  const [{ glassesMode, hoverEnabled }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const mouseAcceleration = useMouseAcceleration();
   const myMesh = useRef<MeshType>(null);
   const { gl, scene, camera, size } = useThree();
   const effect = useRef<AnaglyphEffect | null>(null);
+
+  const getScale = useCallback(() => {
+    let mdSize = mouseDown && !glassesMode ? 0.5 : 1;
+    let heSize = hoverEnabled ? 1.8 : 1;
+    return 1 * glassesModeMultiplier * mdSize * heSize;
+  }, [glassesModeMultiplier, hoverEnabled, mouseDown, glassesMode]);
 
   const horizontalDirection = mouseAcceleration.horizontalDirection;
   const horizontalSpeed = mouseAcceleration.horizontalSpeed;
@@ -34,14 +40,15 @@ const Mesh2 = () => {
   }));
 
   const animatedProps = useSpring({
-    scaleX: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
-    scaleY: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
-    scaleZ: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
+    scaleX: getScale(),
+    scaleY: getScale(),
+    scaleZ: getScale(),
     x: (horizontalDirection * horizontalSpeed) / 1000,
     y: (verticalDirection * -1 * verticalSpeed) / 1000,
-    distort: mouseDown
-      ? 0.9
-      : Math.min(Math.max((acceleration / 100) * 1 + 0.3, 0.3), 1),
+    distort:
+      mouseDown || hoverEnabled
+        ? 0.9
+        : Math.min(Math.max((acceleration / 100) * 1 + 0.3, 0.3), 1),
     rotation: to([0, Math.PI, 0], (x, y, z) => [x, y, z]),
     config: config.molasses,
     loop: { reverse: true },
@@ -71,12 +78,12 @@ const Mesh2 = () => {
 
   useEffect(() => {
     api.start({
-      scale: (mouseDown ? 0.5 : 1) * glassesModeMultiplier,
+      scale: getScale(),
     });
     return () => {
       api.stop();
     };
-  }, [mouseDown, glassesModeMultiplier, api]);
+  }, [api, getScale]);
 
   useFrame(() => {
     if (effect.current) effect.current.render(scene, camera);

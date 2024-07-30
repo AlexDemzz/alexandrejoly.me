@@ -5,7 +5,7 @@ import { MeshWobbleMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
 import { useTheme } from "next-themes";
 import { memo, useEffect, useRef, useState } from "react";
-import { Mesh as MeshType } from "three";
+import { Mesh as MeshType, TorusGeometry } from "three";
 import { AnaglyphEffect } from "three-stdlib";
 
 extend({ AnaglyphEffect });
@@ -13,7 +13,7 @@ extend({ AnaglyphEffect });
 const Mesh = () => {
   const { theme } = useTheme();
   const [mouseDown, setMouseDown] = useState(false);
-  const [{ glassesMode }] = useApp();
+  const [{ glassesMode, hoverEnabled }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
   const myMesh = useRef<MeshType>(null);
   const { gl, size } = useThree();
@@ -33,6 +33,11 @@ const Mesh = () => {
     };
   }, [gl, size]);
 
+  const [{ radius }, api2] = useSpring(() => ({
+    radius: 0.5,
+    config: config.wobbly,
+  }));
+
   useEffect(() => {
     const handleMouseDown = () => setMouseDown(true);
     const handleMouseUp = () => setMouseDown(false);
@@ -48,17 +53,24 @@ const Mesh = () => {
 
   useEffect(() => {
     api.start({
-      scale: (mouseDown ? 1.5 : 2) * glassesModeMultiplier,
+      scale: (mouseDown && !glassesMode ? 1.5 : 2) * glassesModeMultiplier,
+    });
+    api2.start({
+      radius: hoverEnabled ? 1.4 : 1,
     });
     return () => {
       api.stop();
+      api2.stop();
     };
-  }, [mouseDown, glassesModeMultiplier, api]);
+  }, [mouseDown, glassesModeMultiplier, api, api2, hoverEnabled]);
 
   useFrame(({ clock }) => {
     if (myMesh.current) {
       myMesh.current.rotation.x = clock.getElapsedTime();
       myMesh.current.rotation.y = clock.getElapsedTime();
+      const newGeometry = new TorusGeometry(radius.get(), 0.15, 16, 50);
+      myMesh.current.geometry.dispose();
+      myMesh.current.geometry = newGeometry;
     }
   });
 

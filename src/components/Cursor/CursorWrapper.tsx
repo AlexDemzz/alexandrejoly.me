@@ -24,25 +24,24 @@ const getWrapperSize = ({
 };
 
 const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
-  const [{ canEnabledGlassesMode }] = useApp();
-  const [isHover, setIsHover] = useState(false);
+  const [{ hoverEnabled, canEnabledGlassesMode }, setState] = useApp();
   const [isMouseDown, setIsMouseDown] = useState(false);
   const mouseAcceleration = useMouseAcceleration();
   const pathname = usePathname();
   const [hasMoved, setHasMoved] = useState(false);
 
   const size = useSpring(
-    getWrapperSize({ isHover, isMouseDown }),
+    getWrapperSize({ isHover: hoverEnabled, isMouseDown }),
     MOTION_TRANSITION
   );
 
   useEffect(() => {
-    setIsHover(false);
-  }, [pathname]);
+    setState((o) => ({ ...o, hoverEnabled: false }));
+  }, [pathname, setState]);
 
   useEffect(() => {
-    size.set(getWrapperSize({ isHover, isMouseDown }));
-  }, [size, isHover, isMouseDown]);
+    size.set(getWrapperSize({ isHover: hoverEnabled, isMouseDown }));
+  }, [size, hoverEnabled, isMouseDown]);
 
   useEffect(() => {
     const getClosestElement = (event: MouseEvent) => {
@@ -58,7 +57,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
     const handleMouseEvent = (event: MouseEvent, isOver: boolean) => {
       const closestElement = getClosestElement(event);
       if (closestElement) {
-        setIsHover(isOver);
+        setState((o) => ({ ...o, hoverEnabled: isOver }));
       }
     };
 
@@ -124,7 +123,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
             className="fixed w-16 h-16 mix-blend-difference z-[9999]"
           >
             {children({
-              isHover,
+              isHover: hoverEnabled,
               isMoving: mouseAcceleration.speed > 0,
               isMouseDown,
             })}
@@ -156,7 +155,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
               width: size,
               height: size,
               willChange: "transform",
-              borderWidth: isHover ? 4 : 2,
+              borderWidth: hoverEnabled ? 4 : 2,
               translateX: "-50%",
               translateY: "-50%",
               pointerEvents: "none",
