@@ -10,10 +10,12 @@ const Trail = ({
   noSplit = false,
   as: Component = "div",
   split = /(\s+)/,
+  fixPx = 0,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  fixPx?: number;
   noSplit?: boolean;
   split?: RegExp | string;
   as?: keyof JSX.IntrinsicElements | React.ElementType;
@@ -54,7 +56,7 @@ const Trail = ({
       {!!height &&
         items.map((item, index) => (
           <span
-            style={{ height }}
+            style={{ height, marginRight: -fixPx + "px" }}
             className="overflow-y-hidden inline-block"
             key={index}
           >
@@ -65,7 +67,11 @@ const Trail = ({
                 delay: index * 0.02 + delay / 1000,
                 ...DEFAULT_TRANSITION,
               }}
-              style={{ display: "inline-block", whiteSpace: "pre" }}
+              style={{
+                display: "inline-block",
+                whiteSpace: "pre",
+                paddingRight: fixPx || undefined,
+              }}
               className={className}
             >
               {item}

@@ -60,6 +60,7 @@ const Hero = () => {
           >
             <ParallaxItem range={[0, 200]}>
               <Trail
+                fixPx={3}
                 className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={200}
                 split={""}
@@ -71,6 +72,7 @@ const Hero = () => {
           <div className="relative md:col-start-3 md:col-span-8">
             <ParallaxItem range={[0, 100]} speed={4}>
               <Trail
+                fixPx={3}
                 className={`font-black tracking-tighter leading-none select-none ${fontSizeClass}`}
                 delay={400}
                 split={""}
@@ -84,7 +86,7 @@ const Hero = () => {
           <TagIndicator
             tag="p"
             position="top"
-            className="md:col-span-3 md:col-start-2"
+            className="md:col-span-5 md:col-start-2 2xl:col-span-4 2xl:col-start-2"
             delay={500}
           >
             <ParallaxItem range={[0, 100]} speed={3}>
