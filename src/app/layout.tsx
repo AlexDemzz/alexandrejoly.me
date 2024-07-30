@@ -15,7 +15,7 @@ import Transition from "./transition";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly - Portfolio",
-  description: "Creative front-end Developer",
+  description: "French creative developer based in Geneva ",
 };
 
 export default function RootLayout({
