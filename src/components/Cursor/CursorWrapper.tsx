@@ -92,6 +92,9 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
   const xSpring = useSpring(0, { stiffness: 300, damping: 30 });
   const ySpring = useSpring(0, { stiffness: 300, damping: 30 });
 
+  const xSpringSlow = useSpring(0, { stiffness: 200, damping: 30 });
+  const ySpringSlow = useSpring(0, { stiffness: 200, damping: 30 });
+
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       setHasMoved(true);
@@ -99,12 +102,14 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
       y.set(event.clientY);
       xSpring.set(event.clientX);
       ySpring.set(event.clientY);
+      xSpringSlow.set(event.clientX);
+      ySpringSlow.set(event.clientY);
     };
     document.addEventListener("mousemove", handleMouseMove);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
     };
-  }, [x, y, xSpring, ySpring]);
+  }, [x, y, xSpring, ySpring, xSpringSlow, ySpringSlow]);
 
   return (
     <>
@@ -132,8 +137,8 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
             {canEnabledGlassesMode && (
               <motion.div
                 style={{
-                  x: xSpring,
-                  y: ySpring,
+                  x: xSpringSlow,
+                  y: ySpringSlow,
                   translateY: "-110%",
                   pointerEvents: "none",
                   willChange: "transform, opacity",
@@ -142,7 +147,7 @@ const CursorWrapper: React.FC<CursorWrapperProps> = ({ children }) => {
                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
                 exit={{ scale: 0.5, opacity: 0, rotate: -20 }}
                 transition={{ ...MOTION_TRANSITION }}
-                className="fixed mix-blend-difference z-[9999]"
+                className="fixed z-[9999]"
               >
                 <GlassesButton isMouseDown={isMouseDown} />
               </motion.div>

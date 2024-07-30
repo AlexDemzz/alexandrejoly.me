@@ -8,10 +8,6 @@ import Yoojo2 from "@/images/yoojo/2.webp";
 import Yoojo3 from "@/images/yoojo/3.webp";
 import Yoojo4 from "@/images/yoojo/4.webp";
 
-// import Portfolio1 from "/1.webm";
-// import Portfolio2 from "/2.webm";
-// import Portfolio3 from "/3.webm";
-
 import Simplr1 from "@/images/simplr-design-system/1.webp";
 import Simplr2 from "@/images/simplr-design-system/2.webp";
 import Simplr3 from "@/images/simplr-design-system/3.webp";
