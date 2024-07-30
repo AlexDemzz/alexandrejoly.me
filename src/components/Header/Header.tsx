@@ -1,8 +1,8 @@
 "use client";
-import { AnimatePresence, motion } from "framer-motion";
 import AnimatedLink from "@/components/AnimatedLink";
 import { DEFAULT_TRANSITION, EMAIL } from "@/lib/constants";
 import { useApp, useTime } from "@/lib/hooks";
+import { AnimatePresence, motion } from "framer-motion";
 import Logo from "../Logo";
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
   const time = useTime();
 
   return (
-    <div className="fixed top-0 z-50 right-0 left-0 mix-blend-difference">
+    <div className="fixed top-0 z-50 right-0 left-0">
       <div className="container">
         <div className="flex justify-between items-center w-full py-6 relative z-20">
           <AnimatedLink href="/" scroll={false}>
@@ -38,6 +38,7 @@ const Header = () => {
             >
               Contact
             </AnimatedLink>
+            {/* <ModeToggle /> */}
           </nav>
         </div>
       </div>

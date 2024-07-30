@@ -3,7 +3,6 @@ import { useApp } from "@/lib/hooks";
 import { a, config, useSpring } from "@react-spring/three";
 import { MeshWobbleMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
-import { useTheme } from "next-themes";
 import { memo, useEffect, useRef, useState } from "react";
 import { Mesh as MeshType, TorusGeometry } from "three";
 import { AnaglyphEffect } from "three-stdlib";
@@ -11,7 +10,6 @@ import { AnaglyphEffect } from "three-stdlib";
 extend({ AnaglyphEffect });
 
 const Mesh = () => {
-  const { theme } = useTheme();
   const [mouseDown, setMouseDown] = useState(false);
   const [{ glassesMode, hoverEnabled }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
@@ -62,6 +60,7 @@ const Mesh = () => {
       api.stop();
       api2.stop();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mouseDown, glassesModeMultiplier, api, api2, hoverEnabled]);
 
   useFrame(({ clock }) => {
@@ -80,7 +79,7 @@ const Mesh = () => {
         <torusGeometry args={[1, 0.2, 16, 50]} />
         <MeshWobbleMaterial
           attach="material"
-          color={theme === "dark" ? "white" : "black"}
+          color={"white"}
           speed={1}
           factor={0.6}
         />

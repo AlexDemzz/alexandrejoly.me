@@ -3,7 +3,6 @@ import { useApp, useMouseAcceleration } from "@/lib/hooks";
 import { a, animated, config, to, useSpring } from "@react-spring/three";
 import { MeshDistortMaterial } from "@react-three/drei";
 import { extend, useFrame, useThree } from "@react-three/fiber";
-import { useTheme } from "next-themes";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Mesh as MeshType } from "three";
 import { AnaglyphEffect } from "three-stdlib";
@@ -13,7 +12,6 @@ extend({ AnaglyphEffect });
 const AnimatedMaterial = animated(MeshDistortMaterial);
 
 const Mesh2 = () => {
-  const { theme } = useTheme();
   const [mouseDown, setMouseDown] = useState(false);
   const [{ glassesMode, hoverEnabled }] = useApp();
   const glassesModeMultiplier = glassesMode ? 1.2 : 1;
@@ -103,7 +101,7 @@ const Mesh2 = () => {
         <sphereGeometry args={[1, 0.2, 16, 50]} />
         <AnimatedMaterial
           attach="material"
-          color={theme === "dark" ? "white" : "black"}
+          color={"white"}
           speed={8}
           distort={animatedProps.distort}
         />
