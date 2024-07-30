@@ -12,7 +12,6 @@ const GlassesButton = ({
   isMouseDown: boolean;
   animate?: boolean;
 }) => {
-  const [_, setState] = useApp();
   const mouseAcceleration = useMouseAcceleration();
   const accel = useMotionValue(0);
   const rotate = useTransform(accel, [-2000, 2000], [30, -30]);
@@ -32,7 +31,7 @@ const GlassesButton = ({
     if (animate) handleMouseMove();
   }, [accel, mouseAcceleration, animate]);
 
-  const pressedStyle = { rotate: 10, scale: 1.2 };
+  const pressedStyle = { rotate: 10, scale: 0.9 };
 
   return (
     <motion.div

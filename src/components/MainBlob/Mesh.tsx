@@ -56,7 +56,7 @@ const Mesh = () => {
       scale: (mouseDown && !glassesMode ? 1.5 : 2) * glassesModeMultiplier,
     });
     api2.start({
-      radius: hoverEnabled ? 1.4 : 1,
+      radius: hoverEnabled ? 1.3 : 1,
     });
     return () => {
       api.stop();
