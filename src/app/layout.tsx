@@ -16,7 +16,7 @@ import Scrollbar from "@/components/Scrollbar";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly - Portfolio",
-  description: "French creative developer based in Geneva ",
+  description: "Creative developer based in Geneva",
 };
 
 export default function RootLayout({
