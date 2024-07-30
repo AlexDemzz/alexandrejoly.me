@@ -22,7 +22,7 @@ type AnimatedLinkProps = DetailedHTMLProps<
 const AnimatedLink: ForwardRefRenderFunction<
   HTMLAnchorElement,
   AnimatedLinkProps
-> = ({ href, children, className, ...props }, ref) => {
+> = ({ href, children, className, target, ...props }, ref) => {
   const [innerRef, { height }] = useMeasure();
 
   return (
@@ -34,6 +34,7 @@ const AnimatedLink: ForwardRefRenderFunction<
           overflow: "hidden",
           height: `${height}px`,
         }}
+        target={target}
         className={`flex flex-col ${className}`}
       >
         <motion.div
