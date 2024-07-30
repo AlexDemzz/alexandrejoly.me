@@ -25,7 +25,7 @@ const Header = () => {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ ...DEFAULT_TRANSITION }}
               >
-                <div className="bg-foreground text-background font-mono text-sm font-bold px-1 hidden sm:inline-block">
+                <div className="bg-foreground text-background font-mono text-sm font-bold px-1 hidden sm:inline-block shadow-lg">
                   GENEVA, {time.toString()}
                 </div>
               </motion.div>

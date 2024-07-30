@@ -23,6 +23,9 @@ const AnimatedGrid = ({
     }
   }, []);
 
+  // Fonction pour générer un délai aléatoire
+  const getRandomDelay = () => Math.random() * 0.5;
+
   return (
     <div className="w-full h-[100vh] flex items-stretch fixed top-0 right-0 left-0 z-[999] bottom-0 pointer-events-none">
       {new Array(columns + 2).fill("").map((_, i, arr) => {
@@ -34,13 +37,13 @@ const AnimatedGrid = ({
               flex: isXPadding ? undefined : "1",
               willChange: "transform",
             }}
-            className={`bg-background border-b-grid border-b ${
-              i < columns + 2 - 1 ? "border-r-grid border-r" : ""
+            className={`bg-foreground border-b-background border-b ${
+              i < columns + 2 - 1 ? "border-r-background border-r" : ""
             }`}
             initial={{ y: "0%" }}
             animate={{ y: animate ? "-100%" : "0%" }}
             exit={{ y: "0%" }}
-            transition={{ delay: i * 0.03, tension: 180, friction: 12 }}
+            transition={{ delay: getRandomDelay(), tension: 180, friction: 12 }}
             key={`grid-elem-${i}`}
             onAnimationStart={() => {
               if (i === 0) {

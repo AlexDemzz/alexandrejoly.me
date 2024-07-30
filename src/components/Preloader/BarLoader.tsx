@@ -43,7 +43,8 @@ const BarLoader: React.FC<{
       },
       ease: "easeOut",
       onUpdate(value) {
-        if (nodeRef.current) nodeRef.current.textContent = value.toFixed(0);
+        if (nodeRef.current)
+          nodeRef.current.textContent = value.toFixed(0).padStart(3, "0");
       },
     });
     return () => controls.stop();
@@ -51,18 +52,17 @@ const BarLoader: React.FC<{
   }, [percent, oldPercent]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div
+    <div className="container">
+      <div className="grid grid-cols-1 md:grid-cols-8">
+        {/* <div
         style={{ width: size, height }}
         className="border rounded-full bg-grid overflow-hidden"
       >
         <motion.div className="bg-foreground h-full w-0" animate={controls} />
-      </div>
-      <div className="text-sm font-bold font-mono mt-2 text-foreground">
-        <span>&#91;</span>
-        <motion.span style={{ display: "inline-block" }} ref={nodeRef} />
-        <span>%</span>
-        <span>&#93;</span>
+      </div> */}
+        <div className="text-[100px] md:text-[15vw] font-black mt-2 text-background md:col-start-2 md:col-span-6">
+          <motion.span style={{ display: "inline-block" }} ref={nodeRef} />
+        </div>
       </div>
     </div>
   );

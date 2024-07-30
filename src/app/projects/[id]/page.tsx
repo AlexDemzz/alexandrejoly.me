@@ -26,7 +26,7 @@ const Project = ({ params }: { params: { id: string } }) => {
             <div className="grid grid-cols-1 gap-10 md:gap-20">
               {data?.images?.map((src, i, arr) => (
                 <TagIndicator
-                  tag="image"
+                  tag="img"
                   position="top"
                   key={`project-${data.id}-image-${i}`}
                 >

@@ -25,6 +25,7 @@ const Preloader: React.FC<{ onLoad: () => void }> = ({ onLoad }) => {
         <>
           <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center z-[9999] pointer-events-none">
             <motion.div
+              className="w-full"
               initial={{ y: 0, opacity: 1 }}
               animate={{
                 y: triggerAnimation ? -200 : 0,
@@ -32,9 +33,7 @@ const Preloader: React.FC<{ onLoad: () => void }> = ({ onLoad }) => {
                 transition: { delay: 0.1 },
               }}
             >
-              <div className="gap-2 flex items-center justify-center flex-col">
-                <Loading onComplete={handleAnimationEnd} />
-              </div>
+              <Loading onComplete={handleAnimationEnd} />
             </motion.div>
           </div>
           <AnimatedGrid
