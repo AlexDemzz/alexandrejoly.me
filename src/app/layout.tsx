@@ -12,6 +12,7 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import "./globals.css";
 import Transition from "./transition";
+import Scrollbar from "@/components/Scrollbar";
 
 export const metadata: Metadata = {
   title: "Alexandre Joly - Portfolio",
@@ -27,7 +28,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable} md:cursor-none`}
+      className={`${GeistSans.variable} ${GeistMono.variable} md:cursor-none no-scrollbar`}
     >
       <body>
         <Analytics />
@@ -42,6 +43,7 @@ export default function RootLayout({
             <Cursor />
             <PreloaderProvider>
               <Header />
+              <Scrollbar />
               <Transition>{children}</Transition>
               <Footer />
             </PreloaderProvider>
