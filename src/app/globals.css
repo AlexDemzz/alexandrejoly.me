@@ -70,6 +70,10 @@
   }
 
   @layer utilities {
+    .h-fill-screen{
+      height: 100vh;
+      height: calc(100dvh);
+    }
     .cursor-none * {
       cursor: none !important;
     }

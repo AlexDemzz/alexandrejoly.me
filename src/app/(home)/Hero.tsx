@@ -28,7 +28,7 @@ const Hero = () => {
 
   return (
     <div
-      className="container h-[100vh] min-h-[700px] flex flex-col justify-center py-32 relative"
+      className="container  h-fill-screen min-h-[700px] flex flex-col justify-center py-32 relative"
       onClick={() => {
         setState((o) => ({ ...o, glassesMode: !o.glassesMode }));
       }}
