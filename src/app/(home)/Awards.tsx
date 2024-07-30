@@ -12,7 +12,7 @@ const Awards = () => {
   const project = projects.find((p) => p.id === "portfolio-2018");
 
   return (
-    <div className="container py-32">
+    <div className="container  pb-24 pt-40 md:pb-32 md:pt-32">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-16 lg:gap-0">
         <div className="lg:col-span-3 lg:col-start-2">
           <ParallaxItem range={[-150, 0]} speed={6}>
