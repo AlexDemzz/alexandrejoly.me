@@ -30,7 +30,7 @@ export default async function Image() {
           justifyContent: "center",
         }}
       >
-        <svg fill="none" height={"40%"} viewBox="0 0 74 74" width={"40%"}>
+        <svg fill="none" height={"auto"} viewBox="0 0 74 74" width={"40%"}>
           <clipPath id="a">
             <path d="m0 0h74v74h-74z" />
           </clipPath>
