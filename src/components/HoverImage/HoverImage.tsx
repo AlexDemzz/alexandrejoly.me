@@ -106,48 +106,49 @@ const HoverImage = ({
     >
       {children}
       <AnimatePresence>
-        {isHover && (
-          <Portal>
-            <motion.div
-              initial="initial"
-              animate="enter"
-              exit="exit"
-              variants={variants}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              style={{
-                x: xSpring,
-                y: ySpring,
-                transform: "translate(10%, -110%)",
-                pointerEvents: "none",
-              }}
-              className="fixed z-10 overflow-hidden w-[400px] h-[200px] bg-foreground border-foreground flex items-center justify-center"
-            >
+        {isHover &&
+          breakpoints.get({ xs: false, md: true })(
+            <Portal>
               <motion.div
+                initial="initial"
+                animate="enter"
+                exit="exit"
+                variants={variants}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 style={{
-                  x: delayedXSpring,
-                  y: delayedYSpring,
+                  x: xSpring,
+                  y: ySpring,
+                  transform: "translate(10%, -110%)",
                   pointerEvents: "none",
                 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="fixed z-10 overflow-hidden w-[400px] h-[200px] bg-foreground border-foreground flex items-center justify-center"
               >
-                {videos ? (
-                  <Video
-                    key={`uniq-hover-videos-index-${currIndex}`}
-                    src={videos[currIndex]}
-                    className="object-fill"
-                  />
-                ) : (
-                  <Image
-                    key={`uniq-hover-index-images-${currIndex}`}
-                    src={images ? images[currIndex] : ""}
-                    alt=""
-                    className="object-fill"
-                  />
-                )}
+                <motion.div
+                  style={{
+                    x: delayedXSpring,
+                    y: delayedYSpring,
+                    pointerEvents: "none",
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  {videos ? (
+                    <Video
+                      key={`uniq-hover-videos-index-${currIndex}`}
+                      src={videos[currIndex]}
+                      className="object-fill"
+                    />
+                  ) : (
+                    <Image
+                      key={`uniq-hover-index-images-${currIndex}`}
+                      src={images ? images[currIndex] : ""}
+                      alt=""
+                      className="object-fill"
+                    />
+                  )}
+                </motion.div>
               </motion.div>
-            </motion.div>
-          </Portal>
-        )}
+            </Portal>
+          )}
       </AnimatePresence>
     </div>
   );
