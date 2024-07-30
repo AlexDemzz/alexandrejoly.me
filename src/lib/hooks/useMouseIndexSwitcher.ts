@@ -5,19 +5,20 @@ export default function useMouseIndexSwitcher(
   ref: React.RefObject<HTMLDivElement>,
   arr: any[],
   distance: number = 100
-) {
+): [number, React.Dispatch<React.SetStateAction<number>>] {
   const [currIndex, setCurrIndex] = useState(0);
   const currDistance = useRef(0);
   const lastMousePosition = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback(
     (event: MouseEvent) => {
+      console.log("mouve");
       const dx = event.clientX - lastMousePosition.current.x;
       const dy = event.clientY - lastMousePosition.current.y;
       const newDistance = Math.sqrt(dx * dx + dy * dy);
       currDistance.current += newDistance;
       if (currDistance.current >= distance) {
-        setCurrIndex((prevIndex) => (prevIndex + 1) % arr.length);
+        setCurrIndex((prevIndex) => (prevIndex + 1) % arr?.length);
         currDistance.current -= distance;
       }
       lastMousePosition.current = { x: event.clientX, y: event.clientY };
@@ -49,5 +50,5 @@ export default function useMouseIndexSwitcher(
       }
     };
   }, [ref, arr.length, handleMouseMove]);
-  return currIndex;
+  return [currIndex, setCurrIndex];
 }

@@ -24,7 +24,10 @@ const HoverImage = ({
   const breakpoints = useBreakpoints();
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef(null);
-  const currIndex = useMouseIndexSwitcher(containerRef, images || videos || []);
+  const [currIndex] = useMouseIndexSwitcher(
+    containerRef,
+    images || videos || []
+  );
   const mouseAcceleration = useMouseAcceleration();
 
   const xSpring = useSpring(0, { stiffness: 300, damping: 30 });

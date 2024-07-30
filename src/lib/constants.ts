@@ -29,7 +29,7 @@ export const DEFAULT_TRANSITION = {
 };
 
 export const INTRO =
-  "I’m a french creative developer based in Geneva, I transform ideas into dynamic digital experiences. My mission is to create stunning, intuitive, and engaging interfaces that meet today's needs and adapt to tomorrow's challenges.";
+  "I’m a French creative developer based in Geneva with years of experience in front-end development and UI/UX design. I turn ideas into dynamic digital experiences, crafting intuitive and engaging interfaces that meet today's needs and adapt to tomorrow's challenges.";
 
 export const BREAKPOINTS = {
   xs: 0,

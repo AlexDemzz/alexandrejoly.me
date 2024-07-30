@@ -28,9 +28,9 @@ const Preloader: React.FC<{ onLoad: () => void }> = ({ onLoad }) => {
               className="w-full"
               initial={{ y: 0, opacity: 1 }}
               animate={{
-                y: triggerAnimation ? -200 : 0,
+                y: triggerAnimation ? -500 : 0,
                 opacity: triggerAnimation ? 0 : 1,
-                transition: { delay: 0.1 },
+                transition: { delay: 0.1, tension: 180, friction: 12 },
               }}
             >
               <Loading onComplete={handleAnimationEnd} />
