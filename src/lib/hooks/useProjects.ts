@@ -18,8 +18,8 @@ export default function useProjects() {
       id: "yoojo",
       title: "Yoojo",
       description:
-        "Yoojo is an online platform that connects people with service providers for home-related tasks such as cleaning, gardening, babysitting, and handyman services. It allows users to book verified and insured professionals easily, offering a streamlined and secure way to manage household needs.",
-      tags: ["React.js", "UI/UX Design", "Visual Identity"],
+        "Yoojo is an online platform that connects people with service providers for home-related tasks like cleaning, gardening, babysitting, and handyman services. It makes it easy for users to book verified and insured professionals, providing a convenient and secure way to handle household needs. I work on this project as a Front-end Developer and UI/UX designer.",
+      tags: ["React", "UI/UX Design", "Visual Identity"],
       date: "Since 2018",
       images: [Yoojo1, Yoojo2, Yoojo3, Yoojo4],
     },
@@ -27,8 +27,8 @@ export default function useProjects() {
       id: "simplr-design-system",
       title: "Simplr Design System",
       description:
-        "Simplr is the name of yoojo design system. I designed and created it from scratch, ensuring consistency and efficiency across various applications. This includes standardized components, guidelines, and best practices that streamline the design and development process, making it easier to maintain and scale projects effectively.",
-      tags: ["UI/UX Design"],
+        "Simplr is the design system for Yoojo, which I designed and created from scratch. It ensures consistency and efficiency across our website and mobile app. Simplr includes 60 fully customizable components with over 2000 Figma variants. The design system was developed to be used with React Native and React JS, incorporating standardized components, guidelines, and best practices that simplify the design and development process, making it easier to maintain and scale projects effectively.",
+      tags: ["UI/UX Design", "React", "Figma"],
       date: "Since 2018",
       images: [Simplr1, Simplr2, Simplr3],
     },
@@ -36,7 +36,7 @@ export default function useProjects() {
       id: "simplr-icons",
       title: "Simplr Icons",
       description:
-        "This icon pack was meticulously designed to align with the efficiency of the Simplr Design System. Each icon in the pack was created to address specific needs, ensuring a cohesive and streamlined visual experience.",
+        "This icon pack includes more than 200+ icons and was meticulously designed to align with the efficiency of the Simplr Design System. Each icon in the pack was created to address specific needs, ensuring a cohesive and streamlined visual experience.",
       tags: ["Iconography"],
       date: "Since 2018",
       images: [SimplrIcons1, SimplrIcons2, SimplrIcons3, SimplrIcons4],
@@ -45,9 +45,9 @@ export default function useProjects() {
       id: "portfolio-2018",
       title: "Portfolio 2018",
       description:
-        "In 2018, I created one of my first React.js projects to showcase my skills in UI/UX design and react.js development.",
-      tags: ["React.js", "Visual Identity", "UI/UX Design"],
-      date: "2018",
+        "In 2018, I embarked on one of my initial React.js projects, aiming to demonstrate my capabilities in UI/UX design and React.js development. This project was a significant milestone in my journey, allowing me to develop my skills.",
+      tags: ["React", "Visual Identity", "UI/UX Design"],
+      date: "July 2018",
       videos: ["/1.webm", "/2.webm", "/3.webm"],
     },
   ];

@@ -25,7 +25,7 @@ const HoverImage = ({
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef(null);
   const currIndex = useMouseIndexSwitcher(containerRef, images || videos || []);
-
+  console.log("currIndex", currIndex);
   const mouseAcceleration = useMouseAcceleration();
 
   const xSpring = useSpring(0, { stiffness: 300, damping: 30 });
@@ -106,6 +106,7 @@ const HoverImage = ({
         {isHover && (
           <Portal>
             <motion.div
+              key={`uniq-hover-index-${currIndex}`}
               initial="initial"
               animate="enter"
               exit="exit"
