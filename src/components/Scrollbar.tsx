@@ -37,7 +37,7 @@ const Scrollbar = () => {
 
   return (
     <div
-      className="fixed right-[0.375rem] md:right-5 top-1/2 transform -translate-y-1/2 z-10 h-[200px] w-1 rounded-full"
+      className="fixed right-[0.375rem] md:right-5 top-1/2 transform -translate-y-1/2 z-10 h-[200px] w-1 rounded-full hidden md:block"
       style={{ background: "rgba(255,255,255,0.5)" }}
     >
       <motion.div
