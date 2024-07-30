@@ -26,7 +26,8 @@ const HoverImage = ({
   const containerRef = useRef(null);
   const [currIndex] = useMouseIndexSwitcher(
     containerRef,
-    images || videos || []
+    images || videos || [],
+    200
   );
   const mouseAcceleration = useMouseAcceleration();
 
@@ -108,7 +109,6 @@ const HoverImage = ({
         {isHover && (
           <Portal>
             <motion.div
-              key={`uniq-hover-index-${currIndex}`}
               initial="initial"
               animate="enter"
               exit="exit"
@@ -131,9 +131,14 @@ const HoverImage = ({
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 {videos ? (
-                  <Video src={videos[currIndex]} className="object-fill" />
+                  <Video
+                    key={`uniq-hover-videos-index-${currIndex}`}
+                    src={videos[currIndex]}
+                    className="object-fill"
+                  />
                 ) : (
                   <Image
+                    key={`uniq-hover-index-images-${currIndex}`}
                     src={images ? images[currIndex] : ""}
                     alt=""
                     className="object-fill"
