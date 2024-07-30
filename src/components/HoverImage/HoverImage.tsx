@@ -25,7 +25,6 @@ const HoverImage = ({
   const [isHover, setIsHover] = useState(false);
   const containerRef = useRef(null);
   const currIndex = useMouseIndexSwitcher(containerRef, images || videos || []);
-  console.log("currIndex", currIndex);
   const mouseAcceleration = useMouseAcceleration();
 
   const xSpring = useSpring(0, { stiffness: 300, damping: 30 });

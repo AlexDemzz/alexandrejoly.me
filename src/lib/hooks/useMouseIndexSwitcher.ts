@@ -18,7 +18,6 @@ export default function useMouseIndexSwitcher(
       currDistance.current += newDistance;
       if (currDistance.current >= distance) {
         setCurrIndex((prevIndex) => (prevIndex + 1) % arr.length);
-        console.log("newIndex😎😎😎😎😎😎😎");
         currDistance.current -= distance;
       }
       lastMousePosition.current = { x: event.clientX, y: event.clientY };
@@ -50,6 +49,5 @@ export default function useMouseIndexSwitcher(
       }
     };
   }, [ref, arr.length, handleMouseMove]);
-  console.log("newIndex😎😎😎😎😎😎😎 ISSSSS", currIndex);
   return currIndex;
 }
