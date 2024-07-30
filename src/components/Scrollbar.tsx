@@ -27,7 +27,7 @@ const Scrollbar = () => {
     return () => window.removeEventListener("resize", updateContentHeight);
   }, []);
 
-  const knobHeight = (windowHeight / contentHeight) * scrollbarHeight;
+  const knobHeight = ((windowHeight || 1) / contentHeight) * scrollbarHeight;
 
   const knobY = useTransform(
     scrollYProgress,
