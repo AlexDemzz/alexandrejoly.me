@@ -24,6 +24,9 @@ const Awards = () => {
         <div className="lg:col-span-4 lg:col-start-5">
           <HoverImage videos={project?.videos} images={project?.images}>
             <div className="flex flex-col gap-14">
+              <ParallaxItem range={[-150, 0]} speed={1}>
+                <AwardItem title="Website of the day" />
+              </ParallaxItem>
               <ParallaxItem range={[-150, 0]} speed={4}>
                 <AwardItem title="Best UI Design" />
               </ParallaxItem>
