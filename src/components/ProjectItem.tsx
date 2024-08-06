@@ -66,22 +66,44 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                 overflow={false}
                 range={[-100, 100]}
               >
-                {videos && (
-                  <Video
-                    key={`curr-project-videos-index-${currIndex}`}
-                    src={videos[currIndex]}
-                    className="object-cover h-[475px] md:h-[700px] w-full"
-                  />
-                )}
-                {images && !videos && (
-                  <Image
-                    key={`curr-project-images-index-${currIndex}`}
-                    src={images[currIndex]}
-                    className="object-cover h-[475px] md:h-[700px] w-full"
-                    alt={`Project Image for ${title}`}
-                    priority
-                  />
-                )}
+                <div className="w-full relative h-[475px] md:h-[700px]">
+                  {videos && (
+                    <>
+                      <Video
+                        key={`curr-project-videos-index-${currIndex}`}
+                        src={videos[currIndex]}
+                        className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
+                      />
+                      {currIndex > 0 && (
+                        <Video
+                          key={`curr-project-videos-index-${currIndex}`}
+                          src={videos[currIndex]}
+                          className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
+                        />
+                      )}
+                    </>
+                  )}
+                  {images && !videos && (
+                    <>
+                      <Image
+                        key={`curr-project-images-index-${currIndex}`}
+                        src={images[0]}
+                        className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
+                        alt={`Project Image for ${title}`}
+                        priority
+                      />
+                      {currIndex > 0 && (
+                        <Image
+                          key={`curr-project-images-index-${currIndex}`}
+                          src={images[currIndex]}
+                          className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
+                          alt={`Project Image for ${title}`}
+                          priority
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
               </ParallaxItem>
             </motion.div>
           </div>

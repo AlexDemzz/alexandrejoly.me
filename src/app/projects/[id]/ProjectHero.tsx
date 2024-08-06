@@ -6,8 +6,8 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const ProjectHero = ({ data }: { data: Project }) => {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 800], [0, 200]);
-  const opacity = useTransform(scrollY, [0, 800], [1, 0]);
+  const y = useTransform(scrollY, [0, 900], [0, 200]);
+  const opacity = useTransform(scrollY, [0, 1500], [1, 0]);
 
   return (
     <motion.div style={{ y, opacity, willChange: "transform, opacity" }}>
