@@ -70,8 +70,8 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                   {videos && (
                     <>
                       <Video
-                        key={`curr-project-videos-index-${currIndex}`}
-                        src={videos[currIndex]}
+                        key={`curr-project-videos-index-initial`}
+                        src={videos[0]}
                         className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
                       />
                       {currIndex > 0 && (
@@ -86,7 +86,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                   {images && !videos && (
                     <>
                       <Image
-                        key={`curr-project-images-index-${currIndex}`}
+                        key={`curr-project-images-index-initial`}
                         src={images[0]}
                         className="object-cover h-full w-full absolute top-0 left-0 right-0 bottom-0"
                         alt={`Project Image for ${title}`}
