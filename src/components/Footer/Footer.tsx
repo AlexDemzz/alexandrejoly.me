@@ -16,7 +16,7 @@ const Footer = () => {
             {EMAIL}
           </AnimatedLink>
           <div className="">
-            French creative developer based in Geneva, open to opportunities.
+            Creative developer based in Geneva, open to opportunities.
           </div>
         </div>
         <div className="md:col-span-2 flex flex-col gap-1">
