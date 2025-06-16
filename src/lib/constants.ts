@@ -5,6 +5,10 @@ export const LINKEDIN_URL =
 export const EMAIL = "alexandre.joly36@gmail.com";
 export const AWARDS_URL =
   "https://www.cssdesignawards.com/sites/alexandre-joly-portfolio/33214/";
+export const AWARDS_2024_URL =
+  "https://www.cssdesignawards.com/sites/alexandre-joly-portfolio/46054";
+export const MENTION_2024_URL =
+  "https://www.awwwards.com/sites/alexandre-joly-portfolio";
 export const HI_LANGUAGES = [
   "Hola!",
   "Guten Tag!",

@@ -4,6 +4,7 @@ import HoverImage from "@/components/HoverImage/HoverImage";
 import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
 import Trail from "@/components/Trail";
+import { AWARDS_2024_URL, AWARDS_URL, MENTION_2024_URL } from "@/lib/constants";
 import { useProjects } from "@/lib/hooks";
 import React, { useState } from "react";
 
@@ -17,24 +18,89 @@ const Awards = () => {
         <div className="lg:col-span-3 lg:col-start-2">
           <ParallaxItem range={[-150, 0]} speed={6}>
             <TagIndicator tag="h2" position="top">
-              <H2>Awards</H2>
+              <H2>
+                Awards&nbsp;
+                <br />& Mentions
+              </H2>
             </TagIndicator>
           </ParallaxItem>
         </div>
         <div className="lg:col-span-4 lg:col-start-5">
+          <div className="flex flex-col gap-14 mb-14">
+            <ParallaxItem range={[-150, 0]} speed={9}>
+              <AwardItem
+                title="Website of the day"
+                subtitle="CSS Design Awards: alexandrejoly.me"
+                date="Current"
+                href={AWARDS_2024_URL}
+              />
+            </ParallaxItem>
+            <ParallaxItem range={[-150, 0]} speed={8}>
+              <AwardItem
+                title="Best UI Design"
+                subtitle="CSS Design Awards: alexandrejoly.me"
+                date="Current"
+                href={AWARDS_2024_URL}
+              />
+            </ParallaxItem>
+            <ParallaxItem range={[-150, 0]} speed={7}>
+              <AwardItem
+                title="Best UX Design"
+                subtitle="CSS Design Awards: alexandrejoly.me"
+                date="Current"
+                href={AWARDS_2024_URL}
+              />
+            </ParallaxItem>
+            <ParallaxItem range={[-150, 0]} speed={6}>
+              <AwardItem
+                title="Best Innovation"
+                subtitle="CSS Design Awards: alexandrejoly.me"
+                date="Current"
+                href={AWARDS_2024_URL}
+              />
+            </ParallaxItem>
+            <ParallaxItem range={[-150, 0]} speed={5}>
+              <AwardItem
+                title="Honorable Mention"
+                subtitle="Awwwards: alexandrejoly.me"
+                date="Current"
+                href={MENTION_2024_URL}
+              />
+            </ParallaxItem>
+          </div>
           <HoverImage videos={project?.videos} images={project?.images}>
             <div className="flex flex-col gap-14">
               <ParallaxItem range={[-150, 0]} speed={4}>
-                <AwardItem title="Website of the day" />
+                <AwardItem
+                  title="Website of the day"
+                  subtitle="CSS Design Awards: alexandrejoly.me"
+                  date="2018"
+                  href={AWARDS_URL}
+                />
               </ParallaxItem>
               <ParallaxItem range={[-150, 0]} speed={3}>
-                <AwardItem title="Best UI Design" />
+                <AwardItem
+                  title="Best UI Design"
+                  subtitle="CSS Design Awards: alexandrejoly.me"
+                  date="2018"
+                  href={AWARDS_URL}
+                />
               </ParallaxItem>
               <ParallaxItem range={[-150, 0]} speed={2}>
-                <AwardItem title="Best UX Design" />
+                <AwardItem
+                  title="Best UX Design"
+                  subtitle="CSS Design Awards: alexandrejoly.me"
+                  date="2018"
+                  href={AWARDS_URL}
+                />
               </ParallaxItem>
               <ParallaxItem range={[-150, 0]} speed={1}>
-                <AwardItem title="Best Innovation" />
+                <AwardItem
+                  title="Best Innovation"
+                  subtitle="CSS Design Awards: alexandrejoly.me"
+                  date="2018"
+                  href={AWARDS_URL}
+                />
               </ParallaxItem>
             </div>
           </HoverImage>
