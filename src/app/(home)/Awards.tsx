@@ -3,10 +3,8 @@ import H2 from "@/components/H2";
 import HoverImage from "@/components/HoverImage/HoverImage";
 import ParallaxItem from "@/components/ParallaxItem";
 import TagIndicator from "@/components/TagIndicator";
-import Trail from "@/components/Trail";
 import { AWARDS_2024_URL, AWARDS_URL, MENTION_2024_URL } from "@/lib/constants";
 import { useProjects } from "@/lib/hooks";
-import React, { useState } from "react";
 
 const Awards = () => {
   const projects = useProjects();
