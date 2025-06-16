@@ -1,10 +1,16 @@
-import { DRIBBBLE_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
-import Link from "next/link";
-import Hi from "./Hi";
-import HeartBeat from "./HeartBeat";
 import AnimatedLink from "@/components/AnimatedLink";
+import { DRIBBBLE_URL, EMAIL, GITHUB_URL, LINKEDIN_URL } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import HeartBeat from "./HeartBeat";
+import Hi from "./Hi";
 
 const Footer = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <div className="container py-5">
       <div className="gap-4 grid grid-cols-1 md:grid-cols-8 md:gap-0">
@@ -62,7 +68,7 @@ const Footer = () => {
               Alexandre Joly
             </AnimatedLink>
           </span>
-          <div>{new Date().getFullYear()} ©</div>
+          <div>{year} ©</div>
         </div>
       </div>
     </div>
