@@ -1,0 +1,34 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "check-types": "turbo run check-types",
+    "dev:web": "turbo run dev -F web --",
+    "env:generate": "varlock codegen --path ./apps/web/",
+    "postinstall": "varlock codegen --path ./apps/web/",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@portfolio/config": "workspace:*",
+    "@shadcn/lint": "^0.2.3",
+    "@types/node": "^26.4.1",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "turbo": "^2.11.7",
+    "typescript": "catalog:",
+    "ultracite": "8.0.0",
+    "varlock": "catalog:"
+  },
+  "packageManager": "pnpm@10.34.4"
+}
