@@ -14,7 +14,8 @@
     "env:generate": "varlock codegen --path ./apps/web/",
     "postinstall": "varlock codegen --path ./apps/web/",
     "check": "ultracite check",
-    "fix": "ultracite fix"
+    "fix": "ultracite fix",
+    "test": "turbo run test"
   },
   "dependencies": {
     "zod": "catalog:"
