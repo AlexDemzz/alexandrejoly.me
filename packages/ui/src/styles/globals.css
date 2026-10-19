@@ -173,17 +173,3 @@
     }
   }
 }
-
-/* DESIGN.md › Components › Divider: 1px dither masks, 12.5%, 25%, 50%. */
-@utility dither-sparse {
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM2 2h1v1H2z'/%3E%3C/svg%3E");
-  mask-size: 4px 4px;
-}
-@utility dither-light {
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0z'/%3E%3C/svg%3E");
-  mask-size: 2px 2px;
-}
-@utility dither-half {
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM1 1h1v1H1z'/%3E%3C/svg%3E");
-  mask-size: 2px 2px;
-}

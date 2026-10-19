@@ -3,21 +3,18 @@ import { describe, expect, it } from "vitest";
 import { itemMediaVariants, itemVariants } from "./item";
 
 describe("item (DESIGN.md › Components › Row)", () => {
-  it("never fills the row on hover: the arrow is the only hover signal", () => {
-    expect(itemVariants()).not.toMatch(/hover:bg-/u);
+  it("never fills or rounds the row: hover only underlines the title", () => {
+    expect(itemVariants()).not.toMatch(/bg-|rounded-/u);
   });
 
-  it("keeps the text on the column edge while padding the hit area", () => {
-    expect(itemVariants()).toContain("-mx-2");
-    expect(itemVariants()).toContain("p-2");
-    expect(itemVariants()).toContain("before:-inset-y-1");
+  it("keeps a visible focus outline on the row", () => {
+    expect(itemVariants()).toContain("focus-visible:outline-2");
   });
 
-  it("frames thumbnails as a 40×48 card inside a 3px frame", () => {
-    const frame = itemMediaVariants({ variant: "frame" });
-    expect(frame).toContain("p-[3px]");
-    expect(frame).toContain("*:h-12");
-    expect(frame).toContain("*:w-10");
-    expect(frame).toContain("shadow-hairline");
+  it("draws logos as 36px circles on the hairline shadow", () => {
+    const logo = itemMediaVariants({ variant: "logo" });
+    expect(logo).toContain("size-9");
+    expect(logo).toContain("rounded-full");
+    expect(logo).toContain("shadow-hairline");
   });
 });

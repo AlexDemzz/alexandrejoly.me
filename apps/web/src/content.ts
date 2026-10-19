@@ -10,7 +10,9 @@ export interface Project {
   description: string;
   href: string;
   icon: string;
+  kind: string;
   name: string;
+  year: number;
 }
 
 export const PROJECTS: Project[] = [
@@ -18,19 +20,25 @@ export const PROJECTS: Project[] = [
     description: "AI strength coach, built on a professional coach's system",
     href: "https://gymup.ai",
     icon: "/projects/gymup.svg",
+    kind: "iOS & web app",
     name: "Gymup",
+    year: 2026,
   },
   {
     description: "You build the product, Kwern does the marketing",
     href: "https://kwern.app",
     icon: "/projects/kwern.png",
+    kind: "Web app",
     name: "Kwern",
+    year: 2026,
   },
   {
     description: "Headless, zero-dependency modal stack for React",
     href: "https://react-easy-modals-docs.vercel.app/",
     icon: "/projects/react-easy-modals.svg",
+    kind: "React library",
     name: "react-easy-modals",
+    year: 2025,
   },
 ];
 

@@ -34,60 +34,16 @@ typography:
   row-title: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   link: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   footer: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
-rounded: { thumb: 5px, frame: 8px, row: 16px, pill: 9999px }
-spacing:
-  {
-    column: 692px,
-    gutter: 24px,
-    page-y: 96px,
-    page-y-mobile: 48px,
-    section: 96px,
-    section-mobile: 64px,
-    heading-gap: 12px,
-    row-gap: 8px,
-    row-pad: 8px,
-  }
+rounded: { logo: 9999px, favicon: 5px, focus: 5px }
+spacing: { column: 720px, gutter: 24px, margin: 128px, margin-gap: 32px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
 components:
-  row:
-    {
-      text: "{colors.ink}",
-      radius: "{rounded.row}",
-      padding: 8px,
-      hover: arrow only,
-    }
+  row: { text: "{colors.ink}", rule: "{colors.hairline}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.fog}" }
   row-aside: { text: "{colors.fog}", numerals: tabular }
-  row-arrow:
-    {
-      text: "{colors.ash}",
-      from: "opacity 0, scale .75, x -2px",
-      to: "opacity 1, scale 1, x 0",
-      duration: 200ms,
-    }
-  thumb-frame:
-    {
-      fill: "{colors.paper}",
-      radius: "{rounded.frame}",
-      padding: 3px,
-      shadow: "0 0 0 1px #0000000F, 0 1px 2px -1px #0000000F, 0 2px 4px 0 #0000000A",
-    }
-  thumb:
-    {
-      fill: "{colors.preview}",
-      radius: "{rounded.thumb}",
-      width: 40px,
-      height: 48px,
-    }
-  link:
-    {
-      text: "{colors.ink}",
-      underline: "{colors.underline}",
-      underline-hover: "{colors.fog}",
-      offset: 3px,
-    }
-  button-primary:
-    { fill: "{colors.ink}", text: "{colors.paper}", radius: "{rounded.pill}" }
-  divider: { fill: "{colors.ink}", height: 32px, pattern: 4 dithered steps }
+  row-logo: { size: 36px, radius: "{rounded.logo}", shadow: "0 0 0 1px #0000000F, 0 1px 2px -1px #0000000F, 0 2px 4px 0 #0000000A" }
+  section-title: { text: "{colors.fog}", position: sticky margin }
+  link: { text: "{colors.ink}", underline: "{colors.underline}", underline-hover: "{colors.fog}", offset: 3px }
+  link-favicon: { size: 16px, radius: "{rounded.favicon}" }
 shadcnMapping:
   "--background": ["#FCFCFC", "#101010"]
   "--foreground": ["#202020", "#EEEEEE"]
@@ -131,59 +87,53 @@ shadcnMapping:
 
 ## Overview
 
-A single text column, 692px wide with 24px gutters, on an off-white page that turns near-black with the system theme. Everything is 16px: hierarchy comes from weight (400, 450, 500) and from two inks, never from size. No accent colour, no header chrome, no cards on the page: an identity line, a two-paragraph bio with underlined links, then sections of stacked rows. Interaction is quiet: a ↗ arrow fades in beside a row title on hover, buttons press to 97%.
+Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette, the system font and a single 16px size. One 720px column, no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
-- Neutral only, twelve greys with zero chroma. `ink` is every title, heading and link; `fog` is every paragraph, description and year. Body copy is muted by default and links stand out by switching to ink.
-- `ash` is reserved for icons and the hover arrow. `dust` is the footer.
+- Neutral only, zero chroma. `ink` is every row title and link; `fog` is prose, descriptions, years and section titles. Prose is muted by default and links stand out by switching to ink.
+- `hairline` rules the rows of a section. Nothing else draws a line.
 - `underline` is the resting link underline, `fog` its hover colour.
-- `preview` (pure white / near black) is only used inside thumbnail frames, one step off the page so a thumbnail reads as an object.
-- Dark mode follows `prefers-color-scheme`. No `.dark` toggle.
+- Dark mode follows `prefers-color-scheme`. No toggle.
 
 ## Typography
 
-- System UI stack (SF Pro on Apple), no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and row text.
+- System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
 - 16px for everything except the 14px footer. Line-height 1.625, 1.375 for the identity lines.
-- Weight 500 for the name and section headings, 450 (`font-book`) for row titles and inline links, 400 for body.
-- Counts and years use `tabular-nums`.
+- Weight 500 for the name, 450 (`font-book`) for row titles, links and the role, 400 for body and section titles.
+- Years use `tabular-nums`.
 
 ## Shape and depth
 
-- Rows: 16px radius, but no fill at rest or on hover: the radius only shows on the focus ring.
-- Thumbnail: a 3px frame (8px radius, paper fill) around a 40×48 card (5px radius, preview fill). Both carry the hairline shadow, no borders.
-- Shadow `0 0 0 1px #0000000F, 0 1px 2px -1px #0000000F, 0 2px 4px 0 #0000000A` in light, `0 0 0 1px #FFFFFF14` in dark.
-- The only button is a full pill.
+- Rows have no fill and no radius; a hairline under each row except the last.
+- Project logos are 36px circles on the hairline shadow. Favicons inside links are 16px with a 5px radius.
+- No borders on surfaces, no cards.
 
 ## Layout
 
-- Column `max-w-173` (692px), `px-6`, `py-12 sm:py-24`.
-- Identity block → bio 24px; paragraph → paragraph 16px.
-- First section `mt-12 sm:mt-16`, following ones `mt-16 sm:mt-24`. Heading → list 12px. Rows 8px apart.
-- Rows sit at `-mx-2 p-2`, so their text aligns with the column while the hit area grows; a `::before` extends it 4px up and down so there are no dead gaps.
-- Footer: a 32px dithered band, then the footer line.
+- Column `max-w-180` (720px) with `px-6`, `py-12 sm:py-24`.
+- Header: identity, then two paragraphs 20px apart, spanning the full column so they end at the same edge as the rows.
+- Sections: from `sm`, an 8rem margin holding the sticky title and a 32px gap before the rows; one column below `sm`. 40px above and below each section, no divider between them.
+- The first row of a section has no top padding, so its title lines up with the section title.
 
 ## Components
 
-- **Row** (`Item`): optional thumbnail, title over description, optional aside on the right (year, count). Link rows get the hover arrow after the title.
-- **Section**: a 500-weight heading with an optional muted count (`Projects 3`), then the row list.
-- **Text link**: ink, weight 450, underline in `underline` at 3px offset; hover moves the underline to `fog` in 200ms.
-- **Divider**: four dithered segments getting denser left to right, last one solid ink.
-- **Button**: ink pill, paper text, presses to `scale(.97)`.
+- **Section** (`Section`, `SectionTitle`, `SectionContent`): margin title + content column.
+- **Row** (`ItemGroup` of `Item`s): optional round logo (`ItemMedia variant="logo"`), title over description, year on the right (`ItemActions`).
+- **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
+- **Identity**: 44px monogram, name over role.
 
 ## States
 
-- Hover: only on `(hover: hover)` devices. Row: arrow fades/scales/slides in, 200ms ease-out. Link: underline darkens.
-- Focus: `outline: 2px solid ring`, 2px offset, 4px radius on links, row radius on rows.
-- Active: buttons `scale(.97)`.
+- Hover, only on `(hover: hover)` devices: a row underlines its title, a link darkens its underline. 200ms ease-out.
+- Focus: 2px `ring` outline, 2px offset; a focused row also underlines its title.
 - Selection: `selection` fill.
 - `prefers-reduced-motion`: transitions off.
 
 ## Do / Don't
 
 - Do keep every size at 16px and build hierarchy with weight and ink.
-- Do keep the hover signal to the arrow; no background fill on rows.
-- Do keep thumbnails inside the frame + card pair.
-- Don't add an accent colour, a header, or a theme toggle.
-- Don't use borders where the hairline shadow does the job.
-- Don't animate on touch devices or under reduced motion.
+- Do keep section titles in the margin and rows ruled.
+- Don't put dividers between sections; spacing separates them.
+- Don't fill rows on hover, or add an accent colour, cards or a theme toggle.
+- Don't truncate row titles; let them wrap.

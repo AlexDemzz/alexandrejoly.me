@@ -8,7 +8,7 @@ Alexandre Joly's portfolios, one app per domain:
 | `apps/2025` | 2025.alexandrejoly.me | Next.js 14, Three.js (frozen, imported with history) |
 | `apps/2018` | 2018.alexandrejoly.me | Create React App 1, Sass (frozen, imported with history) |
 
-For the design of `apps/web`, see `DESIGN.md`. The legacy apps are excluded from Ultracite; `pnpm-workspace.yaml` pins the ESLint and React 18 types their toolchains need.
+For the design of `apps/web`, see `DESIGN.md` and `docs/design/home-design.md`. The legacy apps are excluded from Ultracite; `pnpm-workspace.yaml` pins the ESLint and React 18 types their toolchains need.
 
 This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Start, Self, and more.
 

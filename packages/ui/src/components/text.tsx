@@ -30,7 +30,7 @@ const Text = ({
 
 // DESIGN.md › Components › Text link.
 const textLinkVariants = cva(
-  "font-book text-foreground decoration-underline can-hover:hover:decoration-muted-foreground inline-flex items-baseline gap-1 underline underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out"
+  "font-book text-foreground decoration-underline can-hover:hover:decoration-muted-foreground inline-flex items-baseline gap-1 underline underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out [&_img]:size-4 [&_img]:self-center [&_img]:rounded-sm"
 );
 
 type TextLinkProps = React.ComponentProps<"a"> & {

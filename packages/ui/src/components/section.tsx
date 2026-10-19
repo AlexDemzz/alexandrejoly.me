@@ -1,10 +1,14 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Components › Section: a 500-weight heading 12px above its list.
+// DESIGN.md › Layout: the title sits in an 8rem margin and stays in view while
+// its rows scroll; one column on narrow screens.
 const Section = ({ className, ...props }: React.ComponentProps<"section">) => (
   <section
-    className={cn("flex flex-col gap-3", className)}
+    className={cn(
+      "grid gap-4 py-10 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-8",
+      className
+    )}
     data-slot="section"
     {...props}
   />
@@ -16,7 +20,10 @@ const SectionTitle = ({
   ...props
 }: React.ComponentProps<"h2">) => (
   <h2
-    className={cn("flex items-baseline gap-1.5 font-medium", className)}
+    className={cn(
+      "text-muted-foreground self-start sm:sticky sm:top-10",
+      className
+    )}
     data-slot="section-title"
     {...props}
   >
@@ -24,15 +31,15 @@ const SectionTitle = ({
   </h2>
 );
 
-const SectionCount = ({
+const SectionContent = ({
   className,
   ...props
-}: React.ComponentProps<"span">) => (
-  <span
-    className={cn("text-muted-foreground font-normal tabular-nums", className)}
-    data-slot="section-count"
+}: React.ComponentProps<"div">) => (
+  <div
+    className={cn("min-w-0", className)}
+    data-slot="section-content"
     {...props}
   />
 );
 
-export { Section, SectionCount, SectionTitle };
+export { Section, SectionContent, SectionTitle };

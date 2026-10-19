@@ -39,7 +39,7 @@ export const Route = createRootRoute({
       { title: "Alexandre Joly" },
       {
         content:
-          "Creative developer in Geneva. Building Gymup, Kwern and react-easy-modals.",
+          "Developer in Geneva. Building Gymup, Kwern and react-easy-modals.",
         name: "description",
       },
       {

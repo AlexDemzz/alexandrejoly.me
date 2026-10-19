@@ -3,15 +3,18 @@ import { useRender } from "@base-ui/react/use-render";
 import { Separator } from "@portfolio/ui/components/separator";
 import { cn } from "@portfolio/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowUpRightIcon } from "lucide-react";
 import * as React from "react";
 
-// DESIGN.md › Layout: rows sit 8px apart.
+// DESIGN.md › Components › Row: rows ruled by a hairline, the first one flush
+// with its section title.
 function ItemGroup({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
       data-slot="item-group"
-      className={cn("group/item-group flex w-full flex-col gap-2", className)}
+      className={cn(
+        "group/item-group *:border-border flex w-full flex-col *:border-b *:last:border-b-0 [&>li:first-child>[data-slot=item]]:pt-0",
+        className
+      )}
       {...props}
     />
   );
@@ -31,10 +34,10 @@ function ItemSeparator({
   );
 }
 
-// DESIGN.md › Components › Row: text on the column edge (-mx-2 p-2), a hit
-// area stretched 4px up and down, no fill at rest or on hover.
+// DESIGN.md › Components › Row: no fill, no radius; hover only underlines the
+// title.
 const itemVariants = cva(
-  "group/item focus-visible:outline-ring relative -mx-2 flex items-center gap-3 rounded-2xl p-2 text-base leading-relaxed outline-none before:absolute before:inset-x-0 before:-inset-y-1 focus-visible:outline-2 focus-visible:outline-offset-2"
+  "group/item focus-visible:outline-ring flex items-center gap-4 py-3.5 outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
 );
 
 function Item({
@@ -57,16 +60,14 @@ function Item({
   });
 }
 
-// DESIGN.md › Shape and depth: a 3px paper frame around a 40×48 preview card
-// holding a 28px glyph.
+// DESIGN.md › Shape and depth: a 36px round logo on the hairline shadow.
 const itemMediaVariants = cva(
   "flex shrink-0 items-center justify-center [&_svg]:pointer-events-none",
   {
     variants: {
       variant: {
         default: "bg-transparent",
-        frame:
-          "bg-background shadow-hairline *:bg-card *:shadow-hairline rounded-md p-[3px] *:flex *:h-12 *:w-10 *:items-center *:justify-center *:overflow-hidden *:rounded-sm [&_img]:size-7 [&_img]:rounded-md [&_img]:object-contain",
+        logo: "shadow-hairline size-9 overflow-hidden rounded-full [&_img]:size-full [&_img]:object-cover",
       },
     },
     defaultVariants: {
@@ -105,23 +106,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-title"
       className={cn(
-        "font-book text-foreground flex w-fit items-center gap-1.5 text-pretty",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-// DESIGN.md › States: the arrow is the row's only hover signal, and only on
-// devices that can hover.
-function ItemArrow({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <ArrowUpRightIcon
-      aria-hidden
-      data-slot="item-arrow"
-      className={cn(
-        "text-subtle-foreground can-hover:group-hover/item:translate-x-0 can-hover:group-hover/item:scale-100 can-hover:group-hover/item:opacity-100 size-4 -translate-x-0.5 scale-75 opacity-0 transition-[opacity,translate,scale] duration-200 ease-out group-focus-visible/item:translate-x-0 group-focus-visible/item:scale-100 group-focus-visible/item:opacity-100",
+        "font-book text-foreground can-hover:group-hover/item:decoration-underline group-focus-visible/item:decoration-underline w-fit text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out",
         className
       )}
       {...props}
@@ -139,7 +124,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
-// Years and counts on the right edge of a row.
+// Years on the right edge of a row.
 function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -184,7 +169,6 @@ export {
   ItemMedia,
   ItemContent,
   ItemActions,
-  ItemArrow,
   ItemGroup,
   ItemSeparator,
   ItemTitle,
