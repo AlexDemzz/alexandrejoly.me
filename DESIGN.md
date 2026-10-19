@@ -121,14 +121,15 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Section** (`Section`, `SectionTitle`, `SectionContent`): margin title + content column.
 - **Row** (`ItemGroup` of `Item`s): optional round logo (`ItemMedia variant="logo"`), title over description, year on the right (`ItemActions`).
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
-- **Identity**: 44px monogram, name over role.
+- **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 
 ## States
 
 - Hover, only on `(hover: hover)` devices: a row underlines its title, a link darkens its underline. 200ms ease-out.
 - Focus: 2px `ring` outline, 2px offset; a focused row also underlines its title.
 - Selection: `selection` fill.
-- `prefers-reduced-motion`: transitions off.
+- Load: the mark draws itself once, the arc over 900ms then the bar over 450ms from 500ms, `cubic-bezier(0.23, 1, 0.32, 1)` (`animate-mark-draw`, `animate-mark-draw-late`).
+- `prefers-reduced-motion`: transitions and the draw-on off; the mark shows at rest.
 
 ## Do / Don't
 
