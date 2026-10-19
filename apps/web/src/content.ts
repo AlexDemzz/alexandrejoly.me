@@ -2,18 +2,35 @@ import type { ComponentType } from "react";
 
 import { AwwwardsIcon } from "@/components/awwwards-icon";
 import { CssDesignAwardsIcon } from "@/components/css-design-awards-icon";
+import { EnvelopeIcon } from "@/components/envelope-icon";
+import { GithubIcon } from "@/components/github-icon";
 import { GymupIcon } from "@/components/gymup-icon";
 import { KwernIcon } from "@/components/kwern-icon";
+import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
+import { XIcon } from "@/components/x-icon";
 import { YoojoIcon } from "@/components/yoojo-icon";
 
 export const LINKS = {
-  dribbble: "https://dribbble.com/AlexDemzz",
   email: "mailto:alexandre.joly36@gmail.com",
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
   skills: "https://github.com/AlexDemzz/skills",
+  x: "https://x.com/AlexDemzz",
 } as const;
+
+export interface Social {
+  href: string;
+  icon: ComponentType<{ className?: string }>;
+  name: string;
+}
+
+export const SOCIALS: Social[] = [
+  { href: LINKS.x, icon: XIcon, name: "X" },
+  { href: LINKS.github, icon: GithubIcon, name: "GitHub" },
+  { href: LINKS.linkedin, icon: LinkedinIcon, name: "LinkedIn" },
+  { href: LINKS.email, icon: EnvelopeIcon, name: "Email" },
+];
 
 export const EMPLOYER = {
   href: "https://yoojo.com",

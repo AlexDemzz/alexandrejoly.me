@@ -22,9 +22,9 @@ import {
   ARCHIVES,
   AWARDS,
   EMPLOYER,
-  LINKS,
   PROJECTS,
   SKILLS,
+  SOCIALS,
   skillHref,
 } from "@/content";
 import type { Project } from "@/content";
@@ -88,6 +88,22 @@ const HomeComponent = () => (
         build the product. I also maintain <ProjectLink project={modals} />, a
         headless modal stack for React.
       </Text>
+      <nav aria-label="Social" className="-ml-2.5 flex items-center">
+        {SOCIALS.map(({ href, icon: Icon, name }) => {
+          const external = href.startsWith("https://");
+          return (
+            <a
+              aria-label={external ? `${name} (opens in a new tab)` : name}
+              className="text-muted-foreground can-hover:hover:bg-muted can-hover:hover:text-foreground focus-visible:text-foreground rounded-lg p-2.5 transition-colors duration-200 ease-out"
+              href={href}
+              key={name}
+              {...(external ? { rel: "noreferrer", target: "_blank" } : {})}
+            >
+              <Icon className="size-4.5" />
+            </a>
+          );
+        })}
+      </nav>
     </header>
 
     <Section>
@@ -176,29 +192,9 @@ const HomeComponent = () => (
       </SectionContent>
     </Section>
 
-    <Section>
-      <SectionTitle>Contact</SectionTitle>
-      <SectionContent>
-        <Text>
-          <TextLink href={LINKS.email}>Email</TextLink>,{" "}
-          <TextLink external href={LINKS.github}>
-            GitHub
-          </TextLink>
-          ,{" "}
-          <TextLink external href={LINKS.linkedin}>
-            LinkedIn
-          </TextLink>{" "}
-          or{" "}
-          <TextLink external href={LINKS.dribbble}>
-            Dribbble
-          </TextLink>
-          .
-        </Text>
-        <Text className="mt-10" variant="faint">
-          © 2026 Alexandre Joly
-        </Text>
-      </SectionContent>
-    </Section>
+    <footer className="pt-10">
+      <Text variant="faint">© 2026 Alexandre Joly</Text>
+    </footer>
   </main>
 );
 
