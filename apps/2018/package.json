@@ -1,5 +1,5 @@
 {
-  "name": "portfolio2018",
+  "name": "portfolio-2018",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,7 +7,6 @@
     "classnames": "^2.2.5",
     "iscroll": "^5.2.0",
     "modernizr": "^3.6.0",
-    "node-sass-chokidar": "^1.2.2",
     "npm-run-all": "^4.1.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
@@ -37,16 +36,15 @@
     "really-smooth-scroll": "^2.1.1",
     "shake.js": "^1.2.2",
     "slick-carousel": "^1.8.1",
-    "smooth-scrollbar": "^8.3.0"
+    "smooth-scrollbar": "^8.3.0",
+    "sass": "^1.49.9"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "set PORT=3006 && react-scripts start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build-js": "react-scripts build",
-    "build": "npm-run-all build-css build-js",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "build-css": "sass --no-source-map src/:src/",
+    "watch-css": "sass --no-source-map --watch src/:src/",
+    "start-js": "PORT=3018 BROWSER=none NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build-js": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "dev": "run-s build-css && run-p watch-css start-js",
+    "build": "run-s build-css build-js"
   }
 }
