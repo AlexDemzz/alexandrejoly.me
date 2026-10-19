@@ -147,6 +147,7 @@ export interface Archive {
   description: string;
   href: string;
   media: string;
+  title: string;
   year: number;
 }
 
@@ -155,12 +156,14 @@ export const ARCHIVES: Archive[] = [
     description: "Next.js, Three.js and a lot of springs",
     href: "https://2025.alexandrejoly.me",
     media: "/archives/2025.webm",
+    title: "Portfolio 2025",
     year: 2025,
   },
   {
     description: "React, Sass and smooth scrolling",
     href: "https://2018.alexandrejoly.me",
     media: "/archives/2018.webm",
+    title: "Portfolio 2018",
     year: 2018,
   },
 ];

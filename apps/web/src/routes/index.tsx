@@ -181,7 +181,7 @@ const HomeComponent = () => (
                   />
                 </ItemMedia>
               }
-              title={archive.href.replace("https://", "")}
+              title={archive.title}
             />
           ))}
         </ItemGroup>
