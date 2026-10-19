@@ -24,7 +24,7 @@ export const LINKS = {
   email: "mailto:alexandre.joly36@gmail.com",
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
-  skills: "https://github.com/AlexDemzz/skills",
+  skills: "https://www.skills.sh/alexdemzz/skills",
   x: `https://x.com/${X_HANDLE}`,
 } as const;
 
@@ -109,8 +109,7 @@ export const SKILLS: Skill[] = [
   },
 ];
 
-export const skillHref = (name: string) =>
-  `${LINKS.skills}/tree/master/${name}`;
+export const skillHref = (name: string) => `${LINKS.skills}/${name}`;
 
 export interface Award {
   href: string;
