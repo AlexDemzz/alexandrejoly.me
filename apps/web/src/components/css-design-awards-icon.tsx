@@ -1,0 +1,12 @@
+export const CssDesignAwardsIcon = ({ className }: { className?: string }) => (
+  <svg
+    aria-hidden
+    className={className}
+    fill="currentColor"
+    height={16}
+    viewBox="0 0 24 24"
+    width={16}
+  >
+    <path d="m7.46.93-7.46 7.38 3.73 3.73 3.74 3.65 3.73 3.65 3.74-3.65-7.47-7.38 7.47-7.4zm5.33 3.73-3.67 3.65 7.39 7.38-7.46 7.4h7.46l3.76-3.66 3.73-3.73-3.73-3.65-3.74-3.73z" />
+  </svg>
+);

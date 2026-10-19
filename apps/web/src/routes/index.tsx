@@ -14,10 +14,14 @@ import { Text, TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
 
 import { ExternalRow } from "@/components/home-rows";
+import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
+import { MediaBackdrop } from "@/components/media-backdrop";
+import { SkillIcon } from "@/components/skill-icon";
 import {
   ARCHIVES,
   AWARDS,
+  EMPLOYER,
   LINKS,
   PROJECTS,
   SKILLS,
@@ -26,12 +30,34 @@ import {
 import type { Project } from "@/content";
 
 const [gymup, kwern, modals] = PROJECTS;
+const { icon: EmployerIcon } = EMPLOYER;
 
-const ProjectLink = ({ project }: { project: Project }) => (
-  <TextLink external href={project.href}>
-    <img alt="" height={16} src={project.icon} width={16} />
-    {project.name}
+const ProjectLink = ({
+  project: { href, icon: Icon, name },
+}: {
+  project: Project;
+}) => (
+  <TextLink external href={href}>
+    <Icon />
+    {name}
   </TextLink>
+);
+
+const ProjectMedia = ({
+  project: { backdrop, icon: Icon },
+}: {
+  project: Project;
+}) => (
+  <ItemMedia variant="logo">
+    {backdrop === undefined ? (
+      <Icon />
+    ) : (
+      <>
+        <MediaBackdrop src={backdrop} />
+        <Icon className="can-hover:group-hover/item:text-white relative group-focus-visible/item:text-white" />
+      </>
+    )}
+  </ItemMedia>
 );
 
 const HomeComponent = () => (
@@ -47,8 +73,13 @@ const HomeComponent = () => (
         </div>
       </Identity>
       <Text>
-        I’m a French developer living in Geneva. I design and build interfaces
-        end to end, and I care about the details that make them feel right.
+        I’m a French developer at{" "}
+        <TextLink external href={EMPLOYER.href}>
+          <EmployerIcon />
+          {EMPLOYER.name}
+        </TextLink>
+        . I design and build interfaces end to end, and I care about the details
+        that make them feel right.
       </Text>
       <Text>
         Right now I’m building <ProjectLink project={gymup} />, an AI strength
@@ -69,11 +100,7 @@ const HomeComponent = () => (
               description={project.description}
               href={project.href}
               key={project.name}
-              media={
-                <ItemMedia variant="logo">
-                  <img alt="" height={36} src={project.icon} width={36} />
-                </ItemMedia>
-              }
+              media={<ProjectMedia project={project} />}
               title={project.name}
             />
           ))}
@@ -90,6 +117,11 @@ const HomeComponent = () => (
               description={skill.description}
               href={skillHref(skill.name)}
               key={skill.name}
+              media={
+                <ItemMedia variant="logo">
+                  <SkillIcon />
+                </ItemMedia>
+              }
               title={skill.name}
             />
           ))}
@@ -107,6 +139,11 @@ const HomeComponent = () => (
               description={award.issuer}
               href={award.href}
               key={award.href}
+              media={
+                <ItemMedia variant="logo">
+                  <award.icon />
+                </ItemMedia>
+              }
               title={award.title}
             />
           ))}
@@ -124,6 +161,14 @@ const HomeComponent = () => (
               description={archive.description}
               href={archive.href}
               key={archive.href}
+              media={
+                <ItemMedia variant="logo">
+                  <LazyVideo
+                    className="size-full object-cover"
+                    src={archive.media}
+                  />
+                </ItemMedia>
+              }
               title={archive.href.replace("https://", "")}
             />
           ))}

@@ -2,30 +2,30 @@
 source:
   sampled: colours # production CSS tokens, confirmed by magick point samples on the renders
   estimated: none # sizes and radii read from the production CSS, not measured
-  modes: light, dark # dark follows prefers-color-scheme only, no toggle
+  modes: light, dark # dark follows prefers-color-scheme only, no toggle; both modes warmed to hue 70
 colors:
-  paper: "#FCFCFC"
-  paper-dark: "#101010"
-  ink: "#202020"
-  ink-dark: "#EEEEEE"
-  fog: "#6F6F6F" # gray-1100, muted text
-  fog-dark: "#B5B5B5"
-  ash: "#838383" # gray-1000, icons and hover arrow
-  ash-dark: "#7B7B7B"
-  dust: "#8D8D8D" # gray-900, footer
-  dust-dark: "#6E6E6E"
-  underline: "#D9D9D9" # gray-600, link underline
-  underline-dark: "#3A3A3A"
-  selection: "#E0E0E0" # gray-500
-  selection-dark: "#313131"
-  hairline: "#E8E8E8" # gray-400
-  hairline-dark: "#252525"
-  tint: "#F6F6F6" # gray-200
-  tint-dark: "#191919"
-  raised: "#F0F0F0" # gray-300
-  raised-dark: "#222222"
-  preview: "#FFFFFF" # thumbnail cards
-  preview-dark: "#0B0B0B"
+  paper: "#FCFBF9"
+  paper-dark: "#0F0E0D"
+  ink: "#201E1C"
+  ink-dark: "#F2F0ED"
+  fog: "#6F6C67" # gray-1100, muted text
+  fog-dark: "#BCB8B4"
+  ash: "#7F7B77" # gray-1000, icons and hover arrow
+  ash-dark: "#928E8A"
+  dust: "#706C68" # gray-900, footer
+  dust-dark: "#8E8A85"
+  underline: "#DAD7D3" # gray-600, link underline
+  underline-dark: "#3A3735"
+  selection: "#E1DEDA" # gray-500
+  selection-dark: "#312F2C"
+  hairline: "#E9E6E3" # gray-400
+  hairline-dark: "#242220"
+  tint: "#F6F4F2" # gray-200
+  tint-dark: "#191715"
+  raised: "#F1EEEB" # gray-300
+  raised-dark: "#22201D"
+  preview: "#FFFEFD" # thumbnail cards
+  preview-dark: "#0A0A09"
 typography:
   body: { family: system-ui, size: 16px, weight: 400, line-height: 26px }
   name: { family: system-ui, size: 16px, weight: 500, line-height: 22px }
@@ -45,53 +45,53 @@ components:
   link: { text: "{colors.ink}", underline: "{colors.underline}", underline-hover: "{colors.fog}", offset: 3px }
   link-favicon: { size: 16px, radius: "{rounded.favicon}" }
 shadcnMapping:
-  "--background": ["#FCFCFC", "#101010"]
-  "--foreground": ["#202020", "#EEEEEE"]
-  "--card": ["#FFFFFF", "#0B0B0B"]
-  "--card-foreground": ["#202020", "#EEEEEE"]
-  "--popover": ["#FFFFFF", "#0B0B0B"]
-  "--popover-foreground": ["#202020", "#EEEEEE"]
-  "--primary": ["#202020", "#EEEEEE"]
-  "--primary-foreground": ["#FCFCFC", "#101010"]
-  "--secondary": ["#F6F6F6", "#191919"]
-  "--secondary-foreground": ["#202020", "#EEEEEE"]
-  "--muted": ["#F6F6F6", "#191919"]
-  "--muted-foreground": ["#6F6F6F", "#B5B5B5"]
-  "--accent": ["#F0F0F0", "#222222"]
-  "--accent-foreground": ["#202020", "#EEEEEE"]
+  "--background": ["#FCFBF9", "#0F0E0D"]
+  "--foreground": ["#201E1C", "#F2F0ED"]
+  "--card": ["#FFFEFD", "#0A0A09"]
+  "--card-foreground": ["#201E1C", "#F2F0ED"]
+  "--popover": ["#FFFEFD", "#0A0A09"]
+  "--popover-foreground": ["#201E1C", "#F2F0ED"]
+  "--primary": ["#201E1C", "#F2F0ED"]
+  "--primary-foreground": ["#FCFBF9", "#0F0E0D"]
+  "--secondary": ["#F6F4F2", "#191715"]
+  "--secondary-foreground": ["#201E1C", "#F2F0ED"]
+  "--muted": ["#F6F4F2", "#191715"]
+  "--muted-foreground": ["#6F6C67", "#BCB8B4"]
+  "--accent": ["#F1EEEB", "#22201D"]
+  "--accent-foreground": ["#201E1C", "#F2F0ED"]
   "--destructive": ["#DC3E42", "#FF6369"] # no reference evidence: Radix red 10
-  "--border": ["#E8E8E8", "#252525"]
-  "--input": ["#E8E8E8", "#252525"]
-  "--ring": ["#6F6F6F", "#B5B5B5"]
-  "--chart-1": ["#202020", "#EEEEEE"] # charts: no reference evidence, neutral ramp
-  "--chart-2": ["#6F6F6F", "#B5B5B5"]
+  "--border": ["#E9E6E3", "#242220"]
+  "--input": ["#E9E6E3", "#242220"]
+  "--ring": ["#6F6C67", "#BCB8B4"]
+  "--chart-1": ["#201E1C", "#F2F0ED"] # charts: no reference evidence, neutral ramp
+  "--chart-2": ["#6F6C67", "#BCB8B4"]
   "--chart-3": ["#8D8D8D", "#6E6E6E"]
   "--chart-4": ["#BBBBBB", "#484848"]
   "--chart-5": ["#D9D9D9", "#3A3A3A"]
   "--radius": "0.5rem"
-  "--sidebar": ["#FCFCFC", "#101010"] # no sidebar in the reference: page surfaces
-  "--sidebar-foreground": ["#202020", "#EEEEEE"]
-  "--sidebar-primary": ["#202020", "#EEEEEE"]
-  "--sidebar-primary-foreground": ["#FCFCFC", "#101010"]
-  "--sidebar-accent": ["#F0F0F0", "#222222"]
-  "--sidebar-accent-foreground": ["#202020", "#EEEEEE"]
-  "--sidebar-border": ["#E8E8E8", "#252525"]
-  "--sidebar-ring": ["#6F6F6F", "#B5B5B5"]
-  "--subtle-foreground": ["#838383", "#7B7B7B"]
-  "--faint-foreground": ["#8D8D8D", "#6E6E6E"]
-  "--underline": ["#D9D9D9", "#3A3A3A"]
-  "--selection": ["#E0E0E0", "#313131"]
+  "--sidebar": ["#FCFBF9", "#0F0E0D"] # no sidebar in the reference: page surfaces
+  "--sidebar-foreground": ["#201E1C", "#F2F0ED"]
+  "--sidebar-primary": ["#201E1C", "#F2F0ED"]
+  "--sidebar-primary-foreground": ["#FCFBF9", "#0F0E0D"]
+  "--sidebar-accent": ["#F1EEEB", "#22201D"]
+  "--sidebar-accent-foreground": ["#201E1C", "#F2F0ED"]
+  "--sidebar-border": ["#E9E6E3", "#242220"]
+  "--sidebar-ring": ["#6F6C67", "#BCB8B4"]
+  "--subtle-foreground": ["#7F7B77", "#928E8A"]
+  "--faint-foreground": ["#706C68", "#8E8A85"]
+  "--underline": ["#DAD7D3", "#3A3735"]
+  "--selection": ["#E1DEDA", "#312F2C"]
 ---
 
 # DESIGN — alexandrejoly.me
 
 ## Overview
 
-Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette, the system font and a single 16px size. One 720px column, no header chrome, no accent colour, no section dividers.
+Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font and a single 16px size. One 720px column, no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
-- Neutral only, zero chroma. `ink` is every row title and link; `fog` is prose, descriptions, years and section titles. Prose is muted by default and links stand out by switching to ink.
+- Neutral with a faint warm tint in both modes (hue 70, chroma ≤ 0.008), too low to read as a colour. `ink` is every row title and link; `fog` is prose, descriptions, years and section titles. Prose is muted by default and links stand out by switching to ink.
 - `hairline` rules the rows of a section. Nothing else draws a line.
 - `underline` is the resting link underline, `fog` its hover colour.
 - Dark mode follows `prefers-color-scheme`. No toggle.
@@ -106,7 +106,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 ## Shape and depth
 
 - Rows have no fill and no radius; a hairline under each row except the last.
-- Project logos are 36px circles on the hairline shadow. Favicons inside links are 16px with a 5px radius.
+- Row logos are 36px circles on the hairline shadow. Their icon sits at `muted-foreground` 80% and lights to `foreground` while the row is hovered or focused. Favicons inside links are 16px with a 5px radius.
 - No borders on surfaces, no cards.
 
 ## Layout
@@ -127,9 +127,10 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 - Hover, only on `(hover: hover)` devices: a row underlines its title, a link darkens its underline. 200ms ease-out.
 - Focus: 2px `ring` outline, 2px offset; a focused row also underlines its title.
+- Project logos move on row hover or focus, `cubic-bezier(0.23, 1, 0.32, 1)` (`ease-settle`): Gymup's plate turns one lobe (72deg, 600ms); the react-easy-modals stack fans out (250ms, layers staggered 30ms); Kwern's dithered peaks fade in behind it under a 20% black overlay (260ms) while the mark plays Kwern's "thinking" loop (4s), easing back to rest over 400ms on leave. A skill's slash straightens into a caret (200ms) and blinks (1s, step-end).
 - Selection: `selection` fill.
 - Load: the mark draws itself once, the arc over 900ms then the bar over 450ms from 500ms, `cubic-bezier(0.23, 1, 0.32, 1)` (`animate-mark-draw`, `animate-mark-draw-late`).
-- `prefers-reduced-motion`: transitions and the draw-on off; the mark shows at rest.
+- `prefers-reduced-motion`: transitions, the draw-on and the logo motion off; the mark and logos show at rest.
 
 ## Do / Don't
 

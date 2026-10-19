@@ -60,14 +60,15 @@ function Item({
   });
 }
 
-// DESIGN.md › Shape and depth: a 36px round logo on the hairline shadow.
+// DESIGN.md › Shape and depth: a 36px round logo on the hairline shadow, its
+// icon faint until the row is hovered or focused.
 const itemMediaVariants = cva(
   "flex shrink-0 items-center justify-center [&_svg]:pointer-events-none",
   {
     variants: {
       variant: {
         default: "bg-transparent",
-        logo: "shadow-hairline size-9 overflow-hidden rounded-full [&_img]:size-full [&_img]:object-cover",
+        logo: "shadow-hairline text-muted-foreground/80 can-hover:group-hover/item:text-foreground group-focus-visible/item:text-foreground relative size-9 overflow-hidden rounded-full transition-colors duration-200 ease-out [&_img]:size-full [&_img]:object-cover [&_svg]:size-5",
       },
     },
     defaultVariants: {

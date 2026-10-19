@@ -9,44 +9,44 @@
 /* Hover effects only where a pointer can hover (DESIGN.md › States). */
 @custom-variant can-hover (@media (hover: hover));
 
-/* Light. */
+/* Light, warmed (hue 70). */
 :root {
-  --background: oklch(0.991 0 0);
-  --foreground: oklch(0.244 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.244 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.244 0 0);
-  --primary: oklch(0.244 0 0);
-  --primary-foreground: oklch(0.991 0 0);
-  --secondary: oklch(0.973 0 0);
-  --secondary-foreground: oklch(0.244 0 0);
-  --muted: oklch(0.973 0 0);
-  --muted-foreground: oklch(0.542 0 0);
-  --accent: oklch(0.955 0 0);
-  --accent-foreground: oklch(0.244 0 0);
+  --background: oklch(0.988 0.003 70);
+  --foreground: oklch(0.238 0.005 70);
+  --card: oklch(0.997 0.0015 70);
+  --card-foreground: oklch(0.238 0.005 70);
+  --popover: oklch(0.997 0.0015 70);
+  --popover-foreground: oklch(0.238 0.005 70);
+  --primary: oklch(0.238 0.005 70);
+  --primary-foreground: oklch(0.988 0.003 70);
+  --secondary: oklch(0.969 0.004 70);
+  --secondary-foreground: oklch(0.238 0.005 70);
+  --muted: oklch(0.969 0.004 70);
+  --muted-foreground: oklch(0.532 0.008 70);
+  --accent: oklch(0.951 0.005 70);
+  --accent-foreground: oklch(0.238 0.005 70);
   --destructive: oklch(0.599 0.195 24);
-  --border: oklch(0.931 0 0);
-  --input: oklch(0.931 0 0);
-  --ring: oklch(0.542 0 0);
-  --chart-1: oklch(0.244 0 0);
-  --chart-2: oklch(0.542 0 0);
-  --chart-3: oklch(0.643 0 0);
-  --chart-4: oklch(0.792 0 0);
-  --chart-5: oklch(0.885 0 0);
+  --border: oklch(0.926 0.005 70);
+  --input: oklch(0.926 0.005 70);
+  --ring: oklch(0.532 0.008 70);
+  --chart-1: oklch(0.238 0.005 70);
+  --chart-2: oklch(0.532 0.008 70);
+  --chart-3: oklch(0.643 0.006 70);
+  --chart-4: oklch(0.792 0.005 70);
+  --chart-5: oklch(0.885 0.005 70);
   --radius: 0.5rem;
-  --sidebar: oklch(0.991 0 0);
-  --sidebar-foreground: oklch(0.244 0 0);
-  --sidebar-primary: oklch(0.244 0 0);
-  --sidebar-primary-foreground: oklch(0.991 0 0);
-  --sidebar-accent: oklch(0.955 0 0);
-  --sidebar-accent-foreground: oklch(0.244 0 0);
-  --sidebar-border: oklch(0.931 0 0);
-  --sidebar-ring: oklch(0.542 0 0);
-  --subtle-foreground: oklch(0.61 0 0);
-  --faint-foreground: oklch(0.643 0 0);
-  --underline: oklch(0.885 0 0);
-  --selection: oklch(0.907 0 0);
+  --sidebar: oklch(0.988 0.003 70);
+  --sidebar-foreground: oklch(0.238 0.005 70);
+  --sidebar-primary: oklch(0.238 0.005 70);
+  --sidebar-primary-foreground: oklch(0.988 0.003 70);
+  --sidebar-accent: oklch(0.951 0.005 70);
+  --sidebar-accent-foreground: oklch(0.238 0.005 70);
+  --sidebar-border: oklch(0.926 0.005 70);
+  --sidebar-ring: oklch(0.532 0.008 70);
+  --subtle-foreground: oklch(0.585 0.008 70);
+  --faint-foreground: oklch(0.535 0.008 70);
+  --underline: oklch(0.88 0.006 70);
+  --selection: oklch(0.902 0.006 70);
 }
 
 /* Not a colour pair, so it lives outside the palette block DESIGN.md maps. */
@@ -55,44 +55,44 @@
     0 0 0 1px #0000000f, 0 1px 2px -1px #0000000f, 0 2px 4px 0 #0000000a;
 }
 
-/* Dark. */
+/* Dark, warmed the same way. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: oklch(0.173 0 0);
-    --foreground: oklch(0.949 0 0);
-    --card: oklch(0.15 0 0);
-    --card-foreground: oklch(0.949 0 0);
-    --popover: oklch(0.15 0 0);
-    --popover-foreground: oklch(0.949 0 0);
-    --primary: oklch(0.949 0 0);
-    --primary-foreground: oklch(0.173 0 0);
-    --secondary: oklch(0.213 0 0);
-    --secondary-foreground: oklch(0.949 0 0);
-    --muted: oklch(0.213 0 0);
-    --muted-foreground: oklch(0.773 0 0);
-    --accent: oklch(0.252 0 0);
-    --accent-foreground: oklch(0.949 0 0);
+    --background: oklch(0.166 0.003 70);
+    --foreground: oklch(0.955 0.004 70);
+    --card: oklch(0.144 0.002 70);
+    --card-foreground: oklch(0.955 0.004 70);
+    --popover: oklch(0.144 0.002 70);
+    --popover-foreground: oklch(0.955 0.004 70);
+    --primary: oklch(0.955 0.004 70);
+    --primary-foreground: oklch(0.166 0.003 70);
+    --secondary: oklch(0.206 0.004 70);
+    --secondary-foreground: oklch(0.955 0.004 70);
+    --muted: oklch(0.206 0.004 70);
+    --muted-foreground: oklch(0.785 0.007 70);
+    --accent: oklch(0.243 0.005 70);
+    --accent-foreground: oklch(0.955 0.004 70);
     --destructive: oklch(0.701 0.19 21.2);
-    --border: oklch(0.264 0 0);
-    --input: oklch(0.264 0 0);
-    --ring: oklch(0.773 0 0);
-    --chart-1: oklch(0.949 0 0);
-    --chart-2: oklch(0.773 0 0);
-    --chart-3: oklch(0.538 0 0);
-    --chart-4: oklch(0.402 0 0);
-    --chart-5: oklch(0.348 0 0);
-    --sidebar: oklch(0.173 0 0);
-    --sidebar-foreground: oklch(0.949 0 0);
-    --sidebar-primary: oklch(0.949 0 0);
-    --sidebar-primary-foreground: oklch(0.173 0 0);
-    --sidebar-accent: oklch(0.252 0 0);
-    --sidebar-accent-foreground: oklch(0.949 0 0);
-    --sidebar-border: oklch(0.264 0 0);
-    --sidebar-ring: oklch(0.773 0 0);
-    --subtle-foreground: oklch(0.583 0 0);
-    --faint-foreground: oklch(0.538 0 0);
-    --underline: oklch(0.348 0 0);
-    --selection: oklch(0.313 0 0);
+    --border: oklch(0.255 0.005 70);
+    --input: oklch(0.255 0.005 70);
+    --ring: oklch(0.785 0.007 70);
+    --chart-1: oklch(0.955 0.004 70);
+    --chart-2: oklch(0.785 0.007 70);
+    --chart-3: oklch(0.538 0.006 70);
+    --chart-4: oklch(0.402 0.005 70);
+    --chart-5: oklch(0.348 0.005 70);
+    --sidebar: oklch(0.166 0.003 70);
+    --sidebar-foreground: oklch(0.955 0.004 70);
+    --sidebar-primary: oklch(0.955 0.004 70);
+    --sidebar-primary-foreground: oklch(0.166 0.003 70);
+    --sidebar-accent: oklch(0.243 0.005 70);
+    --sidebar-accent-foreground: oklch(0.955 0.004 70);
+    --sidebar-border: oklch(0.255 0.005 70);
+    --sidebar-ring: oklch(0.785 0.007 70);
+    --subtle-foreground: oklch(0.65 0.008 70);
+    --faint-foreground: oklch(0.635 0.008 70);
+    --underline: oklch(0.34 0.006 70);
+    --selection: oklch(0.305 0.006 70);
     --hairline-shadow: 0 0 0 1px #ffffff14;
   }
 }
@@ -165,6 +165,21 @@
     to {
       stroke-dasharray: 1;
       stroke-dashoffset: 0;
+    }
+  }
+}
+
+/*
+ * DESIGN.md › States: project logos and the skill slash move on row hover.
+ * Kwern's ponder runs from kwern-icon.tsx so it can ease back on leave.
+ */
+@theme {
+  --ease-settle: cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-caret-blink: caret-blink 1s step-end 200ms infinite;
+
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
     }
   }
 }
