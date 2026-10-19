@@ -9,7 +9,6 @@ import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
 import { XIcon } from "@/components/x-icon";
-import { YoojoIcon } from "@/components/yoojo-icon";
 
 export const LINKS = {
   email: "mailto:alexandre.joly36@gmail.com",
@@ -34,7 +33,6 @@ export const SOCIALS: Social[] = [
 
 export const EMPLOYER = {
   href: "https://yoojo.com",
-  icon: YoojoIcon,
   name: "Yoojo",
 } as const;
 

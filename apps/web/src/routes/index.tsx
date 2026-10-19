@@ -30,15 +30,9 @@ import {
 import type { Project } from "@/content";
 
 const [gymup, kwern, modals] = PROJECTS;
-const { icon: EmployerIcon } = EMPLOYER;
 
-const ProjectLink = ({
-  project: { href, icon: Icon, name },
-}: {
-  project: Project;
-}) => (
+const ProjectLink = ({ project: { href, name } }: { project: Project }) => (
   <TextLink external href={href}>
-    <Icon />
     {name}
   </TextLink>
 );
@@ -75,7 +69,6 @@ const HomeComponent = () => (
       <Text>
         I’m a French developer at{" "}
         <TextLink external href={EMPLOYER.href}>
-          <EmployerIcon />
           {EMPLOYER.name}
         </TextLink>
         . I design and build interfaces end to end, and I care about the details
