@@ -1,6 +1,7 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 
 import Loader from "./components/loader";
+import RouteError from "./components/route-error";
 import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () => {
@@ -10,6 +11,7 @@ export const getRouter = () => {
     defaultPreloadStaleTime: 0,
     context: {},
     defaultPendingComponent: () => <Loader />,
+    defaultErrorComponent: RouteError,
     defaultNotFoundComponent: () => <div>Not Found</div>,
   });
 
