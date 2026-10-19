@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><style>path{fill:none;stroke:#202020;stroke-width:2;stroke-linecap:round}@media (prefers-color-scheme:dark){path{stroke:#eee}}</style><path d="M3 12A9 9 0 1 1 12 21"/><path d="M9.5 12H14.5"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0f0e0d"/><path d="M3 12A9 9 0 1 1 12 21M9.5 12H14.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
