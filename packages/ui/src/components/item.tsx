@@ -1,6 +1,5 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Separator } from "@portfolio/ui/components/separator";
 import { cn } from "@portfolio/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
@@ -12,7 +11,7 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="item-group"
       className={cn(
-        "group/item-group *:border-border flex w-full flex-col *:border-b *:last:border-b-0 [&>li:first-child>[data-slot=item]]:pt-0",
+        "group/item-group flex w-full flex-col [&>li:first-child>[data-slot=item]]:pt-0 [&>li:last-child_[data-slot=item-separator]]:hidden",
         className
       )}
       {...props}
@@ -20,15 +19,17 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
-function ItemSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
+// Starts where the row's content starts, past any media. Full width where
+// anchor positioning is unsupported.
+function ItemSeparator({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <Separator
+    <div
+      aria-hidden
       data-slot="item-separator"
-      orientation="horizontal"
-      className={cn("my-2", className)}
+      className={cn(
+        "bg-border absolute start-0 end-0 bottom-0 h-px supports-[anchor-name:--a]:start-[anchor(--item-content_start)]",
+        className
+      )}
       {...props}
     />
   );
@@ -37,7 +38,7 @@ function ItemSeparator({
 // DESIGN.md › Components › Row: no fill, no radius; hover only underlines the
 // title.
 const itemVariants = cva(
-  "group/item focus-visible:outline-ring flex items-center gap-4 py-3.5 outline-none focus-visible:outline-2 focus-visible:outline-offset-2"
+  "group/item focus-visible:outline-ring relative flex items-center gap-4 py-3.5 outline-none [anchor-scope:--item-content] focus-visible:outline-2 focus-visible:outline-offset-2"
 );
 
 function Item({
@@ -96,7 +97,10 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-content"
-      className={cn("flex min-w-0 flex-1 flex-col", className)}
+      className={cn(
+        "flex min-w-0 flex-1 flex-col [anchor-name:--item-content]",
+        className
+      )}
       {...props}
     />
   );

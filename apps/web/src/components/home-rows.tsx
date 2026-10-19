@@ -3,6 +3,7 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
+  ItemSeparator,
   ItemTitle,
 } from "@portfolio/ui/components/item";
 import type { ReactNode } from "react";
@@ -33,6 +34,7 @@ export const ExternalRow = ({
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
       {aside === undefined ? null : <ItemActions>{aside}</ItemActions>}
+      <ItemSeparator />
     </Item>
   </li>
 );
