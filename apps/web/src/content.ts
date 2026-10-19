@@ -10,12 +10,22 @@ import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
 import { XIcon } from "@/components/x-icon";
 
+export const SITE = {
+  description:
+    "Alexandre Joly, French developer in Geneva at Yoojo. Building Gymup, an AI strength coach, Kwern, marketing on autopilot, and react-easy-modals.",
+  name: "Alexandre Joly",
+  title: "Alexandre Joly – Developer in Geneva",
+  url: "https://alexandrejoly.me/",
+} as const;
+
+export const X_HANDLE = "AlexDmzz";
+
 export const LINKS = {
   email: "mailto:alexandre.joly36@gmail.com",
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
   skills: "https://github.com/AlexDemzz/skills",
-  x: "https://x.com/AlexDmzz",
+  x: `https://x.com/${X_HANDLE}`,
 } as const;
 
 export interface Social {

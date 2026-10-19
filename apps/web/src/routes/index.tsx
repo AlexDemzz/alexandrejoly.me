@@ -22,8 +22,11 @@ import {
   ARCHIVES,
   AWARDS,
   EMPLOYER,
+  LINKS,
   PROJECTS,
+  SITE,
   SKILLS,
+  X_HANDLE,
   SOCIALS,
   skillHref,
 } from "@/content";
@@ -191,6 +194,40 @@ const HomeComponent = () => (
   </main>
 );
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "CH",
+    addressLocality: "Geneva",
+  },
+  jobTitle: "Developer",
+  name: SITE.name,
+  sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
+  url: SITE.url,
+  worksFor: {
+    "@type": "Organization",
+    name: EMPLOYER.name,
+    url: EMPLOYER.href,
+  },
+};
+
 export const Route = createFileRoute("/")({
   component: HomeComponent,
+  head: () => ({
+    links: [{ href: SITE.url, rel: "canonical" }],
+    meta: [
+      { title: SITE.title },
+      { content: SITE.description, name: "description" },
+      { content: "profile", property: "og:type" },
+      { content: SITE.url, property: "og:url" },
+      { content: SITE.title, property: "og:title" },
+      { content: SITE.description, property: "og:description" },
+      { content: SITE.name, property: "og:site_name" },
+      { content: "summary", name: "twitter:card" },
+      { content: `@${X_HANDLE}`, name: "twitter:creator" },
+      { "script:ld+json": personJsonLd },
+    ],
+  }),
 });
