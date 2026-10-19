@@ -16,7 +16,7 @@ export const LINKS = {
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
   skills: "https://github.com/AlexDemzz/skills",
-  x: "https://x.com/AlexDemzz",
+  x: "https://x.com/AlexDmzz",
 } as const;
 
 export interface Social {
