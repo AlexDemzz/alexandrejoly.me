@@ -1,58 +1,57 @@
-import { Toaster } from "@portfolio/ui/components/sonner";
 import {
   HeadContent,
   Outlet,
   Scripts,
-  createRootRouteWithContext,
+  createRootRoute,
 } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-
-import Header from "../components/header";
+import type { ReactNode } from "react";
 
 import appCss from "../index.css?url";
 
-export interface RouterAppContext {}
+const RootDocument = ({ children }: { children: ReactNode }) => (
+  <html lang="en">
+    <head>
+      <HeadContent />
+    </head>
+    <body>
+      {children}
+      <Scripts />
+    </body>
+  </html>
+);
 
-export const Route = createRootRouteWithContext<RouterAppContext>()({
+const RootComponent = () => (
+  <RootDocument>
+    <Outlet />
+  </RootDocument>
+);
+
+export const Route = createRootRoute({
+  component: RootComponent,
   head: () => ({
-    meta: [
-      {
-        charSet: "utf-8",
-      },
-      {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
-      },
-      {
-        title: "My App",
-      },
-    ],
     links: [
+      { href: appCss, rel: "stylesheet" },
+      { href: "/favicon.svg", rel: "icon", type: "image/svg+xml" },
+    ],
+    meta: [
+      { charSet: "utf-8" },
+      { content: "width=device-width, initial-scale=1", name: "viewport" },
+      { title: "Alexandre Joly" },
       {
-        rel: "stylesheet",
-        href: appCss,
+        content:
+          "Creative developer in Geneva. Building Gymup, Kwern and react-easy-modals.",
+        name: "description",
+      },
+      {
+        content: "#fcfcfc",
+        media: "(prefers-color-scheme: light)",
+        name: "theme-color",
+      },
+      {
+        content: "#101010",
+        media: "(prefers-color-scheme: dark)",
+        name: "theme-color",
       },
     ],
   }),
-
-  component: RootDocument,
 });
-
-function RootDocument() {
-  return (
-    <html lang="en" className="dark">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <div className="grid h-svh grid-rows-[auto_1fr]">
-          <Header />
-          <Outlet />
-        </div>
-        <Toaster richColors />
-        <TanStackRouterDevtools position="bottom-left" />
-        <Scripts />
-      </body>
-    </html>
-  );
-}
