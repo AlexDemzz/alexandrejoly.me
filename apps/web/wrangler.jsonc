@@ -6,6 +6,6 @@
   "main": "@tanstack/react-start/server-entry",
   "routes": [{ "pattern": "alexandrejoly.me", "custom_domain": true }],
   "observability": {
-    "enabled": true
-  }
+    "enabled": true,
+  },
 }

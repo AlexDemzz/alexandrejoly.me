@@ -4,10 +4,5 @@ import ultracite from "ultracite/oxfmt";
 export default defineConfig({
   ...ultracite,
   // Hand-wrapped and read by tooling: see pimp-my-shadcn.
-  ignorePatterns: [
-    ...(ultracite.ignorePatterns ?? []),
-    "DESIGN.md",
-    "apps/2018/**",
-    "apps/2025/**",
-  ],
+  ignorePatterns: [...(ultracite.ignorePatterns ?? []), "DESIGN.md"],
 });

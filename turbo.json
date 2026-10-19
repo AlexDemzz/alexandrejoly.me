@@ -21,14 +21,6 @@
       "dependsOn": ["^test"]
     }
   },
-  "globalEnv": [
-    "CI",
-    "NODE_ENV",
-    "VERCEL",
-    "VERCEL_ENV",
-    "VERCEL_PROJECT_PRODUCTION_URL",
-    "VERCEL_URL",
-    "_VARLOCK_ENV_KEY"
-  ],
+  "globalEnv": ["CI", "NODE_ENV", "_VARLOCK_ENV_KEY"],
   "globalDependencies": [".env*", "apps/*/.env*", "packages/*/.env*"]
 }
