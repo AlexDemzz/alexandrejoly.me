@@ -1,0 +1,191 @@
+@import "../../assets/scss/var.scss";
+header{
+  @include flex(fe,sb);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  @include container(inherit, 70px);
+  padding-top:30px;
+  box-sizing: border-box;
+  z-index: 9999999;
+  //mix-blend-mode: difference;
+  &.center{
+    @include flex(c,sb);
+  }
+  @include media($m){
+    @include container(inherit, 30px);
+    padding-top:30px;
+  }
+  .header-left-side{
+    @include flex(fs,fs,col);
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+    .header-title{
+      @include flex(c,c);
+      padding: 10px 10px 10px 0;
+      &.back-btn{
+        *{
+          transition: all 0.3s;
+          @include transitionElastic();
+        }
+        svg{
+          width: 22px;
+          margin-top: 3px;
+          transition: margin 0.3s;
+        }
+        h1{
+          margin-left: 5px;
+        }
+        &:hover{
+          svg{
+            margin-left: 5px;
+            transition: margin 0.3s;
+          }
+          h1{
+            margin-left: 15px;
+          }
+        }
+      }
+    }
+    .header-logo{
+      height: 80px;
+      @include flex(c,c);
+      @include media($m){
+        height: 100%;
+      }
+      a{
+        text-decoration: none;
+        @include flex(c,c);
+        //margin-bottom:30px;
+        svg{
+          fill: white;
+          width: 22px;
+          transition: margin 0.3s;
+          @include waveAppearBefore();
+          @include media($m){
+            width: 17px;
+          }
+        }
+        h1{
+          @include waveAppearBefore();
+          margin-left:0px;
+          font-size: 20px;
+          font-family: $hkBold;
+          @include media($m){
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  .header-right-side{
+    @include media($m){
+      margin-top: 3px;
+    }
+    nav{
+      ul{
+        @include flex(c,c);
+        li{
+          @include waveAppearBefore();
+          &:last-of-type{
+            margin-right:0;
+          }
+          &:hover{
+            p{
+              color: white;
+              transform: translateY(-27px);
+              transition: 0.2s;
+            }
+          }
+          &:nth-of-type(1){
+            margin-right:5px;
+            a{
+              p{
+                &:after{
+                  content: 'works';
+                }
+              }
+            }
+          }
+          &:nth-of-type(2){
+            a{
+              p{
+                &:after{
+                  content: 'about';
+                }
+              }
+            }
+          }
+          a{
+            @include resetBtn();
+            cursor: pointer;
+            font-size: 20px;
+            font-family: $hkSemiBold;
+            color: rgb(100,100,100);
+            position: relative;
+            text-decoration: none;
+            display: flex;
+            height: 100%;
+            @include media($m){
+              font-size: 16px;
+            }
+            &.active{
+              p{
+                color: white;
+              }
+            }
+            div{
+              margin: 10px;
+              box-sizing: content-box;
+              overflow: hidden;
+            }
+            p{
+              transition: 0.3s;
+              @include flex(fs,fs,col);
+              height: 30px;
+              color: grey;
+              @include media($m){
+                height: 17px;
+              }
+              &:after{
+                margin-top:7px;
+                @include media($m){
+                  margin-top: 11px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &.show{
+    .header-left-side{
+      .header-logo{
+        a{
+          svg{
+            @include waveAppearAfter();
+            transition-delay: 0.3s;
+          }
+          h1{
+            @include waveAppearAfter();
+            transition-delay: 0.6s;
+          }
+        }
+      }
+    }
+    .header-right-side{
+    nav{
+      ul{
+        li{
+          @include waveAppearAfter();
+          transition-delay: 0.9s;
+        }
+      }
+    }
+    }
+  }
+}
