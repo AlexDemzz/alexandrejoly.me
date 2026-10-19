@@ -32,21 +32,21 @@ What goes on a design system page, and how to show it. Distilled from Primer, Ca
 
 ## Page Outline
 
-| #   | Section                    | Contents                                                                                                                             |
-| --- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | Header                     | System name, "Themed from DESIGN.md", section anchors, light/dark toggle, primary CTA.                                               |
-| 2   | Overview                   | The DESIGN.md hero recipe: display type, one-line personality, its signature artifact.                                               |
-| 3   | Foundations                | Color roles, palette, typography, spacing, radius, elevation, motion (if specified), icons.                                          |
-| 4   | Actions                    | Button, ButtonGroup, Toggle, ToggleGroup, Badge, Kbd.                                                                                |
-| 5   | Inputs                     | Field, Input, InputGroup, Textarea, Select, NativeSelect, Combobox, Checkbox, RadioGroup, Switch, Slider, InputOTP, Calendar, Label. |
-| 6   | Navigation                 | Tabs, Breadcrumb, Pagination, NavigationMenu, Menubar, Sidebar.                                                                      |
-| 7   | Data display               | Card, Table, Chart, Item, Avatar, Accordion, Collapsible, Carousel, ScrollArea, Resizable, AspectRatio, Separator.                   |
-| 8   | Feedback                   | Alert, toast (and Sonner in Base UI projects), Progress, Spinner, Skeleton, Empty.                                                   |
-| 9   | Overlays                   | Dialog, AlertDialog, Sheet, Drawer, Popover, HoverCard, Tooltip, DropdownMenu, ContextMenu, Command.                                 |
-| 10  | Conversation               | MessageScroller, Message, Bubble, Attachment, Marker, Questionnaire. See [rules/chat.md](./rules/chat.md).                           |
-| 11  | Do and Don't               | Rendered pairs for the DESIGN.md's rules.                                                                                            |
-| 12  | Recipes and example screen | The DESIGN.md's named components, then one realistic screen.                                                                         |
-| 13  | Footer                     | The DESIGN.md footer recipe.                                                                                                         |
+| # | Section | Contents |
+| --- | --- | --- |
+| 1 | Header | System name, "Themed from DESIGN.md", section anchors, light/dark toggle, primary CTA. |
+| 2 | Overview | The DESIGN.md hero recipe: display type, one-line personality, its signature artifact. |
+| 3 | Foundations | Color roles, palette, typography, spacing, radius, elevation, motion (if specified), icons. |
+| 4 | Actions | Button, ButtonGroup, Toggle, ToggleGroup, Badge, Kbd. |
+| 5 | Inputs | Field, Input, InputGroup, Textarea, Select, NativeSelect, Combobox, Checkbox, RadioGroup, Switch, Slider, InputOTP, Calendar, Label. |
+| 6 | Navigation | Tabs, Breadcrumb, Pagination, NavigationMenu, Menubar, Sidebar. |
+| 7 | Data display | Card, Table, Chart, Item, Avatar, Accordion, Collapsible, Carousel, ScrollArea, Resizable, AspectRatio, Separator. |
+| 8 | Feedback | Alert, toast (and Sonner in Base UI projects), Progress, Spinner, Skeleton, Empty. |
+| 9 | Overlays | Dialog, AlertDialog, Sheet, Drawer, Popover, HoverCard, Tooltip, DropdownMenu, ContextMenu, Command. |
+| 10 | Conversation | MessageScroller, Message, Bubble, Attachment, Marker, Questionnaire. See [rules/chat.md](./rules/chat.md). |
+| 11 | Do and Don't | Rendered pairs for the DESIGN.md's rules. |
+| 12 | Recipes and example screen | The DESIGN.md's named components, then one realistic screen. |
+| 13 | Footer | The DESIGN.md footer recipe. |
 
 DirectionProvider goes wherever RTL matters (an RTL row in Inputs or Navigation).
 
@@ -113,14 +113,14 @@ Show motion only if the DESIGN.md defines durations or easings: a table of token
 
 ### Tiers
 
-| Tier         | Components                                                                                                                                                                                                            | How to show                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Primitives   | Button, Badge, Toggle, ToggleGroup, Input, Textarea, Select, NativeSelect, Checkbox, RadioGroup, Switch, Slider, Tabs                                                                                                 | Variant × state matrix, size ladder, icon row.                      |
-| Fields       | Field, InputGroup, Combobox, InputOTP, Calendar, Label                                                                                                                                                                | Typical field, then description, error, disabled, required.         |
-| Composed     | Card, Table, Item, Avatar, Alert, Empty, toast, Sonner, Accordion, Collapsible, Breadcrumb, Pagination, Progress, Skeleton, Spinner, Carousel, Chart, ScrollArea, Resizable, AspectRatio, Separator, Kbd, ButtonGroup | Typical example, then one element added at a time, then edge cases. |
-| Overlays     | Dialog, AlertDialog, Sheet, Drawer, Popover, HoverCard, Tooltip, DropdownMenu, ContextMenu, Menubar, NavigationMenu, Command                                                                                          | A real trigger per overlay, labeled with what it opens.             |
-| Shell        | Sidebar, DirectionProvider                                                                                                                                                                                            | Inline in a framed preview (`collapsible="none"`).                  |
-| Conversation | MessageScroller, Message, Bubble, Attachment, Marker, Questionnaire                                                                                                                                                   | One realistic thread, then variant rows.                            |
+| Tier | Components | How to show |
+| --- | --- | --- |
+| Primitives | Button, Badge, Toggle, ToggleGroup, Input, Textarea, Select, NativeSelect, Checkbox, RadioGroup, Switch, Slider, Tabs | Variant × state matrix, size ladder, icon row. |
+| Fields | Field, InputGroup, Combobox, InputOTP, Calendar, Label | Typical field, then description, error, disabled, required. |
+| Composed | Card, Table, Item, Avatar, Alert, Empty, toast, Sonner, Accordion, Collapsible, Breadcrumb, Pagination, Progress, Skeleton, Spinner, Carousel, Chart, ScrollArea, Resizable, AspectRatio, Separator, Kbd, ButtonGroup | Typical example, then one element added at a time, then edge cases. |
+| Overlays | Dialog, AlertDialog, Sheet, Drawer, Popover, HoverCard, Tooltip, DropdownMenu, ContextMenu, Menubar, NavigationMenu, Command | A real trigger per overlay, labeled with what it opens. |
+| Shell | Sidebar, DirectionProvider | Inline in a framed preview (`collapsible="none"`). |
+| Conversation | MessageScroller, Message, Bubble, Attachment, Marker, Questionnaire | One realistic thread, then variant rows. |
 
 ### Block anatomy
 
@@ -198,16 +198,16 @@ If the DESIGN.md says a state doesn't change ("primary darkens on press only"), 
 
 Show these next to the component they stress:
 
-| Case          | Where                                                                     |
-| ------------- | ------------------------------------------------------------------------- |
-| Long text     | Button label, Badge, Item title, Table cell, Breadcrumb (truncation).     |
-| Empty         | Table with no rows → Empty, Combobox with no matches, empty Command.      |
-| Error         | Field with FieldError, Alert destructive, Attachment `state="error"`.     |
-| Loading       | Button with Spinner, Skeleton for Card and Item, Progress, toast loading. |
-| Many items    | AvatarGroup with count, Pagination with ellipsis, ScrollArea list.        |
-| Missing image | Avatar falling back to AvatarFallback.                                    |
-| Disabled      | Every field and its Field `data-disabled`.                                |
-| RTL           | One row inside `DirectionProvider` with `dir="rtl"`.                      |
+| Case | Where |
+| --- | --- |
+| Long text | Button label, Badge, Item title, Table cell, Breadcrumb (truncation). |
+| Empty | Table with no rows → Empty, Combobox with no matches, empty Command. |
+| Error | Field with FieldError, Alert destructive, Attachment `state="error"`. |
+| Loading | Button with Spinner, Skeleton for Card and Item, Progress, toast loading. |
+| Many items | AvatarGroup with count, Pagination with ellipsis, ScrollArea list. |
+| Missing image | Avatar falling back to AvatarFallback. |
+| Disabled | Every field and its Field `data-disabled`. |
+| RTL | One row inside `DirectionProvider` with `dir="rtl"`. |
 
 ---
 
@@ -244,11 +244,11 @@ Caption each with the rule in one line, for example "One primary action per grou
 
 Copy from `assets/showcase/` into the showcase folder:
 
-| File                 | Purpose                                                                    |
-| -------------------- | -------------------------------------------------------------------------- |
+| File | Purpose |
+| --- | --- |
 | `preview-states.css` | Variant overrides that pin hover, focus and active through `data-preview`. |
-| `state-matrix.tsx`   | `StateMatrix` (labeled variant × state table) and `previewState(state)`.   |
-| `color-pair.tsx`     | `ColorPair`: surface + foreground with live contrast ratio and WCAG level. |
+| `state-matrix.tsx` | `StateMatrix` (labeled variant × state table) and `previewState(state)`. |
+| `color-pair.tsx` | `ColorPair`: surface + foreground with live contrast ratio and WCAG level. |
 
 They import `cn` from `@/lib/utils`. Rewrite that path to the project's `utils` alias.
 

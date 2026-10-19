@@ -20,13 +20,13 @@ Trigger phrases: "build me a design system using <preset>", "apply this DESIGN.m
 
 ## Inputs to Confirm
 
-| Input     | Default                             | Notes                                                                                                                                    |
-| --------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Preset    | Optional                            | Code (`b0`), style name (`luma`) or URL. Pass it through. Never decode it by hand. Without one, pick a style (see Step 1).               |
-| DESIGN.md | Required                            | A path, URL or pasted content. Copy it into the new app root as `DESIGN.md`.                                                             |
-| Template  | `vite`                              | Use `next` when the user says Next.js, App Router or SSR.                                                                                |
-| App name  | Derived from the brand in DESIGN.md | Kebab-case.                                                                                                                              |
-| Base      | `base`                              | Pass `--base` when no preset code is given. Use `radix` only when the user asks. `info --json` after init decides `render` vs `asChild`. |
+| Input | Default | Notes |
+| --- | --- | --- |
+| Preset | Optional | Code (`b0`), style name (`luma`) or URL. Pass it through. Never decode it by hand. Without one, pick a style (see Step 1). |
+| DESIGN.md | Required | A path, URL or pasted content. Copy it into the new app root as `DESIGN.md`. |
+| Template | `vite` | Use `next` when the user says Next.js, App Router or SSR. |
+| App name | Derived from the brand in DESIGN.md | Kebab-case. |
+| Base | `base` | Pass `--base` when no preset code is given. Use `radix` only when the user asks. `info --json` after init decides `render` vs `asChild`. |
 
 If the DESIGN.md path can't be read (macOS privacy blocks `~/Downloads` and `~/Desktop` for some hosts), ask the user to copy it into the working directory. Don't guess its contents.
 
@@ -59,16 +59,16 @@ npx shadcn@latest info --json
 
 The theme gets replaced by the DESIGN.md anyway. The style decides geometry the CSS variables can't reach: control padding, density, how rounded and how raised the components are. Read the DESIGN.md's radius scale, control heights, shadows and layout density, then pick:
 
-| Style  | Character                                             | Pick when the DESIGN.md has                                            |
-| ------ | ----------------------------------------------------- | ---------------------------------------------------------------------- |
-| `vega` | The classic shadcn/ui look.                           | Neutral, conventional SaaS geometry; nothing extreme.                  |
-| `nova` | Reduced padding and margins for compact layouts.      | 32–36px controls, 6–8px radius, hairlines over shadows.                |
-| `maia` | Soft and rounded, with generous spacing.              | 40px+ controls, 12px+ card radius, generous padding, editorial pacing. |
-| `lyra` | Boxy and sharp.                                       | 0–4px radius, hard edges, mono or technical type.                      |
-| `mira` | Compact.                                              | Dense data UIs, 28–32px controls, tight tables.                        |
-| `luma` | Rounded geometry, soft elevation, breathable layouts. | Pill buttons, soft layered shadows, glassy or macOS-like surfaces.     |
-| `rhea` | Luma, but more compact.                               | Luma's softness with product-UI density.                               |
-| `sera` | Editorial and typographic.                            | Serif display type, editorial pacing, magazine-like hierarchy.         |
+| Style | Character | Pick when the DESIGN.md has |
+| --- | --- | --- |
+| `vega` | The classic shadcn/ui look. | Neutral, conventional SaaS geometry; nothing extreme. |
+| `nova` | Reduced padding and margins for compact layouts. | 32–36px controls, 6–8px radius, hairlines over shadows. |
+| `maia` | Soft and rounded, with generous spacing. | 40px+ controls, 12px+ card radius, generous padding, editorial pacing. |
+| `lyra` | Boxy and sharp. | 0–4px radius, hard edges, mono or technical type. |
+| `mira` | Compact. | Dense data UIs, 28–32px controls, tight tables. |
+| `luma` | Rounded geometry, soft elevation, breathable layouts. | Pill buttons, soft layered shadows, glassy or macOS-like surfaces. |
+| `rhea` | Luma, but more compact. | Luma's softness with product-UI density. |
+| `sera` | Editorial and typographic. | Serif display type, editorial pacing, magazine-like hierarchy. |
 
 State the choice and the reason in one line ("Picked maia: 40px controls, 12–16px cards, generous padding"). If the user names a style, use it. Read `base`, `style`, `iconLibrary`, `tailwindCssFile` and `aliases` from `info` before writing any code.
 
@@ -105,20 +105,20 @@ Long files exceed one read. Grep the headings first, then read frontmatter, **Do
 
 Extract into a working table before editing anything:
 
-| Extract               | Look for                                                              |
-| --------------------- | --------------------------------------------------------------------- |
-| Canvas and ink        | `canvas`, `surface`, `ink`, "page floor", "body text"                 |
+| Extract | Look for |
+| --- | --- |
+| Canvas and ink | `canvas`, `surface`, `ink`, "page floor", "body text" |
 | Action color + states | `primary`, `-hover`, `-active`, `-pressed`, `-disabled`, `on-primary` |
-| Secondary actions     | `button-secondary` fill, text and border                              |
-| Surfaces              | card fills, soft bands, dark product surfaces                         |
-| Lines                 | `hairline`, border alpha, "1px solid"                                 |
-| Focus                 | outline vs ring, color, width, offset, alpha                          |
-| Type families         | display, body, mono, and the documented **substitutes**               |
-| Type scale            | size, weight, line height, tracking per token                         |
-| Radius scale          | every value and what it applies to                                    |
-| Elevation             | each shadow tier, verbatim                                            |
-| Control heights       | button, input, ghost, icon-button heights and padding                 |
-| Hard rules            | every "Don't" and "never"                                             |
+| Secondary actions | `button-secondary` fill, text and border |
+| Surfaces | card fills, soft bands, dark product surfaces |
+| Lines | `hairline`, border alpha, "1px solid" |
+| Focus | outline vs ring, color, width, offset, alpha |
+| Type families | display, body, mono, and the documented **substitutes** |
+| Type scale | size, weight, line height, tracking per token |
+| Radius scale | every value and what it applies to |
+| Elevation | each shadow tier, verbatim |
+| Control heights | button, input, ghost, icon-button heights and padding |
+| Hard rules | every "Don't" and "never" |
 
 ---
 
@@ -128,23 +128,23 @@ Edit only `tailwindCssFile`. Keep hex values when the DESIGN.md gives hex. Don't
 
 ### Role mapping
 
-| DESIGN.md role                               | shadcn variable                                             |
-| -------------------------------------------- | ----------------------------------------------------------- |
-| canvas / surface / page floor                | `--background`                                              |
-| ink / headline text                          | `--foreground`, `--card-foreground`, `--popover-foreground` |
-| primary CTA fill / on-primary                | `--primary` / `--primary-foreground`                        |
-| primary hover, pressed or active fill        | new `--primary-active` (or `--primary-pressed`)             |
-| secondary button fill / text                 | `--secondary` / `--secondary-foreground`                    |
-| soft band, alternating section               | `--muted`                                                   |
-| secondary or descriptive text                | `--muted-foreground`                                        |
-| ghost hover wash, active tab, menu highlight | `--accent` / `--accent-foreground`                          |
-| card / feature card fill                     | `--card`                                                    |
-| floating layer (menus, dialogs)              | `--popover` (usually the canvas)                            |
-| hairline / structural border                 | `--border`, `--input`                                       |
-| focus color                                  | `--ring`                                                    |
-| error / validation                           | `--destructive`                                             |
-| illustration accents                         | `--chart-1` … `--chart-5`, plus named tokens                |
-| sidebar or nav rail surface                  | `--sidebar-*`                                               |
+| DESIGN.md role | shadcn variable |
+| --- | --- |
+| canvas / surface / page floor | `--background` |
+| ink / headline text | `--foreground`, `--card-foreground`, `--popover-foreground` |
+| primary CTA fill / on-primary | `--primary` / `--primary-foreground` |
+| primary hover, pressed or active fill | new `--primary-active` (or `--primary-pressed`) |
+| secondary button fill / text | `--secondary` / `--secondary-foreground` |
+| soft band, alternating section | `--muted` |
+| secondary or descriptive text | `--muted-foreground` |
+| ghost hover wash, active tab, menu highlight | `--accent` / `--accent-foreground` |
+| card / feature card fill | `--card` |
+| floating layer (menus, dialogs) | `--popover` (usually the canvas) |
+| hairline / structural border | `--border`, `--input` |
+| focus color | `--ring` |
+| error / validation | `--destructive` |
+| illustration accents | `--chart-1` … `--chart-5`, plus named tokens |
+| sidebar or nav rail surface | `--sidebar-*` |
 
 Every token without a shadcn slot gets a variable in `:root` (and `.dark` when it changes) and a registration in `@theme inline`:
 
@@ -290,18 +290,18 @@ This covers actions only. Field controls keep their ring. When the DESIGN.md app
 
 Restyle by editing the `cva` variants in the installed component source. Keep existing variant names so usage stays standard. Add a variant only when the DESIGN.md defines a distinct recipe.
 
-| DESIGN.md recipe                     | shadcn target                                |
-| ------------------------------------ | -------------------------------------------- |
-| `button-primary`                     | `Button` `default`                           |
-| `button-secondary` (tinted fill)     | `Button` `secondary`                         |
-| `button-secondary` (canvas + border) | `Button` `outline`                           |
-| `button-ghost`, nav links            | `Button` `ghost`                             |
-| text link                            | `Button` `link`                              |
-| circular icon button                 | `Button` `icon*` sizes + `rounded-full`      |
-| `badge-pill`, `badge-<accent>`       | `Badge` `secondary`, `default`, new variants |
-| `card`, `feature-card`               | `Card` (fill, ring, `--card-spacing`)        |
-| `text-input`, `-focused`             | `Input`, `InputGroup`, `Select`, `Textarea`  |
-| `category-tab`, filter row           | `Tabs` `default` list + trigger              |
+| DESIGN.md recipe | shadcn target |
+| --- | --- |
+| `button-primary` | `Button` `default` |
+| `button-secondary` (tinted fill) | `Button` `secondary` |
+| `button-secondary` (canvas + border) | `Button` `outline` |
+| `button-ghost`, nav links | `Button` `ghost` |
+| text link | `Button` `link` |
+| circular icon button | `Button` `icon*` sizes + `rounded-full` |
+| `badge-pill`, `badge-<accent>` | `Badge` `secondary`, `default`, new variants |
+| `card`, `feature-card` | `Card` (fill, ring, `--card-spacing`) |
+| `text-input`, `-focused` | `Input`, `InputGroup`, `Select`, `Textarea` |
+| `category-tab`, filter row | `Tabs` `default` list + trigger |
 
 **Control heights move together.** When the button height changes, change the field controls to match, or forms misalign. In base-nova the 32px default lives in:
 
@@ -341,16 +341,16 @@ Copy the helpers from `assets/showcase/` (`preview-states.css`, `state-matrix.ts
 
 ### Known traps
 
-| Component           | Trap                                                                        | Fix                                                                         |
-| ------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `Command` inline    | cmdk scrolls its first item into view on mount, which jumps the page to it. | Control it: `value={value} onValueChange={setValue}` with initial `"none"`. |
-| `Sidebar`           | Default sidebar is `fixed` and escapes the preview frame.                   | `<SidebarProvider className="min-h-0">` + `<Sidebar collapsible="none">`.   |
-| `MessageFooter`     | Placed beside `MessageContent`, it becomes a squeezed flex column.          | Put it inside `MessageContent`.                                             |
-| `Select` (base)     | `SelectValue` shows the raw value.                                          | Pass `items` to `Select`.                                                   |
-| `Resizable`         | react-resizable-panels v4 dropped `direction` and numeric sizes.            | `orientation="horizontal"`, `defaultSize="40%"`.                            |
-| `DirectionProvider` | Provider alone doesn't flip layout.                                         | Also set `dir="rtl"` on the wrapper.                                        |
-| `NavigationMenu`    | The content is clipped by the example frame.                                | Leave bottom padding in that frame.                                         |
-| Header nav links    | `Button` renders a `<button>`.                                              | Base: `nativeButton={false} render={<a href="#…" />}`. Radix: `asChild`.    |
+| Component | Trap | Fix |
+| --- | --- | --- |
+| `Command` inline | cmdk scrolls its first item into view on mount, which jumps the page to it. | Control it: `value={value} onValueChange={setValue}` with initial `"none"`. |
+| `Sidebar` | Default sidebar is `fixed` and escapes the preview frame. | `<SidebarProvider className="min-h-0">` + `<Sidebar collapsible="none">`. |
+| `MessageFooter` | Placed beside `MessageContent`, it becomes a squeezed flex column. | Put it inside `MessageContent`. |
+| `Select` (base) | `SelectValue` shows the raw value. | Pass `items` to `Select`. |
+| `Resizable` | react-resizable-panels v4 dropped `direction` and numeric sizes. | `orientation="horizontal"`, `defaultSize="40%"`. |
+| `DirectionProvider` | Provider alone doesn't flip layout. | Also set `dir="rtl"` on the wrapper. |
+| `NavigationMenu` | The content is clipped by the example frame. | Leave bottom padding in that frame. |
+| Header nav links | `Button` renders a `<button>`. | Base: `nativeButton={false} render={<a href="#…" />}`. Radix: `asChild`. |
 
 ### Coverage check
 
