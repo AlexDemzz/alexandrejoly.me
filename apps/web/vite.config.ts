@@ -1,3 +1,4 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { varlockVitePlugin } from "@varlock/vite-integration";
@@ -14,6 +15,7 @@ export default defineConfig({
   plugins: [
     varlockVitePlugin({ ssrInjectMode: "auto-load" }),
     tailwindcss(),
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart(),
     viteReact(),
   ],

@@ -5,6 +5,7 @@
   "scripts": {
     "build": "vite build",
     "serve": "vite preview",
+    "deploy": "vite build && wrangler deploy",
     "dev": "vite dev",
     "check-types": "vite build && tsc --noEmit",
     "env:generate": "varlock codegen"
@@ -26,6 +27,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "1.64.0",
     "@portfolio/config": "workspace:*",
     "@tanstack/react-router-devtools": "^1.167.2",
     "@testing-library/dom": "^10.4.2",

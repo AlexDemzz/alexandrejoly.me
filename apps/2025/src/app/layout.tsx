@@ -5,8 +5,6 @@ import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/theme-provider";
 import AppProvider from "@/lib/Providers/AppProvider";
 import PreloaderProvider from "@/lib/Providers/Preloader";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
@@ -31,8 +29,6 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} md:cursor-none no-scrollbar`}
     >
       <body>
-        <Analytics />
-        <SpeedInsights />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

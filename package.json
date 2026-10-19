@@ -29,7 +29,8 @@
     "turbo": "^2.11.7",
     "typescript": "catalog:",
     "ultracite": "8.0.0",
-    "varlock": "catalog:"
+    "varlock": "catalog:",
+    "wrangler": "4.151.1"
   },
   "packageManager": "pnpm@10.34.4"
 }

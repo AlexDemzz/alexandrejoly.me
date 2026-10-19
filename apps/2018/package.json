@@ -45,6 +45,7 @@
     "start-js": "PORT=3018 BROWSER=none NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
     "build-js": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "dev": "run-s build-css && run-p watch-css start-js",
-    "build": "run-s build-css build-js"
+    "build": "run-s build-css build-js",
+    "deploy": "run-s build && wrangler deploy"
   }
 }

@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 import Image from "next/image";
-// Route segment config
-export const runtime = "edge";
 
 // Image metadata
 export const size = {
