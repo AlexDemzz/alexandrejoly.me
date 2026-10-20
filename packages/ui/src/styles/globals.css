@@ -210,3 +210,26 @@
     }
   }
 }
+
+/*
+ * DESIGN.md › Components › Code: Shiki output inside CodeBlockContent. Both
+ * vitesse themes ride on CSS variables; the colour scheme picks one.
+ */
+@layer components {
+  [data-slot="code-block-content"] pre {
+    inline-size: max-content;
+    min-inline-size: 100%;
+    font-family: var(--font-mono);
+    tab-size: 2;
+  }
+
+  [data-slot="code-block-content"] span {
+    color: var(--shiki-light);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    [data-slot="code-block-content"] span {
+      color: var(--shiki-dark);
+    }
+  }
+}

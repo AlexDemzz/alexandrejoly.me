@@ -106,12 +106,13 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+// Underlines on hover only inside a link row, so a static row stays inert.
 function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-title"
       className={cn(
-        "font-book text-foreground can-hover:group-hover/item:decoration-underline group-focus-visible/item:decoration-underline w-fit text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out",
+        "font-book text-foreground can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline w-fit text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out",
         className
       )}
       {...props}
