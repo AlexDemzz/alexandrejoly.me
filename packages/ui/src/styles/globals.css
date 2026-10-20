@@ -147,6 +147,13 @@
   --radius-4xl: 32px;
 }
 
+/* DESIGN.md › Layout: the page column, and the docs container that holds the
+   sidebar beside it. */
+@theme {
+  --container-column: 45rem;
+  --container-docs: 60rem;
+}
+
 /* DESIGN.md › States: the mark draws itself once, arc then bar. */
 @theme {
   --animate-mark-draw: mark-draw 900ms cubic-bezier(0.23, 1, 0.32, 1) both;

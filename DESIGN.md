@@ -35,7 +35,7 @@ typography:
   link: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   footer: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
 rounded: { logo: 9999px, favicon: 5px, focus: 5px }
-spacing: { column: 720px, gutter: 24px, margin: 128px, margin-gap: 32px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
+spacing: { column: 720px, docs: 960px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, margin: 128px, margin-gap: 32px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
 components:
   row: { text: "{colors.ink}", rule: "{colors.hairline}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.fog}" }
@@ -87,7 +87,7 @@ shadcnMapping:
 
 ## Overview
 
-Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font and a single 16px size. One 720px column, no header chrome, no accent colour, no section dividers.
+Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font and a single 16px size. One 720px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
@@ -111,14 +111,16 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 ## Layout
 
-- Column `max-w-180` (720px) with `px-6`, `py-12 sm:py-24`.
+- Two containers, both centred with `px-6`:
+  - **Column** `max-w-column` (720px), `py-12 sm:py-24`: the home page and every page without navigation.
+  - **Docs** `max-w-docs` (960px): component docs pages. From `md`, a 192px sticky sidebar and a 48px gap, then the content, which keeps the column's 672px measure. Below `md`, the content alone.
 - Header: identity, then two paragraphs 20px apart, spanning the full column so they end at the same edge as the rows.
 - Sections: from `sm`, an 8rem margin holding the sticky title and a 32px gap before the rows; one column below `sm`. 40px above and below each section, no divider between them.
 - The first row of a section has no top padding, so its title lines up with the section title.
 
 ## Components
 
-- **Section** (`Section`, `SectionTitle`, `SectionContent`): margin title + content column.
+- **Section** (`Section`, `SectionTitle`, `SectionContent`): `variant="margin"` (default) puts the title in the margin beside the content; `variant="stacked"` sets it above, for the docs container, where the sidebar already takes the margin.
 - **Row** (`ItemGroup` of `Item`s): optional round logo (`ItemMedia variant="logo"`), title over description, year on the right (`ItemActions`).
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
@@ -126,6 +128,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
 - **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, the one exception to the single 16px size, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
 - **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
+- **Docs sidebar** (`Sidebar`, `collapsible="none"`): the docs container's navigation. Desktop: the Home link on top, then one muted link per component; the current one is ink, hover underlines. No border, no fill. Mobile: the page header keeps the Home link with a menu icon button at the end, which opens the same list, titled "Components", in a sheet.
 - **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 
 ## States

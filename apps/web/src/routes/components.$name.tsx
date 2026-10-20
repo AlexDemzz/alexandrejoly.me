@@ -5,6 +5,11 @@ import {
   SectionTitle,
 } from "@portfolio/ui/components/section";
 import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@portfolio/ui/components/sidebar";
+import {
   Tabs,
   TabsContent,
   TabsList,
@@ -12,12 +17,13 @@ import {
 } from "@portfolio/ui/components/tabs";
 import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
+import { ArrowLeftIcon, MenuIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { ApiReference } from "@/components/docs/api-reference";
 import { CodeBlock } from "@/components/docs/code-block";
 import { ComponentPreview } from "@/components/docs/component-preview";
+import { ComponentsSidebar } from "@/components/docs/components-sidebar";
 import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import { SiteFooter } from "@/components/site-footer";
@@ -85,79 +91,100 @@ const ComponentDocsPage = ({
   const { api, demo, examples } = REGISTRY_DOCS[name];
 
   return (
-    <main className="mx-auto max-w-180 px-6 py-12 sm:py-24">
-      <header className="flex flex-col items-start gap-5 pb-10">
-        <Link className={textLinkVariants()} to="/">
-          <ArrowLeftIcon aria-hidden />
-          Home
-        </Link>
-        <div>
-          <Heading
-            render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
-          >
-            {title}
-          </Heading>
-          <Text>{description}</Text>
-        </div>
-      </header>
+    <div className="max-w-docs mx-auto px-6">
+      <SidebarProvider>
+        <ComponentsSidebar current={name} />
+        <SidebarInset className="min-w-0 md:ms-12">
+          <div className="py-12 sm:py-24">
+            <header className="flex flex-col items-start gap-5 pb-10">
+              <div className="flex w-full items-center justify-between md:hidden">
+                <Link className={textLinkVariants()} to="/">
+                  <ArrowLeftIcon aria-hidden />
+                  Home
+                </Link>
+                <SidebarTrigger className="md:hidden" size="icon">
+                  <MenuIcon aria-hidden />
+                  <span className="sr-only">Components</span>
+                </SidebarTrigger>
+              </div>
+              <div>
+                <Heading
+                  render={({ children, ...props }) => (
+                    <h1 {...props}>{children}</h1>
+                  )}
+                >
+                  {title}
+                </Heading>
+                <Text>{description}</Text>
+              </div>
+            </header>
 
-      <ComponentPreview code={code.demos[demo.file] ?? ""}>
-        <demo.Component />
-      </ComponentPreview>
+            <ComponentPreview code={code.demos[demo.file] ?? ""}>
+              <demo.Component />
+            </ComponentPreview>
 
-      <Section>
-        <SectionTitle>Installation</SectionTitle>
-        <SectionContent>
-          <Installation installation={code.installation} source={code.source} />
-        </SectionContent>
-      </Section>
+            <Section variant="stacked">
+              <SectionTitle>Installation</SectionTitle>
+              <SectionContent>
+                <Installation
+                  installation={code.installation}
+                  source={code.source}
+                />
+              </SectionContent>
+            </Section>
 
-      <Section>
-        <SectionTitle>Usage</SectionTitle>
-        <SectionContent>
-          <CodeBlock html={code.usage} />
-        </SectionContent>
-      </Section>
+            <Section variant="stacked">
+              <SectionTitle>Usage</SectionTitle>
+              <SectionContent>
+                <CodeBlock html={code.usage} />
+              </SectionContent>
+            </Section>
 
-      {examples.length > 0 && (
-        <Section>
-          <SectionTitle>Examples</SectionTitle>
-          <SectionContent>
-            <div className="flex flex-col gap-12">
-              {examples.map((example) => (
-                <section className="flex flex-col gap-3" key={example.file}>
-                  <div>
-                    <Heading
-                      render={({ children, ...props }) => (
-                        <h3 {...props}>{children}</h3>
-                      )}
-                    >
-                      {example.title}
-                    </Heading>
-                    <Text>
-                      <InlineCode>{example.description}</InlineCode>
-                    </Text>
+            {examples.length > 0 && (
+              <Section variant="stacked">
+                <SectionTitle>Examples</SectionTitle>
+                <SectionContent>
+                  <div className="flex flex-col gap-12">
+                    {examples.map((example) => (
+                      <section
+                        className="flex flex-col gap-3"
+                        key={example.file}
+                      >
+                        <div>
+                          <Heading
+                            render={({ children, ...props }) => (
+                              <h3 {...props}>{children}</h3>
+                            )}
+                          >
+                            {example.title}
+                          </Heading>
+                          <Text>
+                            <InlineCode>{example.description}</InlineCode>
+                          </Text>
+                        </div>
+                        {example.notice}
+                        <ComponentPreview code={code.demos[example.file] ?? ""}>
+                          <example.Component />
+                        </ComponentPreview>
+                      </section>
+                    ))}
                   </div>
-                  {example.notice}
-                  <ComponentPreview code={code.demos[example.file] ?? ""}>
-                    <example.Component />
-                  </ComponentPreview>
-                </section>
-              ))}
-            </div>
-          </SectionContent>
-        </Section>
-      )}
+                </SectionContent>
+              </Section>
+            )}
 
-      <Section>
-        <SectionTitle>API reference</SectionTitle>
-        <SectionContent>
-          <ApiReference parts={api} />
-        </SectionContent>
-      </Section>
+            <Section variant="stacked">
+              <SectionTitle>API reference</SectionTitle>
+              <SectionContent>
+                <ApiReference parts={api} />
+              </SectionContent>
+            </Section>
 
-      <SiteFooter />
-    </main>
+            <SiteFooter />
+          </div>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
   );
 };
 

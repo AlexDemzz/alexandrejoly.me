@@ -62,7 +62,7 @@ const ProjectMedia = ({
 );
 
 const HomeComponent = () => (
-  <main className="mx-auto max-w-180 px-6 py-12 sm:py-24">
+  <main className="max-w-column mx-auto px-6 py-12 sm:py-24">
     <header className="flex flex-col gap-5 pb-6">
       <Identity className="mb-1">
         <IdentityMark>
