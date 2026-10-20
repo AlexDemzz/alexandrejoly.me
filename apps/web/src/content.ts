@@ -109,14 +109,6 @@ export const SKILLS: Skill[] = [
     description: "Compound-component laws for shadcn projects",
     name: "shadcn-composition-patterns",
   },
-  {
-    description: "Today's recognized best practice, backed by sources",
-    name: "for-sure",
-  },
-  {
-    description: "Drive your own Chrome session from an agent",
-    name: "agent-browser-chrome",
-  },
 ];
 
 export const skillHref = (name: string) => `${LINKS.skills}/${name}`;
