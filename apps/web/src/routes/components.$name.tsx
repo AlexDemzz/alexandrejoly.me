@@ -25,11 +25,7 @@ import { SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { pageHead } from "@/lib/head";
-import {
-  getRegistryItem,
-  isRegistryItemName,
-  registryItemUrl,
-} from "@/lib/registry";
+import { getRegistryItem, isRegistryItemName } from "@/lib/registry";
 import type { RegistryItem } from "@/lib/registry";
 
 const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
@@ -41,11 +37,9 @@ const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
 
 const Installation = ({
   installation,
-  name,
   source,
 }: {
   installation: ComponentCode["installation"];
-  name: string;
   source: string;
 }) => (
   <Tabs defaultValue="cli">
@@ -54,20 +48,7 @@ const Installation = ({
       <TabsTrigger value="manual">Manual</TabsTrigger>
     </TabsList>
     <TabsContent value="cli">
-      <div className="flex flex-col gap-5">
-        <CodeBlock html={installation.cli} />
-        <Text>
-          The <InlineCode>`@alexandrejoly`</InlineCode> namespace resolves once
-          your <InlineCode>`components.json`</InlineCode> lists the registry:
-        </Text>
-        <CodeBlock html={installation.config} title="components.json" />
-        <Text>
-          Or add it from its URL,{" "}
-          <InlineCode>{`\`${registryItemUrl(name)}\``}</InlineCode>, with no
-          setup:
-        </Text>
-        <CodeBlock html={installation.cliFromUrl} />
-      </div>
+      <CodeBlock html={installation.cli} />
     </TabsContent>
     <TabsContent value="manual">
       <ol className="flex flex-col gap-6">
@@ -127,11 +108,7 @@ const ComponentDocsPage = ({
       <Section>
         <SectionTitle>Installation</SectionTitle>
         <SectionContent>
-          <Installation
-            installation={code.installation}
-            name={name}
-            source={code.source}
-          />
+          <Installation installation={code.installation} source={code.source} />
         </SectionContent>
       </Section>
 

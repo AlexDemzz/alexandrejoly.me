@@ -7,7 +7,6 @@ import {
   getInstallation,
   getRegistryItem,
   isRegistryItemName,
-  registryConfig,
 } from "@/lib/registry";
 
 const highlightOptional = (code: string | null) =>
@@ -26,25 +25,15 @@ export const getComponentCode = createServerFn({ method: "GET" })
     const installation = getInstallation(getRegistryItem(name));
     const demoFiles = [docs.demo, ...docs.examples].map(({ file }) => file);
 
-    const [
-      cli,
-      cliFromUrl,
-      config,
-      dependencies,
-      registryDependencies,
-      source,
-      usage,
-      ...demos
-    ] = await Promise.all([
-      highlight(installation.cli, "bash"),
-      highlight(installation.cliFromUrl, "bash"),
-      highlight(registryConfig(), "json"),
-      highlightOptional(installation.dependencies),
-      highlightOptional(installation.registryDependencies),
-      highlight(registrySource(name), "tsx"),
-      highlight(docs.usage, "tsx"),
-      ...demoFiles.map((file) => highlight(demoSource(file), "tsx")),
-    ]);
+    const [cli, dependencies, registryDependencies, source, usage, ...demos] =
+      await Promise.all([
+        highlight(installation.cli, "bash"),
+        highlightOptional(installation.dependencies),
+        highlightOptional(installation.registryDependencies),
+        highlight(registrySource(name), "tsx"),
+        highlight(docs.usage, "tsx"),
+        ...demoFiles.map((file) => highlight(demoSource(file), "tsx")),
+      ]);
 
     return {
       demos: Object.fromEntries(
@@ -52,8 +41,6 @@ export const getComponentCode = createServerFn({ method: "GET" })
       ),
       installation: {
         cli,
-        cliFromUrl,
-        config,
         dependencies,
         registryDependencies,
         targetPath: installation.targetPath,

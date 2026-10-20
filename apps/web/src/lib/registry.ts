@@ -31,7 +31,6 @@ const isRegistryItem = (
 export const REGISTRY_ITEMS: RegistryItem[] =
   registry.items.filter(isRegistryItem);
 
-const REGISTRY_ORIGIN = new URL(registry.homepage).origin;
 const SHADCN = "pnpm dlx shadcn@latest";
 
 export const getRegistryItem = (name: RegistryItemName): RegistryItem => {
@@ -42,24 +41,9 @@ export const getRegistryItem = (name: RegistryItemName): RegistryItem => {
   return item;
 };
 
-export const registryItemUrl = (name: string) =>
-  `${REGISTRY_ORIGIN}/r/${name}.json`;
-
-/** The `registries` entry a project adds to its `components.json`. */
-export const registryConfig = () =>
-  JSON.stringify(
-    {
-      registries: { [`@${registry.name}`]: `${REGISTRY_ORIGIN}/r/{name}.json` },
-    },
-    null,
-    2
-  );
-
 export interface Installation {
-  /** `shadcn add` through the namespace declared in `components.json`. */
+  /** `shadcn add` through the `@alexandrejoly` namespace. */
   cli: string;
-  /** `shadcn add` straight from the item's URL, no configuration needed. */
-  cliFromUrl: string;
   /** Installs the npm packages the source imports, or `null` when none. */
   dependencies: string | null;
   /** Adds the shadcn primitives the source imports, or `null` when none. */
@@ -74,7 +58,6 @@ export const getInstallation = ({
   registryDependencies = [],
 }: RegistryItem): Installation => ({
   cli: `${SHADCN} add @${registry.name}/${name}`,
-  cliFromUrl: `${SHADCN} add ${registryItemUrl(name)}`,
   dependencies:
     dependencies.length > 0 ? `pnpm add ${dependencies.join(" ")}` : null,
   registryDependencies:

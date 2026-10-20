@@ -1,11 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import registry from "../../registry.json";
-import {
-  REGISTRY_ITEM_NAMES,
-  getInstallation,
-  registryConfig,
-} from "./registry";
+import { REGISTRY_ITEM_NAMES, getInstallation } from "./registry";
 import type { RegistryItem } from "./registry";
 
 const item: RegistryItem = {
@@ -24,14 +20,9 @@ describe("REGISTRY_ITEM_NAMES", () => {
 });
 
 describe("getInstallation", () => {
-  it("installs through the namespace or straight from the item URL", () => {
-    const installation = getInstallation(item);
-
-    expect(installation.cli).toBe(
+  it("installs through the namespace", () => {
+    expect(getInstallation(item).cli).toBe(
       "pnpm dlx shadcn@latest add @alexandrejoly/onboarding"
-    );
-    expect(installation.cliFromUrl).toBe(
-      "pnpm dlx shadcn@latest add https://alexandrejoly.me/r/onboarding.json"
     );
   });
 
@@ -59,15 +50,5 @@ describe("getInstallation", () => {
 
     expect(installation.dependencies).toBeNull();
     expect(installation.registryDependencies).toBeNull();
-  });
-});
-
-describe("registryConfig", () => {
-  it("maps the namespace to the item URL template", () => {
-    expect(JSON.parse(registryConfig())).toEqual({
-      registries: {
-        "@alexandrejoly": "https://alexandrejoly.me/r/{name}.json",
-      },
-    });
   });
 });
