@@ -146,7 +146,7 @@ function OnboardingContent({
     // different heights, while an element straddling a side stays visible
     // (`clip` on one axis leaves the other `visible`, unlike `hidden`).
     <div
-      className={cn("flex flex-1 flex-col overflow-y-clip", className)}
+      className={cn("flex flex-1 flex-col overflow-y-clip pt-4", className)}
       data-slot="onboarding-content"
       {...props}
     >
@@ -169,7 +169,7 @@ function OnboardingContent({
 function OnboardingStep({ className, value, ...props }: OnboardingStepProps) {
   return (
     <div
-      className={cn("flex flex-1 flex-col", className)}
+      className={cn("flex flex-1 flex-col gap-4", className)}
       data-slot="onboarding-step"
       data-step={value}
       {...props}
@@ -197,7 +197,7 @@ function OnboardingTitle({
 }: React.ComponentProps<"h2">) {
   return (
     <h2
-      className={cn("text-2xl font-bold", className)}
+      className={cn("text-xl font-bold", className)}
       data-slot="onboarding-title"
       {...props}
     >
