@@ -100,7 +100,7 @@ const ComponentDocsPage = ({
       <SidebarProvider>
         <ComponentsSidebar current={name} />
         <SidebarInset className="min-w-0 md:ms-12">
-          <div className="py-12 sm:py-24">
+          <div className="py-12 sm:py-32 md:py-16">
             <header className="flex flex-col items-start gap-5 pb-10">
               <div className="flex w-full items-center justify-between md:hidden">
                 <Link className={textLinkVariants()} to="/">

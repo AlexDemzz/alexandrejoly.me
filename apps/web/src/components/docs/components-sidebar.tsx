@@ -27,7 +27,7 @@ export const ComponentsSidebar = ({
     // Mobile hydrates as desktop, so the column hides itself below md.
     <Sidebar className="sticky top-0 hidden h-svh md:flex" collapsible="none">
       <SidebarContent>
-        <SidebarGroup className="md:mt-12">
+        <SidebarGroup className="md:mt-4">
           {/* On mobile the page header keeps the Home link beside the trigger. */}
           {isMobile ? (
             <SidebarGroupLabel
