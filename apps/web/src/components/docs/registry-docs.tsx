@@ -124,10 +124,10 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
 
 <Hint>
   <HintTrigger>
-    Monthly active users
+    Label
     <CircleHelpIcon />
   </HintTrigger>
-  <HintContent>People who opened the app in the last 30 days.</HintContent>
+  <HintContent>A short explanation of the label.</HintContent>
 </Hint>`,
   },
   "infinite-scroll": {
@@ -275,7 +275,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeVertical,
         description:
-          "A vertical track in a frame one item plus one gap tall rolls words in place.",
+          "A vertical track in a frame one item plus one gap tall rolls its items in place.",
         file: "marquee-vertical",
         title: "Vertical",
       },
@@ -290,8 +290,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
 <Marquee>
   <MarqueeFade side="left" />
   <MarqueeContent>
-    <MarqueeItem>React</MarqueeItem>
-    <MarqueeItem>TypeScript</MarqueeItem>
+    <MarqueeItem>Item 1</MarqueeItem>
+    <MarqueeItem>Item 2</MarqueeItem>
   </MarqueeContent>
   <MarqueeFade side="right" />
 </Marquee>`,
@@ -534,12 +534,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
 <Onboarding onComplete={() => setOpen(false)}>
   <OnboardingContent>
     <OnboardingStep value={1}>
-      <OnboardingTitle>Meet your coach</OnboardingTitle>
-      <OnboardingDescription>Answer a few questions.</OnboardingDescription>
+      <OnboardingTitle>Step 1</OnboardingTitle>
+      <OnboardingDescription>A short description of step 1.</OnboardingDescription>
     </OnboardingStep>
     <OnboardingStep value={2}>
-      <OnboardingTitle>Train with a plan</OnboardingTitle>
-      <OnboardingDescription>Log each set as you go.</OnboardingDescription>
+      <OnboardingTitle>Step 2</OnboardingTitle>
+      <OnboardingDescription>A short description of step 2.</OnboardingDescription>
     </OnboardingStep>
   </OnboardingContent>
   <OnboardingFooter>

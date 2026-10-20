@@ -4,11 +4,9 @@ import { CircleHelpIcon } from "lucide-react";
 export const HintDemo = () => (
   <Hint>
     <HintTrigger>
-      Monthly active users
+      Label
       <CircleHelpIcon />
     </HintTrigger>
-    <HintContent>
-      People who opened the app at least once in the last 30 days.
-    </HintContent>
+    <HintContent>A short explanation of the label.</HintContent>
   </Hint>
 );

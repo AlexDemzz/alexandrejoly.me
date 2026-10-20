@@ -5,19 +5,17 @@ import {
   MarqueeItem,
 } from "@registry/marquee";
 
-const QUOTES = [
-  "“Finally a coach that remembers my last session.”",
-  "“The plan adapts when I skip a week.”",
-  "“Every set has a reason.”",
-  "“Feels like texting a real coach.”",
-];
+const ITEMS = Array.from(
+  { length: 4 },
+  (_, index) => `A longer item to read, number ${index + 1}`
+);
 
 export const MarqueePauseOnHover = () => (
   <Marquee className="w-full">
     <MarqueeFade side="left" />
     <MarqueeContent duration="60s" gap="3rem" pauseOnHover>
-      {QUOTES.map((quote) => (
-        <MarqueeItem key={quote}>{quote}</MarqueeItem>
+      {ITEMS.map((item) => (
+        <MarqueeItem key={item}>{item}</MarqueeItem>
       ))}
     </MarqueeContent>
     <MarqueeFade side="right" />

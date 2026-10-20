@@ -112,7 +112,7 @@ function InfiniteScrollSentinel({
       {
         children: isFetchingNextPage && (
           <div className="flex items-center justify-center p-4">
-            <Spinner className="size-8" />
+            <Spinner />
           </div>
         ),
         ref: setSentinel,

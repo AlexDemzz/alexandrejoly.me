@@ -14,22 +14,10 @@ import {
 } from "@registry/onboarding";
 import { useState } from "react";
 
-const STEPS = [
-  {
-    description:
-      "Answer a few questions and get a plan built around your week.",
-    title: "Meet your coach",
-  },
-  {
-    description: "Log each set as you go. The next one adapts to how it felt.",
-    title: "Train with a plan",
-  },
-  {
-    description:
-      "See your lifts climb week after week, one chart per exercise.",
-    title: "Watch it add up",
-  },
-];
+const STEPS = [1, 2, 3].map((step) => ({
+  description: `A short description of step ${step}.`,
+  title: `Step ${step}`,
+}));
 
 export const OnboardingDemo = () => {
   const [completed, setCompleted] = useState(false);
@@ -37,7 +25,7 @@ export const OnboardingDemo = () => {
   if (completed) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <p>You’re all set.</p>
+        <p>Completed.</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
           Start again
         </Button>

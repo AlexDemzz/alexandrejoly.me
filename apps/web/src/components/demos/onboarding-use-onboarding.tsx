@@ -41,25 +41,25 @@ export const OnboardingUseOnboarding = () => (
     <OnboardingContent>
       <OnboardingStep value={1}>
         <div className="flex flex-col gap-1 px-4">
-          <OnboardingTitle>Pick your days</OnboardingTitle>
+          <OnboardingTitle>Step 1</OnboardingTitle>
           <OnboardingDescription>
-            Choose when you train. The plan fits around them.
+            A short description of step 1.
           </OnboardingDescription>
         </div>
       </OnboardingStep>
       <OnboardingStep value={2}>
         <div className="flex flex-col gap-1 px-4">
-          <OnboardingTitle>Set a goal</OnboardingTitle>
+          <OnboardingTitle>Step 2</OnboardingTitle>
           <OnboardingDescription>
-            Strength, size or endurance. You can change it later.
+            A short description of step 2.
           </OnboardingDescription>
         </div>
       </OnboardingStep>
       <OnboardingStep value={3}>
         <div className="flex flex-col gap-1 px-4">
-          <OnboardingTitle>Ready</OnboardingTitle>
+          <OnboardingTitle>Step 3</OnboardingTitle>
           <OnboardingDescription>
-            Your first session is waiting.
+            A short description of step 3.
           </OnboardingDescription>
         </div>
       </OnboardingStep>

@@ -5,8 +5,11 @@ import {
   MarqueeItem,
 } from "@registry/marquee";
 
-const FRONT = ["React", "TypeScript", "Tailwind CSS", "Base UI", "Vite"];
-const BACK = ["TanStack Start", "Cloudflare Workers", "Shiki", "Vitest"];
+const itemsFrom = (first: number) =>
+  Array.from({ length: 5 }, (_, index) => `Item ${first + index}`);
+
+const FRONT = itemsFrom(1);
+const BACK = itemsFrom(6);
 
 export const MarqueeReverse = () => (
   <Marquee className="flex w-full flex-col gap-4">

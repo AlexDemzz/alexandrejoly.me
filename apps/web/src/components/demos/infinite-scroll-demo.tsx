@@ -26,7 +26,7 @@ export const InfiniteScrollDemo = () => {
 
   return (
     <InfiniteScroll
-      className="h-72 w-full max-w-xs overflow-y-auto overscroll-contain"
+      className="scroll-fade-y h-72 w-full max-w-xs overflow-y-auto overscroll-contain"
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       onFetchNextPage={fetchNextPage}
@@ -34,7 +34,7 @@ export const InfiniteScrollDemo = () => {
       <ul className="flex flex-col">
         {pages.flat().map((id) => (
           <li className="px-3 py-2" key={id}>
-            Workout #{id}
+            Item {id}
           </li>
         ))}
         <InfiniteScrollSentinel
@@ -43,7 +43,7 @@ export const InfiniteScrollDemo = () => {
               {hasNextPage ? (
                 props.children
               ) : (
-                <p className="p-3 text-center">You’re all caught up</p>
+                <p className="p-3 text-center">No more items</p>
               )}
             </li>
           )}
