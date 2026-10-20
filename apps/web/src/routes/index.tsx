@@ -12,13 +12,18 @@ import {
 } from "@portfolio/ui/components/section";
 import { Text, TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
+import type { ComponentType } from "react";
 
-import { ComponentIcon } from "@/components/component-icon";
 import { ContributionGraph } from "@/components/contribution-graph";
+import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow } from "@/components/home-rows";
+import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
+import { MarqueeIcon } from "@/components/marquee-icon";
 import { MediaBackdrop } from "@/components/media-backdrop";
+import { NotificationBadgeIcon } from "@/components/notification-badge-icon";
+import { OnboardingIcon } from "@/components/onboarding-icon";
 import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
@@ -37,8 +42,17 @@ import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { REGISTRY_ITEMS } from "@/lib/registry";
+import type { RegistryItemName } from "@/lib/registry";
 
 const [gymup, kwern, , modals] = PROJECTS;
+
+const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
+  hint: HintIcon,
+  "infinite-scroll": InfiniteScrollIcon,
+  marquee: MarqueeIcon,
+  "notification-badge": NotificationBadgeIcon,
+  onboarding: OnboardingIcon,
+};
 
 const ProjectLink = ({ project: { href, name } }: { project: Project }) => (
   <TextLink external href={href}>
@@ -157,19 +171,22 @@ const HomeComponent = () => {
         <SectionTitle>Components</SectionTitle>
         <SectionContent>
           <ItemGroup>
-            {REGISTRY_ITEMS.map((component) => (
-              <ComponentRow
-                description={component.description}
-                key={component.name}
-                media={
-                  <ItemMedia variant="logo">
-                    <ComponentIcon />
-                  </ItemMedia>
-                }
-                name={component.name}
-                title={component.title}
-              />
-            ))}
+            {REGISTRY_ITEMS.map((component) => {
+              const Icon = COMPONENT_ICONS[component.name];
+              return (
+                <ComponentRow
+                  description={component.description}
+                  key={component.name}
+                  media={
+                    <ItemMedia variant="logo">
+                      <Icon />
+                    </ItemMedia>
+                  }
+                  name={component.name}
+                  title={component.title}
+                />
+              );
+            })}
           </ItemGroup>
         </SectionContent>
       </Section>
