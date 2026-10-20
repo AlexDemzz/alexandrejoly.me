@@ -19,8 +19,8 @@ catalogs:
       specifier: ^6.0.3
       version: 6.0.3
     varlock:
-      specifier: 1.18.0
-      version: 1.18.0
+      specifier: 1.23.0
+      version: 1.23.0
     zod:
       specifier: ^4.5.4
       version: 4.6.7
@@ -59,7 +59,7 @@ importers:
         version: 8.0.0(oxfmt@0.71.0)(oxlint@1.88.0)(prettier@3.9.10)
       varlock:
         specifier: 'catalog:'
-        version: 1.18.0
+        version: 1.23.0
       wrangler:
         specifier: 4.151.1
         version: 4.151.1(@types/node@26.6.5)
@@ -81,9 +81,6 @@ importers:
       '@tanstack/react-start':
         specifier: ^1.169.1
         version: 1.169.3(esbuild@0.28.2)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(rolldown@1.2.14)(rollup@4.64.10)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))
-      '@varlock/vite-integration':
-        specifier: 1.5.1
-        version: 1.5.1(varlock@1.18.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))
       lucide-react:
         specifier: ^1.56.0
         version: 1.59.0(@types/react@19.3.0)(react@19.3.1)
@@ -104,7 +101,7 @@ importers:
         version: 4.3.3
       varlock:
         specifier: 'catalog:'
-        version: 1.18.0
+        version: 1.23.0
       zod:
         specifier: 'catalog:'
         version: 4.6.7
@@ -130,6 +127,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
+      '@varlock/cloudflare-integration':
+        specifier: 1.6.2
+        version: 1.6.2(@cloudflare/vite-plugin@1.64.0(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))(wrangler@4.151.1(@types/node@26.6.5)))(varlock@1.23.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))(wrangler@4.151.1(@types/node@26.6.5))
       '@vitejs/plugin-react':
         specifier: ^6.1.2
         version: 6.1.2(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))
@@ -142,6 +142,9 @@ importers:
       vite:
         specifier: ^8.3.4
         version: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1)
+      vitest:
+        specifier: ^3.2.7
+        version: 3.2.7(@types/node@26.6.5)(jiti@2.7.0)(jsdom@30.1.3)(lightningcss@1.33.0)(sass@1.105.2)(yaml@2.9.1)
       web-vitals:
         specifier: ^6.2.3
         version: 6.2.3
@@ -1997,30 +2000,40 @@ packages:
   '@types/validate-npm-package-name@4.0.2':
     resolution: {integrity: sha512-lrpDziQipxCEeK5kWxvljWYhUvOiB2A9izZd9B2AFarYAkqZshb4lPbRs7zKEic6eGtH8V/2qJW+dPp9OtF6bw==}
 
-  '@varlock/native-helper-darwin@1.18.0':
-    resolution: {integrity: sha512-O/Wn7G97N9RhdHrMNmDJtqH86+1vCKTzkThW7ICghvBtJslWAY4tpfDb32/AIh8OHOkIoHHmQ90ak6uovbZ2rw==}
+  '@varlock/cloudflare-integration@1.6.2':
+    resolution: {integrity: sha512-xxzEyK9O/VFlQY0erfHd6G7X+wofBzQ/gWaKyRuWSramabOHF1Y7jQrbORdd86z0CUe8sdDn2Y+IWnVQQ8SOUg==}
+    engines: {node: '>=22'}
+    hasBin: true
+    peerDependencies:
+      '@cloudflare/vite-plugin': '>=1'
+      varlock: ^1.23.0
+      vite: '>=5'
+      wrangler: '>=3'
+    peerDependenciesMeta:
+      '@cloudflare/vite-plugin':
+        optional: true
+      vite:
+        optional: true
+      wrangler:
+        optional: true
+
+  '@varlock/native-helper-darwin@1.23.0':
+    resolution: {integrity: sha512-BdDfoQvsfDOiMMneU8NjIsPA0d6vfkSXl9F1qHtiL0Cht1Qn5u4EWKhK5atDF4iYDwI/IXjaWVZ9xIKqQb1XOA==}
     os: [darwin]
 
-  '@varlock/native-helper-linux-arm64@1.18.0':
-    resolution: {integrity: sha512-oPEh5bFtBoRQlsLS0uou7vmuT3OeO0u6rvaNRuQO6P76b0hUSv/ZiNOEpUtS/e+iyJKIhl/0O1MrPq28Rxo9BQ==}
+  '@varlock/native-helper-linux-arm64@1.23.0':
+    resolution: {integrity: sha512-+9bDk8ql64DLA8mPejpbDP7kezk43E+RZK6/tsfQenj/LeW0pziP7XwsJZ8WhLVkrRDyZ6DJfKTjxB06vxu0jg==}
     cpu: [arm64]
     os: [linux]
 
-  '@varlock/native-helper-linux-x64@1.18.0':
-    resolution: {integrity: sha512-eUz2vLIMAKwiTMXfJDbJxIgV1D/GAUH6oKHde7i0kr4F+JpbduRblwbI8Qe1XF3DeEB/OBEJrtvhu0gp6t5d/g==}
+  '@varlock/native-helper-linux-x64@1.23.0':
+    resolution: {integrity: sha512-gIWpGcXfHgo5Pci2aMRUxPN73QvkR0iwEOpBkdA+WINAl428cszkj5lt1fetjL889V29U4+S41XvC4Vk7u2ujQ==}
     cpu: [x64]
     os: [linux]
 
-  '@varlock/native-helper-win32-x64@1.18.0':
-    resolution: {integrity: sha512-L95F5rrZtA6Fn1zjR2iIGBCHg+mA8tIylQOSo5TBZfAx0FlWd38jgwewm6b/nfYKeGrx/R6pSlSMDDuj1WsUMg==}
+  '@varlock/native-helper-win32-x64@1.23.0':
+    resolution: {integrity: sha512-X55fq6Q6Fj3DHwEz1R87WiMEhG6vOCqwZp5D/gy/vqPmmC0ujOWxUItkK32jhn4BspXu5vHtv3j25GfL4/toGQ==}
     os: [win32, linux]
-
-  '@varlock/vite-integration@1.5.1':
-    resolution: {integrity: sha512-mlqJXCTPyIYV2y+hZME8tWutof2/iDGnlGIsxnFXCTxtGEdUhNCv0OydYVMJ7p45yChhv9v6PAGAZksT4DIZAA==}
-    engines: {node: '>=22'}
-    peerDependencies:
-      varlock: ^1.18.0
-      vite: '>=5'
 
   '@vitejs/plugin-react@6.1.2':
     resolution: {integrity: sha512-fhJNGUdscQa4HkI0xFxwonWyhnVReCPDbXI7FH7jmzpnVCrFQI7PRrhWecO263610vOrs9tr2Y4xcf8uAdFxbw==}
@@ -3791,8 +3804,8 @@ packages:
     resolution: {integrity: sha512-hVDIBwsRruT73PbK7uP5ebUt+ezEtCmzZz3F59BSr2F6OVFnJ/6h8liuvdLrQ88Xmnk6/+xGGuq+pG9WwTuy3A==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
-  varlock@1.18.0:
-    resolution: {integrity: sha512-wGf3OuFwPXL/yxEu1yhao0pNhof1ubbpo8guQML6w3n4Rp2DLGH2PZFGgmwVmNiqULRntat7+0MEJLK2V0zIXw==}
+  varlock@1.23.0:
+    resolution: {integrity: sha512-eHJ6PxWJJqBq/+Ki2Uc9HNClpRS4JDLZ9YCL6vJ1f9eGSJxrUOPeDdVpmYcrmjms+RRtEVheiDvYHJJ1WrE3kg==}
     engines: {bun: '>=1.3.3', node: '>=22.3.0'}
     hasBin: true
 
@@ -5473,22 +5486,25 @@ snapshots:
 
   '@types/validate-npm-package-name@4.0.2': {}
 
-  '@varlock/native-helper-darwin@1.18.0':
-    optional: true
-
-  '@varlock/native-helper-linux-arm64@1.18.0':
-    optional: true
-
-  '@varlock/native-helper-linux-x64@1.18.0':
-    optional: true
-
-  '@varlock/native-helper-win32-x64@1.18.0':
-    optional: true
-
-  '@varlock/vite-integration@1.5.1(varlock@1.18.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))':
+  '@varlock/cloudflare-integration@1.6.2(@cloudflare/vite-plugin@1.64.0(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))(wrangler@4.151.1(@types/node@26.6.5)))(varlock@1.23.0)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))(wrangler@4.151.1(@types/node@26.6.5))':
     dependencies:
-      varlock: 1.18.0
+      varlock: 1.23.0
+    optionalDependencies:
+      '@cloudflare/vite-plugin': 1.64.0(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))(wrangler@4.151.1(@types/node@26.6.5))
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1)
+      wrangler: 4.151.1(@types/node@26.6.5)
+
+  '@varlock/native-helper-darwin@1.23.0':
+    optional: true
+
+  '@varlock/native-helper-linux-arm64@1.23.0':
+    optional: true
+
+  '@varlock/native-helper-linux-x64@1.23.0':
+    optional: true
+
+  '@varlock/native-helper-win32-x64@1.23.0':
+    optional: true
 
   '@vitejs/plugin-react@6.1.2(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(jiti@2.7.0)(sass@1.105.2)(yaml@2.9.1))':
     dependencies:
@@ -7227,12 +7243,12 @@ snapshots:
 
   validate-npm-package-name@7.0.2: {}
 
-  varlock@1.18.0:
+  varlock@1.23.0:
     optionalDependencies:
-      '@varlock/native-helper-darwin': 1.18.0
-      '@varlock/native-helper-linux-arm64': 1.18.0
-      '@varlock/native-helper-linux-x64': 1.18.0
-      '@varlock/native-helper-win32-x64': 1.18.0
+      '@varlock/native-helper-darwin': 1.23.0
+      '@varlock/native-helper-linux-arm64': 1.23.0
+      '@varlock/native-helper-linux-x64': 1.23.0
+      '@varlock/native-helper-win32-x64': 1.23.0
 
   vary@1.1.2: {}
 
