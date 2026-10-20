@@ -1,3 +1,4 @@
+import { Preview } from "@portfolio/ui/components/preview";
 import {
   Tabs,
   TabsContent,
@@ -21,9 +22,7 @@ export const ComponentPreview = ({ children, code }: ComponentPreviewProps) => (
       <TabsTrigger value="code">Code</TabsTrigger>
     </TabsList>
     <TabsContent value="preview">
-      <div className="flex min-h-60 items-center justify-center overflow-clip rounded-xl border p-6 sm:p-10">
-        {children}
-      </div>
+      <Preview>{children}</Preview>
     </TabsContent>
     <TabsContent value="code">
       <CodeBlock html={code} />

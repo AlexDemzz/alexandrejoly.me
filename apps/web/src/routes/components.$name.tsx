@@ -1,3 +1,4 @@
+import { Heading } from "@portfolio/ui/components/heading";
 import {
   Section,
   SectionContent,
@@ -19,16 +20,17 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
-import { SITE, findComponent } from "@/content";
+import { SiteFooter } from "@/components/site-footer";
+import { SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
-import { registryItemUrl } from "@/lib/registry";
-
-const findPage = (name: string) => {
-  const component = findComponent(name);
-  const docs = REGISTRY_DOCS[name];
-  return component && docs ? { component, docs } : undefined;
-};
+import { pageHead } from "@/lib/head";
+import {
+  getRegistryItem,
+  isRegistryItemName,
+  registryItemUrl,
+} from "@/lib/registry";
+import type { RegistryItem } from "@/lib/registry";
 
 const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
   <li className="flex flex-col gap-3">
@@ -90,21 +92,16 @@ const Installation = ({
   </Tabs>
 );
 
+interface ComponentPageData {
+  code: ComponentCode;
+  item: RegistryItem;
+}
+
 const ComponentDocsPage = ({
   code,
-  name,
-}: {
-  code: ComponentCode;
-  name: string;
-}) => {
-  const page = findPage(name);
-  if (!page) {
-    return null;
-  }
-  const {
-    component: { description, title },
-    docs: { api, demo, examples },
-  } = page;
+  item: { description, name, title },
+}: ComponentPageData) => {
+  const { api, demo, examples } = REGISTRY_DOCS[name];
 
   return (
     <main className="mx-auto max-w-180 px-6 py-12 sm:py-24">
@@ -114,7 +111,11 @@ const ComponentDocsPage = ({
           Home
         </Link>
         <div>
-          <h1 className="font-medium">{title}</h1>
+          <Heading
+            render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
+          >
+            {title}
+          </Heading>
           <Text>{description}</Text>
         </div>
       </header>
@@ -149,7 +150,13 @@ const ComponentDocsPage = ({
               {examples.map((example) => (
                 <section className="flex flex-col gap-3" key={example.file}>
                   <div>
-                    <h3 className="font-book">{example.title}</h3>
+                    <Heading
+                      render={({ children, ...props }) => (
+                        <h3 {...props}>{children}</h3>
+                      )}
+                    >
+                      {example.title}
+                    </Heading>
                     <Text>
                       <InlineCode>{example.description}</InlineCode>
                     </Text>
@@ -171,47 +178,36 @@ const ComponentDocsPage = ({
         </SectionContent>
       </Section>
 
-      <footer className="pt-10">
-        <Text variant="faint">© 2026 Alexandre Joly</Text>
-      </footer>
+      <SiteFooter />
     </main>
   );
 };
 
-const ComponentPage = () => (
-  <ComponentDocsPage
-    code={Route.useLoaderData()}
-    name={Route.useParams().name}
-  />
-);
+const ComponentPage = () => {
+  const { code, item } = Route.useLoaderData();
+  return <ComponentDocsPage code={code} item={item} />;
+};
 
 export const Route = createFileRoute("/components/$name")({
   component: ComponentPage,
-  head: ({ params }) => {
-    const component = findComponent(params.name);
-    if (!component) {
-      return {};
-    }
-    const title = `${component.title} – ${SITE.name}`;
-    const url = `${SITE.url}components/${component.name}`;
-    return {
-      links: [{ href: url, rel: "canonical" }],
-      meta: [
-        { title },
-        { content: component.description, name: "description" },
-        { content: "article", property: "og:type" },
-        { content: url, property: "og:url" },
-        { content: title, property: "og:title" },
-        { content: component.description, property: "og:description" },
-        { content: SITE.name, property: "og:site_name" },
-      ],
-    };
-  },
-  loader: async ({ params }) => {
-    if (!findPage(params.name)) {
+  // TanStack infers `loaderData` in `head` only when `loader` comes first.
+  loader: async ({ params: { name } }): Promise<ComponentPageData> => {
+    if (!isRegistryItemName(name)) {
       throw notFound();
     }
-    return await getComponentCode({ data: params.name });
+    return {
+      code: await getComponentCode({ data: name }),
+      item: getRegistryItem(name),
+    };
   },
+  head: ({ loaderData }) =>
+    loaderData
+      ? pageHead({
+          description: loaderData.item.description,
+          path: `components/${loaderData.item.name}`,
+          title: `${loaderData.item.title} – ${SITE.name}`,
+          type: "article",
+        })
+      : {},
   staleTime: Number.POSITIVE_INFINITY,
 });

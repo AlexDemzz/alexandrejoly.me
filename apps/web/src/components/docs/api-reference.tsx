@@ -1,45 +1,61 @@
+import { Code } from "@portfolio/ui/components/code";
+import { Heading } from "@portfolio/ui/components/heading";
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemSeparator,
+  ItemTitle,
+} from "@portfolio/ui/components/item";
+import { Text } from "@portfolio/ui/components/text";
+
 import { InlineCode } from "@/components/docs/inline-code";
-import type { ApiPart } from "@/components/docs/registry-docs";
+import type { ApiPart, ApiProp } from "@/components/docs/registry-docs";
+
+const PropRow = ({ prop }: { prop: ApiProp }) => (
+  <li>
+    <Item>
+      <ItemContent>
+        <ItemTitle>
+          <Code>{prop.name}</Code>
+        </ItemTitle>
+        <ItemDescription>
+          <Code variant="muted">{prop.type}</Code>
+        </ItemDescription>
+        <ItemDescription>
+          <InlineCode>{prop.description}</InlineCode>
+          {prop.default === undefined ? null : (
+            <>
+              {" "}
+              Defaults to <Code>{prop.default}</Code>.
+            </>
+          )}
+        </ItemDescription>
+      </ItemContent>
+      <ItemSeparator />
+    </Item>
+  </li>
+);
 
 export const ApiReference = ({ parts }: { parts: ApiPart[] }) => (
   <div className="flex flex-col gap-10">
     {parts.map((part) => (
       <section className="flex flex-col gap-2" key={part.name}>
-        <h3 className="font-book font-mono">{part.name}</h3>
-        <p className="text-muted-foreground text-pretty">
+        <Heading
+          render={({ children, ...props }) => <h3 {...props}>{children}</h3>}
+        >
+          <Code>{part.name}</Code>
+        </Heading>
+        <Text>
           <InlineCode>{part.description}</InlineCode>
-        </p>
+        </Text>
         {part.props.length > 0 && (
-          <dl className="flex flex-col">
+          <ItemGroup>
             {part.props.map((prop) => (
-              <div
-                className="flex flex-col gap-1 border-b py-3 last:border-b-0"
-                key={prop.name}
-              >
-                <dt className="flex flex-wrap items-baseline gap-x-3">
-                  <code className="font-mono text-sm wrap-anywhere">
-                    {prop.name}
-                  </code>
-                  <code className="text-muted-foreground font-mono text-sm wrap-anywhere">
-                    {prop.type}
-                  </code>
-                </dt>
-                <dd className="text-muted-foreground text-pretty">
-                  <InlineCode>{prop.description}</InlineCode>
-                  {prop.default === undefined ? null : (
-                    <>
-                      {" "}
-                      Defaults to{" "}
-                      <code className="text-foreground font-mono text-sm wrap-anywhere">
-                        {prop.default}
-                      </code>
-                      .
-                    </>
-                  )}
-                </dd>
-              </div>
+              <PropRow key={prop.name} prop={prop} />
             ))}
-          </dl>
+          </ItemGroup>
         )}
       </section>
     ))}

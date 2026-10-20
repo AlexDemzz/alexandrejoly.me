@@ -1,9 +1,7 @@
 import type { ComponentType } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
-import { HintSide } from "@/components/demos/hint-side";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
-import { InfiniteScrollRender } from "@/components/demos/infinite-scroll-render";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
@@ -13,6 +11,7 @@ import { NotificationBadgeDot } from "@/components/demos/notification-badge-dot"
 import { NotificationBadgeLabel } from "@/components/demos/notification-badge-label";
 import { OnboardingDemo } from "@/components/demos/onboarding-demo";
 import { OnboardingUseOnboarding } from "@/components/demos/onboarding-use-onboarding";
+import type { RegistryItemName } from "@/lib/registry";
 
 /** A file in `src/components/demos`, named without its extension. */
 export interface Demo {
@@ -51,7 +50,7 @@ const CLASS_NAME_PROP: ApiProp = {
   type: "string",
 };
 
-export const REGISTRY_DOCS: Record<string, ComponentDocs> = {
+export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   hint: {
     api: [
       {
@@ -117,15 +116,7 @@ export const REGISTRY_DOCS: Record<string, ComponentDocs> = {
       },
     ],
     demo: { Component: HintDemo, file: "hint-demo" },
-    examples: [
-      {
-        Component: HintSide,
-        description:
-          "Open the bubble on another side with `side` and `align`, as on any popover.",
-        file: "hint-side",
-        title: "Placement",
-      },
-    ],
+    examples: [],
     usage: `import { Hint, HintContent, HintTrigger } from "@/components/ui/hint";
 
 <Hint>
@@ -178,15 +169,7 @@ export const REGISTRY_DOCS: Record<string, ComponentDocs> = {
       },
     ],
     demo: { Component: InfiniteScrollDemo, file: "infinite-scroll-demo" },
-    examples: [
-      {
-        Component: InfiniteScrollRender,
-        description:
-          "Render the sentinel as the list's last item, and show an end-of-list message once every page is in.",
-        file: "infinite-scroll-render",
-        title: "Custom sentinel",
-      },
-    ],
+    examples: [],
     usage: `import {
   InfiniteScroll,
   InfiniteScrollSentinel,

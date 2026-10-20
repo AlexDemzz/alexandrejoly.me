@@ -4,8 +4,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import { demoSource, highlight, registrySource } from "@/lib/highlight.server";
 import {
-  findRegistryItem,
   getInstallation,
+  getRegistryItem,
+  isRegistryItemName,
   registryConfig,
 } from "@/lib/registry";
 
@@ -14,14 +15,15 @@ const highlightOptional = (code: string | null) =>
 
 /** Every code block of a component page, highlighted to HTML on the server. */
 export const getComponentCode = createServerFn({ method: "GET" })
-  .validator((name: string) => name)
-  .handler(async ({ data: name }) => {
-    const item = findRegistryItem(name);
-    const docs = REGISTRY_DOCS[name];
-    if (!(item && docs)) {
+  .validator((name: string) => {
+    if (!isRegistryItemName(name)) {
       throw notFound();
     }
-    const installation = getInstallation(item);
+    return name;
+  })
+  .handler(async ({ data: name }) => {
+    const docs = REGISTRY_DOCS[name];
+    const installation = getInstallation(getRegistryItem(name));
     const demoFiles = [docs.demo, ...docs.examples].map(({ file }) => file);
 
     const [

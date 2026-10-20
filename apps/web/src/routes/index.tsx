@@ -18,11 +18,11 @@ import { ComponentRow, ExternalRow } from "@/components/home-rows";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MediaBackdrop } from "@/components/media-backdrop";
+import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
   ARCHIVES,
   AWARDS,
-  COMPONENTS,
   EMPLOYER,
   LINKS,
   PROJECTS,
@@ -33,6 +33,8 @@ import {
   skillHref,
 } from "@/content";
 import type { Project } from "@/content";
+import { pageHead } from "@/lib/head";
+import { REGISTRY_ITEMS } from "@/lib/registry";
 
 const [gymup, kwern, modals] = PROJECTS;
 
@@ -147,7 +149,7 @@ const HomeComponent = () => (
       <SectionTitle>Components</SectionTitle>
       <SectionContent>
         <ItemGroup>
-          {COMPONENTS.map((component) => (
+          {REGISTRY_ITEMS.map((component) => (
             <ComponentRow
               description={component.description}
               key={component.name}
@@ -211,9 +213,7 @@ const HomeComponent = () => (
       </SectionContent>
     </Section>
 
-    <footer className="pt-10">
-      <Text variant="faint">© 2026 Alexandre Joly</Text>
-    </footer>
+    <SiteFooter />
   </main>
 );
 
@@ -236,25 +236,28 @@ const personJsonLd = {
   },
 };
 
+const homeHead = pageHead({
+  description: SITE.description,
+  path: "",
+  title: SITE.title,
+  type: "profile",
+});
+
 export const Route = createFileRoute("/")({
   component: HomeComponent,
   head: () => ({
-    links: [{ href: SITE.url, rel: "canonical" }],
+    links: homeHead.links,
     meta: [
-      { title: SITE.title },
-      { content: SITE.description, name: "description" },
-      { content: "profile", property: "og:type" },
-      { content: SITE.url, property: "og:url" },
-      { content: SITE.title, property: "og:title" },
-      { content: SITE.description, property: "og:description" },
-      { content: SITE.name, property: "og:site_name" },
+      ...homeHead.meta,
       { content: `${SITE.url}og.png`, property: "og:image" },
       { content: "1200", property: "og:image:width" },
       { content: "630", property: "og:image:height" },
       { content: SITE.name, property: "og:image:alt" },
       { content: "summary_large_image", name: "twitter:card" },
       { content: `@${X_HANDLE}`, name: "twitter:creator" },
-      { "script:ld+json": personJsonLd },
+    ],
+    scripts: [
+      { children: JSON.stringify(personJsonLd), type: "application/ld+json" },
     ],
   }),
 });

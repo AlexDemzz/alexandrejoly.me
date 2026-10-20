@@ -1,13 +1,27 @@
 import { describe, expect, it } from "vitest";
 
-import { getInstallation, registryConfig } from "./registry";
+import registry from "../../registry.json";
+import {
+  REGISTRY_ITEM_NAMES,
+  getInstallation,
+  registryConfig,
+} from "./registry";
+import type { RegistryItem } from "./registry";
 
-const item = {
+const item: RegistryItem = {
   description: "",
   files: [],
   name: "onboarding",
   title: "Onboarding",
 };
+
+describe("REGISTRY_ITEM_NAMES", () => {
+  it("lists every registry.json item, in its order", () => {
+    expect(registry.items.map(({ name }) => name)).toEqual([
+      ...REGISTRY_ITEM_NAMES,
+    ]);
+  });
+});
 
 describe("getInstallation", () => {
   it("installs through the namespace or straight from the item URL", () => {
