@@ -80,7 +80,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The button that toggles the hint. Its hit area extends 8px past its edges.",
+          "The button that toggles the hint. Put the label in it, text then icon, so it needs no `aria-label`; icons are sized to 16px. Its hit area extends 8px past its edges.",
         name: "HintTrigger",
         props: [
           {
@@ -122,7 +122,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     usage: `import { Hint, HintContent, HintTrigger } from "@/components/ui/hint";
 
 <Hint>
-  <HintTrigger aria-label="What counts as active?">
+  <HintTrigger>
+    Monthly active users
     <CircleHelpIcon />
   </HintTrigger>
   <HintContent>People who opened the app in the last 30 days.</HintContent>

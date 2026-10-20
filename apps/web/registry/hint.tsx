@@ -10,6 +10,7 @@ function Hint({ ...props }: React.ComponentProps<typeof Popover>) {
 }
 
 function HintTrigger({
+  children,
   className,
   ...props
 }: React.ComponentProps<typeof PopoverTrigger>) {
@@ -22,7 +23,11 @@ function HintTrigger({
       data-slot="hint-trigger"
       type="button"
       {...props}
-    />
+    >
+      <span className="inline-flex items-center gap-1.5 [&_svg]:size-4 [&_svg]:shrink-0">
+        {children}
+      </span>
+    </PopoverTrigger>
   );
 }
 
