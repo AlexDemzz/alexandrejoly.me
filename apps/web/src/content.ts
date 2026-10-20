@@ -67,7 +67,7 @@ export const PROJECTS: Project[] = [
     year: 2026,
   },
   {
-    backdrop: "/projects/kwern-peaks.png",
+    backdrop: "/projects/kwern-landscapes.webm",
     description: "You build the product, Kwern does the marketing",
     href: "https://kwern.app",
     icon: KwernIcon,
