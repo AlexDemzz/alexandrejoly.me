@@ -3,8 +3,8 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Components › Code: system mono at the body's 16px, no fill, no
-// border; ink by default, fog for secondary code such as prop types.
+// DESIGN.md › Components › Code: system mono at the body's 16px; ink by
+// default, fog for secondary code such as prop types.
 const codeVariants = cva("font-mono wrap-anywhere", {
   defaultVariants: {
     variant: "default",
@@ -29,13 +29,14 @@ const Code = ({
   />
 );
 
-// A block of highlighted code beside its action column, so scrolled code never
-// runs under the copy button. Shiki's output is styled in globals.css through
+// DESIGN.md › Components › Code: docs-only card on the tint, 16px radius, no
+// border. The code sits beside its action column, so scrolled code never runs
+// under the copy button. Shiki's output is styled in globals.css through
 // `[data-slot=code-block-content]`.
 const CodeBlock = ({ className, ...props }: React.ComponentProps<"figure">) => (
   <figure
     className={cn(
-      "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1",
+      "bg-muted grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1 rounded-xl p-4",
       className
     )}
     data-slot="code-block"

@@ -1,12 +1,12 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Components › Preview: a live demo centred on the page itself,
-// no frame, no fill; space alone sets it apart.
+// DESIGN.md › Components › Preview: docs-only card, a single hairline at a
+// 16px radius and no fill, so demos keep the page background they fade into.
 const Preview = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     className={cn(
-      "flex min-h-60 items-center justify-center overflow-clip py-10",
+      "ring-border flex min-h-60 items-center justify-center overflow-clip rounded-xl p-6 ring-1 sm:p-10",
       className
     )}
     data-slot="preview"

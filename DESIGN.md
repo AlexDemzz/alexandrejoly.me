@@ -107,7 +107,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 - Rows have no fill and no radius; a hairline under each row except the last.
 - Row logos are 36px circles on the hairline shadow. Their icon sits at `muted-foreground` 80% and lights to `foreground` while the row is hovered or focused. Favicons inside links are 16px with a 5px radius.
-- No borders on surfaces, no cards.
+- No borders on surfaces, no cards. Exception: component docs pages may hold previews and code blocks in quiet rounded cards (`Preview`, `CodeBlock`), since code is hard to read without a container.
 
 ## Layout
 
@@ -122,8 +122,8 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Row** (`ItemGroup` of `Item`s): optional round logo (`ItemMedia variant="logo"`), title over description, year on the right (`ItemActions`).
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
-- **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks show Shiki's vitesse colours with no fill, no border and no radius, a ghost copy button at the top end.
-- **Preview** (`Preview`): a live demo centred on the page, no frame or fill.
+- **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button at the top end.
+- **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
 - **Props list**: an `ItemGroup` of static rows, ruled like any row; titles underline on hover only inside a link.
 - **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 
@@ -141,5 +141,5 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - Do keep every size at 16px and build hierarchy with weight and ink.
 - Do keep section titles in the margin and rows ruled.
 - Don't put dividers between sections; spacing separates them.
-- Don't fill rows on hover, or add an accent colour, cards or a theme toggle.
+- Don't fill rows on hover, or add an accent colour, cards (outside docs previews and code) or a theme toggle.
 - Don't truncate row titles; let them wrap.
