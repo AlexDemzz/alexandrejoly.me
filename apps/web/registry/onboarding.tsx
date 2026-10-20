@@ -1,5 +1,6 @@
 "use client";
 
+import { mergeProps } from "@base-ui/react/merge-props";
 import {
   Children,
   createContext,
@@ -271,9 +272,10 @@ function OnboardingPrevButton({
   return (
     <Button
       data-slot="onboarding-prev-button"
-      onClick={goToPrevStep}
-      variant="ghost"
-      {...props}
+      {...mergeProps<typeof Button>(
+        { onClick: goToPrevStep, variant: "ghost" },
+        props
+      )}
     >
       {children}
     </Button>
@@ -308,9 +310,10 @@ function OnboardingNextButton({
   return (
     <Button
       data-slot="onboarding-next-button"
-      onClick={handleClick}
-      variant="default"
-      {...props}
+      {...mergeProps<typeof Button>(
+        { onClick: handleClick, variant: "default" },
+        props
+      )}
     >
       {isLastStep ? lastLabel : children}
     </Button>

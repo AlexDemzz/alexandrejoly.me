@@ -472,7 +472,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Ghost button to the previous step, replaced by an empty spacer on the first.",
+          "Ghost button to the previous step, replaced by an empty spacer on the first. Takes every `Button` prop; an `onClick` runs before the step changes.",
         name: "OnboardingPrevButton",
         props: [
           {
@@ -481,10 +481,17 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "children",
             type: "ReactNode",
           },
+          {
+            description:
+              "Replaces the rendered button, for example a link. Pass `nativeButton={false}` when it is not a `button`.",
+            name: "render",
+            type: "ReactElement | (props, state) => ReactElement",
+          },
         ],
       },
       {
-        description: "Moves forward, or calls `onComplete` on the last step.",
+        description:
+          "Moves forward, or calls `onComplete` on the last step. Takes every `Button` prop; an `onClick` runs before the step changes.",
         name: "OnboardingNextButton",
         props: [
           {
@@ -498,6 +505,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             description: "The label on the last step.",
             name: "lastLabel",
             type: "ReactNode",
+          },
+          {
+            description:
+              "Replaces the rendered button, for example a link. Pass `nativeButton={false}` when it is not a `button`.",
+            name: "render",
+            type: "ReactElement | (props, state) => ReactElement",
           },
         ],
       },

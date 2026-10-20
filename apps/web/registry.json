@@ -22,7 +22,7 @@
       "type": "registry:ui",
       "title": "Onboarding",
       "description": "A step-by-step onboarding flow with a segmented progress indicator and previous/next buttons.",
-      "dependencies": [],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": ["button", "progress"],
       "files": [
         {
