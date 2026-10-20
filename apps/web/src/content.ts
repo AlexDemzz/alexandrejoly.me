@@ -25,6 +25,7 @@ export const LINKS = {
   email: "mailto:alexandre.joly36@gmail.com",
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
+  repo: "https://github.com/AlexDemzz/alexandrejoly.me",
   skills: "https://www.skills.sh/alexdemzz/skills",
   x: `https://x.com/${X_HANDLE}`,
 } as const;
