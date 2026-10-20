@@ -202,24 +202,11 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Under reduced motion it stays on the first copy.",
         name: "MarqueeContent",
+        nameLabel: "Prop or variable",
         props: [
           {
-            default: '"40s"',
-            description: "One full cycle.",
-            name: "duration",
-            type: "string",
-          },
-          {
-            default: '"2rem"',
-            description:
-              "The space between items, which also spaces the loop’s seam.",
-            name: "gap",
-            type: "string",
-          },
-          {
             default: '"horizontal"',
-            description:
-              "`vertical` stacks the items and slides them upward, a reel inside a frame one item plus one gap tall.",
+            description: "`vertical` stacks the items and slides them upward.",
             name: "orientation",
             type: '"horizontal" | "vertical"',
           },
@@ -235,11 +222,19 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "pauseOnHover",
             type: "boolean",
           },
+          {
+            default: "40s",
+            description:
+              "One full cycle, set from a class: `[--marquee-duration:20s]`.",
+            name: "--marquee-duration",
+            type: "CSS time",
+          },
           CLASS_NAME_PROP,
         ],
       },
       {
-        description: "One item of the track. It never shrinks.",
+        description:
+          "One item of the track. Its padding spaces the items and the loop’s seam alike: `px-4` across, `py-2` down. Override it with a class such as `px-2`.",
         name: "MarqueeItem",
         props: [CLASS_NAME_PROP],
       },
@@ -250,7 +245,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           {
             description: "The edge it covers.",
             name: "side",
-            type: '"left" | "right"',
+            type: '"left" | "right" | "top" | "bottom"',
           },
           CLASS_NAME_PROP,
         ],
@@ -261,7 +256,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueePauseOnHover,
         description:
-          "Give it a longer `duration` and hold it under the pointer so longer items can be read.",
+          "Slow it with `[--marquee-duration:60s]` and hold it under the pointer so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
       },
@@ -275,7 +270,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeVertical,
         description:
-          "A vertical track in a frame one item plus one gap tall rolls its items in place.",
+          "A vertical track between top and bottom fades, with tighter `py-1` items.",
         file: "marquee-vertical",
         title: "Vertical",
       },

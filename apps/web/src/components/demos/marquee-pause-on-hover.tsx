@@ -13,9 +13,11 @@ const ITEMS = Array.from(
 export const MarqueePauseOnHover = () => (
   <Marquee className="w-full">
     <MarqueeFade side="left" />
-    <MarqueeContent duration="60s" gap="3rem" pauseOnHover>
+    <MarqueeContent className="[--marquee-duration:60s]" pauseOnHover>
       {ITEMS.map((item) => (
-        <MarqueeItem key={item}>{item}</MarqueeItem>
+        <MarqueeItem className="px-6" key={item}>
+          {item}
+        </MarqueeItem>
       ))}
     </MarqueeContent>
     <MarqueeFade side="right" />

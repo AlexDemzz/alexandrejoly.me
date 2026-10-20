@@ -1,4 +1,6 @@
-import { Children, isValidElement } from "react";
+"use client";
+
+import { Children, createContext, isValidElement, use } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -18,89 +20,93 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+type MarqueeOrientation = "horizontal" | "vertical";
+
+const MarqueeContext = createContext<MarqueeOrientation>("horizontal");
+
 type MarqueeContentProps = React.ComponentProps<"div"> & {
-  /** One full cycle, as a CSS time. */
-  duration?: string;
-  /** The space between items, which also spaces the loop's seam. */
-  gap?: string;
   /** `vertical` stacks the items and slides them upward. */
-  orientation?: "horizontal" | "vertical";
+  orientation?: MarqueeOrientation;
   pauseOnHover?: boolean;
   /** Slides the other way. Horizontal only. */
   reverse?: boolean;
 };
 
+/**
+ * The track. One cycle lasts `--marquee-duration` (40s by default), set from
+ * a class such as `[--marquee-duration:20s]`.
+ */
 function MarqueeContent({
   children,
   className,
-  duration = "40s",
-  gap = "2rem",
   orientation = "horizontal",
   pauseOnHover = false,
   reverse = false,
-  style,
   ...props
 }: MarqueeContentProps) {
   // oxlint-disable-next-line react/no-react-children -- the copy drops text and empty children so only items repeat
   const items = Children.toArray(children).filter(isValidElement);
   const vertical = orientation === "vertical";
-  // Each copy ends on one gap, so the seam is as wide as any other gap. A
-  // vertical copy splits it above and below, centering the first item in a
-  // frame one item plus one gap tall.
-  const copy = vertical
-    ? // oxlint-disable-next-line shadcn/no-arbitrary-values -- half the consumer's gap has no scale step
-      "flex shrink-0 flex-col items-center gap-(--marquee-gap) py-[calc(var(--marquee-gap)/2)]"
-    : "flex shrink-0 items-center gap-(--marquee-gap) pe-(--marquee-gap)";
+  const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
 
   return (
-    <div
-      className={cn(
-        vertical
-          ? "flex h-max w-full flex-col items-center"
-          : "flex w-max items-center",
-        vertical && "motion-safe:animate-marquee-vertical",
-        !vertical &&
-          (reverse
-            ? "motion-safe:animate-marquee-reverse"
-            : "motion-safe:animate-marquee"),
-        // oxlint-disable-next-line shadcn/no-arbitrary-values -- Tailwind has no animation-play-state utility
-        pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
-        className
-      )}
-      data-direction={reverse ? "reverse" : "forward"}
-      data-orientation={orientation}
-      data-slot="marquee-content"
-      style={
-        {
-          "--marquee-duration": duration,
-          "--marquee-gap": gap,
-          ...style,
-        } as React.CSSProperties
-      }
-      {...props}
-    >
-      <div className={copy} data-slot="marquee-copy">
-        {items}
+    <MarqueeContext value={orientation}>
+      <div
+        className={cn(
+          vertical ? "flex h-max w-full flex-col" : "flex w-max items-center",
+          vertical && "motion-safe:animate-marquee-vertical",
+          !vertical &&
+            (reverse
+              ? "motion-safe:animate-marquee-reverse"
+              : "motion-safe:animate-marquee"),
+          // oxlint-disable-next-line shadcn/no-arbitrary-values -- Tailwind has no animation-play-state utility
+          pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
+          className
+        )}
+        data-direction={reverse ? "reverse" : "forward"}
+        data-orientation={orientation}
+        data-slot="marquee-content"
+        {...props}
+      >
+        <div className={copy} data-slot="marquee-copy">
+          {items}
+        </div>
+        <div aria-hidden className={copy} data-slot="marquee-copy">
+          {items}
+        </div>
       </div>
-      <div aria-hidden className={copy} data-slot="marquee-copy">
-        {items}
-      </div>
-    </div>
+    </MarqueeContext>
   );
 }
 
+/**
+ * One item. Its padding spaces the items and the loop's seam alike, so
+ * override it to change the spacing: `px-2` across, `py-1` down.
+ */
 function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
+  const orientation = use(MarqueeContext);
   return (
     <div
-      className={cn("shrink-0", className)}
+      className={cn(
+        "shrink-0",
+        orientation === "horizontal" ? "px-4" : "py-2 text-center",
+        className
+      )}
       data-slot="marquee-item"
       {...props}
     />
   );
 }
 
+const FADE_SIDE = {
+  bottom: "inset-x-0 bottom-0 h-8 rotate-180 bg-linear-to-b",
+  left: "inset-y-0 left-0 w-8 bg-linear-to-r",
+  right: "inset-y-0 right-0 w-8 rotate-180 bg-linear-to-r",
+  top: "inset-x-0 top-0 h-8 bg-linear-to-b",
+} as const;
+
 type MarqueeFadeProps = React.ComponentProps<"div"> & {
-  side: "left" | "right";
+  side: keyof typeof FADE_SIDE;
 };
 
 function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
@@ -108,9 +114,8 @@ function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
     <div
       aria-hidden
       className={cn(
-        "from-background to-background/0 pointer-events-none absolute inset-y-0 z-10 w-8 bg-linear-to-r",
-        side === "left" && "left-0",
-        side === "right" && "right-0 rotate-180",
+        "from-background to-background/0 pointer-events-none absolute z-10",
+        FADE_SIDE[side],
         className
       )}
       data-side={side}
