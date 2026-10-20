@@ -4,11 +4,12 @@
   "type": "module",
   "scripts": {
     "build": "pnpm registry:build && vite build",
-    "registry:build": "shadcn build registry.json --output public/r",
+    "registry:build": "shadcn build registry.json --output public/r && node scripts/sitemap.mjs",
+    "registry:check": "shadcn registry validate registry.json",
     "serve": "vite preview",
     "deploy": "pnpm build && wrangler deploy",
     "dev": "pnpm registry:build && vite dev",
-    "check-types": "pnpm build && tsc --noEmit",
+    "check-types": "pnpm registry:check && pnpm build && tsc --noEmit",
     "env:generate": "varlock codegen",
     "test": "vitest run"
   },

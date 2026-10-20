@@ -65,3 +65,6 @@ temp
 
 # Built shadcn registry
 apps/web/public/r
+
+# Generated from registry.json by apps/web/scripts/sitemap.mjs
+apps/web/public/sitemap.xml
