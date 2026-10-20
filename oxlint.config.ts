@@ -14,6 +14,8 @@ export default defineConfig({
       // Vendored shadcn source: keep it diffable against the registry.
       rules: {
         "eslint/func-style": "off",
+        "eslint/no-use-before-define": "off",
+        "jsx-a11y/prefer-tag-over-role": "off",
         "react/function-component-definition": "off",
         "import/consistent-type-specifier-style": "off",
         "shadcn/no-unknown-classes": ["error", { allow: ["cn-*", "toaster"] }],
