@@ -38,7 +38,7 @@ import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 
-const [gymup, kwern, modals] = PROJECTS;
+const [gymup, kwern, , modals] = PROJECTS;
 
 const ProjectLink = ({ project: { href, name } }: { project: Project }) => (
   <TextLink external href={href}>

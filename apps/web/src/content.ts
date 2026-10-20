@@ -8,6 +8,7 @@ import { GymupIcon } from "@/components/gymup-icon";
 import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
+import { SkipprIcon } from "@/components/skippr-icon";
 import { XIcon } from "@/components/x-icon";
 
 export const SITE = {
@@ -73,6 +74,14 @@ export const PROJECTS: Project[] = [
     icon: KwernIcon,
     kind: "Web app",
     name: "Kwern",
+    year: 2026,
+  },
+  {
+    description: "The SSH terminal built for agents, on iPad",
+    href: "https://skippr.sh",
+    icon: SkipprIcon,
+    kind: "iPad app",
+    name: "Skippr",
     year: 2026,
   },
   {
