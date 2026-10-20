@@ -3,6 +3,6 @@ import ultracite from "ultracite/oxfmt";
 
 export default defineConfig({
   ...ultracite,
-  // Hand-wrapped and read by tooling: see pimp-my-shadcn.
+  // Hand-wrapped and read by tooling: see skin-shadcn.
   ignorePatterns: [...(ultracite.ignorePatterns ?? []), "DESIGN.md"],
 });
