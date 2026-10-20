@@ -40,8 +40,16 @@ export interface ApiProp {
   type: string;
 }
 
+/** What a part spreads its props onto: an element, or a component's docs. */
+export interface ApiExtends {
+  href?: string;
+  name: string;
+}
+
 export interface ApiPart {
   description: string;
+  /** Omitted for a hook, which renders nothing. */
+  extends?: ApiExtends;
   name: string;
   /** Heads the name column; defaults to "Prop". */
   nameLabel?: string;
@@ -55,75 +63,36 @@ export interface ComponentDocs {
   usage: string;
 }
 
-const CLASS_NAME_PROP: ApiProp = {
-  description: "Merged onto the part’s element.",
-  name: "className",
-  type: "string",
-};
-
 export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   hint: {
     api: [
       {
-        description:
-          "The Base UI Popover root. Controls the open state; it renders no element.",
+        description: "Holds the open state; it renders no element.",
+        extends: {
+          href: "https://base-ui.com/react/components/popover#root",
+          name: "Base UI Popover.Root",
+        },
         name: "Hint",
-        props: [
-          {
-            description: "The open state when uncontrolled.",
-            default: "false",
-            name: "defaultOpen",
-            type: "boolean",
-          },
-          {
-            description: "The controlled open state.",
-            name: "open",
-            type: "boolean",
-          },
-          {
-            description: "Called when the hint opens or closes.",
-            name: "onOpenChange",
-            type: "(open: boolean, details) => void",
-          },
-        ],
+        props: [],
       },
       {
         description:
           "The button that toggles the hint. Put the label in it, text then icon, so it needs no `aria-label`; icons are sized to 16px. Its hit area extends 8px past its edges.",
+        extends: {
+          href: "https://base-ui.com/react/components/popover#trigger",
+          name: "Base UI Popover.Trigger",
+        },
         name: "HintTrigger",
-        props: [
-          {
-            description: "Replaces the rendered button.",
-            name: "render",
-            type: "ReactElement | (props, state) => ReactElement",
-          },
-          CLASS_NAME_PROP,
-        ],
+        props: [],
       },
       {
-        description: "A stock `PopoverContent`, portalled to the body.",
+        description: "The bubble, portalled to the body.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/popover",
+          name: "shadcn PopoverContent",
+        },
         name: "HintContent",
-        props: [
-          {
-            default: '"bottom"',
-            description: "The side of the trigger it opens on.",
-            name: "side",
-            type: '"top" | "right" | "bottom" | "left" | "inline-start" | "inline-end"',
-          },
-          {
-            default: '"center"',
-            description: "Its alignment along that side.",
-            name: "align",
-            type: '"start" | "center" | "end"',
-          },
-          {
-            default: "4",
-            description: "Distance from the trigger, in pixels.",
-            name: "sideOffset",
-            type: "number",
-          },
-          CLASS_NAME_PROP,
-        ],
+        props: [],
       },
     ],
     demo: { Component: HintDemo, file: "hint-demo" },
@@ -142,7 +111,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Shares the pagination state with the sentinel. Renders a `div`; make it the scroll container or let the page scroll.",
+          "Shares the pagination state with the sentinel. Make it the scroll container, or let the page scroll.",
+        extends: { name: "div" },
         name: "InfiniteScroll",
         props: [
           {
@@ -162,12 +132,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "onFetchNextPage",
             type: "() => void",
           },
-          CLASS_NAME_PROP,
         ],
       },
       {
         description:
-          "Place it after the last item. Renders a `div` holding the spinner while fetching.",
+          "Place it after the last item. It holds the spinner while fetching.",
+        extends: { name: "div" },
         name: "InfiniteScrollSentinel",
         props: [
           {
@@ -176,7 +146,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "render",
             type: "ReactElement | (props, state) => ReactElement",
           },
-          CLASS_NAME_PROP,
         ],
       },
     ],
@@ -203,12 +172,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         description:
           "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades. A pointer over it pauses any track set to `pauseOnHover`.",
+        extends: { name: "div" },
         name: "Marquee",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description:
           "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Under reduced motion it stays on the first copy.",
+        extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",
         props: [
@@ -237,17 +208,18 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "--marquee-duration",
             type: "CSS time",
           },
-          CLASS_NAME_PROP,
         ],
       },
       {
         description:
           "One item of the track. Its padding spaces the items and the loop’s seam alike: `px-4` across, `py-2` down. Override it with a class such as `px-2`.",
+        extends: { name: "div" },
         name: "MarqueeItem",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description: "A gradient from the page background over one edge.",
+        extends: { name: "div" },
         name: "MarqueeFade",
         props: [
           {
@@ -255,7 +227,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "side",
             type: '"left" | "right" | "top" | "bottom"',
           },
-          CLASS_NAME_PROP,
         ],
       },
     ],
@@ -324,6 +295,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         description:
           "Holds the count and the hole geometry, as CSS variables its parts read.",
+        extends: { name: "span" },
         name: "NotificationBadge",
         nameLabel: "Prop or variable",
         props: [
@@ -358,27 +330,24 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "--hole-top, --hole-right",
             type: "CSS length",
           },
-          CLASS_NAME_PROP,
         ],
       },
       {
         description:
           "Wraps the icon, button or avatar. Clips a hole under the badge so the gap shows whatever is behind it.",
+        extends: { name: "span" },
         name: "NotificationBadgeContent",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description:
-          "The shadcn `Badge`, destructive variant: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0.",
+          "A destructive `Badge`: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0. Add `static` to its class to sit it beside a label instead of over the content.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/badge",
+          name: "shadcn Badge",
+        },
         name: "NotificationBadgeIndicator",
-        props: [
-          {
-            description:
-              "Layout only. Pass `static` to sit the badge beside a label instead of over the content.",
-            name: "className",
-            type: "string",
-          },
-        ],
+        props: [],
       },
     ],
     demo: { Component: NotificationBadgeDemo, file: "notification-badge-demo" },
@@ -422,7 +391,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   onboarding: {
     api: [
       {
-        description: "Holds the current step and renders a `div`.",
+        description: "Holds the current step.",
+        extends: { name: "div" },
         name: "Onboarding",
         props: [
           {
@@ -437,17 +407,18 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "onComplete",
             type: "() => void",
           },
-          CLASS_NAME_PROP,
         ],
       },
       {
         description:
           "Counts its steps and shows the current one. Children must be `OnboardingStep`s.",
+        extends: { name: "div" },
         name: "OnboardingContent",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description: "One step.",
+        extends: { name: "div" },
         name: "OnboardingStep",
         props: [
           {
@@ -455,24 +426,29 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "value",
             type: "number",
           },
-          CLASS_NAME_PROP,
         ],
       },
       {
         description:
           "A 400px stage for an image or illustration. `OnboardingTitle` (`h2`) and `OnboardingDescription` (`p`) take the text.",
+        extends: { name: "div" },
         name: "OnboardingMedia",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description:
           "Stacks the indicator over the nav. `OnboardingIndicator` draws one progress bar per step; `OnboardingNav` spreads the buttons apart.",
+        extends: { name: "div" },
         name: "OnboardingFooter",
-        props: [CLASS_NAME_PROP],
+        props: [],
       },
       {
         description:
-          "Ghost button to the previous step, replaced by an empty spacer on the first. Takes every `Button` prop; an `onClick` runs before the step changes.",
+          "Ghost button to the previous step, replaced by an empty spacer on the first. An `onClick` runs before the step changes.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
         name: "OnboardingPrevButton",
         props: [
           {
@@ -481,17 +457,15 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "children",
             type: "ReactNode",
           },
-          {
-            description:
-              "Replaces the rendered button, for example a link. Pass `nativeButton={false}` when it is not a `button`.",
-            name: "render",
-            type: "ReactElement | (props, state) => ReactElement",
-          },
         ],
       },
       {
         description:
-          "Moves forward, or calls `onComplete` on the last step. Takes every `Button` prop; an `onClick` runs before the step changes.",
+          "Moves forward, or calls `onComplete` on the last step. An `onClick` runs before the step changes.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
         name: "OnboardingNextButton",
         props: [
           {
@@ -505,12 +479,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             description: "The label on the last step.",
             name: "lastLabel",
             type: "ReactNode",
-          },
-          {
-            description:
-              "Replaces the rendered button, for example a link. Pass `nativeButton={false}` when it is not a `button`.",
-            name: "render",
-            type: "ReactElement | (props, state) => ReactElement",
           },
         ],
       },

@@ -10,11 +10,15 @@ import {
   TableRow,
   TableRowHeader,
 } from "@portfolio/ui/components/table";
-import { Text } from "@portfolio/ui/components/text";
+import { Text, TextLink } from "@portfolio/ui/components/text";
 import { Fragment, useId } from "react";
 
 import { InlineCode } from "@/components/docs/inline-code";
-import type { ApiPart, ApiProp } from "@/components/docs/registry-docs";
+import type {
+  ApiExtends,
+  ApiPart,
+  ApiProp,
+} from "@/components/docs/registry-docs";
 
 const GENERIC_OPEN = "<";
 
@@ -38,6 +42,21 @@ const NoDefault = () => (
     <span aria-hidden>—</span>
     <span className="sr-only">None</span>
   </Code>
+);
+
+/** Names what the part spreads its props onto, as shadcn's docs link Base UI. */
+const ExtendsLine = ({ extends: target }: { extends: ApiExtends }) => (
+  <Text>
+    Takes every prop of{" "}
+    {target.href ? (
+      <TextLink external href={target.href}>
+        {target.name}
+      </TextLink>
+    ) : (
+      <Code>{target.name}</Code>
+    )}
+    .
+  </Text>
 );
 
 const PropRow = ({
@@ -93,6 +112,7 @@ const ApiPartReference = ({ part }: { part: ApiPart }) => {
         <Text>
           <InlineCode>{part.description}</InlineCode>
         </Text>
+        {part.extends && <ExtendsLine extends={part.extends} />}
       </PanelHeader>
       {part.props.length > 0 && (
         <Table aria-labelledby={headingId}>
