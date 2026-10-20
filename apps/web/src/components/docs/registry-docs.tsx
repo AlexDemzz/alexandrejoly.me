@@ -278,7 +278,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeFit,
         description:
-          "Items narrower than the frame stand still: no clone, no fades. A CSS scroll timeline detects the overflow; browsers without one, such as Firefox, always scroll.",
+          "Items narrower than the frame stand still: no clone, no fades. A CSS scroll timeline detects the overflow.",
         file: "marquee-fit",
         title: "Content that fits",
       },
