@@ -44,7 +44,7 @@ import { pageHead } from "@/lib/head";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
 
-const [gymup, kwern, , modals] = PROJECTS;
+const [kwern, gymup, , modals] = PROJECTS;
 
 const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   hint: HintIcon,
@@ -89,23 +89,24 @@ const HomeComponent = () => {
           </IdentityMark>
           <div>
             <IdentityName>Alexandre Joly</IdentityName>
-            <IdentityRole>Developer, Geneva</IdentityRole>
+            <IdentityRole>
+              Developer at{" "}
+              <TextLink external href={EMPLOYER.href}>
+                {EMPLOYER.name}
+              </TextLink>
+            </IdentityRole>
           </div>
         </Identity>
         <Text>
-          I’m a French developer at{" "}
-          <TextLink external href={EMPLOYER.href}>
-            {EMPLOYER.name}
-          </TextLink>
-          . I design and build interfaces end to end, and I care about the
-          details that make them feel right.
+          I design and build interfaces end to end, and I care about the details
+          that make them feel right.
         </Text>
         <Text>
-          Right now I’m building <ProjectLink project={gymup} />, an AI strength
-          coach built on a professional coach’s system, and{" "}
-          <ProjectLink project={kwern} />, which does the marketing while you
-          build the product. I also maintain <ProjectLink project={modals} />, a
-          headless modal stack for React.
+          Right now I’m building <ProjectLink project={kwern} />, a team of AI
+          agents that market your product while you keep building it, and{" "}
+          <ProjectLink project={gymup} />, an AI strength coach built on a
+          professional coach’s system. I also maintain{" "}
+          <ProjectLink project={modals} />, a headless modal stack for React.
         </Text>
         <nav aria-label="Social" className="-ml-2.5 flex items-center">
           {SOCIALS.map(({ href, icon: Icon, name }) => {

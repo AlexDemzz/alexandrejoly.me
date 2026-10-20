@@ -61,20 +61,20 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    backdrop: "/projects/kwern-landscapes.webm",
+    description: "A team of AI agents that market your product",
+    href: "https://kwern.app",
+    icon: KwernIcon,
+    kind: "Web app",
+    name: "Kwern",
+    year: 2026,
+  },
+  {
     description: "AI strength coach, built on a professional coach's system",
     href: "https://gymup.ai",
     icon: GymupIcon,
     kind: "iOS & web app",
     name: "Gymup",
-    year: 2026,
-  },
-  {
-    backdrop: "/projects/kwern-landscapes.webm",
-    description: "You build the product, Kwern does the marketing",
-    href: "https://kwern.app",
-    icon: KwernIcon,
-    kind: "Web app",
-    name: "Kwern",
     year: 2026,
   },
   {

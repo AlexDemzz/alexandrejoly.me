@@ -35,7 +35,7 @@
       "name": "hint",
       "type": "registry:ui",
       "title": "Hint",
-      "description": "A contextual help bubble built on the Base UI Popover, opened from a trigger with an enlarged hit area.",
+      "description": "A contextual help bubble that opens from a small trigger, built on the Base UI Popover.",
       "dependencies": [],
       "registryDependencies": ["popover"],
       "files": [
