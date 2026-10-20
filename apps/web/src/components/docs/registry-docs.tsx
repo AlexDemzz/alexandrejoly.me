@@ -45,7 +45,7 @@ export interface ComponentDocs {
 }
 
 const CLASS_NAME_PROP: ApiProp = {
-  description: "Merged onto the part's element.",
+  description: "Merged onto the part’s element.",
   name: "className",
   type: "string",
 };
@@ -210,7 +210,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The moving track. Its `gap` also spaces the loop's seam, so set it here.",
+          "The moving track. Its `gap` also spaces the loop’s seam, so set it here.",
         name: "MarqueeContent",
         props: [CLASS_NAME_PROP],
       },
@@ -315,7 +315,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The shadcn `Badge`, destructive variant: a circle for one digit, a pill for two or `99+`, sized and placed from the root's variables. Renders nothing at 0.",
+          "The shadcn `Badge`, destructive variant: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0.",
         name: "NotificationBadgeIndicator",
         props: [
           {
