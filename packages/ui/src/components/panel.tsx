@@ -3,11 +3,12 @@ import type * as React from "react";
 
 // DESIGN.md › Components › Panel: the Preview's hairline card at a 16px radius,
 // holding one block of docs content such as a component part's API, at 14px.
-// A table inside runs edge to edge; its outer cells take the panel's inset.
+// A table inside runs edge to edge; its outer cells and its last row take the
+// panel's inset, so the card keeps one padding on every side.
 const Panel = ({ className, ...props }: React.ComponentProps<"section">) => (
   <section
     className={cn(
-      "ring-border flex flex-col gap-3 overflow-clip rounded-xl pt-5 text-sm ring-1 [--table-inset:--spacing(5)] sm:pt-6 sm:[--table-inset:--spacing(6)]",
+      "ring-border flex flex-col gap-5 overflow-clip rounded-xl pt-5 text-sm ring-1 [--table-inset:--spacing(5)] sm:pt-6 sm:[--table-inset:--spacing(6)] [&_tbody_tr:last-child>*]:pb-(--table-inset)",
       className
     )}
     data-slot="panel"
