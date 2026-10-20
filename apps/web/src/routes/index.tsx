@@ -54,21 +54,10 @@ const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   onboarding: OnboardingIcon,
 };
 
-// TextLink is inline-flex, so without the nowrap wrapper the trailing
-// punctuation can wrap onto its own line.
-const ProjectLink = ({
-  project: { href, name },
-  trailing,
-}: {
-  project: Project;
-  trailing: string;
-}) => (
-  <span className="whitespace-nowrap">
-    <TextLink external href={href}>
-      {name}
-    </TextLink>
-    {trailing}
-  </span>
+const ProjectLink = ({ project: { href, name } }: { project: Project }) => (
+  <TextLink external href={href}>
+    {name}
+  </TextLink>
 );
 
 const ProjectMedia = ({
@@ -76,7 +65,7 @@ const ProjectMedia = ({
 }: {
   project: Project;
 }) => (
-  <ItemMedia variant="logo">
+  <ItemMedia variant="image">
     {backdrop === undefined ? (
       <Icon />
     ) : (
@@ -113,12 +102,11 @@ const HomeComponent = () => {
           that make them feel right.
         </Text>
         <Text>
-          Right now I’m building <ProjectLink project={kwern} trailing="," /> a
-          team of AI agents that market your product while you keep building it,
-          and <ProjectLink project={gymup} trailing="," /> an AI strength coach
-          built on a professional coach’s system. I also maintain{" "}
-          <ProjectLink project={modals} trailing="," /> a headless modal stack
-          for React.
+          Right now I’m building <ProjectLink project={kwern} />, a team of AI
+          agents that market your product while you keep building it, and{" "}
+          <ProjectLink project={gymup} />, an AI strength coach built on a
+          professional coach’s system. I also maintain{" "}
+          <ProjectLink project={modals} />, a headless modal stack for React.
         </Text>
         <nav aria-label="Social" className="-ml-2.5 flex items-center">
           {SOCIALS.map(({ href, icon: Icon, name }) => {
@@ -169,7 +157,7 @@ const HomeComponent = () => {
                 href={skillHref(skill.name)}
                 key={skill.name}
                 media={
-                  <ItemMedia variant="logo">
+                  <ItemMedia variant="image">
                     <SkillIcon />
                   </ItemMedia>
                 }
@@ -191,7 +179,7 @@ const HomeComponent = () => {
                   description={component.description}
                   key={component.name}
                   media={
-                    <ItemMedia variant="logo">
+                    <ItemMedia variant="image">
                       <Icon />
                     </ItemMedia>
                   }
@@ -215,7 +203,7 @@ const HomeComponent = () => {
                 href={award.href}
                 key={award.href}
                 media={
-                  <ItemMedia variant="logo">
+                  <ItemMedia variant="image">
                     <award.icon />
                   </ItemMedia>
                 }
@@ -237,7 +225,7 @@ const HomeComponent = () => {
                 href={archive.href}
                 key={archive.href}
                 media={
-                  <ItemMedia variant="logo">
+                  <ItemMedia variant="image">
                     <LazyVideo
                       className="size-full object-cover"
                       src={archive.media}
