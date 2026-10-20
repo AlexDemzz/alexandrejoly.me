@@ -116,7 +116,7 @@ function NotificationBadgeIndicator({
   return (
     <Badge
       className={cn(
-        "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w) px-0",
+        "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w) rounded-full px-0",
         className
       )}
       data-slot="notification-badge-indicator"
