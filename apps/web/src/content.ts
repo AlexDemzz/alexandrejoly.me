@@ -102,8 +102,8 @@ export interface Skill {
 
 export const SKILLS: Skill[] = [
   {
-    description: "Copy any website's design onto shadcn primitives",
-    name: "pimp-my-shadcn",
+    description: "Skin shadcn primitives from any website or screenshot",
+    name: "skin-shadcn",
   },
   {
     description: "Compound-component laws for shadcn projects",
