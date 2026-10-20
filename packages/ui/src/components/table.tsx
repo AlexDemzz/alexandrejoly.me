@@ -74,14 +74,26 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   );
 }
 
+const TABLE_CELL_CLASS_NAME = "py-3.5 pe-4 align-top last:pe-0";
+
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
       data-slot="table-cell"
-      className={cn(
-        "py-3.5 pe-4 align-top last:pe-0 [&:has([role=checkbox])]:pr-0",
-        className
-      )}
+      className={cn(TABLE_CELL_CLASS_NAME, className)}
+      {...props}
+    />
+  );
+}
+
+// A body cell that names its row, so screen readers announce it with each
+// cell beside it. Looks like a `TableCell`.
+function TableRowHeader({ className, ...props }: React.ComponentProps<"th">) {
+  return (
+    <th
+      data-slot="table-row-header"
+      scope="row"
+      className={cn(TABLE_CELL_CLASS_NAME, "text-start font-normal", className)}
       {...props}
     />
   );
@@ -107,6 +119,7 @@ export {
   TableFooter,
   TableHead,
   TableRow,
+  TableRowHeader,
   TableCell,
   TableCaption,
 };
