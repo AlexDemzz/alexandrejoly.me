@@ -2,7 +2,7 @@ import { Hint, HintContent, HintTrigger } from "@registry/hint";
 import { CircleHelpIcon } from "lucide-react";
 
 export const HintDemo = () => (
-  <p className="text-muted-foreground flex items-center gap-1.5">
+  <p className="flex items-center gap-1.5">
     Monthly active users
     <Hint>
       <HintTrigger aria-label="What counts as active?">

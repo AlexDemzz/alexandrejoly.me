@@ -5,7 +5,7 @@ import {
 import { useCallback, useState } from "react";
 
 const PAGE_SIZE = 10;
-const LAST_PAGE = 4;
+const LAST_PAGE = 3;
 const LATENCY_MS = 800;
 
 const pageOf = (page: number) =>
@@ -31,14 +31,24 @@ export const InfiniteScrollDemo = () => {
       isFetchingNextPage={isFetchingNextPage}
       onFetchNextPage={fetchNextPage}
     >
-      <ul className="divide-y">
+      <ul className="flex flex-col">
         {pages.flat().map((id) => (
-          <li className="px-3 py-2 tabular-nums" key={id}>
+          <li className="px-3 py-2" key={id}>
             Workout #{id}
           </li>
         ))}
+        <InfiniteScrollSentinel
+          render={(props) => (
+            <li {...props}>
+              {hasNextPage ? (
+                props.children
+              ) : (
+                <p className="p-3 text-center">You’re all caught up</p>
+              )}
+            </li>
+          )}
+        />
       </ul>
-      <InfiniteScrollSentinel />
     </InfiniteScroll>
   );
 };

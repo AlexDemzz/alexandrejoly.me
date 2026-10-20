@@ -19,7 +19,7 @@ const StepHeader = () => {
 
   return (
     <div className="flex items-center justify-between px-4">
-      <p className="text-muted-foreground tabular-nums">
+      <p>
         Step {currentStep} of {totalSteps}
       </p>
       {canGoToNextStep ? (

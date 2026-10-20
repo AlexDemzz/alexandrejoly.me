@@ -41,7 +41,7 @@ export const OnboardingDemo = () => {
   if (completed) {
     return (
       <div className="flex flex-col items-center gap-4">
-        <p className="text-muted-foreground">You’re all set.</p>
+        <p>You’re all set.</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
           Start again
         </Button>
@@ -58,7 +58,7 @@ export const OnboardingDemo = () => {
         {STEPS.map(({ description, icon: Icon, title }, index) => (
           <OnboardingStep key={title} value={index + 1}>
             <OnboardingMedia className="h-40">
-              <Icon aria-hidden className="text-muted-foreground size-10" />
+              <Icon aria-hidden className="size-10" />
             </OnboardingMedia>
             <div className="flex flex-col gap-1 px-4 pb-6">
               <OnboardingTitle>{title}</OnboardingTitle>
