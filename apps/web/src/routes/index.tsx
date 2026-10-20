@@ -89,17 +89,16 @@ const HomeComponent = () => {
           </IdentityMark>
           <div>
             <IdentityName>Alexandre Joly</IdentityName>
-            <IdentityRole>
-              Developer at{" "}
-              <TextLink external href={EMPLOYER.href}>
-                {EMPLOYER.name}
-              </TextLink>
-            </IdentityRole>
+            <IdentityRole>Developer</IdentityRole>
           </div>
         </Identity>
         <Text>
-          I design and build interfaces end to end, and I care about the details
-          that make them feel right.
+          I work at{" "}
+          <TextLink external href={EMPLOYER.href}>
+            {EMPLOYER.name}
+          </TextLink>
+          . I design and build interfaces end to end, and I care about the
+          details that make them feel right.
         </Text>
         <Text>
           Right now I’m building <ProjectLink project={kwern} />, a team of AI
