@@ -1,6 +1,5 @@
 import { createRouter as createTanStackRouter } from "@tanstack/react-router";
 
-import Loader from "./components/loader";
 import RouteError from "./components/route-error";
 import { routeTree } from "./routeTree.gen";
 
@@ -8,9 +7,11 @@ export const getRouter = () => {
   const router = createTanStackRouter({
     routeTree,
     scrollRestoration: true,
+    defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
     context: {},
-    defaultPendingComponent: () => <Loader />,
+    // No pending UI: without a pending component the current page stays up
+    // until the next one has loaded.
     defaultErrorComponent: RouteError,
     defaultNotFoundComponent: () => <div>Not Found</div>,
   });

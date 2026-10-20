@@ -4,6 +4,8 @@ import { varlockCloudflareVitePlugin } from "@varlock/cloudflare-integration";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+import { componentCode } from "./plugins/component-code.ts";
+
 export default defineConfig({
   server: {
     port: 3001,
@@ -14,6 +16,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     varlockCloudflareVitePlugin({ viteEnvironment: { name: "ssr" } }),
+    componentCode(),
     tanstackStart(),
     viteReact(),
   ],

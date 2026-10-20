@@ -1,53 +1,30 @@
-import { notFound } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/react-start";
+import type { Installation, RegistryItemName } from "@/lib/registry";
 
-import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
-import { demoSource, highlight, registrySource } from "@/lib/highlight.server";
-import {
-  getInstallation,
-  getRegistryItem,
-  isRegistryItemName,
-} from "@/lib/registry";
+/** Every code block of a component page, highlighted to HTML at build time. */
+export interface ComponentCode {
+  /** Keyed by demo file name. */
+  demos: Record<string, string>;
+  installation: Installation;
+  source: string;
+  usage: string;
+}
 
-const highlightOptional = (code: string | null) =>
-  code === null ? null : highlight(code, "bash");
+// One chunk per page, built by plugins/component-code.ts.
+const COMPONENT_CODE: Record<
+  RegistryItemName,
+  () => Promise<{ default: ComponentCode }>
+> = {
+  hint: () => import("virtual:component-code/hint"),
+  "infinite-scroll": () => import("virtual:component-code/infinite-scroll"),
+  marquee: () => import("virtual:component-code/marquee"),
+  "notification-badge": () =>
+    import("virtual:component-code/notification-badge"),
+  onboarding: () => import("virtual:component-code/onboarding"),
+};
 
-/** Every code block of a component page, highlighted to HTML on the server. */
-export const getComponentCode = createServerFn({ method: "GET" })
-  .validator((name: string) => {
-    if (!isRegistryItemName(name)) {
-      throw notFound();
-    }
-    return name;
-  })
-  .handler(async ({ data: name }) => {
-    const docs = REGISTRY_DOCS[name];
-    const installation = getInstallation(getRegistryItem(name));
-    const demoFiles = [docs.demo, ...docs.examples].map(({ file }) => file);
-
-    const [cli, dependencies, registryDependencies, source, usage, ...demos] =
-      await Promise.all([
-        highlight(installation.cli, "bash"),
-        highlightOptional(installation.dependencies),
-        highlightOptional(installation.registryDependencies),
-        highlight(registrySource(name), "tsx"),
-        highlight(docs.usage, "tsx"),
-        ...demoFiles.map((file) => highlight(demoSource(file), "tsx")),
-      ]);
-
-    return {
-      demos: Object.fromEntries(
-        demoFiles.map((file, index) => [file, demos[index] ?? ""])
-      ),
-      installation: {
-        cli,
-        dependencies,
-        registryDependencies,
-        targetPath: installation.targetPath,
-      },
-      source,
-      usage,
-    };
-  });
-
-export type ComponentCode = Awaited<ReturnType<typeof getComponentCode>>;
+export const getComponentCode = async (
+  name: RegistryItemName
+): Promise<ComponentCode> => {
+  const { default: code } = await COMPONENT_CODE[name]();
+  return code;
+};

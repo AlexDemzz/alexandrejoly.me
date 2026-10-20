@@ -201,7 +201,7 @@ export const Route = createFileRoute("/components/$name")({
       throw notFound();
     }
     return {
-      code: await getComponentCode({ data: name }),
+      code: await getComponentCode(name),
       item: getRegistryItem(name),
     };
   },

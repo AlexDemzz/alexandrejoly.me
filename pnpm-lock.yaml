@@ -99,9 +99,6 @@ importers:
       react-dom:
         specifier: ^19.3.0
         version: 19.3.1(react@19.3.1)
-      shiki:
-        specifier: ^4.5.0
-        version: 4.5.0
       sonner:
         specifier: 'catalog:'
         version: 2.0.8(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -148,6 +145,9 @@ importers:
       shadcn:
         specifier: ^4.22.1
         version: 4.22.1
+      shiki:
+        specifier: ^4.5.0
+        version: 4.5.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
