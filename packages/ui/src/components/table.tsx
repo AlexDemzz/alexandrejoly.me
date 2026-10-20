@@ -1,8 +1,9 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Components › Row: 16px text, hairline rules, 14px vertical
-// padding, no hover fill.
+// DESIGN.md › Components › Row: hairline rules, 14px vertical padding, no hover
+// fill. `--table-inset` pads the outer cells when a container draws the table
+// edge to edge.
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -66,7 +67,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-muted-foreground pe-4 pb-3.5 text-start align-bottom font-medium whitespace-nowrap last:pe-0",
+        "text-muted-foreground px-2 pb-3.5 text-start align-bottom font-medium whitespace-nowrap first:ps-[var(--table-inset,0px)] last:pe-[var(--table-inset,0px)]",
         className
       )}
       {...props}
@@ -74,7 +75,8 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   );
 }
 
-const TABLE_CELL_CLASS_NAME = "py-3.5 pe-4 align-top last:pe-0";
+const TABLE_CELL_CLASS_NAME =
+  "px-2 py-3.5 align-top first:ps-[var(--table-inset,0px)] last:pe-[var(--table-inset,0px)]";
 
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (

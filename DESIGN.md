@@ -107,7 +107,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 - Rows have no fill and no radius; a hairline under each row except the last.
 - Row logos are 36px circles on the hairline shadow. Their icon sits at `muted-foreground` 80% and lights to `foreground` while the row is hovered or focused. Favicons inside links are 16px with a 5px radius.
-- No borders on surfaces, no cards. Exception: component docs pages may hold previews and code blocks in quiet rounded cards (`Preview`, `CodeBlock`), since code is hard to read without a container.
+- No borders on surfaces, no cards. Exception: component docs pages may hold previews and code blocks in quiet rounded cards (`Preview`, `CodeBlock`, `Panel`), since code and stacked API tables are hard to read without a container.
 
 ## Layout
 
@@ -124,6 +124,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
 - **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button at the top end.
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
+- **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, the one exception to the single 16px size, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
 - **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
 - **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 

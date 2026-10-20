@@ -1,5 +1,6 @@
 import { Code } from "@portfolio/ui/components/code";
 import { Heading } from "@portfolio/ui/components/heading";
+import { Panel, PanelHeader } from "@portfolio/ui/components/panel";
 import {
   Table,
   TableBody,
@@ -81,18 +82,18 @@ const ApiPartReference = ({ part }: { part: ApiPart }) => {
   const headingId = useId();
   const showDefault = part.props.some((prop) => prop.default !== undefined);
   return (
-    <section className="flex flex-col gap-3">
-      <div>
+    <Panel>
+      <PanelHeader>
         <Heading
           id={headingId}
           render={({ children, ...props }) => <h3 {...props}>{children}</h3>}
         >
-          <Code>{part.name}</Code>
+          {part.name}
         </Heading>
         <Text>
           <InlineCode>{part.description}</InlineCode>
         </Text>
-      </div>
+      </PanelHeader>
       {part.props.length > 0 && (
         <Table aria-labelledby={headingId}>
           <TableHeader>
@@ -115,12 +116,12 @@ const ApiPartReference = ({ part }: { part: ApiPart }) => {
           </TableBody>
         </Table>
       )}
-    </section>
+    </Panel>
   );
 };
 
 export const ApiReference = ({ parts }: { parts: ApiPart[] }) => (
-  <div className="flex flex-col gap-10">
+  <div className="flex flex-col gap-6">
     {parts.map((part) => (
       <ApiPartReference key={part.name} part={part} />
     ))}
