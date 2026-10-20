@@ -124,7 +124,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
 - **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button at the top end.
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
-- **Props list**: an `ItemGroup` of static rows, ruled like any row; titles underline on hover only inside a link.
+- **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
 - **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 
 ## States
