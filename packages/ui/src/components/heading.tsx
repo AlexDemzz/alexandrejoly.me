@@ -12,7 +12,12 @@ const Heading = ({
   useRender({
     defaultTagName: "h2",
     props: mergeProps<"h2">(
-      { className: cn("text-foreground font-medium text-balance", className) },
+      {
+        className: cn(
+          "text-foreground text-base font-medium text-balance",
+          className
+        ),
+      },
       props
     ),
     render,
