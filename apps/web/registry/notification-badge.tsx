@@ -117,8 +117,8 @@ function NotificationBadgeIndicator({
     <Badge
       className={cn(
         "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w)",
-        // oxlint-disable-next-line shadcn/no-restyle -- the clip-path hole in the content is a pill; the indicator must match it
-        "rounded-full",
+        // oxlint-disable-next-line shadcn/no-restyle -- the indicator must match the clip-path hole: a pill exactly --hole-w wide, which Badge's padding would widen
+        "rounded-full px-0",
         className
       )}
       data-slot="notification-badge-indicator"
