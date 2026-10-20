@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
   },
   {
     description: "Headless, zero-dependency modal stack for React",
-    href: "https://react-easy-modals-docs.vercel.app/",
+    href: "https://react-easy-modals.alexandrejoly.me/",
     icon: ReactEasyModalsIcon,
     kind: "React library",
     name: "react-easy-modals",
