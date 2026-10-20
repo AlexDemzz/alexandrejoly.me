@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
+import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
 import { MarqueeReverse } from "@/components/demos/marquee-reverse";
 import { MarqueeVertical } from "@/components/demos/marquee-vertical";
@@ -194,7 +195,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Clips the tracks and anchors the fades. A pointer over it pauses any track set to `pauseOnHover`.",
+          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades. A pointer over it pauses any track set to `pauseOnHover`.",
         name: "Marquee",
         props: [CLASS_NAME_PROP],
       },
@@ -273,6 +274,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "A vertical track between top and bottom fades, with tighter `py-1` items.",
         file: "marquee-vertical",
         title: "Vertical",
+      },
+      {
+        Component: MarqueeFit,
+        description:
+          "Items narrower than the frame stand still: no clone, no fades. A CSS scroll timeline detects the overflow; browsers without one, such as Firefox, always scroll.",
+        file: "marquee-fit",
+        title: "Content that fits",
       },
     ],
     usage: `import {

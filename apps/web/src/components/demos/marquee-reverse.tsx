@@ -6,10 +6,10 @@ import {
 } from "@registry/marquee";
 
 const itemsFrom = (first: number) =>
-  Array.from({ length: 5 }, (_, index) => `Item ${first + index}`);
+  Array.from({ length: 8 }, (_, index) => `Item ${first + index}`);
 
 const FRONT = itemsFrom(1);
-const BACK = itemsFrom(6);
+const BACK = itemsFrom(9);
 
 export const MarqueeReverse = () => (
   <Marquee className="flex w-full flex-col gap-4">

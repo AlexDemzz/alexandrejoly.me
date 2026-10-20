@@ -7,13 +7,23 @@ import { cn } from "@/lib/utils";
 /**
  * A strip of items that slides forever, in CSS alone: the track renders its
  * items twice and a keyframe moves it by one copy per cycle, so it runs
- * before hydration and without any JavaScript. Reduced motion stops it on the
- * first copy, which stays in place and readable.
+ * before hydration and without any JavaScript. Items that fit the frame stand
+ * still, through the scroll timeline in its CSS. Reduced motion stops it on
+ * the first copy, which stays in place and readable.
  */
 function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("group/marquee relative overflow-hidden", className)}
+      className={cn(
+        "group/marquee relative overflow-hidden",
+        // Its scroll timeline is inactive while nothing overflows, so the
+        // animation that names the keyframes and shows the clone and fades
+        // only applies once the first copy outgrows the frame. Without
+        // scroll timelines the marquee always runs.
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- no utility sets a scroll timeline or these custom properties
+        "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[--marquee-overflow:none] supports-[animation-timeline:scroll()]:[--marquee-x:none] supports-[animation-timeline:scroll()]:[--marquee-y:none] supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
+        className
+      )}
       data-slot="marquee"
       {...props}
     />
@@ -48,6 +58,9 @@ function MarqueeContent({
   const items = Children.toArray(children).filter(isValidElement);
   const vertical = orientation === "vertical";
   const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
+  // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown by the marquee's overflow timeline
+  const clone =
+    "supports-[animation-timeline:scroll()]:[display:var(--marquee-overflow)]";
 
   return (
     <MarqueeContext value={orientation}>
@@ -71,7 +84,7 @@ function MarqueeContent({
         <div className={copy} data-slot="marquee-copy">
           {items}
         </div>
-        <div aria-hidden className={copy} data-slot="marquee-copy">
+        <div aria-hidden className={cn(copy, clone)} data-slot="marquee-copy">
           {items}
         </div>
       </div>
@@ -115,6 +128,8 @@ function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
       aria-hidden
       className={cn(
         "from-background to-background/0 pointer-events-none absolute z-10",
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown by the marquee's overflow timeline
+        "supports-[animation-timeline:scroll()]:[display:var(--marquee-overflow)]",
         FADE_SIDE[side],
         className
       )}

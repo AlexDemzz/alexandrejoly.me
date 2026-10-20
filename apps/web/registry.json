@@ -63,7 +63,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A strip of items sliding in a seamless loop, in CSS alone, with edge fades, reverse and vertical tracks and pause on hover.",
+      "description": "A strip of items sliding in a seamless loop, in CSS alone, only when they overflow, with edge fades, reverse and vertical tracks and pause on hover.",
       "dependencies": [],
       "registryDependencies": [],
       "files": [
@@ -74,17 +74,29 @@
       ],
       "cssVars": {
         "theme": {
-          "animate-marquee": "marquee var(--marquee-duration, 40s) linear infinite",
-          "animate-marquee-reverse": "marquee var(--marquee-duration, 40s) linear infinite reverse",
-          "animate-marquee-vertical": "marquee-vertical var(--marquee-duration, 40s) linear infinite"
+          "animate-marquee": "var(--marquee-x, marquee) var(--marquee-duration, 40s) linear infinite",
+          "animate-marquee-reverse": "var(--marquee-x, marquee) var(--marquee-duration, 40s) linear infinite reverse",
+          "animate-marquee-vertical": "var(--marquee-y, marquee-vertical) var(--marquee-duration, 40s) linear infinite",
+          "animate-marquee-overflow": "marquee-overflow linear both"
         }
       },
       "css": {
         "@keyframes marquee": {
-          "to": { "transform": "translateX(-50%)" }
+          "to": {
+            "transform": "translateX(-50%)"
+          }
         },
         "@keyframes marquee-vertical": {
-          "to": { "transform": "translateY(-50%)" }
+          "to": {
+            "transform": "translateY(-50%)"
+          }
+        },
+        "@keyframes marquee-overflow": {
+          "from, to": {
+            "--marquee-x": "marquee",
+            "--marquee-y": "marquee-vertical",
+            "--marquee-overflow": "flex"
+          }
         }
       }
     }
