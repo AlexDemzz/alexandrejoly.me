@@ -17,7 +17,10 @@ const Panel = ({ className, ...props }: React.ComponentProps<"section">) => (
 
 const PanelHeader = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
-    className={cn("px-(--table-inset) last:pb-5 sm:last:pb-6", className)}
+    className={cn(
+      "flex flex-col gap-0.5 px-(--table-inset) last:pb-5 sm:last:pb-6",
+      className
+    )}
     data-slot="panel-header"
     {...props}
   />
