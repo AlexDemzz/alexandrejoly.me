@@ -11,7 +11,6 @@ import {
   useState,
 } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
-import { flushSync } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -32,20 +31,6 @@ interface OnboardingContextValue {
   api: UseOnboardingReturn;
   onComplete?: () => void;
   setTotalSteps: Dispatch<SetStateAction<number>>;
-}
-
-/**
- * Commits a step change inside a View Transition: the content crosses as the
- * `onboarding-step` class its CSS styles. Without the API it just commits.
- */
-function changeStep(commit: () => void) {
-  if (!document.startViewTransition) {
-    commit();
-    return;
-  }
-  document.startViewTransition(() => {
-    flushSync(commit);
-  });
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null);
@@ -89,9 +74,7 @@ function Onboarding({
       if (nextStep < 1 || nextStep > totalSteps) {
         throw new Error(`Step ${nextStep} is out of range 1–${totalSteps}`);
       }
-      if (nextStep !== currentStep) {
-        changeStep(() => setCurrentStep(nextStep));
-      }
+      setCurrentStep(nextStep);
     },
     [currentStep, totalSteps]
   );
@@ -103,19 +86,15 @@ function Onboarding({
       currentStep,
       goToNextStep: () => {
         if (canGoToNextStep) {
-          changeStep(() => setCurrentStep((step) => step + 1));
+          setCurrentStep((step) => step + 1);
         }
       },
       goToPrevStep: () => {
         if (canGoToPrevStep) {
-          changeStep(() => setCurrentStep((step) => step - 1));
+          setCurrentStep((step) => step - 1);
         }
       },
-      reset: () => {
-        if (currentStep !== 1) {
-          changeStep(() => setCurrentStep(1));
-        }
-      },
+      reset: () => setCurrentStep(1),
       setStep,
       totalSteps,
     }),

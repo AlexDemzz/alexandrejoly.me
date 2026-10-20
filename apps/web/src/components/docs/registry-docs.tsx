@@ -419,7 +419,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Counts its steps and shows the current one. A step change crosses as a View Transition, fading and blurring; without the API the step just swaps. Children must be `OnboardingStep`s.",
+          "Counts its steps and shows the current one. Children must be `OnboardingStep`s.",
         name: "OnboardingContent",
         props: [CLASS_NAME_PROP],
       },
