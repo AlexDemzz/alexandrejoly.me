@@ -100,13 +100,7 @@ const ApiPartReference = ({ part }: { part: ApiPart }) => {
               <TableHead>{part.nameLabel ?? "Prop"}</TableHead>
               {/* Without a Default column, Type takes its width too, so every
                   table's Type column starts on the same edge. */}
-              <TableHead
-                className={
-                  showDefault
-                    ? "w-1/3"
-                    : "w-1/3 sm:w-7/12"
-                }
-              >
+              <TableHead className={showDefault ? "w-1/3" : "w-1/3 sm:w-7/12"}>
                 Type
               </TableHead>
               {showDefault && (
