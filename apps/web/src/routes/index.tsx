@@ -13,7 +13,8 @@ import {
 import { Text, TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { ExternalRow } from "@/components/home-rows";
+import { ComponentIcon } from "@/components/component-icon";
+import { ComponentRow, ExternalRow } from "@/components/home-rows";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MediaBackdrop } from "@/components/media-backdrop";
@@ -21,6 +22,7 @@ import { SkillIcon } from "@/components/skill-icon";
 import {
   ARCHIVES,
   AWARDS,
+  COMPONENTS,
   EMPLOYER,
   LINKS,
   PROJECTS,
@@ -135,6 +137,27 @@ const HomeComponent = () => (
                 </ItemMedia>
               }
               title={skill.name}
+            />
+          ))}
+        </ItemGroup>
+      </SectionContent>
+    </Section>
+
+    <Section>
+      <SectionTitle>Components</SectionTitle>
+      <SectionContent>
+        <ItemGroup>
+          {COMPONENTS.map((component) => (
+            <ComponentRow
+              description={component.description}
+              key={component.name}
+              media={
+                <ItemMedia variant="logo">
+                  <ComponentIcon />
+                </ItemMedia>
+              }
+              name={component.name}
+              title={component.title}
             />
           ))}
         </ItemGroup>

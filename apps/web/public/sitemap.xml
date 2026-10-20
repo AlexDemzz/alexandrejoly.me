@@ -3,4 +3,19 @@
   <url>
     <loc>https://alexandrejoly.me/</loc>
   </url>
+  <url>
+    <loc>https://alexandrejoly.me/components/notification-badge</loc>
+  </url>
+  <url>
+    <loc>https://alexandrejoly.me/components/onboarding</loc>
+  </url>
+  <url>
+    <loc>https://alexandrejoly.me/components/hint</loc>
+  </url>
+  <url>
+    <loc>https://alexandrejoly.me/components/infinite-scroll</loc>
+  </url>
+  <url>
+    <loc>https://alexandrejoly.me/components/marquee</loc>
+  </url>
 </urlset>
