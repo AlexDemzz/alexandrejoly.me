@@ -38,13 +38,13 @@ const Code = ({
 );
 
 // DESIGN.md › Components › Code: docs-only card on the tint, 16px radius, no
-// border. The code sits beside its action column, so scrolled code never runs
-// under the copy button. Shiki's output is styled in globals.css through
-// `[data-slot=code-block-content]`.
+// border. The code scrolls across the full width while the copy button stays
+// pinned to the top end on the same tint. Shiki's output is styled in
+// globals.css through `[data-slot=code-block-content]`.
 const CodeBlock = ({ className, ...props }: React.ComponentProps<"figure">) => (
   <figure
     className={cn(
-      "bg-muted grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1 rounded-xl p-4",
+      "bg-muted relative flex min-w-0 flex-col gap-1 rounded-xl py-4",
       className
     )}
     data-slot="code-block"
@@ -57,7 +57,7 @@ const CodeBlockTitle = ({
   ...props
 }: React.ComponentProps<"figcaption">) => (
   <figcaption
-    className={cn("text-muted-foreground col-start-1 font-mono", className)}
+    className={cn("text-muted-foreground px-4 pe-14 font-mono", className)}
     data-slot="code-block-title"
     {...props}
   />
@@ -68,10 +68,7 @@ const CodeBlockContent = ({
   ...props
 }: React.ComponentProps<"div">) => (
   <div
-    className={cn(
-      "col-start-1 max-h-112 overflow-auto overscroll-contain",
-      className
-    )}
+    className={cn("max-h-112 overflow-auto px-4", className)}
     data-slot="code-block-content"
     {...props}
   />
@@ -82,7 +79,7 @@ const CodeBlockAction = ({
   ...props
 }: React.ComponentProps<"div">) => (
   <div
-    className={cn("col-start-2 row-start-1", className)}
+    className={cn("bg-muted absolute end-3 top-3 rounded-md", className)}
     data-slot="code-block-action"
     {...props}
   />
