@@ -24,5 +24,16 @@ export default defineConfig({
         "shadcn/require-static-classes": "off",
       },
     },
+    {
+      files: ["apps/web/registry/**"],
+      // Registry source is copied into consumers' projects: it follows shadcn's
+      // style and restyles the official primitives it composes.
+      rules: {
+        "eslint/func-style": "off",
+        "react/function-component-definition": "off",
+        "shadcn/no-arbitrary-values": "off",
+        "shadcn/no-restyle": "off",
+      },
+    },
   ],
 });

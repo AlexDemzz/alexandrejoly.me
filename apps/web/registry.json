@@ -1,0 +1,77 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "alexandrejoly",
+  "homepage": "https://alexandrejoly.me",
+  "items": [
+    {
+      "name": "notification-badge",
+      "type": "registry:ui",
+      "title": "Notification Badge",
+      "description": "A counter or dot pinned to an icon or avatar, separated from it by a transparent gap punched with a clip-path.",
+      "dependencies": ["class-variance-authority"],
+      "registryDependencies": ["badge"],
+      "files": [
+        {
+          "path": "registry/notification-badge.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "onboarding",
+      "type": "registry:ui",
+      "title": "Onboarding",
+      "description": "A step-by-step onboarding flow with a segmented progress indicator, crossfading steps and previous/next buttons.",
+      "dependencies": ["motion"],
+      "registryDependencies": ["button", "progress"],
+      "files": [
+        {
+          "path": "registry/onboarding.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "hint",
+      "type": "registry:ui",
+      "title": "Hint",
+      "description": "A contextual help bubble built on the Base UI Popover, opened from a trigger with an enlarged hit area.",
+      "dependencies": [],
+      "registryDependencies": ["popover"],
+      "files": [
+        {
+          "path": "registry/hint.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "infinite-scroll",
+      "type": "registry:ui",
+      "title": "Infinite Scroll",
+      "description": "Library-agnostic infinite pagination: a sentinel, polymorphic through Base UI useRender, fetches the next page when it scrolls into view.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["spinner"],
+      "files": [
+        {
+          "path": "registry/infinite-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "Scrolls its content horizontally in a seamless loop only when it overflows, with optional edge fades and pause on hover.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/marquee.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

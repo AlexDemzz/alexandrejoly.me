@@ -62,3 +62,6 @@ temp
 
 # Next.js build output
 .next
+
+# Built shadcn registry
+apps/web/public/r

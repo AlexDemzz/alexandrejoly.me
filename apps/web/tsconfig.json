@@ -20,6 +20,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     "paths": {
+      "@/components/ui/*": ["../../packages/ui/src/components/*"],
+      "@/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
+      "@registry/*": ["./registry/*"],
       "@/*": ["./src/*"],
       "@portfolio/ui/*": ["../../packages/ui/src/*"]
     }
