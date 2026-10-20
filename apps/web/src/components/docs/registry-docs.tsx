@@ -1,4 +1,9 @@
-import type { ComponentType } from "react";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@portfolio/ui/components/alert";
+import type { ComponentType, ReactNode } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
@@ -23,6 +28,8 @@ export interface Demo {
 
 export interface Example extends Demo {
   description: string;
+  /** Shown between the description and the preview. */
+  notice?: ReactNode;
   title: string;
 }
 
@@ -280,6 +287,19 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "Items narrower than the frame stand still: no clone, no fades. A CSS scroll timeline detects the overflow.",
         file: "marquee-fit",
+        notice: (
+          // Only browsers without scroll timelines see it, Firefox today.
+          <Alert
+            className="hidden not-supports-[animation-timeline:scroll()]:grid"
+            role="note"
+          >
+            <AlertTitle>Your browser scrolls it anyway</AlertTitle>
+            <AlertDescription>
+              It has no CSS scroll timelines, so it can’t tell that the items
+              fit.
+            </AlertDescription>
+          </Alert>
+        ),
         title: "Content that fits",
       },
     ],

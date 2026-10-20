@@ -138,6 +138,7 @@ const ComponentDocsPage = ({
                       <InlineCode>{example.description}</InlineCode>
                     </Text>
                   </div>
+                  {example.notice}
                   <ComponentPreview code={code.demos[example.file] ?? ""}>
                     <example.Component />
                   </ComponentPreview>
