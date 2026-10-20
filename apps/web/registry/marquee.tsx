@@ -1,7 +1,9 @@
 "use client";
 
 import {
+  Children,
   createContext,
+  isValidElement,
   use,
   useEffect,
   useMemo,
@@ -160,6 +162,8 @@ function MarqueeContent({
   ...props
 }: React.ComponentProps<"div">) {
   const { trackRef, originalRef, shouldScroll } = useMarqueeContext();
+  // oxlint-disable-next-line react/no-react-children -- the copies drop text and empty children so only items repeat
+  const items = Children.toArray(children).filter(isValidElement);
 
   return (
     <div
@@ -169,19 +173,21 @@ function MarqueeContent({
       {...props}
     >
       <div
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- each copy takes the consumer's gap from the track, which also spaces the loop seam
         className="flex shrink-0 items-center gap-[inherit]"
         data-slot="marquee-copy"
         ref={originalRef}
       >
-        {children}
+        {items}
       </div>
       {shouldScroll && (
         <div
           aria-hidden
+          // oxlint-disable-next-line shadcn/no-arbitrary-values -- same gap as the original copy
           className="flex shrink-0 items-center gap-[inherit]"
           data-slot="marquee-copy"
         >
-          {children}
+          {items}
         </div>
       )}
     </div>

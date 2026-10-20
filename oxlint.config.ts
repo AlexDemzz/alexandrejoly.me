@@ -14,8 +14,6 @@ export default defineConfig({
       // Vendored shadcn source: keep it diffable against the registry.
       rules: {
         "eslint/func-style": "off",
-        "eslint/no-use-before-define": "off",
-        "jsx-a11y/prefer-tag-over-role": "off",
         "react/function-component-definition": "off",
         "import/consistent-type-specifier-style": "off",
         "shadcn/no-unknown-classes": ["error", { allow: ["cn-*", "toaster"] }],
@@ -25,14 +23,21 @@ export default defineConfig({
       },
     },
     {
+      // Stock progress renders its track and indicator before declaring them.
+      files: ["packages/ui/src/components/progress.tsx"],
+      rules: { "eslint/no-use-before-define": "off" },
+    },
+    {
+      // Stock spinner is an svg with role="status"; <output> cannot replace it.
+      files: ["packages/ui/src/components/spinner.tsx"],
+      rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+    },
+    {
       files: ["apps/web/registry/**"],
-      // Registry source is copied into consumers' projects: it follows shadcn's
-      // style and restyles the official primitives it composes.
+      // Registry source follows shadcn's `function` declaration style.
       rules: {
         "eslint/func-style": "off",
         "react/function-component-definition": "off",
-        "shadcn/no-arbitrary-values": "off",
-        "shadcn/no-restyle": "off",
       },
     },
   ],

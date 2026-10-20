@@ -36,7 +36,7 @@ const NotificationBadgeContext = createContext<{
 const notificationBadgeVariants = cva(
   // Hole geometry derived from --hole-*: radius, center y, left/right arc centers.
   // Spaced operators are required: Tailwind mangles `var(--x)-var(--y)`.
-  "group/notification-badge relative inline-flex [--hole-gap:1.5px] [--hole-top:calc(2px_-_var(--hole-h)/2_+_var(--hole-radius,0px)_*_0.293)] [--nb-cl:calc(100%_+_var(--hole-right)_-_var(--hole-w)_+_var(--hole-h)/2)] [--nb-cr:calc(100%_+_var(--hole-right)_-_var(--hole-h)/2)] [--nb-cy:calc(var(--hole-h)/2_+_var(--hole-top))] [--nb-r:calc(var(--hole-h)/2_+_var(--hole-gap))]",
+  "group/notification-badge relative inline-flex [--hole-arc-left:calc(100%_+_var(--hole-right)_-_var(--hole-w)_+_var(--hole-h)/2)] [--hole-arc-radius:calc(var(--hole-h)/2_+_var(--hole-gap))] [--hole-arc-right:calc(100%_+_var(--hole-right)_-_var(--hole-h)/2)] [--hole-center-y:calc(var(--hole-h)/2_+_var(--hole-top))] [--hole-gap:1.5px] [--hole-top:calc(2px_-_var(--hole-h)/2_+_var(--hole-radius,0px)_*_0.293)]",
   {
     defaultVariants: { variant: "default" },
     variants: {
@@ -94,7 +94,7 @@ function NotificationBadgeContent({
         // Pill-shaped hole under the indicator (evenodd: overshooting outer rect minus
         // the pill) so the gap is transparent on any surface. Browsers without shape()
         // (Chrome < 135, Safari < 18.4, Firefox < 148) render the badge without a gap.
-        "group-data-visible/notification-badge:[clip-path:shape(evenodd_from_-9999px_-9999px,hline_to_calc(100%_+_9999px),vline_to_calc(100%_+_9999px),hline_to_-9999px,close,move_to_var(--nb-cr)_calc(var(--nb-cy)_-_var(--nb-r)),arc_to_var(--nb-cr)_calc(var(--nb-cy)_+_var(--nb-r))_of_var(--nb-r)_cw,hline_to_var(--nb-cl),arc_to_var(--nb-cl)_calc(var(--nb-cy)_-_var(--nb-r))_of_var(--nb-r)_cw,close)]",
+        "group-data-visible/notification-badge:[clip-path:shape(evenodd_from_-9999px_-9999px,hline_to_calc(100%_+_9999px),vline_to_calc(100%_+_9999px),hline_to_-9999px,close,move_to_var(--hole-arc-right)_calc(var(--hole-center-y)_-_var(--hole-arc-radius)),arc_to_var(--hole-arc-right)_calc(var(--hole-center-y)_+_var(--hole-arc-radius))_of_var(--hole-arc-radius)_cw,hline_to_var(--hole-arc-left),arc_to_var(--hole-arc-left)_calc(var(--hole-center-y)_-_var(--hole-arc-radius))_of_var(--hole-arc-radius)_cw,close)]",
         className
       )}
       data-slot="notification-badge-content"
@@ -116,7 +116,9 @@ function NotificationBadgeIndicator({
   return (
     <Badge
       className={cn(
-        "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w) rounded-full px-0",
+        "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w)",
+        // oxlint-disable-next-line shadcn/no-restyle -- the clip-path hole in the content is a pill; the indicator must match it
+        "rounded-full",
         className
       )}
       data-slot="notification-badge-indicator"
