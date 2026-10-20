@@ -13,9 +13,9 @@ import { XIcon } from "@/components/x-icon";
 
 export const SITE = {
   description:
-    "Alexandre Joly, French developer in Geneva at Yoojo. Building Gymup, an AI strength coach, Kwern, marketing on autopilot, and react-easy-modals.",
+    "I’m a developer at Yoojo. I design and build interfaces end to end, and I care about the details that make them feel right.",
   name: "Alexandre Joly",
-  title: "Alexandre Joly – Developer in Geneva",
+  title: "Alexandre Joly",
   url: "https://alexandrejoly.me/",
 } as const;
 
