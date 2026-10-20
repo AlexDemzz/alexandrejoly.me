@@ -51,4 +51,30 @@ describe("getInstallation", () => {
     expect(installation.dependencies).toBeNull();
     expect(installation.registryDependencies).toBeNull();
   });
+
+  it("writes the item's CSS as shadcn merges it into the global stylesheet", () => {
+    const installation = getInstallation({
+      ...item,
+      css: { "@keyframes spin": { "from, to": { "--spinning": "1" } } },
+      cssVars: { theme: { "animate-spin": "spin 1s linear infinite" } },
+    });
+
+    expect(installation.styles).toBe(
+      [
+        "@theme inline {",
+        "  --animate-spin: spin 1s linear infinite;",
+        "}",
+        "",
+        "@keyframes spin {",
+        "  from, to {",
+        "    --spinning: 1;",
+        "  }",
+        "}",
+      ].join("\n")
+    );
+  });
+
+  it("has no styles step for an item without CSS", () => {
+    expect(getInstallation(item).styles).toBeNull();
+  });
 });

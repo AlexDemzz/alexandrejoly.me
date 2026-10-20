@@ -5,6 +5,7 @@ import { createHighlighterCore } from "shiki/core";
 import type { HighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
 import bash from "shiki/langs/bash.mjs";
+import css from "shiki/langs/css.mjs";
 import tsx from "shiki/langs/tsx.mjs";
 import vitesseDark from "shiki/themes/vitesse-dark.mjs";
 import vitesseLight from "shiki/themes/vitesse-light.mjs";
@@ -47,10 +48,10 @@ let highlighter: Promise<HighlighterCore> | undefined;
  * Both themes ride on CSS variables (`--shiki-light`, `--shiki-dark`) with no
  * inline colour, so the stylesheet picks one per colour scheme.
  */
-const highlight = async (code: string, lang: "bash" | "tsx") => {
+const highlight = async (code: string, lang: "bash" | "css" | "tsx") => {
   highlighter ??= createHighlighterCore({
     engine: createJavaScriptRegexEngine(),
-    langs: [bash, tsx],
+    langs: [bash, css, tsx],
     themes: [vitesseLight, vitesseDark],
   });
   const shiki = await highlighter;
@@ -61,8 +62,8 @@ const highlight = async (code: string, lang: "bash" | "tsx") => {
   });
 };
 
-const highlightOptional = (code: string | null) =>
-  code === null ? null : highlight(code, "bash");
+const highlightOptional = (code: string | null, lang: "bash" | "css") =>
+  code === null ? null : highlight(code, lang);
 
 const demoPath = (file: string) => `${DEMOS_DIR}/${file}.tsx`;
 
@@ -115,20 +116,25 @@ const buildComponentCode = async (
   const sourceFile = fromRoot(`registry/${name}.tsx`);
   const demos = demoFiles(name);
 
-  const [cli, dependencies, registryDependencies, source, usageHtml, ...html] =
-    await Promise.all([
-      highlight(installation.cli, "bash"),
-      highlightOptional(installation.dependencies),
-      highlightOptional(installation.registryDependencies),
-      highlight(readFileSync(sourceFile, "utf-8"), "tsx"),
-      highlight(docs.usage[name], "tsx"),
-      ...demos.map((file) =>
-        highlight(
-          toProjectImports(readFileSync(demoPath(file), "utf-8")),
-          "tsx"
-        )
-      ),
-    ]);
+  const [
+    cli,
+    dependencies,
+    registryDependencies,
+    styles,
+    source,
+    usageHtml,
+    ...html
+  ] = await Promise.all([
+    highlight(installation.cli, "bash"),
+    highlightOptional(installation.dependencies, "bash"),
+    highlightOptional(installation.registryDependencies, "bash"),
+    highlightOptional(installation.styles, "css"),
+    highlight(readFileSync(sourceFile, "utf-8"), "tsx"),
+    highlight(docs.usage[name], "tsx"),
+    ...demos.map((file) =>
+      highlight(toProjectImports(readFileSync(demoPath(file), "utf-8")), "tsx")
+    ),
+  ]);
 
   return {
     code: {
@@ -139,6 +145,7 @@ const buildComponentCode = async (
         cli,
         dependencies,
         registryDependencies,
+        styles,
         targetPath: installation.targetPath,
       },
       source,

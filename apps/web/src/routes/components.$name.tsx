@@ -68,6 +68,11 @@ const Installation = ({
             Add the shadcn components it builds on.
           </Step>
         )}
+        {installation.styles === null ? null : (
+          <Step code={<CodeBlock html={installation.styles} />}>
+            Add the styles to your global CSS file.
+          </Step>
+        )}
         <Step
           code={<CodeBlock html={source} title={installation.targetPath} />}
         >
