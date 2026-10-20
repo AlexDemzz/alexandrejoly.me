@@ -9,7 +9,8 @@
     "deploy": "pnpm build && wrangler deploy",
     "dev": "pnpm registry:build && vite dev",
     "check-types": "pnpm build && tsc --noEmit",
-    "env:generate": "varlock codegen"
+    "env:generate": "varlock codegen",
+    "test": "vitest run"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -25,6 +26,7 @@
     "next-themes": "catalog:",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "shiki": "^4.5.0",
     "sonner": "catalog:",
     "tailwindcss": "catalog:",
     "varlock": "catalog:",
@@ -43,6 +45,7 @@
     "shadcn": "^4.22.1",
     "typescript": "catalog:",
     "vite": "^8.3.4",
+    "vitest": "^3.2.7",
     "web-vitals": "^6.2.3"
   }
 }

@@ -9,6 +9,7 @@ import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
 import { XIcon } from "@/components/x-icon";
+import { REGISTRY_ITEMS } from "@/lib/registry";
 
 export const SITE = {
   description:
@@ -110,6 +111,20 @@ export const SKILLS: Skill[] = [
 ];
 
 export const skillHref = (name: string) => `${LINKS.skills}/${name}`;
+
+export interface RegistryComponent {
+  description: string;
+  name: string;
+  title: string;
+}
+
+/** The registry's items, in `registry.json` order. */
+export const COMPONENTS: RegistryComponent[] = REGISTRY_ITEMS.map(
+  ({ description, name, title }) => ({ description, name, title })
+);
+
+export const findComponent = (name: string) =>
+  COMPONENTS.find((component) => component.name === name);
 
 export interface Award {
   href: string;

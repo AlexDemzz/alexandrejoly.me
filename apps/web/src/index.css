@@ -1,1 +1,25 @@
 @import "@portfolio/ui/globals.css";
+
+/* Shiki output: both themes ride on CSS variables, the colour scheme picks one. */
+@layer components {
+  [data-slot="code-block"] pre {
+    inline-size: max-content;
+    min-inline-size: 100%;
+    padding-block: 1rem;
+    padding-inline: 1rem 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  [data-slot="code-block"] span {
+    color: var(--shiki-light);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    [data-slot="code-block"] span {
+      color: var(--shiki-dark);
+    }
+  }
+}
