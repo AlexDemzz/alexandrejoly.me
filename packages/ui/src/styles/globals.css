@@ -47,6 +47,8 @@
   --faint-foreground: oklch(0.535 0.008 70);
   --underline: oklch(0.88 0.006 70);
   --selection: oklch(0.902 0.006 70);
+  /* 3:1 on the page and on the tint (WCAG 1.4.11). */
+  --scrollbar: oklch(0.64 0.007 70);
 }
 
 /* Not a colour pair, so it lives outside the palette block DESIGN.md maps. */
@@ -93,6 +95,7 @@
     --faint-foreground: oklch(0.635 0.008 70);
     --underline: oklch(0.34 0.006 70);
     --selection: oklch(0.305 0.006 70);
+    --scrollbar: oklch(0.52 0.007 70);
     --hairline-shadow: 0 0 0 1px #ffffff14;
   }
 }
@@ -106,6 +109,7 @@
   --color-faint-foreground: var(--faint-foreground);
   --color-underline: var(--underline);
   --color-selection: var(--selection);
+  --color-scrollbar: var(--scrollbar);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);

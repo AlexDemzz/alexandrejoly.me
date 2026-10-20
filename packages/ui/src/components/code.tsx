@@ -1,3 +1,4 @@
+import { ScrollArea } from "@portfolio/ui/components/scroll-area";
 import { cn } from "@portfolio/ui/lib/utils";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
@@ -44,7 +45,7 @@ const Code = ({
 const CodeBlock = ({ className, ...props }: React.ComponentProps<"figure">) => (
   <figure
     className={cn(
-      "bg-muted relative flex min-w-0 flex-col gap-1 rounded-xl py-4",
+      "bg-muted relative flex min-w-0 flex-col rounded-xl",
       className
     )}
     data-slot="code-block"
@@ -57,21 +58,26 @@ const CodeBlockTitle = ({
   ...props
 }: React.ComponentProps<"figcaption">) => (
   <figcaption
-    className={cn("text-muted-foreground px-4 pe-14 font-mono", className)}
+    className={cn("text-muted-foreground px-4 pe-14 pt-4 font-mono", className)}
     data-slot="code-block-title"
     {...props}
   />
 );
 
+// The vertical padding lives inside the viewport so the code scrolls to the
+// card's edge and the bars sit in that padding, inset to clear the corners.
+// The viewport inherits the cap so long files scroll inside the card.
 const CodeBlockContent = ({
   className,
   ...props
 }: React.ComponentProps<"div">) => (
-  <div
-    className={cn("max-h-112 overflow-auto px-4", className)}
-    data-slot="code-block-content"
-    {...props}
-  />
+  <ScrollArea className="flex max-h-120 flex-col [&>[data-orientation=horizontal]]:mx-4 [&>[data-orientation=vertical]]:my-4 [&>[data-orientation=vertical]]:h-auto [&>[data-slot=scroll-area-viewport]]:max-h-[inherit] [[data-slot=code-block-title]+&_[data-slot=code-block-content]]:pt-1">
+    <div
+      className={cn("px-4 py-4", className)}
+      data-slot="code-block-content"
+      {...props}
+    />
+  </ScrollArea>
 );
 
 const CodeBlockAction = ({

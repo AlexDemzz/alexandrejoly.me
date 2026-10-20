@@ -18,6 +18,8 @@ colors:
   underline-dark: "#3A3735"
   selection: "#E1DEDA" # gray-500
   selection-dark: "#312F2C"
+  scrollbar: "#8F8B88" # scroll thumb, 3:1 on the page and the tint
+  scrollbar-dark: "#6C6865"
   hairline: "#E9E6E3" # gray-400
   hairline-dark: "#242220"
   tint: "#F6F4F2" # gray-200
@@ -81,6 +83,7 @@ shadcnMapping:
   "--faint-foreground": ["#706C68", "#8E8A85"]
   "--underline": ["#DAD7D3", "#3A3735"]
   "--selection": ["#E1DEDA", "#312F2C"]
+  "--scrollbar": ["#8F8B88", "#6C6865"]
 ---
 
 # DESIGN — alexandrejoly.me
@@ -124,7 +127,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Row** (`ItemGroup` of `Item`s): optional round logo (`ItemMedia variant="logo"`), title over description, year on the right (`ItemActions`).
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
-- **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button pinned to the top end over the scrolling code.
+- **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button pinned to the top end over the code, which scrolls to the card's edge in a `ScrollArea` capped at 480px tall: a 4px round thumb in `scrollbar` (3:1 on the tint) on each axis that overflows, ink under the pointer.
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
 - **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, the one exception to the single 16px size, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
 - **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
