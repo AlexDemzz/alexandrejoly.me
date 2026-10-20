@@ -23,7 +23,6 @@
     "@varlock/vite-integration": "1.5.1",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^1.56.0",
-    "motion": "^14.4.0",
     "next-themes": "catalog:",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

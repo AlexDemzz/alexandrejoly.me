@@ -21,15 +21,41 @@
       "name": "onboarding",
       "type": "registry:ui",
       "title": "Onboarding",
-      "description": "A step-by-step onboarding flow with a segmented progress indicator, crossfading steps and previous/next buttons.",
-      "dependencies": ["motion"],
+      "description": "A step-by-step onboarding flow with a segmented progress indicator, steps that cross as a View Transition and previous/next buttons.",
+      "dependencies": [],
       "registryDependencies": ["button", "progress"],
       "files": [
         {
           "path": "registry/onboarding.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "css": {
+        "[data-slot=\"onboarding-content\"]": {
+          "view-transition-name": "match-element",
+          "view-transition-class": "onboarding-step"
+        },
+        "::view-transition-old(*.onboarding-step)": {
+          "animation": "200ms cubic-bezier(0.23, 1, 0.32, 1) both onboarding-step-out"
+        },
+        "::view-transition-new(*.onboarding-step)": {
+          "animation": "250ms cubic-bezier(0.23, 1, 0.32, 1) both onboarding-step-in"
+        },
+        "@keyframes onboarding-step-out": {
+          "to": { "opacity": "0", "filter": "blur(8px)" }
+        },
+        "@keyframes onboarding-step-in": {
+          "from": { "opacity": "0", "filter": "blur(8px)" }
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          "@keyframes onboarding-step-out": {
+            "to": { "opacity": "0" }
+          },
+          "@keyframes onboarding-step-in": {
+            "from": { "opacity": "0" }
+          }
+        }
+      }
     },
     {
       "name": "hint",
@@ -63,7 +89,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "Scrolls its content horizontally in a seamless loop only when it overflows, with optional edge fades and pause on hover.",
+      "description": "A strip of items sliding in a seamless loop, in CSS alone, with edge fades, reverse and vertical tracks and pause on hover.",
       "dependencies": [],
       "registryDependencies": [],
       "files": [
@@ -71,7 +97,22 @@
           "path": "registry/marquee.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "cssVars": {
+        "theme": {
+          "animate-marquee": "marquee var(--marquee-duration, 40s) linear infinite",
+          "animate-marquee-reverse": "marquee var(--marquee-duration, 40s) linear infinite reverse",
+          "animate-marquee-vertical": "marquee-vertical var(--marquee-duration, 40s) linear infinite"
+        }
+      },
+      "css": {
+        "@keyframes marquee": {
+          "to": { "transform": "translateX(-50%)" }
+        },
+        "@keyframes marquee-vertical": {
+          "to": { "transform": "translateY(-50%)" }
+        }
+      }
     }
   ]
 }

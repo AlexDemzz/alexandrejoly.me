@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
 import {
   Children,
   createContext,
@@ -12,6 +11,7 @@ import {
   useState,
 } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
+import { flushSync } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -32,6 +32,20 @@ interface OnboardingContextValue {
   api: UseOnboardingReturn;
   onComplete?: () => void;
   setTotalSteps: Dispatch<SetStateAction<number>>;
+}
+
+/**
+ * Commits a step change inside a View Transition: the content crosses as the
+ * `onboarding-step` class its CSS styles. Without the API it just commits.
+ */
+function changeStep(commit: () => void) {
+  if (!document.startViewTransition) {
+    commit();
+    return;
+  }
+  document.startViewTransition(() => {
+    flushSync(commit);
+  });
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null);
@@ -75,7 +89,9 @@ function Onboarding({
       if (nextStep < 1 || nextStep > totalSteps) {
         throw new Error(`Step ${nextStep} is out of range 1–${totalSteps}`);
       }
-      setCurrentStep(nextStep);
+      if (nextStep !== currentStep) {
+        changeStep(() => setCurrentStep(nextStep));
+      }
     },
     [currentStep, totalSteps]
   );
@@ -87,15 +103,19 @@ function Onboarding({
       currentStep,
       goToNextStep: () => {
         if (canGoToNextStep) {
-          setCurrentStep((step) => step + 1);
+          changeStep(() => setCurrentStep((step) => step + 1));
         }
       },
       goToPrevStep: () => {
         if (canGoToPrevStep) {
-          setCurrentStep((step) => step - 1);
+          changeStep(() => setCurrentStep((step) => step - 1));
         }
       },
-      reset: () => setCurrentStep(1),
+      reset: () => {
+        if (currentStep !== 1) {
+          changeStep(() => setCurrentStep(1));
+        }
+      },
       setStep,
       totalSteps,
     }),
@@ -142,26 +162,12 @@ function OnboardingContent({
   );
 
   return (
-    // Vertical clip only: it contains the popLayout crossfade between steps of
-    // different heights, while an element straddling a side stays visible
-    // (`clip` on one axis leaves the other `visible`, unlike `hidden`).
     <div
-      className={cn("flex flex-1 flex-col overflow-y-clip pt-4", className)}
+      className={cn("flex flex-1 flex-col pt-4", className)}
       data-slot="onboarding-content"
       {...props}
     >
-      <AnimatePresence mode="popLayout">
-        <motion.div
-          animate={{ opacity: 1 }}
-          className="flex flex-1 flex-col"
-          exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
-          key={currentStep}
-          transition={{ duration: 0.2 }}
-        >
-          {activeStep}
-        </motion.div>
-      </AnimatePresence>
+      {activeStep}
     </div>
   );
 }

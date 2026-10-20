@@ -19,7 +19,7 @@ const STACK = [
 export const MarqueeDemo = () => (
   <Marquee className="w-full">
     <MarqueeFade side="left" />
-    <MarqueeContent className="gap-8">
+    <MarqueeContent>
       {STACK.map((name) => (
         <MarqueeItem key={name}>{name}</MarqueeItem>
       ))}

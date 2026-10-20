@@ -13,9 +13,9 @@ const QUOTES = [
 ];
 
 export const MarqueePauseOnHover = () => (
-  <Marquee className="w-full" pauseOnHover speed={24}>
+  <Marquee className="w-full">
     <MarqueeFade side="left" />
-    <MarqueeContent className="gap-12">
+    <MarqueeContent duration="60s" gap="3rem" pauseOnHover>
       {QUOTES.map((quote) => (
         <MarqueeItem key={quote}>{quote}</MarqueeItem>
       ))}

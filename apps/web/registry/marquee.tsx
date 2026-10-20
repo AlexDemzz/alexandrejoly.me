@@ -1,195 +1,90 @@
-"use client";
-
-import {
-  Children,
-  createContext,
-  isValidElement,
-  use,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { Children, isValidElement } from "react";
 
 import { cn } from "@/lib/utils";
 
-interface MarqueeContextValue {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  originalRef: React.RefObject<HTMLDivElement | null>;
-  shouldScroll: boolean;
-  trackRef: React.RefObject<HTMLDivElement | null>;
-}
-
-const MarqueeContext = createContext<MarqueeContextValue | null>(null);
-
-function useMarqueeContext() {
-  const context = use(MarqueeContext);
-  if (!context) {
-    throw new Error(
-      "Marquee compound components must be used within <Marquee>"
-    );
-  }
-  return context;
-}
-
-type MarqueeProps = React.ComponentProps<"div"> & {
-  /** Scroll speed in pixels per second. */
-  speed?: number;
-  pauseOnHover?: boolean;
-};
-
-function Marquee({
-  children,
-  className,
-  speed = 40,
-  pauseOnHover = false,
-  ...props
-}: MarqueeProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const originalRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<Animation | null>(null);
-  const [shouldScroll, setShouldScroll] = useState(false);
-  const [distance, setDistance] = useState(0);
-
-  useEffect(() => {
-    if (!children) {
-      return;
-    }
-    const container = containerRef.current;
-    const original = originalRef.current;
-    const track = trackRef.current;
-    if (!(container && original && track)) {
-      return;
-    }
-
-    const measure = () => {
-      const containerWidth = container.offsetWidth;
-      const originalWidth = original.offsetWidth;
-      const overflow = originalWidth > containerWidth;
-      setShouldScroll(overflow);
-      if (!overflow) {
-        setDistance(0);
-        return;
-      }
-      // The gap between the original and its clone comes from the track's CSS gap.
-      const gap =
-        // oxlint-disable-next-line unicorn/prefer-number-coercion -- columnGap carries a unit, e.g. "8px"
-        Number.parseFloat(getComputedStyle(track).columnGap || "0") || 0;
-      setDistance(originalWidth + gap);
-    };
-
-    measure();
-
-    const observer = new ResizeObserver(measure);
-    observer.observe(container);
-    observer.observe(original);
-    observer.observe(track);
-
-    return () => observer.disconnect();
-  }, [children]);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    // An infinite auto-scroll offers no way to stop it, so reduced motion gets
-    // no animation at all: the first copy stays in place and readable.
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    if (reducedMotion || !(track && shouldScroll && distance > 0)) {
-      animationRef.current?.cancel();
-      animationRef.current = null;
-      return;
-    }
-
-    const animation = track.animate(
-      [
-        { transform: "translateX(0)" },
-        { transform: `translateX(-${distance}px)` },
-      ],
-      {
-        duration: (distance / speed) * 1000,
-        easing: "linear",
-        iterations: Number.POSITIVE_INFINITY,
-      }
-    );
-    animationRef.current = animation;
-
-    return () => animation.cancel();
-  }, [shouldScroll, distance, speed]);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!(container && pauseOnHover)) {
-      return;
-    }
-
-    const pause = () => animationRef.current?.pause();
-    const resume = () => animationRef.current?.play();
-
-    container.addEventListener("pointerenter", pause);
-    container.addEventListener("pointerleave", resume);
-
-    return () => {
-      container.removeEventListener("pointerenter", pause);
-      container.removeEventListener("pointerleave", resume);
-    };
-  }, [pauseOnHover]);
-
-  const context = useMemo(
-    () => ({ containerRef, originalRef, shouldScroll, trackRef }),
-    [shouldScroll]
-  );
-
+/**
+ * A strip of items that slides forever, in CSS alone: the track renders its
+ * items twice and a keyframe moves it by one copy per cycle, so it runs
+ * before hydration and without any JavaScript. Reduced motion stops it on the
+ * first copy, which stays in place and readable.
+ */
+function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <MarqueeContext value={context}>
-      <div
-        className={cn("relative overflow-hidden", className)}
-        data-slot="marquee"
-        ref={containerRef}
-        {...props}
-      >
-        {children}
-      </div>
-    </MarqueeContext>
+    <div
+      className={cn("group/marquee relative overflow-hidden", className)}
+      data-slot="marquee"
+      {...props}
+    />
   );
 }
+
+type MarqueeContentProps = React.ComponentProps<"div"> & {
+  /** One full cycle, as a CSS time. */
+  duration?: string;
+  /** The space between items, which also spaces the loop's seam. */
+  gap?: string;
+  /** `vertical` stacks the items and slides them upward. */
+  orientation?: "horizontal" | "vertical";
+  pauseOnHover?: boolean;
+  /** Slides the other way. Horizontal only. */
+  reverse?: boolean;
+};
 
 function MarqueeContent({
   children,
   className,
+  duration = "40s",
+  gap = "2rem",
+  orientation = "horizontal",
+  pauseOnHover = false,
+  reverse = false,
+  style,
   ...props
-}: React.ComponentProps<"div">) {
-  const { trackRef, originalRef, shouldScroll } = useMarqueeContext();
-  // oxlint-disable-next-line react/no-react-children -- the copies drop text and empty children so only items repeat
+}: MarqueeContentProps) {
+  // oxlint-disable-next-line react/no-react-children -- the copy drops text and empty children so only items repeat
   const items = Children.toArray(children).filter(isValidElement);
+  const vertical = orientation === "vertical";
+  // Each copy ends on one gap, so the seam is as wide as any other gap. A
+  // vertical copy splits it above and below, centering the first item in a
+  // frame one item plus one gap tall.
+  const copy = vertical
+    ? // oxlint-disable-next-line shadcn/no-arbitrary-values -- half the consumer's gap has no scale step
+      "flex shrink-0 flex-col items-center gap-(--marquee-gap) py-[calc(var(--marquee-gap)/2)]"
+    : "flex shrink-0 items-center gap-(--marquee-gap) pe-(--marquee-gap)";
 
   return (
     <div
-      className={cn("flex w-max items-center", className)}
+      className={cn(
+        vertical
+          ? "flex h-max w-full flex-col items-center"
+          : "flex w-max items-center",
+        vertical && "motion-safe:animate-marquee-vertical",
+        !vertical &&
+          (reverse
+            ? "motion-safe:animate-marquee-reverse"
+            : "motion-safe:animate-marquee"),
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- Tailwind has no animation-play-state utility
+        pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
+        className
+      )}
+      data-direction={reverse ? "reverse" : "forward"}
+      data-orientation={orientation}
       data-slot="marquee-content"
-      ref={trackRef}
+      style={
+        {
+          "--marquee-duration": duration,
+          "--marquee-gap": gap,
+          ...style,
+        } as React.CSSProperties
+      }
       {...props}
     >
-      <div
-        // oxlint-disable-next-line shadcn/no-arbitrary-values -- each copy takes the consumer's gap from the track, which also spaces the loop seam
-        className="flex shrink-0 items-center gap-[inherit]"
-        data-slot="marquee-copy"
-        ref={originalRef}
-      >
+      <div className={copy} data-slot="marquee-copy">
         {items}
       </div>
-      {shouldScroll && (
-        <div
-          aria-hidden
-          // oxlint-disable-next-line shadcn/no-arbitrary-values -- same gap as the original copy
-          className="flex shrink-0 items-center gap-[inherit]"
-          data-slot="marquee-copy"
-        >
-          {items}
-        </div>
-      )}
+      <div aria-hidden className={copy} data-slot="marquee-copy">
+        {items}
+      </div>
     </div>
   );
 }
@@ -209,10 +104,6 @@ type MarqueeFadeProps = React.ComponentProps<"div"> & {
 };
 
 function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
-  const { shouldScroll } = useMarqueeContext();
-  if (!shouldScroll) {
-    return null;
-  }
   return (
     <div
       aria-hidden

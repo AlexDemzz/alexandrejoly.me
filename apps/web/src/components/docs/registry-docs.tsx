@@ -3,8 +3,9 @@ import type { ComponentType } from "react";
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
-import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
+import { MarqueeReverse } from "@/components/demos/marquee-reverse";
+import { MarqueeVertical } from "@/components/demos/marquee-vertical";
 import { NotificationBadgeCounts } from "@/components/demos/notification-badge-counts";
 import { NotificationBadgeDemo } from "@/components/demos/notification-badge-demo";
 import { NotificationBadgeDot } from "@/components/demos/notification-badge-dot";
@@ -193,18 +194,44 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Measures its content and scrolls it only when it overflows. Under reduced motion it stays still.",
+          "Clips the tracks and anchors the fades. A pointer over it pauses any track set to `pauseOnHover`.",
         name: "Marquee",
+        props: [CLASS_NAME_PROP],
+      },
+      {
+        description:
+          "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Under reduced motion it stays on the first copy.",
+        name: "MarqueeContent",
         props: [
           {
-            default: "40",
-            description: "Scroll speed in pixels per second.",
-            name: "speed",
-            type: "number",
+            default: '"40s"',
+            description: "One full cycle.",
+            name: "duration",
+            type: "string",
+          },
+          {
+            default: '"2rem"',
+            description:
+              "The space between items, which also spaces the loop’s seam.",
+            name: "gap",
+            type: "string",
+          },
+          {
+            default: '"horizontal"',
+            description:
+              "`vertical` stacks the items and slides them upward, a reel inside a frame one item plus one gap tall.",
+            name: "orientation",
+            type: '"horizontal" | "vertical"',
           },
           {
             default: "false",
-            description: "Pauses the loop while a pointer is over it.",
+            description: "Slides the other way. Horizontal only.",
+            name: "reverse",
+            type: "boolean",
+          },
+          {
+            default: "false",
+            description: "Holds the track while a pointer is over the marquee.",
             name: "pauseOnHover",
             type: "boolean",
           },
@@ -212,19 +239,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         ],
       },
       {
-        description:
-          "The moving track. Its `gap` also spaces the loop’s seam, so set it here.",
-        name: "MarqueeContent",
-        props: [CLASS_NAME_PROP],
-      },
-      {
         description: "One item of the track. It never shrinks.",
         name: "MarqueeItem",
         props: [CLASS_NAME_PROP],
       },
       {
-        description:
-          "A gradient from the page background over one edge, shown only while scrolling.",
+        description: "A gradient from the page background over one edge.",
         name: "MarqueeFade",
         props: [
           {
@@ -241,16 +261,23 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueePauseOnHover,
         description:
-          "Slow it down and hold it under the pointer so longer items can be read.",
+          "Give it a longer `duration` and hold it under the pointer so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
       },
       {
-        Component: MarqueeFit,
+        Component: MarqueeReverse,
         description:
-          "Content narrower than the container stays put: no clone, no fades.",
-        file: "marquee-fit",
-        title: "Content that fits",
+          "Two tracks in one marquee, the second with `reverse`, pass each other.",
+        file: "marquee-reverse",
+        title: "Reverse",
+      },
+      {
+        Component: MarqueeVertical,
+        description:
+          "A vertical track in a frame one item plus one gap tall rolls words in place.",
+        file: "marquee-vertical",
+        title: "Vertical",
       },
     ],
     usage: `import {
@@ -262,7 +289,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
 
 <Marquee>
   <MarqueeFade side="left" />
-  <MarqueeContent className="gap-8">
+  <MarqueeContent>
     <MarqueeItem>React</MarqueeItem>
     <MarqueeItem>TypeScript</MarqueeItem>
   </MarqueeContent>
@@ -392,7 +419,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Counts its steps and crossfades to the current one. Children must be `OnboardingStep`s.",
+          "Counts its steps and shows the current one. A step change crosses as a View Transition, fading and blurring; without the API the step just swaps. Children must be `OnboardingStep`s.",
         name: "OnboardingContent",
         props: [CLASS_NAME_PROP],
       },
