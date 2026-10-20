@@ -34,6 +34,8 @@ export interface ApiProp {
 export interface ApiPart {
   description: string;
   name: string;
+  /** Heads the name column; defaults to "Prop". */
+  nameLabel?: string;
   props: ApiProp[];
 }
 
@@ -272,6 +274,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "Holds the count and the hole geometry, as CSS variables its parts read.",
         name: "NotificationBadge",
+        nameLabel: "Prop or variable",
         props: [
           {
             description:
@@ -451,6 +454,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "Reads and drives the flow from any child of `Onboarding`. `setStep` throws outside 1 to `totalSteps`.",
         name: "useOnboarding()",
+        nameLabel: "Return value",
         props: [
           {
             description: "The current step and the step count.",
