@@ -91,7 +91,7 @@ export const REGISTRY_DOCS: Record<string, ComponentDocs> = {
         ],
       },
       {
-        description: "The bubble, in inverted colours, portalled to the body.",
+        description: "A stock `PopoverContent`, portalled to the body.",
         name: "HintContent",
         props: [
           {

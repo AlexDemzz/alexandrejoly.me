@@ -27,19 +27,9 @@ function HintTrigger({
 }
 
 function HintContent({
-  className,
   ...props
 }: React.ComponentProps<typeof PopoverContent>) {
-  return (
-    <PopoverContent
-      className={cn(
-        "bg-foreground text-background text-base shadow-none ring-0",
-        className
-      )}
-      data-slot="hint-content"
-      {...props}
-    />
-  );
+  return <PopoverContent data-slot="hint-content" {...props} />;
 }
 
 export { Hint, HintContent, HintTrigger };
