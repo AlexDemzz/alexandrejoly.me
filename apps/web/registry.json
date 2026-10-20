@@ -74,9 +74,9 @@
       ],
       "cssVars": {
         "theme": {
-          "animate-marquee": "var(--marquee-x, marquee) var(--marquee-duration, 40s) linear infinite",
-          "animate-marquee-reverse": "var(--marquee-x, marquee) var(--marquee-duration, 40s) linear infinite reverse",
-          "animate-marquee-vertical": "var(--marquee-y, marquee-vertical) var(--marquee-duration, 40s) linear infinite",
+          "animate-marquee": "marquee var(--marquee-duration, 40s) linear infinite",
+          "animate-marquee-reverse": "marquee var(--marquee-duration, 40s) linear infinite reverse",
+          "animate-marquee-vertical": "marquee-vertical var(--marquee-duration, 40s) linear infinite",
           "animate-marquee-overflow": "marquee-overflow linear both"
         }
       },
@@ -93,9 +93,7 @@
         },
         "@keyframes marquee-overflow": {
           "from, to": {
-            "--marquee-x": "marquee",
-            "--marquee-y": "marquee-vertical",
-            "--marquee-overflow": "flex"
+            "--marquee-overflowing": "1"
           }
         }
       }

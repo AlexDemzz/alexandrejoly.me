@@ -17,11 +17,11 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
       className={cn(
         "group/marquee relative overflow-hidden",
         // Its scroll timeline is inactive while nothing overflows, so the
-        // animation that names the keyframes and shows the clone and fades
-        // only applies once the first copy outgrows the frame. Without
-        // scroll timelines the marquee always runs.
-        // oxlint-disable-next-line shadcn/no-arbitrary-values -- no utility sets a scroll timeline or these custom properties
-        "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[--marquee-overflow:none] supports-[animation-timeline:scroll()]:[--marquee-x:none] supports-[animation-timeline:scroll()]:[--marquee-y:none] supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
+        // animation flagging --marquee-overflowing only applies once the first
+        // copy outgrows the frame; the track, the clone and the fades query
+        // that flag. Without scroll timelines the marquee always runs.
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- no utility sets a scroll timeline
+        "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
         className
       )}
       data-slot="marquee"
@@ -29,6 +29,19 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
     />
   );
 }
+
+// A track runs while the marquee flags an overflow, or always where scroll
+// timelines are missing.
+// oxlint-disable shadcn/no-arbitrary-values -- Tailwind has no style query variant
+const TRACK_ANIMATION = {
+  forward:
+    "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee",
+  reverse:
+    "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee-reverse [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee-reverse",
+  vertical:
+    "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee-vertical [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee-vertical",
+} as const;
+// oxlint-enable shadcn/no-arbitrary-values
 
 type MarqueeOrientation = "horizontal" | "vertical";
 
@@ -58,20 +71,17 @@ function MarqueeContent({
   const items = Children.toArray(children).filter(isValidElement);
   const vertical = orientation === "vertical";
   const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
-  // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown by the marquee's overflow timeline
+  // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown while the marquee flags an overflow
   const clone =
-    "supports-[animation-timeline:scroll()]:[display:var(--marquee-overflow)]";
+    "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden";
 
   return (
     <MarqueeContext value={orientation}>
       <div
         className={cn(
           vertical ? "flex h-max w-full flex-col" : "flex w-max items-center",
-          vertical && "motion-safe:animate-marquee-vertical",
-          !vertical &&
-            (reverse
-              ? "motion-safe:animate-marquee-reverse"
-              : "motion-safe:animate-marquee"),
+          vertical && TRACK_ANIMATION.vertical,
+          !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
           // oxlint-disable-next-line shadcn/no-arbitrary-values -- Tailwind has no animation-play-state utility
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           className
@@ -128,8 +138,8 @@ function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
       aria-hidden
       className={cn(
         "from-background to-background/0 pointer-events-none absolute z-10",
-        // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown by the marquee's overflow timeline
-        "supports-[animation-timeline:scroll()]:[display:var(--marquee-overflow)]",
+        // oxlint-disable-next-line shadcn/no-arbitrary-values -- shown while the marquee flags an overflow
+        "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden",
         FADE_SIDE[side],
         className
       )}
