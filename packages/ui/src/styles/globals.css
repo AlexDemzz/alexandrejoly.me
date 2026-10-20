@@ -216,9 +216,12 @@
  * vitesse themes ride on CSS variables; the colour scheme picks one.
  */
 @layer components {
+  /* The end padding clears the pinned copy button once the code is scrolled
+     to its end. */
   [data-slot="code-block-content"] pre {
     inline-size: max-content;
     min-inline-size: 100%;
+    padding-inline-end: calc(var(--spacing) * 10);
     font-family: var(--font-mono);
     tab-size: 2;
   }
