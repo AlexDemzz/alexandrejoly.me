@@ -1,4 +1,4 @@
-import { EMPLOYER, LINKS, SITE, X_HANDLE } from "@/content";
+import { EMAIL, EMPLOYER, LINKS, SITE, X_HANDLE } from "@/content";
 import type { Paragraph } from "@/content";
 
 export interface InfoSection {
@@ -19,8 +19,6 @@ export type InfoPageSlug = (typeof INFO_PAGE_SLUGS)[number];
 
 export const isInfoPageSlug = (slug: string): slug is InfoPageSlug =>
   (INFO_PAGE_SLUGS as readonly string[]).includes(slug);
-
-const EMAIL = LINKS.email.slice("mailto:".length);
 
 const email: Paragraph[number] = { href: LINKS.email, text: EMAIL };
 

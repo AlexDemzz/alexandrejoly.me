@@ -21,8 +21,10 @@ export const SITE = {
 
 export const X_HANDLE = "AlexDmzz";
 
+export const EMAIL = "alexandre.joly36@gmail.com";
+
 export const LINKS = {
-  email: "mailto:alexandre.joly36@gmail.com",
+  email: `mailto:${EMAIL}`,
   github: "https://github.com/AlexDemzz",
   linkedin: "https://www.linkedin.com/in/alexandre-joly-a23154107/",
   repo: "https://github.com/AlexDemzz/alexandrejoly.me",

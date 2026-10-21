@@ -33,7 +33,6 @@ import {
   AWARDS,
   EMPLOYER,
   INTRO,
-  LINKS,
   PROJECTS,
   SITE,
   SKILLS,
@@ -44,6 +43,7 @@ import {
 import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
+import { personJsonLd } from "@/lib/person-json-ld";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
 
@@ -228,26 +228,6 @@ const HomeComponent = () => {
       <SiteFooter />
     </main>
   );
-};
-
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  address: {
-    "@type": "PostalAddress",
-    addressCountry: "CH",
-    addressLocality: "Geneva",
-  },
-  description: SITE.description,
-  jobTitle: "Developer",
-  name: SITE.name,
-  sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
-  url: SITE.url,
-  worksFor: {
-    "@type": "Organization",
-    name: EMPLOYER.name,
-    url: EMPLOYER.href,
-  },
 };
 
 const homeHead = pageHead({
