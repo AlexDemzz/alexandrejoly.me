@@ -1,0 +1,27 @@
+import { describe, expect, it } from "vitest";
+
+import { graphViewBox, levelPaths } from "./contribution-paths";
+
+describe("levelPaths", () => {
+  it("puts each day in its level's path, as a 6px square inset by 2px", () => {
+    const paths = levelPaths([[0, 4, 4, 4, 4, 4, 4]]);
+
+    expect(paths[0]).toBe("M2 2h6v6h-6z");
+    expect(paths[4]?.match(/M/gu)).toHaveLength(6);
+    expect(paths.slice(1, 4)).toEqual(["", "", ""]);
+  });
+
+  it("aligns a short first week to Saturday and later weeks to Sunday", () => {
+    const paths = levelPaths([[1], [2, 3]]);
+
+    expect(paths[1]).toBe("M2 80h6v6h-6z");
+    expect(paths[2]).toBe("M15 2h6v6h-6z");
+    expect(paths[3]).toBe("M15 15h6v6h-6z");
+  });
+});
+
+describe("graphViewBox", () => {
+  it("fits the weeks without a trailing gap", () => {
+    expect(graphViewBox(53)).toBe("0 0 686 88");
+  });
+});

@@ -5,7 +5,8 @@ import { ENV } from "@/env.server";
 
 const GITHUB_LOGIN = "AlexDemzz";
 const CACHE_NAME = "github-contributions";
-const CACHE_KEY = `https://alexandrejoly.me/__cache/${CACHE_NAME}`;
+// Bump the version whenever `Contributions` changes shape.
+const CACHE_KEY = `https://alexandrejoly.me/__cache/${CACHE_NAME}/v2`;
 const CACHE_TTL_SECONDS = 60 * 60 * 6;
 
 const QUERY = `query ($login: String!) {
@@ -13,7 +14,7 @@ const QUERY = `query ($login: String!) {
     contributionsCollection {
       contributionCalendar {
         totalContributions
-        weeks { contributionDays { contributionCount weekday } }
+        weeks { contributionDays { contributionCount } }
       }
     }
   }
@@ -28,7 +29,6 @@ interface CalendarResponse {
           weeks: {
             contributionDays: {
               contributionCount: number;
-              weekday: number;
             }[];
           }[];
         };
@@ -37,16 +37,13 @@ interface CalendarResponse {
   };
 }
 
-export interface ContributionDay {
-  /** 0 (no contributions) to 4 (top quartile of active days). */
-  level: number;
-  /** 0 is Sunday, as in GitHub's calendar. */
-  weekday: number;
-}
-
 export interface Contributions {
   total: number;
-  weeks: ContributionDay[][];
+  /**
+   * Each day's level, from 0 (no contributions) to 4 (top quartile of active
+   * days), in GitHub's Sunday-to-Saturday weeks.
+   */
+  weeks: number[][];
 }
 
 const fetchContributions = async (): Promise<Contributions | null> => {
@@ -77,10 +74,9 @@ const fetchContributions = async (): Promise<Contributions | null> => {
   return {
     total: calendar.totalContributions,
     weeks: calendar.weeks.map((week) =>
-      week.contributionDays.map(({ contributionCount, weekday }) => ({
-        level: toLevel(contributionCount),
-        weekday,
-      }))
+      week.contributionDays.map(({ contributionCount }) =>
+        toLevel(contributionCount)
+      )
     ),
   };
 };

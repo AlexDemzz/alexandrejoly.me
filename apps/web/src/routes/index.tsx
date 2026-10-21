@@ -10,7 +10,7 @@ import {
   SectionContent,
   SectionTitle,
 } from "@portfolio/ui/components/section";
-import { Text, TextLink } from "@portfolio/ui/components/text";
+import { TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 
@@ -25,12 +25,14 @@ import { MarqueeIcon } from "@/components/marquee-icon";
 import { MediaBackdrop } from "@/components/media-backdrop";
 import { NotificationBadgeIcon } from "@/components/notification-badge-icon";
 import { OnboardingIcon } from "@/components/onboarding-icon";
+import { Prose } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
   ARCHIVES,
   AWARDS,
   EMPLOYER,
+  INTRO,
   LINKS,
   PROJECTS,
   SITE,
@@ -45,8 +47,6 @@ import { pageHead } from "@/lib/head";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
 
-const [kwern, gymup, , modals] = PROJECTS;
-
 const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   hint: HintIcon,
   "infinite-scroll": InfiniteScrollIcon,
@@ -55,12 +55,6 @@ const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   "notification-badge": NotificationBadgeIcon,
   onboarding: OnboardingIcon,
 };
-
-const ProjectLink = ({ project: { href, name } }: { project: Project }) => (
-  <TextLink external href={href}>
-    {name}
-  </TextLink>
-);
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -99,17 +93,7 @@ const HomeComponent = () => {
             </IdentityRole>
           </div>
         </Identity>
-        <Text>
-          I design and build interfaces end to end, and I care about the details
-          that make them feel right.
-        </Text>
-        <Text>
-          Right now I’m building <ProjectLink project={kwern} />, a team of AI
-          agents that market your product while you keep building it, and{" "}
-          <ProjectLink project={gymup} />, an AI strength coach built on a
-          professional coach’s system. I also maintain{" "}
-          <ProjectLink project={modals} />, a headless modal stack for React.
-        </Text>
+        <Prose paragraphs={INTRO} />
         <nav aria-label="Social" className="-ml-2.5 flex items-center">
           {SOCIALS.map(({ href, icon: Icon, name }) => {
             const external = href.startsWith("https://");
@@ -254,6 +238,7 @@ const personJsonLd = {
     addressCountry: "CH",
     addressLocality: "Geneva",
   },
+  description: SITE.description,
   jobTitle: "Developer",
   name: SITE.name,
   sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
