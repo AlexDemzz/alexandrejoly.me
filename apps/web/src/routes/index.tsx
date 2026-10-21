@@ -4,7 +4,6 @@ import {
   IdentityName,
   IdentityRole,
 } from "@portfolio/ui/components/identity";
-import { ItemMedia } from "@portfolio/ui/components/item";
 import {
   Section,
   SectionContent,
@@ -19,6 +18,7 @@ import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
 import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
 import { ItemInsetSeparatorIcon } from "@/components/item-inset-separator-icon";
+import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MarqueeIcon } from "@/components/marquee-icon";
@@ -61,7 +61,7 @@ const ProjectMedia = ({
 }: {
   project: Project;
 }) => (
-  <ItemMedia variant="image">
+  <ItemLightMedia>
     {backdrop === undefined ? (
       <Icon />
     ) : (
@@ -70,7 +70,7 @@ const ProjectMedia = ({
         <Icon className="can-hover:group-hover/item:text-white relative group-focus-visible/item:text-white" />
       </>
     )}
-  </ItemMedia>
+  </ItemLightMedia>
 );
 
 const HomeComponent = () => {
@@ -143,9 +143,9 @@ const HomeComponent = () => {
                 href={skillHref(skill.name)}
                 key={skill.name}
                 media={
-                  <ItemMedia variant="image">
+                  <ItemLightMedia>
                     <SkillIcon />
-                  </ItemMedia>
+                  </ItemLightMedia>
                 }
                 title={skill.name}
               />
@@ -165,9 +165,9 @@ const HomeComponent = () => {
                   description={component.description}
                   key={component.name}
                   media={
-                    <ItemMedia variant="image">
+                    <ItemLightMedia>
                       <Icon />
-                    </ItemMedia>
+                    </ItemLightMedia>
                   }
                   name={component.name}
                   title={component.title}
@@ -189,9 +189,9 @@ const HomeComponent = () => {
                 href={award.href}
                 key={award.href}
                 media={
-                  <ItemMedia variant="image">
+                  <ItemLightMedia>
                     <award.icon />
-                  </ItemMedia>
+                  </ItemLightMedia>
                 }
                 title={award.title}
               />
@@ -211,12 +211,12 @@ const HomeComponent = () => {
                 href={archive.href}
                 key={archive.href}
                 media={
-                  <ItemMedia variant="image">
+                  <ItemLightMedia>
                     <LazyVideo
                       className="size-full object-cover"
                       src={archive.media}
                     />
-                  </ItemMedia>
+                  </ItemLightMedia>
                 }
                 title={archive.title}
               />

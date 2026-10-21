@@ -125,7 +125,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 ## Components
 
 - **Section** (`Section`, `SectionTitle`, `SectionContent`): `variant="margin"` (default) puts the title in the margin beside the content; `variant="stacked"` sets it above, for the docs container, where the sidebar already takes the margin.
-- **Row** (a plain `ul` of stock shadcn `Item`s, styled from `apps/web/src/index.css` under `[data-look="row"]`): optional round logo (`ItemMedia variant="image"`), title over description, year on the right (`ItemActions`), ruled by an `ItemInsetSeparator`.
+- **Row** (a plain `ul` of `ItemLight`s from `apps/web/src/components/item-light.tsx`, styled from `apps/web/src/index.css` by `data-slot`; the stock `Item` printed too many classes for the home's text-to-HTML ratio): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), ruled by an inset hairline drawn as the row's `::after`, the same rule as `ItemInsetSeparator`.
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
 - **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button pinned to the top end over the code, which scrolls to the card's edge in a `ScrollArea` capped at 480px tall: a 4px round thumb in `scrollbar` (3:1 on the tint) on each axis that overflows, ink under the pointer.

@@ -1,50 +1,46 @@
 @import "@portfolio/ui/globals.css";
 
 /*
- * DESIGN.md › Components › Row, layered on the stock shadcn Item from the app
- * so item.tsx stays stock. Hooked on the row's <li data-look="row">; every
- * selector outranks the Item utilities it overrides.
+ * DESIGN.md › Components › Row, drawn for the lean parts in
+ * components/item-light.tsx: the look that the stock Item, its row overrides
+ * and ItemInsetSeparator used to print as classes on every row.
  */
-@layer utilities {
-  [data-look="row"] > [data-slot="item"] {
-    @apply flex-nowrap gap-4 rounded-none border-0 px-0 py-3.5 text-base leading-relaxed transition-none;
+@layer components {
+  [data-slot="item-light"] {
+    @apply focus-visible:outline-ring relative flex w-full items-center gap-4 rounded-none py-3.5 text-base leading-relaxed transition-none outline-none [anchor-scope:--item-content] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid;
   }
 
   /* Flush with the section title. */
-  [data-look="row"]:first-child > [data-slot="item"] {
+  :first-child > [data-slot="item-light"] {
     @apply pt-0;
   }
 
-  /* No fill: hovering a row only underlines its title and lights its logo. */
-  [data-look="row"] > [data-slot="item"]:hover {
-    @apply bg-transparent;
+  /* The inset rule: from the text start, or the full row without anchors. */
+  [data-slot="item-light"]::after {
+    @apply bg-border absolute start-0 end-0 bottom-0 h-px content-[''] supports-[anchor-name:--a]:start-[anchor(--item-content_start)];
   }
 
-  [data-look="row"] > [data-slot="item"]:focus-visible {
-    @apply outline-ring ring-0 outline-2 outline-offset-2 outline-solid;
-  }
-
-  [data-look="row"] [data-slot="item-content"] {
-    @apply min-w-0 gap-0;
-  }
-
-  [data-look="row"] [data-slot="item-title"] {
-    @apply font-book can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline line-clamp-none text-base leading-relaxed text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out;
-  }
-
-  [data-look="row"] [data-slot="item-description"] {
-    @apply line-clamp-none text-base leading-relaxed text-pretty;
-  }
-
-  [data-look="row"] [data-slot="item-actions"] {
-    @apply text-muted-foreground shrink-0 tabular-nums;
-  }
-
-  [data-look="row"] [data-slot="item-media"][data-variant="image"] {
-    @apply shadow-hairline text-muted-foreground/80 can-hover:group-hover/item:text-foreground group-focus-visible/item:text-foreground relative size-9 translate-y-0 self-center rounded-full transition-colors duration-200 ease-out [&_svg]:size-5;
-  }
-
-  [data-look="row"]:last-child [data-slot="item-separator"] {
+  :last-child > [data-slot="item-light"]::after {
     @apply hidden;
+  }
+
+  [data-slot="item-light-media"] {
+    @apply shadow-hairline text-muted-foreground/80 can-hover:group-hover/item:text-foreground group-focus-visible/item:text-foreground relative flex size-9 shrink-0 items-center justify-center gap-2 self-center overflow-hidden rounded-full transition-colors duration-200 ease-out [&_svg]:pointer-events-none [&_svg]:size-5;
+  }
+
+  [data-slot="item-light-content"] {
+    @apply flex min-w-0 flex-1 flex-col [anchor-name:--item-content];
+  }
+
+  [data-slot="item-light-title"] {
+    @apply font-book can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline w-fit text-base leading-relaxed text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out;
+  }
+
+  [data-slot="item-light-description"] {
+    @apply text-muted-foreground text-base leading-relaxed text-pretty;
+  }
+
+  [data-slot="item-light-actions"] {
+    @apply text-muted-foreground flex shrink-0 items-center gap-2 tabular-nums;
   }
 }

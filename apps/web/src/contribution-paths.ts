@@ -20,18 +20,31 @@ export const CELL_STROKE_WIDTH = 2 * CORNER_RADIUS;
 const firstWeekday = (week: number[], index: number) =>
   index === 0 ? DAYS_PER_WEEK - week.length : 0;
 
+const CELL_PATH = `h${INNER}v${INNER}h-${INNER}z`;
+
+// A negative number separates itself with its minus sign.
+const pair = (x: number, y: number) => (y < 0 ? `${x}${y}` : `${x} ${y}`);
+
 /**
  * One path per level, each cell a square inset by the corner radius, so the
- * graph costs a few bytes per day instead of a `<rect>`.
+ * graph costs a few bytes per day instead of a `<rect>`. After a cell's `z` the
+ * pen is back at its corner, so each further cell moves relative to it.
  */
 export const levelPaths = (weeks: number[][]): string[] => {
   const paths = Array.from({ length: LEVELS }, () => "");
+  const pens: ([number, number] | undefined)[] = Array.from({ length: LEVELS });
   for (const [x, week] of weeks.entries()) {
     const offset = firstWeekday(week, x);
     for (const [day, level] of week.entries()) {
       const left = x * PITCH + CORNER_RADIUS;
       const top = (offset + day) * PITCH + CORNER_RADIUS;
-      paths[level] += `M${left} ${top}h${INNER}v${INNER}h-${INNER}z`;
+      const pen = pens[level];
+      const move =
+        pen === undefined
+          ? `M${pair(left, top)}`
+          : `m${pair(left - pen[0], top - pen[1])}`;
+      paths[level] += `${move}${CELL_PATH}`;
+      pens[level] = [left, top];
     }
   }
   return paths;

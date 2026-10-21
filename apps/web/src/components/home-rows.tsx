@@ -1,13 +1,13 @@
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemTitle,
-} from "@portfolio/ui/components/item";
-import { ItemInsetSeparator } from "@registry/item-inset-separator";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+
+import {
+  ItemLight,
+  ItemLightActions,
+  ItemLightContent,
+  ItemLightDescription,
+  ItemLightTitle,
+} from "@/components/item-light";
 
 export const RowList = ({ children }: { children: ReactNode }) => (
   <ul className="flex flex-col">{children}</ul>
@@ -28,19 +28,20 @@ export const ExternalRow = ({
   media,
   title,
 }: ExternalRowProps) => (
-  <li data-look="row">
-    <Item
-      // oxlint-disable-next-line jsx-a11y/control-has-associated-label -- Item renders its children into the anchor
+  <li>
+    <ItemLight
+      // oxlint-disable-next-line jsx-a11y/control-has-associated-label -- ItemLight renders its children into the anchor
       render={<a href={href} rel="noreferrer" target="_blank" />}
     >
       {media}
-      <ItemContent>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
-      </ItemContent>
-      {aside === undefined ? null : <ItemActions>{aside}</ItemActions>}
-      <ItemInsetSeparator />
-    </Item>
+      <ItemLightContent>
+        <ItemLightTitle>{title}</ItemLightTitle>
+        <ItemLightDescription>{description}</ItemLightDescription>
+      </ItemLightContent>
+      {aside === undefined ? null : (
+        <ItemLightActions>{aside}</ItemLightActions>
+      )}
+    </ItemLight>
   </li>
 );
 
@@ -57,18 +58,17 @@ export const ComponentRow = ({
   name,
   title,
 }: ComponentRowProps) => (
-  <li data-look="row">
-    <Item
+  <li>
+    <ItemLight
       render={(props) => (
         <Link {...props} params={{ name }} to="/components/$name" />
       )}
     >
       {media}
-      <ItemContent>
-        <ItemTitle>{title}</ItemTitle>
-        <ItemDescription>{description}</ItemDescription>
-      </ItemContent>
-      <ItemInsetSeparator />
-    </Item>
+      <ItemLightContent>
+        <ItemLightTitle>{title}</ItemLightTitle>
+        <ItemLightDescription>{description}</ItemLightDescription>
+      </ItemLightContent>
+    </ItemLight>
   </li>
 );

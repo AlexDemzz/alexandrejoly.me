@@ -28,10 +28,8 @@ const Text = ({
   />
 );
 
-// DESIGN.md › Components › Text link.
-const textLinkVariants = cva(
-  "font-book text-foreground decoration-underline can-hover:hover:decoration-muted-foreground items-baseline gap-1 underline underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out has-[svg,img]:inline-flex [&_img]:size-4 [&_img]:self-center [&_img]:rounded-sm [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:self-center"
-);
+// DESIGN.md › Components › Text link, drawn by `link-text` in globals.css.
+const textLinkVariants = cva("link-text");
 
 type TextLinkProps = React.ComponentProps<"a"> & {
   external?: boolean;
