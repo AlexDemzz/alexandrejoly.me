@@ -42,10 +42,10 @@ export const NotificationBadgeDemo = () => {
           onClick={() => setCount((value) => value + 1)}
           variant="outline"
         >
-          Add notification
+          Add
         </Button>
         <Button onClick={() => setCount(0)} variant="ghost">
-          Clear notifications
+          Clear
         </Button>
       </div>
       <Tooltip>
