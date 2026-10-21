@@ -18,6 +18,16 @@ describe("personJsonLd", () => {
     expect(agentResponse(new Request(`${url}.md`))?.status).toBe(200);
   });
 
+  it("declares no Organization of its own, so the site reads as a person", () => {
+    expect(JSON.stringify(personJsonLd)).not.toMatch(/"@type":"Organization"/u);
+  });
+
+  it("names the employer by the @id its own site publishes", () => {
+    expect(personJsonLd.worksFor["@id"]).toMatch(
+      /^https:\/\/[^#]+#organization$/u
+    );
+  });
+
   it("serialises without a sequence that would close its script tag", () => {
     expect(JSON.stringify(personJsonLd)).not.toContain("</");
   });

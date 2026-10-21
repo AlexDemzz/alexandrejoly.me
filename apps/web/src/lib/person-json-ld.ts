@@ -22,8 +22,10 @@ export const personJsonLd = {
   name: SITE.name,
   sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
   url: SITE.url,
+  // A reference to Yoojo's own Organization, not a copy: an Organization node
+  // here would present the site as a company's and invite its address.
   worksFor: {
-    "@type": "Organization",
+    "@id": EMPLOYER.jsonLdId,
     name: EMPLOYER.name,
     url: EMPLOYER.href,
   },

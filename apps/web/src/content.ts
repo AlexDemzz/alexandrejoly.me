@@ -47,6 +47,8 @@ export const SOCIALS: Social[] = [
 
 export const EMPLOYER = {
   href: "https://yoojo.com",
+  /** The Organization `@id` in the JSON-LD that yoojo.com publishes. */
+  jsonLdId: "https://yoojo.ch/#organization",
   name: "Yoojo",
 } as const;
 
