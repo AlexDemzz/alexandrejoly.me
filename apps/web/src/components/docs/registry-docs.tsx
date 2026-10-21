@@ -17,6 +17,7 @@ import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
 import { MarqueeReverse } from "@/components/demos/marquee-reverse";
 import { MarqueeVertical } from "@/components/demos/marquee-vertical";
+import { NotificationBadgeCompact } from "@/components/demos/notification-badge-compact";
 import { NotificationBadgeCounts } from "@/components/demos/notification-badge-counts";
 import { NotificationBadgeDemo } from "@/components/demos/notification-badge-demo";
 import { NotificationBadgeDot } from "@/components/demos/notification-badge-dot";
@@ -364,26 +365,26 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     accessibility: [
       "The indicator is `aria-hidden`, since its count, read alone, doesn’t say what it counts. Put the count in the name of the button instead.",
       "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
-      "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where the badge shows `99+`.",
+      "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where you show `99+`.",
       "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
     ],
     api: [
       {
         description:
-          "Shares the count with its parts. Sets the geometry of the hole, the transparent cut-out around the badge, as CSS variables.",
+          "Shares the value with its parts. Sets the geometry of the hole, the transparent cut-out around the badge, as CSS variables.",
         extends: { name: "span" },
         name: "NotificationBadge",
         nameLabel: "Prop or variable",
         props: [
           {
             description:
-              "The number to show. Nothing shows at 0 or below; above 99 it reads `99+`.",
-            name: "count",
-            type: "number",
+              'What the badge shows, as is: format it yourself, as `99+` or a compact number. Nothing shows for a number of 0 or below, or an empty string; a string such as `"0"` still shows. The badge widens by one step per character.',
+            name: "value",
+            type: "number | string",
           },
           {
             default: '"default"',
-            description: "A counter, or an 8px dot shown while `count > 0`.",
+            description: "A counter, or a dot shown while `value` would show.",
             name: "variant",
             type: '"default" | "dot"',
           },
@@ -417,7 +418,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "A badge in the `destructive` color: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0 or below, and is `aria-hidden`: see Accessibility. Add `static` to its class to sit it beside a label instead of over the content.",
+          "A badge in the `destructive` color: a circle for one character, a pill for more, sized and placed from the root’s variables. Renders nothing while `value` is 0 or below, or empty, and is `aria-hidden`: see Accessibility. Add `static` to its class to sit it beside a label instead of over the content.",
         extends: { name: "span" },
         name: "NotificationBadgeIndicator",
         props: [],
@@ -438,7 +439,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: NotificationBadgeCounts,
         description:
-          "One digit makes a circle, two make a pill. Above 99 it reads `99+`, and the hole under it, the transparent cut-out around the badge, keeps the same shape.",
+          "One character makes a circle, more make a pill, and the hole under it, the transparent cut-out around the badge, keeps the same shape. The demo caps the count at `99+` itself, since `value` shows whatever it gets.",
         file: "notification-badge-counts",
         notice: (
           // Only browsers without CSS shape() see it.
@@ -457,6 +458,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           </Alert>
         ),
         title: "Counts",
+      },
+      {
+        Component: NotificationBadgeCompact,
+        description:
+          '`value` takes a string, so `Intl.NumberFormat` with `notation: "compact"` can shorten a large count to `1.2K`. The demo pins `"en"` so the server and the browser format alike; pass the page’s locale instead. The label keeps the full number.',
+        file: "notification-badge-compact",
+        title: "Compact counts",
       },
       {
         Component: NotificationBadgeLabel,

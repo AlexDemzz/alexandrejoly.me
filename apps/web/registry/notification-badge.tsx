@@ -7,51 +7,53 @@ import { createContext, use, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
 const NotificationBadgeContext = createContext<{
-  count?: number;
+  value?: number | string;
   visible: boolean;
 }>({ visible: false });
 
 const notificationBadgeVariants = cva(
-  "group/notification-badge relative inline-flex [--hole-arc-left:calc(100%_+_var(--hole-right)_-_var(--hole-w)_+_var(--hole-h)/2)] [--hole-arc-radius:calc(var(--hole-h)/2_+_var(--hole-gap))] [--hole-arc-right:calc(100%_+_var(--hole-right)_-_var(--hole-h)/2)] [--hole-center-y:calc(var(--hole-h)/2_+_var(--hole-top))] [--hole-gap:1.5px] [--hole-top:calc(2px_-_var(--hole-h)/2_+_var(--hole-radius,0px)_*_0.293)]",
+  "group/notification-badge relative inline-flex [--hole-arc-left:calc(100%_+_var(--hole-right)_-_var(--hole-w)_+_var(--hole-h)/2)] [--hole-arc-radius:calc(var(--hole-h)/2_+_var(--hole-gap))] [--hole-arc-right:calc(100%_+_var(--hole-right)_-_var(--hole-h)/2)] [--hole-center-y:calc(var(--hole-h)/2_+_var(--hole-top))] [--hole-gap:1.5px] [--hole-top:calc(0.125rem_-_var(--hole-h)/2_+_var(--hole-radius,0px)_*_0.293)]",
   {
     defaultVariants: { variant: "default" },
     variants: {
       variant: {
         default:
-          "[--hole-h:16px] [--hole-right:calc(var(--hole-w)/2_-_var(--hole-radius,0px)_*_0.293)] data-[length=1]:[--hole-w:16px] data-[length=2]:[--hole-w:24px] data-[length=3]:[--hole-w:32px]",
-        dot: "[--hole-h:8px] [--hole-right:calc(var(--hole-w)/2_-_2px_-_var(--hole-radius,0px)_*_0.293)] [--hole-w:8px]",
+          "[--hole-h:1rem] [--hole-right:calc(var(--hole-w)/2_-_var(--hole-radius,0px)_*_0.293)] [--hole-w:calc(var(--hole-h)_+_(var(--hole-chars,1)_-_1)_*_0.5rem)]",
+        dot: "[--hole-h:0.5rem] [--hole-right:calc(var(--hole-w)/2_-_0.125rem_-_var(--hole-radius,0px)_*_0.293)] [--hole-w:0.5rem]",
       },
     },
   }
 );
 
-const MAX_COUNT = 99;
-const MAX_DIGITS = 3;
-
 function NotificationBadge({
   className,
-  count,
+  style,
+  value,
   variant,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof notificationBadgeVariants> & { count: number }) {
+  VariantProps<typeof notificationBadgeVariants> & {
+    value: number | string;
+  }) {
   const isDot = variant === "dot";
+  const visible = typeof value === "number" ? value > 0 : value !== "";
   const context = useMemo(
-    () => ({ count: isDot ? undefined : count, visible: count > 0 }),
-    [count, isDot]
+    () => ({ value: isDot ? undefined : value, visible }),
+    [isDot, value, visible]
   );
 
   return (
     <NotificationBadgeContext value={context}>
       <span
         className={cn(notificationBadgeVariants({ variant }), className)}
-        data-length={
-          isDot || !count
-            ? undefined
-            : Math.min(String(count).length, MAX_DIGITS)
-        }
         data-slot="notification-badge"
-        data-visible={count > 0 || undefined}
+        data-visible={visible || undefined}
+        style={
+          {
+            "--hole-chars": String(value).length,
+            ...style,
+          } as React.CSSProperties
+        }
         {...props}
       />
     </NotificationBadgeContext>
@@ -79,7 +81,7 @@ function NotificationBadgeIndicator({
   className,
   ...props
 }: Omit<React.ComponentProps<"span">, "children">) {
-  const { count, visible } = use(NotificationBadgeContext);
+  const { value, visible } = use(NotificationBadgeContext);
   if (!visible) {
     return null;
   }
@@ -93,7 +95,7 @@ function NotificationBadgeIndicator({
       data-slot="notification-badge-indicator"
       {...props}
     >
-      {count !== undefined && (count > MAX_COUNT ? `${MAX_COUNT}+` : count)}
+      {value}
     </span>
   );
 }

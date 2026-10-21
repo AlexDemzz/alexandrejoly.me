@@ -7,7 +7,7 @@ import {
 export const NotificationBadgeLabel = () => (
   <Button variant="outline">
     Inbox
-    <NotificationBadge count={12}>
+    <NotificationBadge value={12}>
       <NotificationBadgeIndicator className="static" />
     </NotificationBadge>
     <span className="sr-only">, 12 unread</span>
