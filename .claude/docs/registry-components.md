@@ -48,6 +48,13 @@ Done when the server HTML already shows the right state: `curl` the docs page fr
 
 A new component also needs its line in `COMPONENT_CODE` (`apps/web/src/lib/component-code.ts`).
 
+## Demos
+
+A demo file ships whole in its code tab, so it holds exactly what a reader copies: no docs-only UI, no `oxlint-disable`, no selector reaching into the docs page such as `[data-slot=preview]`. What only explains the component goes through its docs entry:
+
+- a caveat above the preview: `notice`;
+- a trace over part of the component: `inspector`. The preview renders the toggle and sets `data-inspect` to its `name`; the trace lives in `apps/web/src/index.css`, keyed by that name and the part's `data-slot`, in the `inspect` color. Example: the notification badge's "Show hole".
+
 ## API reference
 
 Each table lists only the props the part adds, as the shadcn docs do: `extends` already covers everything the target accepts. List `render` on each part that takes it (see Polymorphism).

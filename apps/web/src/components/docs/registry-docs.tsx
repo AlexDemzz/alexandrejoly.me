@@ -25,10 +25,21 @@ import { OnboardingDemo } from "@/components/demos/onboarding-demo";
 import { OnboardingUseOnboarding } from "@/components/demos/onboarding-use-onboarding";
 import type { RegistryItemName } from "@/lib/registry";
 
+/**
+ * A docs-only toggle over a preview that traces part of the component. Its
+ * `name` lands on the preview as `data-inspect`, which `index.css` styles, so
+ * the demo's code never carries the trace.
+ */
+export interface Inspector {
+  label: string;
+  name: string;
+}
+
 /** A file in `src/components/demos`, named without its extension. */
 export interface Demo {
   Component: ComponentType;
   file: string;
+  inspector?: Inspector;
 }
 
 export interface Example extends Demo {
@@ -412,7 +423,11 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         props: [],
       },
     ],
-    demo: { Component: NotificationBadgeDemo, file: "notification-badge-demo" },
+    demo: {
+      Component: NotificationBadgeDemo,
+      file: "notification-badge-demo",
+      inspector: { label: "Show hole", name: "hole" },
+    },
     examples: [
       {
         Component: NotificationBadgeDot,

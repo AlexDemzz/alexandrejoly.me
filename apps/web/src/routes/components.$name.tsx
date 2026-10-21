@@ -124,7 +124,10 @@ const ComponentDocsPage = ({
               </div>
             </header>
 
-            <ComponentPreview code={code.demos[demo.file] ?? ""}>
+            <ComponentPreview
+              code={code.demos[demo.file] ?? ""}
+              inspector={demo.inspector}
+            >
               <demo.Component />
             </ComponentPreview>
 
@@ -168,7 +171,10 @@ const ComponentDocsPage = ({
                           </Text>
                         </div>
                         {example.notice}
-                        <ComponentPreview code={code.demos[example.file] ?? ""}>
+                        <ComponentPreview
+                          code={code.demos[example.file] ?? ""}
+                          inspector={example.inspector}
+                        >
                           <example.Component />
                         </ComponentPreview>
                       </section>
