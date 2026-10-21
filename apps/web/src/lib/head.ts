@@ -7,7 +7,7 @@ interface PageHeadOptions {
   /** Path from the site root, without a leading slash; empty for home. */
   path: string;
   title: string;
-  type: "article" | "profile";
+  type: "article" | "profile" | "website";
 }
 
 /** Canonical link plus the description and Open Graph tags every page shares. */
