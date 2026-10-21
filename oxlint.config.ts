@@ -6,7 +6,12 @@ import tanstack from "ultracite/oxlint/tanstack";
 
 export default defineConfig({
   extends: [core, react, tanstack, shadcn],
-  ignorePatterns: [...(core.ignorePatterns ?? []), ".claude/**"],
+  ignorePatterns: [
+    ...(core.ignorePatterns ?? []),
+    ".claude/**",
+    // Registry source ships verbatim to installs: no lint directives in it.
+    "apps/web/registry/**",
+  ],
   jsPlugins: shadcn.jsPlugins,
   overrides: [
     {
@@ -31,14 +36,6 @@ export default defineConfig({
       // Stock spinner is an svg with role="status"; <output> cannot replace it.
       files: ["packages/ui/src/components/spinner.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
-    },
-    {
-      files: ["apps/web/registry/**"],
-      // Registry source follows shadcn's `function` declaration style.
-      rules: {
-        "eslint/func-style": "off",
-        "react/function-component-definition": "off",
-      },
     },
     {
       // Stock shadcn item: ItemGroup is a div with role="list".

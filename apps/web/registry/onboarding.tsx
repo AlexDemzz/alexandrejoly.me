@@ -218,7 +218,6 @@ function OnboardingIndicator({
       aria-valuetext={`Step ${currentStep} of ${totalSteps}`}
       className={cn("flex gap-1", className)}
       data-slot="onboarding-indicator"
-      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
       role="progressbar"
       {...props}
     >

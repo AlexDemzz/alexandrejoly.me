@@ -9,7 +9,6 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
     <div
       className={cn(
         "group/marquee relative flex flex-col gap-4 overflow-hidden",
-        // oxlint-disable-next-line shadcn/no-arbitrary-values
         "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
         className
       )}
@@ -19,7 +18,6 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-// oxlint-disable shadcn/no-arbitrary-values
 const TRACK_ANIMATION = {
   forward:
     "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee",
@@ -28,7 +26,6 @@ const TRACK_ANIMATION = {
   vertical:
     "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee-vertical [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee-vertical",
 } as const;
-// oxlint-enable shadcn/no-arbitrary-values
 
 type MarqueeOrientation = "horizontal" | "vertical";
 
@@ -48,11 +45,9 @@ function MarqueeContent({
   reverse = false,
   ...props
 }: MarqueeContentProps) {
-  // oxlint-disable-next-line react/no-react-children
   const items = Children.toArray(children).filter(isValidElement);
   const vertical = orientation === "vertical";
   const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
-  // oxlint-disable-next-line shadcn/no-arbitrary-values
   const clone =
     "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden";
 
@@ -63,7 +58,6 @@ function MarqueeContent({
           vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
-          // oxlint-disable-next-line shadcn/no-arbitrary-values
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           className
         )}
@@ -114,7 +108,6 @@ function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
       aria-hidden
       className={cn(
         "from-background to-background/0 pointer-events-none absolute z-10",
-        // oxlint-disable-next-line shadcn/no-arbitrary-values
         "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden",
         FADE_SIDE[side],
         className
