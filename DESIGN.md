@@ -61,7 +61,8 @@ shadcnMapping:
   "--muted-foreground": ["#6F6C67", "#BCB8B4"]
   "--accent": ["#F1EEEB", "#22201D"]
   "--accent-foreground": ["#201E1C", "#F2F0ED"]
-  "--destructive": ["#DC3E42", "#FF6369"] # no reference evidence: Radix red 10
+  "--destructive": ["#E32729", "#E32729"] # warm red; white on it passes AA (4.6:1)
+  "--warning": ["#BB6802", "#F4A437"] # amber, icon only: 4.1:1 and 9.6:1 on card
   "--border": ["#E9E6E3", "#242220"]
   "--input": ["#E9E6E3", "#242220"]
   "--ring": ["#6F6C67", "#BCB8B4"]
