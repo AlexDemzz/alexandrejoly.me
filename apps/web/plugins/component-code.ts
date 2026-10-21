@@ -161,6 +161,29 @@ const buildComponentCode = async (
  * that page's `ComponentCode`.
  */
 export const componentCode = (): Plugin => ({
+  // addWatchFile only covers demos that existed at load: a demo added or
+  // removed later must rebuild its component's virtual module.
+  configureServer(server) {
+    const onDemoListChange = (file: string) => {
+      if (!(file.startsWith(`${DEMOS_DIR}/`) && file.endsWith(".tsx"))) {
+        return;
+      }
+      const demo = file.slice(DEMOS_DIR.length + 1);
+      for (const environment of Object.values(server.environments)) {
+        for (const [id, module] of environment.moduleGraph.idToModuleMap) {
+          const isDemoOwner =
+            id.startsWith(RESOLVED_PREFIX) &&
+            demo.startsWith(`${id.slice(RESOLVED_PREFIX.length)}-`);
+          if (isDemoOwner) {
+            environment.moduleGraph.invalidateModule(module);
+          }
+        }
+      }
+      server.ws.send({ type: "full-reload" });
+    };
+    server.watcher.on("add", onDemoListChange);
+    server.watcher.on("unlink", onDemoListChange);
+  },
   async load(id) {
     if (!id.startsWith(RESOLVED_PREFIX)) {
       return null;
