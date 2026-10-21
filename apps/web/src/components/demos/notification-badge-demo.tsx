@@ -1,17 +1,28 @@
 import { Button } from "@portfolio/ui/components/button";
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@portfolio/ui/components/tooltip";
+import { cn } from "@portfolio/ui/lib/utils";
+import {
   NotificationBadge,
   NotificationBadgeContent,
   NotificationBadgeIndicator,
 } from "@registry/notification-badge";
-import { BellIcon } from "lucide-react";
+import { BellIcon, SquareDashedIcon } from "lucide-react";
 import { useState } from "react";
+
+const TRACED_HOLE =
+  // oxlint-disable-next-line shadcn/no-raw-colors, shadcn/no-arbitrary-values -- a debug overlay, deliberately off the theme so it never reads as part of the badge
+  "bg-purple-500/20 text-transparent shadow-[0_0_0_var(--hole-gap)_color-mix(in_oklab,var(--color-purple-500)_20%,transparent)] outline-1 outline-offset-(--hole-gap) outline-purple-500 outline-dashed";
 
 export const NotificationBadgeDemo = () => {
   const [count, setCount] = useState(3);
+  const [showMask, setShowMask] = useState(false);
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-6 [[data-slot=preview]:has(&)]:relative">
       <NotificationBadge count={count}>
         <NotificationBadgeContent>
           <Button
@@ -24,7 +35,7 @@ export const NotificationBadgeDemo = () => {
             <BellIcon />
           </Button>
         </NotificationBadgeContent>
-        <NotificationBadgeIndicator />
+        <NotificationBadgeIndicator className={cn(showMask && TRACED_HOLE)} />
       </NotificationBadge>
       <div className="flex gap-2">
         <Button
@@ -37,6 +48,24 @@ export const NotificationBadgeDemo = () => {
           Clear
         </Button>
       </div>
+      <Tooltip>
+        <TooltipTrigger
+          delay={0}
+          render={
+            <Button
+              aria-label="Toggle mask"
+              aria-pressed={showMask}
+              className="absolute top-3 right-3"
+              onClick={() => setShowMask((value) => !value)}
+              size="icon"
+              variant={showMask ? "secondary" : "ghost"}
+            />
+          }
+        >
+          <SquareDashedIcon aria-hidden />
+        </TooltipTrigger>
+        <TooltipContent>Toggle mask</TooltipContent>
+      </Tooltip>
     </div>
   );
 };
