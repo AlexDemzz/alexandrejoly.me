@@ -71,6 +71,10 @@ export interface ComponentDocs {
 
 export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   hint: {
+    accessibility: [
+      "The trigger is a `button` that holds its own label, so its name is the text people see and it needs no `aria-label`; the icon beside it is decorative. Its hit area reaches 8px past its edges, past the 24px minimum of WCAG 2.5.8.",
+      "It opens on press, by click, Enter or Space, rather than on hover, so touch and keyboard users reach it too. Focus moves into the bubble, and Escape closes it and returns focus to the trigger, as in any Base UI popover.",
+    ],
     api: [
       {
         description: "Holds the open state; it renders no element.",
@@ -183,6 +187,9 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
   },
   "item-inset-separator": {
+    accessibility: [
+      "Each line is a Base UI `separator`, so a screen reader announces one inside every row. The rows already part the content: pass `aria-hidden` to keep the line visual only.",
+    ],
     api: [
       {
         description:
@@ -225,6 +232,11 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
   },
   marquee: {
+    accessibility: [
+      "The second copy of each track is `inert`: screen readers and the Tab key meet every item once, in the first copy.",
+      "Focus inside the marquee pauses every track, so a keyboard user can stop it to read or follow a link; `pauseOnHover` does the same for a pointer. Content people need to read moves for more than five seconds, so WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
+      "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
+    ],
     api: [
       {
         description:
@@ -440,6 +452,10 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
   },
   onboarding: {
+    accessibility: [
+      "`OnboardingIndicator` is one `progressbar` read as “Step 2 of 3”; its segments are hidden from assistive tech, so nobody hears one bar per step.",
+      "Focus stays on the button that changed the step, and the new step is not announced. When a step carries content people must hear, move focus to its `OnboardingTitle`, given `tabIndex={-1}`, once the step renders.",
+    ],
     api: [
       {
         description: "Holds the current step.",
@@ -513,7 +529,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Ghost button to the previous step, replaced by an empty spacer on the first. An `onClick` runs before the step changes.",
+          "Ghost button to the previous step, disabled on the first. It stays focusable while disabled, so focus is not lost when it brings the flow back to step 1. An `onClick` runs before the step changes.",
         extends: {
           href: "https://ui.shadcn.com/docs/components/base/button",
           name: "shadcn Button",

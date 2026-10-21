@@ -255,15 +255,16 @@ function OnboardingPrevButton({
 }: OnboardingPrevButtonProps) {
   const { goToPrevStep, canGoToPrevStep } = useOnboarding();
 
-  if (!canGoToPrevStep) {
-    return <div />;
-  }
-
   return (
     <Button
       data-slot="onboarding-prev-button"
       {...mergeProps<typeof Button>(
-        { onClick: goToPrevStep, variant: "ghost" },
+        {
+          disabled: !canGoToPrevStep,
+          focusableWhenDisabled: true,
+          onClick: goToPrevStep,
+          variant: "ghost",
+        },
         props
       )}
     >
