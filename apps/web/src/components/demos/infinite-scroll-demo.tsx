@@ -1,9 +1,16 @@
+import { Button } from "@portfolio/ui/components/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@portfolio/ui/components/tooltip";
 import {
   InfiniteScroll,
   InfiniteScrollContent,
   InfiniteScrollSentinel,
   InfiniteScrollViewport,
 } from "@registry/infinite-scroll";
+import { RotateCcwIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 
 const PAGE_SIZE = 10;
@@ -13,7 +20,7 @@ const LATENCY_MS = 800;
 const pageOf = (page: number) =>
   Array.from({ length: PAGE_SIZE }, (_, index) => page * PAGE_SIZE + index + 1);
 
-export const InfiniteScrollDemo = () => {
+const PagedList = () => {
   const [pages, setPages] = useState([pageOf(0)]);
   const [isFetchingNextPage, setIsFetchingNextPage] = useState(false);
   const hasNextPage = pages.length <= LAST_PAGE;
@@ -46,5 +53,32 @@ export const InfiniteScrollDemo = () => {
         </InfiniteScrollContent>
       </InfiniteScrollViewport>
     </InfiniteScroll>
+  );
+};
+
+export const InfiniteScrollDemo = () => {
+  const [run, setRun] = useState(0);
+
+  return (
+    <div className="contents [[data-slot=preview]:has(&)]:relative">
+      <PagedList key={run} />
+      <Tooltip>
+        <TooltipTrigger
+          delay={0}
+          render={
+            <Button
+              aria-label="Reset demo"
+              className="absolute top-3 right-3"
+              onClick={() => setRun((value) => value + 1)}
+              size="icon"
+              variant="ghost"
+            />
+          }
+        >
+          <RotateCcwIcon aria-hidden />
+        </TooltipTrigger>
+        <TooltipContent>Reset demo</TooltipContent>
+      </Tooltip>
+    </div>
   );
 };
