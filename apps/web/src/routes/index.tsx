@@ -18,6 +18,7 @@ import { ContributionGraph } from "@/components/contribution-graph";
 import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
 import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
+import { ItemInsetSeparatorIcon } from "@/components/item-inset-separator-icon";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MarqueeIcon } from "@/components/marquee-icon";
@@ -49,6 +50,7 @@ const [kwern, gymup, , modals] = PROJECTS;
 const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   hint: HintIcon,
   "infinite-scroll": InfiniteScrollIcon,
+  "item-inset-separator": ItemInsetSeparatorIcon,
   marquee: MarqueeIcon,
   "notification-badge": NotificationBadgeIcon,
   onboarding: OnboardingIcon,

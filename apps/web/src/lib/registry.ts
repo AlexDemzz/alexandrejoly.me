@@ -7,6 +7,7 @@ export const REGISTRY_ITEM_NAMES = [
   "hint",
   "infinite-scroll",
   "marquee",
+  "item-inset-separator",
 ] as const;
 
 export type RegistryItemName = (typeof REGISTRY_ITEM_NAMES)[number];

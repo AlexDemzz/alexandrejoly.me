@@ -97,6 +97,19 @@
           }
         }
       }
+    },
+    {
+      "name": "item-inset-separator",
+      "type": "registry:ui",
+      "title": "Item Inset Separator",
+      "description": "A separator that rules an Item's bottom from where its content starts, so it follows each row's media.",
+      "registryDependencies": ["item"],
+      "files": [
+        {
+          "path": "registry/item-inset-separator.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }

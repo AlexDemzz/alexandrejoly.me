@@ -5,6 +5,7 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@portfolio/ui/components/item";
+import { ItemInsetSeparator } from "@registry/item-inset-separator";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
@@ -38,6 +39,7 @@ export const ExternalRow = ({
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
       {aside === undefined ? null : <ItemActions>{aside}</ItemActions>}
+      <ItemInsetSeparator />
     </Item>
   </li>
 );
@@ -66,6 +68,7 @@ export const ComponentRow = ({
         <ItemTitle>{title}</ItemTitle>
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
+      <ItemInsetSeparator />
     </Item>
   </li>
 );

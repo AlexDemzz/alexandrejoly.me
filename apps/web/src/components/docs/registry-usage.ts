@@ -29,6 +29,29 @@ export const REGISTRY_USAGE: Record<RegistryItemName, string> = {
   ))}
   <InfiniteScrollSentinel />
 </InfiniteScroll>`,
+  "item-inset-separator": `import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item";
+import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
+
+<div className="flex flex-col">
+  {projects.map((project, index) => (
+    <Item key={project.id}>
+      <ItemMedia variant="icon">
+        <FolderIcon />
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>{project.name}</ItemTitle>
+        <ItemDescription>{project.description}</ItemDescription>
+      </ItemContent>
+      {index < projects.length - 1 && <ItemInsetSeparator />}
+    </Item>
+  ))}
+</div>`,
   marquee: `import {
   Marquee,
   MarqueeContent,
