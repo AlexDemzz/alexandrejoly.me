@@ -16,6 +16,8 @@ const COMPONENT_CODE: Record<
 > = {
   hint: () => import("virtual:component-code/hint"),
   "infinite-scroll": () => import("virtual:component-code/infinite-scroll"),
+  "item-inset-separator": () =>
+    import("virtual:component-code/item-inset-separator"),
   marquee: () => import("virtual:component-code/marquee"),
   "notification-badge": () =>
     import("virtual:component-code/notification-badge"),

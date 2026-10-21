@@ -1,33 +1,17 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { Separator } from "@portfolio/ui/components/separator";
 import { cn } from "@portfolio/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-// DESIGN.md › Components › Row: rows ruled by a hairline, the first one flush
-// with its section title.
-function ItemGroup({ className, ...props }: React.ComponentProps<"ul">) {
-  return (
-    <ul
-      data-slot="item-group"
-      className={cn(
-        "group/item-group flex w-full flex-col [&>li:first-child>[data-slot=item]]:pt-0 [&>li:last-child_[data-slot=item-separator]]:hidden",
-        className
-      )}
-      {...props}
-    />
-  );
-}
-
-// Starts where the row's content starts, past any media. Full width where
-// anchor positioning is unsupported.
-function ItemSeparator({ className, ...props }: React.ComponentProps<"div">) {
+function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      aria-hidden
-      data-slot="item-separator"
+      role="list"
+      data-slot="item-group"
       className={cn(
-        "bg-border absolute start-0 end-0 bottom-0 h-px supports-[anchor-name:--a]:start-[anchor(--item-content_start)]",
+        "group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2",
         className
       )}
       {...props}
@@ -35,14 +19,46 @@ function ItemSeparator({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-// DESIGN.md › Components › Row: no fill, no radius; hover only underlines the
-// title.
+function ItemSeparator({
+  className,
+  ...props
+}: React.ComponentProps<typeof Separator>) {
+  return (
+    <Separator
+      data-slot="item-separator"
+      orientation="horizontal"
+      className={cn("my-2", className)}
+      {...props}
+    />
+  );
+}
+
 const itemVariants = cva(
-  "group/item focus-visible:outline-ring relative flex items-center gap-4 py-3.5 outline-none [anchor-scope:--item-content] focus-visible:outline-2 focus-visible:outline-offset-2"
+  "group/item focus-visible:border-ring focus-visible:ring-ring/50 [a]:hover:bg-muted flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:ring-[3px] [a]:transition-colors",
+  {
+    variants: {
+      variant: {
+        default: "border-transparent",
+        outline: "border-border",
+        muted: "bg-muted/50 border-transparent",
+      },
+      size: {
+        default: "gap-2.5 px-3 py-2.5",
+        sm: "gap-2.5 px-3 py-2.5",
+        xs: "gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
 );
 
 function Item({
   className,
+  variant = "default",
+  size = "default",
   render,
   ...props
 }: useRender.ComponentProps<"div"> & VariantProps<typeof itemVariants>) {
@@ -50,26 +66,28 @@ function Item({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
-        className: cn(itemVariants({ className })),
+        className: cn(itemVariants({ variant, size, className })),
       },
       props
     ),
     render,
     state: {
       slot: "item",
+      variant,
+      size,
     },
   });
 }
 
-// DESIGN.md › Shape and depth: a 36px round logo on the hairline shadow, its
-// icon faint until the row is hovered or focused.
 const itemMediaVariants = cva(
-  "flex shrink-0 items-center justify-center [&_svg]:pointer-events-none",
+  "flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none",
   {
     variants: {
       variant: {
         default: "bg-transparent",
-        logo: "shadow-hairline text-muted-foreground/80 can-hover:group-hover/item:text-foreground group-focus-visible/item:text-foreground relative size-9 overflow-hidden rounded-full transition-colors duration-200 ease-out [&_img]:size-full [&_img]:object-cover [&_svg]:size-5",
+        icon: "[&_svg:not([class*='size-'])]:size-4",
+        image:
+          "size-10 overflow-hidden rounded-sm group-data-[size=sm]/item:size-8 group-data-[size=xs]/item:size-6 [&_img]:size-full [&_img]:object-cover",
       },
     },
     defaultVariants: {
@@ -98,7 +116,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-content"
       className={cn(
-        "flex min-w-0 flex-1 flex-col [anchor-name:--item-content]",
+        "flex flex-1 flex-col gap-1 group-data-[size=xs]/item:gap-0 [&+[data-slot=item-content]]:flex-none",
         className
       )}
       {...props}
@@ -106,13 +124,12 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-// Underlines on hover only inside a link row, so a static row stays inert.
 function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-title"
       className={cn(
-        "font-book text-foreground can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline w-fit text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out",
+        "line-clamp-1 flex w-fit items-center gap-2 text-sm leading-snug font-medium underline-offset-4",
         className
       )}
       {...props}
@@ -124,21 +141,20 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="item-description"
-      className={cn("text-muted-foreground text-pretty", className)}
+      className={cn(
+        "text-muted-foreground [&>a:hover]:text-primary line-clamp-2 text-left text-sm leading-normal font-normal group-data-[size=xs]/item:text-xs [&>a]:underline [&>a]:underline-offset-4",
+        className
+      )}
       {...props}
     />
   );
 }
 
-// Years on the right edge of a row.
 function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="item-actions"
-      className={cn(
-        "text-muted-foreground flex shrink-0 items-center gap-2 tabular-nums",
-        className
-      )}
+      className={cn("flex items-center gap-2", className)}
       {...props}
     />
   );
@@ -181,6 +197,4 @@ export {
   ItemDescription,
   ItemHeader,
   ItemFooter,
-  itemMediaVariants,
-  itemVariants,
 };

@@ -210,6 +210,8 @@
   }
   html {
     @apply font-sans antialiased;
+    /* Inherited, so native scrollbars match the ScrollArea thumb. */
+    scrollbar-color: var(--scrollbar) transparent;
   }
   body {
     @apply bg-background text-foreground leading-relaxed;

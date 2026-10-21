@@ -1,1 +1,50 @@
 @import "@portfolio/ui/globals.css";
+
+/*
+ * DESIGN.md › Components › Row, layered on the stock shadcn Item from the app
+ * so item.tsx stays stock. Hooked on the row's <li data-look="row">; every
+ * selector outranks the Item utilities it overrides.
+ */
+@layer utilities {
+  [data-look="row"] > [data-slot="item"] {
+    @apply flex-nowrap gap-4 rounded-none border-0 px-0 py-3.5 text-base leading-relaxed transition-none;
+  }
+
+  /* Flush with the section title. */
+  [data-look="row"]:first-child > [data-slot="item"] {
+    @apply pt-0;
+  }
+
+  /* No fill: hovering a row only underlines its title and lights its logo. */
+  [data-look="row"] > [data-slot="item"]:hover {
+    @apply bg-transparent;
+  }
+
+  [data-look="row"] > [data-slot="item"]:focus-visible {
+    @apply outline-ring ring-0 outline-2 outline-offset-2 outline-solid;
+  }
+
+  [data-look="row"] [data-slot="item-content"] {
+    @apply min-w-0 gap-0;
+  }
+
+  [data-look="row"] [data-slot="item-title"] {
+    @apply font-book can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline line-clamp-none text-base leading-relaxed text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out;
+  }
+
+  [data-look="row"] [data-slot="item-description"] {
+    @apply line-clamp-none text-base leading-relaxed text-pretty;
+  }
+
+  [data-look="row"] [data-slot="item-actions"] {
+    @apply text-muted-foreground shrink-0 tabular-nums;
+  }
+
+  [data-look="row"] [data-slot="item-media"][data-variant="image"] {
+    @apply shadow-hairline text-muted-foreground/80 can-hover:group-hover/item:text-foreground group-focus-visible/item:text-foreground relative size-9 translate-y-0 self-center rounded-full transition-colors duration-200 ease-out [&_svg]:size-5;
+  }
+
+  [data-look="row"]:last-child [data-slot="item-separator"] {
+    @apply hidden;
+  }
+}

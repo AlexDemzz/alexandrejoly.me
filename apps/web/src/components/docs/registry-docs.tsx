@@ -7,6 +7,8 @@ import type { ComponentType, ReactNode } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
+import { ItemInsetSeparatorDemo } from "@/components/demos/item-inset-separator-demo";
+import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator-media";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
@@ -141,6 +143,46 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     demo: { Component: InfiniteScrollDemo, file: "infinite-scroll-demo" },
     examples: [],
+  },
+  "item-inset-separator": {
+    api: [
+      {
+        description:
+          "Placed inside an `Item`, a line along its bottom from where `ItemContent` starts, so it follows each row’s media, or the row’s edge without one. Render it in every row but the last, and stack the rows without a gap, in a plain flex column rather than an `ItemGroup`, so each line sits midway between two rows. A plain class replaces its position or margins; its start and width need an important class, such as `start-4!` or `w-1/2!`.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/item",
+          name: "shadcn ItemSeparator",
+        },
+        name: "ItemInsetSeparator",
+        props: [],
+      },
+    ],
+    demo: {
+      Component: ItemInsetSeparatorDemo,
+      file: "item-inset-separator-demo",
+    },
+    examples: [
+      {
+        Component: ItemInsetSeparatorMedia,
+        description:
+          "Each line starts at its own row’s text: past an image, past an icon, or at the edge with no media.",
+        file: "item-inset-separator-media",
+        notice: (
+          // Only browsers without anchor positioning see it.
+          <Alert
+            className="hidden not-supports-[anchor-name:--a]:grid"
+            role="note"
+          >
+            <AlertTitle>Your browser draws the lines full width</AlertTitle>
+            <AlertDescription>
+              It has no CSS anchor positioning, so the lines can’t find where
+              the text starts.
+            </AlertDescription>
+          </Alert>
+        ),
+        title: "Inset past the media",
+      },
+    ],
   },
   marquee: {
     api: [

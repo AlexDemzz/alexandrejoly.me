@@ -3,11 +3,15 @@ import {
   ItemActions,
   ItemContent,
   ItemDescription,
-  ItemSeparator,
   ItemTitle,
 } from "@portfolio/ui/components/item";
+import { ItemInsetSeparator } from "@registry/item-inset-separator";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+
+export const RowList = ({ children }: { children: ReactNode }) => (
+  <ul className="flex flex-col">{children}</ul>
+);
 
 interface ExternalRowProps {
   aside?: ReactNode;
@@ -24,7 +28,7 @@ export const ExternalRow = ({
   media,
   title,
 }: ExternalRowProps) => (
-  <li>
+  <li data-look="row">
     <Item
       // oxlint-disable-next-line jsx-a11y/control-has-associated-label -- Item renders its children into the anchor
       render={<a href={href} rel="noreferrer" target="_blank" />}
@@ -35,7 +39,7 @@ export const ExternalRow = ({
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
       {aside === undefined ? null : <ItemActions>{aside}</ItemActions>}
-      <ItemSeparator />
+      <ItemInsetSeparator />
     </Item>
   </li>
 );
@@ -53,7 +57,7 @@ export const ComponentRow = ({
   name,
   title,
 }: ComponentRowProps) => (
-  <li>
+  <li data-look="row">
     <Item
       render={(props) => (
         <Link {...props} params={{ name }} to="/components/$name" />
@@ -64,7 +68,7 @@ export const ComponentRow = ({
         <ItemTitle>{title}</ItemTitle>
         <ItemDescription>{description}</ItemDescription>
       </ItemContent>
-      <ItemSeparator />
+      <ItemInsetSeparator />
     </Item>
   </li>
 );
