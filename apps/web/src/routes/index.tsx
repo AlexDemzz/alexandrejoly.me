@@ -214,6 +214,7 @@ const HomeComponent = () => {
                   <ItemLightMedia>
                     <LazyVideo
                       className="size-full object-cover"
+                      playOnRowHover
                       src={archive.media}
                     />
                   </ItemLightMedia>
