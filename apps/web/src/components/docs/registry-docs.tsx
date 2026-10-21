@@ -192,14 +192,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades. A pointer over it pauses any track set to `pauseOnHover`.",
+          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
         extends: { name: "div" },
         name: "Marquee",
         props: [],
       },
       {
         description:
-          "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Under reduced motion it stays on the first copy.",
+          "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
         extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",

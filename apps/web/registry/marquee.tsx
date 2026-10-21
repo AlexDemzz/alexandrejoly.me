@@ -58,6 +58,7 @@ function MarqueeContent({
           vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
+          "group-focus-within/marquee:[animation-play-state:paused]",
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           className
         )}
@@ -69,7 +70,7 @@ function MarqueeContent({
         <div className={copy} data-slot="marquee-copy">
           {items}
         </div>
-        <div aria-hidden className={cn(copy, clone)} data-slot="marquee-copy">
+        <div className={cn(copy, clone)} data-slot="marquee-copy" inert>
           {items}
         </div>
       </div>
