@@ -13,7 +13,6 @@ export const getRouter = () => {
     // No pending UI: without a pending component the current page stays up
     // until the next one has loaded.
     defaultErrorComponent: RouteError,
-    defaultNotFoundComponent: () => <div>Not Found</div>,
   });
 
   return router;

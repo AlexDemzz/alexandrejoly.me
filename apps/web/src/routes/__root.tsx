@@ -4,11 +4,18 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
+import type { AnyRouteMatch } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { NotFound } from "@/components/not-found";
 import { SITE } from "@/content";
 
 import appCss from "../index.css?url";
+
+// The router flags the root match `_notFound` when it renders the boundary:
+// an unmatched path, or a `notFound()` that bubbled up to the root.
+const isNotFoundMatch = (match: AnyRouteMatch) =>
+  match.status === "notFound" || match._notFound === true;
 
 const RootDocument = ({ children }: { children: ReactNode }) => (
   <html lang="en">
@@ -41,7 +48,8 @@ const RootComponent = () => (
 
 export const Route = createRootRoute({
   component: RootComponent,
-  head: () => ({
+  notFoundComponent: NotFound,
+  head: ({ matches }) => ({
     links: [
       { href: appCss, rel: "stylesheet" },
       { href: "/favicon.ico", rel: "icon", sizes: "48x48" },
@@ -51,7 +59,12 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { content: "width=device-width, initial-scale=1", name: "viewport" },
-      { title: SITE.name },
+      ...(matches.some(isNotFoundMatch)
+        ? [
+            { title: `Page not found – ${SITE.name}` },
+            { content: "noindex", name: "robots" },
+          ]
+        : [{ title: SITE.name }]),
     ],
   }),
 });
