@@ -67,7 +67,7 @@ export const InfiniteScrollDemo = () => {
           delay={0}
           render={
             <Button
-              aria-label="Reset demo"
+              aria-label="Reset"
               className="absolute top-3 right-3"
               onClick={() => setRun((value) => value + 1)}
               size="icon"
@@ -77,7 +77,7 @@ export const InfiniteScrollDemo = () => {
         >
           <RotateCcwIcon aria-hidden />
         </TooltipTrigger>
-        <TooltipContent>Reset demo</TooltipContent>
+        <TooltipContent>Reset</TooltipContent>
       </Tooltip>
     </div>
   );
