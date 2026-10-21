@@ -39,25 +39,6 @@ interface InfiniteScrollProps extends React.ComponentProps<"div"> {
   onFetchNextPage: () => void;
 }
 
-/**
- * Library-agnostic: pass plain callbacks, not query objects.
- *
- * @example
- * ```tsx
- * const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useInfiniteQuery(options);
- *
- * <InfiniteScroll
- *   hasNextPage={hasNextPage}
- *   isFetchingNextPage={isFetchingNextPage}
- *   onFetchNextPage={() => fetchNextPage()}
- * >
- *   {data.pages.flatMap((page) => page.items).map((item) => (
- *     <Row key={item.id} {...item} />
- *   ))}
- *   <InfiniteScrollSentinel />
- * </InfiniteScroll>
- * ```
- */
 function InfiniteScroll({
   onFetchNextPage,
   hasNextPage,

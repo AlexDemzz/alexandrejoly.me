@@ -3,10 +3,6 @@ import type * as React from "react";
 import { ItemSeparator } from "@/components/ui/item";
 import { cn } from "@/lib/utils";
 
-// Placed inside an Item, rules its bottom from where ItemContent starts, so it
-// follows the row's media. The `[…:has(>&)]` variants position the parent Item
-// and anchor its first ItemContent from this element's own classes, so the
-// stock Item stays untouched.
 function ItemInsetSeparator({
   className,
   ...props

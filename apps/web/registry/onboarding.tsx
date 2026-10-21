@@ -51,9 +51,7 @@ function useOnboarding(): UseOnboardingReturn {
 }
 
 interface OnboardingProps extends React.ComponentProps<"div"> {
-  /** The step (1-based) to start on. */
   defaultValue?: number;
-  /** Called when the next button is pressed on the last step. */
   onComplete?: () => void;
 }
 
@@ -117,7 +115,6 @@ function Onboarding({
 }
 
 interface OnboardingStepProps extends React.ComponentProps<"div"> {
-  /** The step's 1-based position. */
   value: number;
 }
 
@@ -265,7 +262,6 @@ function OnboardingPrevButton({
   const { goToPrevStep, canGoToPrevStep } = useOnboarding();
 
   if (!canGoToPrevStep) {
-    // Keeps the next button on the end side of a `justify-between` nav.
     return <div />;
   }
 
@@ -286,7 +282,6 @@ interface OnboardingNextButtonProps extends React.ComponentProps<
   typeof Button
 > {
   children?: ReactNode;
-  /** Label shown on the last step, where the button calls `onComplete`. */
   lastLabel?: ReactNode;
 }
 

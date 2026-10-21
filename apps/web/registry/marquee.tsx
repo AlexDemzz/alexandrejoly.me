@@ -4,22 +4,11 @@ import { Children, createContext, isValidElement, use } from "react";
 
 import { cn } from "@/lib/utils";
 
-/**
- * A strip of items that slides forever, in CSS alone: the track renders its
- * items twice and a keyframe moves it by one copy per cycle, so it runs
- * before hydration and without any JavaScript. Items that fit the frame stand
- * still, through the scroll timeline in its CSS. Reduced motion stops it on
- * the first copy, which stays in place and readable.
- */
 function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
         "group/marquee relative overflow-hidden",
-        // Its scroll timeline is inactive while nothing overflows, so the
-        // animation flagging --marquee-overflowing only applies once the first
-        // copy outgrows the frame; the track, the clone and the fades query
-        // that flag. Without scroll timelines the marquee always runs.
         // oxlint-disable-next-line shadcn/no-arbitrary-values -- no utility sets a scroll timeline
         "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
         className
@@ -30,8 +19,6 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-// A track runs while the marquee flags an overflow, or always where scroll
-// timelines are missing.
 // oxlint-disable shadcn/no-arbitrary-values -- Tailwind has no style query variant
 const TRACK_ANIMATION = {
   forward:
@@ -48,17 +35,11 @@ type MarqueeOrientation = "horizontal" | "vertical";
 const MarqueeContext = createContext<MarqueeOrientation>("horizontal");
 
 type MarqueeContentProps = React.ComponentProps<"div"> & {
-  /** `vertical` stacks the items and slides them upward. */
   orientation?: MarqueeOrientation;
   pauseOnHover?: boolean;
-  /** Slides the other way. Horizontal only. */
   reverse?: boolean;
 };
 
-/**
- * The track. One cycle lasts `--marquee-duration` (40s by default), set from
- * a class such as `[--marquee-duration:20s]`.
- */
 function MarqueeContent({
   children,
   className,
@@ -102,10 +83,6 @@ function MarqueeContent({
   );
 }
 
-/**
- * One item. Its padding spaces the items and the loop's seam alike, so
- * override it to change the spacing: `px-2` across, `py-1` down.
- */
 function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
   const orientation = use(MarqueeContext);
   return (
