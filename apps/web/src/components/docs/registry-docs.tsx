@@ -116,7 +116,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           },
           {
             description:
-              "Whether a page is being fetched. The sentinel shows a spinner and stops observing meanwhile.",
+              "Whether a page is being fetched. The root is `aria-busy` and the sentinel shows a spinner and stops observing meanwhile.",
             name: "isFetchingNextPage",
             type: "boolean",
           },

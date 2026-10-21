@@ -56,6 +56,7 @@ function InfiniteScroll({
   return (
     <InfiniteScrollContext value={context}>
       <div
+        aria-busy={isFetchingNextPage}
         className={cn("flex flex-col gap-4", className)}
         data-slot="infinite-scroll"
         {...props}
