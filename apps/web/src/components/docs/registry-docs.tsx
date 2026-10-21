@@ -365,6 +365,21 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "One digit is a circle, two are a pill. Above 99 it reads `99+`, and the hole under it keeps the same shape.",
         file: "notification-badge-counts",
+        notice: (
+          // Only browsers without CSS shape() see it.
+          <Alert
+            className="hidden not-supports-[clip-path:shape(from_0_0,line_to_1px_1px)]:grid"
+            role="note"
+          >
+            <AlertTitle>
+              Your browser draws the badge without its gap
+            </AlertTitle>
+            <AlertDescription>
+              It has no CSS shape(), so the content can’t punch the hole the
+              badge sits in.
+            </AlertDescription>
+          </Alert>
+        ),
         title: "Counts",
       },
       {
