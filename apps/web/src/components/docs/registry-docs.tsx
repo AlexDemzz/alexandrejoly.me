@@ -3,6 +3,8 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@portfolio/ui/components/alert";
+import { Code } from "@portfolio/ui/components/code";
+import { TriangleAlertIcon } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
@@ -172,11 +174,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           <Alert
             className="hidden not-supports-[anchor-name:--a]:grid"
             role="note"
+            variant="warning"
           >
-            <AlertTitle>Your browser draws the lines full width</AlertTitle>
+            <TriangleAlertIcon aria-hidden />
+            <AlertTitle>In this browser, the lines run full width</AlertTitle>
             <AlertDescription>
-              It has no CSS anchor positioning, so the lines can’t find where
-              the text starts.
+              Starting each line at its text needs CSS anchor positioning, which
+              this browser doesn’t support yet.
             </AlertDescription>
           </Alert>
         ),
@@ -280,11 +284,15 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           <Alert
             className="hidden not-supports-[animation-timeline:scroll()]:grid"
             role="note"
+            variant="warning"
           >
-            <AlertTitle>Your browser scrolls it anyway</AlertTitle>
+            <TriangleAlertIcon aria-hidden />
+            <AlertTitle>
+              In this browser, the items scroll even though they fit
+            </AlertTitle>
             <AlertDescription>
-              It has no CSS scroll timelines, so it can’t tell that the items
-              fit.
+              Telling that they fit needs CSS scroll-driven animations, which
+              this browser doesn’t support yet.
             </AlertDescription>
           </Alert>
         ),
@@ -367,13 +375,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           <Alert
             className="hidden not-supports-[clip-path:shape(from_0_0,line_to_1px_1px)]:grid"
             role="note"
+            variant="warning"
           >
-            <AlertTitle>
-              Your browser draws the badge without its gap
-            </AlertTitle>
+            <TriangleAlertIcon aria-hidden />
+            <AlertTitle>In this browser, the badge has no gap</AlertTitle>
             <AlertDescription>
-              It has no CSS shape(), so the content can’t punch the hole the
-              badge sits in.
+              Cutting the gap around the badge needs the CSS{" "}
+              <Code wrap="token">shape()</Code> function, which this browser
+              doesn’t support yet.
             </AlertDescription>
           </Alert>
         ),
