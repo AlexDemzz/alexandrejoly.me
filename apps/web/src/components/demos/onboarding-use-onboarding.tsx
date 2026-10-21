@@ -4,6 +4,7 @@ import {
   OnboardingContent,
   OnboardingDescription,
   OnboardingFooter,
+  OnboardingHeader,
   OnboardingIndicator,
   OnboardingNav,
   OnboardingNextButton,
@@ -18,7 +19,7 @@ const StepHeader = () => {
     useOnboarding();
 
   return (
-    <div className="flex items-center justify-between px-4">
+    <div className="flex items-center justify-between">
       <p>
         Step {currentStep} of {totalSteps}
       </p>
@@ -36,32 +37,32 @@ const StepHeader = () => {
 };
 
 export const OnboardingUseOnboarding = () => (
-  <Onboarding className="flex w-full max-w-sm flex-col gap-4">
+  <Onboarding className="w-full max-w-sm" totalSteps={3}>
     <StepHeader />
     <OnboardingContent>
       <OnboardingStep value={1}>
-        <div className="flex flex-col gap-1 px-4">
+        <OnboardingHeader>
           <OnboardingTitle>Step 1</OnboardingTitle>
           <OnboardingDescription>
             A short description of step 1.
           </OnboardingDescription>
-        </div>
+        </OnboardingHeader>
       </OnboardingStep>
       <OnboardingStep value={2}>
-        <div className="flex flex-col gap-1 px-4">
+        <OnboardingHeader>
           <OnboardingTitle>Step 2</OnboardingTitle>
           <OnboardingDescription>
             A short description of step 2.
           </OnboardingDescription>
-        </div>
+        </OnboardingHeader>
       </OnboardingStep>
       <OnboardingStep value={3}>
-        <div className="flex flex-col gap-1 px-4">
+        <OnboardingHeader>
           <OnboardingTitle>Step 3</OnboardingTitle>
           <OnboardingDescription>
             A short description of step 3.
           </OnboardingDescription>
-        </div>
+        </OnboardingHeader>
       </OnboardingStep>
     </OnboardingContent>
     <OnboardingFooter>

@@ -86,6 +86,7 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
   OnboardingContent,
   OnboardingDescription,
   OnboardingFooter,
+  OnboardingHeader,
   OnboardingIndicator,
   OnboardingNav,
   OnboardingNextButton,
@@ -94,15 +95,19 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
   OnboardingTitle,
 } from "@/components/ui/onboarding";
 
-<Onboarding onComplete={() => setOpen(false)}>
+<Onboarding onComplete={() => setOpen(false)} totalSteps={2}>
   <OnboardingContent>
     <OnboardingStep value={1}>
-      <OnboardingTitle>Step 1</OnboardingTitle>
-      <OnboardingDescription>A short description of step 1.</OnboardingDescription>
+      <OnboardingHeader>
+        <OnboardingTitle>Step 1</OnboardingTitle>
+        <OnboardingDescription>A short description of step 1.</OnboardingDescription>
+      </OnboardingHeader>
     </OnboardingStep>
     <OnboardingStep value={2}>
-      <OnboardingTitle>Step 2</OnboardingTitle>
-      <OnboardingDescription>A short description of step 2.</OnboardingDescription>
+      <OnboardingHeader>
+        <OnboardingTitle>Step 2</OnboardingTitle>
+        <OnboardingDescription>A short description of step 2.</OnboardingDescription>
+      </OnboardingHeader>
     </OnboardingStep>
   </OnboardingContent>
   <OnboardingFooter>

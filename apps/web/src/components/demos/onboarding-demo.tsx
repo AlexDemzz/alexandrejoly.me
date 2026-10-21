@@ -4,6 +4,7 @@ import {
   OnboardingContent,
   OnboardingDescription,
   OnboardingFooter,
+  OnboardingHeader,
   OnboardingIndicator,
   OnboardingMedia,
   OnboardingNav,
@@ -24,7 +25,7 @@ export const OnboardingDemo = () => {
 
   if (completed) {
     return (
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex min-h-76.5 flex-col items-center justify-center gap-4">
         <p>Completed.</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
           Start again
@@ -37,17 +38,21 @@ export const OnboardingDemo = () => {
     <Onboarding
       className="w-full max-w-sm"
       onComplete={() => setCompleted(true)}
+      totalSteps={STEPS.length}
     >
       <OnboardingContent>
         {STEPS.map(({ description, title }, index) => (
           <OnboardingStep key={title} value={index + 1}>
-            <OnboardingMedia className="h-40">
-              <div aria-hidden className="bg-muted-foreground size-full" />
+            <OnboardingMedia>
+              <div
+                aria-hidden
+                className="h-40 w-full rounded-xl bg-black/35 dark:bg-white/35"
+              />
             </OnboardingMedia>
-            <div className="flex flex-col gap-1 px-4 pb-6">
+            <OnboardingHeader>
               <OnboardingTitle>{title}</OnboardingTitle>
               <OnboardingDescription>{description}</OnboardingDescription>
-            </div>
+            </OnboardingHeader>
           </OnboardingStep>
         ))}
       </OnboardingContent>

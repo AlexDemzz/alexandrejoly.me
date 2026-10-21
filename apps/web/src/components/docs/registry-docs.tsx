@@ -410,17 +410,22 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "onComplete",
             type: "() => void",
           },
+          {
+            description:
+              "How many steps there are. Known on the first render, so the server draws the right indicator and button.",
+            name: "totalSteps",
+            type: "number",
+          },
         ],
       },
       {
-        description:
-          "Counts its steps and shows the current one. Children must be `OnboardingStep`s.",
+        description: "Wraps the steps.",
         extends: { name: "div" },
         name: "OnboardingContent",
         props: [],
       },
       {
-        description: "One step.",
+        description: "One step, rendered only while it is the current one.",
         extends: { name: "div" },
         name: "OnboardingStep",
         props: [
@@ -432,10 +437,16 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         ],
       },
       {
-        description:
-          "A 400px stage for an image or illustration. `OnboardingTitle` (`h2`) and `OnboardingDescription` (`p`) take the text.",
+        description: "Centers an image or illustration and takes its height.",
         extends: { name: "div" },
         name: "OnboardingMedia",
+        props: [],
+      },
+      {
+        description:
+          "Groups `OnboardingTitle` (`h2`) and `OnboardingDescription` (`p`) under the media.",
+        extends: { name: "div" },
+        name: "OnboardingHeader",
         props: [],
       },
       {

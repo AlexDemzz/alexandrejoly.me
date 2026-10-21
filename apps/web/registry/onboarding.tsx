@@ -1,16 +1,7 @@
 "use client";
 
 import { mergeProps } from "@base-ui/react/merge-props";
-import {
-  Children,
-  createContext,
-  isValidElement,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, use, useCallback, useMemo, useState } from "react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -31,7 +22,6 @@ interface UseOnboardingReturn {
 interface OnboardingContextValue {
   api: UseOnboardingReturn;
   onComplete?: () => void;
-  setTotalSteps: Dispatch<SetStateAction<number>>;
 }
 
 const OnboardingContext = createContext<OnboardingContextValue | null>(null);
@@ -53,6 +43,7 @@ function useOnboarding(): UseOnboardingReturn {
 interface OnboardingProps extends React.ComponentProps<"div"> {
   defaultValue?: number;
   onComplete?: () => void;
+  totalSteps: number;
 }
 
 function Onboarding({
@@ -60,9 +51,9 @@ function Onboarding({
   className,
   defaultValue = 1,
   onComplete,
+  totalSteps,
   ...props
 }: OnboardingProps) {
-  const [totalSteps, setTotalSteps] = useState(1);
   const [currentStep, setCurrentStep] = useState(defaultValue);
   const canGoToNextStep = currentStep < totalSteps;
   const canGoToPrevStep = currentStep > 1;
@@ -101,13 +92,17 @@ function Onboarding({
   );
 
   const context = useMemo<OnboardingContextValue>(
-    () => ({ api, onComplete, setTotalSteps }),
+    () => ({ api, onComplete }),
     [api, onComplete]
   );
 
   return (
     <OnboardingContext value={context}>
-      <div className={className} data-slot="onboarding" {...props}>
+      <div
+        className={cn("flex flex-col gap-6", className)}
+        data-slot="onboarding"
+        {...props}
+      >
         {children}
       </div>
     </OnboardingContext>
@@ -118,41 +113,20 @@ interface OnboardingStepProps extends React.ComponentProps<"div"> {
   value: number;
 }
 
-function OnboardingContent({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const { currentStep } = useOnboarding();
-  const { setTotalSteps } = useOnboardingContext();
-  // oxlint-disable-next-line react/no-react-children -- steps are matched by their `value` prop
-  const steps = Children.toArray(children);
-
-  useEffect(() => {
-    setTotalSteps(steps.length);
-  }, [steps.length, setTotalSteps]);
-
-  const activeStep = steps.find(
-    (child) =>
-      isValidElement<OnboardingStepProps>(child) &&
-      child.props.value === currentStep
-  );
-
-  return (
-    <div
-      className={cn("flex flex-1 flex-col pt-4", className)}
-      data-slot="onboarding-content"
-      {...props}
-    >
-      {activeStep}
-    </div>
-  );
+function OnboardingContent(props: React.ComponentProps<"div">) {
+  return <div data-slot="onboarding-content" {...props} />;
 }
 
 function OnboardingStep({ className, value, ...props }: OnboardingStepProps) {
+  const { currentStep } = useOnboarding();
+
+  if (value !== currentStep) {
+    return null;
+  }
+
   return (
     <div
-      className={cn("flex flex-1 flex-col gap-4", className)}
+      className={cn("flex flex-col gap-4", className)}
       data-slot="onboarding-step"
       data-step={value}
       {...props}
@@ -164,10 +138,23 @@ function OnboardingMedia({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "flex h-100 items-center justify-center overflow-hidden",
+        "flex items-center justify-center overflow-hidden",
         className
       )}
       data-slot="onboarding-media"
+      {...props}
+    />
+  );
+}
+
+function OnboardingHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      className={cn("flex flex-col gap-1", className)}
+      data-slot="onboarding-header"
       {...props}
     />
   );
@@ -208,7 +195,7 @@ function OnboardingFooter({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("relative flex flex-col gap-3 pb-4", className)}
+      className={cn("flex flex-col gap-3", className)}
       data-slot="onboarding-footer"
       {...props}
     />
@@ -224,7 +211,7 @@ function OnboardingIndicator({
 
   return (
     <div
-      className={cn("flex gap-1 px-4", className)}
+      className={cn("flex gap-1", className)}
       data-slot="onboarding-indicator"
       {...props}
     >
@@ -242,7 +229,7 @@ function OnboardingIndicator({
 function OnboardingNav({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("flex items-center justify-between px-4", className)}
+      className={cn("flex items-center justify-between", className)}
       data-slot="onboarding-nav"
       {...props}
     />
@@ -320,6 +307,7 @@ export {
   OnboardingContent,
   OnboardingDescription,
   OnboardingFooter,
+  OnboardingHeader,
   OnboardingIndicator,
   OnboardingMedia,
   OnboardingNav,
