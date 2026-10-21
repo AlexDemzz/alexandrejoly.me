@@ -343,11 +343,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "A destructive `Badge`: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0. Add `static` to its class to sit it beside a label instead of over the content.",
-        extends: {
-          href: "https://ui.shadcn.com/docs/components/base/badge",
-          name: "shadcn Badge",
-        },
+          "A destructive pill: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0. Add `static` to its class to sit it beside a label instead of over the content.",
+        extends: { name: "span" },
         name: "NotificationBadgeIndicator",
         props: [],
       },

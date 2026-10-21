@@ -9,7 +9,7 @@
       "title": "Notification Badge",
       "description": "A counter or dot pinned to an icon or avatar, separated from it by a transparent gap punched with a clip-path.",
       "dependencies": ["class-variance-authority"],
-      "registryDependencies": ["badge"],
+      "registryDependencies": [],
       "files": [
         {
           "path": "registry/notification-badge.tsx",

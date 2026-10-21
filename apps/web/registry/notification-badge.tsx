@@ -4,7 +4,6 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import { createContext, use, useMemo } from "react";
 
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const NotificationBadgeContext = createContext<{
@@ -79,25 +78,22 @@ function NotificationBadgeContent({
 function NotificationBadgeIndicator({
   className,
   ...props
-}: Omit<React.ComponentProps<typeof Badge>, "children">) {
+}: Omit<React.ComponentProps<"span">, "children">) {
   const { count, visible } = use(NotificationBadgeContext);
   if (!visible) {
     return null;
   }
   return (
-    <Badge
+    <span
       className={cn(
-        "absolute top-(--hole-top) -right-(--hole-right) h-(--hole-h) w-(--hole-w)",
-        // oxlint-disable-next-line shadcn/no-restyle -- the indicator must match the clip-path hole: a pill exactly --hole-w wide, which Badge's padding would widen
-        "rounded-full px-0",
+        "bg-destructive absolute top-(--hole-top) -right-(--hole-right) inline-flex h-(--hole-h) w-(--hole-w) items-center justify-center rounded-full text-xs font-medium whitespace-nowrap text-white",
         className
       )}
       data-slot="notification-badge-indicator"
-      variant="destructive"
       {...props}
     >
       {count !== undefined && (count > MAX_COUNT ? `${MAX_COUNT}+` : count)}
-    </Badge>
+    </span>
   );
 }
 
