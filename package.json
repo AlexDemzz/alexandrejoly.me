@@ -23,6 +23,7 @@
   "devDependencies": {
     "@portfolio/config": "workspace:*",
     "@shadcn/lint": "^0.2.3",
+    "@tanstack/intent": "^0.5.6",
     "@types/node": "^26.4.1",
     "oxfmt": "^0.71.0",
     "oxlint": "^1.86.0",
@@ -32,5 +33,10 @@
     "varlock": "catalog:",
     "wrangler": "4.151.1"
   },
-  "packageManager": "pnpm@10.34.4"
+  "packageManager": "pnpm@10.34.4",
+  "intent": {
+    "skills": [
+      "@tanstack/*"
+    ]
+  }
 }
