@@ -16,7 +16,9 @@ export const REGISTRY_USAGE: Record<RegistryItemName, string> = {
 </Hint>`,
   "infinite-scroll": `import {
   InfiniteScroll,
+  InfiniteScrollContent,
   InfiniteScrollSentinel,
+  InfiniteScrollViewport,
 } from "@/components/ui/infinite-scroll";
 
 <InfiniteScroll
@@ -24,10 +26,14 @@ export const REGISTRY_USAGE: Record<RegistryItemName, string> = {
   isFetchingNextPage={isFetchingNextPage}
   onFetchNextPage={() => fetchNextPage()}
 >
-  {items.map((item) => (
-    <Row key={item.id} {...item} />
-  ))}
-  <InfiniteScrollSentinel />
+  <InfiniteScrollViewport className="h-96">
+    <InfiniteScrollContent>
+      {items.map((item) => (
+        <div key={item.id}>{item.title}</div>
+      ))}
+      <InfiniteScrollSentinel />
+    </InfiniteScrollContent>
+  </InfiniteScrollViewport>
 </InfiniteScroll>`,
   "item-inset-separator": `import {
   Item,

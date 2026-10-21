@@ -1,6 +1,8 @@
 import {
   InfiniteScroll,
+  InfiniteScrollContent,
   InfiniteScrollSentinel,
+  InfiniteScrollViewport,
 } from "@registry/infinite-scroll";
 import { useCallback, useState } from "react";
 
@@ -26,20 +28,23 @@ export const InfiniteScrollDemo = () => {
 
   return (
     <InfiniteScroll
-      className="scroll-fade-y h-72 w-full max-w-xs overflow-y-auto overscroll-contain"
       hasNextPage={hasNextPage}
       isFetchingNextPage={isFetchingNextPage}
       onFetchNextPage={fetchNextPage}
     >
-      <ul className="flex flex-col">
-        {pages.flat().map((id) => (
-          <li className="px-3 py-2" key={id}>
-            Item {id}
-          </li>
-        ))}
-      </ul>
-      <InfiniteScrollSentinel />
-      {!hasNextPage && <p className="text-center">No more items</p>}
+      <InfiniteScrollViewport className="scroll-fade-y h-72 w-full max-w-xs overscroll-contain">
+        <InfiniteScrollContent>
+          <ul className="flex flex-col">
+            {pages.flat().map((id) => (
+              <li className="px-3 py-2" key={id}>
+                Item {id}
+              </li>
+            ))}
+          </ul>
+          <InfiniteScrollSentinel />
+          {!hasNextPage && <p className="text-center">No more items</p>}
+        </InfiniteScrollContent>
+      </InfiniteScrollViewport>
     </InfiniteScroll>
   );
 };

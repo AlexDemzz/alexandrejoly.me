@@ -9,6 +9,7 @@ import type { ComponentType, ReactNode } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
+import { InfiniteScrollReverse } from "@/components/demos/infinite-scroll-reverse";
 import { ItemInsetSeparatorDemo } from "@/components/demos/item-inset-separator-demo";
 import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator-media";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
@@ -104,11 +105,15 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     examples: [],
   },
   "infinite-scroll": {
+    accessibility: [
+      "The content is `aria-busy` while a page loads, so a screen reader waits for the page instead of reading each new item.",
+      "Focus stays where it is when a page arrives. In reverse mode, the DOM stays in reading order, oldest first: only the viewport is reversed, so the reading and Tab order match what is on screen.",
+      'Give a viewport with no focusable item inside `tabIndex={0}`, a role such as `region` and an `aria-label`, so it can be scrolled from the keyboard. Avoid `role="log"` on a reversed list: it would announce every older page as it loads.',
+    ],
     api: [
       {
         description:
-          "Shares the pagination state with the sentinel. Make it the scroll container, or let the page scroll.",
-        extends: { name: "div" },
+          "Shares the pagination state with its parts; it renders no element.",
         name: "InfiniteScroll",
         props: [
           {
@@ -118,7 +123,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           },
           {
             description:
-              "Whether a page is being fetched. The root is `aria-busy` and the sentinel shows a spinner and stops observing meanwhile.",
+              "Whether a page is being fetched. The content is `aria-busy` and the sentinel shows a spinner and stops observing meanwhile.",
             name: "isFetchingNextPage",
             type: "boolean",
           },
@@ -128,11 +133,32 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
             name: "onFetchNextPage",
             type: "() => void",
           },
+          {
+            default: "false",
+            description:
+              "Loads older pages at the top, as in a chat: the viewport opens at the bottom and keeps its place while pages are added above.",
+            name: "reverse",
+            type: "boolean",
+          },
         ],
       },
       {
         description:
-          "Place it after the last item. It holds the spinner while fetching.",
+          "The scroll container. Give it a height. Leave it out to let the page scroll, except in reverse mode, which needs it.",
+        extends: { name: "div" },
+        name: "InfiniteScrollViewport",
+        props: [],
+      },
+      {
+        description:
+          "Holds the items and the sentinel, in reading order. It is `aria-busy` while a page loads.",
+        extends: { name: "div" },
+        name: "InfiniteScrollContent",
+        props: [],
+      },
+      {
+        description:
+          "Place it after the last item, or before the first one in reverse mode. It holds the spinner while fetching.",
         extends: { name: "div" },
         name: "InfiniteScrollSentinel",
         props: [
@@ -146,7 +172,15 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
     ],
     demo: { Component: InfiniteScrollDemo, file: "infinite-scroll-demo" },
-    examples: [],
+    examples: [
+      {
+        Component: InfiniteScrollReverse,
+        description:
+          "Older pages load at the top. The list opens at the bottom from the first paint, and what you are reading stays put while a page arrives.",
+        file: "infinite-scroll-reverse",
+        title: "Reverse",
+      },
+    ],
   },
   "item-inset-separator": {
     api: [

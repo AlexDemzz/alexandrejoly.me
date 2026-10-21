@@ -18,6 +18,7 @@ interface InfiniteScrollContextValue {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   onFetchNextPage: () => void;
+  reverse: boolean;
 }
 
 const InfiniteScrollContext = createContext<InfiniteScrollContextValue | null>(
@@ -34,36 +35,63 @@ function useInfiniteScroll() {
   return context;
 }
 
-interface InfiniteScrollProps extends React.ComponentProps<"div"> {
+interface InfiniteScrollProps {
+  children?: React.ReactNode;
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
   onFetchNextPage: () => void;
+  reverse?: boolean;
 }
 
 function InfiniteScroll({
   onFetchNextPage,
   hasNextPage,
   isFetchingNextPage,
-  className,
+  reverse = false,
   children,
-  ...props
 }: InfiniteScrollProps) {
   const context = useMemo(
-    () => ({ hasNextPage, isFetchingNextPage, onFetchNextPage }),
-    [hasNextPage, isFetchingNextPage, onFetchNextPage]
+    () => ({ hasNextPage, isFetchingNextPage, onFetchNextPage, reverse }),
+    [hasNextPage, isFetchingNextPage, onFetchNextPage, reverse]
   );
 
   return (
-    <InfiniteScrollContext value={context}>
-      <div
-        aria-busy={isFetchingNextPage}
-        className={cn("flex flex-col gap-4", className)}
-        data-slot="infinite-scroll"
-        {...props}
-      >
-        {children}
-      </div>
-    </InfiniteScrollContext>
+    <InfiniteScrollContext value={context}>{children}</InfiniteScrollContext>
+  );
+}
+
+function InfiniteScrollViewport({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  const { reverse } = useInfiniteScroll();
+
+  return (
+    <div
+      className={cn(
+        "overflow-y-auto",
+        reverse && "flex flex-col-reverse",
+        className
+      )}
+      data-slot="infinite-scroll-viewport"
+      {...props}
+    />
+  );
+}
+
+function InfiniteScrollContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  const { isFetchingNextPage, reverse } = useInfiniteScroll();
+
+  return (
+    <div
+      aria-busy={isFetchingNextPage}
+      className={cn("flex flex-col gap-4", reverse && "shrink-0", className)}
+      data-slot="infinite-scroll-content"
+      {...props}
+    />
   );
 }
 
@@ -102,6 +130,7 @@ function InfiniteScrollSentinel({
             <Spinner />
           </div>
         ),
+        className: "[overflow-anchor:none]",
         ref: setSentinel,
       },
       props
@@ -115,4 +144,9 @@ function InfiniteScrollSentinel({
   });
 }
 
-export { InfiniteScroll, InfiniteScrollSentinel };
+export {
+  InfiniteScroll,
+  InfiniteScrollContent,
+  InfiniteScrollSentinel,
+  InfiniteScrollViewport,
+};

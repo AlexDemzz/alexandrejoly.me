@@ -49,7 +49,7 @@
       "name": "infinite-scroll",
       "type": "registry:ui",
       "title": "Infinite Scroll",
-      "description": "Library-agnostic infinite pagination: a sentinel, polymorphic through Base UI useRender, fetches the next page when it scrolls into view.",
+      "description": "Library-agnostic infinite pagination: a sentinel, polymorphic through Base UI useRender, fetches the next page when it scrolls into view, below the list or above it in reverse mode.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["spinner"],
       "files": [
