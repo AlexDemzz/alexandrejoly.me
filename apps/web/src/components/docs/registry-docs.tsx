@@ -457,9 +457,16 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Stacks the indicator over the nav. `OnboardingIndicator` draws one progress bar per step; `OnboardingNav` spreads the buttons apart.",
+          "Stacks the indicator over the nav. `OnboardingNav` spreads the buttons apart.",
         extends: { name: "div" },
         name: "OnboardingFooter",
+        props: [],
+      },
+      {
+        description:
+          "One `progressbar` announced as “Step 2 of 3”, drawn as one shadcn `Progress` per step, hidden from assistive tech. Pass `aria-label` to rename it.",
+        extends: { name: "div" },
+        name: "OnboardingIndicator",
         props: [],
       },
       {
@@ -537,7 +544,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: OnboardingUseOnboarding,
         description:
-          "Build your own controls with `useOnboarding`: a step counter, then a skip button that turns into a restart.",
+          "Build your own controls with `useOnboarding`: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
         file: "onboarding-use-onboarding",
         title: "useOnboarding",
       },

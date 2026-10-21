@@ -211,12 +211,20 @@ function OnboardingIndicator({
 
   return (
     <div
+      aria-label="Onboarding progress"
+      aria-valuemax={totalSteps}
+      aria-valuemin={1}
+      aria-valuenow={currentStep}
+      aria-valuetext={`Step ${currentStep} of ${totalSteps}`}
       className={cn("flex gap-1", className)}
       data-slot="onboarding-indicator"
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
+      role="progressbar"
       {...props}
     >
       {steps.map((step) => (
         <Progress
+          aria-hidden
           className="flex-1"
           key={step}
           value={step <= currentStep ? 100 : 0}
