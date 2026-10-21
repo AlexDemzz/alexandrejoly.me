@@ -15,9 +15,7 @@ export const MarqueePauseOnHover = () => (
     <MarqueeFade side="left" />
     <MarqueeContent className="[--marquee-duration:60s]" pauseOnHover>
       {ITEMS.map((item) => (
-        <MarqueeItem className="px-6" key={item}>
-          {item}
-        </MarqueeItem>
+        <MarqueeItem key={item}>{item}</MarqueeItem>
       ))}
     </MarqueeContent>
     <MarqueeFade side="right" />

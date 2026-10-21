@@ -12,9 +12,7 @@ export const MarqueeVertical = () => (
     <MarqueeFade side="top" />
     <MarqueeContent className="[--marquee-duration:12s]" orientation="vertical">
       {ITEMS.map((item) => (
-        <MarqueeItem className="py-1" key={item}>
-          {item}
-        </MarqueeItem>
+        <MarqueeItem key={item}>{item}</MarqueeItem>
       ))}
     </MarqueeContent>
     <MarqueeFade side="bottom" />

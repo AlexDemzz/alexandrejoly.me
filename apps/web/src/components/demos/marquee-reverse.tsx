@@ -12,7 +12,7 @@ const FRONT = itemsFrom(1);
 const BACK = itemsFrom(9);
 
 export const MarqueeReverse = () => (
-  <Marquee className="flex w-full flex-col gap-4">
+  <Marquee className="w-full">
     <MarqueeFade side="left" />
     <MarqueeContent>
       {FRONT.map((name) => (

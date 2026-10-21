@@ -8,7 +8,7 @@ function Marquee({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "group/marquee relative overflow-hidden",
+        "group/marquee relative flex flex-col gap-4 overflow-hidden",
         // oxlint-disable-next-line shadcn/no-arbitrary-values -- no utility sets a scroll timeline
         "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
         className
@@ -60,7 +60,7 @@ function MarqueeContent({
     <MarqueeContext value={orientation}>
       <div
         className={cn(
-          vertical ? "flex h-max w-full flex-col" : "flex w-max items-center",
+          vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
           // oxlint-disable-next-line shadcn/no-arbitrary-values -- Tailwind has no animation-play-state utility
@@ -88,7 +88,6 @@ function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "shrink-0",
         orientation === "horizontal" ? "px-4" : "py-2 text-center",
         className
       )}

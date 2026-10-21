@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import { Spinner } from "@/components/ui/spinner";
+import { cn } from "@/lib/utils";
 
 interface InfiniteScrollContextValue {
   hasNextPage: boolean;
@@ -54,7 +55,11 @@ function InfiniteScroll({
 
   return (
     <InfiniteScrollContext value={context}>
-      <div className={className} data-slot="infinite-scroll" {...props}>
+      <div
+        className={cn("flex flex-col gap-4", className)}
+        data-slot="infinite-scroll"
+        {...props}
+      >
         {children}
       </div>
     </InfiniteScrollContext>
@@ -92,7 +97,7 @@ function InfiniteScrollSentinel({
     props: mergeProps<"div">(
       {
         children: isFetchingNextPage && (
-          <div className="flex items-center justify-center p-4">
+          <div className="flex items-center justify-center overflow-clip">
             <Spinner />
           </div>
         ),

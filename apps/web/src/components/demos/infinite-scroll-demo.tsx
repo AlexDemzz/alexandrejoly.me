@@ -37,18 +37,9 @@ export const InfiniteScrollDemo = () => {
             Item {id}
           </li>
         ))}
-        <InfiniteScrollSentinel
-          render={(props) => (
-            <li {...props}>
-              {hasNextPage ? (
-                props.children
-              ) : (
-                <p className="p-3 text-center">No more items</p>
-              )}
-            </li>
-          )}
-        />
       </ul>
+      <InfiniteScrollSentinel />
+      {!hasNextPage && <p className="text-center">No more items</p>}
     </InfiniteScroll>
   );
 };
