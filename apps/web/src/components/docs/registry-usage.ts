@@ -61,17 +61,14 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
   marquee: `import {
   Marquee,
   MarqueeContent,
-  MarqueeFade,
   MarqueeItem,
 } from "@/components/ui/marquee";
 
 <Marquee>
-  <MarqueeFade side="left" />
   <MarqueeContent>
     <MarqueeItem>Item 1</MarqueeItem>
     <MarqueeItem>Item 2</MarqueeItem>
   </MarqueeContent>
-  <MarqueeFade side="right" />
 </Marquee>`,
   "notification-badge": `import {
   NotificationBadge,

@@ -1,9 +1,4 @@
-import {
-  Marquee,
-  MarqueeContent,
-  MarqueeFade,
-  MarqueeItem,
-} from "@registry/marquee";
+import { Marquee, MarqueeContent, MarqueeItem } from "@registry/marquee";
 
 const itemsFrom = (first: number) =>
   Array.from({ length: 8 }, (_, index) => `Item ${first + index}`);
@@ -12,8 +7,7 @@ const FRONT = itemsFrom(1);
 const BACK = itemsFrom(9);
 
 export const MarqueeReverse = () => (
-  <Marquee className="w-full">
-    <MarqueeFade side="left" />
+  <Marquee className="scroll-fade-x w-full">
     <MarqueeContent>
       {FRONT.map((name) => (
         <MarqueeItem key={name}>{name}</MarqueeItem>
@@ -24,6 +18,5 @@ export const MarqueeReverse = () => (
         <MarqueeItem key={name}>{name}</MarqueeItem>
       ))}
     </MarqueeContent>
-    <MarqueeFade side="right" />
   </Marquee>
 );

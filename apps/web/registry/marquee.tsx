@@ -4,17 +4,28 @@ import { Children, createContext, isValidElement, use } from "react";
 
 import { cn } from "@/lib/utils";
 
-function Marquee({ className, ...props }: React.ComponentProps<"div">) {
+function Marquee({
+  children,
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "group/marquee relative flex flex-col gap-4 overflow-hidden",
-        "supports-[animation-timeline:scroll()]:animate-marquee-overflow supports-[animation-timeline:scroll()]:[animation-timeline:scroll(self_inline)] supports-[animation-timeline:scroll()]:has-[>[data-orientation=vertical]]:[animation-timeline:scroll(self_block)]",
+        "group/marquee flex flex-col gap-4 overflow-hidden [--scroll-fade-reveal:0px]",
+        "[scroll-timeline:--marquee_inline] has-[>[data-slot=marquee-viewport]>[data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}
       data-slot="marquee"
       {...props}
-    />
+    >
+      <div
+        className="supports-[animation-timeline:scroll()]:animate-marquee-overflow contents [--scroll-fade-reveal:initial] supports-[animation-timeline:scroll()]:[animation-timeline:--marquee]"
+        data-slot="marquee-viewport"
+      >
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -92,32 +103,4 @@ function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-const FADE_SIDE = {
-  bottom: "inset-x-0 bottom-0 h-8 rotate-180 bg-linear-to-b",
-  left: "inset-y-0 left-0 w-8 bg-linear-to-r",
-  right: "inset-y-0 right-0 w-8 rotate-180 bg-linear-to-r",
-  top: "inset-x-0 top-0 h-8 bg-linear-to-b",
-} as const;
-
-type MarqueeFadeProps = React.ComponentProps<"div"> & {
-  side: keyof typeof FADE_SIDE;
-};
-
-function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
-  return (
-    <div
-      aria-hidden
-      className={cn(
-        "from-background to-background/0 pointer-events-none absolute z-10",
-        "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden",
-        FADE_SIDE[side],
-        className
-      )}
-      data-side={side}
-      data-slot="marquee-fade"
-      {...props}
-    />
-  );
-}
-
-export { Marquee, MarqueeContent, MarqueeFade, MarqueeItem };
+export { Marquee, MarqueeContent, MarqueeItem };

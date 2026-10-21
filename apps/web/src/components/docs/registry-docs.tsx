@@ -252,7 +252,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades, in browsers with CSS scroll-driven animations. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
+          "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
         extends: { name: "div" },
         name: "Marquee",
         props: [],
@@ -299,18 +299,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         name: "MarqueeItem",
         props: [],
       },
-      {
-        description: "A gradient from the page background over one edge.",
-        extends: { name: "div" },
-        name: "MarqueeFade",
-        props: [
-          {
-            description: "The edge it covers.",
-            name: "side",
-            type: '"left" | "right" | "top" | "bottom"',
-          },
-        ],
-      },
     ],
     demo: { Component: MarqueeDemo, file: "marquee-demo" },
     examples: [
@@ -331,14 +319,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeVertical,
         description:
-          "A vertical track runs between top and bottom fades, on a shorter cycle from `[--marquee-duration:12s]`.",
+          "A vertical track, faded at the top and bottom, runs on a shorter cycle from `[--marquee-duration:12s]`.",
         file: "marquee-vertical",
         title: "Vertical",
       },
       {
         Component: MarqueeFit,
         description:
-          "Items narrower than the marquee stand still: no clone, no fades. CSS scroll-driven animations detect the overflow.",
+          "Items narrower than the marquee stand still: no clone, no fade. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
         notice: (
           // Only browsers without scroll-driven animations see it, Firefox today.

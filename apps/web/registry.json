@@ -63,7 +63,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A strip of items that slides in a seamless loop, in CSS alone, once they overflow. Supports edge fades, reverse and vertical tracks, and pause on hover.",
+      "description": "A strip of items that slides in a seamless loop, in CSS alone, once they overflow. Supports reverse and vertical tracks, pause on hover, and edge fades with shadcn’s scroll-fade.",
       "dependencies": [],
       "registryDependencies": [],
       "files": [
