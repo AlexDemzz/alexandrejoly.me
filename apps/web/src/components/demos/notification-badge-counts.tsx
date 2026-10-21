@@ -7,7 +7,12 @@ import {
 import { BellIcon } from "lucide-react";
 
 const COUNTS = [7, 42, 99, 128];
-const MAX_SHOWN_COUNT = 99;
+const MAX_COUNT = 99;
+
+const toUnreadLabel = (count: number) => {
+  const shownCount = count > MAX_COUNT ? `more than ${MAX_COUNT}` : count;
+  return `Notifications, ${shownCount} unread`;
+};
 
 export const NotificationBadgeCounts = () => (
   <div className="flex flex-wrap items-center justify-center gap-8">
@@ -15,7 +20,7 @@ export const NotificationBadgeCounts = () => (
       <NotificationBadge count={count} key={count}>
         <NotificationBadgeContent>
           <Button
-            aria-label={`Notifications, ${count > MAX_SHOWN_COUNT ? "more than 99" : count} unread`}
+            aria-label={toUnreadLabel(count)}
             size="icon-lg"
             variant="outline"
           >

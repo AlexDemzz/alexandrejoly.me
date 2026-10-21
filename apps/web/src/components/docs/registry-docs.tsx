@@ -247,7 +247,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The track. It renders its child elements twice, dropping bare text, so wrap text in `MarqueeItem`, and a CSS keyframe slides it by one copy per cycle, with no JavaScript. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
+          "The track. It renders its child elements twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Bare text is dropped, so wrap it in `MarqueeItem`. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
         extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",
@@ -305,7 +305,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueePauseOnHover,
         description:
-          "Slowed with `[--marquee-duration:60s]` and paused under the pointer, so longer items can be read.",
+          "A slower track, from `[--marquee-duration:60s]`, pauses under the pointer so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
       },
@@ -319,7 +319,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeVertical,
         description:
-          "A vertical track between top and bottom fades, with a shorter cycle from `[--marquee-duration:12s]`.",
+          "A vertical track runs between top and bottom fades, on a shorter cycle from `[--marquee-duration:12s]`.",
         file: "marquee-vertical",
         title: "Vertical",
       },
@@ -329,7 +329,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "Items narrower than the marquee stand still: no clone, no fades. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
         notice: (
-          // Only browsers without scroll timelines see it, Firefox today.
+          // Only browsers without scroll-driven animations see it, Firefox today.
           <Alert
             className="hidden not-supports-[animation-timeline:scroll()]:grid"
             role="note"
@@ -351,7 +351,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   "notification-badge": {
     accessibility: [
-      "The indicator is `aria-hidden`, since its count read on its own says nothing about what it counts. Put the count in the name of the button instead.",
+      "The indicator is `aria-hidden`, since its count, read alone, doesn’t say what it counts. Put the count in the name of the button instead.",
       "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
       "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where the badge shows `99+`.",
       "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
@@ -359,7 +359,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Holds the count for its parts, and the geometry of the hole, the transparent cut-out around the badge, as CSS variables.",
+          "Shares the count with its parts. Sets the geometry of the hole, the transparent cut-out around the badge, as CSS variables.",
         extends: { name: "span" },
         name: "NotificationBadge",
         nameLabel: "Prop or variable",
@@ -423,7 +423,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: NotificationBadgeCounts,
         description:
-          "One digit makes a circle, two make a pill. Above 99 it reads `99+`, and the hole under it keeps the same shape.",
+          "One digit makes a circle, two make a pill. Above 99 it reads `99+`, and the hole under it, the transparent cut-out around the badge, keeps the same shape.",
         file: "notification-badge-counts",
         notice: (
           // Only browsers without CSS shape() see it.
@@ -446,7 +446,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: NotificationBadgeLabel,
         description:
-          "Beside a label, with no `NotificationBadgeContent`: `static` takes the indicator out of the overlay.",
+          "Beside a label, `NotificationBadgeContent` is left out and `static` takes the indicator out of the overlay.",
         file: "notification-badge-label",
         title: "Beside a label",
       },
@@ -620,7 +620,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: OnboardingUseOnboarding,
         description:
-          "Custom controls built with `useOnboarding`: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
+          "`useOnboarding` drives custom controls: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
         file: "onboarding-use-onboarding",
         title: "useOnboarding",
       },
