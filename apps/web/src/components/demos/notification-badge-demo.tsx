@@ -14,7 +14,13 @@ export const NotificationBadgeDemo = () => {
     <div className="flex flex-col items-center gap-6">
       <NotificationBadge count={count}>
         <NotificationBadgeContent>
-          <Button aria-label="Notifications" size="icon-lg" variant="outline">
+          <Button
+            aria-label={
+              count > 0 ? `Notifications, ${count} unread` : "Notifications"
+            }
+            size="icon-lg"
+            variant="outline"
+          >
             <BellIcon />
           </Button>
         </NotificationBadgeContent>

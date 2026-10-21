@@ -93,7 +93,7 @@ const ComponentDocsPage = ({
   code,
   item: { description, name, title },
 }: ComponentPageData) => {
-  const { api, demo, examples } = REGISTRY_DOCS[name];
+  const { accessibility, api, demo, examples } = REGISTRY_DOCS[name];
 
   return (
     <div className="max-w-docs mx-auto px-6">
@@ -172,6 +172,21 @@ const ComponentDocsPage = ({
                           <example.Component />
                         </ComponentPreview>
                       </section>
+                    ))}
+                  </div>
+                </SectionContent>
+              </Section>
+            )}
+
+            {accessibility && (
+              <Section variant="stacked">
+                <SectionTitle>Accessibility</SectionTitle>
+                <SectionContent>
+                  <div className="flex flex-col gap-3">
+                    {accessibility.map((paragraph) => (
+                      <Text key={paragraph}>
+                        <InlineCode>{paragraph}</InlineCode>
+                      </Text>
                     ))}
                   </div>
                 </SectionContent>

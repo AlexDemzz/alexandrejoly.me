@@ -75,7 +75,7 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
 
 <NotificationBadge count={3}>
   <NotificationBadgeContent>
-    <Button aria-label="Notifications" size="icon" variant="outline">
+    <Button aria-label="Notifications, 3 unread" size="icon" variant="outline">
       <BellIcon />
     </Button>
   </NotificationBadgeContent>

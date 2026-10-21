@@ -61,6 +61,8 @@ export interface ApiPart {
 }
 
 export interface ComponentDocs {
+  /** Paragraphs of the Accessibility section, with `backtick` code spans. */
+  accessibility?: string[];
   api: ApiPart[];
   demo: Demo;
   examples: Example[];
@@ -301,6 +303,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
   },
   "notification-badge": {
+    accessibility: [
+      "The indicator is `aria-hidden`: it sits beside the button, not in it, so a screen reader would read its count on its own, with no word for what it counts. Put the count in the name of the button instead.",
+      "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
+      "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where the badge shows `99+`.",
+      "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
+    ],
     api: [
       {
         description:
@@ -351,7 +359,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "A destructive pill: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0. Add `static` to its class to sit it beside a label instead of over the content.",
+          "A destructive pill: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0, and is `aria-hidden`: see Accessibility. Add `static` to its class to sit it beside a label instead of over the content.",
         extends: { name: "span" },
         name: "NotificationBadgeIndicator",
         props: [],
