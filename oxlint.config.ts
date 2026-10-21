@@ -40,5 +40,10 @@ export default defineConfig({
         "react/function-component-definition": "off",
       },
     },
+    {
+      // Stock shadcn item: ItemGroup is a div with role="list".
+      files: ["packages/ui/src/components/item.tsx"],
+      rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+    },
   ],
 });

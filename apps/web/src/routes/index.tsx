@@ -4,7 +4,7 @@ import {
   IdentityName,
   IdentityRole,
 } from "@portfolio/ui/components/identity";
-import { ItemGroup, ItemMedia } from "@portfolio/ui/components/item";
+import { ItemMedia } from "@portfolio/ui/components/item";
 import {
   Section,
   SectionContent,
@@ -16,7 +16,7 @@ import type { ComponentType } from "react";
 
 import { ContributionGraph } from "@/components/contribution-graph";
 import { HintIcon } from "@/components/hint-icon";
-import { ComponentRow, ExternalRow } from "@/components/home-rows";
+import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
 import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
@@ -132,7 +132,7 @@ const HomeComponent = () => {
       <Section>
         <SectionTitle>Projects</SectionTitle>
         <SectionContent>
-          <ItemGroup>
+          <RowList>
             {PROJECTS.map((project) => (
               <ExternalRow
                 aside={project.year}
@@ -143,14 +143,14 @@ const HomeComponent = () => {
                 title={project.name}
               />
             ))}
-          </ItemGroup>
+          </RowList>
         </SectionContent>
       </Section>
 
       <Section>
         <SectionTitle>Agent skills</SectionTitle>
         <SectionContent>
-          <ItemGroup>
+          <RowList>
             {SKILLS.map((skill) => (
               <ExternalRow
                 description={skill.description}
@@ -164,14 +164,14 @@ const HomeComponent = () => {
                 title={skill.name}
               />
             ))}
-          </ItemGroup>
+          </RowList>
         </SectionContent>
       </Section>
 
       <Section>
         <SectionTitle>Components</SectionTitle>
         <SectionContent>
-          <ItemGroup>
+          <RowList>
             {REGISTRY_ITEMS.map((component) => {
               const Icon = COMPONENT_ICONS[component.name];
               return (
@@ -188,14 +188,14 @@ const HomeComponent = () => {
                 />
               );
             })}
-          </ItemGroup>
+          </RowList>
         </SectionContent>
       </Section>
 
       <Section>
         <SectionTitle>Recognition</SectionTitle>
         <SectionContent>
-          <ItemGroup>
+          <RowList>
             {AWARDS.map((award) => (
               <ExternalRow
                 aside={award.year}
@@ -210,14 +210,14 @@ const HomeComponent = () => {
                 title={award.title}
               />
             ))}
-          </ItemGroup>
+          </RowList>
         </SectionContent>
       </Section>
 
       <Section>
         <SectionTitle>Previously</SectionTitle>
         <SectionContent>
-          <ItemGroup>
+          <RowList>
             {ARCHIVES.map((archive) => (
               <ExternalRow
                 aside={archive.year}
@@ -235,7 +235,7 @@ const HomeComponent = () => {
                 title={archive.title}
               />
             ))}
-          </ItemGroup>
+          </RowList>
         </SectionContent>
       </Section>
 
