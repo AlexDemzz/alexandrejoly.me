@@ -42,9 +42,9 @@ export const OnboardingUseOnboarding = () => {
   if (completed) {
     return (
       <div className="flex min-h-46.5 flex-col items-center justify-center gap-4">
-        <p>Completed.</p>
+        <p>Onboarding complete</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
-          Start again
+          Restart
         </Button>
       </div>
     );

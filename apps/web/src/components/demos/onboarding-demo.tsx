@@ -26,9 +26,9 @@ export const OnboardingDemo = () => {
   if (completed) {
     return (
       <div className="flex min-h-76.5 flex-col items-center justify-center gap-4">
-        <p>Completed.</p>
+        <p>Onboarding complete</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
-          Start again
+          Restart
         </Button>
       </div>
     );

@@ -7,7 +7,7 @@
       "name": "notification-badge",
       "type": "registry:ui",
       "title": "Notification Badge",
-      "description": "A counter or dot pinned to an icon or avatar, separated from it by a transparent gap punched with a clip-path.",
+      "description": "A counter or dot pinned to an icon or avatar, with a transparent gap cut around it, so it reads on any background.",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
@@ -21,7 +21,7 @@
       "name": "onboarding",
       "type": "registry:ui",
       "title": "Onboarding",
-      "description": "A step-by-step onboarding flow with a segmented progress indicator and previous/next buttons.",
+      "description": "A step-by-step onboarding flow with a segmented progress indicator and buttons to move between steps.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["button", "progress"],
       "files": [
@@ -49,7 +49,7 @@
       "name": "infinite-scroll",
       "type": "registry:ui",
       "title": "Infinite Scroll",
-      "description": "Library-agnostic infinite pagination: a sentinel, polymorphic through Base UI useRender, fetches the next page when it scrolls into view, below the list or above it in reverse mode.",
+      "description": "A list that fetches the next page as its end scrolls into view, below the items or, in reverse, above them. Works with any data library.",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["spinner"],
       "files": [
@@ -63,7 +63,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A strip of items sliding in a seamless loop, in CSS alone, only when they overflow, with edge fades, reverse and vertical tracks and pause on hover.",
+      "description": "A strip of items that slides in a seamless loop, in CSS alone, once they overflow. Supports edge fades, reverse and vertical tracks, and pause on hover.",
       "dependencies": [],
       "registryDependencies": [],
       "files": [
@@ -102,7 +102,7 @@
       "name": "item-inset-separator",
       "type": "registry:ui",
       "title": "Item Inset Separator",
-      "description": "A separator that rules an Item's bottom from where its content starts, so it follows each row's media.",
+      "description": "A line along an Item's bottom that starts where its content starts, so it clears each Item's media.",
       "registryDependencies": ["item"],
       "files": [
         {

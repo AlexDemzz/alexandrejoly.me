@@ -9,7 +9,11 @@ import { MailIcon } from "lucide-react";
 export const NotificationBadgeDot = () => (
   <NotificationBadge count={2} variant="dot">
     <NotificationBadgeContent>
-      <Button aria-label="Messages, 2 unread" size="icon-lg" variant="outline">
+      <Button
+        aria-label="Messages, new activity"
+        size="icon-lg"
+        variant="outline"
+      >
         <MailIcon />
       </Button>
     </NotificationBadgeContent>

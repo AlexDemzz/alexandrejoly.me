@@ -19,7 +19,7 @@ const TRACED_HOLE =
 
 export const NotificationBadgeDemo = () => {
   const [count, setCount] = useState(3);
-  const [showMask, setShowMask] = useState(false);
+  const [showHole, setShowHole] = useState(false);
 
   return (
     <div className="flex flex-col items-center gap-6 [[data-slot=preview]:has(&)]:relative">
@@ -35,17 +35,17 @@ export const NotificationBadgeDemo = () => {
             <BellIcon />
           </Button>
         </NotificationBadgeContent>
-        <NotificationBadgeIndicator className={cn(showMask && TRACED_HOLE)} />
+        <NotificationBadgeIndicator className={cn(showHole && TRACED_HOLE)} />
       </NotificationBadge>
       <div className="flex gap-2">
         <Button
           onClick={() => setCount((value) => value + 1)}
           variant="outline"
         >
-          Add one
+          Add notification
         </Button>
         <Button onClick={() => setCount(0)} variant="ghost">
-          Clear
+          Clear notifications
         </Button>
       </div>
       <Tooltip>
@@ -53,18 +53,18 @@ export const NotificationBadgeDemo = () => {
           delay={0}
           render={
             <Button
-              aria-label="Toggle mask"
-              aria-pressed={showMask}
+              aria-label="Show hole"
+              aria-pressed={showHole}
               className="absolute top-3 right-3"
-              onClick={() => setShowMask((value) => !value)}
+              onClick={() => setShowHole((value) => !value)}
               size="icon"
-              variant={showMask ? "secondary" : "ghost"}
+              variant={showHole ? "secondary" : "ghost"}
             />
           }
         >
           <SquareDashedIcon aria-hidden />
         </TooltipTrigger>
-        <TooltipContent>Toggle mask</TooltipContent>
+        <TooltipContent>Show hole</TooltipContent>
       </Tooltip>
     </div>
   );

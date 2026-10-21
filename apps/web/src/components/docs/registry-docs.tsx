@@ -72,7 +72,7 @@ export interface ComponentDocs {
 export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   hint: {
     accessibility: [
-      "The trigger is a `button` that holds its own label, so its name is the text people see and it needs no `aria-label`; the icon beside it is decorative. Its hit area reaches 8px past its edges, past the 24px minimum of WCAG 2.5.8.",
+      "The trigger is a `button` that holds its own label, so its name is the text people see and it needs no `aria-label`; the icon beside it is decorative. Its hit area reaches 8px past its edges, so it clears the 24px minimum of WCAG 2.5.8.",
       "It opens on press, by click, Enter or Space, rather than on hover, so touch and keyboard users reach it too. Focus moves into the bubble, and Escape closes it and returns focus to the trigger, as in any Base UI popover.",
     ],
     api: [
@@ -96,7 +96,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         props: [],
       },
       {
-        description: "The bubble, portalled to the body.",
+        description: "The bubble, portaled to the body.",
         extends: {
           href: "https://ui.shadcn.com/docs/components/base/popover",
           name: "shadcn PopoverContent",
@@ -110,7 +110,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   "infinite-scroll": {
     accessibility: [
-      "The content is `aria-busy` while a page loads, so a screen reader waits for the page instead of reading each new item.",
+      "The content is `aria-busy` while a page is being fetched, so a screen reader waits for the page instead of reading each new item.",
       "Focus stays where it is when a page arrives. In reverse mode, the DOM stays in reading order, oldest first: only the viewport is reversed, so the reading and Tab order match what is on screen.",
       'Give a viewport with no focusable item inside `tabIndex={0}`, a role such as `region` and an `aria-label`, so it can be scrolled from the keyboard. Avoid `role="log"` on a reversed list: it would announce every older page as it loads.',
     ],
@@ -133,7 +133,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           },
           {
             description:
-              "Called when the sentinel scrolls into view while a next page exists and none is loading.",
+              "Called when the sentinel scrolls into view while a next page exists and none is being fetched.",
             name: "onFetchNextPage",
             type: "() => void",
           },
@@ -148,14 +148,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The scroll container. Give it a height. Leave it out to let the page scroll, except in reverse mode, which needs it.",
+          "The scroll container. Give it a height. To let the page scroll instead, leave out `InfiniteScrollViewport`, except in reverse mode, which needs it.",
         extends: { name: "div" },
         name: "InfiniteScrollViewport",
         props: [],
       },
       {
         description:
-          "Holds the items and the sentinel, in reading order. It is `aria-busy` while a page loads.",
+          "Holds the items and the sentinel, in reading order. It is `aria-busy` while a page is being fetched.",
         extends: { name: "div" },
         name: "InfiniteScrollContent",
         props: [],
@@ -188,7 +188,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   "item-inset-separator": {
     accessibility: [
-      "Each line is a Base UI `separator`, so a screen reader announces one inside every row. The rows already part the content: pass `aria-hidden` to keep the line visual only.",
+      "Each line has the `separator` role, so a screen reader announces one inside every row. The rows already part the content: pass `aria-hidden` to keep the line visual only.",
     ],
     api: [
       {
@@ -234,20 +234,20 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   marquee: {
     accessibility: [
       "The second copy of each track is `inert`: screen readers and the Tab key meet every item once, in the first copy.",
-      "Focus inside the marquee pauses every track, so a keyboard user can stop it to read or follow a link; `pauseOnHover` does the same for a pointer. Content people need to read moves for more than five seconds, so WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
+      "Focus inside the marquee pauses every track, so a keyboard user can stop it to read or follow a link; `pauseOnHover` does the same for a pointer. When content people need to read moves for more than five seconds, WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
       "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
     ],
     api: [
       {
         description:
-          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
+          "Clips the tracks and anchors the fades. While its items fit, it stands still with no clone and no fades, in browsers with CSS scroll-driven animations. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
         extends: { name: "div" },
         name: "Marquee",
         props: [],
       },
       {
         description:
-          "The track. It renders its items twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
+          "The track. It renders its child elements twice, dropping bare text, so wrap text in `MarqueeItem`, and a CSS keyframe slides it by one copy per cycle, with no JavaScript. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
         extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",
@@ -266,7 +266,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           },
           {
             default: "false",
-            description: "Holds the track while a pointer is over the marquee.",
+            description:
+              "Pauses the track while a pointer is over the marquee.",
             name: "pauseOnHover",
             type: "boolean",
           },
@@ -281,7 +282,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "One item of the track. Its padding spaces the items and the loop’s seam alike: `px-4` across, `py-2` down. Override it with a class such as `px-2`.",
+          "One item of the track. Its padding spaces the items and the loop’s seam alike: `px-4` on a horizontal track, `py-2` on a vertical one. Override it with a class such as `px-2`.",
         extends: { name: "div" },
         name: "MarqueeItem",
         props: [],
@@ -304,7 +305,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueePauseOnHover,
         description:
-          "Slow it with `[--marquee-duration:60s]` and hold it under the pointer so longer items can be read.",
+          "Slowed with `[--marquee-duration:60s]` and paused under the pointer, so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
       },
@@ -318,14 +319,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeVertical,
         description:
-          "A vertical track between top and bottom fades, with tighter `py-1` items.",
+          "A vertical track between top and bottom fades, with a shorter cycle from `[--marquee-duration:12s]`.",
         file: "marquee-vertical",
         title: "Vertical",
       },
       {
         Component: MarqueeFit,
         description:
-          "Items narrower than the frame stand still: no clone, no fades. A CSS scroll timeline detects the overflow.",
+          "Items narrower than the marquee stand still: no clone, no fades. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
         notice: (
           // Only browsers without scroll timelines see it, Firefox today.
@@ -336,7 +337,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           >
             <TriangleAlertIcon aria-hidden />
             <AlertTitle>
-              In this browser, the items scroll even though they fit
+              In this browser, the items slide even though they fit
             </AlertTitle>
             <AlertDescription>
               Telling that they fit needs CSS scroll-driven animations, which
@@ -350,7 +351,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   "notification-badge": {
     accessibility: [
-      "The indicator is `aria-hidden`: it sits beside the button, not in it, so a screen reader would read its count on its own, with no word for what it counts. Put the count in the name of the button instead.",
+      "The indicator is `aria-hidden`, since its count read on its own says nothing about what it counts. Put the count in the name of the button instead.",
       "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
       "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where the badge shows `99+`.",
       "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
@@ -358,14 +359,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     api: [
       {
         description:
-          "Holds the count and the hole geometry, as CSS variables its parts read.",
+          "Holds the count for its parts, and the geometry of the hole, the transparent cut-out around the badge, as CSS variables.",
         extends: { name: "span" },
         name: "NotificationBadge",
         nameLabel: "Prop or variable",
         props: [
           {
             description:
-              "The number to show. Nothing shows at 0; above 99 it reads `99+`.",
+              "The number to show. Nothing shows at 0 or below; above 99 it reads `99+`.",
             name: "count",
             type: "number",
           },
@@ -405,7 +406,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "A destructive pill: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0, and is `aria-hidden`: see Accessibility. Add `static` to its class to sit it beside a label instead of over the content.",
+          "A badge in the `destructive` color: a circle for one digit, a pill for two or `99+`, sized and placed from the root’s variables. Renders nothing at 0 or below, and is `aria-hidden`: see Accessibility. Add `static` to its class to sit it beside a label instead of over the content.",
         extends: { name: "span" },
         name: "NotificationBadgeIndicator",
         props: [],
@@ -415,14 +416,14 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     examples: [
       {
         Component: NotificationBadgeDot,
-        description: "Signal that something is new without a number.",
+        description: "A dot signals that something is new, without a number.",
         file: "notification-badge-dot",
         title: "Dot",
       },
       {
         Component: NotificationBadgeCounts,
         description:
-          "One digit is a circle, two are a pill. Above 99 it reads `99+`, and the hole under it keeps the same shape.",
+          "One digit makes a circle, two make a pill. Above 99 it reads `99+`, and the hole under it keeps the same shape.",
         file: "notification-badge-counts",
         notice: (
           // Only browsers without CSS shape() see it.
@@ -445,7 +446,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: NotificationBadgeLabel,
         description:
-          "Beside a label, leave out the content and take the indicator out of the overlay with `static`.",
+          "Beside a label, with no `NotificationBadgeContent`: `static` takes the indicator out of the overlay.",
         file: "notification-badge-label",
         title: "Beside a label",
       },
@@ -470,7 +471,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           },
           {
             description:
-              "Called when the next button is pressed on the last step.",
+              "Called when `OnboardingNextButton` is pressed on the last step.",
             name: "onComplete",
             type: "() => void",
           },
@@ -501,30 +502,47 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         ],
       },
       {
-        description: "Centers an image or illustration and takes its height.",
+        description:
+          "Centers an image or illustration and takes the height of what you put in it.",
         extends: { name: "div" },
         name: "OnboardingMedia",
         props: [],
       },
       {
-        description:
-          "Groups `OnboardingTitle` (`h2`) and `OnboardingDescription` (`p`) under the media.",
+        description: "Groups the title and the description under the media.",
         extends: { name: "div" },
         name: "OnboardingHeader",
         props: [],
       },
       {
-        description:
-          "Stacks the indicator over the nav. `OnboardingNav` spreads the buttons apart.",
+        description: "The step’s title.",
+        extends: { name: "h2" },
+        name: "OnboardingTitle",
+        props: [],
+      },
+      {
+        description: "The step’s description.",
+        extends: { name: "p" },
+        name: "OnboardingDescription",
+        props: [],
+      },
+      {
+        description: "Stacks the indicator over the nav.",
         extends: { name: "div" },
         name: "OnboardingFooter",
         props: [],
       },
       {
         description:
-          "One `progressbar` announced as “Step 2 of 3”, drawn as one shadcn `Progress` per step, hidden from assistive tech. Pass `aria-label` to rename it.",
+          "One `progressbar` announced as “Step 2 of 3”, drawn as one shadcn `Progress` per step, hidden from assistive tech. Its name defaults to “Onboarding progress”; pass `aria-label` to change it.",
         extends: { name: "div" },
         name: "OnboardingIndicator",
+        props: [],
+      },
+      {
+        description: "Spreads the previous and next buttons apart.",
+        extends: { name: "div" },
+        name: "OnboardingNav",
         props: [],
       },
       {
@@ -569,7 +587,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Reads and drives the flow from any child of `Onboarding`. `setStep` throws outside 1 to `totalSteps`.",
+          "Reads and drives the flow from any descendant of `Onboarding`. `setStep` throws outside 1 to `totalSteps`.",
         name: "useOnboarding()",
         nameLabel: "Return value",
         props: [
@@ -602,7 +620,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: OnboardingUseOnboarding,
         description:
-          "Build your own controls with `useOnboarding`: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
+          "Custom controls built with `useOnboarding`: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
         file: "onboarding-use-onboarding",
         title: "useOnboarding",
       },

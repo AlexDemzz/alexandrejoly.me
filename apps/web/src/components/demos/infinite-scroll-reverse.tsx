@@ -46,7 +46,7 @@ const PagedHistory = () => {
     >
       <InfiniteScrollViewport className="h-72 w-full max-w-xs overscroll-contain">
         <InfiniteScrollContent>
-          {!hasNextPage && <p className="text-center">Start of the history</p>}
+          {!hasNextPage && <p className="text-center">No older messages</p>}
           <InfiniteScrollSentinel />
           <ul className="flex flex-col">
             {pages.flat().map((id) => (

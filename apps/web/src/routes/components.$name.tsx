@@ -109,7 +109,7 @@ const ComponentDocsPage = ({
                 </Link>
                 <SidebarTrigger className="md:hidden" size="icon">
                   <MenuIcon aria-hidden />
-                  <span className="sr-only">Components</span>
+                  <span className="sr-only">Open components menu</span>
                 </SidebarTrigger>
               </div>
               <div>
