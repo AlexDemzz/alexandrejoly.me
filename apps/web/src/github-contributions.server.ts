@@ -1,17 +1,13 @@
-import { waitUntil } from "cloudflare:workers";
+import { env, waitUntil } from "cloudflare:workers";
 
 import { levelScale } from "@/contribution-levels";
 import { ENV } from "@/env.server";
 
 const GITHUB_LOGIN = "AlexDemzz";
-const CACHE_NAME = "github-contributions";
-// Bump the version whenever `Contributions` or the cached entry changes shape.
-const CACHE_KEY = `https://alexandrejoly.me/__cache/${CACHE_NAME}/v3`;
+// Bump the version whenever the stored entry changes shape.
+const STORE_KEY = "github-contributions/v1";
 export const CACHE_TTL_SECONDS = 60 * 60 * 6;
-const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000;
-// Kept well past freshness, so a stale graph can be served while GitHub answers.
-const CACHE_RETENTION_SECONDS = 60 * 60 * 24 * 30;
-const FETCHED_AT_HEADER = "x-fetched-at";
+const FRESH_FOR_MS = CACHE_TTL_SECONDS * 1000;
 
 const QUERY = `query ($login: String!) {
   user(login: $login) {
@@ -85,50 +81,56 @@ const fetchContributions = async (): Promise<Contributions | null> => {
   };
 };
 
-const refreshContributions = async (
-  cache: Cache
-): Promise<Contributions | null> => {
+interface StoredContributions {
+  contributions: Contributions;
+  fetchedAt: number;
+}
+
+const storeContributions = async (contributions: Contributions) => {
+  const stored: StoredContributions = { contributions, fetchedAt: Date.now() };
+  try {
+    await env.CONTRIBUTIONS.put(STORE_KEY, JSON.stringify(stored));
+  } catch {
+    // Concurrent refreshes may hit KV's one-write-per-second limit.
+  }
+};
+
+const refreshContributions = async (): Promise<Contributions | null> => {
   const contributions = await fetchContributions();
   if (contributions !== null) {
-    await cache.put(
-      CACHE_KEY,
-      Response.json(contributions, {
-        headers: {
-          "cache-control": `max-age=${CACHE_RETENTION_SECONDS}`,
-          [FETCHED_AT_HEADER]: String(Date.now()),
-        },
-      })
-    );
+    await storeContributions(contributions);
   }
   return contributions;
 };
 
-const refreshInBackground = async (cache: Cache): Promise<void> => {
+const refreshInBackground = async (): Promise<void> => {
   try {
-    await refreshContributions(cache);
+    await refreshContributions();
   } catch {
-    // The stale copy keeps being served until GitHub answers again.
+    // The stored copy keeps being served until GitHub answers again.
   }
 };
 
-// The graph barely moves within a day, so GitHub is asked at most every few
-// hours per Cloudflare location, and in the background once a copy is cached;
-// a failure keeps the stale graph, or hides the graph instead of the page.
+// KV holds one copy for every Cloudflare location, so GitHub is only awaited
+// before the very first copy exists. Past a few hours the stored copy is still
+// served while GitHub refreshes it in the background; a failure hides the graph
+// instead of the page.
 export const loadContributions = async (): Promise<Contributions | null> => {
   try {
-    const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(CACHE_KEY);
-    if (cached === undefined) {
-      return await refreshContributions(cache);
+    const stored = await env.CONTRIBUTIONS.get<Partial<StoredContributions>>(
+      STORE_KEY,
+      "json"
+    );
+    if (stored?.contributions === undefined) {
+      return await refreshContributions();
     }
 
-    const ageMs = Date.now() - Number(cached.headers.get(FETCHED_AT_HEADER));
-    // A missing header reads as `NaN`, which is stale too.
-    const stale = !(ageMs < CACHE_TTL_MS);
-    if (stale) {
-      waitUntil(refreshInBackground(cache));
+    // A missing date reads as `NaN`, which is stale too.
+    const fresh = Date.now() - Number(stored.fetchedAt) < FRESH_FOR_MS;
+    if (!fresh) {
+      waitUntil(refreshInBackground());
     }
-    return (await cached.json()) as Contributions;
+    return stored.contributions;
   } catch {
     return null;
   }

@@ -10,14 +10,6 @@ export interface ContributionSummary {
 
 const numberFormat = new Intl.NumberFormat("en-US");
 
-// GitHub's last year spans 53 Sunday-to-Saturday weeks, or 54 in rare years.
-const USUAL_WEEK_COUNT = 53;
-
-const graphRatio = (weekCount: number) => {
-  const { height, width } = graphSize(weekCount);
-  return `${width} / ${height}`;
-};
-
 /**
  * The cells live in `/contributions.svg`, out of the page's HTML; the SVG masks
  * a box painted in the theme's ink. The total in the URL refetches the graph
@@ -29,6 +21,7 @@ export const ContributionGraph = ({
   contributions: ContributionSummary;
 }) => {
   const summary = `${numberFormat.format(total)} contributions in the last year`;
+  const { height, width } = graphSize(weekCount);
 
   return (
     <figure className="flex flex-col gap-3">
@@ -40,7 +33,7 @@ export const ContributionGraph = ({
         style={
           {
             "--graph-mask": `url(/contributions.svg?total=${total})`,
-            "--graph-ratio": graphRatio(weekCount),
+            "--graph-ratio": `${width} / ${height}`,
           } as CSSProperties
         }
       />
@@ -50,14 +43,3 @@ export const ContributionGraph = ({
     </figure>
   );
 };
-
-/** Holds the graph's room while its summary streams in. */
-export const ContributionGraphPlaceholder = () => (
-  <div aria-hidden className="flex flex-col gap-3">
-    <div
-      className="aspect-(--graph-ratio) w-full"
-      style={{ "--graph-ratio": graphRatio(USUAL_WEEK_COUNT) } as CSSProperties}
-    />
-    <p className={textVariants({ variant: "faint" })}>&nbsp;</p>
-  </div>
-);

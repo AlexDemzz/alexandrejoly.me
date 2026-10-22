@@ -4,6 +4,9 @@
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
+  "kv_namespaces": [
+    { "binding": "CONTRIBUTIONS", "id": "af9363808c3046199c65904ec99be7e4" },
+  ],
   "routes": [{ "pattern": "alexandrejoly.me", "custom_domain": true }],
   "observability": {
     "enabled": true,
