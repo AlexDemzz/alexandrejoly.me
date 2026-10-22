@@ -10,10 +10,14 @@ import {
   SectionTitle,
 } from "@portfolio/ui/components/section";
 import { TextLink } from "@portfolio/ui/components/text";
-import { createFileRoute } from "@tanstack/react-router";
+import { Await, createFileRoute } from "@tanstack/react-router";
+import { Suspense } from "react";
 import type { ComponentType } from "react";
 
-import { ContributionGraph } from "@/components/contribution-graph";
+import {
+  ContributionGraph,
+  ContributionGraphPlaceholder,
+} from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
 import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
@@ -75,7 +79,7 @@ const ProjectMedia = ({
 );
 
 const HomeComponent = () => {
-  const contributions = Route.useLoaderData();
+  const { contributionSummary } = Route.useLoaderData();
 
   return (
     <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
@@ -111,9 +115,15 @@ const HomeComponent = () => {
             );
           })}
         </nav>
-        {contributions === null ? null : (
-          <ContributionGraph contributions={contributions} />
-        )}
+        <Suspense fallback={<ContributionGraphPlaceholder />}>
+          <Await promise={contributionSummary}>
+            {(summary) =>
+              summary === null ? null : (
+                <ContributionGraph contributions={summary} />
+              )
+            }
+          </Await>
+        </Suspense>
       </div>
 
       <Section>
@@ -232,6 +242,23 @@ const HomeComponent = () => {
   );
 };
 
+// Only what the page prints: the cells load from `/contributions.svg`. A failed
+// call hides the graph instead of the page.
+const loadContributionSummary =
+  async (): Promise<ContributionSummary | null> => {
+    try {
+      const contributions = await getContributions();
+      return (
+        contributions && {
+          total: contributions.total,
+          weekCount: contributions.weeks.length,
+        }
+      );
+    } catch {
+      return null;
+    }
+  };
+
 const homeHead = pageHead({
   description: SITE.description,
   path: "",
@@ -241,16 +268,9 @@ const homeHead = pageHead({
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
-  // Only what the page prints: the cells load from `/contributions.svg`.
-  loader: async (): Promise<ContributionSummary | null> => {
-    const contributions = await getContributions();
-    return (
-      contributions && {
-        total: contributions.total,
-        weekCount: contributions.weeks.length,
-      }
-    );
-  },
+  // Left unawaited so a cold cache streams the graph in instead of holding
+  // the whole page on GitHub.
+  loader: () => ({ contributionSummary: loadContributionSummary() }),
   head: () => ({
     links: homeHead.links,
     meta: [
