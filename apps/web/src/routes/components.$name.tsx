@@ -166,6 +166,7 @@ const ComponentDocsPage = ({
                   render={({ children, ...props }) => (
                     <h1 {...props}>{children}</h1>
                   )}
+                  variant="title"
                 >
                   {title}
                 </Heading>

@@ -33,6 +33,8 @@ typography:
   name: { family: system-ui, size: 16px, weight: 500, line-height: 22px }
   role: { family: system-ui, size: 16px, weight: 450, line-height: 22px }
   heading: { family: system-ui, size: 16px, weight: 500, line-height: 26px }
+  docs-title: { family: system-ui, size: 20px, weight: 500, line-height: 27.5px }
+  docs-section-title: { family: system-ui, size: 18px, weight: 500, line-height: 24.75px }
   row-title: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   link: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   footer: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
@@ -104,6 +106,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 - System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
 - 16px for everything except the footer, tables and code blocks, which are 14px. Line-height 1.625, 1.375 for the identity lines.
+- Docs pages are the exception that takes a size step, since they nest three heading levels: the page title at 20px and section titles at 18px (line-height 1.375), example and API part titles at the 16px `heading`. All three at 500 in ink.
 - Weight 500 for the name, 450 (`font-book`) for row titles, links and the role, 400 for body and section titles.
 - Years use `tabular-nums`.
 
@@ -125,10 +128,10 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 ## Components
 
-- **Section** (`Section`, `SectionTitle`, `SectionContent`): `variant="margin"` (default) puts the title in the margin beside the content; `variant="stacked"` sets it above, for the docs container, where the sidebar already takes the margin.
+- **Section** (`Section`, `SectionTitle`, `SectionContent`): `variant="margin"` (default) puts the title in the margin beside the content; `variant="stacked"` sets it above, for the docs container, where the sidebar already takes the margin, as an 18px heading in ink.
 - **Row** (a plain `ul` of `ItemLight`s from `apps/web/src/components/item-light.tsx`, styled from `apps/web/src/index.css` by `data-slot`; the stock `Item` printed too many classes for the home's text-to-HTML ratio): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), ruled by an inset hairline drawn as the row's `::after`, the same rule as `ItemInsetSeparator`.
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
-- **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
+- **Heading** (`Heading`): 16px at 500 in ink, any level through `render`; `variant="title"` is the 20px docs page title.
 - **Heading anchor** (`HeadingAnchor`): on docs pages, each section, example and API part title links to its own `#id`, keeping its colour, and underlines on hover or focus like a sidebar link. A `#` in `ash` sits in the 24px margin before it, shown while the title is hovered or focused and always on touch devices; it is decorative, so the link's name stays the title. Headings keep 24px of scroll margin.
 - **Code** (`Code`, `CodeBlock`): system mono. Inline code is ink at the surrounding size (`muted` for secondary code such as types). Blocks are shadcn's `CodeBlock` at 14px: a `tint` card at 16px radius with no border, Shiki's vitesse colours highlighted at build time, and a ghost copy button that shows on hover or focus at the top end, or in the header next to a file title. Heights follow ui.shadcn.com: install commands and Usage show in full, Usage split into an imports card and a markup card; an example's code scrolls within 288px; the full source collapses to 256px behind a centred ghost "Show more" in the footer, then scrolls within 384px. Capped blocks fade top and bottom with `scroll-fade-y`.
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.

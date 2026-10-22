@@ -5,7 +5,7 @@ import type * as React from "react";
 
 // DESIGN.md › Layout: `margin` puts the title in an 8rem margin, in view while
 // its rows scroll, and falls back to one column on narrow screens; `stacked`
-// always sets the title above its content.
+// always sets the title above its content, as an 18px docs heading in ink.
 const sectionVariants = cva("group/section py-10", {
   defaultVariants: {
     variant: "margin",
@@ -38,7 +38,7 @@ const SectionTitle = ({
 }: React.ComponentProps<"h2">) => (
   <h2
     className={cn(
-      "text-muted-foreground self-start sm:group-data-[variant=margin]/section:sticky sm:group-data-[variant=margin]/section:top-10",
+      "text-muted-foreground group-data-[variant=stacked]/section:text-foreground self-start group-data-[variant=stacked]/section:text-lg group-data-[variant=stacked]/section:leading-snug group-data-[variant=stacked]/section:font-medium group-data-[variant=stacked]/section:text-balance sm:group-data-[variant=margin]/section:sticky sm:group-data-[variant=margin]/section:top-10",
       className
     )}
     data-slot="section-title"
