@@ -6,6 +6,7 @@ import {
 import { Link } from "@tanstack/react-router";
 import { Fragment } from "react";
 
+import { AuditScores } from "@/components/audit-scores";
 import { GithubIcon } from "@/components/github-icon";
 import { LINKS } from "@/content";
 
@@ -32,5 +33,6 @@ export const SiteFooter = () => (
         Source
       </TextLink>
     </Text>
+    <AuditScores />
   </footer>
 );
