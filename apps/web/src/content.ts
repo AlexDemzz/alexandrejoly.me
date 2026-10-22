@@ -15,7 +15,7 @@ export const SITE = {
   description:
     "I’m a developer at Yoojo. I design and build interfaces end to end, and I care about the details that make them feel right.",
   name: "Alexandre Joly",
-  title: "Alexandre Joly",
+  title: "Alexandre Joly – Developer at Yoojo",
   url: "https://alexandrejoly.me/",
 } as const;
 
