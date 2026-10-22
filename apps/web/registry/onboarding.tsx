@@ -1,8 +1,18 @@
 "use client";
 
 import { mergeProps } from "@base-ui/react/merge-props";
-import { createContext, use, useCallback, useMemo, useState } from "react";
-import type { Dispatch, ReactNode, SetStateAction } from "react";
+import {
+  createContext,
+  use,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import type { Dispatch, ReactNode, Ref, SetStateAction } from "react";
+import { flushSync } from "react-dom";
 
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -19,8 +29,11 @@ interface UseOnboardingReturn {
   totalSteps: number;
 }
 
+type OnboardingDirection = "next" | "previous";
+
 interface OnboardingContextValue {
   api: UseOnboardingReturn;
+  direction?: OnboardingDirection;
   onComplete?: () => void;
 }
 
@@ -55,8 +68,20 @@ function Onboarding({
   ...props
 }: OnboardingProps) {
   const [currentStep, setCurrentStep] = useState(defaultValue);
+  const [direction, setDirection] = useState<OnboardingDirection>();
   const canGoToNextStep = currentStep < totalSteps;
   const canGoToPrevStep = currentStep > 1;
+
+  const goToStep = useCallback(
+    (nextStep: number) => {
+      if (nextStep === currentStep) {
+        return;
+      }
+      setDirection(nextStep > currentStep ? "next" : "previous");
+      setCurrentStep(nextStep);
+    },
+    [currentStep]
+  );
 
   const setStep = useCallback<Dispatch<SetStateAction<number>>>(
     (step) => {
@@ -64,9 +89,9 @@ function Onboarding({
       if (nextStep < 1 || nextStep > totalSteps) {
         throw new Error(`Step ${nextStep} is out of range 1–${totalSteps}`);
       }
-      setCurrentStep(nextStep);
+      goToStep(nextStep);
     },
-    [currentStep, totalSteps]
+    [currentStep, goToStep, totalSteps]
   );
 
   const api = useMemo<UseOnboardingReturn>(
@@ -76,30 +101,38 @@ function Onboarding({
       currentStep,
       goToNextStep: () => {
         if (canGoToNextStep) {
-          setCurrentStep((step) => step + 1);
+          goToStep(currentStep + 1);
         }
       },
       goToPrevStep: () => {
         if (canGoToPrevStep) {
-          setCurrentStep((step) => step - 1);
+          goToStep(currentStep - 1);
         }
       },
-      reset: () => setCurrentStep(1),
+      reset: () => goToStep(1),
       setStep,
       totalSteps,
     }),
-    [canGoToNextStep, canGoToPrevStep, currentStep, setStep, totalSteps]
+    [
+      canGoToNextStep,
+      canGoToPrevStep,
+      currentStep,
+      goToStep,
+      setStep,
+      totalSteps,
+    ]
   );
 
   const context = useMemo<OnboardingContextValue>(
-    () => ({ api, onComplete }),
-    [api, onComplete]
+    () => ({ api, direction, onComplete }),
+    [api, direction, onComplete]
   );
 
   return (
     <OnboardingContext value={context}>
       <div
         className={cn("flex flex-col gap-6", className)}
+        data-direction={direction}
         data-slot="onboarding"
         {...props}
       >
@@ -117,18 +150,121 @@ function OnboardingContent(props: React.ComponentProps<"div">) {
   return <div data-slot="onboarding-content" {...props} />;
 }
 
-function OnboardingStep({ className, value, ...props }: OnboardingStepProps) {
-  const { currentStep } = useOnboarding();
+type TransitionStatus = "starting" | "ending" | undefined;
 
-  if (value !== currentStep) {
+const runningAnimations = (element: HTMLElement) =>
+  element
+    .getAnimations?.({ subtree: true })
+    .filter(
+      (animation) =>
+        animation.playState === "running" &&
+        animation.effect?.getComputedTiming().endTime !==
+          Number.POSITIVE_INFINITY
+    ) ?? [];
+
+function assignRef<T>(ref: Ref<T> | undefined, node: T | null) {
+  if (typeof ref === "function") {
+    return ref(node);
+  }
+  if (ref) {
+    ref.current = node;
+  }
+}
+
+function useStepTransition(isCurrent: boolean) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(isCurrent);
+  const [status, setStatus] = useState<TransitionStatus>();
+  const [wasCurrent, setWasCurrent] = useState(isCurrent);
+
+  if (isCurrent !== wasCurrent) {
+    setWasCurrent(isCurrent);
+    setMounted(true);
+    if (!isCurrent) {
+      setStatus("ending");
+    } else if (mounted) {
+      setStatus(undefined);
+    } else {
+      setStatus("starting");
+    }
+  }
+
+  useEffect(() => {
+    if (status !== "starting") {
+      return;
+    }
+    const frame = requestAnimationFrame(() => setStatus(undefined));
+    return () => cancelAnimationFrame(frame);
+  }, [status]);
+
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (status !== "ending" || !element) {
+      return;
+    }
+    let cancelled = false;
+    const unmountWhenDone = async () => {
+      const unmount = () => {
+        setMounted(false);
+        setStatus(undefined);
+      };
+      let animations = runningAnimations(element);
+      if (animations.length === 0) {
+        unmount();
+        return;
+      }
+      while (animations.length > 0) {
+        await Promise.allSettled(
+          animations.map((animation) => animation.finished)
+        );
+        if (cancelled) {
+          return;
+        }
+        animations = runningAnimations(element);
+      }
+      flushSync(unmount);
+    };
+    void unmountWhenDone();
+    return () => {
+      cancelled = true;
+    };
+  }, [status]);
+
+  return { mounted, ref, status };
+}
+
+function OnboardingStep({
+  className,
+  ref: forwardedRef,
+  value,
+  ...props
+}: OnboardingStepProps) {
+  const { currentStep } = useOnboarding();
+  const { direction } = useOnboardingContext();
+  const { mounted, ref, status } = useStepTransition(value === currentStep);
+
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      ref.current = node;
+      return assignRef(forwardedRef, node);
+    },
+    [forwardedRef, ref]
+  );
+
+  if (!mounted) {
     return null;
   }
 
   return (
     <div
       className={cn("flex flex-col gap-4", className)}
+      data-direction={direction}
+      data-ending-style={status === "ending" ? "" : undefined}
       data-slot="onboarding-step"
+      data-starting-style={status === "starting" ? "" : undefined}
       data-step={value}
+      inert={status === "ending"}
+      ref={setRefs}
       {...props}
     />
   );

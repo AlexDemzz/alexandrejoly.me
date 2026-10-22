@@ -23,6 +23,7 @@ import { NotificationBadgeDemo } from "@/components/demos/notification-badge-dem
 import { NotificationBadgeDot } from "@/components/demos/notification-badge-dot";
 import { NotificationBadgeLabel } from "@/components/demos/notification-badge-label";
 import { OnboardingDemo } from "@/components/demos/onboarding-demo";
+import { OnboardingTransition } from "@/components/demos/onboarding-transition";
 import { OnboardingUseOnboarding } from "@/components/demos/onboarding-use-onboarding";
 import type { RegistryItemName } from "@/lib/registry";
 
@@ -467,10 +468,12 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     accessibility: [
       "`OnboardingIndicator` is one `progressbar` read as “Step 2 of 3”; its segments are hidden from assistive tech, so nobody hears one bar per step.",
       "Focus stays on the button that changed the step, and the new step is not announced. When a step carries content people must hear, move focus to its `OnboardingTitle`, given `tabIndex={-1}`, once the step renders.",
+      "A step you leave is `inert` while it animates out, so focus and screen readers reach only the current step.",
     ],
     api: [
       {
-        description: "Holds the current step.",
+        description:
+          "Holds the current step. After the first move, `data-direction` reads `next` or `previous`.",
         extends: { name: "div" },
         name: "Onboarding",
         props: [
@@ -501,7 +504,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         props: [],
       },
       {
-        description: "One step, rendered only while it is the current one.",
+        description:
+          "One step, rendered while it is the current one. The step you leave stays, with `data-ending-style`, until its transitions and animations end; the step you reach has `data-starting-style` for one frame, or turns back from where it is if it was still leaving. Both carry `data-direction`, `next` or `previous`. With no transition, the steps swap at once.",
         extends: { name: "div" },
         name: "OnboardingStep",
         props: [
@@ -634,6 +638,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "`useOnboarding` drives custom controls: a step counter, then a skip button that completes the flow and turns into a restart on the last step.",
         file: "onboarding-use-onboarding",
         title: "useOnboarding",
+      },
+      {
+        Component: OnboardingTransition,
+        description:
+          "The text slides in from the right on Continue and from the left on Previous, while the media crossfades. The steps share one grid cell, so the leaving step fades out as the next fades in. Classes alone run it: `data-starting-style` and `data-ending-style` set where a step starts and ends, and `data-direction` picks the side. With reduced motion, the text fades without sliding.",
+        file: "onboarding-transition",
+        title: "Transition",
       },
     ],
   },
