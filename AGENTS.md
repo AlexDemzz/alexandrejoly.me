@@ -10,6 +10,11 @@ Before editing files for a substantial task:
 - Multiple matches: prefer the most specific local skill for the package or concern you are changing; load additional skills only when the task spans multiple packages or concerns.
 <!-- intent-skills:end -->
 
+## Project Guides
+
+- Registry work (a component in `apps/web/registry/` or its docs page): read `.claude/docs/registry-components.md` first.
+- Writing docs (docs pages, demo copy, README, `.claude/docs/`): load the `better-writing` skill first and write with it.
+
 # Ultracite Code Standards
 
 This project uses **Ultracite**, a zero-config preset that enforces strict code quality standards through automated formatting and linting.
