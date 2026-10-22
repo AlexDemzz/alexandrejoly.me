@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { graphViewBox, levelPaths } from "./contribution-paths";
+import { graphSvg, graphViewBox, levelPaths } from "./contribution-paths";
 
 describe("levelPaths", () => {
   it("puts each day in its level's path, as a 6px square inset by 2px", () => {
@@ -29,5 +29,16 @@ describe("levelPaths", () => {
 describe("graphViewBox", () => {
   it("fits the weeks without a trailing gap", () => {
     expect(graphViewBox(53)).toBe("0 0 686 88");
+  });
+});
+
+describe("graphSvg", () => {
+  it("draws only the levels that have days, each at its own strength", () => {
+    const svg = graphSvg([[0, 4]]);
+
+    expect(svg).toMatch(/^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/u);
+    expect(svg.match(/<path /gu)).toHaveLength(2);
+    expect(svg).toContain('opacity="0.12"');
+    expect(svg).toContain('opacity="1"');
   });
 });

@@ -1,46 +1,42 @@
 import { textVariants } from "@portfolio/ui/components/text";
+import type { CSSProperties } from "react";
 
-import {
-  CELL_STROKE_WIDTH,
-  graphViewBox,
-  levelPaths,
-} from "@/contribution-paths";
-import type { Contributions } from "@/github-contributions";
+import { graphSize } from "@/contribution-paths";
 
-// Monochrome: GitHub's five quartiles become five strengths of ink.
-const LEVEL_OPACITY = [0.12, 0.3, 0.5, 0.75, 1] as const;
+export interface ContributionSummary {
+  total: number;
+  weekCount: number;
+}
 
 const numberFormat = new Intl.NumberFormat("en-US");
 
+/**
+ * The cells live in `/contributions.svg`, out of the page's HTML; the SVG masks
+ * a box painted in the theme's ink. The total in the URL refetches the graph
+ * once the count moves.
+ */
 export const ContributionGraph = ({
-  contributions: { total, weeks },
+  contributions: { total, weekCount },
 }: {
-  contributions: Contributions;
+  contributions: ContributionSummary;
 }) => {
   const summary = `${numberFormat.format(total)} contributions in the last year`;
+  const { height, width } = graphSize(weekCount);
 
   return (
     <figure className="flex flex-col gap-3">
-      <svg
+      <div
         aria-label={`GitHub contribution graph: ${summary}`}
-        className="fill-muted-foreground stroke-muted-foreground h-auto w-full"
-        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an inline SVG reads as one image only through role="img"
+        className="bg-muted-foreground aspect-(--graph-ratio) w-full mask-(--graph-mask) mask-contain mask-no-repeat forced-color-adjust-none"
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a masked box reads as one image only through role="img"
         role="img"
-        strokeLinejoin="round"
-        strokeWidth={CELL_STROKE_WIDTH}
-        viewBox={graphViewBox(weeks.length)}
-      >
-        {levelPaths(weeks).map((path, level) =>
-          path === "" ? null : (
-            // Group opacity, so a cell's fill and stroke never stack.
-            <path
-              d={path}
-              key={LEVEL_OPACITY[level]}
-              opacity={LEVEL_OPACITY[level]}
-            />
-          )
-        )}
-      </svg>
+        style={
+          {
+            "--graph-mask": `url(/contributions.svg?total=${total})`,
+            "--graph-ratio": `${width} / ${height}`,
+          } as CSSProperties
+        }
+      />
       <figcaption className={textVariants({ variant: "faint" })}>
         {summary}
       </figcaption>

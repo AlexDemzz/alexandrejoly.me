@@ -50,5 +50,29 @@ export const levelPaths = (weeks: number[][]): string[] => {
   return paths;
 };
 
-export const graphViewBox = (weekCount: number) =>
-  `0 0 ${weekCount * PITCH - GAP} ${DAYS_PER_WEEK * PITCH - GAP}`;
+export const graphSize = (weekCount: number) => ({
+  height: DAYS_PER_WEEK * PITCH - GAP,
+  width: weekCount * PITCH - GAP,
+});
+
+export const graphViewBox = (weekCount: number) => {
+  const { height, width } = graphSize(weekCount);
+  return `0 0 ${width} ${height}`;
+};
+
+// Monochrome: GitHub's five quartiles become five strengths of ink.
+const LEVEL_OPACITY = [0.12, 0.3, 0.5, 0.75, 1] as const;
+
+/**
+ * The graph as a standalone black SVG, meant as a mask so the page paints it in
+ * its own theme color. Group opacity keeps a cell's fill and stroke from
+ * stacking.
+ */
+export const graphSvg = (weeks: number[][]): string => {
+  const paths = levelPaths(weeks)
+    .map((path, level) =>
+      path === "" ? "" : `<path d="${path}" opacity="${LEVEL_OPACITY[level]}"/>`
+    )
+    .join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${graphViewBox(weeks.length)}" stroke="#000" stroke-linejoin="round" stroke-width="${CELL_STROKE_WIDTH}">${paths}</svg>`;
+};

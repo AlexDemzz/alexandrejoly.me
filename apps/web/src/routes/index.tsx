@@ -14,6 +14,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 
 import { ContributionGraph } from "@/components/contribution-graph";
+import type { ContributionSummary } from "@/components/contribution-graph";
 import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
 import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
@@ -240,7 +241,16 @@ const homeHead = pageHead({
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
-  loader: () => getContributions(),
+  // Only what the page prints: the cells load from `/contributions.svg`.
+  loader: async (): Promise<ContributionSummary | null> => {
+    const contributions = await getContributions();
+    return (
+      contributions && {
+        total: contributions.total,
+        weekCount: contributions.weeks.length,
+      }
+    );
+  },
   head: () => ({
     links: homeHead.links,
     meta: [
