@@ -161,7 +161,13 @@ export const componentMarkdown = (name: RegistryItemName) => {
         `Or by hand:\n\n${manual.map((step, index) => `${index + 1}. ${step.replaceAll(PARAGRAPH_LINE, "\n   ")}`).join("\n")}`,
       ].join("\n\n")
     ),
-    section("Usage", fence(REGISTRY_USAGE[name], "tsx")),
+    section(
+      "Usage",
+      [
+        fence(REGISTRY_USAGE[name].imports, "tsx"),
+        fence(REGISTRY_USAGE[name].markup, "tsx"),
+      ].join("\n\n")
+    ),
     `[All components](${markdownUrl("")})`,
   ]);
 };

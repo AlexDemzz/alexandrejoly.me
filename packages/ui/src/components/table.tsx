@@ -1,9 +1,9 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Components › Row: hairline rules, 14px vertical padding, no hover
-// fill. `--table-inset` pads the outer cells when a container draws the table
-// edge to edge.
+// DESIGN.md › Components › Row: 14px text, hairline rules, 14px vertical
+// padding, no hover fill. `--table-inset` pads the outer cells when a container
+// draws the table edge to edge.
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -12,7 +12,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
     >
       <table
         data-slot="table"
-        className={cn("w-full caption-bottom", className)}
+        className={cn("w-full caption-bottom text-sm", className)}
         {...props}
       />
     </div>

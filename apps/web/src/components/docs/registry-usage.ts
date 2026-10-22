@@ -1,27 +1,34 @@
 import type { RegistryItemName } from "@/lib/registry";
 
-/**
- * The usage snippet of each docs page. Plain strings, apart from the JSX in
- * `registry-docs.tsx`, so the build can highlight them in Node.
- */
-export const REGISTRY_USAGE: Record<RegistryItemName, string> = {
-  hint: `import { Hint, HintContent, HintTrigger } from "@/components/ui/hint";
+export interface Usage {
+  imports: string;
+  markup: string;
+}
 
-<Hint>
+/**
+ * The usage snippet of each docs page, imports apart from markup as in the
+ * shadcn docs. Plain strings, apart from the JSX in `registry-docs.tsx`, so
+ * the build can highlight them in Node.
+ */
+export const REGISTRY_USAGE: Record<RegistryItemName, Usage> = {
+  hint: {
+    imports: `import { Hint, HintContent, HintTrigger } from "@/components/ui/hint";`,
+    markup: `<Hint>
   <HintTrigger>
     Label
     <CircleHelpIcon />
   </HintTrigger>
   <HintContent>A short explanation of the label.</HintContent>
 </Hint>`,
-  "infinite-scroll": `import {
+  },
+  "infinite-scroll": {
+    imports: `import {
   InfiniteScroll,
   InfiniteScrollContent,
   InfiniteScrollSentinel,
   InfiniteScrollViewport,
-} from "@/components/ui/infinite-scroll";
-
-<InfiniteScroll
+} from "@/components/ui/infinite-scroll";`,
+    markup: `<InfiniteScroll
   hasNextPage={hasNextPage}
   isFetchingNextPage={isFetchingNextPage}
   onFetchNextPage={() => fetchNextPage()}
@@ -35,16 +42,17 @@ export const REGISTRY_USAGE: Record<RegistryItemName, string> = {
     </InfiniteScrollContent>
   </InfiniteScrollViewport>
 </InfiniteScroll>`,
-  "item-inset-separator": `import {
+  },
+  "item-inset-separator": {
+    imports: `import {
   Item,
   ItemContent,
   ItemDescription,
   ItemMedia,
   ItemTitle,
 } from "@/components/ui/item";
-import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
-
-<div className="flex flex-col">
+import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";`,
+    markup: `<div className="flex flex-col">
   {projects.map((project, index) => (
     <Item key={project.id}>
       <ItemMedia variant="icon">
@@ -58,25 +66,27 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
     </Item>
   ))}
 </div>`,
-  marquee: `import {
+  },
+  marquee: {
+    imports: `import {
   Marquee,
   MarqueeContent,
   MarqueeItem,
-} from "@/components/ui/marquee";
-
-<Marquee>
+} from "@/components/ui/marquee";`,
+    markup: `<Marquee>
   <MarqueeContent>
     <MarqueeItem>Item 1</MarqueeItem>
     <MarqueeItem>Item 2</MarqueeItem>
   </MarqueeContent>
 </Marquee>`,
-  "notification-badge": `import {
+  },
+  "notification-badge": {
+    imports: `import {
   NotificationBadge,
   NotificationBadgeContent,
   NotificationBadgeIndicator,
-} from "@/components/ui/notification-badge";
-
-<NotificationBadge value={3}>
+} from "@/components/ui/notification-badge";`,
+    markup: `<NotificationBadge value={3}>
   <NotificationBadgeContent>
     <Button aria-label="Notifications, 3 unread" size="icon" variant="outline">
       <BellIcon />
@@ -84,7 +94,9 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
   </NotificationBadgeContent>
   <NotificationBadgeIndicator />
 </NotificationBadge>`,
-  onboarding: `import {
+  },
+  onboarding: {
+    imports: `import {
   Onboarding,
   OnboardingContent,
   OnboardingDescription,
@@ -96,9 +108,8 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
   OnboardingPrevButton,
   OnboardingStep,
   OnboardingTitle,
-} from "@/components/ui/onboarding";
-
-<Onboarding onComplete={() => setOpen(false)} totalSteps={2}>
+} from "@/components/ui/onboarding";`,
+    markup: `<Onboarding onComplete={() => setOpen(false)} totalSteps={2}>
   <OnboardingContent>
     <OnboardingStep value={1}>
       <OnboardingHeader>
@@ -121,4 +132,5 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";
     </OnboardingNav>
   </OnboardingFooter>
 </Onboarding>`,
+  },
 };

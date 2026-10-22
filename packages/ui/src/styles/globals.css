@@ -212,7 +212,7 @@
   }
   html {
     @apply font-sans antialiased;
-    /* Inherited, so native scrollbars match the ScrollArea thumb. */
+    /* Inherited, so every native scrollbar takes the thumb colour. */
     scrollbar-color: var(--scrollbar) transparent;
   }
   body {
@@ -230,32 +230,6 @@
     ::after {
       animation-duration: 0.01ms !important;
       transition-duration: 0.01ms !important;
-    }
-  }
-}
-
-/*
- * DESIGN.md › Components › Code: Shiki output inside CodeBlockContent. Both
- * vitesse themes ride on CSS variables; the colour scheme picks one.
- */
-@layer components {
-  /* The end padding clears the pinned copy button once the code is scrolled
-     to its end. */
-  [data-slot="code-block-content"] pre {
-    inline-size: max-content;
-    min-inline-size: 100%;
-    padding-inline-end: calc(var(--spacing) * 10);
-    font-family: var(--font-mono);
-    tab-size: 2;
-  }
-
-  [data-slot="code-block-content"] span {
-    color: var(--shiki-light);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    [data-slot="code-block-content"] span {
-      color: var(--shiki-dark);
     }
   }
 }

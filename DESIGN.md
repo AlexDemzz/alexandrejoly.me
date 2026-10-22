@@ -91,7 +91,7 @@ shadcnMapping:
 
 ## Overview
 
-Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font and a single 16px size. One 720px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
+Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font at 16px, with 14px only for the footer, tables and code blocks. One 720px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
@@ -103,7 +103,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 ## Typography
 
 - System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
-- 16px for everything except the 14px footer. Line-height 1.625, 1.375 for the identity lines.
+- 16px for everything except the footer, tables and code blocks, which are 14px. Line-height 1.625, 1.375 for the identity lines.
 - Weight 500 for the name, 450 (`font-book`) for row titles, links and the role, 400 for body and section titles.
 - Years use `tabular-nums`.
 
@@ -129,9 +129,9 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Row** (a plain `ul` of `ItemLight`s from `apps/web/src/components/item-light.tsx`, styled from `apps/web/src/index.css` by `data-slot`; the stock `Item` printed too many classes for the home's text-to-HTML ratio): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), ruled by an inset hairline drawn as the row's `::after`, the same rule as `ItemInsetSeparator`.
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`.
-- **Code** (`Code`, `CodeBlock`): system mono at 16px. Inline code is ink (`muted` for secondary code such as types); blocks are a `tint` card at 16px radius with no border, Shiki's vitesse colours and a ghost copy button pinned to the top end over the code, which scrolls to the card's edge in a `ScrollArea` capped at 480px tall: a 4px round thumb in `scrollbar` (3:1 on the tint) on each axis that overflows, ink under the pointer.
+- **Code** (`Code`, `CodeBlock`): system mono. Inline code is ink at the surrounding size (`muted` for secondary code such as types). Blocks are shadcn's `CodeBlock` at 14px: a `tint` card at 16px radius with no border, Shiki's vitesse colours highlighted at build time, and a ghost copy button that shows on hover or focus at the top end, or in the header next to a file title. Heights follow ui.shadcn.com: install commands and Usage show in full, Usage split into an imports card and a markup card; an example's code scrolls within 288px; the full source collapses to 256px behind a centred ghost "Show more" in the footer, then scrolls within 384px. Capped blocks fade top and bottom with `scroll-fade-y`.
 - **Preview** (`Preview`): a live demo in a card drawn by a single `hairline` at 16px radius, no fill, so demos keep the page background.
-- **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, the one exception to the single 16px size, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
+- **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, like every table, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
 - **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
 - **Docs sidebar** (`Sidebar`, `collapsible="none"`): the docs container's navigation. Desktop: the Home link on top, then one muted link per component; the current one is ink, hover underlines. No border, no fill. Mobile: the page header keeps the Home link with a menu icon button at the end, which opens the same list, titled "Components", in a sheet.
 - **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
@@ -147,7 +147,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 ## Do / Don't
 
-- Do keep every size at 16px and build hierarchy with weight and ink.
+- Do keep every size at 16px, except the footer, tables and code blocks at 14px, and build hierarchy with weight and ink.
 - Do keep section titles in the margin and rows ruled.
 - Don't put dividers between sections; spacing separates them.
 - Don't fill rows on hover, or add an accent colour, cards (outside docs previews and code) or a theme toggle.

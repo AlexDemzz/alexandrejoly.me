@@ -13,7 +13,11 @@ import { runnerImport } from "vite";
 import type { Plugin } from "vite";
 
 import type { REGISTRY_USAGE } from "../src/components/docs/registry-usage.ts";
-import type { ComponentCode } from "../src/lib/component-code.ts";
+import type {
+  ComponentCode,
+  HighlightedCode,
+  HighlightedToken,
+} from "../src/lib/component-code.ts";
 import type * as Registry from "../src/lib/registry.ts";
 
 const VIRTUAL_PREFIX = "virtual:component-code/";
@@ -46,20 +50,34 @@ let highlighter: Promise<HighlighterCore> | undefined;
 
 /**
  * Both themes ride on CSS variables (`--shiki-light`, `--shiki-dark`) with no
- * inline colour, so the stylesheet picks one per colour scheme.
+ * inline colour, so the code block picks one per colour scheme.
  */
-const highlight = async (code: string, lang: "bash" | "css" | "tsx") => {
+const highlight = async (
+  source: string,
+  lang: "bash" | "css" | "tsx"
+): Promise<HighlightedCode> => {
   highlighter ??= createHighlighterCore({
     engine: createJavaScriptRegexEngine(),
     langs: [bash, css, tsx],
     themes: [vitesseLight, vitesseDark],
   });
   const shiki = await highlighter;
-  return shiki.codeToHtml(code.trimEnd(), {
+  const code = source.trimEnd();
+  const { tokens } = shiki.codeToTokens(code, {
     defaultColor: false,
     lang,
     themes: { dark: "vitesse-dark", light: "vitesse-light" },
   });
+  return {
+    code,
+    lines: tokens.map((line) =>
+      line.map(({ content, htmlStyle }): HighlightedToken => [
+        content,
+        htmlStyle?.["--shiki-light"] ?? "",
+        htmlStyle?.["--shiki-dark"] ?? "",
+      ])
+    ),
+  };
 };
 
 const highlightOptional = (code: string | null, lang: "bash" | "css") =>
@@ -122,25 +140,34 @@ const buildComponentCode = async (
     registryDependencies,
     styles,
     source,
-    usageHtml,
-    ...html
+    usageImports,
+    usageMarkup,
+    demoEntries,
   ] = await Promise.all([
     highlight(installation.cli, "bash"),
     highlightOptional(installation.dependencies, "bash"),
     highlightOptional(installation.registryDependencies, "bash"),
     highlightOptional(installation.styles, "css"),
     highlight(readFileSync(sourceFile, "utf-8"), "tsx"),
-    highlight(docs.usage[name], "tsx"),
-    ...demos.map((file) =>
-      highlight(toProjectImports(readFileSync(demoPath(file), "utf-8")), "tsx")
+    highlight(docs.usage[name].imports, "tsx"),
+    highlight(docs.usage[name].markup, "tsx"),
+    Promise.all(
+      demos.map(
+        async (file) =>
+          [
+            file,
+            await highlight(
+              toProjectImports(readFileSync(demoPath(file), "utf-8")),
+              "tsx"
+            ),
+          ] as const
+      )
     ),
   ]);
 
   return {
     code: {
-      demos: Object.fromEntries(
-        demos.map((file, index) => [file, html[index] ?? ""])
-      ),
+      demos: Object.fromEntries(demoEntries),
       installation: {
         cli,
         dependencies,
@@ -149,7 +176,7 @@ const buildComponentCode = async (
         targetPath: installation.targetPath,
       },
       source,
-      usage: usageHtml,
+      usage: { imports: usageImports, markup: usageMarkup },
     },
     files: [...docs.dependencies, sourceFile, ...demos.map(demoPath)],
   };

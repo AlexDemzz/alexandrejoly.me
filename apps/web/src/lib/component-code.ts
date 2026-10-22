@@ -1,12 +1,29 @@
 import type { Installation, RegistryItemName } from "@/lib/registry";
 
-/** Every code block of a component page, highlighted to HTML at build time. */
+/** A tuple rather than an object keeps each page's chunk about a quarter smaller. */
+export type HighlightedToken = [content: string, light: string, dark: string];
+
+export interface HighlightedCode {
+  code: string;
+  lines: HighlightedToken[][];
+}
+
+/** `Installation` with each snippet highlighted. */
+export interface HighlightedInstallation {
+  cli: HighlightedCode;
+  dependencies: HighlightedCode | null;
+  registryDependencies: HighlightedCode | null;
+  styles: HighlightedCode | null;
+  targetPath: Installation["targetPath"];
+}
+
+/** Every code block of a component page, highlighted at build time. */
 export interface ComponentCode {
   /** Keyed by demo file name. */
-  demos: Record<string, string>;
-  installation: Installation;
-  source: string;
-  usage: string;
+  demos: Record<string, HighlightedCode>;
+  installation: HighlightedInstallation;
+  source: HighlightedCode;
+  usage: { imports: HighlightedCode; markup: HighlightedCode };
 }
 
 // One chunk per page, built by plugins/component-code.ts.

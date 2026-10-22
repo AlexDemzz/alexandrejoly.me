@@ -46,7 +46,7 @@ const Installation = ({
   source,
 }: {
   installation: ComponentCode["installation"];
-  source: string;
+  source: ComponentCode["source"];
 }) => (
   <Tabs defaultValue="cli">
     <TabsList>
@@ -54,27 +54,33 @@ const Installation = ({
       <TabsTrigger value="manual">Manual</TabsTrigger>
     </TabsList>
     <TabsContent value="cli">
-      <CodeBlock html={installation.cli} />
+      <CodeBlock code={installation.cli} />
     </TabsContent>
     <TabsContent value="manual">
       <ol className="flex flex-col gap-6">
         {installation.dependencies === null ? null : (
-          <Step code={<CodeBlock html={installation.dependencies} />}>
+          <Step code={<CodeBlock code={installation.dependencies} />}>
             Install the dependencies.
           </Step>
         )}
         {installation.registryDependencies === null ? null : (
-          <Step code={<CodeBlock html={installation.registryDependencies} />}>
+          <Step code={<CodeBlock code={installation.registryDependencies} />}>
             Add the shadcn components it builds on.
           </Step>
         )}
         {installation.styles === null ? null : (
-          <Step code={<CodeBlock html={installation.styles} />}>
+          <Step code={<CodeBlock code={installation.styles} />}>
             Add the styles to your global CSS file.
           </Step>
         )}
         <Step
-          code={<CodeBlock html={source} title={installation.targetPath} />}
+          code={
+            <CodeBlock
+              code={source}
+              collapsible
+              title={installation.targetPath}
+            />
+          }
         >
           Copy the source into your project, then update the import paths to
           match your aliases.
@@ -125,7 +131,7 @@ const ComponentDocsPage = ({
             </header>
 
             <ComponentPreview
-              code={code.demos[demo.file] ?? ""}
+              code={code.demos[demo.file]}
               inspector={demo.inspector}
             >
               <demo.Component />
@@ -144,7 +150,10 @@ const ComponentDocsPage = ({
             <Section variant="stacked">
               <SectionTitle>Usage</SectionTitle>
               <SectionContent>
-                <CodeBlock html={code.usage} />
+                <div className="flex flex-col gap-6">
+                  <CodeBlock code={code.usage.imports} />
+                  <CodeBlock code={code.usage.markup} />
+                </div>
               </SectionContent>
             </Section>
 
@@ -172,7 +181,7 @@ const ComponentDocsPage = ({
                         </div>
                         {example.notice}
                         <ComponentPreview
-                          code={code.demos[example.file] ?? ""}
+                          code={code.demos[example.file]}
                           inspector={example.inspector}
                         >
                           <example.Component />

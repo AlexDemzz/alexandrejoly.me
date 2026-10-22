@@ -38,6 +38,19 @@ export default defineConfig({
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
+      // Stock shadcn code block: a focusable <pre> so keyboard users can
+      // scroll it, a promise-chained copy and a counter-reset style.
+      files: ["packages/ui/src/components/code-block.tsx"],
+      rules: {
+        "eslint/no-empty-function": "off",
+        "eslint/no-use-before-define": "off",
+        "eslint/require-unicode-regexp": "off",
+        "jsx-a11y/no-noninteractive-tabindex": "off",
+        "promise/prefer-await-to-then": "off",
+        "shadcn/no-inline-styles": "off",
+      },
+    },
+    {
       // Stock shadcn item: ItemGroup is a div with role="list".
       files: ["packages/ui/src/components/item.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },

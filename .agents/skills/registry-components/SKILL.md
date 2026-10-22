@@ -54,7 +54,7 @@ Done when the server HTML already shows the right state: `curl` the docs page fr
 `apps/web/plugins/component-code.ts` highlights every code block of a docs page at build time, so the page loads no Shiki and has no pending state. It reads:
 
 - the source in `apps/web/registry/<name>.tsx`;
-- the usage snippet in `apps/web/src/components/docs/registry-usage.ts`, plain strings kept apart from the JSX of `registry-docs.tsx`;
+- the usage snippet in `apps/web/src/components/docs/registry-usage.ts`: `imports` and `markup` as two plain strings, shown as two cards as in the shadcn docs, kept apart from the JSX of `registry-docs.tsx`;
 - every demo named `<name>-*.tsx` in `apps/web/src/components/demos/`. Name a component's demo and examples after it, or their code tab stays empty.
 
 ## Demos

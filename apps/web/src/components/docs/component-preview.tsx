@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 
 import { CodeBlock } from "@/components/docs/code-block";
 import type { Inspector } from "@/components/docs/registry-docs";
+import type { HighlightedCode } from "@/lib/component-code";
 
 interface InspectorToggleProps {
   inspector: Inspector;
@@ -52,7 +53,7 @@ const InspectorToggle = ({
 interface ComponentPreviewProps {
   children: ReactNode;
   /** Highlighted source of the demo rendered in `children`. */
-  code: string;
+  code: HighlightedCode | undefined;
   inspector?: Inspector;
 }
 
@@ -85,7 +86,7 @@ export const ComponentPreview = ({
         </Preview>
       </TabsContent>
       <TabsContent value="code">
-        <CodeBlock html={code} />
+        {code && <CodeBlock code={code} scrollable />}
       </TabsContent>
     </Tabs>
   );
