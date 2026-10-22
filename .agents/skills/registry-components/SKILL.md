@@ -1,10 +1,21 @@
+---
+name: registry-components
+description: Registry components in apps/web/registry/. Use when building or changing one, its docs page, demos or usage snippet, or the CSS it installs.
+---
+
 # Registry components
 
-How a component in `apps/web/registry/` is built (props, spacing, server rendering), and how its docs page in `apps/web/src/components/docs/registry-docs.tsx` presents it.
+## New component
+
+1. Add the item to `apps/web/registry.json` and its name to `REGISTRY_ITEM_NAMES` (`apps/web/src/lib/registry.ts`).
+2. Fill every `Record<RegistryItemName, …>` the type checker then flags: docs entry, usage snippet, code chunk, home icon.
+3. Name its demos `<name>-*.tsx` (see Code blocks).
+
+Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.
 
 ## Source
 
-A registry file reads like stock shadcn source: code only, with no comments, since it ships verbatim to every install. Oxlint ignores `apps/web/registry/**`, so never add an `oxlint-disable` directive there. Behaviour, caveats and browser support go on the component's docs page.
+A registry file reads like stock shadcn source: code only, with no comments, since it ships verbatim to every install. Oxlint ignores `apps/web/registry/**`, so the file needs no `oxlint-disable` directive. Behaviour, caveats and browser support go on the component's docs page.
 
 ## Forwarding props
 
@@ -45,8 +56,6 @@ Done when the server HTML already shows the right state: `curl` the docs page fr
 - the source in `apps/web/registry/<name>.tsx`;
 - the usage snippet in `apps/web/src/components/docs/registry-usage.ts`, plain strings kept apart from the JSX of `registry-docs.tsx`;
 - every demo named `<name>-*.tsx` in `apps/web/src/components/demos/`. Name a component's demo and examples after it, or their code tab stays empty.
-
-A new component also needs its line in `COMPONENT_CODE` (`apps/web/src/lib/component-code.ts`).
 
 ## Demos
 

@@ -12,8 +12,8 @@ Before editing files for a substantial task:
 
 ## Project Guides
 
-- Registry work (a component in `apps/web/registry/` or its docs page): read `.claude/docs/registry-components.md` first.
-- Writing docs (docs pages, demo copy, README, `.claude/docs/`): load the `better-writing` skill first and write with it.
+- Registry work (a component in `apps/web/registry/`, its docs page or demos): load the `registry-components` skill (`.agents/skills/registry-components/SKILL.md`) first.
+- Writing docs (docs pages, demo copy, README, `.agents/skills/`): load the `better-writing` skill first and write with it.
 
 # Ultracite Code Standards
 
