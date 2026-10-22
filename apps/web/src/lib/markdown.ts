@@ -1,3 +1,10 @@
+import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
+import type {
+  ApiExtends,
+  ApiPart,
+  ApiProp,
+  Example,
+} from "@/components/docs/registry-docs";
 import { REGISTRY_USAGE } from "@/components/docs/registry-usage";
 import {
   ARCHIVES,
@@ -14,6 +21,9 @@ import {
 import type { Inline, Paragraph } from "@/content";
 import { INFO_PAGES, INFO_PAGE_SLUGS, isInfoPageSlug } from "@/info-pages";
 import type { InfoPageSlug } from "@/info-pages";
+import { getComponentCode } from "@/lib/component-code";
+import type { ComponentCode } from "@/lib/component-code";
+import { absolute, markdownUrl } from "@/lib/head";
 import {
   REGISTRY_ITEMS,
   getInstallation,
@@ -24,12 +34,6 @@ import type { RegistryItemName } from "@/lib/registry";
 
 // Indents every non-empty line after the first, to nest a step in its list item.
 const PARAGRAPH_LINE = /\n(?=.)/gu;
-
-const absolute = (path: string) => new URL(path, SITE.url).href;
-
-/** The Markdown twin of a page: its path plus `.md`, `index.md` for home. */
-export const markdownUrl = (path: string) =>
-  absolute(path === "" ? "index.md" : `${path}.md`);
 
 const inline = (run: Inline) =>
   typeof run === "string" ? run : `[${run.text}](${run.href})`;
@@ -133,9 +137,81 @@ export const infoPageMarkdown = (slug: InfoPageSlug) => {
   ]);
 };
 
-export const componentMarkdown = (name: RegistryItemName) => {
+const TABLE_PIPE = /\|/gu;
+
+const tableRow = (cells: string[]) =>
+  `| ${cells.map((cell) => cell.replaceAll(TABLE_PIPE, "\\|")).join(" | ")} |`;
+
+const extendsLine = ({ href, name }: ApiExtends) => {
+  const target = href === undefined ? `\`${name}\`` : `[${name}](${href})`;
+  return `Takes every prop of ${target}.`;
+};
+
+const defaultCell = (prop: ApiProp) =>
+  prop.default === undefined ? "—" : `\`${prop.default}\``;
+
+const demoFence = (code: ComponentCode, file: string) =>
+  fence(code.demos[file]?.code ?? "", "tsx");
+
+const apiPartMarkdown = ({
+  description,
+  extends: target,
+  name,
+  nameLabel = "Prop",
+  props,
+}: ApiPart) => {
+  const showDefault = props.some((prop) => prop.default !== undefined);
+  const header = showDefault
+    ? [nameLabel, "Type", "Default", "Description"]
+    : [nameLabel, "Type", "Description"];
+  const table =
+    props.length === 0
+      ? null
+      : [
+          tableRow(header),
+          tableRow(header.map(() => "---")),
+          ...props.map((prop) =>
+            tableRow([
+              `\`${prop.name}\``,
+              `\`${prop.type}\``,
+              ...(showDefault ? [defaultCell(prop)] : []),
+              prop.description,
+            ])
+          ),
+        ].join("\n");
+  return [
+    `### ${name}`,
+    description,
+    target === undefined ? null : extendsLine(target),
+    table,
+  ]
+    .filter((block) => block !== null)
+    .join("\n\n");
+};
+
+const exampleMarkdown = (
+  { description, file, notice, title }: Example,
+  code: ComponentCode
+) =>
+  [
+    `### ${title}`,
+    description,
+    notice === undefined
+      ? null
+      : `> ${notice.needs}. Without that support, ${notice.fallback}.`,
+    demoFence(code, file),
+  ]
+    .filter((block) => block !== null)
+    .join("\n\n");
+
+/** Everything the component's docs page shows, each preview as its code. */
+export const componentMarkdown = (
+  name: RegistryItemName,
+  code: ComponentCode
+) => {
   const item = getRegistryItem(name);
   const installation = getInstallation(item);
+  const { accessibility, api, demo, examples } = REGISTRY_DOCS[name];
   const manual = [
     installation.dependencies === null
       ? null
@@ -146,30 +222,45 @@ export const componentMarkdown = (name: RegistryItemName) => {
     installation.styles === null
       ? null
       : `Add the styles to your global CSS file:\n\n${fence(installation.styles, "css")}`,
-    `Copy the source from [the registry item](${absolute(`r/${name}.json`)}) to \`${installation.targetPath}\`, then update the import paths to match your aliases.`,
+    `Copy the source into \`${installation.targetPath}\`, then update the import paths to match your aliases:\n\n${fence(code.source.code, "tsx")}`,
   ].filter((step) => step !== null);
 
-  return markdownDocument([
-    `# ${item.title}`,
-    `> ${item.description}`,
-    `A React component for projects built on shadcn/ui. The [interactive docs](${absolute(`components/${name}`)}) have live demos, more examples and the full API reference.`,
-    section(
-      "Installation",
-      [
-        `With the shadcn CLI:\n\n${fence(installation.cli, "bash")}`,
-        `Without the \`@alexandrejoly\` namespace, pass the registry URL:\n\n${fence(`pnpm dlx shadcn@latest add ${absolute(`r/${name}.json`)}`, "bash")}`,
-        `Or by hand:\n\n${manual.map((step, index) => `${index + 1}. ${step.replaceAll(PARAGRAPH_LINE, "\n   ")}`).join("\n")}`,
-      ].join("\n\n")
-    ),
-    section(
-      "Usage",
-      [
-        fence(REGISTRY_USAGE[name].imports, "tsx"),
-        fence(REGISTRY_USAGE[name].markup, "tsx"),
-      ].join("\n\n")
-    ),
-    `[All components](${markdownUrl("")})`,
-  ]);
+  return markdownDocument(
+    [
+      `# ${item.title}`,
+      `> ${item.description}`,
+      `A React component for projects built on shadcn/ui. The [interactive docs](${absolute(`components/${name}`)}) show each example live.`,
+      demoFence(code, demo.file),
+      section(
+        "Installation",
+        [
+          `With the shadcn CLI:\n\n${fence(installation.cli, "bash")}`,
+          `Without the \`@alexandrejoly\` namespace, pass the registry URL:\n\n${fence(`pnpm dlx shadcn@latest add ${absolute(`r/${name}.json`)}`, "bash")}`,
+          `Or by hand:\n\n${manual.map((step, index) => `${index + 1}. ${step.replaceAll(PARAGRAPH_LINE, "\n   ")}`).join("\n")}`,
+        ].join("\n\n")
+      ),
+      section(
+        "Usage",
+        [
+          fence(REGISTRY_USAGE[name].imports, "tsx"),
+          fence(REGISTRY_USAGE[name].markup, "tsx"),
+        ].join("\n\n")
+      ),
+      examples.length === 0
+        ? null
+        : section(
+            "Examples",
+            examples
+              .map((example) => exampleMarkdown(example, code))
+              .join("\n\n")
+          ),
+      accessibility === undefined
+        ? null
+        : section("Accessibility", accessibility.join("\n\n")),
+      section("API reference", api.map(apiPartMarkdown).join("\n\n")),
+      `[All components](${markdownUrl("")})`,
+    ].filter((block) => block !== null)
+  );
 };
 
 export const notFoundMarkdown = (pathname: string) =>
@@ -239,7 +330,7 @@ const MARKDOWN_SUFFIX = ".md";
 const TRAILING_SLASHES = /\/+$/u;
 
 /** The Markdown for a path, with or without its `.md` suffix. */
-export const markdownFor = (pathname: string): MarkdownPage => {
+export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
   const path = pathname.replace(TRAILING_SLASHES, "") || "/";
   if (path === "/" || path === `/index${MARKDOWN_SUFFIX}`) {
     return { body: homeMarkdown(), status: 200 };
@@ -256,7 +347,10 @@ export const markdownFor = (pathname: string): MarkdownPage => {
     ? page.slice("/components/".length)
     : "";
   if (isRegistryItemName(name)) {
-    return { body: componentMarkdown(name), status: 200 };
+    return {
+      body: componentMarkdown(name, await getComponentCode(name)),
+      status: 200,
+    };
   }
   return { body: notFoundMarkdown(pathname), status: 404 };
 };

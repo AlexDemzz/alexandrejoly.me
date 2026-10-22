@@ -1,11 +1,4 @@
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@portfolio/ui/components/alert";
-import { Code } from "@portfolio/ui/components/code";
-import { TriangleAlertIcon } from "lucide-react";
-import type { ComponentType, ReactNode } from "react";
+import type { ComponentType } from "react";
 
 import { HintDemo } from "@/components/demos/hint-demo";
 import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
@@ -44,10 +37,23 @@ export interface Demo {
   inspector?: Inspector;
 }
 
+/**
+ * What differs in browsers that lack a CSS feature the example relies on. The
+ * page shows it only there; the Markdown twin always carries it.
+ */
+export interface BrowserNotice {
+  /** What the example looks like without the feature, in lowercase. */
+  fallback: string;
+  /** What needs the feature, naming it, with `backtick` code spans. */
+  needs: string;
+  /** A feature query that shows the notice only where the feature is missing. */
+  visibility: string;
+}
+
 export interface Example extends Demo {
   description: string;
   /** Shown between the description and the preview. */
-  notice?: ReactNode;
+  notice?: BrowserNotice;
   title: string;
 }
 
@@ -225,21 +231,11 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "Each line starts at its own row’s text: past an image, past an icon, or at the edge with no media.",
         file: "item-inset-separator-media",
-        notice: (
-          // Only browsers without anchor positioning see it.
-          <Alert
-            className="hidden not-supports-[anchor-name:--a]:grid"
-            role="note"
-            variant="warning"
-          >
-            <TriangleAlertIcon aria-hidden />
-            <AlertTitle>In this browser, the lines run full width</AlertTitle>
-            <AlertDescription>
-              Starting each line at its text needs CSS anchor positioning, which
-              this browser doesn’t support yet.
-            </AlertDescription>
-          </Alert>
-        ),
+        notice: {
+          fallback: "the lines run full width",
+          needs: "Starting each line at its text needs CSS anchor positioning",
+          visibility: "hidden not-supports-[anchor-name:--a]:grid",
+        },
         title: "Inset past the media",
       },
     ],
@@ -329,23 +325,11 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "Items narrower than the marquee stand still: no clone, no fade. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
-        notice: (
-          // Only browsers without scroll-driven animations see it, Firefox today.
-          <Alert
-            className="hidden not-supports-[animation-timeline:scroll()]:grid"
-            role="note"
-            variant="warning"
-          >
-            <TriangleAlertIcon aria-hidden />
-            <AlertTitle>
-              In this browser, the items slide even though they fit
-            </AlertTitle>
-            <AlertDescription>
-              Telling that they fit needs CSS scroll-driven animations, which
-              this browser doesn’t support yet.
-            </AlertDescription>
-          </Alert>
-        ),
+        notice: {
+          fallback: "the items slide even though they fit",
+          needs: "Telling that they fit needs CSS scroll-driven animations",
+          visibility: "hidden not-supports-[animation-timeline:scroll()]:grid",
+        },
         title: "Content that fits",
       },
     ],
@@ -430,22 +414,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         description:
           "One character makes a circle, more make a pill, and the hole under it, the transparent cut-out around the badge, keeps the same shape. The demo caps the count at `99+` itself, since `value` shows whatever it gets.",
         file: "notification-badge-counts",
-        notice: (
-          // Only browsers without CSS shape() see it.
-          <Alert
-            className="hidden not-supports-[clip-path:shape(from_0_0,line_to_1px_1px)]:grid"
-            role="note"
-            variant="warning"
-          >
-            <TriangleAlertIcon aria-hidden />
-            <AlertTitle>In this browser, the badge has no gap</AlertTitle>
-            <AlertDescription>
-              Cutting the gap around the badge needs the CSS{" "}
-              <Code wrap="token">shape()</Code> function, which this browser
-              doesn’t support yet.
-            </AlertDescription>
-          </Alert>
-        ),
+        notice: {
+          fallback: "the badge has no gap",
+          needs:
+            "Cutting the gap around the badge needs the CSS `shape()` function",
+          visibility:
+            "hidden not-supports-[clip-path:shape(from_0_0,line_to_1px_1px)]:grid",
+        },
         title: "Counts",
       },
       {

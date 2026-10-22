@@ -10,7 +10,7 @@ const markdownRequest = (path: string, method = "GET") =>
 
 describe("agentResponse", () => {
   it("answers Markdown requests for the home page with Markdown", async () => {
-    const response = agentResponse(markdownRequest("/"));
+    const response = await agentResponse(markdownRequest("/"));
 
     expect(response?.status).toBe(200);
     expect(response?.headers.get("content-type")).toBe(
@@ -20,22 +20,22 @@ describe("agentResponse", () => {
     expect(await response?.text()).toMatch(/^# Alexandre Joly\n/u);
   });
 
-  it("leaves HTML requests to the app", () => {
+  it("leaves HTML requests to the app", async () => {
     expect(
-      agentResponse(request("/", { headers: { accept: "text/html" } }))
+      await agentResponse(request("/", { headers: { accept: "text/html" } }))
     ).toBeUndefined();
-    expect(agentResponse(request("/about"))).toBeUndefined();
+    expect(await agentResponse(request("/about"))).toBeUndefined();
   });
 
   it("serves a page's Markdown twin at its .md path, whatever Accept says", async () => {
-    const response = agentResponse(request("/components/hint.md"));
+    const response = await agentResponse(request("/components/hint.md"));
 
     expect(response?.status).toBe(200);
     expect(await response?.text()).toMatch(/^# Hint\n/u);
   });
 
   it("answers unknown paths with a Markdown 404 that points somewhere useful", async () => {
-    const response = agentResponse(markdownRequest("/does-not-exist"));
+    const response = await agentResponse(markdownRequest("/does-not-exist"));
     const body = (await response?.text()) ?? "";
 
     expect(response?.status).toBe(404);
@@ -46,14 +46,14 @@ describe("agentResponse", () => {
     expect(body).toContain("(https://alexandrejoly.me/llms.txt)");
   });
 
-  it("treats unknown component names as missing", () => {
-    expect(agentResponse(markdownRequest("/components/nope"))?.status).toBe(
-      404
-    );
+  it("treats unknown component names as missing", async () => {
+    const response = await agentResponse(markdownRequest("/components/nope"));
+
+    expect(response?.status).toBe(404);
   });
 
   it("serves llms.txt as plain text", async () => {
-    const response = agentResponse(request("/llms.txt"));
+    const response = await agentResponse(request("/llms.txt"));
 
     expect(response?.headers.get("content-type")).toBe(
       "text/plain; charset=utf-8"
@@ -62,15 +62,17 @@ describe("agentResponse", () => {
   });
 
   it("sends headers without a body for HEAD", async () => {
-    const response = agentResponse(markdownRequest("/", "HEAD"));
+    const response = await agentResponse(markdownRequest("/", "HEAD"));
 
     expect(response?.status).toBe(200);
     expect(await response?.text()).toBe("");
   });
 
-  it("leaves writes and server functions to the app", () => {
-    expect(agentResponse(markdownRequest("/", "POST"))).toBeUndefined();
-    expect(agentResponse(markdownRequest("/_serverFn/abc"))).toBeUndefined();
+  it("leaves writes and server functions to the app", async () => {
+    expect(await agentResponse(markdownRequest("/", "POST"))).toBeUndefined();
+    expect(
+      await agentResponse(markdownRequest("/_serverFn/abc"))
+    ).toBeUndefined();
   });
 });
 

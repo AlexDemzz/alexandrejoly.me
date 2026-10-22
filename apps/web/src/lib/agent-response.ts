@@ -19,7 +19,9 @@ const textResponse = (
  * path ends in `.md` or the request prefers `text/markdown`. `undefined` lets
  * the app render HTML.
  */
-export const agentResponse = (request: Request): Response | undefined => {
+export const agentResponse = async (
+  request: Request
+): Promise<Response | undefined> => {
   if (!READ_METHODS.has(request.method)) {
     return undefined;
   }
@@ -35,7 +37,7 @@ export const agentResponse = (request: Request): Response | undefined => {
   if (!wantsMarkdown || pathname.startsWith(SERVER_FN_PREFIX)) {
     return undefined;
   }
-  const { body, status } = markdownFor(pathname);
+  const { body, status } = await markdownFor(pathname);
   return textResponse(request, body, {
     contentType: "text/markdown; charset=utf-8",
     status,

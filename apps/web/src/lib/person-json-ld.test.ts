@@ -11,11 +11,13 @@ describe("personJsonLd", () => {
     expect(personJsonLd.contactPoint.email).toMatch(BARE_EMAIL);
   });
 
-  it("points its contact point at a page the site serves", () => {
+  it("points its contact point at a page the site serves", async () => {
     const { url } = personJsonLd.contactPoint;
 
     expect(new URL(url).origin).toBe(new URL(personJsonLd.url).origin);
-    expect(agentResponse(new Request(`${url}.md`))?.status).toBe(200);
+    const response = await agentResponse(new Request(`${url}.md`));
+
+    expect(response?.status).toBe(200);
   });
 
   it("declares no Organization of its own, so the site reads as a person", () => {

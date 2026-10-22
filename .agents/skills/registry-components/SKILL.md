@@ -61,7 +61,7 @@ Done when the server HTML already shows the right state: `curl` the docs page fr
 
 A demo file ships whole in its code tab, so it holds exactly what a reader copies: no docs-only UI, no `oxlint-disable`, no selector reaching into the docs page such as `[data-slot=preview]`. What only explains the component goes through its docs entry:
 
-- a caveat above the preview: `notice`;
+- a browser-support caveat above the preview: `notice` (see Browser support);
 - a trace over part of the component: `inspector`. The preview renders the toggle and sets `data-inspect` to its `name`; the trace lives in `apps/web/src/index.css`, keyed by that name and the part's `data-slot`, in the `inspect` color. Example: the notification badge's "Show hole".
 
 ## API reference
@@ -70,7 +70,11 @@ Each table lists only the props the part adds, as the shadcn docs do: `extends` 
 
 ## Browser support
 
-When a component relies on a CSS feature some browsers lack, its docs page shows an `Alert` saying what differs there and why. Gate it with a feature query, such as `hidden not-supports-[animation-timeline:scroll()]:grid`, so it disappears once the browser ships the feature, and give it `role="note"`. Example: the marquee's "Content that fits" example.
+When an example relies on a CSS feature some browsers lack, give its docs entry a `notice`: what needs the feature, what the example looks like without it, and a feature query such as `hidden not-supports-[animation-timeline:scroll()]:grid`. The page shows it as an `Alert` only in those browsers, so it disappears once they ship the feature; the Markdown twin always carries it. Example: the marquee's "Content that fits" example.
+
+## Markdown twin
+
+Each docs page has a Markdown twin at its path plus `.md`, which "View as Markdown" opens and "Copy Markdown" copies. `componentMarkdown` in `apps/web/src/lib/markdown.ts` builds it from the same docs entry and highlighted code as the page, each preview replaced by its demo's code. Put what the page says in the docs entry as data, never as JSX, or the twin cannot carry it. `markdown.test.ts` fails when a page shows an example, an API part or an accessibility paragraph that the twin lacks.
 
 ## CSS an item installs
 

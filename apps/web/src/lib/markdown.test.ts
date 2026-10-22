@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import { PROJECTS } from "@/content";
 import { INFO_PAGE_SLUGS } from "@/info-pages";
-import { REGISTRY_ITEMS } from "@/lib/registry";
+import { getComponentCode } from "@/lib/component-code";
+import { REGISTRY_ITEMS, REGISTRY_ITEM_NAMES } from "@/lib/registry";
 
 import {
   componentMarkdown,
@@ -14,6 +16,7 @@ import {
 
 const MARKDOWN_LINK = /\[[^\]]+\]\([^)]+\)/gu;
 const TRUST_PAGE_MIN_CHARACTERS = 500;
+const LIST_ITEM_INDENT = /^ {3}/gmu;
 
 /** The words a reader sees: headings and link targets stripped. */
 const prose = (markdown: string) =>
@@ -84,8 +87,8 @@ describe("infoPageMarkdown", () => {
 });
 
 describe("componentMarkdown", () => {
-  it("carries the install command, a registry URL and the usage snippet", () => {
-    const markdown = componentMarkdown("hint");
+  it("carries the install command, a registry URL and the usage snippet", async () => {
+    const markdown = componentMarkdown("hint", await getComponentCode("hint"));
 
     expect(markdown).toContain(
       "pnpm dlx shadcn@latest add @alexandrejoly/hint"
@@ -95,30 +98,86 @@ describe("componentMarkdown", () => {
     );
     expect(markdown).toContain("```tsx\nimport { Hint, HintContent");
   });
+
+  it.each(REGISTRY_ITEM_NAMES)(
+    "carries everything the /components/%s page shows",
+    async (name) => {
+      const code = await getComponentCode(name);
+      const markdown = componentMarkdown(name, code);
+      const { accessibility = [], api, demo, examples } = REGISTRY_DOCS[name];
+
+      expect(markdown).toContain(code.demos[demo.file]?.code);
+      // The source sits in a list item, indented under its step.
+      expect(markdown.replaceAll(LIST_ITEM_INDENT, "")).toContain(
+        code.source.code
+      );
+      for (const example of examples) {
+        expect(markdown).toContain(`### ${example.title}`);
+        expect(markdown).toContain(example.description);
+        expect(markdown).toContain(code.demos[example.file]?.code);
+      }
+      if (accessibility.length > 0) {
+        expect(markdown).toContain("## Accessibility");
+      }
+      for (const paragraph of accessibility) {
+        expect(markdown).toContain(paragraph);
+      }
+      for (const part of api) {
+        expect(markdown).toContain(`### ${part.name}`);
+        expect(markdown).toContain(part.description);
+        for (const prop of part.props) {
+          expect(markdown).toContain(`| \`${prop.name}\` |`);
+        }
+      }
+    }
+  );
+
+  it("says what differs in a browser that lacks a feature", async () => {
+    const markdown = componentMarkdown(
+      "marquee",
+      await getComponentCode("marquee")
+    );
+
+    expect(markdown).toContain(
+      "> Telling that they fit needs CSS scroll-driven animations. Without that support, the items slide even though they fit."
+    );
+  });
+
+  it("keeps a pipe in a prop type from splitting its table cell", async () => {
+    const markdown = componentMarkdown(
+      "marquee",
+      await getComponentCode("marquee")
+    );
+
+    expect(markdown).toContain('| `"horizontal" \\| "vertical"` |');
+  });
 });
 
 describe("markdownFor", () => {
-  it("maps every page path, with or without .md", () => {
-    for (const path of [
-      "/",
-      "/index.md",
-      "/about",
-      "/privacy.md",
-      "/contact/",
-      "/components/marquee",
-    ]) {
-      expect(markdownFor(path).status).toBe(200);
-    }
+  it.each([
+    "/",
+    "/index.md",
+    "/about",
+    "/privacy.md",
+    "/contact/",
+    "/components/marquee",
+  ])("maps %s, with or without .md", async (path) => {
+    await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
 
-  it("reports anything else as missing", () => {
-    for (const path of ["/index", "/components", "/about/team", "/x.md"]) {
-      expect(markdownFor(path).status).toBe(404);
+  it.each(["/index", "/components", "/about/team", "/x.md"])(
+    "reports %s as missing",
+    async (path) => {
+      await expect(markdownFor(path)).resolves.toMatchObject({ status: 404 });
     }
-  });
+  );
 
-  it("only links absolute URLs, so agents can follow them anywhere", () => {
-    const links = [homeMarkdown(), llmsTxt(), markdownFor("/x").body]
+  it("only links absolute URLs, so agents can follow them anywhere", async () => {
+    const pages = await Promise.all([
+      markdownFor("/x"),
+      markdownFor("/components/onboarding"),
+    ]);
+    const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]
       .join("\n")
       .match(MARKDOWN_LINK);
 

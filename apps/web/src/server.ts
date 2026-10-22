@@ -4,6 +4,6 @@ import { agentResponse, withVaryAccept } from "@/lib/agent-response";
 
 export default createServerEntry({
   fetch: async (request, opts) =>
-    agentResponse(request) ??
+    (await agentResponse(request)) ??
     withVaryAccept(await handler.fetch(request, opts)),
 });

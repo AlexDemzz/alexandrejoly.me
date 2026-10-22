@@ -1,3 +1,8 @@
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@portfolio/ui/components/alert";
 import { Heading } from "@portfolio/ui/components/heading";
 import {
   Section,
@@ -15,22 +20,29 @@ import {
   TabsList,
   TabsTrigger,
 } from "@portfolio/ui/components/tabs";
-import { Text, textLinkVariants } from "@portfolio/ui/components/text";
+import {
+  Text,
+  TextLink,
+  textLinkVariants,
+} from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowLeftIcon, MenuIcon } from "lucide-react";
+import { ArrowLeftIcon, MenuIcon, TriangleAlertIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { ApiReference } from "@/components/docs/api-reference";
 import { CodeBlock } from "@/components/docs/code-block";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { ComponentsSidebar } from "@/components/docs/components-sidebar";
+import { CopyMarkdownButton } from "@/components/docs/copy-markdown-button";
 import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
+import type { BrowserNotice } from "@/components/docs/registry-docs";
 import { SiteFooter } from "@/components/site-footer";
 import { SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
-import { pageHead } from "@/lib/head";
+import { markdownPath, pageHead } from "@/lib/head";
+import { componentMarkdown } from "@/lib/markdown";
 import { getRegistryItem, isRegistryItemName } from "@/lib/registry";
 import type { RegistryItem } from "@/lib/registry";
 
@@ -39,6 +51,21 @@ const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
     <Text>{children}</Text>
     {code}
   </li>
+);
+
+const BrowserNoticeAlert = ({
+  notice: { fallback, needs, visibility },
+}: {
+  notice: BrowserNotice;
+}) => (
+  // oxlint-disable-next-line shadcn/require-static-classes -- each notice's feature query is a static string in its docs entry
+  <Alert className={visibility} role="note" variant="warning">
+    <TriangleAlertIcon aria-hidden />
+    <AlertTitle>In this browser, {fallback}</AlertTitle>
+    <AlertDescription>
+      <InlineCode>{`${needs}, which this browser doesn’t support yet.`}</InlineCode>
+    </AlertDescription>
+  </Alert>
 );
 
 const Installation = ({
@@ -179,7 +206,9 @@ const ComponentDocsPage = ({
                             <InlineCode>{example.description}</InlineCode>
                           </Text>
                         </div>
-                        {example.notice}
+                        {example.notice && (
+                          <BrowserNoticeAlert notice={example.notice} />
+                        )}
                         <ComponentPreview
                           code={code.demos[example.file]}
                           inspector={example.inspector}
@@ -214,6 +243,17 @@ const ComponentDocsPage = ({
                 <ApiReference parts={api} />
               </SectionContent>
             </Section>
+
+            <div className="flex gap-4">
+              <Text variant="faint">
+                <TextLink href={markdownPath(`components/${name}`)}>
+                  View as Markdown
+                </TextLink>
+              </Text>
+              <Text variant="faint">
+                <CopyMarkdownButton markdown={componentMarkdown(name, code)} />
+              </Text>
+            </div>
 
             <SiteFooter />
           </div>
