@@ -7,7 +7,7 @@
       "name": "notification-badge",
       "type": "registry:ui",
       "title": "Notification Badge",
-      "description": "A counter or dot pinned to an icon or avatar, with a transparent gap cut around it, so it reads on any background.",
+      "description": "A counter or dot on an icon or avatar, cut out so it reads on any background",
       "dependencies": ["class-variance-authority"],
       "registryDependencies": [],
       "files": [
@@ -21,7 +21,7 @@
       "name": "onboarding",
       "type": "registry:ui",
       "title": "Onboarding",
-      "description": "A step-by-step onboarding flow with a segmented progress indicator and buttons to move between steps.",
+      "description": "A step-by-step flow with a segmented progress bar",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["button", "progress"],
       "files": [
@@ -35,7 +35,7 @@
       "name": "hint",
       "type": "registry:ui",
       "title": "Hint",
-      "description": "A contextual help bubble that opens from a small trigger, built on the Base UI Popover.",
+      "description": "A small trigger that opens a help bubble, built on Base UI Popover",
       "dependencies": [],
       "registryDependencies": ["popover"],
       "files": [
@@ -49,7 +49,7 @@
       "name": "infinite-scroll",
       "type": "registry:ui",
       "title": "Infinite Scroll",
-      "description": "A list that fetches the next page as its end scrolls into view, below the items or, in reverse, above them. Works with any data library.",
+      "description": "A list that loads more items as you scroll, down or up, with any data library",
       "dependencies": ["@base-ui/react"],
       "registryDependencies": ["spinner"],
       "files": [
@@ -63,7 +63,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A strip of items that slides in a seamless loop, in CSS alone, once they overflow. Supports reverse and vertical tracks, pause on hover, and edge fades with shadcn’s scroll-fade.",
+      "description": "A CSS-only strip that loops its items once they overflow",
       "dependencies": [],
       "registryDependencies": [],
       "files": [
@@ -102,7 +102,7 @@
       "name": "item-inset-separator",
       "type": "registry:ui",
       "title": "Item Inset Separator",
-      "description": "A line along an Item's bottom that starts where its content starts, so it clears each Item's media.",
+      "description": "A divider under an Item that starts at its content, past the media",
       "registryDependencies": ["item"],
       "files": [
         {
