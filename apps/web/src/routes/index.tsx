@@ -79,7 +79,7 @@ const HomeComponent = () => {
 
   return (
     <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
-      <header className="flex flex-col gap-5 pb-6">
+      <div className="flex flex-col gap-5 pb-6">
         <Identity className="mb-1">
           <IdentityMark>
             <Mark />
@@ -114,7 +114,7 @@ const HomeComponent = () => {
         {contributions === null ? null : (
           <ContributionGraph contributions={contributions} />
         )}
-      </header>
+      </div>
 
       <Section>
         <SectionTitle>Projects</SectionTitle>
