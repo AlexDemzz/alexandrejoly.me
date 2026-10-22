@@ -11,8 +11,9 @@ import {
   TableRowHeader,
 } from "@portfolio/ui/components/table";
 import { Text, TextLink } from "@portfolio/ui/components/text";
-import { Fragment, useId } from "react";
+import { Fragment } from "react";
 
+import { HeadingAnchor } from "@/components/docs/heading-anchor";
 import { InlineCode } from "@/components/docs/inline-code";
 import type {
   ApiExtends,
@@ -97,17 +98,23 @@ const PropRow = ({
   </TableRow>
 );
 
-const ApiPartReference = ({ part }: { part: ApiPart }) => {
-  const headingId = useId();
+const ApiPartReference = ({
+  headingId,
+  part,
+}: {
+  headingId: string;
+  part: ApiPart;
+}) => {
   const showDefault = part.props.some((prop) => prop.default !== undefined);
   return (
     <Panel>
       <PanelHeader>
         <Heading
+          className="scroll-mt-6"
           id={headingId}
           render={({ children, ...props }) => <h3 {...props}>{children}</h3>}
         >
-          {part.name}
+          <HeadingAnchor id={headingId}>{part.name}</HeadingAnchor>
         </Heading>
         <Text>
           <InlineCode>{part.description}</InlineCode>
@@ -140,10 +147,17 @@ const ApiPartReference = ({ part }: { part: ApiPart }) => {
   );
 };
 
-export const ApiReference = ({ parts }: { parts: ApiPart[] }) => (
+export const ApiReference = ({
+  ids,
+  parts,
+}: {
+  /** One heading id per part, in the same order. */
+  ids: string[];
+  parts: ApiPart[];
+}) => (
   <div className="flex flex-col gap-6">
-    {parts.map((part) => (
-      <ApiPartReference key={part.name} part={part} />
+    {parts.map((part, index) => (
+      <ApiPartReference headingId={ids[index]} key={part.name} part={part} />
     ))}
   </div>
 );

@@ -34,6 +34,7 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { ComponentsSidebar } from "@/components/docs/components-sidebar";
 import { CopyMarkdownButton } from "@/components/docs/copy-markdown-button";
+import { HeadingAnchor } from "@/components/docs/heading-anchor";
 import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import type { BrowserNotice } from "@/components/docs/registry-docs";
@@ -42,6 +43,7 @@ import { SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { markdownPath, pageHead } from "@/lib/head";
+import { SECTION_IDS, headingIds } from "@/lib/heading-ids";
 import { componentMarkdown } from "@/lib/markdown";
 import { getRegistryItem, isRegistryItemName } from "@/lib/registry";
 import type { RegistryItem } from "@/lib/registry";
@@ -51,6 +53,18 @@ const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
     <Text>{children}</Text>
     {code}
   </li>
+);
+
+const AnchoredSectionTitle = ({
+  children,
+  id,
+}: {
+  children: string;
+  id: string;
+}) => (
+  <SectionTitle className="scroll-mt-6" id={id}>
+    <HeadingAnchor id={id}>{children}</HeadingAnchor>
+  </SectionTitle>
 );
 
 const BrowserNoticeAlert = ({
@@ -126,7 +140,9 @@ const ComponentDocsPage = ({
   code,
   item: { description, name, title },
 }: ComponentPageData) => {
-  const { accessibility, api, demo, examples } = REGISTRY_DOCS[name];
+  const docs = REGISTRY_DOCS[name];
+  const { accessibility, api, demo, examples } = docs;
+  const ids = headingIds(docs);
 
   return (
     <div className="max-w-docs mx-auto px-6">
@@ -165,7 +181,9 @@ const ComponentDocsPage = ({
             </ComponentPreview>
 
             <Section variant="stacked">
-              <SectionTitle>Installation</SectionTitle>
+              <AnchoredSectionTitle id={SECTION_IDS.installation}>
+                Installation
+              </AnchoredSectionTitle>
               <SectionContent>
                 <Installation
                   installation={code.installation}
@@ -175,7 +193,9 @@ const ComponentDocsPage = ({
             </Section>
 
             <Section variant="stacked">
-              <SectionTitle>Usage</SectionTitle>
+              <AnchoredSectionTitle id={SECTION_IDS.usage}>
+                Usage
+              </AnchoredSectionTitle>
               <SectionContent>
                 <div className="flex flex-col gap-6">
                   <CodeBlock code={code.usage.imports} />
@@ -186,21 +206,27 @@ const ComponentDocsPage = ({
 
             {examples.length > 0 && (
               <Section variant="stacked">
-                <SectionTitle>Examples</SectionTitle>
+                <AnchoredSectionTitle id={SECTION_IDS.examples}>
+                  Examples
+                </AnchoredSectionTitle>
                 <SectionContent>
                   <div className="flex flex-col gap-12">
-                    {examples.map((example) => (
+                    {examples.map((example, index) => (
                       <section
                         className="flex flex-col gap-3"
                         key={example.file}
                       >
                         <div>
                           <Heading
+                            className="scroll-mt-6"
+                            id={ids.examples[index]}
                             render={({ children, ...props }) => (
                               <h3 {...props}>{children}</h3>
                             )}
                           >
-                            {example.title}
+                            <HeadingAnchor id={ids.examples[index]}>
+                              {example.title}
+                            </HeadingAnchor>
                           </Heading>
                           <Text>
                             <InlineCode>{example.description}</InlineCode>
@@ -224,7 +250,9 @@ const ComponentDocsPage = ({
 
             {accessibility && (
               <Section variant="stacked">
-                <SectionTitle>Accessibility</SectionTitle>
+                <AnchoredSectionTitle id={SECTION_IDS.accessibility}>
+                  Accessibility
+                </AnchoredSectionTitle>
                 <SectionContent>
                   <div className="flex flex-col gap-3">
                     {accessibility.map((paragraph) => (
@@ -238,9 +266,11 @@ const ComponentDocsPage = ({
             )}
 
             <Section variant="stacked">
-              <SectionTitle>API reference</SectionTitle>
+              <AnchoredSectionTitle id={SECTION_IDS.api}>
+                API reference
+              </AnchoredSectionTitle>
               <SectionContent>
-                <ApiReference parts={api} />
+                <ApiReference ids={ids.api} parts={api} />
               </SectionContent>
             </Section>
 
