@@ -1,9 +1,21 @@
 // @vitest-environment jsdom
 
-import { Marquee, MarqueeContent, MarqueeItem } from "@registry/marquee";
-import { cleanup, render, waitFor } from "@testing-library/react";
+import {
+  Marquee,
+  MarqueeContent,
+  MarqueeItem,
+  MarqueePause,
+  MarqueeViewport,
+} from "@registry/marquee";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { renderToString } from "react-dom/server";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 afterEach(cleanup);
 
@@ -11,13 +23,15 @@ const TWO_LINKS = ["#one", "#two"];
 
 const Links = ({ hrefs = TWO_LINKS }: { hrefs?: string[] }) => (
   <Marquee>
-    <MarqueeContent>
-      {hrefs.map((href) => (
-        <MarqueeItem key={href}>
-          <a href={href}>{href}</a>
-        </MarqueeItem>
-      ))}
-    </MarqueeContent>
+    <MarqueeViewport>
+      <MarqueeContent>
+        {hrefs.map((href) => (
+          <MarqueeItem key={href}>
+            <a href={href}>{href}</a>
+          </MarqueeItem>
+        ))}
+      </MarqueeContent>
+    </MarqueeViewport>
   </Marquee>
 );
 
@@ -66,5 +80,44 @@ describe("Marquee clone", () => {
         clone.querySelector<HTMLAnchorElement>("a[href='#three']")?.tabIndex
       ).toBe(-1)
     );
+  });
+});
+
+describe("MarqueePause", () => {
+  it("names the action a press takes next", () => {
+    render(
+      <Marquee>
+        <MarqueePause />
+      </Marquee>
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Pause" }));
+    fireEvent.click(screen.getByRole("button", { name: "Play" }));
+
+    expect(screen.getByRole("button", { name: "Pause" })).toBeDefined();
+  });
+
+  it("starts paused with defaultPaused", () => {
+    render(
+      <Marquee defaultPaused>
+        <MarqueePause />
+      </Marquee>
+    );
+
+    expect(screen.getByRole("button", { name: "Play" })).toBeDefined();
+  });
+
+  it("reports a press to a controlled marquee and follows its prop", () => {
+    const onPausedChange = vi.fn();
+    render(
+      <Marquee onPausedChange={onPausedChange} paused={false}>
+        <MarqueePause />
+      </Marquee>
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Pause" }));
+
+    expect(onPausedChange).toHaveBeenCalledWith(true);
+    expect(screen.getByRole("button", { name: "Pause" })).toBeDefined();
   });
 });

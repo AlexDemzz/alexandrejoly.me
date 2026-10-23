@@ -72,12 +72,17 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";`,
   Marquee,
   MarqueeContent,
   MarqueeItem,
+  MarqueePause,
+  MarqueeViewport,
 } from "@/components/ui/marquee";`,
     markup: `<Marquee>
-  <MarqueeContent>
-    <MarqueeItem>Item 1</MarqueeItem>
-    <MarqueeItem>Item 2</MarqueeItem>
-  </MarqueeContent>
+  <MarqueePause />
+  <MarqueeViewport>
+    <MarqueeContent>
+      <MarqueeItem>Item 1</MarqueeItem>
+      <MarqueeItem>Item 2</MarqueeItem>
+    </MarqueeContent>
+  </MarqueeViewport>
 </Marquee>`,
   },
   "notification-badge": {

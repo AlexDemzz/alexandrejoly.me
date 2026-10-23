@@ -1,38 +1,91 @@
 "use client";
 
+import { mergeProps } from "@base-ui/react/merge-props";
+import { PauseIcon, PlayIcon } from "lucide-react";
 import {
   Children,
   createContext,
   isValidElement,
   use,
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+interface MarqueeContextValue {
+  paused: boolean;
+  setPaused: (paused: boolean) => void;
+}
+
+const MarqueeContext = createContext<MarqueeContextValue | null>(null);
+
+function useMarquee() {
+  const context = use(MarqueeContext);
+  if (!context) {
+    throw new Error("useMarquee must be used within a Marquee.");
+  }
+  return context;
+}
+
+type MarqueeProps = React.ComponentProps<"div"> & {
+  defaultPaused?: boolean;
+  onPausedChange?: (paused: boolean) => void;
+  paused?: boolean;
+};
+
 function Marquee({
+  className,
+  defaultPaused = false,
+  onPausedChange,
+  paused: pausedProp,
+  ...props
+}: MarqueeProps) {
+  const [uncontrolledPaused, setUncontrolledPaused] = useState(defaultPaused);
+  const paused = pausedProp ?? uncontrolledPaused;
+
+  const setPaused = useCallback(
+    (value: boolean) => {
+      setUncontrolledPaused(value);
+      onPausedChange?.(value);
+    },
+    [onPausedChange]
+  );
+
+  const context = useMemo(() => ({ paused, setPaused }), [paused, setPaused]);
+
+  return (
+    <MarqueeContext value={context}>
+      <div
+        className={cn("group/marquee flex items-center gap-2", className)}
+        data-paused={paused || undefined}
+        data-slot="marquee"
+        {...props}
+      />
+    </MarqueeContext>
+  );
+}
+
+function MarqueeViewport({
   children,
   className,
-  paused = false,
   ...props
-}: React.ComponentProps<"div"> & { paused?: boolean }) {
+}: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "group/marquee flex scroll-p-[50%] flex-col gap-4 overflow-hidden [--scroll-fade-reveal:0px]",
-        "[scroll-timeline:--marquee_inline] has-[>[data-slot=marquee-viewport]>[data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
+        "group/marquee-viewport flex min-w-0 flex-1 scroll-p-[50%] flex-col gap-4 self-stretch overflow-hidden [--scroll-fade-reveal:0px]",
+        "[scroll-timeline:--marquee_inline] has-[>div>[data-slot=marquee-content][data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}
-      data-paused={paused || undefined}
-      data-slot="marquee"
+      data-slot="marquee-viewport"
       {...props}
     >
-      <div
-        className="supports-[animation-timeline:scroll()]:animate-marquee-overflow contents [--scroll-fade-reveal:initial] supports-[animation-timeline:scroll()]:[animation-timeline:--marquee]"
-        data-slot="marquee-viewport"
-      >
+      <div className="supports-[animation-timeline:scroll()]:animate-marquee-overflow contents [--scroll-fade-reveal:initial] supports-[animation-timeline:scroll()]:[animation-timeline:--marquee]">
         {children}
       </div>
     </div>
@@ -80,7 +133,8 @@ function useUntabbableClone() {
 
 type MarqueeOrientation = "horizontal" | "vertical";
 
-const MarqueeContext = createContext<MarqueeOrientation>("horizontal");
+const MarqueeOrientationContext =
+  createContext<MarqueeOrientation>("horizontal");
 
 type MarqueeContentProps = React.ComponentProps<"div"> & {
   orientation?: MarqueeOrientation;
@@ -101,17 +155,18 @@ function MarqueeContent({
   const vertical = orientation === "vertical";
   const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
   const clone =
-    "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:hidden";
+    "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee-viewport:hidden";
 
   return (
-    <MarqueeContext value={orientation}>
+    <MarqueeOrientationContext value={orientation}>
       <div
         className={cn(
           vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
-          "group-focus-within/marquee:[animation-play-state:paused] group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:animate-none group-data-paused/marquee:[animation-play-state:paused]",
-          pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
+          "group-focus-within/marquee-viewport:[animation-play-state:paused] group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee-viewport:animate-none group-data-paused/marquee:[animation-play-state:paused]",
+          pauseOnHover &&
+            "group-hover/marquee-viewport:[animation-play-state:paused]",
           className
         )}
         data-direction={reverse ? "reverse" : "forward"}
@@ -132,12 +187,12 @@ function MarqueeContent({
           {items}
         </div>
       </div>
-    </MarqueeContext>
+    </MarqueeOrientationContext>
   );
 }
 
 function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
-  const orientation = use(MarqueeContext);
+  const orientation = use(MarqueeOrientationContext);
   return (
     <div
       className={cn(
@@ -150,4 +205,26 @@ function MarqueeItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-export { Marquee, MarqueeContent, MarqueeItem };
+function MarqueePause(props: React.ComponentProps<typeof Button>) {
+  const { paused, setPaused } = useMarquee();
+
+  return (
+    <Button
+      data-slot="marquee-pause"
+      {...mergeProps<typeof Button>(
+        {
+          className: "motion-reduce:hidden",
+          onClick: () => setPaused(!paused),
+          size: "icon",
+          variant: "ghost",
+        },
+        props
+      )}
+    >
+      {paused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
+      <span className="sr-only">{paused ? "Play" : "Pause"}</span>
+    </Button>
+  );
+}
+
+export { Marquee, MarqueeContent, MarqueeItem, MarqueePause, MarqueeViewport };

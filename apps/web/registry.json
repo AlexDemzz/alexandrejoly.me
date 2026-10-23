@@ -64,8 +64,8 @@
       "type": "registry:ui",
       "title": "Marquee",
       "description": "A strip that loops its items once they overflow",
-      "dependencies": [],
-      "registryDependencies": [],
+      "dependencies": ["@base-ui/react", "lucide-react"],
+      "registryDependencies": ["button"],
       "files": [
         {
           "path": "registry/marquee.tsx",

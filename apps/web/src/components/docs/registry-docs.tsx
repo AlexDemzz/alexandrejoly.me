@@ -8,7 +8,6 @@ import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator
 import { MarqueeCenter } from "@/components/demos/marquee-center";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
-import { MarqueePauseButton } from "@/components/demos/marquee-pause-button";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
 import { MarqueeReverse } from "@/components/demos/marquee-reverse";
 import { MarqueeVertical } from "@/components/demos/marquee-vertical";
@@ -245,24 +244,42 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   marquee: {
     accessibility: [
       "Screen readers and the Tab key skip the second copy of each track, so they meet every item once. A pointer can still click it.",
-      "Keyboard focus inside the marquee stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the marquee. Neither counts as the pause control WCAG 2.2.2 asks for when content moves for more than five seconds: set `paused` from a button, as the “Pause button” example does.",
-      "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
+      "`MarqueePause` is the pause control WCAG 2.2.2 asks for when content moves for more than five seconds. It pauses every track, resumes them where they stopped, and its accessible name switches between Pause and Play. Place it before `MarqueeViewport`, so Tab reaches it before the moving items.",
+      "Keyboard focus inside the viewport stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the viewport. Neither replaces `MarqueePause`: a pause that lasts only while focus or the pointer stays does not count for WCAG.",
+      "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy, and `MarqueePause` hides.",
     ],
     api: [
       {
         description:
-          "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Its `scroll-padding: 50%` centers the item keyboard focus lands on, so keep it. It clips on both axes, since detecting the overflow needs a scroll container, so it cuts the focus ring of a link inside: give the ring room with `py-1`, or `px-1` around a vertical track.",
+          "Holds the pause state and lines up `MarqueePause` beside the viewport.",
         extends: { name: "div" },
         name: "Marquee",
         props: [
           {
             default: "false",
             description:
-              "Pauses every track. Set it from your own button, placed before the marquee: keyboard focus on a button inside it would keep the tracks paused.",
+              "The pause state on first render, when you don’t control it.",
+            name: "defaultPaused",
+            type: "boolean",
+          },
+          {
+            description: "The pause state, when you control it.",
             name: "paused",
             type: "boolean",
           },
+          {
+            description: "Called when `MarqueePause` is pressed.",
+            name: "onPausedChange",
+            type: "(paused: boolean) => void",
+          },
         ],
+      },
+      {
+        description:
+          "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Its `scroll-padding: 50%` centers the item keyboard focus lands on, so keep it. It clips on both axes, since detecting the overflow needs a scroll container, so it cuts the focus ring of a link inside: give the ring room with `py-1`, or `px-1` around a vertical track.",
+        extends: { name: "div" },
+        name: "MarqueeViewport",
+        props: [],
       },
       {
         description:
@@ -286,7 +303,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           {
             default: "false",
             description:
-              "Pauses the track while a pointer is over the marquee.",
+              "Pauses the track while a pointer is over the viewport.",
             name: "pauseOnHover",
             type: "boolean",
           },
@@ -306,6 +323,16 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         name: "MarqueeItem",
         props: [],
       },
+      {
+        description:
+          "Pauses and resumes every track. It is a ghost icon button by default; pass `variant` or `size` to change it. Under reduced motion it hides, since the tracks stand still.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
+        name: "MarqueePause",
+        props: [],
+      },
     ],
     demo: { Component: MarqueeDemo, file: "marquee-demo" },
     examples: [
@@ -315,13 +342,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "A slower track, from `[--marquee-duration:60s]`, pauses under the pointer so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
-      },
-      {
-        Component: MarqueePauseButton,
-        description:
-          "A button before the marquee sets `paused`. Its icon and accessible name switch between Pause and Play. Under reduced motion the tracks stand still, so the button hides.",
-        file: "marquee-pause-button",
-        title: "Pause button",
       },
       {
         Component: MarqueeReverse,
@@ -340,7 +360,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeFit,
         description:
-          "Items narrower than the marquee stand still: no clone, no fade. CSS scroll-driven animations detect the overflow.",
+          "Items narrower than the viewport stand still: no clone, no fade. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
         notice: {
           fallback: "the items slide even though they fit",
@@ -352,7 +372,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeCenter,
         description:
-          "`items-center-safe` on the marquee centers a track that fits. Once the track overflows, `safe` aligns it to the start again, so the loop runs as usual.",
+          "`items-center-safe` on `MarqueeViewport` centers a track that fits. Once the track overflows, `safe` aligns it to the start again, so the loop runs as usual.",
         file: "marquee-center",
         notice: {
           fallback: "the centered items slide even though they fit",

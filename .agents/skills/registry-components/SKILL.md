@@ -32,7 +32,7 @@ A part takes `render` (Base UI `useRender` + `mergeProps`) when a consumer plaus
 
 Model every compound component on shadcn `Card`: it renders well with no `className` on any part, and carries the least spacing that gets it there.
 
-- The root is `flex flex-col` with a `gap` between its parts. Each part spaces its own children with `gap`.
+- The root is `flex flex-col` with a `gap` between its parts. Each part spaces its own children with `gap`. One exception: `Marquee` lines its parts up in a row, so `MarqueePause` sits beside the track it pauses.
 - Padding belongs to surfaces only: a part with its own background, border or ring. A component without a surface, like `Onboarding`, lines its parts up on the root's edge. One exception: `MarqueeItem` spaces items with padding, because a `gap` leaves no space at the seam between the two copies and the loop jumps.
 - Parts that sit closer together get their own grouping part, as `CardHeader` groups title and description.
 - A slot for user content takes the size of what goes in it: `OnboardingMedia` has no height of its own.
