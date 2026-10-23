@@ -39,7 +39,12 @@ const PagedList = () => {
       isFetchingNextPage={isFetchingNextPage}
       onFetchNextPage={fetchNextPage}
     >
-      <InfiniteScrollViewport className="scroll-fade-y h-72 w-full max-w-xs overscroll-contain">
+      <InfiniteScrollViewport
+        aria-label="Items"
+        className="scroll-fade-y h-72 w-full max-w-xs overscroll-contain"
+        role="region"
+        tabIndex={0}
+      >
         <InfiniteScrollContent>
           <ul className="flex flex-col">
             {pages.flat().map((id) => (

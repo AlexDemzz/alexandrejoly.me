@@ -141,12 +141,20 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     demo: { Component: HintDemo, file: "hint-demo" },
     examples: [],
+    wcag: [
+      understanding("2.1.1 Keyboard", "keyboard"),
+      understanding("2.4.3 Focus Order", "focus-order"),
+      understanding("2.4.7 Focus Visible", "focus-visible"),
+      understanding("2.5.3 Label in Name", "label-in-name"),
+      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
+      understanding("4.1.2 Name, Role, Value", "name-role-value"),
+    ],
   },
   "infinite-scroll": {
     accessibility: [
       "The content is `aria-busy` while a page is being fetched, so a screen reader waits for the page instead of reading each new item.",
       "Focus stays where it is when a page arrives. In reverse mode, the DOM stays in reading order, oldest first: only the viewport is reversed, so the reading and Tab order match what is on screen.",
-      'Give a viewport with no focusable item inside `tabIndex={0}`, a role such as `region` and an `aria-label`, so it can be scrolled from the keyboard. Avoid `role="log"` on a reversed list: it would announce every older page as it loads.',
+      'Give a viewport with no focusable item inside `tabIndex={0}`, a role such as `region` and an `aria-label`, as both examples do. Chrome and Firefox let Tab reach a scroll container on their own, but Safari does not, so without them a keyboard can’t scroll it there. Avoid `role="log"` on a reversed list: it would announce every older page as it loads.',
     ],
     api: [
       {
@@ -219,6 +227,10 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Reverse",
       },
     ],
+    wcag: [
+      understanding("1.3.2 Meaningful Sequence", "meaningful-sequence"),
+      understanding("2.4.3 Focus Order", "focus-order"),
+    ],
   },
   "item-inset-separator": {
     accessibility: [
@@ -253,6 +265,9 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         },
         title: "Inset past the media",
       },
+    ],
+    wcag: [
+      understanding("1.3.1 Info and Relationships", "info-and-relationships"),
     ],
   },
   marquee: {
@@ -414,6 +429,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
       "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where you show `99+`.",
       "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
+      "In the default theme, white on `destructive` reaches 4.5:1, and the badge stands out at 3:1 or more from light and dark backgrounds alike. In forced colors mode, such as Windows high contrast, it takes the system text color, so even a dot stays visible.",
     ],
     api: [
       {
@@ -511,6 +527,10 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         file: "notification-badge-label",
         title: "Beside a label",
       },
+    ],
+    wcag: [
+      understanding("1.4.3 Contrast (Minimum)", "contrast-minimum"),
+      understanding("1.4.11 Non-text Contrast", "non-text-contrast"),
     ],
   },
   onboarding: {
@@ -695,6 +715,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         file: "onboarding-transition",
         title: "Transition",
       },
+    ],
+    wcag: [
+      understanding("1.3.1 Info and Relationships", "info-and-relationships"),
+      understanding("2.1.1 Keyboard", "keyboard"),
+      understanding("2.4.3 Focus Order", "focus-order"),
+      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
+      understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
   },
 };

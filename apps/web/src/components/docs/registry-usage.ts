@@ -33,7 +33,12 @@ export const REGISTRY_USAGE: Record<RegistryItemName, Usage> = {
   isFetchingNextPage={isFetchingNextPage}
   onFetchNextPage={() => fetchNextPage()}
 >
-  <InfiniteScrollViewport className="h-96">
+  <InfiniteScrollViewport
+    aria-label="Items"
+    className="h-96"
+    role="region"
+    tabIndex={0}
+  >
     <InfiniteScrollContent>
       {items.map((item) => (
         <div key={item.id}>{item.title}</div>

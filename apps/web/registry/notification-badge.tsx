@@ -89,7 +89,7 @@ function NotificationBadgeIndicator({
     <span
       aria-hidden
       className={cn(
-        "bg-destructive absolute top-(--hole-top) -right-(--hole-right) inline-flex h-(--hole-h) w-(--hole-w) items-center justify-center rounded-full text-xs font-medium whitespace-nowrap text-white",
+        "bg-destructive absolute top-(--hole-top) -right-(--hole-right) inline-flex h-(--hole-h) w-(--hole-w) items-center justify-center rounded-full text-xs font-medium whitespace-nowrap text-white forced-colors:bg-[CanvasText] forced-colors:text-[Canvas]",
         className
       )}
       data-slot="notification-badge-indicator"

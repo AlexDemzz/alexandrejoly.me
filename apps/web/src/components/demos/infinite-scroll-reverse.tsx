@@ -44,7 +44,12 @@ const PagedHistory = () => {
       onFetchNextPage={fetchNextPage}
       reverse
     >
-      <InfiniteScrollViewport className="h-72 w-full max-w-xs overscroll-contain">
+      <InfiniteScrollViewport
+        aria-label="Messages"
+        className="h-72 w-full max-w-xs overscroll-contain"
+        role="region"
+        tabIndex={0}
+      >
         <InfiniteScrollContent>
           {!hasNextPage && <p className="text-center">No older messages</p>}
           <InfiniteScrollSentinel />

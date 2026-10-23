@@ -51,6 +51,12 @@ export default defineConfig({
       },
     },
     {
+      // InfiniteScrollViewport renders a div, so a <section> cannot replace
+      // the region role its keyboard-scrollable viewport needs.
+      files: ["apps/web/src/components/demos/infinite-scroll-*.tsx"],
+      rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+    },
+    {
       // Stock shadcn item: ItemGroup is a div with role="list".
       files: ["packages/ui/src/components/item.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
