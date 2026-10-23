@@ -27,6 +27,7 @@ import {
 } from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { ArrowLeftIcon, MenuIcon, TriangleAlertIcon } from "lucide-react";
+import { Fragment } from "react";
 import type { ReactNode } from "react";
 
 import { ApiReference } from "@/components/docs/api-reference";
@@ -141,7 +142,7 @@ const ComponentDocsPage = ({
   item: { description, name, title },
 }: ComponentPageData) => {
   const docs = REGISTRY_DOCS[name];
-  const { accessibility, api, demo, examples } = docs;
+  const { accessibility, api, demo, examples, wcag } = docs;
   const ids = headingIds(docs);
 
   return (
@@ -261,6 +262,19 @@ const ComponentDocsPage = ({
                         <InlineCode>{paragraph}</InlineCode>
                       </Text>
                     ))}
+                    {wcag && (
+                      <Text variant="faint">
+                        Meets WCAG 2.2:{" "}
+                        {wcag.map((criterion, index) => (
+                          <Fragment key={criterion.href}>
+                            {index > 0 && " · "}
+                            <TextLink external href={criterion.href}>
+                              {criterion.title}
+                            </TextLink>
+                          </Fragment>
+                        ))}
+                      </Text>
+                    )}
                   </div>
                 </SectionContent>
               </Section>

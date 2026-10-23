@@ -211,7 +211,7 @@ export const componentMarkdown = (
 ) => {
   const item = getRegistryItem(name);
   const installation = getInstallation(item);
-  const { accessibility, api, demo, examples } = REGISTRY_DOCS[name];
+  const { accessibility, api, demo, examples, wcag } = REGISTRY_DOCS[name];
   const manual = [
     installation.dependencies === null
       ? null
@@ -256,7 +256,17 @@ export const componentMarkdown = (
           ),
       accessibility === undefined
         ? null
-        : section("Accessibility", accessibility.join("\n\n")),
+        : section(
+            "Accessibility",
+            [
+              ...accessibility,
+              ...(wcag === undefined
+                ? []
+                : [
+                    `Meets WCAG 2.2: ${wcag.map(({ href, title }) => `[${title}](${href})`).join(" · ")}`,
+                  ]),
+            ].join("\n\n")
+          ),
       section("API reference", api.map(apiPartMarkdown).join("\n\n")),
       `[All components](${markdownUrl("")})`,
     ].filter((block) => block !== null)

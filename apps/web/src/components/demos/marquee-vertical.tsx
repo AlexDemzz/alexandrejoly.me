@@ -9,7 +9,7 @@ import {
 const ITEMS = Array.from({ length: 6 }, (_, index) => `Item ${index + 1}`);
 
 export const MarqueeVertical = () => (
-  <Marquee className="h-40 w-full">
+  <Marquee className="h-40">
     <MarqueePause />
     <MarqueeViewport className="scroll-fade-y">
       <MarqueeContent

@@ -61,7 +61,11 @@ function Marquee({
   return (
     <MarqueeContext value={context}>
       <div
-        className={cn("group/marquee flex items-center gap-2", className)}
+        className={cn(
+          "group/marquee flex items-center gap-2",
+          "supports-[timeline-scope:none]:animate-marquee-overflow supports-[timeline-scope:none]:[animation-timeline:--marquee] supports-[timeline-scope:none]:[timeline-scope:--marquee]",
+          className
+        )}
         data-paused={paused || undefined}
         data-slot="marquee"
         {...props}
@@ -78,7 +82,7 @@ function MarqueeViewport({
   return (
     <div
       className={cn(
-        "group/marquee-viewport flex min-w-0 flex-1 scroll-p-[50%] flex-col gap-4 self-stretch overflow-hidden [--scroll-fade-reveal:0px]",
+        "group/marquee-viewport flex min-w-0 flex-1 scroll-p-[50%] flex-col gap-4 self-stretch overflow-hidden [--scroll-fade-reveal:0px] has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]:[--scroll-fade-reveal:initial]",
         "[scroll-timeline:--marquee_inline] has-[>div>[data-slot=marquee-content][data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}
@@ -213,7 +217,8 @@ function MarqueePause(props: React.ComponentProps<typeof Button>) {
       data-slot="marquee-pause"
       {...mergeProps<typeof Button>(
         {
-          className: "motion-reduce:hidden",
+          className:
+            "motion-reduce:hidden supports-[timeline-scope:none]:not-[@container_style(--marquee-overflowing:1)]:hidden",
           onClick: () => setPaused(!paused),
           size: "icon",
           variant: "ghost",

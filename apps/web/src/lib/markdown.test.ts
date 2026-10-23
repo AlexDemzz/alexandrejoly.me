@@ -104,7 +104,13 @@ describe("componentMarkdown", () => {
     async (name) => {
       const code = await getComponentCode(name);
       const markdown = componentMarkdown(name, code);
-      const { accessibility = [], api, demo, examples } = REGISTRY_DOCS[name];
+      const {
+        accessibility = [],
+        api,
+        demo,
+        examples,
+        wcag = [],
+      } = REGISTRY_DOCS[name];
 
       expect(markdown).toContain(code.demos[demo.file]?.code);
       // The source sits in a list item, indented under its step.
@@ -121,6 +127,9 @@ describe("componentMarkdown", () => {
       }
       for (const paragraph of accessibility) {
         expect(markdown).toContain(paragraph);
+      }
+      for (const { href, title } of wcag) {
+        expect(markdown).toContain(`[${title}](${href})`);
       }
       for (const part of api) {
         expect(markdown).toContain(`### ${part.name}`);

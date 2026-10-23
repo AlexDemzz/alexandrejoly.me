@@ -81,12 +81,26 @@ export interface ApiPart {
   props: ApiProp[];
 }
 
+/** A WCAG success criterion the component meets on its own. */
+export interface WcagCriterion {
+  href: string;
+  /** Its number then its name: "2.2.2 Pause, Stop, Hide". */
+  title: string;
+}
+
+const understanding = (title: string, slug: string): WcagCriterion => ({
+  href: `https://www.w3.org/WAI/WCAG22/Understanding/${slug}.html`,
+  title,
+});
+
 export interface ComponentDocs {
   /** Paragraphs of the Accessibility section, with `backtick` code spans. */
   accessibility?: string[];
   api: ApiPart[];
   demo: Demo;
   examples: Example[];
+  /** Listed under the Accessibility section as one line of links. */
+  wcag?: WcagCriterion[];
 }
 
 export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
@@ -244,9 +258,9 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   marquee: {
     accessibility: [
       "Screen readers and the Tab key skip the second copy of each track, so they meet every item once. A pointer can still click it.",
-      "`MarqueePause` is the pause control WCAG 2.2.2 asks for when content moves for more than five seconds. It pauses every track, resumes them where they stopped, and its accessible name switches between Pause and Play. Place it before `MarqueeViewport`, so Tab reaches it before the moving items.",
-      "Keyboard focus inside the viewport stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the viewport. Neither replaces `MarqueePause`: a pause that lasts only while focus or the pointer stays does not count for WCAG.",
-      "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy, and `MarqueePause` hides.",
+      "`MarqueePause` is the pause control WCAG 2.2.2 asks for. It stops every track where it is, and its name switches between Pause and Play. Place it before `MarqueeViewport` so Tab reaches it first.",
+      "Keyboard focus stops the tracks and brings the focused item fully into view. A pointer press, or hovering with `pauseOnHover`, pauses them only while it lasts. Neither replaces `MarqueePause`.",
+      "Under `prefers-reduced-motion: reduce` the tracks stand still and `MarqueePause` hides.",
     ],
     api: [
       {
@@ -325,7 +339,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "Pauses and resumes every track. It is a ghost icon button by default; pass `variant` or `size` to change it. Under reduced motion it hides, since the tracks stand still.",
+          "Pauses and resumes every track. It is a ghost icon button by default; pass `variant` or `size` to change it. It hides whenever the tracks stand still: under reduced motion, and while the items fit in browsers with CSS scroll-driven animations.",
         extends: {
           href: "https://ui.shadcn.com/docs/components/base/button",
           name: "shadcn Button",
@@ -360,7 +374,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       {
         Component: MarqueeFit,
         description:
-          "Items narrower than the viewport stand still: no clone, no fade. CSS scroll-driven animations detect the overflow.",
+          "Items narrower than the viewport stand still: no clone, no fade, no pause button. CSS scroll-driven animations detect the overflow.",
         file: "marquee-fit",
         notice: {
           fallback: "the items slide even though they fit",
@@ -381,6 +395,17 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         },
         title: "Centered when it fits",
       },
+    ],
+    wcag: [
+      understanding("2.1.1 Keyboard", "keyboard"),
+      understanding("2.2.2 Pause, Stop, Hide", "pause-stop-hide"),
+      understanding("2.4.3 Focus Order", "focus-order"),
+      understanding(
+        "2.4.11 Focus Not Obscured (Minimum)",
+        "focus-not-obscured-minimum"
+      ),
+      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
+      understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
   },
   "notification-badge": {
