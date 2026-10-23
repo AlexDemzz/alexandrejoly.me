@@ -40,25 +40,27 @@ export const LINKS = {
 export interface Audit {
   href: string;
   name: string;
+  note?: string;
   scores: { label: string; value: number }[];
 }
 
 // Measured on the live site; re-run each audit and update after notable changes.
 export const AUDITS: Audit[] = [
   {
+    href: "https://is-agentic.com/scan/alexandrejoly.me",
+    name: "Is Agentic",
+    scores: [{ label: "Agent readiness", value: 100 }],
+  },
+  {
     href: "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Falexandrejoly.me%2F&form_factor=mobile",
     name: "Lighthouse",
+    note: "may vary",
     scores: [
       { label: "Performance", value: 100 },
       { label: "Accessibility", value: 100 },
       { label: "Best practices", value: 100 },
       { label: "SEO", value: 100 },
     ],
-  },
-  {
-    href: "https://is-agentic.com/scan/alexandrejoly.me",
-    name: "Is Agentic",
-    scores: [{ label: "Agent readiness", value: 100 }],
   },
 ];
 

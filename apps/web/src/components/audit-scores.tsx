@@ -11,7 +11,7 @@ export const AuditScores = () => (
       variant: "faint",
     })}
   >
-    {AUDITS.map(({ href, name, scores }) => {
+    {AUDITS.map(({ href, name, note, scores }) => {
       const values = scores.map(({ value }) => value);
       const uniform = values.every((value) => value === values[0]);
       const detail = scores
@@ -20,15 +20,12 @@ export const AuditScores = () => (
       return (
         <li className="flex items-center gap-1.5" key={name}>
           <ScoreGauge values={values} />
-          <span aria-hidden>
-            {uniform && values.length > 1
-              ? `${values[0]} ×${values.length}`
-              : values.join(" · ")}
-          </span>
+          <span aria-hidden>{uniform ? values[0] : values.join(" · ")}</span>
           <TextLink external href={href} title={detail}>
             {name}
             <span className="sr-only">: {detail}</span>
           </TextLink>
+          {note === undefined ? null : <span>· {note}</span>}
         </li>
       );
     })}
