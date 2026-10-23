@@ -15,8 +15,9 @@ import { cn } from "@/lib/utils";
 function Marquee({
   children,
   className,
+  paused = false,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & { paused?: boolean }) {
   return (
     <div
       className={cn(
@@ -24,6 +25,7 @@ function Marquee({
         "[scroll-timeline:--marquee_inline] has-[>[data-slot=marquee-viewport]>[data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}
+      data-paused={paused || undefined}
       data-slot="marquee"
       {...props}
     >
@@ -108,7 +110,7 @@ function MarqueeContent({
           vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
-          "group-focus-within/marquee:[animation-play-state:paused] group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:animate-none",
+          "group-focus-within/marquee:[animation-play-state:paused] group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:animate-none group-data-paused/marquee:[animation-play-state:paused]",
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           className
         )}

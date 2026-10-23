@@ -8,6 +8,7 @@ import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator
 import { MarqueeCenter } from "@/components/demos/marquee-center";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
+import { MarqueePauseButton } from "@/components/demos/marquee-pause-button";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
 import { MarqueeReverse } from "@/components/demos/marquee-reverse";
 import { MarqueeVertical } from "@/components/demos/marquee-vertical";
@@ -244,7 +245,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   marquee: {
     accessibility: [
       "Screen readers and the Tab key skip the second copy of each track, so they meet every item once. A pointer can still click it.",
-      "Keyboard focus inside the marquee stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the marquee. When content people need to read moves for more than five seconds, WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
+      "Keyboard focus inside the marquee stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the marquee. Neither counts as the pause control WCAG 2.2.2 asks for when content moves for more than five seconds: set `paused` from a button, as the “Pause button” example does.",
       "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
     ],
     api: [
@@ -253,7 +254,15 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Its `scroll-padding: 50%` centers the item keyboard focus lands on, so keep it. It clips on both axes, since detecting the overflow needs a scroll container, so it cuts the focus ring of a link inside: give the ring room with `py-1`, or `px-1` around a vertical track.",
         extends: { name: "div" },
         name: "Marquee",
-        props: [],
+        props: [
+          {
+            default: "false",
+            description:
+              "Pauses every track. Set it from your own button, placed before the marquee: keyboard focus on a button inside it would keep the tracks paused.",
+            name: "paused",
+            type: "boolean",
+          },
+        ],
       },
       {
         description:
@@ -306,6 +315,13 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           "A slower track, from `[--marquee-duration:60s]`, pauses under the pointer so longer items can be read.",
         file: "marquee-pause-on-hover",
         title: "Pause on hover",
+      },
+      {
+        Component: MarqueePauseButton,
+        description:
+          "A button before the marquee sets `paused`. Its icon and accessible name switch between Pause and Play. Under reduced motion the tracks stand still, so the button hides.",
+        file: "marquee-pause-button",
+        title: "Pause button",
       },
       {
         Component: MarqueeReverse,
