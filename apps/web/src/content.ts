@@ -11,8 +11,6 @@ import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
 import { SkipprIcon } from "@/components/skippr-icon";
 import { XIcon } from "@/components/x-icon";
 import archive2018 from "@/media/archive-2018.webm";
-// Posters fall under Vite's inline limit; as files they ship once and cache,
-// instead of riding in both the SSR HTML and the client chunk.
 import archive2018Poster from "@/media/archive-2018.webp?no-inline";
 import archive2025 from "@/media/archive-2025.webm";
 import archive2025Poster from "@/media/archive-2025.webp?no-inline";
@@ -213,7 +211,6 @@ export interface Archive {
   description: string;
   href: string;
   media: string;
-  /** The clip's first frame, shown until it plays. */
   poster: string;
   title: string;
   year: number;

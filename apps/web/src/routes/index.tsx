@@ -212,10 +212,9 @@ const HomeComponent = () => {
                 href={archive.href}
                 key={archive.href}
                 media={
-                  <ItemLightMedia>
+                  <ItemLightMedia aria-hidden>
                     <LazyVideo
                       className="size-full object-cover"
-                      playOnRowHover
                       poster={archive.poster}
                       src={archive.media}
                     />
