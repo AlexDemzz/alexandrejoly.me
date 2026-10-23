@@ -24,10 +24,10 @@ const email: Paragraph[number] = { href: LINKS.email, text: EMAIL };
 
 export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
   about: {
-    description: `Who ${SITE.name} is: a French developer and designer in Geneva, building ${EMPLOYER.name}’s interfaces since 2018.`,
+    description: `Who ${SITE.name} is: a French design engineer in Geneva, building ${EMPLOYER.name}’s interfaces since 2018.`,
     intro: [
       [
-        `I’m ${SITE.name}, a French developer based in Geneva, Switzerland. I work where design meets code: I draw an interface, then build it, animate it and keep polishing it until it feels right. I work in French and English.`,
+        `I’m ${SITE.name}, a French design engineer based in Geneva, Switzerland. I work where design meets code: I draw an interface, then build it, animate it and keep polishing it until it feels right. I work in French and English.`,
       ],
     ],
     sections: [

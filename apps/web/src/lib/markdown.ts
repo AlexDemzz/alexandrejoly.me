@@ -73,7 +73,7 @@ const COMPONENT_ITEMS = REGISTRY_ITEMS.map((item) =>
 export const homeMarkdown = () =>
   markdownDocument([
     `# ${SITE.name}`,
-    `> Developer at [${EMPLOYER.name}](${EMPLOYER.href}), based in Geneva, Switzerland.`,
+    `> Design engineer at [${EMPLOYER.name}](${EMPLOYER.href}), based in Geneva, Switzerland.`,
     paragraphs(INTRO),
     section(
       "Projects",
@@ -284,7 +284,7 @@ export const notFoundMarkdown = (pathname: string) =>
 export const llmsTxt = () =>
   markdownDocument([
     `# ${SITE.name}`,
-    `> Personal site of ${SITE.name}, a developer at ${EMPLOYER.name} in Geneva, Switzerland, who designs and builds interfaces end to end. It hosts a registry of free React components for shadcn/ui, links to ${SITE.name}’s agent skills and products, and the ways to get in touch.`,
+    `> Personal site of ${SITE.name}, a design engineer at ${EMPLOYER.name} in Geneva, Switzerland, who designs and builds interfaces end to end. It hosts a registry of free React components for shadcn/ui, links to ${SITE.name}’s agent skills and products, and the ways to get in touch.`,
     "Every page is also served as Markdown: send `Accept: text/markdown`, or append `.md` to its path (`/index.md` for the home page). The links below point at the Markdown versions.",
     section(
       "When to use this site",

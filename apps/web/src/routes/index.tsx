@@ -87,7 +87,7 @@ const HomeComponent = () => {
           <div>
             <IdentityName>Alexandre Joly</IdentityName>
             <IdentityRole>
-              Developer at{" "}
+              Design engineer at{" "}
               <TextLink external href={EMPLOYER.href}>
                 {EMPLOYER.name}
               </TextLink>

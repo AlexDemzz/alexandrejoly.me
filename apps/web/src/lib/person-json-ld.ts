@@ -18,7 +18,7 @@ export const personJsonLd = {
   },
   description: SITE.description,
   email: EMAIL,
-  jobTitle: "Developer",
+  jobTitle: "Design Engineer",
   name: SITE.name,
   sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
   url: SITE.url,
