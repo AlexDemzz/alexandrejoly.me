@@ -10,6 +10,13 @@ import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
 import { SkipprIcon } from "@/components/skippr-icon";
 import { XIcon } from "@/components/x-icon";
+import archive2018 from "@/media/archive-2018.webm";
+// Posters fall under Vite's inline limit; as files they ship once and cache,
+// instead of riding in both the SSR HTML and the client chunk.
+import archive2018Poster from "@/media/archive-2018.webp?no-inline";
+import archive2025 from "@/media/archive-2025.webm";
+import archive2025Poster from "@/media/archive-2025.webp?no-inline";
+import kwernLandscapes from "@/media/kwern-landscapes.webm";
 
 export const SITE = {
   description:
@@ -90,7 +97,7 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    backdrop: "/projects/kwern-landscapes.webm",
+    backdrop: kwernLandscapes,
     description: "A team of AI agents that market your product",
     href: "https://kwern.app",
     icon: KwernIcon,
@@ -206,6 +213,8 @@ export interface Archive {
   description: string;
   href: string;
   media: string;
+  /** The clip's first frame, shown until it plays. */
+  poster: string;
   title: string;
   year: number;
 }
@@ -214,14 +223,16 @@ export const ARCHIVES: Archive[] = [
   {
     description: "Next.js, Three.js and a lot of springs",
     href: "https://2025.alexandrejoly.me",
-    media: "/archives/2025.webm",
+    media: archive2025,
+    poster: archive2025Poster,
     title: "Portfolio 2025",
     year: 2025,
   },
   {
     description: "React, Sass and smooth scrolling",
     href: "https://2018.alexandrejoly.me",
-    media: "/archives/2018.webm",
+    media: archive2018,
+    poster: archive2018Poster,
     title: "Portfolio 2018",
     year: 2018,
   },
