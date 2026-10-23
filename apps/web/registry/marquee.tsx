@@ -1,6 +1,14 @@
 "use client";
 
-import { Children, createContext, isValidElement, use } from "react";
+import {
+  Children,
+  createContext,
+  isValidElement,
+  use,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -12,7 +20,7 @@ function Marquee({
   return (
     <div
       className={cn(
-        "group/marquee flex flex-col gap-4 overflow-hidden [--scroll-fade-reveal:0px]",
+        "group/marquee flex scroll-p-[50%] flex-col gap-4 overflow-hidden [--scroll-fade-reveal:0px]",
         "[scroll-timeline:--marquee_inline] has-[>[data-slot=marquee-viewport]>[data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}
@@ -38,6 +46,39 @@ const TRACK_ANIMATION = {
     "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee-vertical [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee-vertical",
 } as const;
 
+const FOCUSABLE =
+  "a[href], area[href], button, input, select, textarea, iframe, summary, audio[controls], video[controls], [contenteditable], [tabindex]";
+
+function useUntabbableClone() {
+  const cloneRef = useRef<HTMLDivElement>(null);
+  const [inert, setInert] = useState(true);
+
+  useEffect(() => {
+    const clone = cloneRef.current;
+    if (!clone) {
+      return;
+    }
+    const skipTab = () => {
+      for (const element of clone.querySelectorAll(FOCUSABLE)) {
+        if (element.getAttribute("tabindex") !== "-1") {
+          element.setAttribute("tabindex", "-1");
+        }
+      }
+    };
+    skipTab();
+    setInert(false);
+    const observer = new MutationObserver(skipTab);
+    observer.observe(clone, {
+      attributeFilter: ["contenteditable", "href", "tabindex"],
+      childList: true,
+      subtree: true,
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  return { cloneRef, inert };
+}
+
 type MarqueeOrientation = "horizontal" | "vertical";
 
 const MarqueeContext = createContext<MarqueeOrientation>("horizontal");
@@ -57,10 +98,11 @@ function MarqueeContent({
   ...props
 }: MarqueeContentProps) {
   const items = Children.toArray(children).filter(isValidElement);
+  const { cloneRef, inert } = useUntabbableClone();
   const vertical = orientation === "vertical";
   const copy = cn("flex shrink-0", vertical ? "flex-col" : "items-center");
   const clone =
-    "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden";
+    "supports-[animation-timeline:scroll()]:not-[@container_style(--marquee-overflowing:1)]:hidden group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:hidden";
 
   return (
     <MarqueeContext value={orientation}>
@@ -69,7 +111,7 @@ function MarqueeContent({
           vertical ? "flex h-max flex-col" : "flex w-max items-center",
           vertical && TRACK_ANIMATION.vertical,
           !vertical && TRACK_ANIMATION[reverse ? "reverse" : "forward"],
-          "group-focus-within/marquee:[animation-play-state:paused]",
+          "group-focus-within/marquee:[animation-play-state:paused] group-has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]/marquee:animate-none",
           pauseOnHover && "group-hover/marquee:[animation-play-state:paused]",
           className
         )}
@@ -81,7 +123,13 @@ function MarqueeContent({
         <div className={copy} data-slot="marquee-copy">
           {items}
         </div>
-        <div className={cn(copy, clone)} data-slot="marquee-copy" inert>
+        <div
+          aria-hidden
+          className={cn(copy, clone)}
+          data-slot="marquee-copy"
+          inert={inert}
+          ref={cloneRef}
+        >
           {items}
         </div>
       </div>

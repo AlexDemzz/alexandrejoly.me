@@ -63,7 +63,7 @@
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "A CSS-only strip that loops its items once they overflow",
+      "description": "A strip that loops its items once they overflow",
       "dependencies": [],
       "registryDependencies": [],
       "files": [

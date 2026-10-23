@@ -5,6 +5,7 @@ import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
 import { InfiniteScrollReverse } from "@/components/demos/infinite-scroll-reverse";
 import { ItemInsetSeparatorDemo } from "@/components/demos/item-inset-separator-demo";
 import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator-media";
+import { MarqueeCenter } from "@/components/demos/marquee-center";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
 import { MarqueePauseOnHover } from "@/components/demos/marquee-pause-on-hover";
@@ -242,21 +243,21 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   marquee: {
     accessibility: [
-      "The second copy of each track is `inert`: screen readers and the Tab key meet every item once, in the first copy.",
-      "Focus inside the marquee pauses every track, so a keyboard user can stop it to read or follow a link; `pauseOnHover` does the same for a pointer. When content people need to read moves for more than five seconds, WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
+      "The second copy of each track is hidden from screen readers and skipped by the Tab key, so both meet every item once, in the first copy. A pointer can still hover and click it. Until the page hydrates, the second copy is also `inert`, which keeps the pointer out of it.",
+      "Keyboard focus inside the marquee stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the marquee. When content people need to read moves for more than five seconds, WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
       "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
     ],
     api: [
       {
         description:
-          "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Focus inside it pauses every track; a pointer over it pauses any track set to `pauseOnHover`.",
+          "Clips the tracks. While its items fit, it stands still with no clone, in browsers with CSS scroll-driven animations. Add shadcn’s `scroll-fade-x`, or `scroll-fade-y` on a vertical track, to fade its edges while the items slide: it sets `--scroll-fade-reveal: 0px`, so both fades show although it never scrolls. Its `scroll-padding: 50%` centers the item keyboard focus lands on, so keep it. It clips on both axes, since detecting the overflow needs a scroll container, so it cuts the focus ring of a link inside: give the ring room with `py-1`, or `px-1` around a vertical track.",
         extends: { name: "div" },
         name: "Marquee",
         props: [],
       },
       {
         description:
-          "The track. It renders its child elements twice and a CSS keyframe slides it by one copy per cycle, with no JavaScript. Bare text is dropped, so wrap it in `MarqueeItem`. The second copy is `inert`: skipped by screen readers and the Tab key. Under reduced motion it stays on the first copy.",
+          'The track. It renders its child elements twice and a CSS keyframe slides it by one copy per cycle. Bare text is dropped, so wrap it in `MarqueeItem`. Once mounted, an effect sets `tabindex="-1"` on everything focusable in the second copy, then lifts its `inert`. Under reduced motion it stays on the first copy.',
         extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",
@@ -331,6 +332,18 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
           visibility: "hidden not-supports-[animation-timeline:scroll()]:grid",
         },
         title: "Content that fits",
+      },
+      {
+        Component: MarqueeCenter,
+        description:
+          "`items-center-safe` on the marquee centers a track that fits. Once the track overflows, `safe` aligns it to the start again, so the loop runs as usual.",
+        file: "marquee-center",
+        notice: {
+          fallback: "the centered items slide even though they fit",
+          needs: "Telling that they fit needs CSS scroll-driven animations",
+          visibility: "hidden not-supports-[animation-timeline:scroll()]:grid",
+        },
+        title: "Centered when it fits",
       },
     ],
   },
