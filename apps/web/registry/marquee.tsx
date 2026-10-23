@@ -46,9 +46,6 @@ const TRACK_ANIMATION = {
     "not-supports-[animation-timeline:scroll()]:motion-safe:animate-marquee-vertical [@container_style(--marquee-overflowing:1)]:motion-safe:animate-marquee-vertical",
 } as const;
 
-const FOCUSABLE =
-  "a[href], area[href], button, input, select, textarea, iframe, summary, audio[controls], video[controls], [contenteditable], [tabindex]";
-
 function useUntabbableClone() {
   const cloneRef = useRef<HTMLDivElement>(null);
   const [inert, setInert] = useState(true);
@@ -59,9 +56,9 @@ function useUntabbableClone() {
       return;
     }
     const skipTab = () => {
-      for (const element of clone.querySelectorAll(FOCUSABLE)) {
-        if (element.getAttribute("tabindex") !== "-1") {
-          element.setAttribute("tabindex", "-1");
+      for (const element of clone.querySelectorAll<HTMLElement>("*")) {
+        if (element.tabIndex >= 0) {
+          element.tabIndex = -1;
         }
       }
     };
@@ -69,7 +66,7 @@ function useUntabbableClone() {
     setInert(false);
     const observer = new MutationObserver(skipTab);
     observer.observe(clone, {
-      attributeFilter: ["contenteditable", "href", "tabindex"],
+      attributeFilter: ["tabindex"],
       childList: true,
       subtree: true,
     });

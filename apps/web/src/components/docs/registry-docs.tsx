@@ -243,7 +243,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   },
   marquee: {
     accessibility: [
-      "The second copy of each track is hidden from screen readers and skipped by the Tab key, so both meet every item once, in the first copy. A pointer can still hover and click it. Until the page hydrates, the second copy is also `inert`, which keeps the pointer out of it.",
+      "Screen readers and the Tab key skip the second copy of each track, so they meet every item once. A pointer can still click it.",
       "Keyboard focus inside the marquee stops every track and scrolls the focused item to the center, so each link Tab reaches is in view. Pressing a link with a pointer only pauses the tracks, so the link stays under it; `pauseOnHover` pauses them while a pointer is over the marquee. When content people need to read moves for more than five seconds, WCAG 2.2.2 also asks for a visible pause control: add a button that sets `[animation-play-state:paused]` on the tracks.",
       "Under `prefers-reduced-motion: reduce` the tracks stay still on the first copy.",
     ],
@@ -257,7 +257,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          'The track. It renders its child elements twice and a CSS keyframe slides it by one copy per cycle. Bare text is dropped, so wrap it in `MarqueeItem`. Once mounted, an effect sets `tabindex="-1"` on everything focusable in the second copy, then lifts its `inert`. Under reduced motion it stays on the first copy.',
+          "The track. It renders its child elements twice and a CSS keyframe slides it by one copy per cycle. Bare text is dropped, so wrap it in `MarqueeItem`. Under reduced motion it stays on the first copy.",
         extends: { name: "div" },
         name: "MarqueeContent",
         nameLabel: "Prop or variable",
