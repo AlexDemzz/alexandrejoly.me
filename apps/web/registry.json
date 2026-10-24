@@ -64,7 +64,7 @@
       "type": "registry:ui",
       "title": "Marquee",
       "description": "A strip that loops its items only once CSS scroll-driven animations detect they overflow, meeting WCAG 2.2 criteria",
-      "dependencies": ["@base-ui/react", "lucide-react"],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": ["button"],
       "files": [
         {

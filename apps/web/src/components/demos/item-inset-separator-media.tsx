@@ -1,3 +1,4 @@
+import { HashIcon } from "@phosphor-icons/react";
 import {
   Item,
   ItemContent,
@@ -6,7 +7,6 @@ import {
   ItemTitle,
 } from "@portfolio/ui/components/item";
 import { ItemInsetSeparator } from "@registry/item-inset-separator";
-import { HashIcon } from "lucide-react";
 
 export const ItemInsetSeparatorMedia = () => (
   <div className="flex max-w-sm flex-col">

@@ -1,6 +1,8 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
+import { getConfig } from "@shadcn/registry/internal/get-config";
+import { transformIcons } from "@shadcn/registry/internal/transformers/transform-icons";
 import { createHighlighterCore } from "shiki/core";
 import type { HighlighterCore } from "shiki/core";
 import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
@@ -44,6 +46,17 @@ const toProjectImports = (source: string) => {
     code = code.replaceAll(`"${from}`, `"${to}`);
   }
   return code;
+};
+
+// The source shows what `shadcn add` installs here: each `IconPlaceholder`
+// becomes the icon of this site's `iconLibrary`.
+const toInstalledSource = async (filename: string) => {
+  const config = await getConfig(fromRoot("."));
+  if (!config) {
+    throw new Error("apps/web/components.json is missing");
+  }
+  const raw = readFileSync(filename, "utf-8");
+  return await transformIcons(raw, { config, filename, raw });
 };
 
 let highlighter: Promise<HighlighterCore> | undefined;
@@ -133,6 +146,7 @@ const buildComponentCode = async (
   const installation = docs.getInstallation(docs.getRegistryItem(name));
   const sourceFile = fromRoot(`registry/${name}.tsx`);
   const demos = demoFiles(name);
+  const installedSource = await toInstalledSource(sourceFile);
 
   const [
     cli,
@@ -148,7 +162,7 @@ const buildComponentCode = async (
     highlightOptional(installation.dependencies, "bash"),
     highlightOptional(installation.registryDependencies, "bash"),
     highlightOptional(installation.styles, "css"),
-    highlight(readFileSync(sourceFile, "utf-8"), "tsx"),
+    highlight(installedSource, "tsx"),
     highlight(docs.usage[name].imports, "tsx"),
     highlight(docs.usage[name].markup, "tsx"),
     Promise.all(

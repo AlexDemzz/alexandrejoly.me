@@ -1,3 +1,4 @@
+import { FileTextIcon, ImageIcon, MusicNoteIcon } from "@phosphor-icons/react";
 import {
   Item,
   ItemContent,
@@ -6,12 +7,11 @@ import {
   ItemTitle,
 } from "@portfolio/ui/components/item";
 import { ItemInsetSeparator } from "@registry/item-inset-separator";
-import { FileTextIcon, ImageIcon, MusicIcon } from "lucide-react";
 
 const FILES = [
   { icon: FileTextIcon, name: "Quarterly report.pdf", size: "2.4 MB" },
   { icon: ImageIcon, name: "Team offsite.jpg", size: "5.1 MB" },
-  { icon: MusicIcon, name: "Launch teaser.mp3", size: "3.8 MB" },
+  { icon: MusicNoteIcon, name: "Launch teaser.mp3", size: "3.8 MB" },
 ];
 
 export const ItemInsetSeparatorDemo = () => (

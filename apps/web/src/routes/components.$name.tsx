@@ -1,3 +1,4 @@
+import { ArrowLeftIcon, ListIcon, WarningIcon } from "@phosphor-icons/react";
 import {
   Alert,
   AlertDescription,
@@ -26,7 +27,6 @@ import {
   textLinkVariants,
 } from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowLeftIcon, MenuIcon, TriangleAlertIcon } from "lucide-react";
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 
@@ -75,7 +75,7 @@ const BrowserNoticeAlert = ({
 }) => (
   // oxlint-disable-next-line shadcn/require-static-classes -- each notice's feature query is a static string in its docs entry
   <Alert className={visibility} role="note" variant="warning">
-    <TriangleAlertIcon aria-hidden />
+    <WarningIcon aria-hidden />
     <AlertTitle>In this browser, {fallback}</AlertTitle>
     <AlertDescription>
       <InlineCode>{`${needs}, which this browser doesn’t support yet.`}</InlineCode>
@@ -158,7 +158,7 @@ const ComponentDocsPage = ({
                   Home
                 </Link>
                 <SidebarTrigger className="md:hidden" size="icon">
-                  <MenuIcon aria-hidden />
+                  <ListIcon aria-hidden />
                   <span className="sr-only">Open components menu</span>
                 </SidebarTrigger>
               </div>

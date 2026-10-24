@@ -1,8 +1,8 @@
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { Code } from "@portfolio/ui/components/code";
 import { Heading } from "@portfolio/ui/components/heading";
 import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { Link, useLocation } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { SiteFooter } from "@/components/site-footer";
 

@@ -17,6 +17,26 @@ Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.
 
 A registry file reads like stock shadcn source: code only, with no comments, since it ships verbatim to every install. Oxlint ignores `apps/web/registry/**`, so the file needs no `oxlint-disable` directive. Behaviour, caveats and browser support go on the component's docs page.
 
+## Icons
+
+A registry file draws each icon with `IconPlaceholder` from `@/components/icon-placeholder`, named in all five libraries shadcn supports, as stock shadcn source does:
+
+```tsx
+<IconPlaceholder
+  lucide="PauseIcon"
+  tabler="IconPlayerPause"
+  hugeicons="PauseIcon"
+  phosphor="PauseIcon"
+  remixicon="RiPauseLine"
+  aria-hidden
+/>
+```
+
+- `shadcn add` swaps it for the icon of the user's `iconLibrary` and rewrites the import, so the item's `dependencies` in `registry.json` name no icon package.
+- Take each name from `https://ui.shadcn.com/r/icons/index.json`; for an icon it lacks, confirm the name in each package's exports.
+- The site renders the Phosphor name: add that icon to `PHOSPHOR_ICONS` in `apps/web/src/components/icon-placeholder.tsx`.
+- The docs page shows the source after the same swap (`toInstalledSource` in `apps/web/plugins/component-code.ts`), so readers copy the Phosphor version.
+
 ## Forwarding props
 
 Every part spreads its remaining props onto one element or component: its _target_.

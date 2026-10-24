@@ -1,3 +1,4 @@
+import { ArrowCounterClockwiseIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   Tooltip,
@@ -10,7 +11,6 @@ import {
   InfiniteScrollSentinel,
   InfiniteScrollViewport,
 } from "@registry/infinite-scroll";
-import { RotateCcwIcon } from "lucide-react";
 import { useCallback, useState } from "react";
 
 const PAGE_SIZE = 10;
@@ -80,7 +80,7 @@ export const InfiniteScrollDemo = () => {
             />
           }
         >
-          <RotateCcwIcon aria-hidden />
+          <ArrowCounterClockwiseIcon aria-hidden />
         </TooltipTrigger>
         <TooltipContent>Reset</TooltipContent>
       </Tooltip>

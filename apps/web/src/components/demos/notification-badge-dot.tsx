@@ -1,10 +1,10 @@
+import { EnvelopeIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   NotificationBadge,
   NotificationBadgeContent,
   NotificationBadgeIndicator,
 } from "@registry/notification-badge";
-import { MailIcon } from "lucide-react";
 
 export const NotificationBadgeDot = () => (
   <NotificationBadge value={2} variant="dot">
@@ -14,7 +14,7 @@ export const NotificationBadgeDot = () => (
         size="icon-lg"
         variant="outline"
       >
-        <MailIcon />
+        <EnvelopeIcon />
       </Button>
     </NotificationBadgeContent>
     <NotificationBadgeIndicator />

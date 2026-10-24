@@ -1,7 +1,6 @@
 "use client";
 
 import { mergeProps } from "@base-ui/react/merge-props";
-import { PauseIcon, PlayIcon } from "lucide-react";
 import {
   Children,
   createContext,
@@ -14,6 +13,7 @@ import {
   useState,
 } from "react";
 
+import { IconPlaceholder } from "@/components/icon-placeholder";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -226,7 +226,25 @@ function MarqueePause(props: React.ComponentProps<typeof Button>) {
         props
       )}
     >
-      {paused ? <PlayIcon aria-hidden /> : <PauseIcon aria-hidden />}
+      {paused ? (
+        <IconPlaceholder
+          lucide="PlayIcon"
+          tabler="IconPlayerPlay"
+          hugeicons="PlayIcon"
+          phosphor="PlayIcon"
+          remixicon="RiPlayLine"
+          aria-hidden
+        />
+      ) : (
+        <IconPlaceholder
+          lucide="PauseIcon"
+          tabler="IconPlayerPause"
+          hugeicons="PauseIcon"
+          phosphor="PauseIcon"
+          remixicon="RiPauseLine"
+          aria-hidden
+        />
+      )}
       <span className="sr-only">{paused ? "Play" : "Pause"}</span>
     </Button>
   );

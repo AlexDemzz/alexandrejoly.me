@@ -1,10 +1,10 @@
+import { BellIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   NotificationBadge,
   NotificationBadgeContent,
   NotificationBadgeIndicator,
 } from "@registry/notification-badge";
-import { BellIcon } from "lucide-react";
 
 const COUNTS = [7, 42, 99, 128];
 const MAX_COUNT = 99;

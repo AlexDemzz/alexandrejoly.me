@@ -2,6 +2,7 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { SidebarIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import { Input } from "@portfolio/ui/components/input";
 import { Separator } from "@portfolio/ui/components/separator";
@@ -20,7 +21,6 @@ import {
 import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
 import { cn } from "@portfolio/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
 
 // DESIGN.md › Layout: the docs sidebar column.
@@ -271,7 +271,7 @@ function SidebarTrigger({
     >
       {children ?? (
         <>
-          <PanelLeftIcon />
+          <SidebarIcon />
           <span className="sr-only">Toggle Sidebar</span>
         </>
       )}

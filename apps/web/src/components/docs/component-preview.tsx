@@ -1,3 +1,4 @@
+import { SelectionIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import { Preview } from "@portfolio/ui/components/preview";
 import {
@@ -11,7 +12,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@portfolio/ui/components/tooltip";
-import { SquareDashedIcon } from "lucide-react";
 import { useState } from "react";
 import type { ReactNode } from "react";
 
@@ -44,7 +44,7 @@ const InspectorToggle = ({
         />
       }
     >
-      <SquareDashedIcon aria-hidden />
+      <SelectionIcon aria-hidden />
     </TooltipTrigger>
     <TooltipContent>{inspector.label}</TooltipContent>
   </Tooltip>

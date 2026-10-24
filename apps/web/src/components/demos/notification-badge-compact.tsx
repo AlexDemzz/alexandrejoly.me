@@ -1,10 +1,10 @@
+import { ChatCircleIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   NotificationBadge,
   NotificationBadgeContent,
   NotificationBadgeIndicator,
 } from "@registry/notification-badge";
-import { MessageCircleIcon } from "lucide-react";
 
 const COUNTS = [1234, 56_789];
 
@@ -21,7 +21,7 @@ export const NotificationBadgeCompact = () => (
             size="icon-lg"
             variant="outline"
           >
-            <MessageCircleIcon />
+            <ChatCircleIcon />
           </Button>
         </NotificationBadgeContent>
         <NotificationBadgeIndicator />

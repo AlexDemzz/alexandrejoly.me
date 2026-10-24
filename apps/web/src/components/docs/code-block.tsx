@@ -1,3 +1,4 @@
+import { CaretDownIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   CodeBlockActions,
@@ -9,7 +10,6 @@ import {
   CodeBlockTitle,
   CodeBlock as CodeBlockRoot,
 } from "@portfolio/ui/components/code-block";
-import { ChevronDownIcon } from "lucide-react";
 import { useId, useState } from "react";
 import type { CSSProperties } from "react";
 
@@ -106,7 +106,7 @@ export const CodeBlock = ({
             size="xs"
             variant="ghost"
           >
-            <ChevronDownIcon className="transition-transform in-aria-expanded:rotate-180" />
+            <CaretDownIcon className="transition-transform in-aria-expanded:rotate-180" />
             {expanded ? "Show less" : "Show more"}
           </Button>
         </CodeBlockFooter>

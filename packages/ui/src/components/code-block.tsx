@@ -1,7 +1,7 @@
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "cn";
-import { CheckIcon, CopyIcon } from "lucide-react";
 import * as React from "react";
 
 const codeBlockVariants = cva(

@@ -1,8 +1,8 @@
-import { Loader2 } from "lucide-react";
+import { SpinnerIcon } from "@phosphor-icons/react";
 
 const Loader = () => (
   <div className="flex h-full items-center justify-center pt-8">
-    <Loader2 className="animate-spin" />
+    <SpinnerIcon className="animate-spin" />
   </div>
 );
 

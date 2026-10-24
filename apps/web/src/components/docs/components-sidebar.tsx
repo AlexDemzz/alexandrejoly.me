@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,6 @@ import {
 } from "@portfolio/ui/components/sidebar";
 import { textLinkVariants } from "@portfolio/ui/components/text";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";

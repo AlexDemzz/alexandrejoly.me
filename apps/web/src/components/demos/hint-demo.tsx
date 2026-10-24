@@ -1,11 +1,11 @@
+import { QuestionIcon } from "@phosphor-icons/react";
 import { Hint, HintContent, HintTrigger } from "@registry/hint";
-import { CircleHelpIcon } from "lucide-react";
 
 export const HintDemo = () => (
   <Hint>
     <HintTrigger>
       Label
-      <CircleHelpIcon />
+      <QuestionIcon />
     </HintTrigger>
     <HintContent>A short explanation of the label.</HintContent>
   </Hint>

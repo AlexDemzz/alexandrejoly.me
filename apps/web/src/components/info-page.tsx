@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from "@phosphor-icons/react";
 import { Heading } from "@portfolio/ui/components/heading";
 import {
   Section,
@@ -6,7 +7,6 @@ import {
 } from "@portfolio/ui/components/section";
 import { textLinkVariants } from "@portfolio/ui/components/text";
 import { Link } from "@tanstack/react-router";
-import { ArrowLeftIcon } from "lucide-react";
 
 import { Prose } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
