@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ListIcon, WarningIcon } from "@phosphor-icons/react";
+import { ListIcon, WarningIcon } from "@phosphor-icons/react";
 import {
   Alert,
   AlertDescription,
@@ -168,7 +168,6 @@ const ComponentDocsPage = ({
                       <BreadcrumbLink
                         render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
                       >
-                        <ArrowLeftIcon aria-hidden />
                         Home
                       </BreadcrumbLink>
                     </BreadcrumbItem>

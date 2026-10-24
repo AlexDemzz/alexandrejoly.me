@@ -1,4 +1,3 @@
-import { ArrowLeftIcon } from "@phosphor-icons/react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,7 +32,6 @@ export const InfoPageView = ({ slug }: { slug: InfoPageSlug }) => {
               <BreadcrumbLink
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
-                <ArrowLeftIcon aria-hidden />
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>

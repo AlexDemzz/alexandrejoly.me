@@ -16,14 +16,13 @@ function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
 }
 
 // DESIGN.md › Components › Breadcrumb: body size, links drawn as text links,
-// the separator in `ash` like every icon. A lone link keeps its back arrow;
-// once the list holds more than one child, the links drop their icons.
+// the separator in `ash` like every icon.
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "text-muted-foreground flex flex-wrap items-center gap-1.5 wrap-break-word [&:has(>li+li)_[data-slot=breadcrumb-link]>svg]:hidden",
+        "text-muted-foreground flex flex-wrap items-center gap-1.5 wrap-break-word",
         className
       )}
       {...props}

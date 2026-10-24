@@ -1,4 +1,3 @@
-import { ArrowLeftIcon } from "@phosphor-icons/react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -25,7 +24,6 @@ export const NotFound = () => {
               <BreadcrumbLink
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
-                <ArrowLeftIcon aria-hidden />
                 Home
               </BreadcrumbLink>
             </BreadcrumbItem>

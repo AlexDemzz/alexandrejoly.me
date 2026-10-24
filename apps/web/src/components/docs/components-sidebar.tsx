@@ -1,4 +1,3 @@
-import { ArrowLeftIcon, XIcon } from "@phosphor-icons/react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -43,7 +42,6 @@ export const ComponentsSidebar = ({
               onClick={() => setOpenMobile(false)}
               type="button"
             >
-              <XIcon aria-hidden />
               Close
             </button>
           ) : (
@@ -53,7 +51,6 @@ export const ComponentsSidebar = ({
                   <BreadcrumbLink
                     render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
                   >
-                    <ArrowLeftIcon aria-hidden />
                     Home
                   </BreadcrumbLink>
                 </BreadcrumbItem>
