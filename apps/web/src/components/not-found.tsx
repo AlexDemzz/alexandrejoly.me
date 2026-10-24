@@ -1,10 +1,17 @@
 import { ArrowLeftIcon } from "@phosphor-icons/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+} from "@portfolio/ui/components/breadcrumb";
 import { Code } from "@portfolio/ui/components/code";
 import { Heading } from "@portfolio/ui/components/heading";
-import { Text, textLinkVariants } from "@portfolio/ui/components/text";
+import { Text } from "@portfolio/ui/components/text";
 import { Link, useLocation } from "@tanstack/react-router";
 
 import { SiteFooter } from "@/components/site-footer";
+import { EXACT_ACTIVE } from "@/lib/link";
 
 export const NotFound = () => {
   const pathname = useLocation({ select: (location) => location.pathname });
@@ -12,10 +19,18 @@ export const NotFound = () => {
   return (
     <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
       <header className="flex flex-col items-start gap-5 pb-6">
-        <Link className={textLinkVariants()} to="/">
-          <ArrowLeftIcon aria-hidden />
-          Home
-        </Link>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
+              >
+                <ArrowLeftIcon aria-hidden />
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
         <Heading
           render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
         >

@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import { AuditScores } from "@/components/audit-scores";
 import { GithubIcon } from "@/components/github-icon";
 import { LINKS } from "@/content";
+import { EXACT_ACTIVE } from "@/lib/link";
 
 const PAGES = [
   { label: "About", to: "/about" },
@@ -23,7 +24,11 @@ export const SiteFooter = () => (
       © 2026 Alexandre Joly ·{" "}
       {PAGES.map(({ label, to }) => (
         <Fragment key={to}>
-          <Link className={textLinkVariants()} to={to}>
+          <Link
+            activeOptions={EXACT_ACTIVE}
+            className={textLinkVariants()}
+            to={to}
+          >
             {label}
           </Link>{" "}
           ·{" "}

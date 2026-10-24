@@ -4,6 +4,13 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@portfolio/ui/components/alert";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@portfolio/ui/components/breadcrumb";
 import { Heading } from "@portfolio/ui/components/heading";
 import {
   Section,
@@ -21,11 +28,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@portfolio/ui/components/tabs";
-import {
-  Text,
-  TextLink,
-  textLinkVariants,
-} from "@portfolio/ui/components/text";
+import { Text, TextLink } from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Fragment } from "react";
 import type { ReactNode } from "react";
@@ -40,12 +43,13 @@ import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import type { BrowserNotice } from "@/components/docs/registry-docs";
 import { SiteFooter } from "@/components/site-footer";
-import { SITE } from "@/content";
+import { COMPONENTS_PAGE, SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { componentJsonLd } from "@/lib/component-json-ld";
 import { markdownPath, pageHead } from "@/lib/head";
 import { SECTION_IDS, headingIds } from "@/lib/heading-ids";
+import { EXACT_ACTIVE } from "@/lib/link";
 import { componentMarkdown } from "@/lib/markdown";
 import {
   componentPath,
@@ -158,10 +162,28 @@ const ComponentDocsPage = ({
           <div className="py-12 sm:py-32 md:py-16">
             <header className="flex flex-col items-start gap-5 pb-10">
               <div className="flex w-full items-center justify-between md:hidden">
-                <Link className={textLinkVariants()} to="/">
-                  <ArrowLeftIcon aria-hidden />
-                  Home
-                </Link>
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
+                      >
+                        <ArrowLeftIcon aria-hidden />
+                        Home
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator>/</BreadcrumbSeparator>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink
+                        render={
+                          <Link activeOptions={EXACT_ACTIVE} to="/components" />
+                        }
+                      >
+                        {COMPONENTS_PAGE.title}
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
                 <SidebarTrigger className="md:hidden" size="icon">
                   <ListIcon aria-hidden />
                   <span className="sr-only">Open components menu</span>

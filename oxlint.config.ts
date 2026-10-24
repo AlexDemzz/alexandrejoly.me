@@ -33,6 +33,11 @@ export default defineConfig({
       rules: { "eslint/no-use-before-define": "off" },
     },
     {
+      // Stock BreadcrumbPage is a span with role="link" and aria-current="page".
+      files: ["packages/ui/src/components/breadcrumb.tsx"],
+      rules: { "jsx-a11y/prefer-tag-over-role": "off" },
+    },
+    {
       // Stock spinner is an svg with role="status"; <output> cannot replace it.
       files: ["packages/ui/src/components/spinner.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
