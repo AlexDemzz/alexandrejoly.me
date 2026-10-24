@@ -10,8 +10,19 @@ description: Registry components in apps/web/registry/. Use when building or cha
 1. Add the item to `apps/web/registry.json` and its name to `REGISTRY_ITEM_NAMES` (`apps/web/src/lib/registry.ts`).
 2. Fill every `Record<RegistryItemName, …>` the type checker then flags: docs entry, usage snippet, code chunk, home icon.
 3. Name its demos `<name>-*.tsx` (see Code blocks).
+4. Draw its row icon in `apps/web/src/components/<name>-icon.tsx`.
 
 Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.
+
+## Open Graph card
+
+Each docs page shares `public/og/components/<name>.png`, drawn from `apps/web/src/components/og-card.tsx` with the item's title, description and row icon.
+
+- Run `pnpm --filter web og:images` after changing any of them, then commit the PNGs and `scripts/og-images.lock.json`. It redraws only the cards whose inputs changed; `--force` redraws all.
+- `pnpm build` runs it too, so a deploy never ships a stale card.
+- A glyph that looks off-centre in its circle takes a nudge in `OPTICAL_NUDGE`, judged by eye at 80px.
+
+Done when `og:images` prints "OG images up to date".
 
 ## Source
 

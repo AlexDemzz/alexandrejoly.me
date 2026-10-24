@@ -329,6 +329,10 @@ export const Route = createFileRoute("/components/$name")({
     loaderData
       ? pageHead({
           description: loaderData.item.description,
+          image: {
+            alt: `${loaderData.item.title}: ${loaderData.item.description}`,
+            path: `og/components/${loaderData.item.name}.png`,
+          },
           path: `components/${loaderData.item.name}`,
           title: `${loaderData.item.title} – ${SITE.name}`,
           type: "article",

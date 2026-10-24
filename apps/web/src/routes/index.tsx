@@ -11,21 +11,15 @@ import {
 } from "@portfolio/ui/components/section";
 import { TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
-import type { ComponentType } from "react";
 
+import { COMPONENT_ICONS } from "@/components/component-icons";
 import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
-import { HintIcon } from "@/components/hint-icon";
 import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
-import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
-import { ItemInsetSeparatorIcon } from "@/components/item-inset-separator-icon";
 import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
-import { MarqueeIcon } from "@/components/marquee-icon";
 import { MediaBackdrop } from "@/components/media-backdrop";
-import { NotificationBadgeIcon } from "@/components/notification-badge-icon";
-import { OnboardingIcon } from "@/components/onboarding-icon";
 import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
@@ -36,7 +30,6 @@ import {
   PROJECTS,
   SITE,
   SKILLS,
-  X_HANDLE,
   SOCIALS,
   skillHref,
 } from "@/content";
@@ -45,16 +38,6 @@ import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
 import { REGISTRY_ITEMS } from "@/lib/registry";
-import type { RegistryItemName } from "@/lib/registry";
-
-const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
-  hint: HintIcon,
-  "infinite-scroll": InfiniteScrollIcon,
-  "item-inset-separator": ItemInsetSeparatorIcon,
-  marquee: MarqueeIcon,
-  "notification-badge": NotificationBadgeIcon,
-  onboarding: OnboardingIcon,
-};
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -239,6 +222,7 @@ const HomeComponent = () => {
 
 const homeHead = pageHead({
   description: SITE.description,
+  image: { alt: SITE.name, path: "og.png" },
   path: "",
   title: SITE.title,
   type: "profile",
@@ -258,15 +242,7 @@ export const Route = createFileRoute("/")({
   },
   head: () => ({
     links: homeHead.links,
-    meta: [
-      ...homeHead.meta,
-      { content: `${SITE.url}og.png`, property: "og:image" },
-      { content: "1200", property: "og:image:width" },
-      { content: "630", property: "og:image:height" },
-      { content: SITE.name, property: "og:image:alt" },
-      { content: "summary_large_image", name: "twitter:card" },
-      { content: `@${X_HANDLE}`, name: "twitter:creator" },
-    ],
+    meta: homeHead.meta,
     scripts: [
       { children: JSON.stringify(personJsonLd), type: "application/ld+json" },
     ],
