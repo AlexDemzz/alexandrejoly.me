@@ -39,7 +39,7 @@ typography:
   link: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   footer: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
 rounded: { logo: 9999px, favicon: 5px, focus: 5px }
-spacing: { column: 624px, docs: 960px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
+spacing: { column: 624px, docs: 864px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
 components:
   row: { text: "{colors.ink}", rule: "{colors.hairline}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.fog}" }
@@ -93,7 +93,7 @@ shadcnMapping:
 
 ## Overview
 
-Our own layout: the mark over a one-sentence 20px statement on top, then sections whose titles sit above ruled rows. A neutral palette warmed to hue 70, the system font at 16px, with 20px only for the home statement and 14px for the footer, tables and code blocks. One 624px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
+Our own layout: the mark over a one-sentence 20px statement on top, then sections whose titles sit above ruled rows. A neutral palette warmed to hue 70, the system font at 16px, with 20px only for the home statement and 14px for the footer, tables and code blocks. One 624px column (864px with the docs sidebar), no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
@@ -121,7 +121,7 @@ Our own layout: the mark over a one-sentence 20px statement on top, then section
 
 - Two containers, both centred with `px-6`:
   - **Column** `max-w-column` (624px, a 576px measure inside the gutters), `py-12 sm:py-24`: the home page and every page without navigation.
-  - **Docs** `max-w-docs` (960px): component docs pages. From `md`, a 192px sticky sidebar and a 48px gap, then the content at a 672px measure. Below `md`, the content alone.
+  - **Docs** `max-w-docs` (864px, the column plus the sidebar and its gap): component docs pages. From `md`, a 192px sticky sidebar and a 48px gap, then the content at the column's 576px measure. Below `md`, the content alone in the column.
 - Header: the 40px mark, then the statement 24px below it, balanced across the column, and the social icons 20px under the statement (their hit-area padding cancelled so the gap is the visible one). The contribution graph sits 28px under the icons, so both gaps measure about 29px from the statement's baseline and the icons' edges.
 - Sections: the title above its rows with a 16px gap, at every width. 40px above and below each section, no divider between them.
 - The first row of a section has no top padding, so its title lines up with the section title.

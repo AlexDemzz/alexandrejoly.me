@@ -153,11 +153,12 @@
   --radius-4xl: 32px;
 }
 
-/* DESIGN.md › Layout: the page column, and the docs container that holds the
-   sidebar beside it. */
+/* DESIGN.md › Layout: the page column, and the docs container that adds the
+   12rem sidebar and its 3rem gap, so the docs content keeps the column's
+   measure. */
 @theme {
   --container-column: 39rem;
-  --container-docs: 60rem;
+  --container-docs: calc(var(--container-column) + 15rem);
 }
 
 /* DESIGN.md › States: the mark draws itself once, arc then bar. */

@@ -146,7 +146,7 @@ const ComponentDocsPage = ({
   const ids = headingIds(docs);
 
   return (
-    <div className="max-w-docs mx-auto px-6">
+    <div className="max-w-column md:max-w-docs mx-auto px-6">
       <SidebarProvider>
         <ComponentsSidebar current={name} />
         <SidebarInset className="min-w-0 md:ms-12">
