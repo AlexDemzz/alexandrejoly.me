@@ -107,6 +107,13 @@ When an example relies on a CSS feature some browsers lack, give its docs entry 
 
 Each docs page has a Markdown twin at its path plus `.md`, which "View as Markdown" opens and "Copy Markdown" copies. `componentMarkdown` in `apps/web/src/lib/markdown.ts` builds it from the same docs entry and highlighted code as the page, each preview replaced by its demo's code. Put what the page says in the docs entry as data, never as JSX, or the twin cannot carry it. `markdown.test.ts` fails when a page shows an example, an API part or an accessibility paragraph that the twin lacks.
 
+## Showcases
+
+A showcase is a screen recording of a component for a post on X, made by `bin/record-showcase` in the `posts` repo. Its scene and cursor script live in `apps/web/src/showcases/<post-slug>.tsx` (types in `showcase.ts`), listed in `SHOWCASES`; the dev server alone renders it at `/showcase/<post-slug>`.
+
+- The scene is the real component with its demo content and nothing else: no heading, no caption. A control the behaviour needs, such as the marquee's add button, comes from `@portfolio/ui`.
+- Steps target elements by accessible name, so the script survives a restyle.
+
 ## CSS an item installs
 
 `shadcn add` merges an item's `css` into the user's global stylesheet rule by rule, keyed by selector. A reinstall adds new selectors and properties but never removes old ones, so an old, more specific rule can keep winning.
