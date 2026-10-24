@@ -16,9 +16,15 @@ interface PageImage {
   path: string;
 }
 
+/** The home page's card, shared by every page without one of its own. */
+const SITE_IMAGE: PageImage = {
+  alt: `${SITE.name}: I design and build interfaces end to end, and I care about the details that make them feel right.`,
+  path: "og.png",
+};
+
 interface PageHeadOptions {
   description: string;
-  /** A 1200×630 Open Graph image, shown as a large card on X. */
+  /** A 1200×630 PNG Open Graph image, shown as a large card on X. Defaults to the home page's. */
   image?: PageImage;
   /** Path from the site root, without a leading slash; empty for home. */
   path: string;
@@ -26,10 +32,10 @@ interface PageHeadOptions {
   type: "article" | "profile" | "website";
 }
 
-/** Canonical and Markdown links plus the description and Open Graph tags every page shares, and its image when it has one. */
+/** Canonical and Markdown links plus the description, Open Graph and X card tags every page shares. */
 export const pageHead = ({
   description,
-  image,
+  image = SITE_IMAGE,
   path,
   title,
   type,
@@ -51,16 +57,15 @@ export const pageHead = ({
       { content: title, property: "og:title" },
       { content: description, property: "og:description" },
       { content: SITE.name, property: "og:site_name" },
-      ...(image
-        ? [
-            { content: absolute(image.path), property: "og:image" },
-            { content: "1200", property: "og:image:width" },
-            { content: "630", property: "og:image:height" },
-            { content: image.alt, property: "og:image:alt" },
-            { content: "summary_large_image", name: "twitter:card" },
-            { content: `@${X_HANDLE}`, name: "twitter:creator" },
-          ]
-        : []),
+      { content: "en_US", property: "og:locale" },
+      { content: absolute(image.path), property: "og:image" },
+      { content: "image/png", property: "og:image:type" },
+      { content: "1200", property: "og:image:width" },
+      { content: "630", property: "og:image:height" },
+      { content: image.alt, property: "og:image:alt" },
+      { content: "summary_large_image", name: "twitter:card" },
+      { content: `@${X_HANDLE}`, name: "twitter:site" },
+      { content: `@${X_HANDLE}`, name: "twitter:creator" },
     ],
   };
 };

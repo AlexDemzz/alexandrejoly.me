@@ -50,11 +50,11 @@ export const InfoPageView = ({ slug }: { slug: InfoPageSlug }) => {
 };
 
 export const infoPageHead = (slug: InfoPageSlug) => {
-  const { description, title } = INFO_PAGES[slug];
+  const { description, documentTitle, title } = INFO_PAGES[slug];
   return pageHead({
     description,
     path: slug,
-    title: `${title} – ${SITE.name}`,
+    title: documentTitle ?? `${title} – ${SITE.name}`,
     type: slug === "about" ? "profile" : "website",
   });
 };

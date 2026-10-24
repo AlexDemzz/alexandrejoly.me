@@ -1,9 +1,13 @@
 import { EMAIL, EMPLOYER, LINKS, SITE } from "@/content";
 
+/** The `@id` other pages' JSON-LD uses to name this Person as their author. */
+export const PERSON_ID = `${SITE.url}#person`;
+
 /** The home page's schema.org Person, contact point included. */
 export const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": PERSON_ID,
   address: {
     "@type": "PostalAddress",
     addressCountry: "CH",

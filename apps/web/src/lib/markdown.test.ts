@@ -169,12 +169,14 @@ describe("markdownFor", () => {
     "/about",
     "/privacy.md",
     "/contact/",
+    "/components",
+    "/components.md",
     "/components/marquee",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
 
-  it.each(["/index", "/components", "/about/team", "/x.md"])(
+  it.each(["/index", "/components/nope", "/about/team", "/x.md"])(
     "reports %s as missing",
     async (path) => {
       await expect(markdownFor(path)).resolves.toMatchObject({ status: 404 });

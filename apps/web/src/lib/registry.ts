@@ -28,6 +28,13 @@ export interface RegistryItem {
   title: string;
 }
 
+/** The registry's index page, from the site root without a leading slash. */
+export const COMPONENTS_PATH = "components";
+
+/** A component's docs page, from the site root without a leading slash. */
+export const componentPath = (name: RegistryItemName) =>
+  `${COMPONENTS_PATH}/${name}`;
+
 export const isRegistryItemName = (name: string): name is RegistryItemName =>
   (REGISTRY_ITEM_NAMES as readonly string[]).includes(name);
 

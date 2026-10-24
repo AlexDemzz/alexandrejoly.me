@@ -1,8 +1,10 @@
 // Writes public/og/components/<name>.png for every registry item whose card
-// changed: its title, description, row icon or the card itself. Hashes of those
-// inputs live in og-images.lock.json; a run with nothing stale starts nothing.
-// `--force` redraws every card. Stale cards are screenshotted from a dev
-// server's /og/components/<name> in a light colour scheme.
+// changed: its title, description, row icon or the card itself, and
+// public/og/components.png for the index, whose card shows every row icon.
+// Hashes of those inputs live in og-images.lock.json; a run with nothing stale
+// starts nothing. `--force` redraws every card. Stale cards are screenshotted
+// from a dev server's /og/components/<name> and /og/components in a light
+// colour scheme.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -12,7 +14,8 @@ import { setTimeout as delay } from "node:timers/promises";
 const PORT = 3099;
 const ORIGIN = `http://localhost:${PORT}`;
 const READY_TIMEOUT_MS = 60_000;
-const OUT_DIR = new URL("../public/og/components/", import.meta.url);
+const OUT_DIR = new URL("../public/og/", import.meta.url);
+const INDEX = "components";
 const LOCK = new URL("og-images.lock.json", import.meta.url);
 const CARD = new URL("../src/components/og-card.tsx", import.meta.url);
 
@@ -31,28 +34,38 @@ const iconSource = async (name) => {
   return await read(icon);
 };
 
-const hashes = Object.fromEntries(
+const hash = (inputs) =>
+  createHash("sha256").update(JSON.stringify(inputs)).digest("hex");
+
+const icons = Object.fromEntries(
   await Promise.all(
-    registry.items.map(async ({ description, name, title }) => [
-      name,
-      createHash("sha256")
-        .update(
-          JSON.stringify([title, description, await iconSource(name), card])
-        )
-        .digest("hex"),
-    ])
+    registry.items.map(async ({ name }) => [name, await iconSource(name)])
   )
 );
 
+const hashes = {
+  ...Object.fromEntries(
+    registry.items.map(({ description, name, title }) => [
+      name,
+      hash([title, description, icons[name], card]),
+    ])
+  ),
+  [INDEX]: hash([Object.entries(icons), card]),
+};
+
+/** Where each card is served, and where its PNG goes under public/og/. */
+const target = (key) =>
+  key === INDEX
+    ? { file: `${INDEX}.png`, path: `/og/${INDEX}` }
+    : { file: `components/${key}.png`, path: `/og/components/${key}` };
+
 const force = process.argv.includes("--force");
-const stale = registry.items
-  .map(({ name }) => name)
-  .filter(
-    (name) =>
-      force ||
-      previous[name] !== hashes[name] ||
-      !existsSync(new URL(`${name}.png`, OUT_DIR))
-  );
+const stale = Object.keys(hashes).filter(
+  (key) =>
+    force ||
+    previous[key] !== hashes[key] ||
+    !existsSync(new URL(target(key).file, OUT_DIR))
+);
 
 const waitForServer = async (deadline = Date.now() + READY_TIMEOUT_MS) => {
   try {
@@ -66,7 +79,7 @@ const waitForServer = async (deadline = Date.now() + READY_TIMEOUT_MS) => {
   }
 };
 
-const capture = async (names) => {
+const capture = async (keys) => {
   const { chromium } = await import("playwright");
   const server = spawn(
     "pnpm",
@@ -75,7 +88,7 @@ const capture = async (names) => {
   );
   try {
     await waitForServer();
-    await mkdir(OUT_DIR, { recursive: true });
+    await mkdir(new URL("components/", OUT_DIR), { recursive: true });
     const browser = await chromium.launch();
     const context = await browser.newContext({
       colorScheme: "light",
@@ -83,14 +96,13 @@ const capture = async (names) => {
       viewport: { height: 630, width: 1200 },
     });
     await Promise.all(
-      names.map(async (name) => {
+      keys.map(async (key) => {
+        const { file, path } = target(key);
         const page = await context.newPage();
-        await page.goto(`${ORIGIN}/og/components/${name}`, {
-          waitUntil: "networkidle",
-        });
+        await page.goto(`${ORIGIN}${path}`, { waitUntil: "networkidle" });
         await page.locator("[data-og-card]").screenshot({
           animations: "disabled",
-          path: new URL(`${name}.png`, OUT_DIR).pathname,
+          path: new URL(file, OUT_DIR).pathname,
         });
       })
     );

@@ -8,6 +8,8 @@ export interface InfoSection {
 
 export interface InfoPage {
   description: string;
+  /** The `<title>`, when it should say more than "<title> – <site name>". */
+  documentTitle?: string;
   intro: Paragraph[];
   sections: InfoSection[];
   title: string;
@@ -24,7 +26,8 @@ const email: Paragraph[number] = { href: LINKS.email, text: EMAIL };
 
 export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
   about: {
-    description: `Who ${SITE.name} is: a French design engineer in Geneva, building ${EMPLOYER.name}’s interfaces since 2018.`,
+    description: `Who ${SITE.name} is: a French design engineer in Geneva who has built ${EMPLOYER.name}’s interfaces since 2018, plus side products, shadcn/ui components and awards.`,
+    documentTitle: `About ${SITE.name}, design engineer at ${EMPLOYER.name}`,
     intro: [
       [
         `I’m ${SITE.name}, a French design engineer based in Geneva, Switzerland. I work where design meets code: I draw an interface, then build it, animate it and keep polishing it until it feels right. I work in French and English.`,
@@ -70,7 +73,7 @@ export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
     title: "About",
   },
   contact: {
-    description: `How to reach ${SITE.name}: email and social profiles.`,
+    description: `How to reach ${SITE.name}: email for a project, a role or a question about a component, X and LinkedIn to follow along, and GitHub issues for any bug.`,
     intro: [
       [
         "Email is the best way to reach me: write to ",
@@ -107,7 +110,7 @@ export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
     title: "Contact",
   },
   privacy: {
-    description: `What ${SITE.name}’s site collects about visitors: no cookies, no analytics, no tracking.`,
+    description: `What ${SITE.name}’s site collects about visitors: no cookies, no analytics, no tracking. Only Cloudflare’s request logs, kept a few days to debug errors.`,
     intro: [
       [
         "This site is a personal portfolio. It sets no cookies, runs no analytics or advertising scripts, embeds no third-party trackers and has no forms, so it collects nothing about you on purpose. This page explains the little that still happens when you visit.",

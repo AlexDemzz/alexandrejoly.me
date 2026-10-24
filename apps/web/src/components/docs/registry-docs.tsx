@@ -103,6 +103,8 @@ export interface ComponentDocs {
   api: ApiPart[];
   demo: Demo;
   examples: Example[];
+  /** The page's meta description: what the component does, for search results. */
+  metaDescription: string;
   /** Listed under the Accessibility section as one line of links. */
   wcag?: WcagCriterion[];
 }
@@ -145,6 +147,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     demo: { Component: HintDemo, file: "hint-demo" },
     examples: [],
+    metaDescription:
+      "Hint for shadcn/ui: a React help bubble behind a labeled trigger, opened on press, its hit area stretched by a pseudo-element. Installs in one command.",
     wcag: [
       understanding("2.5.3 Label in Name", "label-in-name"),
       understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
@@ -227,6 +231,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Reverse",
       },
     ],
+    metaDescription:
+      "Infinite Scroll for shadcn/ui: a React list that loads more as you scroll, down or up, with a reverse mode held in place by CSS alone. Installs in one command.",
     wcag: [
       understanding("1.3.2 Meaningful Sequence", "meaningful-sequence"),
       understanding("2.4.3 Focus Order", "focus-order"),
@@ -266,6 +272,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Inset past the media",
       },
     ],
+    metaDescription:
+      "Item Inset Separator for shadcn/ui: a React divider under an Item, starting past its media, placed with CSS anchor positioning. Installs in one command.",
   },
   marquee: {
     accessibility: [
@@ -408,6 +416,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Centered when it fits",
       },
     ],
+    metaDescription:
+      "Marquee for shadcn/ui: a React strip that loops only once CSS scroll-driven animations detect its items overflow, with a pause button. Installs in one command.",
     wcag: [
       understanding("2.1.1 Keyboard", "keyboard"),
       understanding("2.2.2 Pause, Stop, Hide", "pause-stop-hide"),
@@ -524,6 +534,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Beside a label",
       },
     ],
+    metaDescription:
+      "Notification Badge for shadcn/ui: a React counter or dot on an icon or avatar, cut out with CSS shape() so it reads on any background. Installs in one command.",
   },
   onboarding: {
     accessibility: [
@@ -708,6 +720,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         title: "Transition",
       },
     ],
+    metaDescription:
+      "Onboarding for shadcn/ui: a React step-by-step flow with a segmented progress bar and CSS-only step transitions, built on Base UI. Installs in one command.",
     wcag: [
       understanding("1.3.1 Info and Relationships", "info-and-relationships"),
       understanding("2.4.3 Focus Order", "focus-order"),

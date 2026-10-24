@@ -18,7 +18,7 @@ import kwernLandscapes from "@/media/kwern-landscapes.webm";
 
 export const SITE = {
   description:
-    "I’m a design engineer at Yoojo. I design and build interfaces end to end, and I care about the details that make them feel right.",
+    "I’m a design engineer at Yoojo. I design and build interfaces end to end, care about the details that make them feel right, and share free shadcn/ui components.",
   name: "Alexandre Joly",
   title: "Alexandre Joly – Design engineer at Yoojo",
   url: "https://alexandrejoly.me/",
@@ -135,6 +135,16 @@ export const PROJECTS: Project[] = [
 export type Inline = string | { href: string; text: string };
 
 export type Paragraph = Inline[];
+
+/** The `/components` index of the registry. */
+export const COMPONENTS_PAGE = {
+  description: `Free, open-source React components for shadcn/ui by ${SITE.name}. Install each one with the shadcn CLI, then read its live examples and API reference.`,
+  documentTitle: `React components for shadcn/ui – ${SITE.name}`,
+  intro:
+    "Free, open-source React components for projects built on shadcn/ui, published as a shadcn registry. Each one installs with the shadcn CLI, renders on the server and has its own page with live examples and an API reference.",
+  listTitle: "Registry",
+  title: "Components",
+} as const;
 
 export const INTRO =
   "I design and build interfaces end to end, and I care about the details that make them feel right.";

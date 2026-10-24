@@ -43,10 +43,15 @@ import { SiteFooter } from "@/components/site-footer";
 import { SITE } from "@/content";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
+import { componentJsonLd } from "@/lib/component-json-ld";
 import { markdownPath, pageHead } from "@/lib/head";
 import { SECTION_IDS, headingIds } from "@/lib/heading-ids";
 import { componentMarkdown } from "@/lib/markdown";
-import { getRegistryItem, isRegistryItemName } from "@/lib/registry";
+import {
+  componentPath,
+  getRegistryItem,
+  isRegistryItemName,
+} from "@/lib/registry";
 import type { RegistryItem } from "@/lib/registry";
 
 const Step = ({ children, code }: { children: ReactNode; code: ReactNode }) => (
@@ -291,7 +296,7 @@ const ComponentDocsPage = ({
 
             <div className="flex gap-4">
               <Text variant="faint">
-                <TextLink href={markdownPath(`components/${name}`)}>
+                <TextLink href={markdownPath(componentPath(name))}>
                   View as Markdown
                 </TextLink>
               </Text>
@@ -325,18 +330,31 @@ export const Route = createFileRoute("/components/$name")({
       item: getRegistryItem(name),
     };
   },
-  head: ({ loaderData }) =>
-    loaderData
-      ? pageHead({
-          description: loaderData.item.description,
-          image: {
-            alt: `${loaderData.item.title}: ${loaderData.item.description}`,
-            path: `og/components/${loaderData.item.name}.png`,
-          },
-          path: `components/${loaderData.item.name}`,
-          title: `${loaderData.item.title} – ${SITE.name}`,
-          type: "article",
-        })
-      : {},
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {};
+    }
+    const { item } = loaderData;
+    const { links, meta } = pageHead({
+      description: REGISTRY_DOCS[item.name].metaDescription,
+      image: {
+        alt: `${item.title}: ${item.description}`,
+        path: `og/components/${item.name}.png`,
+      },
+      path: componentPath(item.name),
+      title: `${item.title} component for shadcn/ui – ${SITE.name}`,
+      type: "article",
+    });
+    return {
+      links,
+      meta,
+      scripts: [
+        {
+          children: JSON.stringify(componentJsonLd(item)),
+          type: "application/ld+json",
+        },
+      ],
+    };
+  },
   staleTime: Number.POSITIVE_INFINITY,
 });

@@ -7,17 +7,26 @@ const SERVER_FN_PREFIX = "/_serverFn";
 const textResponse = (
   request: Request,
   body: string,
-  { contentType, status }: { contentType: string; status: number }
+  {
+    canonical,
+    contentType,
+    status,
+  }: { canonical?: string; contentType: string; status: number }
 ) =>
   new Response(request.method === "HEAD" ? null : body, {
-    headers: { "content-type": contentType, vary: "Accept" },
+    headers: {
+      "content-type": contentType,
+      vary: "Accept",
+      ...(canonical && { link: `<${canonical}>; rel="canonical"` }),
+    },
     status,
   });
 
 /**
  * The answer for agents: `/llms.txt`, and the Markdown twin of a page when the
- * path ends in `.md` or the request prefers `text/markdown`. `undefined` lets
- * the app render HTML.
+ * path ends in `.md` or the request prefers `text/markdown`, canonical to the
+ * HTML page so search engines index that one. `undefined` lets the app render
+ * HTML.
  */
 export const agentResponse = async (
   request: Request
@@ -37,8 +46,9 @@ export const agentResponse = async (
   if (!wantsMarkdown || pathname.startsWith(SERVER_FN_PREFIX)) {
     return undefined;
   }
-  const { body, status } = await markdownFor(pathname);
+  const { body, canonical, status } = await markdownFor(pathname);
   return textResponse(request, body, {
+    canonical,
     contentType: "text/markdown; charset=utf-8",
     status,
   });

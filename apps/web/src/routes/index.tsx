@@ -12,10 +12,9 @@ import {
 import { TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
 
-import { COMPONENT_ICONS } from "@/components/component-icons";
 import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
-import { ComponentRow, ExternalRow, RowList } from "@/components/home-rows";
+import { ComponentRows, ExternalRow, RowList } from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
@@ -37,7 +36,6 @@ import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
-import { REGISTRY_ITEMS } from "@/lib/registry";
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -146,24 +144,7 @@ const HomeComponent = () => {
       <Section>
         <SectionTitle>Components</SectionTitle>
         <SectionContent>
-          <RowList>
-            {REGISTRY_ITEMS.map((component) => {
-              const Icon = COMPONENT_ICONS[component.name];
-              return (
-                <ComponentRow
-                  description={component.description}
-                  key={component.name}
-                  media={
-                    <ItemLightMedia>
-                      <Icon />
-                    </ItemLightMedia>
-                  }
-                  name={component.name}
-                  title={component.title}
-                />
-              );
-            })}
-          </RowList>
+          <ComponentRows />
         </SectionContent>
       </Section>
 
@@ -222,7 +203,6 @@ const HomeComponent = () => {
 
 const homeHead = pageHead({
   description: SITE.description,
-  image: { alt: SITE.name, path: "og.png" },
   path: "",
   title: SITE.title,
   type: "profile",

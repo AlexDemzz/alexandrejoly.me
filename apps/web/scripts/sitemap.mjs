@@ -1,5 +1,5 @@
 // Writes public/sitemap.xml: the home page, the about, contact and privacy
-// pages, then one page per registry item.
+// pages, the components index, then one page per registry item.
 import { readFile, writeFile } from "node:fs/promises";
 
 const registry = JSON.parse(
@@ -11,6 +11,7 @@ const paths = [
   "/about",
   "/contact",
   "/privacy",
+  "/components",
   ...registry.items.map(({ name }) => `/components/${name}`),
 ];
 

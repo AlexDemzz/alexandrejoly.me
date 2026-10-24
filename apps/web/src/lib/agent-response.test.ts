@@ -34,6 +34,20 @@ describe("agentResponse", () => {
     expect(await response?.text()).toMatch(/^# Hint\n/u);
   });
 
+  it("points a Markdown twin's canonical at its HTML page", async () => {
+    const home = await agentResponse(request("/index.md"));
+    const component = await agentResponse(markdownRequest("/components/hint"));
+    const missing = await agentResponse(markdownRequest("/does-not-exist"));
+
+    expect(home?.headers.get("link")).toBe(
+      '<https://alexandrejoly.me/>; rel="canonical"'
+    );
+    expect(component?.headers.get("link")).toBe(
+      '<https://alexandrejoly.me/components/hint>; rel="canonical"'
+    );
+    expect(missing?.headers.get("link")).toBeNull();
+  });
+
   it("answers unknown paths with a Markdown 404 that points somewhere useful", async () => {
     const response = await agentResponse(markdownRequest("/does-not-exist"));
     const body = (await response?.text()) ?? "";

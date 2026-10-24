@@ -9,6 +9,7 @@ import { REGISTRY_USAGE } from "@/components/docs/registry-usage";
 import {
   ARCHIVES,
   AWARDS,
+  COMPONENTS_PAGE,
   EMPLOYER,
   INTRO,
   LINKS,
@@ -25,12 +26,15 @@ import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { absolute, markdownUrl } from "@/lib/head";
 import {
+  COMPONENTS_PATH,
   REGISTRY_ITEMS,
+  componentPath,
   getInstallation,
   getRegistryItem,
   isRegistryItemName,
 } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
+import { stripTrailingSlashes } from "@/lib/trailing-slash";
 
 // Indents every non-empty line after the first, to nest a step in its list item.
 const PARAGRAPH_LINE = /\n(?=.)/gu;
@@ -57,6 +61,11 @@ const SITE_PAGES = [
     markdownUrl(""),
     "intro, projects, components, recognition and profiles"
   ),
+  linkItem(
+    COMPONENTS_PAGE.title,
+    markdownUrl(COMPONENTS_PATH),
+    COMPONENTS_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -67,7 +76,7 @@ const SITE_PAGES = [
 ];
 
 const COMPONENT_ITEMS = REGISTRY_ITEMS.map((item) =>
-  linkItem(item.title, markdownUrl(`components/${item.name}`), item.description)
+  linkItem(item.title, markdownUrl(componentPath(item.name)), item.description)
 );
 
 export const homeMarkdown = () =>
@@ -123,6 +132,14 @@ export const homeMarkdown = () =>
         ),
       ].join("\n")
     ),
+  ]);
+
+export const componentsMarkdown = () =>
+  markdownDocument([
+    `# ${COMPONENTS_PAGE.title}`,
+    COMPONENTS_PAGE.intro,
+    section(COMPONENTS_PAGE.listTitle, COMPONENT_ITEMS.join("\n")),
+    `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 
 export const infoPageMarkdown = (slug: InfoPageSlug) => {
@@ -229,7 +246,7 @@ export const componentMarkdown = (
     [
       `# ${item.title}`,
       `> ${item.description}`,
-      `A React component for projects built on shadcn/ui. The [interactive docs](${absolute(`components/${name}`)}) show each example live.`,
+      `A React component for projects built on shadcn/ui. The [interactive docs](${absolute(componentPath(name))}) show each example live.`,
       demoFence(code, demo.file),
       section(
         "Installation",
@@ -268,7 +285,7 @@ export const componentMarkdown = (
             ].join("\n\n")
           ),
       section("API reference", api.map(apiPartMarkdown).join("\n\n")),
-      `[All components](${markdownUrl("")})`,
+      `[All components](${markdownUrl(COMPONENTS_PATH)})`,
     ].filter((block) => block !== null)
   );
 };
@@ -333,25 +350,37 @@ export const llmsTxt = () =>
 
 export interface MarkdownPage {
   body: string;
+  /** The HTML page this Markdown mirrors; absent on a 404. */
+  canonical?: string;
   status: 200 | 404;
 }
 
 const MARKDOWN_SUFFIX = ".md";
-const TRAILING_SLASHES = /\/+$/u;
 
 /** The Markdown for a path, with or without its `.md` suffix. */
 export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
-  const path = pathname.replace(TRAILING_SLASHES, "") || "/";
+  const path = stripTrailingSlashes(pathname);
   if (path === "/" || path === `/index${MARKDOWN_SUFFIX}`) {
-    return { body: homeMarkdown(), status: 200 };
+    return { body: homeMarkdown(), canonical: absolute(""), status: 200 };
   }
   const page = path.endsWith(MARKDOWN_SUFFIX)
     ? path.slice(0, -MARKDOWN_SUFFIX.length)
     : path;
 
   const slug = page.slice(1);
+  if (slug === COMPONENTS_PATH) {
+    return {
+      body: componentsMarkdown(),
+      canonical: absolute(COMPONENTS_PATH),
+      status: 200,
+    };
+  }
   if (isInfoPageSlug(slug)) {
-    return { body: infoPageMarkdown(slug), status: 200 };
+    return {
+      body: infoPageMarkdown(slug),
+      canonical: absolute(slug),
+      status: 200,
+    };
   }
   const name = page.startsWith("/components/")
     ? page.slice("/components/".length)
@@ -359,6 +388,7 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
   if (isRegistryItemName(name)) {
     return {
       body: componentMarkdown(name, await getComponentCode(name)),
+      canonical: absolute(componentPath(name)),
       status: 200,
     };
   }

@@ -1,13 +1,16 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { COMPONENT_ICONS } from "@/components/component-icons";
 import {
   ItemLight,
   ItemLightActions,
   ItemLightContent,
   ItemLightDescription,
+  ItemLightMedia,
   ItemLightTitle,
 } from "@/components/item-light";
+import { REGISTRY_ITEMS } from "@/lib/registry";
 
 export const RowList = ({ children }: { children: ReactNode }) => (
   <ul className="flex flex-col">{children}</ul>
@@ -71,4 +74,26 @@ export const ComponentRow = ({
       </ItemLightContent>
     </ItemLight>
   </li>
+);
+
+/** One row per registry item, linking to its docs page. */
+export const ComponentRows = () => (
+  <RowList>
+    {REGISTRY_ITEMS.map((component) => {
+      const Icon = COMPONENT_ICONS[component.name];
+      return (
+        <ComponentRow
+          description={component.description}
+          key={component.name}
+          media={
+            <ItemLightMedia>
+              <Icon />
+            </ItemLightMedia>
+          }
+          name={component.name}
+          title={component.title}
+        />
+      );
+    })}
+  </RowList>
 );

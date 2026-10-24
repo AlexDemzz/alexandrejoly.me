@@ -12,6 +12,7 @@ import { LINKS } from "@/content";
 
 const PAGES = [
   { label: "About", to: "/about" },
+  { label: "Components", to: "/components" },
   { label: "Contact", to: "/contact" },
   { label: "Privacy", to: "/privacy" },
 ] as const;
