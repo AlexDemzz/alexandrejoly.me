@@ -81,7 +81,11 @@ export interface ApiPart {
   props: ApiProp[];
 }
 
-/** A WCAG success criterion the component meets on its own. */
+/**
+ * A WCAG success criterion the component's own code meets. Leave out what
+ * the shadcn or Base UI parts it wraps already provide, and what depends on
+ * the user's theme, such as contrast.
+ */
 export interface WcagCriterion {
   href: string;
   /** Its number then its name: "2.2.2 Pause, Stop, Hide". */
@@ -142,12 +146,8 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     demo: { Component: HintDemo, file: "hint-demo" },
     examples: [],
     wcag: [
-      understanding("2.1.1 Keyboard", "keyboard"),
-      understanding("2.4.3 Focus Order", "focus-order"),
-      understanding("2.4.7 Focus Visible", "focus-visible"),
       understanding("2.5.3 Label in Name", "label-in-name"),
       understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
-      understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
   },
   "infinite-scroll": {
@@ -265,9 +265,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         },
         title: "Inset past the media",
       },
-    ],
-    wcag: [
-      understanding("1.3.1 Info and Relationships", "info-and-relationships"),
     ],
   },
   marquee: {
@@ -419,7 +416,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         "2.4.11 Focus Not Obscured (Minimum)",
         "focus-not-obscured-minimum"
       ),
-      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
       understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
   },
@@ -429,7 +425,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       "On an icon button, write it in the `aria-label`: “Notifications, 3 unread”, or “Messages, new activity” for a dot, which shows no count at all. Beside a label, keep the visible text first and add the rest in an `sr-only` span, so the name still starts with what the button shows.",
       "Build the whole phrase with your translation library rather than joining pieces, and say “more than 99” where you show `99+`.",
       "A count that changes is not announced. To announce it, update one polite live region for the whole app with a phrase that says what changed, such as “2 new messages”.",
-      "In the default theme, white on `destructive` reaches 4.5:1, and the badge stands out at 3:1 or more from light and dark backgrounds alike. In forced colors mode, such as Windows high contrast, it takes the system text color, so even a dot stays visible.",
+      "In forced colors mode, such as Windows high contrast, the badge takes the system text color, so even a dot stays visible.",
     ],
     api: [
       {
@@ -527,10 +523,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
         file: "notification-badge-label",
         title: "Beside a label",
       },
-    ],
-    wcag: [
-      understanding("1.4.3 Contrast (Minimum)", "contrast-minimum"),
-      understanding("1.4.11 Non-text Contrast", "non-text-contrast"),
     ],
   },
   onboarding: {
@@ -718,9 +710,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     wcag: [
       understanding("1.3.1 Info and Relationships", "info-and-relationships"),
-      understanding("2.1.1 Keyboard", "keyboard"),
       understanding("2.4.3 Focus Order", "focus-order"),
-      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
       understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
   },
