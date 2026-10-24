@@ -1,6 +1,7 @@
 // DESIGN.md › Components › Heading anchor: the title links to its own section
-// and underlines on hover, like a sidebar link; a `#` in the margin shows while
-// it is hovered or focused, and stays on touch.
+// and underlines on hover, like a sidebar link; a `#` in the margin (after the
+// title below `sm`, where there is no margin) shows while it is hovered or
+// focused, and stays on touch.
 export const HeadingAnchor = ({
   children,
   id,
@@ -15,7 +16,7 @@ export const HeadingAnchor = ({
     {children}
     <span
       aria-hidden
-      className="text-subtle-foreground can-hover:opacity-0 can-hover:group-hover/anchor:opacity-100 can-hover:group-focus-visible/anchor:opacity-100 absolute -start-6 w-6 text-center transition-opacity duration-200 ease-out"
+      className="text-subtle-foreground can-hover:opacity-0 can-hover:group-hover/anchor:opacity-100 can-hover:group-focus-visible/anchor:opacity-100 absolute -start-6 w-6 text-center transition-opacity duration-200 ease-out max-sm:static max-sm:inline-block"
     >
       #
     </span>
