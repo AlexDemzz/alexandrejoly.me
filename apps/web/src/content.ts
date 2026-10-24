@@ -136,28 +136,8 @@ export type Inline = string | { href: string; text: string };
 
 export type Paragraph = Inline[];
 
-const projectLink = (name: string): Inline => {
-  const project = PROJECTS.find((candidate) => candidate.name === name);
-  if (!project) {
-    throw new Error(`PROJECTS has no project named ${name}`);
-  }
-  return { href: project.href, text: project.name };
-};
-
-export const INTRO: Paragraph[] = [
-  [
-    "I design and build interfaces end to end, and I care about the details that make them feel right.",
-  ],
-  [
-    "Right now I’m building ",
-    projectLink("Kwern"),
-    ", a team of AI agents that market your product while you keep building it, and ",
-    projectLink("Gymup"),
-    ", an AI strength coach built on a professional coach’s system. I also maintain ",
-    projectLink("react-easy-modals"),
-    ", a headless modal stack for React.",
-  ],
-];
+export const INTRO =
+  "I design and build interfaces end to end, and I care about the details that make them feel right.";
 
 export interface Skill {
   description: string;

@@ -30,8 +30,8 @@ colors:
   preview-dark: "#0A0A09"
 typography:
   body: { family: system-ui, size: 16px, weight: 400, line-height: 26px }
-  name: { family: system-ui, size: 16px, weight: 500, line-height: 22px }
-  role: { family: system-ui, size: 16px, weight: 450, line-height: 22px }
+  statement: { family: system-ui, size: 20px, weight: 400, line-height: 32.5px }
+  name: { family: system-ui, size: 20px, weight: 500, line-height: 32.5px }
   heading: { family: system-ui, size: 16px, weight: 500, line-height: 26px }
   docs-title: { family: system-ui, size: 20px, weight: 500, line-height: 27.5px }
   docs-section-title: { family: system-ui, size: 18px, weight: 500, line-height: 24.75px }
@@ -39,13 +39,13 @@ typography:
   link: { family: system-ui, size: 16px, weight: 450, line-height: 26px }
   footer: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
 rounded: { logo: 9999px, favicon: 5px, focus: 5px }
-spacing: { column: 720px, docs: 960px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, margin: 128px, margin-gap: 32px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
+spacing: { column: 624px, docs: 960px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: 96px, page-y-mobile: 48px, section-y: 40px, row-y: 14px }
 components:
   row: { text: "{colors.ink}", rule: "{colors.hairline}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.fog}" }
   row-aside: { text: "{colors.fog}", numerals: tabular }
   row-logo: { size: 36px, radius: "{rounded.logo}", shadow: "0 0 0 1px #0000000F, 0 1px 2px -1px #0000000F, 0 2px 4px 0 #0000000A" }
-  section-title: { text: "{colors.fog}", position: sticky margin }
+  section-title: { text: "{colors.fog}", position: above }
   link: { text: "{colors.ink}", underline: "{colors.underline}", underline-hover: "{colors.fog}", offset: 3px }
   link-favicon: { size: 16px, radius: "{rounded.favicon}" }
 shadcnMapping:
@@ -93,7 +93,7 @@ shadcnMapping:
 
 ## Overview
 
-Our own layout: an identity line and two paragraphs of prose on top, then sections whose titles sit in a left margin beside ruled rows. A neutral palette warmed to hue 70, the system font at 16px, with 14px only for the footer, tables and code blocks. One 720px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
+Our own layout: the mark over a one-sentence 20px statement on top, then sections whose titles sit above ruled rows. A neutral palette warmed to hue 70, the system font at 16px, with 20px only for the home statement and 14px for the footer, tables and code blocks. One 624px column (960px with the docs sidebar), no header chrome, no accent colour, no section dividers.
 
 ## Colour
 
@@ -105,9 +105,9 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 ## Typography
 
 - System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
-- 16px for everything except the footer, tables and code blocks, which are 14px. Line-height 1.625, 1.375 for the identity lines.
+- 16px for everything except the home statement at 20px, and the footer, tables and code blocks at 14px. Line-height 1.625, the statement included.
 - Docs pages are the exception that takes a size step, since they nest three heading levels: the page title at 20px and section titles at 18px (line-height 1.375), example and API part titles at the 16px `heading`. All three at 500 in ink.
-- Weight 500 for the name, 450 (`font-book`) for row titles, links and the role, 400 for body and section titles.
+- Weight 500 for the name, 450 (`font-book`) for row titles and links, 400 for body, the rest of the statement and section titles.
 - Years use `tabular-nums`.
 
 ## Shape and depth
@@ -120,15 +120,15 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 ## Layout
 
 - Two containers, both centred with `px-6`:
-  - **Column** `max-w-column` (720px), `py-12 sm:py-24`: the home page and every page without navigation.
-  - **Docs** `max-w-docs` (960px): component docs pages. From `md`, a 192px sticky sidebar and a 48px gap, then the content, which keeps the column's 672px measure. Below `md`, the content alone.
-- Header: identity, then two paragraphs 20px apart, spanning the full column so they end at the same edge as the rows.
-- Sections: from `sm`, an 8rem margin holding the sticky title and a 32px gap before the rows; one column below `sm`. 40px above and below each section, no divider between them.
+  - **Column** `max-w-column` (624px, a 576px measure inside the gutters), `py-12 sm:py-24`: the home page and every page without navigation.
+  - **Docs** `max-w-docs` (960px): component docs pages. From `md`, a 192px sticky sidebar and a 48px gap, then the content at a 672px measure. Below `md`, the content alone.
+- Header: the 40px mark, then the statement 24px below it, balanced across the column, and the social icons 20px under the statement (their hit-area padding cancelled so the gap is the visible one). The contribution graph sits 28px under the icons, so both gaps measure about 29px from the statement's baseline and the icons' edges.
+- Sections: the title above its rows with a 16px gap, at every width. 40px above and below each section, no divider between them.
 - The first row of a section has no top padding, so its title lines up with the section title.
 
 ## Components
 
-- **Section** (`Section`, `SectionTitle`, `SectionContent`): `variant="margin"` (default) puts the title in the margin beside the content; `variant="stacked"` sets it above, for the docs container, where the sidebar already takes the margin, as an 18px heading in ink.
+- **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content. By default it is a 16px title in `fog`; `variant="stacked"` makes it an 18px heading in ink, for the docs container.
 - **Row** (a plain `ul` of `ItemLight`s from `apps/web/src/components/item-light.tsx`, styled from `apps/web/src/index.css` by `data-slot`; the stock `Item` printed too many classes for the home's text-to-HTML ratio): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), ruled by an inset hairline drawn as the row's `::after`, the same rule as `ItemInsetSeparator`.
 - **Text link** (`TextLink`): ink, weight 450, underline in `underline` at 3px; may lead with a favicon `<img>`.
 - **Heading** (`Heading`): 16px at 500 in ink, any level through `render`; `variant="title"` is the 20px docs page title.
@@ -138,7 +138,7 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 - **Panel** (`Panel`): the same hairline card around one component part's API (name, description, table), 24px between panels. Its content is 14px, like every table, so dense API tables stay readable. The table runs edge to edge; its outer cells and the header take the 20px inset (24px from `sm`).
 - **API reference** (`Table`): one table per part, labelled by its heading. Prop (row header, description under it in `fog`) | Type (`muted` code) | Default (ink code, an em dash when none); the Default column is dropped when no prop has one, and below `sm` the default moves under the description. Type and Default columns share fixed widths so stacked tables line up; their tokens never break mid-word. Hairline rules, 14px row padding, no hover fill.
 - **Docs sidebar** (`Sidebar`, `collapsible="none"`): the docs container's navigation. Desktop: the Home link on top, then one muted link per component; the current one is ink, hover underlines. No border, no fill. Mobile: the page header keeps the Home link with a menu icon button at the end, which opens the same list, titled "Components", in a sheet.
-- **Identity**: 44px mark, name over role. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
+- **Identity** (`Identity`, `IdentityMark`, `IdentityStatement`, `IdentityName`): a 40px mark over one balanced 20px sentence in `fog`, “I’m” then the name as a run-in `h1` in ink at 500, then the role and the intro, links in ink. The mark is the 2025 arc and bar redrawn as a single 2px round-capped line on a 24px grid, the same weight in the header and the favicon.
 
 ## States
 
@@ -151,8 +151,8 @@ Our own layout: an identity line and two paragraphs of prose on top, then sectio
 
 ## Do / Don't
 
-- Do keep every size at 16px, except the footer, tables and code blocks at 14px, and build hierarchy with weight and ink.
-- Do keep section titles in the margin and rows ruled.
+- Do keep every size at 16px, except the home statement at 20px and the footer, tables and code blocks at 14px, and build hierarchy with weight and ink.
+- Do keep section titles above their rows and rows ruled.
 - Don't put dividers between sections; spacing separates them.
 - Don't fill rows on hover, or add an accent colour, cards (outside docs previews and code) or a theme toggle.
 - Don't truncate row titles; let them wrap.

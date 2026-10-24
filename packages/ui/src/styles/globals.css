@@ -156,7 +156,7 @@
 /* DESIGN.md › Layout: the page column, and the docs container that holds the
    sidebar beside it. */
 @theme {
-  --container-column: 45rem;
+  --container-column: 39rem;
   --container-docs: 60rem;
 }
 

@@ -2,7 +2,7 @@ import {
   Identity,
   IdentityMark,
   IdentityName,
-  IdentityRole,
+  IdentityStatement,
 } from "@portfolio/ui/components/identity";
 import {
   Section,
@@ -26,7 +26,6 @@ import { MarqueeIcon } from "@/components/marquee-icon";
 import { MediaBackdrop } from "@/components/media-backdrop";
 import { NotificationBadgeIcon } from "@/components/notification-badge-icon";
 import { OnboardingIcon } from "@/components/onboarding-icon";
-import { Prose } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
@@ -79,38 +78,44 @@ const HomeComponent = () => {
 
   return (
     <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
-      <div className="flex flex-col gap-5 pb-6">
-        <Identity className="mb-1">
-          <IdentityMark>
-            <Mark />
-          </IdentityMark>
-          <div>
-            <IdentityName>Alexandre Joly</IdentityName>
-            <IdentityRole>
-              Design engineer at{" "}
+      {/* 28px under the icons looks like the 20px above them: the eye measures
+          from the statement's baseline, which its leading sits ~9px above. */}
+      <div className="flex flex-col gap-7 pb-6">
+        <div className="flex flex-col gap-5">
+          <Identity>
+            <IdentityMark>
+              <Mark />
+            </IdentityMark>
+            <IdentityStatement>
+              I’m <IdentityName>Alexandre Joly</IdentityName>, design engineer
+              at{" "}
               <TextLink external href={EMPLOYER.href}>
                 {EMPLOYER.name}
               </TextLink>
-            </IdentityRole>
-          </div>
-        </Identity>
-        <Prose paragraphs={INTRO} />
-        <nav aria-label="Social" className="-ml-2.5 flex items-center">
-          {SOCIALS.map(({ href, icon: Icon, name }) => {
-            const external = href.startsWith("https://");
-            return (
-              <a
-                aria-label={external ? `${name} (opens in a new tab)` : name}
-                className="text-muted-foreground can-hover:hover:bg-muted can-hover:hover:text-foreground focus-visible:text-foreground rounded-lg p-2.5 transition-colors duration-200 ease-out"
-                href={href}
-                key={name}
-                {...(external ? { rel: "noreferrer", target: "_blank" } : {})}
-              >
-                <Icon className="size-4.5" />
-              </a>
-            );
-          })}
-        </nav>
+              . {INTRO}
+            </IdentityStatement>
+          </Identity>
+          {/* -my-2.5 cancels the hit-area padding, so the gap is the visible one. */}
+          <nav
+            aria-label="Social"
+            className="-my-2.5 -ml-2.5 flex items-center"
+          >
+            {SOCIALS.map(({ href, icon: Icon, name }) => {
+              const external = href.startsWith("https://");
+              return (
+                <a
+                  aria-label={external ? `${name} (opens in a new tab)` : name}
+                  className="text-muted-foreground can-hover:hover:bg-muted can-hover:hover:text-foreground focus-visible:text-foreground rounded-lg p-2.5 transition-colors duration-200 ease-out"
+                  href={href}
+                  key={name}
+                  {...(external ? { rel: "noreferrer", target: "_blank" } : {})}
+                >
+                  <Icon className="size-4.5" />
+                </a>
+              );
+            })}
+          </nav>
+        </div>
         {contributions === null ? null : (
           <ContributionGraph contributions={contributions} />
         )}

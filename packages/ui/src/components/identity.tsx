@@ -1,10 +1,11 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Typography: a 44px mark, the name at 500 over the role at 450.
+// DESIGN.md › Identity: a 40px mark over one 20px statement that names the
+// person at 500 in ink while the rest of the statement stays muted.
 const Identity = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
-    className={cn("flex items-center gap-3 leading-snug", className)}
+    className={cn("flex flex-col gap-6", className)}
     data-slot="identity"
     {...props}
   />
@@ -12,11 +13,22 @@ const Identity = ({ className, ...props }: React.ComponentProps<"div">) => (
 
 const IdentityMark = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
+    className={cn("text-foreground size-10 [&_svg]:size-full", className)}
+    data-slot="identity-mark"
+    {...props}
+  />
+);
+
+const IdentityStatement = ({
+  className,
+  ...props
+}: React.ComponentProps<"div">) => (
+  <div
     className={cn(
-      "text-foreground flex size-11 shrink-0 items-center justify-center [&_svg]:size-full",
+      "text-muted-foreground text-xl leading-relaxed text-balance",
       className
     )}
-    data-slot="identity-mark"
+    data-slot="identity-statement"
     {...props}
   />
 );
@@ -27,7 +39,7 @@ const IdentityName = ({
   ...props
 }: React.ComponentProps<"h1">) => (
   <h1
-    className={cn("font-medium", className)}
+    className={cn("text-foreground inline font-medium", className)}
     data-slot="identity-name"
     {...props}
   >
@@ -35,12 +47,4 @@ const IdentityName = ({
   </h1>
 );
 
-const IdentityRole = ({ className, ...props }: React.ComponentProps<"p">) => (
-  <p
-    className={cn("font-book text-muted-foreground", className)}
-    data-slot="identity-role"
-    {...props}
-  />
-);
-
-export { Identity, IdentityMark, IdentityName, IdentityRole };
+export { Identity, IdentityMark, IdentityName, IdentityStatement };

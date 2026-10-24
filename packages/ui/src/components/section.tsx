@@ -3,24 +3,23 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Layout: `margin` puts the title in an 8rem margin, in view while
-// its rows scroll, and falls back to one column on narrow screens; `stacked`
-// always sets the title above its content, as an 18px docs heading in ink.
-const sectionVariants = cva("group/section py-10", {
+// DESIGN.md › Layout: the title always sits above its content, muted by
+// default; `stacked` sets it as an 18px docs heading in ink.
+const sectionVariants = cva("group/section flex flex-col gap-4 py-10", {
   defaultVariants: {
-    variant: "margin",
+    variant: "default",
   },
   variants: {
     variant: {
-      margin: "grid gap-4 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-8",
-      stacked: "flex flex-col gap-4",
+      default: "",
+      stacked: "",
     },
   },
 });
 
 const Section = ({
   className,
-  variant = "margin",
+  variant = "default",
   ...props
 }: React.ComponentProps<"section"> & VariantProps<typeof sectionVariants>) => (
   <section
@@ -38,7 +37,7 @@ const SectionTitle = ({
 }: React.ComponentProps<"h2">) => (
   <h2
     className={cn(
-      "text-muted-foreground group-data-[variant=stacked]/section:text-foreground self-start group-data-[variant=stacked]/section:text-lg group-data-[variant=stacked]/section:leading-snug group-data-[variant=stacked]/section:font-medium group-data-[variant=stacked]/section:text-balance sm:group-data-[variant=margin]/section:sticky sm:group-data-[variant=margin]/section:top-10",
+      "text-muted-foreground group-data-[variant=stacked]/section:text-foreground self-start group-data-[variant=stacked]/section:text-lg group-data-[variant=stacked]/section:leading-snug group-data-[variant=stacked]/section:font-medium group-data-[variant=stacked]/section:text-balance",
       className
     )}
     data-slot="section-title"

@@ -74,7 +74,7 @@ export const homeMarkdown = () =>
   markdownDocument([
     `# ${SITE.name}`,
     `> Design engineer at [${EMPLOYER.name}](${EMPLOYER.href}), based in Geneva, Switzerland.`,
-    paragraphs(INTRO),
+    INTRO,
     section(
       "Projects",
       PROJECTS.map((project) =>
