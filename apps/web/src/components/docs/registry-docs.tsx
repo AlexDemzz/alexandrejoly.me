@@ -112,7 +112,7 @@ export interface ComponentDocs {
 export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   hint: {
     accessibility: [
-      "The trigger is a `button` that holds its own label, so its name is the text people see and it needs no `aria-label`; the icon beside it is decorative. Its hit area reaches 8px past its edges, so it clears the 24px minimum of WCAG 2.5.8.",
+      "The trigger is a `button` that holds its own label, so its name is the text people see and it needs no `aria-label`; the icon beside it is decorative. Its hit area reaches 8px past its edges, so even a short label gives a target of at least 24px.",
       "It opens on press, by click, Enter or Space, rather than on hover, so touch and keyboard users reach it too. Focus moves into the bubble, and Escape closes it and returns focus to the trigger, as in any Base UI popover.",
     ],
     api: [
@@ -149,10 +149,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     examples: [],
     metaDescription:
       "Hint for shadcn/ui: a React help bubble behind a labeled trigger, opened on press, its hit area stretched by a pseudo-element. Installs in one command.",
-    wcag: [
-      understanding("2.5.3 Label in Name", "label-in-name"),
-      understanding("2.5.8 Target Size (Minimum)", "target-size-minimum"),
-    ],
+    wcag: [understanding("2.5.8 Target Size (Minimum)", "target-size-minimum")],
   },
   "infinite-scroll": {
     accessibility: [
@@ -233,10 +230,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     metaDescription:
       "Infinite Scroll for shadcn/ui: a React list that loads more as you scroll, down or up, with a reverse mode held in place by CSS alone. Installs in one command.",
-    wcag: [
-      understanding("1.3.2 Meaningful Sequence", "meaningful-sequence"),
-      understanding("2.4.3 Focus Order", "focus-order"),
-    ],
+    wcag: [understanding("1.3.2 Meaningful Sequence", "meaningful-sequence")],
   },
   "item-inset-separator": {
     accessibility: [
@@ -278,7 +272,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
   marquee: {
     accessibility: [
       "Screen readers and the Tab key skip the second copy of each track, so they meet every item once. A pointer can still click it.",
-      "`MarqueePause` is the pause control WCAG 2.2.2 asks for. It stops every track where it is, and its name switches between Pause and Play. Place it before `MarqueeViewport` so Tab reaches it first.",
+      "`MarqueePause` lets people stop the motion: it stops every track where it is, and its name switches between Pause and Play. Place it before `MarqueeViewport` so Tab reaches it first.",
       "Keyboard focus stops the tracks and brings the focused item fully into view. A pointer press, or hovering with `pauseOnHover`, pauses them only while it lasts. Neither replaces `MarqueePause`.",
       "Under `prefers-reduced-motion: reduce` the tracks stand still and `MarqueePause` hides.",
     ],
@@ -419,7 +413,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     metaDescription:
       "Marquee for shadcn/ui: a React strip that loops only once CSS scroll-driven animations detect its items overflow, with a pause button. Installs in one command.",
     wcag: [
-      understanding("2.1.1 Keyboard", "keyboard"),
       understanding("2.2.2 Pause, Stop, Hide", "pause-stop-hide"),
       understanding("2.4.3 Focus Order", "focus-order"),
       understanding(
@@ -723,7 +716,6 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     metaDescription:
       "Onboarding for shadcn/ui: a React step-by-step flow with a segmented progress bar and CSS-only step transitions, built on Base UI. Installs in one command.",
     wcag: [
-      understanding("1.3.1 Info and Relationships", "info-and-relationships"),
       understanding("2.4.3 Focus Order", "focus-order"),
       understanding("4.1.2 Name, Role, Value", "name-role-value"),
     ],
