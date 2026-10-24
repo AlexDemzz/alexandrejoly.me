@@ -1,10 +1,9 @@
-import { ArrowLeftIcon } from "@phosphor-icons/react";
+import { ArrowLeftIcon, XIcon } from "@phosphor-icons/react";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -30,13 +29,14 @@ export const ComponentsSidebar = ({
         <SidebarGroup className="md:mt-4">
           {/* On mobile the page header keeps the Home link beside the trigger. */}
           {isMobile ? (
-            <SidebarGroupLabel
-              render={({ children, ...props }) => (
-                <h2 {...props}>{children}</h2>
-              )}
+            <button
+              className={textLinkVariants({ className: "self-start" })}
+              onClick={() => setOpenMobile(false)}
+              type="button"
             >
-              Components
-            </SidebarGroupLabel>
+              <XIcon aria-hidden />
+              Close
+            </button>
           ) : (
             <Link
               className={textLinkVariants({ className: "self-start" })}
