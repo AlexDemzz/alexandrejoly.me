@@ -1,6 +1,10 @@
 import registry from "../../registry.json";
 
-/** Every item of `registry.json`, in its order; a test keeps the two in sync. */
+/**
+ * Every item of `registry.json` documented on this site, in its order; a test
+ * keeps the two in sync. An item whose `meta.docs` links to another site is
+ * only served under `/r/`: no page, sitemap entry or Open Graph card.
+ */
 export const REGISTRY_ITEM_NAMES = [
   "notification-badge",
   "onboarding",

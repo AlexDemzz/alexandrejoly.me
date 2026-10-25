@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import registry from "../../registry.json";
+import { documentedItems } from "../../scripts/documented-items.mjs";
 import { REGISTRY_ITEM_NAMES, getInstallation } from "./registry";
 import type { RegistryItem } from "./registry";
 
@@ -12,8 +13,8 @@ const item: RegistryItem = {
 };
 
 describe("REGISTRY_ITEM_NAMES", () => {
-  it("lists every registry.json item, in its order", () => {
-    expect(registry.items.map(({ name }) => name)).toEqual([
+  it("lists every registry.json item documented here, in its order", () => {
+    expect(documentedItems(registry).map(({ name }) => name)).toEqual([
       ...REGISTRY_ITEM_NAMES,
     ]);
   });

@@ -62,6 +62,18 @@ export default defineConfig({
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
+      // Stock shadcn drawer: `snapPoints != null` checks null and undefined.
+      files: ["packages/ui/src/components/drawer.tsx"],
+      rules: { "eslint/eqeqeq": "off", "eslint/no-eq-null": "off" },
+    },
+    {
+      // responsivecn tests pass marker classNames to check where each one lands.
+      files: [
+        "apps/web/src/{dialog-drawer,sheet-drawer,popover-drawer,tooltip-popover}.test.tsx",
+      ],
+      rules: { "shadcn/no-restyle": "off", "shadcn/no-unknown-classes": "off" },
+    },
+    {
       // Stock shadcn item: ItemGroup is a div with role="list".
       files: ["packages/ui/src/components/item.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },

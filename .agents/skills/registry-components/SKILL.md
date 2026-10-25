@@ -12,6 +12,8 @@ description: Registry components in apps/web/registry/. Use when building or cha
 3. Name its demos `<name>-*.tsx` (see Code blocks).
 4. Draw its row icon in `apps/web/src/components/<name>-icon.tsx`.
 
+An item documented on another site sets `meta.docs` to that site's URL and stays out of `REGISTRY_ITEM_NAMES`: it is served under /r/ only, with no page, sitemap entry or OG card (e.g. dialog-drawer, easy-modal).
+
 Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.
 
 ## Open Graph card

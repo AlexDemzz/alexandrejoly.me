@@ -1,6 +1,9 @@
 // Writes public/sitemap.xml: the home page, the about, contact and privacy
-// pages, the components index, then one page per registry item.
+// pages, the components index, then one page per registry item documented
+// here (see documented-items.mjs).
 import { readFile, writeFile } from "node:fs/promises";
+
+import { documentedItems } from "./documented-items.mjs";
 
 const registry = JSON.parse(
   await readFile(new URL("../registry.json", import.meta.url), "utf-8")
@@ -12,7 +15,7 @@ const paths = [
   "/contact",
   "/privacy",
   "/components",
-  ...registry.items.map(({ name }) => `/components/${name}`),
+  ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];
 
 const urls = paths

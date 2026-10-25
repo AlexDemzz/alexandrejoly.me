@@ -1,6 +1,7 @@
-// Writes public/og/components/<name>.png for every registry item whose card
-// changed: its title, description, row icon or the card itself, and
-// public/og/components.png for the index, whose card shows every row icon.
+// Writes public/og/components/<name>.png for every registry item documented
+// here (see documented-items.mjs) whose card changed: its title, description,
+// row icon or the card itself, and public/og/components.png for the index,
+// whose card shows every row icon.
 // Hashes of those inputs live in og-images.lock.json; a run with nothing stale
 // starts nothing. `--force` redraws every card. Stale cards are screenshotted
 // from a dev server's /og/components/<name> and /og/components in a light
@@ -10,6 +11,8 @@ import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { setTimeout as delay } from "node:timers/promises";
+
+import { documentedItems } from "./documented-items.mjs";
 
 const PORT = 3099;
 const ORIGIN = `http://localhost:${PORT}`;
@@ -23,6 +26,7 @@ const read = (url) => readFile(url, "utf-8");
 const readJson = async (url) => JSON.parse(await read(url));
 
 const registry = await readJson(new URL("../registry.json", import.meta.url));
+const items = documentedItems(registry);
 const card = await read(CARD);
 const previous = existsSync(LOCK) ? await readJson(LOCK) : {};
 
@@ -39,13 +43,13 @@ const hash = (inputs) =>
 
 const icons = Object.fromEntries(
   await Promise.all(
-    registry.items.map(async ({ name }) => [name, await iconSource(name)])
+    items.map(async ({ name }) => [name, await iconSource(name)])
   )
 );
 
 const hashes = {
   ...Object.fromEntries(
-    registry.items.map(({ description, name, title }) => [
+    items.map(({ description, name, title }) => [
       name,
       hash([title, description, icons[name], card]),
     ])
