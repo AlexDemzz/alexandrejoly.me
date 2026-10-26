@@ -3,9 +3,13 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const SEGMENT_GAP = 2.5;
 
 /** One arc per category, each filled to its own score. */
-export const ScoreGauge = ({ values }: { values: number[] }) => {
-  const slot = CIRCUMFERENCE / values.length;
-  const gap = values.length > 1 ? SEGMENT_GAP : 0;
+export const ScoreGauge = ({
+  scores,
+}: {
+  scores: { label: string; value: number }[];
+}) => {
+  const slot = CIRCUMFERENCE / scores.length;
+  const gap = scores.length > 1 ? SEGMENT_GAP : 0;
   return (
     <svg
       aria-hidden
@@ -15,12 +19,11 @@ export const ScoreGauge = ({ values }: { values: number[] }) => {
       strokeWidth={2}
       viewBox="0 0 16 16"
     >
-      {values.map((value, index) => (
+      {scores.map(({ label, value }, index) => (
         <circle
           cx={8}
           cy={8}
-          // oxlint-disable-next-line react/no-array-index-key -- segments are positional
-          key={index}
+          key={label}
           opacity={value === 100 ? 1 : 0.6}
           r={RADIUS}
           strokeDasharray={`${((slot - gap) * value) / 100} ${CIRCUMFERENCE}`}

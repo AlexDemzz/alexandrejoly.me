@@ -1,0 +1,68 @@
+---
+title: useBeforeClose
+description: "Block or delay a modal's close, for confirmations and exit animations."
+---
+
+Modals can prevent themselves from closing by using `useBeforeClose`. If the provided callback returns `false` the modal will not close.
+
+<PreventCloseExemple />
+
+```tsx
+import { useBeforeClose } from "react-easy-modals";
+
+export default function PreventingClose() {
+  const [canClose, setCanClose] = useState(true);
+
+  useBeforeClose((closeValue) => {
+    // You can access the close value passed from props close(value) function.
+    console.log("useBeforeClose", closeValue);
+    return canClose;
+  });
+}
+```
+
+<Callout type="info">
+  Using the [registry Modal](/docs/registry)? Import `useBeforeClose` from
+  `@/components/ui/modal` instead. The Modal already uses the library's hook for
+  its exit animation, and a modal keeps a single before-close callback, so the
+  registry version runs your guard before the animation starts.
+</Callout>
+
+## TypeScript
+
+If you're using TypeScript, you can type the `useBeforeClose` callback parameter based on the close type.
+
+```tsx
+// optional
+type CloseValue = "cancel" | "confirm";
+
+interface MyModalProps extends ModalProps<CloseValue> {
+  //...
+}
+
+useBeforeClose<CloseValue>((val) => {
+  //val is typed as CloseValue
+  return true;
+});
+```
+
+Or if you use a generic modal component
+
+```tsx
+// 📄 confirm-modal.tsx ---------------------
+
+type CloseValue = "cancel" | "confirm";
+
+interface MyModalProps extends ModalProps<CloseValue> {
+  // ...
+}
+
+props.close("confirm");
+
+// 📄 modal-component.tsx ---------------------
+
+useBeforeClose<Parameters<typeof props.close>[0]>((val) => {
+  //val is typed as CloseValue
+  return true;
+});
+```

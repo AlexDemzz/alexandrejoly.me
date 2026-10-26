@@ -1,0 +1,69 @@
+---
+title: useModalAt
+description: "Reach a parent or the root modal from inside a nested modal."
+---
+
+Access a parent modal from inside a nested modal. Useful to close the root or a specific parent from a deeply nested child while properly resolving the `open()` promise.
+
+```tsx
+import { useModalAt } from "react-easy-modals";
+
+function DeepNestedModal() {
+  const root = useModalAt("root");
+  const parent = useModalAt(-1);
+
+  return (
+    <button onClick={() => root.close()}>Close root (and all nested)</button>
+  );
+}
+```
+
+## Parameters
+
+| Level | Type | Description |
+| --- | --- | --- |
+| `'root'` | string | The top-level modal of the chain. Returns self if called from root. |
+| `0` | number | The current modal (same as `useModal()`). |
+| `-1` | number | Direct parent. |
+| `-2`, `-3`, ... | number | Grand-parent and further parents. |
+| `{ id: string }` | object | Parent with the matching id (or self). Throws if not found in the chain. |
+
+Positive numbers are not supported. Use a negative number to go up, or `'root'` for the top.
+
+## Return value
+
+Returns the same `ModalProps` shape as `useModal()`, but for the targeted parent. Calling `close()` on the returned object resolves the corresponding `open()` promise.
+
+## Dynamic levels
+
+Combine `useModal()` and `useModalAt()` to compute the level dynamically:
+
+```tsx
+import { useModal, useModalAt } from "react-easy-modals";
+
+function MyNestedModal() {
+  const me = useModal();
+  // close the modal two levels above me, clamped to root
+  const target = useModalAt(-Math.min(me.index, 2));
+  return <button onClick={() => target.close()}>Close parent</button>;
+}
+```
+
+## Closing by ID
+
+```tsx
+modals.open(CheckoutModal, {}, { id: "checkout-root" });
+
+function PaymentStep() {
+  const checkout = useModalAt({ id: "checkout-root" });
+  return (
+    <button onClick={() => checkout.close({ status: "done" })}>Finish</button>
+  );
+}
+```
+
+<Callout type="warning">
+  `useModalAt` must be called inside a modal component. Calling it outside
+  throws. Requesting a parent that doesn't exist (e.g. `-5` when depth is 2)
+  also throws — treat it as a usage error.
+</Callout>

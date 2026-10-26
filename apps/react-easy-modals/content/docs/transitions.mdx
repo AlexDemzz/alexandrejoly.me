@@ -1,0 +1,61 @@
+---
+title: Transitions
+description: "Animate a modal out before it unmounts with useBeforeClose."
+---
+
+The `useBeforeClose` hook enables smooth exit animations by intercepting the close process.
+
+<TransitionExemple />
+
+### How it works
+
+When a modal is closed, `useBeforeClose` intercepts the close call and triggers a two-phase process:
+
+1. **Animation phase**: Sets visibility to `false`, triggering exit animations
+2. **Final close**: After animation completes, calls `close()` again to unmount
+
+### Implementation
+
+The example below uses [Motion](https://motion.dev/) to manage the animation, but you can use any library you want.
+
+```tsx
+import { useBeforeClose } from "react-easy-modals";
+import { AnimatePresence, motion } from "motion/react";
+
+function Modal({ close, isOpen }: ModalProps) {
+  const [isVisible, setIsVisible] = useState(isOpen);
+  const canClose = useRef(false);
+
+  useBeforeClose(() => {
+    setIsVisible(false); // Trigger exit animation
+    return canClose.current; // Prevent immediate close
+  });
+
+  return (
+    <AnimatePresence
+      mode="wait"
+      onExitComplete={() => {
+        canClose.current = true;
+        close(); // Final close after animation
+      }}
+    >
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          {/* Modal content */}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+### Key points
+
+- `useBeforeClose` should return `false` initially to prevent immediate unmounting
+- Use `isVisible` state to control animation triggers
+- `onExitComplete` sets `canClose.current = true` and calls `close()` again
+- The second `close()` call succeeds because `canClose.current` is now `true`

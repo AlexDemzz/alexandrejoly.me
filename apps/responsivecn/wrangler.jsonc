@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "responsivecn",
+  "compatibility_date": "2026-07-11",
+  "compatibility_flags": ["nodejs_compat"],
+  "main": "@tanstack/react-start/server-entry",
+  // Pages answer Accept: text/markdown too, so their requests reach the worker
+  // before the prerendered HTML.
+  "assets": { "run_worker_first": ["/", "/create", "/docs", "/docs/*"] },
+  "routes": [
+    { "pattern": "responsivecn.alexandrejoly.me", "custom_domain": true },
+  ],
+  "observability": { "enabled": true },
+}

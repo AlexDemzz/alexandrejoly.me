@@ -28,7 +28,7 @@ const Text = ({
   />
 );
 
-// DESIGN.md › Components › Text link, drawn by `link-text` in globals.css.
+// DESIGN.md › Components › Text link, drawn by `link-text` in theme.css.
 const textLinkVariants = cva("link-text");
 
 type TextLinkProps = React.ComponentProps<"a"> & {

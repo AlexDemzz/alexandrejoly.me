@@ -1,0 +1,258 @@
+---
+title: DialogDrawer
+description: A centered Dialog at desktop that becomes a swipeable Drawer below 768px.
+---
+
+A drop-in replacement for the shadcn [Dialog](https://ui.shadcn.com/docs/components/dialog): at 768px and up it renders your Dialog unchanged; below, the same children render inside your [Drawer](https://ui.shadcn.com/docs/components/drawer). The [breakpoint](/docs/breakpoint) and the [override prop](/docs/override-prop) work the same for every pair, so this page covers only what is specific to this one.
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <DialogDrawerPreview />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+import {
+  DialogDrawer,
+  DialogDrawerContent,
+  DialogDrawerDescription,
+  DialogDrawerFooter,
+  DialogDrawerHeader,
+  DialogDrawerTitle,
+  DialogDrawerTrigger,
+} from "@/components/ui/dialog-drawer";
+
+export function EditProfile() {
+  return (
+    <DialogDrawer>
+      <DialogDrawerTrigger>Edit profile</DialogDrawerTrigger>
+      <DialogDrawerContent
+        className="sm:max-w-sm"
+        drawer={{ className: "sm:max-w-none" }}
+      >
+        <DialogDrawerHeader>
+          <DialogDrawerTitle>Edit profile</DialogDrawerTitle>
+          <DialogDrawerDescription>
+            Change the name shown on your profile.
+          </DialogDrawerDescription>
+        </DialogDrawerHeader>
+        <form className="grid gap-4 p-4 md:p-0">
+          <label htmlFor="name">Name</label>
+          <input id="name" defaultValue="Jordan Lee" />
+        </form>
+        <DialogDrawerFooter showCloseButton />
+      </DialogDrawerContent>
+    </DialogDrawer>
+  );
+}
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Installation
+
+<Steps>
+
+<Step>
+
+```bash
+npx shadcn@latest add @alexandrejoly/dialog-drawer
+```
+
+</Step>
+
+<Step>
+
+Update the import paths to match your project setup.
+
+</Step>
+
+</Steps>
+
+## Migrating
+
+Change the imports and insert `Drawer` after `Dialog` in each part name: `DialogContent` becomes `DialogDrawerContent`, and so on, with the same props and children (see [Migrating](/docs/installation#migrating)). Then check three things below 768px: width classes on the Content (see [Sizing classes](#sizing-classes)), padding around the body (see [Body padding](#body-padding)), and the [desktop-only props](#desktop-only-props).
+
+## Usage
+
+```tsx
+import {
+  DialogDrawer,
+  DialogDrawerClose,
+  DialogDrawerContent,
+  DialogDrawerDescription,
+  DialogDrawerFooter,
+  DialogDrawerHeader,
+  DialogDrawerTitle,
+  DialogDrawerTrigger,
+} from "@/components/ui/dialog-drawer";
+```
+
+```tsx
+<DialogDrawer>
+  <DialogDrawerTrigger>Open</DialogDrawerTrigger>
+  <DialogDrawerContent>
+    <DialogDrawerHeader>
+      <DialogDrawerTitle>Title</DialogDrawerTitle>
+      <DialogDrawerDescription>Description</DialogDrawerDescription>
+    </DialogDrawerHeader>
+    <DialogDrawerFooter>
+      <DialogDrawerClose>Cancel</DialogDrawerClose>
+    </DialogDrawerFooter>
+  </DialogDrawerContent>
+</DialogDrawer>
+```
+
+## Composition
+
+```txt
+DialogDrawer
+├── DialogDrawerTrigger
+└── DialogDrawerContent
+    ├── DialogDrawerHeader
+    │   ├── DialogDrawerTitle
+    │   └── DialogDrawerDescription
+    └── DialogDrawerFooter
+        └── DialogDrawerClose
+```
+
+## Overriding the Drawer
+
+Everything inside `drawer={{...}}` is your installed Drawer's own API, for example snap points on Base UI (for Vaul, see [Radix notes](#radix-notes)):
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <DialogDrawerSnapPointsExample />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+<DialogDrawer
+  drawer={{
+    snapPoints: [0.5, 1],
+    defaultSnapPoint: 0.5,
+    showSwipeHandle: true,
+  }}
+>
+  {/* … */}
+</DialogDrawer>
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Sizing classes
+
+The `className` on `DialogDrawerContent` applies to both sides. A width such as `sm:max-w-sm`, from the shadcn Dialog examples, starts at 640px, below the 768px breakpoint, so it also narrows the drawer on large phones and small tablets. Reset it in the override with the same `sm:` prefix, since `cn` only replaces a class that has the same prefix, or write the width with `md:`:
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <DialogDrawerSizingExample />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+<DialogDrawerContent
+  className="sm:max-w-sm"
+  drawer={{ className: "sm:max-w-none" }}
+>
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Body padding
+
+The Dialog pads its whole content box; the Drawer pads only its header and footer. Give the body between them its own padding below 768px:
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <DialogDrawerBodyPaddingExample />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+<DialogDrawerContent>
+  <DialogDrawerHeader>{/* … */}</DialogDrawerHeader>
+  <form className="grid gap-4 p-4 md:p-0">{/* … */}</form>
+  <DialogDrawerFooter>{/* … */}</DialogDrawerFooter>
+</DialogDrawerContent>
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Opening on load
+
+On the first render, before the viewport is known, the Dialog renders. A `defaultOpen` dialog on a phone therefore shows briefly as a Dialog before it becomes a Drawer. To open on load without that flash, control `open` and set it after mount.
+
+## `onOpenChange`
+
+`onOpenChange` on the root has your Dialog's signature and also fires below 768px, so `onOpenChange={setOpen}` works on both sides. Below 768px it can receive reasons only the Drawer has, such as `"swipe"`, which the Dialog's types do not list. To act on them, use the Drawer's own handler, which runs after the shared one:
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <DialogDrawerSwipeReasonExample />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+<DialogDrawer
+  onOpenChange={setOpen}
+  drawer={{
+    onOpenChange: (open, eventDetails) => {
+      if (eventDetails.reason === "swipe") {
+        // below 768px only, after the shared handler
+      }
+    },
+  }}
+>
+  {/* … */}
+</DialogDrawer>
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Desktop-only props
+
+These props apply at 768px and up and are dropped below:
+
+- **`showCloseButton` on the Content.** A drawer has no close button in the corner; it closes on swipe or on an overlay tap. `showCloseButton` on the Footer works on both sides.
+- **Detached triggers on Base UI:** `handle`, `triggerId` and `defaultTriggerId` on the root, `handle` and `payload` on the Trigger. Below 768px, the drawer opens only from a `DialogDrawerTrigger` placed inside `DialogDrawer`, or from a controlled `open`.
+
+A `className` function on a part receives your Dialog's state at 768px and up and your Drawer's state below.
+
+## Nested dialogs
+
+A `DialogDrawer` inside another one renders a drawer inside a drawer below 768px. On Base UI, your Drawer styles the parent as a stacked drawer while the child is open.
+
+## API reference
+
+Each part takes every prop of its shadcn Dialog counterpart, plus a `drawer` prop that takes the props of the matching Drawer part, except `children`: `drawer` on the Content takes your `DrawerContent` props, and so on. Only the parts below leave out more.
+
+### DialogDrawer
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `drawer` | `Omit<ComponentProps<typeof Drawer>, "children" \| RootState>` | - |
+
+`RootState` stands for the keys that `drawer` leaves out because they belong to the shared root: `open` and `defaultOpen`, since both sides share one open state, and the detached-trigger props `handle`, `triggerId` and `defaultTriggerId`. `drawer.onOpenChange` runs after the shared `onOpenChange` and receives your Drawer's own arguments.
+
+### DialogDrawerTrigger
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `drawer` | `Omit<ComponentProps<typeof DrawerTrigger>, "children" \| "handle" \| "payload">` | - |
+
+## Radix notes
+
+- `drawer={{...}}` is typed on Vaul: `direction`, `dismissible`, `handleOnly`, `snapPoints`, the `onDrag` and `onRelease` callbacks, and so on. Vaul's `onOpenChange` receives only `open`, with no reason.
+- Like Radix Dialog, the drawer moves focus inside when it opens. Pass `drawer={{ autoFocus: false }}` to keep Vaul's own default.
+- Vaul nests drawers through `Drawer.NestedRoot`, which your shadcn Drawer does not export: a nested `DialogDrawer` opens a second drawer on top, without Vaul's nested-drawer styling.
+- Vaul, the drawer library under the Radix Drawer, is no longer maintained. It still works; the Base UI Drawer is the maintained option.
+
+## Learn more
+
+The underlying components are documented upstream: shadcn [Dialog](https://ui.shadcn.com/docs/components/dialog) and [Drawer](https://ui.shadcn.com/docs/components/drawer), built on [Base UI Dialog](https://base-ui.com/react/components/dialog) and [Base UI Drawer](https://base-ui.com/react/components/drawer), or on [Radix Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) and [Vaul](https://vaul.emilkowal.ski/).

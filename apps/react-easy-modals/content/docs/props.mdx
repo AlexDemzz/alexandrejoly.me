@@ -1,0 +1,65 @@
+---
+title: Props
+description: "The props every modal component receives."
+---
+
+Your modal components will receive the following props when opened:
+
+```tsx
+interface ModalProps<ReturnValue = any> {
+  // whether this modal is the top most modal in the stack
+  // for nested modals, this is always true since they are rendered inside their parent
+  isOpen: boolean;
+
+  // whether this modal is a nested modal
+  isNested: boolean;
+
+  // the unique id of the modal
+  id: string;
+
+  // the index of the modal in the stack
+  index: number;
+
+  // closes the modal with an optional return value
+  close: (value?: ReturnValue, options?: CloseOptions) => void;
+
+  // opens a nested modal inside this one
+  open: OpenFunction;
+
+  // nested modal render (if any)
+  nested?: ReactNode;
+}
+```
+
+## CloseOptions
+
+```tsx
+interface CloseOptions {
+  // bypass useBeforeClose callbacks
+  force?: boolean;
+}
+```
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `force` | `boolean` | Bypass `useBeforeClose` callbacks and force the modal to close |
+
+## TypeScript
+
+If you’re using Typescript, you should use this interface to define the props of your modal components.
+
+```tsx
+import type { ModalProps } from "react-easy-modals";
+
+// optional
+type CloseValue = "cancel" | "confirm";
+
+interface MyModalProps extends ModalProps<CloseValue> {
+  title: string;
+}
+
+function handleConfirm() {
+  // uses CloseValue
+  close("confirm");
+}
+```
