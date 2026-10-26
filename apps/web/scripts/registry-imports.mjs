@@ -27,7 +27,14 @@ const toAlias = (specifier) => {
 const splitImports = (lines) => {
   const statements = [];
   let index = 0;
-  while (index < lines.length && lines[index].startsWith("import ")) {
+  while (index < lines.length) {
+    // Blank lines between import groups belong to the block.
+    while (lines[index] === "" && lines[index + 1]?.startsWith("import ")) {
+      index += 1;
+    }
+    if (!lines[index].startsWith("import ")) {
+      break;
+    }
     const start = index;
     while (!SPECIFIER.test(lines[index])) {
       index += 1;
