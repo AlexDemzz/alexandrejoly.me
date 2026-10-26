@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import { decodeMarkdownUrl } from "@/lib/shared";
+import { absoluteUrl } from "@/lib/site";
 import { docsLlms, source } from "@/lib/source";
 
 export const Route = createFileRoute("/docs/{$}.md")({
@@ -14,7 +15,10 @@ export const Route = createFileRoute("/docs/{$}.md")({
         }
 
         return new Response(await docsLlms.page(page), {
-          headers: { "Content-Type": "text/markdown; charset=utf-8" },
+          headers: {
+            "Content-Type": "text/markdown; charset=utf-8",
+            Link: `<${absoluteUrl(page.url)}>; rel="canonical"`,
+          },
         });
       },
     },
