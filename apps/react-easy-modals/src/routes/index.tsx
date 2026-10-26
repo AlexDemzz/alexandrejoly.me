@@ -225,11 +225,8 @@ const Docs = () => {
           {entries.map((entry, index) => (
             <li key={entry.slug}>
               {index > 0 && <ItemSeparator />}
-              {/* Pulled out by its padding, so its text lines up with the
-                  heading and the separators while the hover fill keeps its
-                  room. */}
               <Item
-                className="-mx-3 w-auto"
+                variant="underline"
                 render={<Link to="/docs/$" params={{ _splat: entry.slug }} />}
               >
                 <ItemContent>

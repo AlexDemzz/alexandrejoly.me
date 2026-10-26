@@ -174,6 +174,7 @@ const Home = () => {
             {PAIRS.map((item, index) => (
               <li key={item.slug}>
                 <Item
+                  variant="underline"
                   render={<Link to="/docs/$" params={{ _splat: item.slug }} />}
                 >
                   <ItemMedia>
