@@ -1,6 +1,8 @@
 // Geometry for previews that show a viewport wider than the room on screen:
 // the iframe keeps its real (logical) width, so use-mobile inside it sees the
-// width it claims, and CSS zoom draws it smaller to fit.
+// width it claims, and a scale transform draws it smaller to fit. (WebKit
+// applies CSS zoom to an iframe's document as well as its box, shrinking it
+// twice.)
 
 export const fitScale = (
   logicalWidth: number,

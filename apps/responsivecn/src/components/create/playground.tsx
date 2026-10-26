@@ -126,11 +126,11 @@ const PreviewFrame = ({
         {
           "--preview-width": `${width}px`,
           "--preview-height": `${height}px`,
-          "--preview-zoom": scale,
+          "--preview-scale": scale,
         } as React.CSSProperties
       }
       className={cn(
-        "absolute start-0 top-0 h-(--preview-height) w-(--preview-width) [zoom:var(--preview-zoom)] border-0 transition-opacity duration-200 ease-out",
+        "absolute start-0 top-0 h-(--preview-height) w-(--preview-width) origin-top-left scale-(--preview-scale) border-0 transition-opacity duration-200 ease-out",
         loaded ? "opacity-100" : "opacity-0",
         // The iframe must not swallow pointer events while dragging.
         dragging && "pointer-events-none"
@@ -141,8 +141,8 @@ const PreviewFrame = ({
 
 // The live preview: an iframe whose own window is `width` px wide, so the
 // registry components' use-mobile sees the canvas width and swaps at 768px.
-// When the canvas has less room than that, zoom draws it smaller without
-// changing the width its window reports.
+// When the canvas has less room than that, a scale transform draws it
+// smaller without changing the width its window reports.
 const Frame = ({
   pair,
   width,
