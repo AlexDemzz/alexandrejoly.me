@@ -79,7 +79,7 @@ export const HeroDemo = ({ code }: { code: LandingCode["hero"] }) => {
   // (16px) is the card's rounded-3xl (24px) minus the gap.
   return (
     <div className="grid gap-2 rounded-3xl border p-2 md:grid-cols-[14rem_1fr]">
-      <div className="bg-muted flex min-h-48 flex-col items-center justify-center gap-3 rounded-xl p-6 text-center">
+      <div className="flex min-h-48 flex-col items-center justify-center gap-3 rounded-xl p-6 text-center">
         <Button onClick={show}>Show modal</Button>
         {/* A placeholder holds the answer's line, so nothing shifts. */}
         <DemoOutput aria-live="polite">
