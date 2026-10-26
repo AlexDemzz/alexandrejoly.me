@@ -1,0 +1,144 @@
+---
+title: How It Works
+description: "The modal stack, opening and closing modals, and the props each modal receives."
+---
+
+React Easy Modals is a modal manager for React. It provides APIs for opening and closing modals as components but leaves functionality and styling up to you. You provide the component and React Easy Modals handles rendering it with appropriate props.
+
+## The modal stack
+
+Modals are opened using a LIFO (Last In, First Out) stack. When you open a new modal, it hides any previously opened modals until it is closed.
+
+<StackExample />
+
+```tsx
+import { ModalProvider } from "react-easy-modals";
+
+function App() {
+  return <ModalProvider>{/* Your app content */}</ModalProvider>;
+}
+
+export default App;
+```
+
+## Opening modals
+
+Open a modal at any time by calling `modals.open`
+
+<OpenExample />
+
+<Callout type="info">
+  `modals.open` returns a promise that resolves when the modal is closed. Modals
+  can return a value by using their [close() prop](#the-close-prop).
+</Callout>
+
+## The isOpen prop
+
+Opened modal components receive an `isOpen` prop to indicate whether it is the top modal or not. It is up to you how to handle it. It will always be true when first opened, but may become false if another modal is opened before it is closed.
+
+```tsx
+const Modal = ({ isOpen }: { isOpen: boolean }) => {
+  // in most cases you can do this
+  return isOpen && <div>{/* ... */}</div>;
+
+  // but if you prefer you can visually hide your modal instead,
+  // preserving state of any children
+  return (
+    <div style={{ display: !isOpen && "none" }} aria-hidden={!isOpen}>
+      {/* ... */}
+    </div>
+  );
+};
+
+export default Modal;
+```
+
+<Callout type="info">
+  If you want all opened modals to be visible at the same time, you can ignore
+  the `isOpen` prop.
+</Callout>
+
+## Closing modals
+
+From anywhere in your app you can call `modals.close` to close the top modal, `modals.close(amount)` to close the last given number of modals, or `modals.closeAll()` to close all modals.
+
+Modals that are closed will unmount.
+
+{/* prettier-ignore */}
+```tsx
+{/* ... */}
+modals.close()
+{/* ... */}
+modals.close(2)
+{/* ... */}
+modals.closeAll()
+{/* ... */}
+```
+
+<Callout type="info">
+  When closing modals this way, their <code>modals.open</code> promises will
+  resolve with <code>undefined</code>. If you need to return a value, use the
+  [close() prop](#the-close-prop) explained below.
+</Callout>
+
+## The close() prop
+
+Modals receive a close prop which will close and resolve their corresponding modals.open with the given value.
+
+<ConfirmExemple />
+
+```jsx
+const Modal = ({ isOpen, close }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div>
+      {/* ... */}
+      <button onClick={() => close("cancel")}>Cancel</button>
+      <button onClick={() => close("confirm")}>Confirm</button>
+    </div>
+  );
+};
+```
+
+```tsx
+import { useModals } from "react-easy-modals";
+
+const { open } = useModals();
+const [result, setResult] = useState<string | undefined>(undefined);
+
+const handleClick = async () => {
+  const result = await open(Modal);
+  setResult(result);
+};
+
+return (
+  <div>
+    <button onClick={handleClick}>Open Modal</button>
+    <p>result: {result}</p>
+  </div>
+);
+```
+
+If you are using Typescript, you can define the type of the value by using the `ModalProps` interface.
+
+```tsx
+type Result = "cancel" | "confirm";
+
+const Modal = ({ isOpen, close }: ModalProps<Result>) => {
+  if (!isOpen) return null;
+
+  return (
+    <div>
+      {/* ... */}
+      <button onClick={() => close("cancel")}>Cancel</button>
+      <button onClick={() => close("confirm")}>Confirm</button>
+    </div>
+  );
+};
+```
+
+```tsx
+const result = await modals.open(ConfirmModal, { message: "Are you sure?" });
+result; // 'cancel' | 'confirm'
+```

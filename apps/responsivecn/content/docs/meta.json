@@ -1,0 +1,15 @@
+{
+  "$schema": "https://fumadocs.dev/api/schema/meta.json",
+  "pages": [
+    "---Sections---",
+    "index",
+    "installation",
+    "breakpoint",
+    "override-prop",
+    "---Components---",
+    "dialog-drawer",
+    "sheet-drawer",
+    "popover-drawer",
+    "tooltip-popover"
+  ]
+}

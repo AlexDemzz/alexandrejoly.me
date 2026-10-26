@@ -1,14 +1,16 @@
 import { Code } from "@portfolio/ui/components/code";
 
+import { withOffsets } from "@/lib/text-offsets";
+
 const BACKTICK_SPANS = /(?<code>`[^`]+`)/u;
 
 /** Renders the `backtick` spans of a docs sentence as code. */
 export const InlineCode = ({ children }: { children: string }) =>
-  children.split(BACKTICK_SPANS).map((part, index) =>
-    part.startsWith("`") ? (
-      // oxlint-disable-next-line react/no-array-index-key -- the parts of a static sentence never reorder
-      <Code key={index}>{part.slice(1, -1)}</Code>
-    ) : (
-      part
-    )
+  withOffsets(children.split(BACKTICK_SPANS), (part) => part.length).map(
+    ({ offset, part }) =>
+      part.startsWith("`") ? (
+        <Code key={offset}>{part.slice(1, -1)}</Code>
+      ) : (
+        part
+      )
   );

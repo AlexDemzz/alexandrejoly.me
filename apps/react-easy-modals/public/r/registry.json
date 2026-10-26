@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "react-easy-modals",
+  "homepage": "https://react-easy-modals.alexandrejoly.me",
+  "items": [
+    {
+      "name": "modal",
+      "type": "registry:ui",
+      "title": "Modal (Radix)",
+      "description": "Modal component for react-easy-modals with Radix Dialog.",
+      "registryDependencies": ["dialog"],
+      "dependencies": ["react-easy-modals"],
+      "files": [
+        {
+          "path": "src/registry/radix/modal.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    }
+  ]
+}

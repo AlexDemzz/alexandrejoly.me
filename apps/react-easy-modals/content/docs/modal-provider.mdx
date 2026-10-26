@@ -1,0 +1,75 @@
+---
+title: ModalProvider
+description: "The provider that renders the modal stack, its backdrop and its loading state."
+---
+
+The `ModalProvider` must wrap your entire application to provide the modal context. All modal operations (`useModals`, `modals.open`, etc.) must be used within this provider.
+
+## Basic usage
+
+```tsx
+import { ModalProvider } from "react-easy-modals";
+
+function App() {
+  return <ModalProvider>{/* Your app content */}</ModalProvider>;
+}
+```
+
+## Props
+
+### backdrop
+
+Renders when at least 1 modal has been opened. This is typically used for the background overlay.
+
+```tsx
+import { ModalProvider } from "react-easy-modals";
+
+function App() {
+  return (
+    <ModalProvider
+      backdrop={(modals) => <div onClick={() => modals.close()} />}
+    >
+      {/* Your app content */}
+    </ModalProvider>
+  );
+}
+```
+
+### modal
+
+Renders each modal component in the stack. This prop receives the modal object and the modals instance.
+
+```tsx
+import { ModalProvider } from "react-easy-modals";
+
+function App() {
+  return (
+    <ModalProvider
+      modal={(modal, modals) => <modal.component {...modal.props} />}
+    >
+      {/* Your app content */}
+    </ModalProvider>
+  );
+}
+```
+
+### loading
+
+Renders when a modal has been opened via dynamic import and is fetching.
+
+```tsx
+import { ModalProvider } from "react-easy-modals";
+
+function App() {
+  return (
+    <ModalProvider loading={() => <div>Loading...</div>}>
+      {/* Your app content */}
+    </ModalProvider>
+  );
+}
+```
+
+<Callout type="info">
+  If you don't provide custom `backdrop`, `modal`, or `loading` props, the
+  `ModalProvider` will use default implementations.
+</Callout>

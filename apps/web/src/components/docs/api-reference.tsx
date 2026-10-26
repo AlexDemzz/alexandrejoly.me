@@ -20,16 +20,20 @@ import type {
   ApiPart,
   ApiProp,
 } from "@/components/docs/registry-docs";
+import { withOffsets } from "@/lib/text-offsets";
 
 const GENERIC_OPEN = "<";
 
 /** Lets a long generic such as `Dispatch<SetStateAction<number>>` wrap after each `<`. */
 const BreakableType = ({ type }: { type: string }) =>
-  type.split(GENERIC_OPEN).map((part, index, parts) => (
-    // oxlint-disable-next-line react/no-array-index-key -- the parts of a static type never reorder
-    <Fragment key={index}>
+  withOffsets(
+    type.split(GENERIC_OPEN),
+    (part) => part.length,
+    GENERIC_OPEN.length
+  ).map(({ offset, part }) => (
+    <Fragment key={offset}>
       {part}
-      {index < parts.length - 1 && (
+      {offset + part.length < type.length && (
         <>
           {GENERIC_OPEN}
           <wbr />

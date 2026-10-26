@@ -1,0 +1,39 @@
+---
+title: Override prop
+description: Pass mobile-only props through the drawer or popover prop. className merges, state callbacks compose and every other prop replaces.
+---
+
+You tune the mobile side through the **override prop**, named after the mobile side of the pair: `drawer={{...}}` on `DialogDrawer`, `SheetDrawer` and `PopoverDrawer`, `popover={{...}}` on `TooltipPopover`. It exists on the root **and on every part that has a mobile counterpart**, and is typed 1:1 on your installed mobile component (your Drawer, built on Base UI or Vaul, or your Popover), so you need no casts.
+
+<ComponentDemo>
+  <ComponentDemoRender>
+    <OverridePropExample />
+  </ComponentDemoRender>
+  <ComponentDemoCode>
+
+```tsx
+<DialogDrawer drawer={{ snapPoints: [0.5, 1] }}>
+  <DialogDrawerTrigger className="w-full">Open</DialogDrawerTrigger>
+  <DialogDrawerContent
+    className="md:max-w-lg"
+    drawer={{ className: "max-h-[80dvh]" }}
+  >
+    …
+  </DialogDrawerContent>
+</DialogDrawer>
+```
+
+  </ComponentDemoCode>
+</ComponentDemo>
+
+## Merge rules
+
+The merge rules are the same for all four pairs. Only the prop name changes:
+
+- **`className` merges** as `cn(shared, mobile)`: the shared class still applies below the breakpoint, and the mobile one wins on conflicts.
+- **State callbacks compose**: for the root's state callbacks (`onOpenChange`, `onOpenChangeComplete`), the shared handler runs first, then the mobile one.
+- **Every other prop replaces** the shared value below the breakpoint.
+
+## Native defaults
+
+Outside the override prop, each side keeps its native defaults. A shared prop you set is forwarded to both sides, except the desktop-only props each page lists. Nothing is mapped between the two APIs for you, with one exception: `SheetDrawer` passes the Sheet's `side` to the drawer edge (see [The drawer edge](/docs/sheet-drawer#the-drawer-edge)). A `PopoverDrawer` therefore opens its drawer from the bottom, wherever the Popover is placed.

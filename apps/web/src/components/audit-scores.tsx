@@ -19,7 +19,7 @@ export const AuditScores = () => (
         .join(", ");
       return (
         <li className="flex items-center gap-1.5" key={name}>
-          <ScoreGauge values={values} />
+          <ScoreGauge scores={scores} />
           <span aria-hidden>{uniform ? values[0] : values.join(" · ")}</span>
           <TextLink external href={href} title={detail}>
             {name}
