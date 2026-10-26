@@ -8,7 +8,7 @@ import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
-} from "@registry/tooltip-popover";
+} from "@portfolio/ui/components/tooltip-popover";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";

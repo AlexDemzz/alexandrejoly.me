@@ -5,7 +5,7 @@ import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
-} from "@registry/tooltip-popover";
+} from "@portfolio/ui/components/tooltip-popover";
 import {
   act,
   cleanup,

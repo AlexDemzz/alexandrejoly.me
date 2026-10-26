@@ -8,12 +8,6 @@ import {
   CodeBlockLine,
   CodeBlockTitle,
 } from "@portfolio/ui/components/code-block";
-import { Text } from "@portfolio/ui/components/text";
-import { useState } from "react";
-import { useModals } from "react-easy-modals";
-import type { ModalProps } from "react-easy-modals";
-
-import { HastLine } from "@/components/hast";
 import {
   Modal,
   ModalContent,
@@ -21,7 +15,13 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@portfolio/ui/components/modal";
+import { Text } from "@portfolio/ui/components/text";
+import { useState } from "react";
+import { useModals } from "react-easy-modals";
+import type { ModalProps } from "react-easy-modals";
+
+import { HastLine } from "@/components/hast";
 import type { LandingCode } from "@/lib/landing-code";
 
 type Answer = "delete" | "cancel" | undefined;

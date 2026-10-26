@@ -24,7 +24,7 @@ Fixed at 768px, read via the standard shadcn `useIsMobile` hook (`@/hooks/use-mo
 
 ## Registry
 
-The `@alexandrejoly` shadcn registry at https://alexandrejoly.me/r/{name}.json, built from the alexandrejoly.me repository (`apps/web/registry.json`): one item JSON per slug, `/r/<slug>.json`. Each item is `registry:ui` with one source file `apps/web/registry/<slug>.tsx`, bare `registryDependencies` (`dialog`, `drawer`, `sheet`, `popover`, `tooltip`, `button`, `use-mobile`) that shadcn resolves to the user's own base, and empty npm `dependencies`. This site installs the items like a consumer, into `src/components/ui/`.
+The `@alexandrejoly` shadcn registry at https://alexandrejoly.me/r/{name}.json, built from the alexandrejoly.me repository (`apps/web/registry.json`): one item JSON per slug, `/r/<slug>.json`. Each item is `registry:ui` with one source file `packages/ui/src/components/<slug>.tsx` (symlinked from `apps/web/registry/`), bare `registryDependencies` (`dialog`, `drawer`, `sheet`, `popover`, `tooltip`, `button`, `use-mobile`) that shadcn resolves to the user's own base, and empty npm `dependencies`. This site imports the same source from `@portfolio/ui/components/<slug>`; the build rewrites its `@portfolio/ui` imports to the stock aliases below, so installs never see them.
 
 ## Catalog
 

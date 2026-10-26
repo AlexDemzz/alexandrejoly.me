@@ -17,7 +17,7 @@
     "utils": "@portfolio/ui/lib/utils",
     "ui": "@portfolio/ui/components",
     "lib": "@/lib",
-    "hooks": "@/hooks"
+    "hooks": "@portfolio/ui/hooks"
   },
   "menuColor": "default",
   "menuAccent": "subtle",

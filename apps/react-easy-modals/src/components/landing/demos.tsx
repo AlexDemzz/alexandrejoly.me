@@ -1,10 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import { useState } from "react";
-import { useModalAt, useModals } from "react-easy-modals";
-import type { ModalProps } from "react-easy-modals";
-
-import { ButtonExemple } from "@/components/button-exemple";
-import { DemoOutput } from "@/components/demo-modal";
 import {
   Modal,
   ModalContent,
@@ -13,7 +7,13 @@ import {
   ModalHeader,
   ModalTitle,
   useBeforeClose,
-} from "@/components/ui/modal";
+} from "@portfolio/ui/components/modal";
+import { useState } from "react";
+import { useModalAt, useModals } from "react-easy-modals";
+import type { ModalProps } from "react-easy-modals";
+
+import { ButtonExemple } from "@/components/button-exemple";
+import { DemoOutput } from "@/components/demo-modal";
 import { wait } from "@/lib/wait";
 
 const LAZY_DELAY_MS = 1000;

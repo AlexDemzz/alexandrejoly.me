@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "pnpm registry:build && pnpm og:images && vite build",
-    "registry:build": "shadcn build registry.json --output public/r && node scripts/sitemap.mjs",
+    "registry:build": "shadcn build registry.json --output public/r && node scripts/registry-imports.mjs && node scripts/sitemap.mjs",
     "registry:check": "shadcn registry validate registry.json",
     "registry:verify": "pnpm registry:build && node scripts/verify-radix.mjs",
     "og:images": "node scripts/og-images.mjs",

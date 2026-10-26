@@ -1,10 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import * as React from "react";
-
-import {
-  PreviewFrame,
-  previewInputClassName,
-} from "@/components/previews/preview-frame";
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -13,7 +7,13 @@ import {
   PopoverDrawerHeader,
   PopoverDrawerTitle,
   PopoverDrawerTrigger,
-} from "@/components/ui/popover-drawer";
+} from "@portfolio/ui/components/popover-drawer";
+import * as React from "react";
+
+import {
+  PreviewFrame,
+  previewInputClassName,
+} from "@/components/previews/preview-frame";
 
 const STATUSES = ["Open", "In review", "Closed"];
 

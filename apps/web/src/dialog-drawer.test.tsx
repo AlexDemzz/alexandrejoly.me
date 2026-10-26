@@ -9,7 +9,7 @@ import {
   DialogDrawerFooter,
   DialogDrawerTitle,
   DialogDrawerTrigger,
-} from "@registry/dialog-drawer";
+} from "@portfolio/ui/components/dialog-drawer";
 import {
   act,
   cleanup,

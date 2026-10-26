@@ -2,7 +2,7 @@
 
 Docs for [react-easy-modals](https://github.com/AlexDemzz/react-easy-modals), served at <https://react-easy-modals.alexandrejoly.me>.
 
-The shadcn Modal ships from the `@alexandrejoly` registry: `npx shadcn@latest add @alexandrejoly/easy-modal`. Its source lives in `apps/web/registry/modal.tsx`; this site installs it like any consumer, into `src/components/ui/modal.tsx`.
+The shadcn Modal ships from the `@alexandrejoly` registry: `npx shadcn@latest add @alexandrejoly/easy-modal`. Its source lives in `packages/ui/src/components/modal.tsx`, which this site imports from `@portfolio/ui/components/modal`.
 
 Built with [Fumadocs](https://fumadocs.dev) and [TanStack Start](https://tanstack.com/start), deployed as a Cloudflare Worker.
 
@@ -24,7 +24,6 @@ pnpm --filter react-easy-modals deploy       # builds and deploys with Wrangler
 - `content/docs/*.mdx`: doc pages; `meta.json` sets the sidebar order.
 - `src/components/modals`: live examples used in the docs.
 - `src/components/landing`: the landing page's hero and feature demos.
-- `src/components/ui/modal.tsx`: the installed `@alexandrejoly/easy-modal`. To update it, run `npx shadcn@latest add @alexandrejoly/easy-modal` from `apps/react-easy-modals` without `--overwrite`: accept the overwrite prompt for `modal.tsx` only, and keep `dialog.tsx`, which carries this site's Modal styling.
 - `public/r`: the legacy registry index and Radix item (see below), frozen.
 - `src/routes`: pages and server routes.
 

@@ -71,7 +71,7 @@ try {
       );
       await writeFile(
         path.join(projectDir, `src/components/ui/${name}-usage-check.tsx`),
-        check.replaceAll(`"@registry/${name}"`, `"./${name}"`)
+        check.replaceAll(`"@portfolio/ui/components/${name}"`, `"./${name}"`)
       );
     })
   );

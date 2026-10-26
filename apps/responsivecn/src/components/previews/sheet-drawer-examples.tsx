@@ -1,6 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-
-import { PreviewFrame } from "@/components/previews/preview-frame";
 import {
   SheetDrawer,
   SheetDrawerClose,
@@ -10,7 +8,9 @@ import {
   SheetDrawerHeader,
   SheetDrawerTitle,
   SheetDrawerTrigger,
-} from "@/components/ui/sheet-drawer";
+} from "@portfolio/ui/components/sheet-drawer";
+
+import { PreviewFrame } from "@/components/previews/preview-frame";
 
 const PAGES = ["Dashboard", "Projects", "Members", "Settings"];
 

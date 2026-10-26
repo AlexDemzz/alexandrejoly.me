@@ -1,7 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import { TooltipProvider } from "@portfolio/ui/components/tooltip";
-import * as React from "react";
-
 import {
   DialogDrawer,
   DialogDrawerClose,
@@ -11,7 +8,7 @@ import {
   DialogDrawerHeader,
   DialogDrawerTitle,
   DialogDrawerTrigger,
-} from "@/components/ui/dialog-drawer";
+} from "@portfolio/ui/components/dialog-drawer";
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -19,7 +16,7 @@ import {
   PopoverDrawerHeader,
   PopoverDrawerTitle,
   PopoverDrawerTrigger,
-} from "@/components/ui/popover-drawer";
+} from "@portfolio/ui/components/popover-drawer";
 import {
   SheetDrawer,
   SheetDrawerClose,
@@ -29,12 +26,14 @@ import {
   SheetDrawerHeader,
   SheetDrawerTitle,
   SheetDrawerTrigger,
-} from "@/components/ui/sheet-drawer";
+} from "@portfolio/ui/components/sheet-drawer";
+import { TooltipProvider } from "@portfolio/ui/components/tooltip";
 import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
-} from "@/components/ui/tooltip-popover";
+} from "@portfolio/ui/components/tooltip-popover";
+import * as React from "react";
 
 import type { PairSlug } from "./pairs";
 
