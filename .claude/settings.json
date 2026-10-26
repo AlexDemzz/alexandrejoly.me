@@ -1,8 +1,8 @@
 {
   "permissions": {
-    "allow": ["Bash(gh pr merge *)"]
+    "allow": [
+      "Bash(gh pr merge *)"
+    ]
   },
-  "enabledPlugins": {
-    "cloudflare@claude-plugins-official": true
-  }
+  "enabledPlugins": {}
 }
