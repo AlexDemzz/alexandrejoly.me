@@ -12,7 +12,7 @@ const ButtonExemple = ({
   label?: string;
 }) => (
   <Preview className="my-6">
-    <div className="not-prose flex flex-col items-center gap-4">
+    <div className="not-prose flex flex-col items-center gap-4 text-center">
       <Button onClick={onClick}>{label}</Button>
       {children}
     </div>

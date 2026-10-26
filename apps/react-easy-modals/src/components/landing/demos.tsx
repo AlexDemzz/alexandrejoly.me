@@ -35,7 +35,7 @@ const Trace = ({ lines }: { lines: string[] }) => (
   <ol
     aria-label="Trace"
     aria-live="polite"
-    className="bg-muted text-muted-foreground flex min-h-24 w-full max-w-sm flex-col gap-1 rounded-lg p-3 font-mono text-sm whitespace-pre"
+    className="bg-muted text-muted-foreground flex min-h-24 w-full max-w-sm flex-col gap-1 rounded-lg p-3 text-start font-mono text-sm wrap-break-word whitespace-pre-wrap"
   >
     {lines.length === 0 ? (
       <li>Calls show up here.</li>
