@@ -28,13 +28,17 @@
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
+    "@babel/core": "catalog:",
     "@cloudflare/vite-plugin": "1.64.0",
+    "@rolldown/plugin-babel": "catalog:",
+    "@types/babel__core": "catalog:",
     "@types/hast": "^3.0.5",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "babel-plugin-react-compiler": "catalog:",
     "typescript": "catalog:",
     "vite": "^8.3.5",
     "vitest": "catalog:"
