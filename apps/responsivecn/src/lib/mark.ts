@@ -54,7 +54,7 @@ export const MODAL_PATH = continuousRect(
 export const DRAWER_PATH = continuousRect(4, 11, 16, 9, MODAL_RADIUS - 1);
 export const HANDLE_PATH = "M10.5 12.75h3";
 
-// Images show the mark as the site's header does on a phone: the drawer leads.
+// The drawer leads and the modal recedes, in the component and the images.
 export const MODAL_OPACITY = 0.25;
 export const DRAWER_OPACITY = 0.85;
 

@@ -119,10 +119,7 @@ const Home = () => {
     <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
       <header className="max-w-column mx-auto flex w-full flex-col">
         <div className="flex items-center justify-between">
-          <Mark
-            drawer={width < BREAKPOINT}
-            className="text-foreground size-10"
-          />
+          <Mark className="text-foreground size-10" />
           <a
             href={githubUrl}
             target="_blank"
