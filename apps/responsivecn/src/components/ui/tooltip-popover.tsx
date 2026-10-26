@@ -1,19 +1,18 @@
 "use client";
 
-import * as React from "react";
-
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@portfolio/ui/components/popover";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+} from "@portfolio/ui/components/tooltip";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
+import { cn } from "@portfolio/ui/lib/utils";
+import * as React from "react";
 
 type Override<Props, Keys extends PropertyKey = never> = Props extends unknown
   ? Omit<Props, "children" | Keys>

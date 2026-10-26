@@ -14,7 +14,7 @@ const getShiki = () =>
   });
 
 /** The same markup as the docs' MDX code blocks, as a hast tree. */
-export const highlight = async (code: string, lang: CodeLanguage) => {
+const highlight = async (code: string, lang: CodeLanguage) => {
   const shiki = await getShiki();
   return shiki.codeToHast(code.trimEnd(), { ...SHIKI_OPTIONS, lang });
 };
@@ -30,7 +30,7 @@ const childElements = (
 
 /**
  * The content of each line, highlighted as one snippet so the grammar keeps
- * its context across lines. Render them inside a `pre.shiki`.
+ * its context across lines.
  */
 export const highlightLines = async (
   code: string,

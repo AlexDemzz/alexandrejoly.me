@@ -9,9 +9,15 @@ import {
   SNIPPETS,
 } from "@/components/landing/snippets";
 import type { HeroAnswer, SnippetName } from "@/components/landing/snippets";
-import { highlight, highlightLines } from "@/lib/highlight.server";
+import { highlightLines } from "@/lib/highlight.server";
 
 const EMPTY_LINE: Root = { type: "root", children: [] };
+
+/** A snippet's source, for copying, and its highlighted lines. */
+export interface HighlightedSnippet {
+  code: string;
+  lines: Root[];
+}
 
 /** Every landing code block, highlighted on the server. */
 export const getLandingCode = createServerFn({ method: "GET" }).handler(
@@ -21,7 +27,9 @@ export const getLandingCode = createServerFn({ method: "GET" }).handler(
 
     const [snippets, removed, added, hero, answers] = await Promise.all([
       Promise.all(
-        names.map((name) => highlight(SNIPPETS[name].code, SNIPPETS[name].lang))
+        names.map((name) =>
+          highlightLines(SNIPPETS[name].code, SNIPPETS[name].lang)
+        )
       ),
       highlightLines(DIFF.removed, "tsx"),
       highlightLines(DIFF.added, "tsx"),
@@ -36,8 +44,11 @@ export const getLandingCode = createServerFn({ method: "GET" }).handler(
 
     return {
       snippets: Object.fromEntries(
-        names.map((name, index) => [name, snippets[index]])
-      ) as Record<SnippetName, Root>,
+        names.map((name, index) => [
+          name,
+          { code: SNIPPETS[name].code, lines: snippets[index] },
+        ])
+      ) as Record<SnippetName, HighlightedSnippet>,
       diff: { removed, added },
       hero: {
         before: hero.slice(0, beforeLength),

@@ -1,26 +1,40 @@
+import {
+  CodeBlock,
+  CodeBlockContent,
+  CodeBlockHeader,
+  CodeBlockLine,
+  CodeBlockTitle,
+} from "@portfolio/ui/components/code-block";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemSeparator,
+  ItemTitle,
+} from "@portfolio/ui/components/item";
+import {
+  Section,
+  SectionContent,
+  SectionTitle,
+} from "@portfolio/ui/components/section";
+import {
+  Text,
+  TextLink,
+  textLinkVariants,
+} from "@portfolio/ui/components/text";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import type { Root } from "hast";
 
 import { GitHubIcon, NpmIcon } from "@/components/brand-icons";
-import { CodeBlock } from "@/components/code-block";
+import { CodeSnippet } from "@/components/code-snippet";
 import { HastLine } from "@/components/hast";
 import { Features } from "@/components/landing/features";
 import { HeroDemo } from "@/components/landing/hero-demo";
 import type { SnippetName } from "@/components/landing/snippets";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteIdentity } from "@/components/site-identity";
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-  ItemDescription,
-  ItemGroup,
-  ItemSeparator,
-  ItemTitle,
-} from "@/components/ui/item";
-import { Section, SectionContent, SectionTitle } from "@/components/ui/section";
-import { Text, TextLink } from "@/components/ui/text";
 import { getLandingCode } from "@/lib/landing-code";
 import type { LandingCode } from "@/lib/landing-code";
 import { pageHead } from "@/lib/seo";
@@ -83,23 +97,20 @@ const Home = () => {
 
 const Header = () => (
   <header className="flex flex-col gap-5">
-    <SiteIdentity
-      className="mb-1"
-      linked={false}
-      nameAs="h1"
-      tagline="Modals you can await."
-    />
+    <SiteIdentity linked={false} nameAs="h1" />
     <Text>
       A headless, zero-dependency modal stack for React. Open a modal like you
       call a function, and get its answer back.
     </Text>
     <Text>
       Start with{" "}
-      <TextLink
-        render={<Link to="/docs/$" params={{ _splat: "getting-started" }} />}
+      <Link
+        className={textLinkVariants()}
+        params={{ _splat: "getting-started" }}
+        to="/docs/$"
       >
         Getting started
-      </TextLink>
+      </Link>
       , or read the source on{" "}
       <TextLink external href={GITHUB_URL}>
         <GitHubIcon />
@@ -152,10 +163,7 @@ const GetStarted = ({ code }: { code: LandingCode["snippets"] }) => (
               <span className="font-book text-foreground">{step.title}.</span>{" "}
               {step.body}
             </Text>
-            <CodeBlock
-              action={step.copy ? undefined : null}
-              hast={code[step.code]}
-            />
+            <CodeSnippet copyable={step.copy} snippet={code[step.code]} />
           </li>
         ))}
       </ol>
@@ -163,27 +171,21 @@ const GetStarted = ({ code }: { code: LandingCode["snippets"] }) => (
   </Section>
 );
 
-// Removed lines stay highlighted but recede; the markers carry the diff.
+// The line variants draw the markers; screen readers get them as words.
 const DiffLine = ({
   line,
   kind,
 }: {
   line: Root;
   kind: "removed" | "added";
-}) => {
-  const removed = kind === "removed";
-  return (
-    <span className="block">
-      <span aria-hidden="true" className="text-faint-foreground select-none">
-        {removed ? "- " : "+ "}
-      </span>
-      <span className="sr-only">{removed ? "Removed: " : "Added: "}</span>
-      <span className={removed ? "opacity-55" : undefined}>
-        <HastLine tree={line} />
-      </span>
+}) => (
+  <CodeBlockLine variant={kind}>
+    <span className="sr-only">
+      {kind === "removed" ? "Removed: " : "Added: "}
     </span>
-  );
-};
+    <HastLine tree={line} />
+  </CodeBlockLine>
+);
 
 const Shadcn = ({ code }: { code: LandingCode }) => (
   <Section>
@@ -194,24 +196,27 @@ const Shadcn = ({ code }: { code: LandingCode }) => (
           Add a Modal built on your Base UI Dialog, from the @alexandrejoly
           registry.
         </Text>
-        <CodeBlock className="w-full" hast={code.snippets.shadcn} />
-        <CodeBlock className="w-full" title="settings-page.tsx" action={null}>
-          <pre className="shiki">
-            <code>
-              {code.diff.removed.map((line, index) => (
-                <DiffLine line={line} key={`removed-${index}`} kind="removed" />
-              ))}
-              {code.diff.added.map((line, index) => (
-                <DiffLine line={line} key={`added-${index}`} kind="added" />
-              ))}
-            </code>
-          </pre>
+        <CodeSnippet snippet={code.snippets.shadcn} />
+        <CodeBlock>
+          <CodeBlockHeader>
+            <CodeBlockTitle>settings-page.tsx</CodeBlockTitle>
+          </CodeBlockHeader>
+          <CodeBlockContent>
+            {code.diff.removed.map((line, index) => (
+              <DiffLine line={line} key={`removed-${index}`} kind="removed" />
+            ))}
+            {code.diff.added.map((line, index) => (
+              <DiffLine line={line} key={`added-${index}`} kind="added" />
+            ))}
+          </CodeBlockContent>
         </CodeBlock>
-        <TextLink
-          render={<Link to="/docs/$" params={{ _splat: "registry" }} />}
+        <Link
+          className={textLinkVariants()}
+          params={{ _splat: "registry" }}
+          to="/docs/$"
         >
           Read the registry guide
-        </TextLink>
+        </Link>
       </div>
     </SectionContent>
   </Section>
@@ -224,8 +229,8 @@ const Docs = () => {
     <Section>
       <SectionTitle>Docs</SectionTitle>
       <SectionContent>
-        <ItemGroup>
-          {entries.map((entry) => (
+        <ul className="flex flex-col">
+          {entries.map((entry, index) => (
             <li key={entry.slug}>
               <Item
                 render={<Link to="/docs/$" params={{ _splat: entry.slug }} />}
@@ -237,13 +242,13 @@ const Docs = () => {
                   ) : null}
                 </ItemContent>
                 <ItemActions className="hidden self-start sm:flex">
-                  {entry.group}
+                  <Text>{entry.group}</Text>
                 </ItemActions>
-                <ItemSeparator />
               </Item>
+              {index < entries.length - 1 ? <ItemSeparator /> : null}
             </li>
           ))}
-        </ItemGroup>
+        </ul>
       </SectionContent>
     </Section>
   );

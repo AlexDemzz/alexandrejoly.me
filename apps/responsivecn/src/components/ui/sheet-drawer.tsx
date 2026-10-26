@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 import {
   Drawer,
   DrawerClose,
@@ -11,7 +9,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+} from "@portfolio/ui/components/drawer";
 import {
   Sheet,
   SheetClose,
@@ -21,9 +19,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+} from "@portfolio/ui/components/sheet";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
+import { cn } from "@portfolio/ui/lib/utils";
+import * as React from "react";
 
 type Override<Props, Keys extends PropertyKey = never> = Props extends unknown
   ? Omit<Props, "children" | Keys>

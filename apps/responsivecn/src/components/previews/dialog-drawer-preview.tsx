@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@portfolio/ui/components/button";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
+
 import {
   DialogDrawer,
   DialogDrawerContent,
@@ -8,7 +10,6 @@ import {
   DialogDrawerTitle,
   DialogDrawerTrigger,
 } from "@/components/ui/dialog-drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export const DialogDrawerPreview = () => {
   const isMobile = useIsMobile();

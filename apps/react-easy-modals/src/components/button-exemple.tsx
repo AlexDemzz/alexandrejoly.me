@@ -1,7 +1,6 @@
+import { Button } from "@portfolio/ui/components/button";
+import { Preview } from "@portfolio/ui/components/preview";
 import type { ReactNode } from "react";
-
-import { Button } from "./ui/button";
-import { Preview } from "./ui/preview";
 
 const ButtonExemple = ({
   onClick,

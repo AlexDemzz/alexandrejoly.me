@@ -1,13 +1,13 @@
-import { InfoIcon } from "lucide-react";
+import { InfoIcon } from "@phosphor-icons/react";
+import { Button } from "@portfolio/ui/components/button";
+import { TooltipProvider } from "@portfolio/ui/components/tooltip";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
 
-import { Button } from "@/components/ui/button";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
 } from "@/components/ui/tooltip-popover";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export const TooltipPopoverPreview = () => {
   const isMobile = useIsMobile();

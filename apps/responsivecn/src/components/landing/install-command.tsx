@@ -1,7 +1,8 @@
+import { Button } from "@portfolio/ui/components/button";
+import { cn } from "@portfolio/ui/lib/utils";
+
 import { CopyStateIcon, CopyStatus } from "@/components/copy-state-icon";
-import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { cn } from "@/lib/utils";
 
 export const InstallCommand = ({
   command,

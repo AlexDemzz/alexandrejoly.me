@@ -42,23 +42,14 @@ html > body[data-scroll-locked] {
 }
 
 /* The landing's code blocks: both vitesse themes ride on CSS variables and
-   the colour scheme picks one. The end padding clears the pinned copy button
-   once the code is scrolled to its end. */
+   the colour scheme picks one. */
 @layer components {
-  [data-slot="code-block-content"] pre {
-    inline-size: max-content;
-    min-inline-size: 100%;
-    padding-inline-end: calc(var(--spacing) * 10);
-    font-family: var(--font-mono);
-    tab-size: 2;
-  }
-
-  [data-slot="code-block-content"] .shiki span {
+  [data-slot="code-block-content"] [style*="--shiki-light"] {
     color: var(--shiki-light);
   }
 
   @media (prefers-color-scheme: dark) {
-    [data-slot="code-block-content"] .shiki span {
+    [data-slot="code-block-content"] [style*="--shiki-dark"] {
       color: var(--shiki-dark);
     }
   }
@@ -67,10 +58,6 @@ html > body[data-scroll-locked] {
 /* The hero demo: the pending promise pulses, and the resolved value lands in
    the code once it settles. */
 @layer components {
-  .resolved-line {
-    background-color: color-mix(in oklch, var(--foreground) 6%, transparent);
-  }
-
   @media (prefers-reduced-motion: no-preference) {
     .pending-dot {
       animation: pending-pulse 1.2s var(--ease-settle) infinite;
@@ -92,6 +79,5 @@ html > body[data-scroll-locked] {
   from {
     opacity: 0;
     clip-path: inset(0 100% 0 0);
-    background-color: color-mix(in oklch, var(--foreground) 14%, transparent);
   }
 }

@@ -1,3 +1,5 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
@@ -33,18 +35,20 @@ const IdentityStatement = ({
   />
 );
 
+// Renders an `h1` unless `render` picks another element.
 const IdentityName = ({
-  children,
   className,
+  render,
   ...props
-}: React.ComponentProps<"h1">) => (
-  <h1
-    className={cn("text-foreground inline font-medium", className)}
-    data-slot="identity-name"
-    {...props}
-  >
-    {children}
-  </h1>
-);
+}: useRender.ComponentProps<"h1">) =>
+  useRender({
+    defaultTagName: "h1",
+    props: mergeProps<"h1">(
+      { className: cn("text-foreground inline font-medium", className) },
+      props
+    ),
+    render,
+    state: { slot: "identity-name" },
+  });
 
 export { Identity, IdentityMark, IdentityName, IdentityStatement };

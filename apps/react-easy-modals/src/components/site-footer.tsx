@@ -1,37 +1,30 @@
-import { TextLink } from "@/components/ui/text";
-import { AUTHOR_URL, GITHUB_URL, NPM_URL } from "@/lib/site";
-import { cn } from "@/lib/utils";
+import { Text, TextLink } from "@portfolio/ui/components/text";
 
-export const SiteFooter = ({ className }: { className?: string }) => (
-  <footer
-    className={cn(
-      "text-faint-foreground flex flex-wrap gap-x-4 gap-y-1 pt-10 text-sm",
-      className
-    )}
-  >
-    <p className="text-pretty">
+import { AUTHOR_URL, GITHUB_URL, NPM_URL } from "@/lib/site";
+
+export const SiteFooter = () => (
+  <footer className="flex flex-wrap gap-x-4 gap-y-1 pt-10">
+    <Text variant="faint">
       MIT licensed. Built by{" "}
-      <TextLink variant="faint" href={AUTHOR_URL} external>
+      <TextLink href={AUTHOR_URL} external>
         Alexandre Joly
       </TextLink>
       .
-    </p>
+    </Text>
     <nav aria-label="Project">
-      <ul className="flex flex-wrap gap-x-4 gap-y-1">
+      <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
         <li>
-          <TextLink variant="faint" href={GITHUB_URL} external>
+          <TextLink href={GITHUB_URL} external>
             GitHub
           </TextLink>
         </li>
         <li>
-          <TextLink variant="faint" href={NPM_URL} external>
+          <TextLink href={NPM_URL} external>
             npm
           </TextLink>
         </li>
         <li>
-          <TextLink variant="faint" href="/llms.txt">
-            llms.txt
-          </TextLink>
+          <TextLink href="/llms.txt">llms.txt</TextLink>
         </li>
       </ul>
     </nav>

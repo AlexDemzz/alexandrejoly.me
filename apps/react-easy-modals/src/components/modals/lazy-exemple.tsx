@@ -1,4 +1,4 @@
-import { LoaderCircle } from "lucide-react";
+import { Spinner } from "@portfolio/ui/components/spinner";
 import { ModalProvider, useModals } from "react-easy-modals";
 
 import { wait } from "@/lib/wait";
@@ -21,7 +21,7 @@ const LazyLoadingState = () => (
       aria-live="polite"
       className="bg-popover text-popover-foreground ring-border flex items-center gap-2 rounded-full px-4 py-2 shadow-lg ring-1"
     >
-      <LoaderCircle className="size-4 animate-spin" aria-hidden="true" />
+      <Spinner aria-hidden="true" />
       Loading…
     </output>
   </DemoBackdrop>

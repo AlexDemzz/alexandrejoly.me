@@ -1,7 +1,6 @@
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
+import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
-
-import { cn } from "@/lib/utils";
 
 const ICON_CLASS =
   "absolute inset-0 size-full transition duration-300 ease-standard motion-reduce:transition-opacity";
