@@ -4,7 +4,7 @@
 // says so (`pnpm registry:verify`). Not shipped: registry.json lists only
 // the component.
 
-import type { PopoverDrawerAnchor } from "@registry/popover-drawer";
+import type { PopoverDrawerAnchor } from "@portfolio/ui/components/popover-drawer";
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -13,7 +13,7 @@ import {
   PopoverDrawerHeader,
   PopoverDrawerTitle,
   PopoverDrawerTrigger,
-} from "@registry/popover-drawer";
+} from "@portfolio/ui/components/popover-drawer";
 import * as React from "react";
 
 import type * as InstalledPopover from "@/components/ui/popover";

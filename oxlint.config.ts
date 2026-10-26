@@ -11,9 +11,6 @@ export default defineConfig({
     ".claude/**",
     // Registry source ships verbatim to installs: no lint directives in it.
     "apps/web/registry/**",
-    // Installed verbatim from that registry: its source is linted there.
-    "apps/responsivecn/src/components/ui/{dialog-drawer,sheet-drawer,popover-drawer,tooltip-popover}.tsx",
-    "apps/react-easy-modals/src/components/ui/modal.tsx",
   ],
   jsPlugins: shadcn.jsPlugins,
   overrides: [
@@ -39,6 +36,38 @@ export default defineConfig({
         "shadcn/no-arbitrary-values": "off",
         "shadcn/no-restyle": "off",
         "shadcn/require-static-classes": "off",
+      },
+    },
+    {
+      // Registry items whose source lives here: apps/web/public/r ships each
+      // file as written, so a fix changes every install. Kept in the stock
+      // shadcn style of the other registry items.
+      files: [
+        "packages/ui/src/components/{dialog-drawer,sheet-drawer,popover-drawer,tooltip-popover,modal}.tsx",
+      ],
+      rules: {
+        "eslint/curly": "off",
+        "eslint/eqeqeq": "off",
+        "eslint/no-eq-null": "off",
+        "promise/prefer-await-to-callbacks": "off",
+        "react/no-clone-element": "off",
+        "typescript/consistent-type-definitions": "off",
+        "typescript/no-dynamic-delete": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "unicorn/no-useless-undefined": "off",
+      },
+    },
+    {
+      // TooltipPopoverTrigger reports its disabled state to the root through a
+      // ref the root puts in context, written in an effect and read in the
+      // root's onOpenChange only. The compiler cannot see a ref through
+      // context, nor that the root's helpers never call onOpenChange while
+      // rendering.
+      files: ["packages/ui/src/components/tooltip-popover.tsx"],
+      rules: {
+        "react/immutability": "off",
+        "react/preserve-manual-memoization": "off",
+        "react/refs": "off",
       },
     },
     {

@@ -1,13 +1,12 @@
 import { InfoIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import { TooltipProvider } from "@portfolio/ui/components/tooltip";
-import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
-
 import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
-} from "@/components/ui/tooltip-popover";
+} from "@portfolio/ui/components/tooltip-popover";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
 
 export const TooltipPopoverPreview = () => {
   const isMobile = useIsMobile();

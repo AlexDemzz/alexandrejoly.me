@@ -1,6 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
-
 import {
   SheetDrawer,
   SheetDrawerClose,
@@ -10,7 +8,8 @@ import {
   SheetDrawerHeader,
   SheetDrawerTitle,
   SheetDrawerTrigger,
-} from "@/components/ui/sheet-drawer";
+} from "@portfolio/ui/components/sheet-drawer";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
 
 export const SheetDrawerPreview = () => {
   const isMobile = useIsMobile();

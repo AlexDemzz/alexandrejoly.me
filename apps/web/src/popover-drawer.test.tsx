@@ -7,7 +7,7 @@ import {
   PopoverDrawerHeader,
   PopoverDrawerTitle,
   PopoverDrawerTrigger,
-} from "@registry/popover-drawer";
+} from "@portfolio/ui/components/popover-drawer";
 import {
   act,
   cleanup,

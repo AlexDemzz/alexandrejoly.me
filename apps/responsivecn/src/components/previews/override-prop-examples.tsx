@@ -1,6 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-
-import { PreviewFrame } from "@/components/previews/preview-frame";
 import {
   DialogDrawer,
   DialogDrawerContent,
@@ -9,7 +7,9 @@ import {
   DialogDrawerHeader,
   DialogDrawerTitle,
   DialogDrawerTrigger,
-} from "@/components/ui/dialog-drawer";
+} from "@portfolio/ui/components/dialog-drawer";
+
+import { PreviewFrame } from "@/components/previews/preview-frame";
 
 const RELEASE_NOTES = [
   "Search now matches file contents.",

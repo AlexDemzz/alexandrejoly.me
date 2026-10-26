@@ -49,8 +49,4 @@ pnpm --filter responsivecn dev     # docs site on http://localhost:3000
 pnpm --filter responsivecn test    # unit tests
 ```
 
-The component source lives in `apps/web/registry/`, along with its tests. This site installs the components like any consumer, into `src/components/ui/`. To pick up a new version, reinstall it from `apps/responsivecn`:
-
-```bash
-npx shadcn@latest add @alexandrejoly/dialog-drawer --overwrite
-```
+The component source lives in `packages/ui/src/components/`, shared with the other apps; its tests live in `apps/web/src/`. This site imports it from `@portfolio/ui/components/<name>`. The `@alexandrejoly` registry ships the same file, its imports rewritten to the stock shadcn aliases (`apps/web/scripts/registry-imports.mjs`).

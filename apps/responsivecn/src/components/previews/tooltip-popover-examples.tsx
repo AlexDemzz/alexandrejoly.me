@@ -1,13 +1,13 @@
 import { InfoIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import { TooltipProvider } from "@portfolio/ui/components/tooltip";
-
-import { PreviewFrame } from "@/components/previews/preview-frame";
 import {
   TooltipPopover,
   TooltipPopoverContent,
   TooltipPopoverTrigger,
-} from "@/components/ui/tooltip-popover";
+} from "@portfolio/ui/components/tooltip-popover";
+
+import { PreviewFrame } from "@/components/previews/preview-frame";
 
 export const TooltipPopoverContentBoxExample = () => (
   <PreviewFrame

@@ -13,7 +13,7 @@ import {
   SheetDrawerHeader,
   SheetDrawerTitle,
   SheetDrawerTrigger,
-} from "@registry/sheet-drawer";
+} from "@portfolio/ui/components/sheet-drawer";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";

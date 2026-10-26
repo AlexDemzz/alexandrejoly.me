@@ -1,8 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import { useState } from "react";
-import type { ModalProps } from "react-easy-modals";
-import { ModalProvider, useModalAt, useModals } from "react-easy-modals";
-
 import {
   Modal,
   ModalContent,
@@ -10,7 +6,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalTitle,
-} from "@/components/ui/modal";
+} from "@portfolio/ui/components/modal";
+import { useState } from "react";
+import type { ModalProps } from "react-easy-modals";
+import { ModalProvider, useModalAt, useModals } from "react-easy-modals";
 
 import { ButtonExemple } from "../button-exemple";
 import { DemoOutput } from "../demo-modal";

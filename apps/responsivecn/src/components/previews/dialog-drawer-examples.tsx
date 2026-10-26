@@ -1,10 +1,4 @@
 import { Button } from "@portfolio/ui/components/button";
-import * as React from "react";
-
-import {
-  PreviewFrame,
-  previewInputClassName,
-} from "@/components/previews/preview-frame";
 import {
   DialogDrawer,
   DialogDrawerContent,
@@ -13,7 +7,13 @@ import {
   DialogDrawerHeader,
   DialogDrawerTitle,
   DialogDrawerTrigger,
-} from "@/components/ui/dialog-drawer";
+} from "@portfolio/ui/components/dialog-drawer";
+import * as React from "react";
+
+import {
+  PreviewFrame,
+  previewInputClassName,
+} from "@/components/previews/preview-frame";
 
 const SHORTCUTS = [
   { keys: "⌘ K", action: "Open the command menu" },
