@@ -17,7 +17,7 @@ export const PreviewFrame = ({
   const isMobile = useIsMobile();
 
   return (
-    <div className="not-prose flex flex-col items-center gap-4 rounded-xl border p-10">
+    <div className="not-prose flex flex-col items-center gap-4 rounded-xl border p-10 text-center">
       {children}
       <p className="text-muted-foreground text-xs">
         {isMobile ? mobile : desktop}
