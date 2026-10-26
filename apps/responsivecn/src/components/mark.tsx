@@ -4,8 +4,8 @@ import * as React from "react";
 import { DRAWER_PATH, HANDLE_PATH, MODAL_PATH } from "@/lib/mark";
 
 // The modal recedes and the drawer comes forward while `drawer` is set or the
-// `group/mark` link is hovered or focused. Opacities match DRAWER_OPACITY and
-// MODAL_OPACITY in lib/mark at rest.
+// `group/mark` link is hovered or focused. The drawer-led opacities match
+// MODAL_OPACITY and DRAWER_OPACITY in lib/mark.
 const MODAL_LAYER =
   "opacity-55 transition-opacity duration-300 ease-settle motion-reduce:transition-none group-focus-visible/mark:opacity-25 group-data-[drawer=true]/svg:opacity-25 can-hover:group-hover/mark:opacity-25";
 const DRAWER_LAYER =

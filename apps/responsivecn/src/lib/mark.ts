@@ -54,12 +54,12 @@ export const MODAL_PATH = continuousRect(
 export const DRAWER_PATH = continuousRect(4, 11, 16, 9, MODAL_RADIUS - 1);
 export const HANDLE_PATH = "M10.5 12.75h3";
 
-// At rest the modal leads; on a phone the drawer takes over.
-export const MODAL_OPACITY = 0.55;
-export const DRAWER_OPACITY = 0.35;
+// Images show the mark as the site's header does on a phone: the drawer leads.
+export const MODAL_OPACITY = 0.25;
+export const DRAWER_OPACITY = 0.85;
 
 /**
- * The mark at rest as a standalone SVG. `fullBleed` replaces the modal's
+ * The mark as a standalone SVG. `fullBleed` replaces the modal's
  * squircle with a square for app icons, which the platform rounds itself.
  * `padded` shrinks the mark to 60% of a square `background`, inside the safe
  * zone of a maskable icon. `style` may restyle the `.mark` shapes, as the
