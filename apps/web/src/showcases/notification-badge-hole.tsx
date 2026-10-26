@@ -71,11 +71,11 @@ export const notificationBadgeHole: Showcase = {
     { rest: 1100 },
     // The trace hides the digits, so the count changes before it turns on.
     { click: ADD },
-    { rest: 1000 },
+    { rest: 1200 },
     { click: ADD },
-    { rest: 900 },
+    { rest: 1200 },
     { click: SHOW_HOLE },
-    { rest: 600 },
+    { rest: 800 },
     // Down and away from the bell, so the pill reads untouched.
     { moveTo: [0.62, 0.9] },
     { rest: 5500 },
