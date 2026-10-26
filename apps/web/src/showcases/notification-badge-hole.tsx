@@ -68,13 +68,14 @@ export const notificationBadgeHole: Showcase = {
   Scene,
   start: [0.38, 0.86],
   steps: [
-    { rest: 1300 },
+    { rest: 1100 },
+    // The trace hides the digits, so the count changes before it turns on.
+    { click: ADD },
+    { rest: 1000 },
+    { click: ADD },
+    { rest: 900 },
     { click: SHOW_HOLE },
-    { rest: 900 },
-    { click: ADD },
-    { rest: 900 },
-    { click: ADD },
-    { rest: 500 },
+    { rest: 600 },
     // Down and away from the bell, so the pill reads untouched.
     { moveTo: [0.62, 0.9] },
     { rest: 5500 },
