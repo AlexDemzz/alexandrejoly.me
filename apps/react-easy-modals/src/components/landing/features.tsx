@@ -1,4 +1,3 @@
-import { Heading } from "@portfolio/ui/components/heading";
 import {
   Tabs,
   TabsContent,
@@ -33,35 +32,35 @@ interface Feature {
 const FEATURES: Feature[] = [
   {
     id: "stack",
-    title: "A modal stack",
+    title: "Stack",
     summary: "A new modal hides the one below it until it closes.",
     doc: { label: "How the stack works", slug: "how-it-works" },
     Demo: StackDemo,
   },
   {
     id: "nested",
-    title: "Nested modals",
+    title: "Nested",
     summary: "Open a modal inside a modal, and close any level of the chain.",
     doc: { label: "Nested modals", slug: "nested" },
     Demo: NestedDemo,
   },
   {
     id: "guards",
-    title: "Close guards",
+    title: "Guards",
     summary: "Keep a modal open until the user is ready to leave.",
     doc: { label: "useBeforeClose", slug: "use-before-close" },
     Demo: GuardDemo,
   },
   {
     id: "transitions",
-    title: "Exit animations",
+    title: "Transitions",
     summary: "Play the exit animation first, then unmount.",
     doc: { label: "Transitions", slug: "transitions" },
     Demo: TransitionDemo,
   },
   {
     id: "lazy",
-    title: "Lazy loading",
+    title: "Lazy",
     summary: "Load a modal’s code only when it opens.",
     doc: { label: "Lazy loading", slug: "lazy-loading" },
     Demo: LazyDemo,
@@ -69,43 +68,33 @@ const FEATURES: Feature[] = [
 ];
 
 export const Features = ({ code }: { code: LandingCode["snippets"] }) => (
-  <div className="flex flex-col gap-12">
-    {FEATURES.map(({ id, title, summary, doc, Demo }) => (
-      <article
-        key={id}
-        aria-labelledby={`feature-${id}`}
-        className="flex flex-col items-start gap-4"
-      >
-        <div>
-          <Heading
-            id={`feature-${id}`}
-            render={({ children, ...props }) => <h3 {...props}>{children}</h3>}
-          >
-            {title}
-          </Heading>
+  <Tabs defaultValue={FEATURES[0].id}>
+    <TabsList aria-label="Features">
+      {FEATURES.map(({ id, title }) => (
+        <TabsTrigger key={id} value={id}>
+          {title}
+        </TabsTrigger>
+      ))}
+    </TabsList>
+    {FEATURES.map(({ id, summary, doc, Demo }) => (
+      <TabsContent key={id} value={id} className="mt-2">
+        <div className="flex flex-col items-start gap-4">
           <Text>{summary}</Text>
-        </div>
-        <Tabs defaultValue="preview" className="w-full">
-          <TabsList aria-label={`${title} example`}>
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
-          </TabsList>
-          {/* The docs demos carry their own vertical margin. */}
-          <TabsContent value="preview" className="[&>[data-slot=preview]]:my-0">
+          {/* One preview height for every tab, so switching doesn't move the
+              page; the docs demos carry their own vertical margin. */}
+          <div className="w-full [&>[data-slot=preview]]:my-0 [&>[data-slot=preview]]:h-80">
             <Demo />
-          </TabsContent>
-          <TabsContent value="code">
-            <CodeSnippet snippet={code[id]} />
-          </TabsContent>
-        </Tabs>
-        <Link
-          className={textLinkVariants()}
-          params={{ _splat: doc.slug }}
-          to="/docs/$"
-        >
-          {doc.label}
-        </Link>
-      </article>
+          </div>
+          <CodeSnippet collapsible snippet={code[id]} />
+          <Link
+            className={textLinkVariants()}
+            params={{ _splat: doc.slug }}
+            to="/docs/$"
+          >
+            {doc.label}
+          </Link>
+        </div>
+      </TabsContent>
     ))}
-  </div>
+  </Tabs>
 );

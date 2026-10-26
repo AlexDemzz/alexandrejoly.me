@@ -8,7 +8,7 @@ import {
   ModalTitle,
   useBeforeClose,
 } from "@portfolio/ui/components/modal";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useModalAt, useModals } from "react-easy-modals";
 import type { ModalProps } from "react-easy-modals";
 
@@ -17,18 +17,53 @@ import { DemoOutput } from "@/components/demo-modal";
 import { wait } from "@/lib/wait";
 
 const LAZY_DELAY_MS = 1000;
+const TRACE_LENGTH = 6;
 
 // Landing demos run on the shadcn Base UI Modal from the registry; the docs
 // keep the unstyled versions to show that the library is headless.
 
-function StepModal({ close, index }: ModalProps) {
-  const modals = useModals();
+// The trace under a demo: each call the demo makes and what the library
+// answers, newest last.
+const useTrace = () => {
+  const [lines, setLines] = useState<string[]>([]);
+  const log = (line: string) =>
+    setLines((previous) => [...previous.slice(1 - TRACE_LENGTH), line]);
+  return { lines, log };
+};
 
+const Trace = ({ lines }: { lines: string[] }) => (
+  <ol
+    aria-label="Trace"
+    aria-live="polite"
+    className="bg-muted text-muted-foreground flex min-h-24 w-full max-w-sm flex-col gap-1 rounded-lg p-3 font-mono text-sm whitespace-pre"
+  >
+    {lines.length === 0 ? (
+      <li>Calls show up here.</li>
+    ) : (
+      lines.map((line, index) => (
+        <li
+          key={`${index}-${line}`}
+          className={index === lines.length - 1 ? "text-foreground" : undefined}
+        >
+          {line}
+        </li>
+      ))
+    )}
+  </ol>
+);
+
+type Log = (line: string) => void;
+
+function StepModal({
+  close,
+  step,
+  onNext,
+}: ModalProps & { step: number; onNext: () => void }) {
   return (
     <Modal>
       <ModalContent>
         <ModalHeader>
-          <ModalTitle>Step {index + 1}</ModalTitle>
+          <ModalTitle>Step {step}</ModalTitle>
           <ModalDescription>
             Open another step: this one waits underneath until it closes.
           </ModalDescription>
@@ -37,7 +72,7 @@ function StepModal({ close, index }: ModalProps) {
           <Button variant="outline" onClick={() => close()}>
             Back
           </Button>
-          <Button onClick={() => modals.open(StepModal)}>Next step</Button>
+          <Button onClick={onNext}>Next step</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -46,30 +81,52 @@ function StepModal({ close, index }: ModalProps) {
 
 export const StackDemo = () => {
   const modals = useModals();
+  const { lines, log } = useTrace();
+
+  const openStep = async (step: number) => {
+    log(`modals.open(Step${step})`);
+    if (step > 1) {
+      log(`  Step${step - 1} hidden, waits underneath`);
+    }
+    await modals.open(StepModal, {
+      step,
+      onNext: () => openStep(step + 1),
+    });
+    log(`Step${step} closed, its promise resolved`);
+  };
 
   return (
-    <ButtonExemple label="Open step 1" onClick={() => modals.open(StepModal)}>
-      <DemoOutput>open modals: {modals.stack.length}</DemoOutput>
+    <ButtonExemple label="Open step 1" onClick={() => openStep(1)}>
+      <Trace lines={lines} />
     </ButtonExemple>
   );
 };
+
+const levelName = (depth: number) =>
+  depth === 0 ? "Parent" : `Nested level ${depth}`;
 
 function NestedModal({
   close,
   open,
   nested,
   depth,
-}: ModalProps & { depth: number }) {
+  log,
+}: ModalProps & { depth: number; log: Log }) {
   const root = useModalAt("root");
+  const name = levelName(depth);
+
+  const openNested = async () => {
+    log(`${name}: open(NestedModal)`);
+    await open(NestedModal, { depth: depth + 1, log });
+    log(`${levelName(depth + 1)} closed, its promise resolved`);
+  };
 
   return (
     <Modal>
       <ModalContent>
         {nested}
         <ModalHeader>
-          <ModalTitle>
-            {depth === 0 ? "Parent" : `Nested level ${depth}`}
-          </ModalTitle>
+          <ModalTitle>{name}</ModalTitle>
           <ModalDescription>
             Each level renders inside its parent. Close one level, or the whole
             chain.
@@ -77,16 +134,26 @@ function NestedModal({
         </ModalHeader>
         <ModalFooter className="flex-wrap">
           {depth > 0 && (
-            <Button variant="outline" onClick={() => root.close()}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                log(`${name}: useModalAt("root").close()`);
+                root.close();
+              }}
+            >
               Close all
             </Button>
           )}
-          <Button variant="outline" onClick={() => close()}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              log(`${name}: close()`);
+              close();
+            }}
+          >
             Close
           </Button>
-          <Button onClick={() => open(NestedModal, { depth: depth + 1 })}>
-            Open nested
-          </Button>
+          <Button onClick={openNested}>Open nested</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
@@ -95,9 +162,18 @@ function NestedModal({
 
 export const NestedDemo = () => {
   const modals = useModals();
+  const { lines, log } = useTrace();
 
   return (
-    <ButtonExemple onClick={() => modals.open(NestedModal, { depth: 0 })} />
+    <ButtonExemple
+      onClick={async () => {
+        log("modals.open(NestedModal)");
+        await modals.open(NestedModal, { depth: 0, log });
+        log("Parent closed, its promise resolved");
+      }}
+    >
+      <Trace lines={lines} />
+    </ButtonExemple>
   );
 };
 
@@ -105,8 +181,16 @@ type DraftAnswer = "saved" | "discarded" | undefined;
 
 function DraftModal({ close }: ModalProps<DraftAnswer>) {
   const [draft, setDraft] = useState("");
+  const [empty, setEmpty] = useState(false);
+  const errorId = useId();
 
-  useBeforeClose<DraftAnswer>((answer) => answer !== undefined);
+  useBeforeClose<DraftAnswer>((answer) => {
+    if (answer === "saved" && draft.trim() === "") {
+      setEmpty(true);
+      return false;
+    }
+    return answer !== undefined;
+  });
 
   return (
     <Modal>
@@ -114,17 +198,27 @@ function DraftModal({ close }: ModalProps<DraftAnswer>) {
         <ModalHeader>
           <ModalTitle>New note</ModalTitle>
           <ModalDescription>
-            Try Escape, a click outside or the close button: the modal stays
-            open until you save or discard.
+            Try Escape, a click outside, the close button or Save with an empty
+            note: the modal stays open until you save a note or discard it.
           </ModalDescription>
         </ModalHeader>
         <textarea
           value={draft}
-          onChange={(event) => setDraft(event.target.value)}
+          onChange={(event) => {
+            setDraft(event.target.value);
+            setEmpty(false);
+          }}
           placeholder="Write a note"
           aria-label="Note"
-          className="shadow-hairline bg-background placeholder:text-faint-foreground [field-sizing:content] min-h-24 resize-none rounded-md px-3 py-2 text-base"
+          aria-invalid={empty}
+          aria-describedby={empty ? errorId : undefined}
+          className="shadow-hairline bg-background placeholder:text-faint-foreground aria-invalid:ring-destructive [field-sizing:content] min-h-24 resize-none rounded-md px-3 py-2 text-base aria-invalid:ring-1"
         />
+        {empty && (
+          <p id={errorId} className="text-destructive text-sm">
+            Write something before you save.
+          </p>
+        )}
         <ModalFooter>
           <Button variant="outline" onClick={() => close("discarded")}>
             Discard

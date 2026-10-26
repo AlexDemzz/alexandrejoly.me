@@ -110,6 +110,15 @@ function Modal({ children, ...dialogProps }: ModalRootProps) {
 
   function handleOpenChangeComplete(value: boolean) {
     if (!(value || isVisible)) {
+      const chain = [];
+      let current = ownEntry?.nested;
+      while (current) {
+        chain.unshift(current);
+        current = current.nested;
+      }
+      for (const entry of chain) {
+        entry.close(undefined, { force: true });
+      }
       canClose.current = true;
       modal.close(closableVariable.current);
       closableVariable.current = undefined;

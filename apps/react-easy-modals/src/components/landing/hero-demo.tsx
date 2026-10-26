@@ -1,12 +1,8 @@
-import { ArrowCounterClockwiseIcon, PlayIcon } from "@phosphor-icons/react";
 import { Button } from "@portfolio/ui/components/button";
 import {
   CodeBlock,
-  CodeBlockActions,
   CodeBlockContent,
   CodeBlockHeader,
-  CodeBlockLine,
-  CodeBlockTitle,
 } from "@portfolio/ui/components/code-block";
 import {
   Modal,
@@ -16,12 +12,18 @@ import {
   ModalHeader,
   ModalTitle,
 } from "@portfolio/ui/components/modal";
-import { Text } from "@portfolio/ui/components/text";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@portfolio/ui/components/tabs";
 import { useState } from "react";
 import { useModals } from "react-easy-modals";
 import type { ModalProps } from "react-easy-modals";
 
-import { HastLine } from "@/components/hast";
+import { DemoOutput } from "@/components/demo-modal";
+import { HastLines } from "@/components/hast";
 import type { LandingCode } from "@/lib/landing-code";
 
 type Answer = "delete" | "cancel" | undefined;
@@ -36,7 +38,7 @@ function ConfirmDelete({
         <ModalHeader>
           <ModalTitle>Delete {project}?</ModalTitle>
           <ModalDescription>
-            This removes the project and its deployments. You can’t undo it.
+            {`Your answer resolves the promise from modals.open(): Delete returns "delete", Cancel returns "cancel" and Escape returns undefined.`}
           </ModalDescription>
         </ModalHeader>
         <ModalFooter>
@@ -52,92 +54,63 @@ function ConfirmDelete({
   );
 }
 
-type RunState =
-  | { status: "idle" }
-  | { status: "pending" }
-  | { status: "resolved"; answer: Answer; run: number };
+type Result = { status: "waiting" } | { status: "resolved"; answer: Answer };
 
-const AWAIT_LINE = 3;
+// The resolved value as the code reads it: strings keep their quotes.
+const formatAnswer = (answer: Answer) =>
+  answer === undefined ? "undefined" : JSON.stringify(answer);
+
+const FILES = [
+  { value: "caller", title: "project-settings.tsx" },
+  { value: "modal", title: "confirm-delete.tsx" },
+] as const;
 
 export const HeroDemo = ({ code }: { code: LandingCode["hero"] }) => {
   const modals = useModals();
-  const [state, setState] = useState<RunState>({ status: "idle" });
-  const pending = state.status === "pending";
+  const [result, setResult] = useState<Result>({ status: "waiting" });
 
-  const run = async () => {
-    setState({ status: "pending" });
+  const show = async () => {
+    setResult({ status: "waiting" });
     const answer = await modals.open(ConfirmDelete, { project: "acme-web" });
-    setState((previous) => ({
-      status: "resolved",
-      answer,
-      run: previous.status === "resolved" ? previous.run + 1 : 1,
-    }));
+    setResult({ status: "resolved", answer });
   };
 
+  // The frame and the code sit 8px inside the card, so their rounded-xl
+  // (16px) is the card's rounded-3xl (24px) minus the gap.
   return (
-    <div className="flex flex-col gap-3">
+    <div className="grid gap-2 rounded-3xl border p-2 md:grid-cols-[14rem_1fr]">
+      <div className="bg-muted flex min-h-48 flex-col items-center justify-center gap-3 rounded-xl p-6 text-center">
+        <Button onClick={show}>Show modal</Button>
+        {/* A placeholder holds the answer's line, so nothing shifts. */}
+        <DemoOutput aria-live="polite">
+          {result.status === "waiting"
+            ? "No answer yet"
+            : formatAnswer(result.answer)}
+        </DemoOutput>
+      </div>
       <CodeBlock>
-        <CodeBlockHeader>
-          <CodeBlockTitle>project-settings.tsx</CodeBlockTitle>
-          <CodeBlockActions>
-            <Button variant="ghost" size="sm" onClick={run} disabled={pending}>
-              {state.status === "resolved" ? (
-                <ArrowCounterClockwiseIcon
-                  data-icon="inline-start"
-                  aria-hidden="true"
-                />
-              ) : (
-                <PlayIcon data-icon="inline-start" aria-hidden="true" />
-              )}
-              {state.status === "resolved" ? "Run again" : "Run"}
-            </Button>
-          </CodeBlockActions>
-        </CodeBlockHeader>
-        <CodeBlockContent>
-          {code.before.map((line, index) => (
-            <CodeBlockLine
-              key={index}
-              variant={
-                index === AWAIT_LINE && pending ? "highlighted" : "default"
-              }
-            >
-              <HastLine tree={line} />
-              {index === AWAIT_LINE && pending && (
-                <span className="text-muted-foreground ms-3 inline-flex items-center gap-2 font-sans select-none">
-                  <span
-                    aria-hidden="true"
-                    className="pending-dot bg-muted-foreground size-1.5 rounded-full"
-                  />
-                  pending
-                </span>
-              )}
-            </CodeBlockLine>
+        <Tabs defaultValue="caller">
+          <CodeBlockHeader>
+            <TabsList aria-label="Files">
+              {FILES.map((file) => (
+                <TabsTrigger key={file.value} value={file.value}>
+                  {file.title}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </CodeBlockHeader>
+          {FILES.map((file) => (
+            <TabsContent key={file.value} value={file.value}>
+              <CodeBlockContent
+                // oxlint-disable-next-line shadcn/no-restyle -- one height for both files, so switching tabs doesn't shift the layout
+                className="h-60"
+              >
+                <HastLines lines={code[file.value].lines} />
+              </CodeBlockContent>
+            </TabsContent>
           ))}
-          {state.status === "resolved" && (
-            <CodeBlockLine key={state.run} variant="highlighted">
-              <span className="resolved-line">
-                <HastLine tree={code.answers[state.answer ?? "undefined"]} />
-              </span>
-            </CodeBlockLine>
-          )}
-          {code.after.map((line, index) => (
-            <CodeBlockLine key={`after-${index}`}>
-              <HastLine tree={line} />
-            </CodeBlockLine>
-          ))}
-        </CodeBlockContent>
+        </Tabs>
       </CodeBlock>
-
-      <Text variant="faint" aria-live="polite">
-        {state.status === "idle" &&
-          "Run it: the modal opens, and the promise waits for its answer."}
-        {pending &&
-          "Waiting on modals.open(). Pick an answer, or press Escape."}
-        {state.status === "resolved" &&
-          (state.answer === undefined
-            ? "Dismissed without an answer, so the promise resolved to undefined."
-            : `The promise resolved with "${state.answer}".`)}
-      </Text>
     </div>
   );
 };

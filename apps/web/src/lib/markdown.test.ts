@@ -60,7 +60,7 @@ describe("llmsTxt", () => {
       llmsTxt().split("## When to use this site")[1]?.split("\n## ")[0] ?? "";
 
     expect(whenToUse).toContain(
-      "pnpm dlx shadcn@latest add https://alexandrejoly.me/r/<name>.json"
+      "pnpm dlx shadcn@latest add @alexandrejoly/<name>"
     );
   });
 });
@@ -93,9 +93,7 @@ describe("componentMarkdown", () => {
     expect(markdown).toContain(
       "pnpm dlx shadcn@latest add @alexandrejoly/hint"
     );
-    expect(markdown).toContain(
-      "pnpm dlx shadcn@latest add https://alexandrejoly.me/r/hint.json"
-    );
+    expect(markdown).not.toContain("https://alexandrejoly.me/r/hint.json");
     expect(markdown).toContain("```tsx\nimport { Hint, HintContent");
   });
 

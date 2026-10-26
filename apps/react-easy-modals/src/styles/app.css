@@ -1,16 +1,8 @@
 @import "@portfolio/docs-theme/styles.css";
 
-/* The identity is hovered or holds keyboard focus: the logo fans out. */
-@custom-variant identity-active {
-  @media (hover: hover) {
-    &:is(:where(.group\/identity):hover *) {
-      @slot;
-    }
-  }
-  &:is(:where(.group\/identity):has(:focus-visible) *),
-  &:is(:where(.group\/identity):focus-visible *) {
-    @slot;
-  }
+/* The hero demo's breakout past the page column, as on responsivecn. */
+@theme {
+  --container-breakout: 51rem;
 }
 
 @layer base {
@@ -52,32 +44,5 @@ html > body[data-scroll-locked] {
     [data-slot="code-block-content"] [style*="--shiki-dark"] {
       color: var(--shiki-dark);
     }
-  }
-}
-
-/* The hero demo: the pending promise pulses, and the resolved value lands in
-   the code once it settles. */
-@layer components {
-  @media (prefers-reduced-motion: no-preference) {
-    .pending-dot {
-      animation: pending-pulse 1.2s var(--ease-settle) infinite;
-    }
-
-    .resolved-line {
-      animation: resolved-in 600ms var(--ease-settle) both;
-    }
-  }
-}
-
-@keyframes pending-pulse {
-  50% {
-    opacity: 0.25;
-  }
-}
-
-@keyframes resolved-in {
-  from {
-    opacity: 0;
-    clip-path: inset(0 100% 0 0);
   }
 }

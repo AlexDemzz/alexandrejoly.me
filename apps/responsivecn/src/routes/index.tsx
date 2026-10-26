@@ -43,6 +43,7 @@ import { Playground } from "@/components/create/playground";
 import { GitHubIcon } from "@/components/github-icon";
 import { Mark } from "@/components/mark";
 import { PairIcon } from "@/components/pair-icon";
+import { SiteFooter } from "@/components/site-footer";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
 import { homeJsonLd, homeSeo, pageHead } from "@/lib/seo";
 import { appName, githubUrl } from "@/lib/shared";
@@ -124,10 +125,10 @@ const Home = () => {
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="responsivecn on GitHub"
-            className={buttonVariants({ variant: "ghost", size: "icon-lg" })}
+            className={buttonVariants({ variant: "outline" })}
           >
-            <GitHubIcon />
+            <GitHubIcon data-icon="inline-start" />
+            GitHub
           </a>
         </div>
         <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
@@ -240,20 +241,9 @@ const Home = () => {
         </Section>
       </div>
 
-      <footer className="max-w-column text-muted-foreground mx-auto mt-auto flex w-full flex-wrap gap-x-4 gap-y-1 pt-16 text-sm">
-        <span>{appName}</span>
-        <Link to="/docs/$" params={{ _splat: "" }} className="link-text">
-          Docs
-        </Link>
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link-text"
-        >
-          GitHub
-        </a>
-      </footer>
+      <div className="max-w-column mx-auto mt-auto w-full pt-6">
+        <SiteFooter />
+      </div>
     </main>
   );
 };

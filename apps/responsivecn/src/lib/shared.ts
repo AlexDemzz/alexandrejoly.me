@@ -1,4 +1,5 @@
 export const appName = "responsivecn";
+export const authorUrl = "https://alexandrejoly.me";
 export const docsRoute = "/docs";
 export const githubUrl =
   "https://github.com/AlexDemzz/alexandrejoly.me/tree/master/apps/responsivecn";

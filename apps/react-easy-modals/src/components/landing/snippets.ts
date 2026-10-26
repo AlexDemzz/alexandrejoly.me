@@ -15,35 +15,105 @@ export const SNIPPETS = {
     lang: "bash",
   },
   stack: {
-    code: `modals.open(Step1);
-modals.open(Step2); // Step1 waits underneath
-modals.close();     // back to Step1`,
+    code: `function StepModal({ close, step, onNext }) {
+  return (
+    <Modal>
+      <ModalContent>
+        <ModalTitle>Step {step}</ModalTitle>
+        <Button onClick={() => close()}>Back</Button>
+        <Button onClick={onNext}>Next step</Button>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+// Each step waits underneath the next one until it closes
+const openStep = (step: number) =>
+  modals.open(StepModal, {
+    step,
+    onNext: () => openStep(step + 1),
+  });`,
     lang: "tsx",
   },
   nested: {
-    code: `function Child() {
+    code: `function NestedModal({ close, open, nested, depth }) {
   const root = useModalAt("root");
-  return <Button onClick={() => root.close()}>Done</Button>;
+
+  return (
+    <Modal>
+      <ModalContent>
+        {nested}
+        <ModalTitle>
+          {depth === 0 ? "Parent" : \`Nested level \${depth}\`}
+        </ModalTitle>
+        {depth > 0 && (
+          <Button onClick={() => root.close()}>Close all</Button>
+        )}
+        <Button onClick={() => close()}>Close</Button>
+        <Button onClick={() => open(NestedModal, { depth: depth + 1 })}>
+          Open nested
+        </Button>
+      </ModalContent>
+    </Modal>
+  );
 }`,
     lang: "tsx",
   },
   guards: {
-    code: `useBeforeClose((answer) => {
-  // Escape, outside clicks and the close button give no answer
-  return answer !== undefined;
-});`,
+    code: `function DraftModal({ close }) {
+  const [draft, setDraft] = useState("");
+  const [empty, setEmpty] = useState(false);
+
+  useBeforeClose((answer) => {
+    if (answer === "saved" && draft.trim() === "") {
+      setEmpty(true);
+      return false;
+    }
+    // Escape, outside clicks and the close button give no answer
+    return answer !== undefined;
+  });
+
+  return (
+    <Modal>
+      <ModalContent>
+        <ModalTitle>New note</ModalTitle>
+        <textarea
+          value={draft}
+          onChange={(event) => setDraft(event.target.value)}
+          aria-invalid={empty}
+        />
+        {empty && <p>Write something before you save.</p>}
+        <Button onClick={() => close("discarded")}>Discard</Button>
+        <Button onClick={() => close("saved")}>Save</Button>
+      </ModalContent>
+    </Modal>
+  );
+}`,
     lang: "tsx",
   },
   transitions: {
-    code: `// Inside the registry’s shadcn Modal
-useBeforeClose(() => {
-  setOpen(false);               // play the exit animation
-  return animationDone.current; // unmount once it ends
-});`,
+    code: `function FadeModal({ close }) {
+  return (
+    <Modal>
+      <ModalContent>
+        <ModalTitle>Watch it leave</ModalTitle>
+        <Button onClick={() => close()}>Close</Button>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+// Resolves once the exit animation ends, not on the click
+await modals.open(FadeModal);
+setResolved((count) => count + 1);`,
     lang: "tsx",
   },
   lazy: {
-    code: `// The provider shows its loader meanwhile
+    code: `<ModalProvider loading={LazyLoading}>
+  <App />
+</ModalProvider>
+
+// SettingsModal's code is fetched on click; LazyLoading shows meanwhile
 modals.open(() => import("./settings-modal"));`,
     lang: "tsx",
   },
@@ -59,19 +129,21 @@ export const DIFF = {
 };
 
 export const HERO = {
-  before: `const modals = useModals();
+  caller: `const modals = useModals();
 
 async function deleteProject() {
   const answer = await modals.open(ConfirmDelete, {
     project: "acme-web",
-  });`,
-  after: `  if (answer === "delete") removeProject();
+  });
+  if (answer === "delete") removeProject();
 }`,
+  modal: `const ConfirmDelete = ({ close, project }) => (
+  <Modal>
+    <ModalContent>
+      <ModalTitle>Delete {project}?</ModalTitle>
+      <Button onClick={() => close("cancel")}>Cancel</Button>
+      <Button onClick={() => close("delete")}>Delete</Button>
+    </ModalContent>
+  </Modal>
+);`,
 };
-
-export const HERO_ANSWERS = ["delete", "cancel", "undefined"] as const;
-
-export type HeroAnswer = (typeof HERO_ANSWERS)[number];
-
-export const heroAnswerComment = (answer: HeroAnswer) =>
-  `  // answer: ${answer === "undefined" ? answer : `"${answer}"`}`;

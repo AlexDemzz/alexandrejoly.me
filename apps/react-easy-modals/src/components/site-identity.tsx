@@ -6,7 +6,7 @@ import {
 } from "@portfolio/ui/components/identity";
 import { Link } from "@tanstack/react-router";
 
-import { LogoStack } from "@/components/logo";
+import { LogoMark } from "@/components/logo";
 import { SITE_NAME } from "@/lib/site";
 
 interface SiteIdentityProps {
@@ -22,9 +22,9 @@ export const SiteIdentity = ({
 }: SiteIdentityProps) => {
   const Name = nameAs;
   const identity = (
-    <Identity className={linked ? undefined : "group/identity"}>
+    <Identity>
       <IdentityMark>
-        <LogoStack />
+        <LogoMark />
       </IdentityMark>
       <IdentityStatement>
         <IdentityName render={<Name />}>{SITE_NAME}</IdentityName>: modals you
@@ -38,7 +38,7 @@ export const SiteIdentity = ({
   }
 
   return (
-    <Link className="group/identity block w-fit rounded-md" to="/">
+    <Link className="block w-fit rounded-md" to="/">
       {identity}
     </Link>
   );

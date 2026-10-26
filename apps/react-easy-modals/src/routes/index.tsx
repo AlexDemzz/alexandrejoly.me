@@ -1,3 +1,4 @@
+import { buttonVariants } from "@portfolio/ui/components/button";
 import {
   CodeBlock,
   CodeBlockContent,
@@ -7,7 +8,6 @@ import {
 } from "@portfolio/ui/components/code-block";
 import {
   Item,
-  ItemActions,
   ItemContent,
   ItemDescription,
   ItemSeparator,
@@ -18,31 +18,26 @@ import {
   SectionContent,
   SectionTitle,
 } from "@portfolio/ui/components/section";
-import {
-  Text,
-  TextLink,
-  textLinkVariants,
-} from "@portfolio/ui/components/text";
+import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import type { Root } from "hast";
 
-import { GitHubIcon, NpmIcon } from "@/components/brand-icons";
+import { GitHubIcon } from "@/components/brand-icons";
 import { CodeSnippet } from "@/components/code-snippet";
 import { HastLine } from "@/components/hast";
 import { Features } from "@/components/landing/features";
 import { HeroDemo } from "@/components/landing/hero-demo";
 import type { SnippetName } from "@/components/landing/snippets";
+import { LogoMark } from "@/components/logo";
 import { SiteFooter } from "@/components/site-footer";
-import { SiteIdentity } from "@/components/site-identity";
 import { getLandingCode } from "@/lib/landing-code";
 import type { LandingCode } from "@/lib/landing-code";
 import { pageHead } from "@/lib/seo";
-import { GITHUB_URL, NPM_URL, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { GITHUB_URL, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { source } from "@/lib/source";
 
 interface DocsEntry {
-  group: string;
   title: string;
   description?: string;
   slug: string;
@@ -50,18 +45,14 @@ interface DocsEntry {
 
 const getDocsIndex = createServerFn({ method: "GET" }).handler(() => {
   const entries: DocsEntry[] = [];
-  let group = "";
 
   for (const node of source.getPageTree().children) {
-    if (node.type === "separator") {
-      group = String(node.name ?? "");
-    } else if (node.type === "page") {
+    if (node.type === "page") {
       const page = source.getNodePage(node);
       if (!page) {
         continue;
       }
       entries.push({
-        group,
         title: page.data.title,
         description: page.data.description,
         slug: page.slugs.join("/"),
@@ -76,53 +67,54 @@ const Home = () => {
   const { code } = Route.useLoaderData();
 
   return (
-    <main className="mx-auto w-full max-w-180 px-6 py-12 sm:py-32 md:py-16">
+    <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
       <Header />
-      <div className="pt-10">
+      <div className="max-w-breakout mx-auto mt-8 w-full">
         <HeroDemo code={code.hero} />
       </div>
-      <GetStarted code={code.snippets} />
-      <Section>
-        <SectionTitle>Features</SectionTitle>
-        <SectionContent>
-          <Features code={code.snippets} />
-        </SectionContent>
-      </Section>
-      <Shadcn code={code} />
-      <Docs />
-      <SiteFooter />
+      <div className="max-w-column mx-auto mt-10 flex w-full flex-col">
+        <GetStarted code={code.snippets} />
+        <Section>
+          <SectionTitle>Features</SectionTitle>
+          <SectionContent>
+            <Features code={code.snippets} />
+          </SectionContent>
+        </Section>
+        <Shadcn code={code} />
+        <Docs />
+      </div>
+      <div className="max-w-column mx-auto mt-auto w-full pt-6">
+        <SiteFooter />
+      </div>
     </main>
   );
 };
 
 const Header = () => (
-  <header className="flex flex-col gap-5">
-    <SiteIdentity linked={false} nameAs="h1" />
-    <Text>
-      A headless, zero-dependency modal stack for React. Open a modal like you
-      call a function, and get its answer back.
-    </Text>
-    <Text>
-      Start with{" "}
-      <Link
-        className={textLinkVariants()}
-        params={{ _splat: "getting-started" }}
-        to="/docs/$"
+  <header className="max-w-column mx-auto flex w-full flex-col">
+    <div className="flex items-center justify-between">
+      <LogoMark className="text-foreground size-10" />
+      <a
+        href={GITHUB_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={buttonVariants({ variant: "outline" })}
       >
-        Getting started
-      </Link>
-      , or read the source on{" "}
-      <TextLink external href={GITHUB_URL}>
-        <GitHubIcon />
+        <GitHubIcon data-icon="inline-start" />
         GitHub
-      </TextLink>{" "}
-      and the package on{" "}
-      <TextLink external href={NPM_URL}>
-        <NpmIcon />
-        npm
-      </TextLink>
-      .
-    </Text>
+      </a>
+    </div>
+    <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
+      <h1 className="text-foreground inline font-medium">{SITE_NAME}</h1> is a
+      headless, zero-dependency modal stack for React. Open a modal like you
+      call a function, and get its answer back.
+    </div>
+    <Link
+      to="/docs"
+      className={buttonVariants({ size: "lg", className: "mt-5 w-fit" })}
+    >
+      Read the docs
+    </Link>
   </header>
 );
 
@@ -229,10 +221,15 @@ const Docs = () => {
     <Section>
       <SectionTitle>Docs</SectionTitle>
       <SectionContent>
-        <ul className="flex flex-col">
+        <ul>
           {entries.map((entry, index) => (
             <li key={entry.slug}>
+              {index > 0 && <ItemSeparator />}
+              {/* Pulled out by its padding, so its text lines up with the
+                  heading and the separators while the hover fill keeps its
+                  room. */}
               <Item
+                className="-mx-3 w-auto"
                 render={<Link to="/docs/$" params={{ _splat: entry.slug }} />}
               >
                 <ItemContent>
@@ -241,11 +238,7 @@ const Docs = () => {
                     <ItemDescription>{entry.description}</ItemDescription>
                   ) : null}
                 </ItemContent>
-                <ItemActions className="hidden self-start sm:flex">
-                  <Text>{entry.group}</Text>
-                </ItemActions>
               </Item>
-              {index < entries.length - 1 ? <ItemSeparator /> : null}
             </li>
           ))}
         </ul>
