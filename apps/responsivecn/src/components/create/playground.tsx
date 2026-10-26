@@ -26,7 +26,6 @@ import { fitScale } from "@/components/create/viewport";
 import { InstallCommand } from "@/components/landing/install-command";
 import { useElementSize } from "@/hooks/use-element-size";
 
-const HANDLE_ROOM = 48;
 const NUDGE = 10;
 const NUDGE_LARGE = 100;
 
@@ -65,15 +64,18 @@ const useDragResize = (
   );
 
 const ResizeHandle = ({
+  ref,
   side,
   onPointerDown,
   onNudge,
 }: {
+  ref?: React.Ref<HTMLButtonElement>;
   side: "left" | "right";
   onPointerDown: (event: React.PointerEvent<HTMLElement>) => void;
   onNudge: (delta: number) => void;
 }) => (
   <button
+    ref={ref}
     type="button"
     aria-label={`Resize the canvas from its ${side} edge`}
     title="Drag, or use the arrow keys. Hold Shift for 100px steps."
@@ -93,7 +95,7 @@ const ResizeHandle = ({
       onNudge(event.key === "ArrowLeft" ? -step : step);
     }}
     className={cn(
-      "group flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center outline-hidden [view-transition-class:playground]",
+      "group flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center outline-hidden [view-transition-class:playground] max-sm:hidden",
       side === "left"
         ? "[view-transition-name:playground-handle-left]"
         : "[view-transition-name:playground-handle-right]"
@@ -246,9 +248,11 @@ export const Playground = ({
 }) => {
   const [dragging, setDragging] = React.useState(false);
   const [canvasRef, canvas] = useElementSize<HTMLDivElement>();
+  // Phones hide the handles, so the frame takes their room.
+  const [handleRef, handle] = useElementSize<HTMLButtonElement>();
 
   const pair = pairByDesktop(desktop);
-  const scale = fitScale(width, canvas.width - HANDLE_ROOM);
+  const scale = fitScale(width, canvas.width - handle.width * 2);
   const onDragLeft = useDragResize(
     width,
     scale,
@@ -277,6 +281,7 @@ export const Playground = ({
         className="flex min-h-0 flex-1 items-stretch justify-center px-2 sm:px-6"
       >
         <ResizeHandle
+          ref={handleRef}
           side="left"
           onPointerDown={onDragLeft}
           onNudge={(delta) => nudge(-delta)}
