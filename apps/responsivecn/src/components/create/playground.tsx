@@ -1,4 +1,13 @@
-import { ArrowRightIcon, MonitorIcon, SmartphoneIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  DeviceMobileIcon,
+  MonitorIcon,
+} from "@phosphor-icons/react";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@portfolio/ui/components/native-select";
+import { cn } from "@portfolio/ui/lib/utils";
 import * as React from "react";
 
 import {
@@ -11,12 +20,7 @@ import {
 } from "@/components/create/pairs";
 import type { DesktopName, Pair } from "@/components/create/pairs";
 import { fitScale } from "@/components/create/viewport";
-import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@/components/ui/native-select";
 import { useElementSize } from "@/hooks/use-element-size";
-import { cn } from "@/lib/utils";
 
 const HANDLE_ROOM = 48;
 const NUDGE = 10;
@@ -142,7 +146,7 @@ const Frame = ({
 }) => {
   const [bodyRef, body] = useElementSize<HTMLDivElement>();
   const isMobile = width < BREAKPOINT;
-  const SideIcon = isMobile ? SmartphoneIcon : MonitorIcon;
+  const SideIcon = isMobile ? DeviceMobileIcon : MonitorIcon;
 
   return (
     <div

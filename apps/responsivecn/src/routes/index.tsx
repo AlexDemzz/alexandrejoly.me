@@ -1,5 +1,24 @@
+import {
+  DeviceMobileIcon,
+  FileCodeIcon,
+  MonitorIcon,
+} from "@phosphor-icons/react";
+import { buttonVariants } from "@portfolio/ui/components/button";
+import {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockCopyButton,
+  CodeBlockHeader,
+  CodeBlockLine,
+  CodeBlockTitle,
+} from "@portfolio/ui/components/code-block";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@portfolio/ui/components/toggle-group";
+import { cn } from "@portfolio/ui/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { FileCodeIcon, MonitorIcon, SmartphoneIcon } from "lucide-react";
 import * as React from "react";
 
 import { BaseUIIcon, RadixIcon, ReactAriaIcon } from "@/components/base-icons";
@@ -16,21 +35,9 @@ import { Playground } from "@/components/create/playground";
 import { GitHubIcon } from "@/components/github-icon";
 import { InstallCommand } from "@/components/landing/install-command";
 import { Mark } from "@/components/mark";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  CodeBlock,
-  CodeBlockActions,
-  CodeBlockContent,
-  CodeBlockCopyButton,
-  CodeBlockHeader,
-  CodeBlockLine,
-  CodeBlockTitle,
-} from "@/components/ui/code-block";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
 import { homeJsonLd, homeSeo, pageHead } from "@/lib/seo";
 import { appName, githubUrl } from "@/lib/shared";
-import { cn } from "@/lib/utils";
 
 const BASE_UI_URL = "https://base-ui.com/react/overview/quick-start";
 const RADIX_URL = "https://www.radix-ui.com/primitives";
@@ -288,7 +295,7 @@ const ViewportToggle = ({
       <MonitorIcon />
     </ToggleGroupItem>
     <ToggleGroupItem value="mobile" aria-label="Mobile, below 768px">
-      <SmartphoneIcon />
+      <DeviceMobileIcon />
     </ToggleGroupItem>
   </ToggleGroup>
 );

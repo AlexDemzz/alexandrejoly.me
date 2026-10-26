@@ -1,10 +1,10 @@
+import { Button } from "@portfolio/ui/components/button";
 import { useState } from "react";
 import { useModalAt, useModals } from "react-easy-modals";
 import type { ModalProps } from "react-easy-modals";
 
 import { ButtonExemple } from "@/components/button-exemple";
 import { DemoOutput } from "@/components/demo-modal";
-import { Button } from "@/components/ui/button";
 import {
   Modal,
   ModalContent,

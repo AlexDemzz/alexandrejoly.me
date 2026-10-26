@@ -26,11 +26,7 @@ export default defineConfig({
       },
     },
     {
-      files: [
-        "packages/ui/src/components/**",
-        "apps/responsivecn/src/components/ui/**",
-        "apps/react-easy-modals/src/components/ui/{button,dialog,item,scroll-area,tabs}.tsx",
-      ],
+      files: ["packages/ui/src/components/**"],
       // Vendored shadcn source: keep it diffable against the registry.
       rules: {
         "eslint/func-style": "off",
@@ -52,10 +48,7 @@ export default defineConfig({
     },
     {
       // Stock BreadcrumbPage is a span with role="link" and aria-current="page".
-      files: [
-        "packages/ui/src/components/breadcrumb.tsx",
-        "apps/responsivecn/src/components/ui/breadcrumb.tsx",
-      ],
+      files: ["packages/ui/src/components/breadcrumb.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
@@ -66,10 +59,7 @@ export default defineConfig({
     {
       // Stock shadcn code block: a focusable <pre> so keyboard users can
       // scroll it, a promise-chained copy and a counter-reset style.
-      files: [
-        "packages/ui/src/components/code-block.tsx",
-        "apps/responsivecn/src/components/ui/code-block.tsx",
-      ],
+      files: ["packages/ui/src/components/code-block.tsx"],
       rules: {
         "eslint/no-empty-function": "off",
         "eslint/no-use-before-define": "off",
@@ -87,10 +77,7 @@ export default defineConfig({
     },
     {
       // Stock shadcn drawer: `snapPoints != null` checks null and undefined.
-      files: [
-        "packages/ui/src/components/drawer.tsx",
-        "apps/responsivecn/src/components/ui/drawer.tsx",
-      ],
+      files: ["packages/ui/src/components/drawer.tsx"],
       rules: { "eslint/eqeqeq": "off", "eslint/no-eq-null": "off" },
     },
     {
@@ -102,26 +89,22 @@ export default defineConfig({
     },
     {
       // Stock shadcn item: ItemGroup is a div with role="list".
-      files: [
-        "packages/ui/src/components/item.tsx",
-        "apps/react-easy-modals/src/components/ui/item.tsx",
-      ],
+      files: ["packages/ui/src/components/item.tsx"],
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
-      // Stock ButtonGroup is a div with role="group".
-      files: ["apps/responsivecn/src/components/ui/button-group.tsx"],
-      rules: { "jsx-a11y/prefer-tag-over-role": "off" },
-    },
-    {
-      // Stock ToggleGroup passes its variant props as a fresh context value.
-      files: ["apps/responsivecn/src/components/ui/toggle-group.tsx"],
-      rules: { "react/jsx-no-constructed-context-values": "off" },
+      // Stock ToggleGroup passes its variant props as a fresh context value
+      // and imports VariantProps with an inline type specifier.
+      files: ["packages/ui/src/components/toggle-group.tsx"],
+      rules: {
+        "react/jsx-no-constructed-context-values": "off",
+        "typescript/no-import-type-side-effects": "off",
+      },
     },
     {
       // Stock shadcn hooks and lib files, kept diffable against the registry.
       files: [
-        "apps/responsivecn/src/hooks/{use-highlighted-code,use-mobile}.ts",
+        "apps/responsivecn/src/hooks/use-highlighted-code.ts",
         "apps/responsivecn/src/lib/highlighter.tsx",
       ],
       rules: {

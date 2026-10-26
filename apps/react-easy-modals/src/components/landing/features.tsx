@@ -1,10 +1,15 @@
+import { Heading } from "@portfolio/ui/components/heading";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@portfolio/ui/components/tabs";
+import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 
-import { CodeBlock } from "@/components/code-block";
-import { Heading } from "@/components/ui/heading";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Text, TextLink } from "@/components/ui/text";
+import { CodeSnippet } from "@/components/code-snippet";
 import type { LandingCode } from "@/lib/landing-code";
 
 import {
@@ -72,7 +77,10 @@ export const Features = ({ code }: { code: LandingCode["snippets"] }) => (
         className="flex flex-col items-start gap-4"
       >
         <div>
-          <Heading id={`feature-${id}`} level={3}>
+          <Heading
+            id={`feature-${id}`}
+            render={({ children, ...props }) => <h3 {...props}>{children}</h3>}
+          >
             {title}
           </Heading>
           <Text>{summary}</Text>
@@ -87,12 +95,16 @@ export const Features = ({ code }: { code: LandingCode["snippets"] }) => (
             <Demo />
           </TabsContent>
           <TabsContent value="code">
-            <CodeBlock hast={code[id]} />
+            <CodeSnippet snippet={code[id]} />
           </TabsContent>
         </Tabs>
-        <TextLink render={<Link to="/docs/$" params={{ _splat: doc.slug }} />}>
+        <Link
+          className={textLinkVariants()}
+          params={{ _splat: doc.slug }}
+          to="/docs/$"
+        >
           {doc.label}
-        </TextLink>
+        </Link>
       </article>
     ))}
   </div>

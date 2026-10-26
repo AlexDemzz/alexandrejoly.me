@@ -1,3 +1,4 @@
+import { Button } from "@portfolio/ui/components/button";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState } from "react";
 import { ModalProvider, useBeforeClose, useModals } from "react-easy-modals";
@@ -5,7 +6,6 @@ import type { ModalProps } from "react-easy-modals";
 
 import { ButtonExemple } from "../button-exemple";
 import { DemoOutput, DemoPanel } from "../demo-modal";
-import { Button } from "../ui/button";
 
 const ease = [0.23, 1, 0.32, 1] as const;
 

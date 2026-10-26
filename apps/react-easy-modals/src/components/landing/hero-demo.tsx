@@ -1,11 +1,19 @@
-import { Play, RotateCcw } from "lucide-react";
+import { ArrowCounterClockwiseIcon, PlayIcon } from "@phosphor-icons/react";
+import { Button } from "@portfolio/ui/components/button";
+import {
+  CodeBlock,
+  CodeBlockActions,
+  CodeBlockContent,
+  CodeBlockHeader,
+  CodeBlockLine,
+  CodeBlockTitle,
+} from "@portfolio/ui/components/code-block";
+import { Text } from "@portfolio/ui/components/text";
 import { useState } from "react";
 import { useModals } from "react-easy-modals";
 import type { ModalProps } from "react-easy-modals";
 
-import { CodeBlock } from "@/components/code-block";
 import { HastLine } from "@/components/hast";
-import { Button } from "@/components/ui/button";
 import {
   Modal,
   ModalContent,
@@ -14,7 +22,6 @@ import {
   ModalHeader,
   ModalTitle,
 } from "@/components/ui/modal";
-import { Text } from "@/components/ui/text";
 import type { LandingCode } from "@/lib/landing-code";
 
 type Answer = "delete" | "cancel" | undefined;
@@ -52,10 +59,6 @@ type RunState =
 
 const AWAIT_LINE = 3;
 
-// Lines bleed into the card's inline padding (and the pre's end padding that
-// clears the pinned button), so a highlighted line spans the whole card.
-const LINE = "-ms-4 -me-14 block ps-4 pe-14";
-
 export const HeroDemo = ({ code }: { code: LandingCode["hero"] }) => {
   const modals = useModals();
   const [state, setState] = useState<RunState>({ status: "idle" });
@@ -73,53 +76,56 @@ export const HeroDemo = ({ code }: { code: LandingCode["hero"] }) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <CodeBlock
-        title="project-settings.tsx"
-        action={
-          <Button variant="ghost" size="sm" onClick={run} disabled={pending}>
-            {state.status === "resolved" ? (
-              <RotateCcw data-icon="inline-start" aria-hidden="true" />
-            ) : (
-              <Play data-icon="inline-start" aria-hidden="true" />
-            )}
-            {state.status === "resolved" ? "Run again" : "Run"}
-          </Button>
-        }
-      >
-        <pre className="shiki">
-          <code>
-            {code.before.map((line, index) => (
-              <span
-                key={index}
-                className={`${LINE} data-active:bg-accent transition-colors duration-200 ease-out`}
-                data-active={index === AWAIT_LINE && pending ? "" : undefined}
-              >
-                <span>
-                  <HastLine tree={line} />
+      <CodeBlock>
+        <CodeBlockHeader>
+          <CodeBlockTitle>project-settings.tsx</CodeBlockTitle>
+          <CodeBlockActions>
+            <Button variant="ghost" size="sm" onClick={run} disabled={pending}>
+              {state.status === "resolved" ? (
+                <ArrowCounterClockwiseIcon
+                  data-icon="inline-start"
+                  aria-hidden="true"
+                />
+              ) : (
+                <PlayIcon data-icon="inline-start" aria-hidden="true" />
+              )}
+              {state.status === "resolved" ? "Run again" : "Run"}
+            </Button>
+          </CodeBlockActions>
+        </CodeBlockHeader>
+        <CodeBlockContent>
+          {code.before.map((line, index) => (
+            <CodeBlockLine
+              key={index}
+              variant={
+                index === AWAIT_LINE && pending ? "highlighted" : "default"
+              }
+            >
+              <HastLine tree={line} />
+              {index === AWAIT_LINE && pending && (
+                <span className="text-muted-foreground ms-3 inline-flex items-center gap-2 font-sans select-none">
+                  <span
+                    aria-hidden="true"
+                    className="pending-dot bg-muted-foreground size-1.5 rounded-full"
+                  />
+                  pending
                 </span>
-                {index === AWAIT_LINE && pending && (
-                  <span className="text-muted-foreground ms-3 inline-flex items-center gap-2 font-sans select-none">
-                    <span
-                      aria-hidden="true"
-                      className="pending-dot bg-muted-foreground size-1.5 rounded-full"
-                    />
-                    pending
-                  </span>
-                )}
-              </span>
-            ))}
-            {state.status === "resolved" && (
-              <span key={state.run} className={`resolved-line ${LINE}`}>
+              )}
+            </CodeBlockLine>
+          ))}
+          {state.status === "resolved" && (
+            <CodeBlockLine key={state.run} variant="highlighted">
+              <span className="resolved-line">
                 <HastLine tree={code.answers[state.answer ?? "undefined"]} />
               </span>
-            )}
-            {code.after.map((line, index) => (
-              <span key={`after-${index}`} className={LINE}>
-                <HastLine tree={line} />
-              </span>
-            ))}
-          </code>
-        </pre>
+            </CodeBlockLine>
+          )}
+          {code.after.map((line, index) => (
+            <CodeBlockLine key={`after-${index}`}>
+              <HastLine tree={line} />
+            </CodeBlockLine>
+          ))}
+        </CodeBlockContent>
       </CodeBlock>
 
       <Text variant="faint" aria-live="polite">

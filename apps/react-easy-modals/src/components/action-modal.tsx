@@ -1,7 +1,7 @@
+import { Button } from "@portfolio/ui/components/button";
 import type { ModalProps } from "react-easy-modals";
 
 import { DemoBackdrop, DemoPanel } from "./demo-modal";
-import { Button } from "./ui/button";
 
 type ReturnType = "cancel" | "confirm";
 

@@ -1,8 +1,6 @@
 "use client";
 
-import * as React from "react";
-
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@portfolio/ui/components/button";
 import {
   Dialog,
   DialogClose,
@@ -12,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@portfolio/ui/components/dialog";
 import {
   Drawer,
   DrawerClose,
@@ -22,9 +20,10 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
+} from "@portfolio/ui/components/drawer";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
+import { cn } from "@portfolio/ui/lib/utils";
+import * as React from "react";
 
 type Override<Props, Keys extends PropertyKey = never> = Props extends unknown
   ? Omit<Props, "children" | Keys>

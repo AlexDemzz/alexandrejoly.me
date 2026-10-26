@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@portfolio/ui/components/button";
+import { useIsMobile } from "@portfolio/ui/hooks/use-mobile";
+
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -7,7 +9,6 @@ import {
   PopoverDrawerTitle,
   PopoverDrawerTrigger,
 } from "@/components/ui/popover-drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const DIMENSIONS = [
   { id: "popover-drawer-preview-width", label: "Width", value: "100%" },

@@ -1,9 +1,9 @@
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
+import { Button } from "@portfolio/ui/components/button";
+import { cn } from "@portfolio/ui/lib/utils";
 import * as React from "react";
 
-import { Button } from "@/components/ui/button";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { cn } from "@/lib/utils";
 
 // A demo block shared by every component page: the real registry component in a
 // bordered box with a copy button, and its userland code collapsed below. The

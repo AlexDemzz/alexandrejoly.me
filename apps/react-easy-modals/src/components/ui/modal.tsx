@@ -1,13 +1,5 @@
 "use client";
 
-import type React from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  useBeforeClose as useModalBeforeClose,
-  useModal,
-  useModals,
-} from "react-easy-modals";
-
 import {
   Dialog,
   DialogClose,
@@ -19,7 +11,14 @@ import {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "@portfolio/ui/components/dialog";
+import type React from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useBeforeClose as useModalBeforeClose,
+  useModal,
+  useModals,
+} from "react-easy-modals";
 
 const ModalClose = DialogClose;
 const ModalDescription = DialogDescription;

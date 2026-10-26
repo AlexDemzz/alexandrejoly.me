@@ -1,10 +1,10 @@
+import { Button } from "@portfolio/ui/components/button";
 import type { CSSProperties } from "react";
 import { ModalProvider, useModalAt, useModals } from "react-easy-modals";
 import type { ModalProps } from "react-easy-modals";
 
 import { ButtonExemple } from "../button-exemple";
 import { DemoBackdrop, DemoOutput, DemoPanel } from "../demo-modal";
-import { Button } from "../ui/button";
 
 function ChildModal({
   close,

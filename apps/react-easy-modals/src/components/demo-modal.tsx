@@ -1,6 +1,5 @@
+import { cn } from "@portfolio/ui/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
-
-import { cn } from "@/lib/utils";
 
 // Shared look for the hand-rolled demo modals: react-easy-modals is headless,
 // so each demo draws its own backdrop and panel.
