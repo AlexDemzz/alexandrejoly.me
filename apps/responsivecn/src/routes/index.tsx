@@ -24,10 +24,12 @@ import { ItemInsetSeparator } from "@portfolio/ui/components/item-inset-separato
 import {
   ToggleGroup,
   ToggleGroupItem,
+  ToggleGroupItemLabel,
 } from "@portfolio/ui/components/toggle-group";
 import { cn } from "@portfolio/ui/lib/utils";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as React from "react";
+import { flushSync } from "react-dom";
 
 import { BaseUIIcon, RadixIcon, ReactAriaIcon } from "@/components/base-icons";
 import {
@@ -72,6 +74,27 @@ const BASES = [
 
 // The width the Desktop toggle sets: the smallest common laptop viewport.
 const DESKTOP_WIDTH = 1024;
+
+// The toggle morphs the canvas between the two sides through a view
+// transition (styled in styles.css). Dragging and the arrow keys set the
+// width directly, so they stay instant.
+const morphViewport = (update: () => void) => {
+  if (!("startViewTransition" in document)) {
+    update();
+    return;
+  }
+  try {
+    document.startViewTransition({
+      update: () => flushSync(update),
+      types: ["viewport"],
+    });
+  } catch {
+    // Browsers without transition types reject the options object before
+    // running `update`. Their default crossfade would cover the whole page,
+    // so they switch without one.
+    update();
+  }
+};
 
 const MIGRATION = `import {
   DialogDrawer,
@@ -137,7 +160,9 @@ const Home = () => {
             <ViewportToggle
               mobile={width < BREAKPOINT}
               onChange={(mobile) =>
-                setWidth(mobile ? DEFAULT_WIDTH : DESKTOP_WIDTH)
+                morphViewport(() =>
+                  setWidth(mobile ? DEFAULT_WIDTH : DESKTOP_WIDTH)
+                )
               }
             />
           }
@@ -299,9 +324,11 @@ const ViewportToggle = ({
   >
     <ToggleGroupItem value="desktop" aria-label="Desktop, 768px and up">
       <MonitorIcon />
+      <ToggleGroupItemLabel>Desktop</ToggleGroupItemLabel>
     </ToggleGroupItem>
     <ToggleGroupItem value="mobile" aria-label="Mobile, below 768px">
       <DeviceMobileIcon />
+      <ToggleGroupItemLabel>Mobile</ToggleGroupItemLabel>
     </ToggleGroupItem>
   </ToggleGroup>
 );

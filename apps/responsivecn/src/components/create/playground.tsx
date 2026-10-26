@@ -92,7 +92,12 @@ const ResizeHandle = ({
       const step = event.shiftKey ? NUDGE_LARGE : NUDGE;
       onNudge(event.key === "ArrowLeft" ? -step : step);
     }}
-    className="group flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center outline-hidden"
+    className={cn(
+      "group flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center outline-hidden [view-transition-class:playground]",
+      side === "left"
+        ? "[view-transition-name:playground-handle-left]"
+        : "[view-transition-name:playground-handle-right]"
+    )}
   >
     <span className="bg-muted-foreground/30 group-active:bg-muted-foreground/80 can-hover:group-hover:bg-muted-foreground/60 group-focus-visible:outline-ring/50 h-12 w-1.5 rounded-full outline-offset-2 transition-colors duration-150 ease-out group-focus-visible:outline-3" />
   </button>
@@ -155,7 +160,7 @@ const Frame = ({
 
   return (
     <div
-      className="bg-background flex w-(--frame-width) max-w-full min-w-0 flex-col overflow-clip rounded-2xl border"
+      className="bg-background flex w-(--frame-width) max-w-full min-w-0 flex-col overflow-clip rounded-2xl border [view-transition-class:playground] [view-transition-name:playground-frame]"
       style={
         {
           "--frame-width": `${Math.round(width * scale) + 2}px`,

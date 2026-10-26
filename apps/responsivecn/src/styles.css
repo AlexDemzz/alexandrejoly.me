@@ -27,3 +27,51 @@
   );
   transition-duration: var(--tw-duration, var(--default-transition-duration));
 }
+
+/* The viewport toggle's view transition. The canvas frame morphs and the
+   resize handles ride its edges; the rest of the page swaps live, so the
+   toggle's own label motion keeps playing. The frame's snapshots keep their
+   size and stay centered, clipped as it resizes while they crossfade, and the
+   border is drawn on the morphing box, since theirs would slide out of it. */
+:active-view-transition-type(viewport) {
+  &::view-transition-old(root) {
+    display: none;
+  }
+
+  &::view-transition-new(root) {
+    animation: none;
+  }
+
+  &::view-transition-image-pair(playground-frame) {
+    box-sizing: border-box;
+    overflow: clip;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+  }
+
+  &::view-transition-old(playground-frame),
+  &::view-transition-new(playground-frame) {
+    height: 100%;
+    object-fit: none;
+  }
+
+  &::view-transition-group(.playground),
+  &::view-transition-old(.playground),
+  &::view-transition-new(.playground) {
+    animation: none;
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: revert;
+      animation-duration: 280ms;
+      animation-timing-function: var(--ease-settle);
+    }
+  }
+
+  /* The outgoing side clears out early, so its own border and text don't
+     linger inside the resized box. */
+  @media (prefers-reduced-motion: no-preference) {
+    &::view-transition-old(playground-frame) {
+      animation-duration: 140ms;
+    }
+  }
+}
