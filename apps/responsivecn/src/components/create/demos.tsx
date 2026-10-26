@@ -27,12 +27,6 @@ import {
   SheetDrawerTitle,
   SheetDrawerTrigger,
 } from "@portfolio/ui/components/sheet-drawer";
-import { TooltipProvider } from "@portfolio/ui/components/tooltip";
-import {
-  TooltipPopover,
-  TooltipPopoverContent,
-  TooltipPopoverTrigger,
-} from "@portfolio/ui/components/tooltip-popover";
 import * as React from "react";
 
 import type { PairSlug } from "./pairs";
@@ -104,7 +98,7 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
             Make changes to your profile here, then save them.
           </DialogDrawerDescription>
         </DialogDrawerHeader>
-        <div className="flex flex-col gap-4 p-4 md:p-0">
+        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:p-0">
           <Field id="name" label="Name" defaultValue="Jordan Lee" />
           <Field id="username" label="Username" defaultValue="@jordanlee" />
         </div>
@@ -124,7 +118,7 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
 const SheetDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
   return (
-    <SheetDrawer {...load.root}>
+    <SheetDrawer {...load.root} drawer={{ swipeDirection: "down" }}>
       <SheetDrawerTrigger render={<Button variant="outline" />}>
         Open sheet
       </SheetDrawerTrigger>
@@ -192,27 +186,10 @@ const PopoverDrawerDemo = ({ open }: DemoProps) => {
   );
 };
 
-const TooltipPopoverDemo = ({ open }: DemoProps) => {
-  const load = useOpenOnLoad(open);
-  return (
-    <TooltipProvider>
-      <TooltipPopover {...load.root}>
-        <TooltipPopoverTrigger render={<Button variant="outline" />}>
-          Hover or tap
-        </TooltipPopoverTrigger>
-        <TooltipPopoverContent>
-          The share of messages you reply to within 24 hours.
-        </TooltipPopoverContent>
-      </TooltipPopover>
-    </TooltipProvider>
-  );
-};
-
 const DEMOS: Record<PairSlug, (props: DemoProps) => React.JSX.Element> = {
   "dialog-drawer": DialogDrawerDemo,
   "sheet-drawer": SheetDrawerDemo,
   "popover-drawer": PopoverDrawerDemo,
-  "tooltip-popover": TooltipPopoverDemo,
 };
 
 export const PairDemo = ({ slug, open }: { slug: PairSlug; open: boolean }) => {

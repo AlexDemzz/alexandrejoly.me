@@ -14,6 +14,14 @@ import {
   CodeBlockTitle,
 } from "@portfolio/ui/components/code-block";
 import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@portfolio/ui/components/item";
+import { ItemInsetSeparator } from "@portfolio/ui/components/item-inset-separator";
+import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@portfolio/ui/components/toggle-group";
@@ -27,14 +35,12 @@ import {
   DEFAULT_PAIR,
   DEFAULT_WIDTH,
   PAIRS,
-  npxCommand,
-  pairByDesktop,
 } from "@/components/create/pairs";
 import type { DesktopName } from "@/components/create/pairs";
 import { Playground } from "@/components/create/playground";
 import { GitHubIcon } from "@/components/github-icon";
-import { InstallCommand } from "@/components/landing/install-command";
 import { Mark } from "@/components/mark";
+import { PairIcon } from "@/components/pair-icon";
 import { useHighlightedCode } from "@/hooks/use-highlighted-code";
 import { homeJsonLd, homeSeo, pageHead } from "@/lib/seo";
 import { appName, githubUrl } from "@/lib/shared";
@@ -85,7 +91,6 @@ const Home = () => {
     DEFAULT_PAIR.desktop
   );
   const [width, setWidth] = React.useState(DEFAULT_WIDTH);
-  const pair = pairByDesktop(desktop);
 
   return (
     <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
@@ -117,7 +122,6 @@ const Home = () => {
         >
           Read the docs
         </Link>
-        <InstallCommand command={npxCommand(pair.slug)} className="mt-4" />
       </header>
 
       <section
@@ -144,22 +148,26 @@ const Home = () => {
       <div className="max-w-column mx-auto mt-10 flex w-full flex-col">
         <Section title="Pairs">
           <ul>
-            {PAIRS.map((item) => (
-              <Row key={item.slug}>
-                <Link
-                  to="/docs/$"
-                  params={{ _splat: item.slug }}
-                  className="group/row flex flex-col"
+            {PAIRS.map((item, index) => (
+              <li key={item.slug}>
+                <Item
+                  render={<Link to="/docs/$" params={{ _splat: item.slug }} />}
                 >
-                  <RowTitle>
-                    {item.desktop}
-                    {item.mobile}
-                  </RowTitle>
-                  <span className="text-muted-foreground">
-                    A {item.desktop} at 768px and up, a {item.mobile} below.
-                  </span>
-                </Link>
-              </Row>
+                  <ItemMedia>
+                    <PairIcon slug={item.slug} />
+                  </ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>
+                      {item.desktop}
+                      {item.mobile}
+                    </ItemTitle>
+                    <ItemDescription>
+                      A {item.desktop} at 768px and up, a {item.mobile} below.
+                    </ItemDescription>
+                  </ItemContent>
+                  {index < PAIRS.length - 1 && <ItemInsetSeparator />}
+                </Item>
+              </li>
             ))}
           </ul>
         </Section>
@@ -169,8 +177,7 @@ const Home = () => {
             Change the import, rename the tags, and every prop of your{" "}
             <span className="text-foreground">Dialog</span> keeps working. Props
             both sides share reach the mobile side too; to change it alone, use{" "}
-            <code className="text-foreground font-mono text-sm">drawer</code> or{" "}
-            <code className="text-foreground font-mono text-sm">popover</code>.
+            <code className="text-foreground font-mono text-sm">drawer</code>.
           </p>
           <MigrationCode />
         </Section>
@@ -289,7 +296,6 @@ const ViewportToggle = ({
     variant="outline"
     size="sm"
     spacing={0}
-    className="ms-auto"
   >
     <ToggleGroupItem value="desktop" aria-label="Desktop, 768px and up">
       <MonitorIcon />

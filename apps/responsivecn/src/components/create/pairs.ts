@@ -8,7 +8,6 @@ export const PAIRS = [
   { desktop: "Dialog", mobile: "Drawer", slug: "dialog-drawer" },
   { desktop: "Sheet", mobile: "Drawer", slug: "sheet-drawer" },
   { desktop: "Popover", mobile: "Drawer", slug: "popover-drawer" },
-  { desktop: "Tooltip", mobile: "Popover", slug: "tooltip-popover" },
 ] as const;
 
 export type Pair = (typeof PAIRS)[number];
@@ -40,7 +39,6 @@ const PAIR_BY_DESKTOP = {
   Dialog: PAIRS[0],
   Sheet: PAIRS[1],
   Popover: PAIRS[2],
-  Tooltip: PAIRS[3],
 } satisfies Record<DesktopName, Pair>;
 
 export const pairByDesktop = (desktop: DesktopName): Pair =>

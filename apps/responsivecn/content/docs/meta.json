@@ -9,7 +9,6 @@
     "---Components---",
     "dialog-drawer",
     "sheet-drawer",
-    "popover-drawer",
-    "tooltip-popover"
+    "popover-drawer"
   ]
 }

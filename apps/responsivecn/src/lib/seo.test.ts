@@ -37,8 +37,8 @@ describe("markdownUrl", () => {
     expect(markdownUrl("/")).toBe(
       "https://responsivecn.alexandrejoly.me/index.md"
     );
-    expect(markdownUrl("/docs/tooltip-popover")).toBe(
-      "https://responsivecn.alexandrejoly.me/docs/tooltip-popover.md"
+    expect(markdownUrl("/docs/popover-drawer")).toBe(
+      "https://responsivecn.alexandrejoly.me/docs/popover-drawer.md"
     );
   });
 });

@@ -1,25 +1,29 @@
 import {
-  ArrowRightIcon,
+  CaretDownIcon,
   DeviceMobileIcon,
   MonitorIcon,
 } from "@phosphor-icons/react";
+import { Button } from "@portfolio/ui/components/button";
 import {
-  NativeSelect,
-  NativeSelectOption,
-} from "@portfolio/ui/components/native-select";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@portfolio/ui/components/dropdown-menu";
 import { cn } from "@portfolio/ui/lib/utils";
 import * as React from "react";
 
 import {
   BREAKPOINT,
-  MAX_WIDTH,
-  MIN_WIDTH,
   PAIRS,
   clampWidth,
+  npxCommand,
   pairByDesktop,
 } from "@/components/create/pairs";
 import type { DesktopName, Pair } from "@/components/create/pairs";
 import { fitScale } from "@/components/create/viewport";
+import { InstallCommand } from "@/components/landing/install-command";
 import { useElementSize } from "@/hooks/use-element-size";
 
 const HANDLE_ROOM = 48;
@@ -75,8 +79,9 @@ const ResizeHandle = ({
     title="Drag, or use the arrow keys. Hold Shift for 100px steps."
     onPointerDown={(event) => {
       // preventDefault in the drag suppresses click focus; restore it so
-      // the arrow keys work right after grabbing the handle.
-      event.currentTarget.focus();
+      // the arrow keys work right after grabbing the handle, without the
+      // keyboard focus ring.
+      event.currentTarget.focus({ focusVisible: false });
       onPointerDown(event);
     }}
     onKeyDown={(event) => {
@@ -87,9 +92,9 @@ const ResizeHandle = ({
       const step = event.shiftKey ? NUDGE_LARGE : NUDGE;
       onNudge(event.key === "ArrowLeft" ? -step : step);
     }}
-    className="group focus-visible:ring-ring/50 flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center rounded-lg outline-none focus-visible:ring-3"
+    className="group flex w-6 shrink-0 cursor-ew-resize touch-none items-center justify-center outline-hidden"
   >
-    <span className="bg-muted-foreground/30 group-active:bg-muted-foreground/80 can-hover:group-hover:bg-muted-foreground/60 h-12 w-1.5 rounded-full transition-colors duration-150 ease-out" />
+    <span className="bg-muted-foreground/30 group-active:bg-muted-foreground/80 can-hover:group-hover:bg-muted-foreground/60 group-focus-visible:outline-ring/50 h-12 w-1.5 rounded-full outline-offset-2 transition-colors duration-150 ease-out group-focus-visible:outline-3" />
   </button>
 );
 
@@ -162,12 +167,6 @@ const Frame = ({
         <span className="text-balance">
           <span className="text-foreground tabular-nums">{width}px</span>{" "}
           renders the {isMobile ? pair.mobile : pair.desktop}
-          {scale < 1 ? (
-            <span className="tabular-nums">
-              {" "}
-              · shown at {Math.round(scale * 100)}%
-            </span>
-          ) : null}
         </span>
       </div>
       <div ref={bodyRef} className="relative min-h-0 flex-1">
@@ -186,59 +185,45 @@ const Frame = ({
   );
 };
 
-const WidthInput = ({
-  width,
-  onChange,
+const PairMenu = ({
+  pair,
+  onDesktopChange,
 }: {
-  width: number;
-  onChange: (width: number) => void;
-}) => {
-  const [draft, setDraft] = React.useState<string | null>(null);
-
-  const commit = () => {
-    if (draft === null) {
-      return;
-    }
-    const parsed = Number(draft);
-    if (draft !== "" && Number.isFinite(parsed)) {
-      onChange(clampWidth(parsed));
-    }
-    setDraft(null);
-  };
-
-  return (
-    <label className="border-input bg-background text-muted-foreground focus-within:border-ring focus-within:ring-ring/50 dark:bg-input/30 flex h-8 items-center gap-1 rounded-lg border ps-2.5 pe-2 font-mono text-base focus-within:ring-3 sm:text-sm">
-      <input
-        type="number"
-        inputMode="numeric"
-        aria-label="Canvas width in pixels"
-        min={MIN_WIDTH}
-        max={MAX_WIDTH}
-        value={draft ?? String(width)}
-        onChange={(event) => {
-          const next = event.target.value;
-          setDraft(next);
-          const parsed = Number(next);
-          if (parsed >= MIN_WIDTH && parsed <= MAX_WIDTH) {
-            onChange(Math.round(parsed));
-          }
-        }}
-        onBlur={commit}
-        onKeyDown={(event) => {
-          if (event.key === "Enter") {
-            commit();
-          }
-        }}
-        className="text-foreground w-12 [appearance:textfield] bg-transparent text-end tabular-nums outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+  pair: Pair;
+  onDesktopChange: (desktop: DesktopName) => void;
+}) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger
+      render={<Button variant="outline" size="sm" />}
+      className="group"
+    >
+      {pair.desktop}
+      {pair.mobile}
+      <CaretDownIcon
+        aria-hidden
+        data-icon="inline-end"
+        className="text-muted-foreground transition-transform duration-150 ease-out group-data-popup-open:rotate-180 motion-reduce:transition-none"
       />
-      px
-    </label>
-  );
-};
+    </DropdownMenuTrigger>
+    <DropdownMenuContent className="w-auto">
+      <DropdownMenuRadioGroup
+        value={pair.desktop}
+        onValueChange={(value: DesktopName) => onDesktopChange(value)}
+      >
+        {PAIRS.map((item) => (
+          <DropdownMenuRadioItem key={item.slug} value={item.desktop}>
+            {item.desktop}
+            {item.mobile}
+          </DropdownMenuRadioItem>
+        ))}
+      </DropdownMenuRadioGroup>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
 
-// The playground: pair picker and width input over a resizable canvas, with
-// `trailing` at the end of the toolbar. The parent owns the state and sets
-// the height.
+// The playground: the pair menu and `trailing` over a resizable canvas, with
+// the pair's install command below. The parent owns the pair and width, and
+// sets the height.
 export const Playground = ({
   desktop,
   onDesktopChange,
@@ -277,44 +262,14 @@ export const Playground = ({
 
   return (
     <div className={cn("flex min-h-0 flex-col", className)}>
-      <div className="flex flex-wrap items-center gap-2 px-3 py-3 sm:px-4">
-        <div className="flex items-center gap-1.5">
-          <NativeSelect
-            aria-label="Desktop component"
-            value={desktop}
-            onChange={(event) =>
-              onDesktopChange(event.target.value as DesktopName)
-            }
-          >
-            {PAIRS.map((item) => (
-              <NativeSelectOption key={item.slug} value={item.desktop}>
-                {item.desktop}
-              </NativeSelectOption>
-            ))}
-          </NativeSelect>
-          <ArrowRightIcon
-            aria-hidden
-            className="text-muted-foreground size-3.5 max-sm:hidden"
-          />
-          <span
-            className="bg-muted flex h-8 items-center gap-1.5 rounded-lg ps-2.5 pe-1.5 text-sm"
-            title="Each desktop component has exactly one mobile side"
-          >
-            <span>{pair.mobile}</span>
-            <span className="bg-background text-muted-foreground shadow-hairline rounded-sm px-1 text-xs">
-              auto
-            </span>
-          </span>
-        </div>
-
-        <WidthInput width={width} onChange={onWidthChange} />
-
+      <div className="flex items-center justify-between gap-2 px-3 py-3 sm:px-4">
+        <PairMenu pair={pair} onDesktopChange={onDesktopChange} />
         {trailing}
       </div>
 
       <div
         ref={canvasRef}
-        className="flex min-h-0 flex-1 items-stretch justify-center px-2 pb-4 sm:px-6 sm:pb-6"
+        className="flex min-h-0 flex-1 items-stretch justify-center px-2 sm:px-6"
       >
         <ResizeHandle
           side="left"
@@ -328,6 +283,11 @@ export const Playground = ({
           onNudge={nudge}
         />
       </div>
+
+      <InstallCommand
+        command={npxCommand(pair.slug)}
+        className="mx-3 my-3 sm:mx-4 sm:my-4"
+      />
     </div>
   );
 };

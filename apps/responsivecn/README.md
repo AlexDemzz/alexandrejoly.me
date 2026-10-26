@@ -2,12 +2,11 @@
 
 Responsive shadcn overlays. Each component renders the desktop component at 768px and up, and its mobile counterpart below:
 
-| Pair              | Responsive component |
-| ----------------- | -------------------- |
-| Dialog → Drawer   | `DialogDrawer`       |
-| Sheet → Drawer    | `SheetDrawer`        |
-| Popover → Drawer  | `PopoverDrawer`      |
-| Tooltip → Popover | `TooltipPopover`     |
+| Pair             | Responsive component |
+| ---------------- | -------------------- |
+| Dialog → Drawer  | `DialogDrawer`       |
+| Sheet → Drawer   | `SheetDrawer`        |
+| Popover → Drawer | `PopoverDrawer`      |
 
 Each component is one file that builds on your own shadcn components, so it works on Base UI and Radix. It is a drop-in replacement for the desktop component: same props, on the root and on every part.
 

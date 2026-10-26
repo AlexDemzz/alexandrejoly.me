@@ -36,14 +36,14 @@ describe("parseFrontmatter", () => {
 describe("docsSeo", () => {
   it("names both sides of a pair in its title, after the component", () => {
     const page = docsSeo({
-      slugs: ["tooltip-popover"],
-      title: "TooltipPopover",
-      description: "A hover Tooltip.",
+      slugs: ["popover-drawer"],
+      title: "PopoverDrawer",
+      description: "An anchored Popover.",
     });
     expect(page.title).toBe(
-      "TooltipPopover: shadcn Tooltip on desktop, Popover on mobile"
+      "PopoverDrawer: shadcn Popover on desktop, Drawer on mobile"
     );
-    expect(page.path).toBe("/docs/tooltip-popover");
+    expect(page.path).toBe("/docs/popover-drawer");
   });
 
   it("gives every page of the site a unique title that fits a results page", () => {

@@ -16,3 +16,14 @@
   );
   background-size: 20px 20px;
 }
+
+/* The pair icons morph their overlay through clip-path, which the stock
+   transition utilities leave out. */
+@utility transition-clip-path {
+  transition-property: clip-path;
+  transition-timing-function: var(
+    --tw-ease,
+    var(--default-transition-timing-function)
+  );
+  transition-duration: var(--tw-duration, var(--default-transition-duration));
+}

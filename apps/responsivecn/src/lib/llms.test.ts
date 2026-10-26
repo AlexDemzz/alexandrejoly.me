@@ -37,12 +37,7 @@ describe("llmsTxt", () => {
 
   it("lists the installable registry items", () => {
     expect(text).toContain("https://alexandrejoly.me/r/registry.json");
-    for (const slug of [
-      "dialog-drawer",
-      "sheet-drawer",
-      "popover-drawer",
-      "tooltip-popover",
-    ]) {
+    for (const slug of ["dialog-drawer", "sheet-drawer", "popover-drawer"]) {
       expect(text).toContain(`https://alexandrejoly.me/r/${slug}.json`);
     }
   });

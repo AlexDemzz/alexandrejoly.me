@@ -27,12 +27,6 @@ import {
   SheetDrawerSwipeDownExample,
 } from "@/components/previews/sheet-drawer-examples";
 import { SheetDrawerPreview } from "@/components/previews/sheet-drawer-preview";
-import {
-  TooltipPopoverAriaLabelExample,
-  TooltipPopoverContentBoxExample,
-  TooltipPopoverOverrideExample,
-} from "@/components/previews/tooltip-popover-examples";
-import { TooltipPopoverPreview } from "@/components/previews/tooltip-popover-preview";
 
 export const getMDXComponents = (components?: MDXComponents) =>
   ({
@@ -43,7 +37,6 @@ export const getMDXComponents = (components?: MDXComponents) =>
     DialogDrawerPreview,
     SheetDrawerPreview,
     PopoverDrawerPreview,
-    TooltipPopoverPreview,
     OverridePropExample,
     DialogDrawerSnapPointsExample,
     DialogDrawerSizingExample,
@@ -56,9 +49,6 @@ export const getMDXComponents = (components?: MDXComponents) =>
     PopoverDrawerNonModalExample,
     PopoverDrawerFooterExample,
     PopoverDrawerHiddenTitleExample,
-    TooltipPopoverContentBoxExample,
-    TooltipPopoverOverrideExample,
-    TooltipPopoverAriaLabelExample,
     ...components,
   }) satisfies MDXComponents;
 

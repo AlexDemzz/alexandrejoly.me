@@ -43,7 +43,7 @@ export default defineConfig({
       // file as written, so a fix changes every install. Kept in the stock
       // shadcn style of the other registry items.
       files: [
-        "packages/ui/src/components/{dialog-drawer,sheet-drawer,popover-drawer,tooltip-popover,modal}.tsx",
+        "packages/ui/src/components/{dialog-drawer,sheet-drawer,popover-drawer,modal}.tsx",
       ],
       rules: {
         "eslint/curly": "off",
@@ -55,19 +55,6 @@ export default defineConfig({
         "typescript/no-dynamic-delete": "off",
         "unicorn/consistent-function-scoping": "off",
         "unicorn/no-useless-undefined": "off",
-      },
-    },
-    {
-      // TooltipPopoverTrigger reports its disabled state to the root through a
-      // ref the root puts in context, written in an effect and read in the
-      // root's onOpenChange only. The compiler cannot see a ref through
-      // context, nor that the root's helpers never call onOpenChange while
-      // rendering.
-      files: ["packages/ui/src/components/tooltip-popover.tsx"],
-      rules: {
-        "react/immutability": "off",
-        "react/preserve-manual-memoization": "off",
-        "react/refs": "off",
       },
     },
     {
@@ -112,7 +99,7 @@ export default defineConfig({
     {
       // responsivecn tests pass marker classNames to check where each one lands.
       files: [
-        "apps/web/src/{dialog-drawer,sheet-drawer,popover-drawer,tooltip-popover}.test.tsx",
+        "apps/web/src/{dialog-drawer,sheet-drawer,popover-drawer}.test.tsx",
       ],
       rules: { "shadcn/no-restyle": "off", "shadcn/no-unknown-classes": "off" },
     },

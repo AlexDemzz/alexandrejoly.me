@@ -5,8 +5,8 @@ import { legacyDocsRedirect } from "./legacy-docs";
 describe("legacyDocsRedirect", () => {
   it("sends the old per-base pages to the single page of the pair", () => {
     expect(legacyDocsRedirect(["base", "dialog-drawer"])).toBe("dialog-drawer");
-    expect(legacyDocsRedirect(["radix", "tooltip-popover"])).toBe(
-      "tooltip-popover"
+    expect(legacyDocsRedirect(["radix", "popover-drawer"])).toBe(
+      "popover-drawer"
     );
   });
 
