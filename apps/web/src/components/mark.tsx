@@ -1,5 +1,5 @@
-// DESIGN.md › Identity: the 2025 arc and bar redrawn as a single 2px line on a
-// 24px grid, drawn on when the page loads.
+// DESIGN.md › Components › Identity: the 2025 arc and bar redrawn as a single
+// 2px line on a 24px grid, drawn on when the page loads.
 export const Mark = () => (
   <svg
     aria-hidden

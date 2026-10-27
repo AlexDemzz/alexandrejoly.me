@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Colour: prose is muted by default; links switch to ink.
+// DESIGN.md › Colour: prose is muted by default; links switch to foreground.
 const textVariants = cva("text-pretty", {
   defaultVariants: {
     variant: "default",

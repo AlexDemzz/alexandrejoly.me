@@ -5,8 +5,9 @@
 @source "../../../apps/**/*.{ts,tsx}";
 @source "../**/*.{ts,tsx}";
 
-/* DESIGN.md › Layout: the docs container adds the 12rem sidebar and its 3rem
-   gap to the column, so the docs content keeps the column's measure. */
+/* DESIGN.md › Docs pages › Layout: the docs container adds the 12rem
+   sidebar and its 3rem gap to the column, so the docs content keeps the
+   column's measure. */
 @theme {
   --container-docs: calc(var(--container-column) + 15rem);
 }

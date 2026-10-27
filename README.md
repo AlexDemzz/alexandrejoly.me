@@ -2,7 +2,7 @@
 
 Alexandre Joly's portfolio at alexandrejoly.me: TanStack Start, Tailwind v4 and shadcn/ui, deployed to Cloudflare Workers on every push to `master`. The previous portfolios (2025.alexandrejoly.me, 2018.alexandrejoly.me) live in their own repositories.
 
-For the design of `apps/web`, see `DESIGN.md` and `.scratch/docs/design/home-design.md`.
+For the design of every app, see `DESIGN.md` and `.scratch/docs/design/home-design.md`.
 
 This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Start, Self, and more.
 

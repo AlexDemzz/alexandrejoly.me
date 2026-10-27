@@ -1,7 +1,7 @@
 // Brand marks from svgl.app, sized by the element that carries them; they
 // pass their props on, so `className` or `data-icon` reach the svg.
 
-// The GitHub mark in currentColor, so it follows the link's ink in both
+// The GitHub mark in currentColor, so it follows the link's colour in both
 // schemes instead of svgl's separate light and dark files.
 export const GitHubIcon = (props: React.ComponentProps<"svg">) => (
   <svg
@@ -18,7 +18,7 @@ export const GitHubIcon = (props: React.ComponentProps<"svg">) => (
   </svg>
 );
 
-// The npm glyph in currentColor like GitHub's, so it follows the link's ink.
+// The npm glyph in currentColor like GitHub's, so it follows the link's colour.
 export const NpmIcon = (props: React.ComponentProps<"svg">) => (
   <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" {...props}>
     <path d="M3 21H12V7.5H16.5V21H21V3H3V21Z" />

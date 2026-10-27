@@ -3,8 +3,9 @@ import { useRender } from "@base-ui/react/use-render";
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Identity: a 40px mark over one 20px statement that names the
-// person at 500 in ink while the rest of the statement stays muted.
+// DESIGN.md › Components › Identity: a 40px mark over one 20px statement that
+// names the person at 500 in foreground while the rest of the statement stays
+// muted.
 const Identity = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     className={cn("flex flex-col gap-6", className)}

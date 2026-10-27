@@ -3,10 +3,11 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Components › Code: system mono at the surrounding size; ink by
-// default, fog for secondary code such as prop types. Code in prose may break
-// anywhere; `wrap="token"` keeps short tokens whole, so a table column sized
-// to its content never splits `string` mid-word.
+// DESIGN.md › Components › Code: system mono at the surrounding size;
+// foreground by default, muted-foreground for secondary code such as prop
+// types. Code in prose may break anywhere; `wrap="token"` keeps short tokens
+// whole, so a table column sized to its content never splits `string`
+// mid-word.
 const codeVariants = cva("font-mono", {
   defaultVariants: {
     variant: "default",

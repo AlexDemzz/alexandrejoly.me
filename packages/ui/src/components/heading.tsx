@@ -4,9 +4,9 @@ import { cn } from "@portfolio/ui/lib/utils";
 import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 
-// DESIGN.md › Typography › heading: 16px at 500 in ink; `title` is the docs
-// page title, one step above the docs section titles. Renders an `h2` unless
-// `render` picks another level.
+// DESIGN.md › Typography › heading: 16px at 500 in foreground; `title` is the
+// docs page title, one step above the docs section titles. Renders an `h2`
+// unless `render` picks another level.
 const headingVariants = cva("text-foreground font-medium text-balance", {
   defaultVariants: {
     variant: "default",
