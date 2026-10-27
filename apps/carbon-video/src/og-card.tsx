@@ -33,7 +33,8 @@ export const OgCard = () => (
       <strong style={{ color: COLOR.pageForeground, fontWeight: 600 }}>
         Carbon
       </strong>{" "}
-      transcribes your meetings on your Mac. No bot, no account, no cloud.
+      turns your meetings into Markdown files on your Mac, ready for any AI
+      agent. No sign-in, no bot, no cloud.
     </p>
   </AbsoluteFill>
 );

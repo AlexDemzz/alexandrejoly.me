@@ -118,7 +118,7 @@ export const Film = () => {
         “Transcribing in English.” When the call ends, the meeting opens on its
         participants, a summary with key points and next steps, then every word.
         Copy Path hands the meeting’s Markdown file to an AI agent in a
-        terminal. No bot, no account, no cloud.
+        terminal. No sign-in, no bot, no cloud.
       </figcaption>
     </figure>
   );

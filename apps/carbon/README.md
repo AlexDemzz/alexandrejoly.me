@@ -2,7 +2,9 @@
 
 The landing page of [Carbon](https://carbon.alexandrejoly.me), a macOS menu bar app that transcribes meetings on the Mac. One prerendered page on TanStack Start, deployed as a Cloudflare Worker on every push to `master`.
 
-The page reads as a letter from the author, modeled on the copper page: the hook, the problem, the film, what Carbon is, how it works, why it can be trusted, then the call to action. The app isn't available yet and its repository is private, so that call is to follow the build on X. Every claim comes from Carbon's v1 product design and UI mock. Check them before changing the copy.
+The page reads as a letter from the author, modeled on the copper page: the hook, the problem, the film, what Carbon is, how it works, why it can be trusted, then the download. It's written as if Carbon is out, so it can be shared on release day. Every claim comes from Carbon's v1 product design and UI mock. Check them before changing the copy.
+
+The download button links to `/download` (`DOWNLOAD_URL` in `src/lib/site.ts`). Nothing serves it yet: the release pipeline (DMGs in R2) has to answer that path, or the constant has to point at the DMG.
 
 ## Development
 

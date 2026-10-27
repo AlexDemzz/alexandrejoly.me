@@ -48,7 +48,7 @@ const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
     frames: 75,
     name: "outro",
-    node: <TitleCard text="No bot, no account, no cloud" withMark />,
+    node: <TitleCard text="No sign-in, no bot, no cloud" withMark />,
   },
 ];
 

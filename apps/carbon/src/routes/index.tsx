@@ -1,24 +1,39 @@
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@portfolio/ui/components/breadcrumb";
 import { buttonVariants } from "@portfolio/ui/components/button";
-import { codeVariants } from "@portfolio/ui/components/code";
+import { Code, codeVariants } from "@portfolio/ui/components/code";
 import { Text } from "@portfolio/ui/components/text";
-import { cn } from "@portfolio/ui/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Film } from "@/components/film";
-import { LogoMark } from "@/components/logo";
-import { SiteFooter } from "@/components/site-footer";
-import { X_URL } from "@/lib/site";
+import { AUTHOR_URL, DOWNLOAD_URL } from "@/lib/site";
 
-// A letter after the copper page: the hook as the h1, the problem, why
-// Carbon exists, the film, what it is, how it works, why it can be trusted,
-// then the call to action. Every claim is backed by Carbon's v1 product
-// design and UI mock (carbon/.scratch/carbon-v1/issues/01 and 12).
+// A letter after the copper page: the hook as the h1, the problem, the film,
+// what Carbon is, how it works, why it can be trusted, then the download.
+// Every claim is backed by Carbon's v1 product design and UI mock
+// (carbon/.scratch/carbon-v1/issues/01 and 12).
 const Home = () => (
-  <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
-    <Letter>
-      <LogoMark className="text-foreground size-10" />
-      <h1 className="text-foreground mt-1 text-xl leading-relaxed text-balance">
+  <main className="flex flex-1 flex-col gap-5 px-6 py-12 sm:py-24">
+    <Column>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href={AUTHOR_URL}>Alexandre Joly</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator>/</BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <BreadcrumbPage>Carbon</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <h1 className="text-foreground mt-7 text-xl leading-relaxed text-balance">
         You know how you’re on a call, thinking “I should write this down,” but
         you don’t want to stop listening?
       </h1>
@@ -30,79 +45,59 @@ const Home = () => (
         </Emphasis>
         : gone, unless you let a note taker bot into the call.
       </Text>
-      <Text>
-        I wanted the transcript without the bot, so I’m building Carbon.
-      </Text>
-    </Letter>
+      <Text>I wanted the transcript without the bot, so I built Carbon.</Text>
+    </Column>
 
-    <div className="max-w-breakout mx-auto mt-8 w-full">
+    <div className="max-w-breakout mx-auto my-3 w-full">
       <Film />
     </div>
 
-    <Letter className="mt-8">
+    <Column>
       <p className="text-foreground font-medium text-balance">
-        Carbon is a menu bar app that transcribes your meetings on your Mac and
-        keeps each one as a Markdown file an AI agent can read.
+        Carbon is a lightweight, native macOS app that sits in your menu bar and
+        turns every meeting into a Markdown file on your Mac.
       </p>
       <Text>
         When Zoom, Google Meet, Teams or any other meeting app starts using your
         microphone, Carbon starts transcribing and the dot in its icon turns
         red. When the call ends, the meeting opens on a summary, key points then
-        next steps, with the full transcript below it. What you said is marked
-        Me, everyone else Them.
+        next steps, with the full transcript below it.
       </Text>
       <Text>
-        To hand a meeting to an agent, right-click it, press <Key>⇧</Key>{" "}
-        <Key>⌘</Key> <Key>C</Key> to copy its path, and paste it into Claude
-        Code, Codex or any agent that reads files. Speaking French in this one?
-        Switch the meeting’s language from the menu bar, even mid-call.
+        Each meeting is a plain Markdown file in <Code>~/Documents/Carbon</Code>
+        , so <Emphasis>any AI agent can read it</Emphasis>. Right-click a
+        meeting, press <Key>⇧</Key> <Key>⌘</Key> <Key>C</Key> to copy its path,
+        and paste it into Claude Code, Codex or whatever you use.
       </Text>
       <Text>
-        I wanted something I could trust with every call. So Carbon doesn’t join
-        the call, doesn’t upload anything and doesn’t need an account. It
+        I wanted something I could trust with every call. So there’s no account
+        to sign in to, no bot in the call and nothing uploaded. Carbon
         transcribes with Apple’s on-device speech recognition and deletes the
         audio once the transcript is written.{" "}
         <Emphasis>Everything stays on your Mac.</Emphasis>
       </Text>
-      <Text>
-        If this feels like something you’d use, it will be free. Carbon isn’t
-        out yet: I’m building it now, and I plan to open-source it.
-      </Text>
+      <Text>If this feels like something you’d use, it’s free.</Text>
       <a
         className={buttonVariants({ className: "w-fit", size: "lg" })}
-        href={X_URL}
-        rel="noopener noreferrer"
-        target="_blank"
+        href={DOWNLOAD_URL}
       >
-        Follow the build on X
-        <span className="sr-only"> (opens in a new tab)</span>
+        Download Carbon for Mac
       </a>
       <p className="text-muted-foreground text-sm">
-        I share progress there, and I’ll post the download when it’s ready.
+        Drag it to Applications and it shows up in your menu bar. It updates
+        itself.
       </p>
       <p className="text-muted-foreground text-sm">
         macOS 26 or later. Summaries need Apple Intelligence. Carbon asks for
         microphone, system audio recording and calendar access, to notice your
         calls and name them after your events.
       </p>
-    </Letter>
-
-    <div className="max-w-column mx-auto mt-auto w-full pt-6">
-      <SiteFooter />
-    </div>
+    </Column>
   </main>
 );
 
-const Letter = ({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) => (
-  <div
-    className={cn("max-w-column mx-auto flex w-full flex-col gap-5", className)}
-  >
+const Column = ({ children }: { children: ReactNode }) => (
+  <div className="max-w-column mx-auto flex w-full flex-col gap-5">
     {children}
   </div>
 );

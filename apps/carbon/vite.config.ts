@@ -13,7 +13,13 @@ export default defineConfig({
     tailwindcss(),
     // Before tanstackStart(), so the SSR environment is built for workerd.
     cloudflare({ viteEnvironment: { name: "ssr" } }),
-    tanstackStart({ prerender: { enabled: true } }),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        // The release Worker serves the DMG there; it isn't a page.
+        filter: ({ path }) => path !== "/download",
+      },
+    }),
     react(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
