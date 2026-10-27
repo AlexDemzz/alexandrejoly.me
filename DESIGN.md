@@ -131,3 +131,4 @@ The home pages of the docs sites (`apps/responsivecn`, `apps/react-easy-modals`)
 - Header in the column: the site's 40px mark with an outline GitHub button at the end, a 20px statement that opens with the `h1` library name, then a large "Read the docs" button.
 - **Hero card:** the one card a landing allows, wider than the column (`max-w-breakout`, 816px), showing the library live. A card that nests others keeps its radii concentric (outer radius minus the inset).
 - Then the sections, in the column.
+- **Product landing** (`apps/carbon`): the same frame for an app. The header drops the GitHub button while the repository is private. The hero card holds the film (`apps/carbon-video`), in the appearance that matches the page. It plays only when clicked, muted and once, with a Play/Pause/Replay pill at its bottom-start corner.
