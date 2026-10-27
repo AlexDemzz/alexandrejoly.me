@@ -1,9 +1,7 @@
 @import "@portfolio/docs-theme/styles.css";
 
-/* The landing stage's breakout past the page column, and the copy icon's
-   swap curve. */
+/* The copy icon's swap curve. */
 @theme {
-  --container-breakout: 51rem;
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 }
 

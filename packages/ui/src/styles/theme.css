@@ -48,7 +48,7 @@
   --faint-foreground: oklch(0.535 0.008 70);
   --underline: oklch(0.88 0.006 70);
   --selection: oklch(0.902 0.006 70);
-  /* 3:1 on the page and on the tint (WCAG 1.4.11). */
+  /* 3:1 on the page and on `muted` (WCAG 1.4.11). */
   --scrollbar: oklch(0.64 0.007 70);
 }
 
@@ -145,7 +145,8 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  /* Pinned to DESIGN.md › rounded: thumb, frame, row. */
+  /* Pinned to DESIGN.md › rounded: favicon and focus (sm), cards (xl), the
+     hero card (3xl). */
   --radius-sm: 5px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -155,9 +156,11 @@
   --radius-4xl: 32px;
 }
 
-/* DESIGN.md › Layout: the page column. */
+/* DESIGN.md › Layout: the page column, and the breakout a library landing's
+   hero card takes past it. */
 @theme {
   --container-column: 39rem;
+  --container-breakout: 51rem;
 }
 
 /* DESIGN.md › States: the settle curve every hover and draw-on uses. */

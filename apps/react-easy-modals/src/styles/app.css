@@ -1,10 +1,5 @@
 @import "@portfolio/docs-theme/styles.css";
 
-/* The hero demo's breakout past the page column, as on responsivecn. */
-@theme {
-  --container-breakout: 51rem;
-}
-
 @layer base {
   :root {
     scrollbar-gutter: stable;
