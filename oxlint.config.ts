@@ -58,6 +58,16 @@ export default defineConfig({
       },
     },
     {
+      // The Remotion film: each frame is painted from inline styles computed
+      // from the frame number, in macOS colors drawn as the app shows them,
+      // not in the site's theme tokens.
+      files: ["apps/carbon-video/**"],
+      rules: {
+        "shadcn/no-inline-styles": "off",
+        "shadcn/no-raw-colors": "off",
+      },
+    },
+    {
       // Stock progress renders its track and indicator before declaring them.
       files: ["packages/ui/src/components/progress.tsx"],
       rules: { "eslint/no-use-before-define": "off" },
