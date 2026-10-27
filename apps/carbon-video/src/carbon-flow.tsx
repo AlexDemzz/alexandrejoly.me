@@ -25,32 +25,30 @@ const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
     frames: 66,
     name: "intro",
-    node: <TitleCard text="Your meetings, transcribed on your Mac" withMark />,
+    node: <TitleCard text="Every call, transcribed on your Mac" withMark />,
   },
   {
     frames: CARD_FRAMES,
     name: "card-detect",
-    node: <TitleCard text="It starts when your call does" />,
+    node: <TitleCard text="Join a call, and Carbon starts on its own" />,
   },
   { frames: DETECT_FRAMES, name: "detect", node: <DetectScene /> },
   {
     frames: CARD_FRAMES,
     name: "card-library",
-    node: <TitleCard text="Then a summary, and every word" />,
+    node: <TitleCard text="When it ends: a summary, then every word" />,
   },
   { frames: LIBRARY_FRAMES, name: "library", node: <LibraryScene /> },
   {
     frames: CARD_FRAMES,
     name: "card-agent",
-    node: (
-      <TitleCard text="One Markdown file per meeting, ready for your agent" />
-    ),
+    node: <TitleCard text="One Markdown file per meeting, for your agent" />,
   },
   { frames: AGENT_FRAMES, name: "agent", node: <AgentScene /> },
   {
     frames: 75,
     name: "outro",
-    node: <TitleCard text="Carbon. Nothing leaves your Mac." withMark />,
+    node: <TitleCard text="No bot, no account, no cloud" withMark />,
   },
 ];
 

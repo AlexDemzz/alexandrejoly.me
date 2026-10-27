@@ -33,8 +33,7 @@ export const OgCard = () => (
       <strong style={{ color: COLOR.pageForeground, fontWeight: 600 }}>
         Carbon
       </strong>{" "}
-      transcribes your meetings on your Mac. No bot joins the call, and nothing
-      goes to the cloud.
+      transcribes your meetings on your Mac. No bot, no account, no cloud.
     </p>
   </AbsoluteFill>
 );

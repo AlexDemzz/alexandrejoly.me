@@ -113,12 +113,12 @@ export const Film = () => {
         </span>
       </button>
       <figcaption className="sr-only">
-        A 36-second silent demo. A video call starts and the dot in Carbon’s
-        menu bar icon turns red while a notification reads “Transcribing in
-        English”. After the call, the Carbon window shows the meeting’s
-        participants, a summary with key points and next steps, then the
-        transcript. Copy Path then hands the meeting’s Markdown file to an AI
-        agent in a terminal.
+        A 36-second demo without sound. Join a call, and Carbon starts on its
+        own: the dot in its menu bar icon turns red and a notification reads
+        “Transcribing in English.” When the call ends, the meeting opens on its
+        participants, a summary with key points and next steps, then every word.
+        Copy Path hands the meeting’s Markdown file to an AI agent in a
+        terminal. No bot, no account, no cloud.
       </figcaption>
     </figure>
   );
