@@ -4,9 +4,9 @@
  * after tailwindcss; it imports nothing itself.
  */
 
-/* Dark follows the system only (DESIGN.md › Colour). */
+/* Dark follows the system only (DESIGN.md › Site › Colour). */
 @custom-variant dark (@media (prefers-color-scheme: dark));
-/* Hover effects only where a pointer can hover (DESIGN.md › States). */
+/* Hover effects only where a pointer can hover (DESIGN.md › Site › States). */
 @custom-variant can-hover (@media (hover: hover));
 
 /* Light, warmed (hue 70). */
@@ -145,8 +145,8 @@
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
-  /* Pinned to DESIGN.md › rounded: favicon and focus (sm), cards (xl), the
-     hero card (3xl). */
+  /* Pinned to DESIGN.md › rounded: favicon and focus (sm), cards (xl), an
+     outer card around nested ones (3xl). */
   --radius-sm: 5px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -156,14 +156,14 @@
   --radius-4xl: 32px;
 }
 
-/* DESIGN.md › Layout: the page column, and the breakout a library landing's
-   hero card takes past it. */
+/* DESIGN.md › Site › Layout: the page column; DESIGN.md › Library landings:
+   the breakout a hero card takes past it. */
 @theme {
   --container-column: 39rem;
   --container-breakout: 51rem;
 }
 
-/* DESIGN.md › States: the settle curve every hover and draw-on uses. */
+/* DESIGN.md › Site › States: the settle curve every hover and draw-on uses. */
 @theme {
   --ease-settle: cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -198,8 +198,9 @@
 }
 
 /*
- * DESIGN.md › Components › Text link, as one class: prose and footers repeat
- * it on every link, and the full utility list would weigh down their HTML.
+ * DESIGN.md › Site › Components › Text link, as one class: prose and footers
+ * repeat it on every link, and the full utility list would weigh down their
+ * HTML.
  */
 @utility link-text {
   @apply font-book text-foreground decoration-underline can-hover:hover:decoration-muted-foreground items-baseline gap-1 underline underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out has-[svg,img]:inline-flex [&_img]:size-4 [&_img]:self-center [&_img]:rounded-sm [&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:self-center;

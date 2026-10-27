@@ -15,8 +15,8 @@ function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   );
 }
 
-// DESIGN.md › Components › Breadcrumb: body size, links drawn as text links,
-// the separator in `subtle-foreground` like every icon.
+// DESIGN.md › Site › Components › Breadcrumb: body size, links drawn as text
+// links, the separator in `subtle-foreground` like every icon.
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol

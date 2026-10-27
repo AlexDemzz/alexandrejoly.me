@@ -1,8 +1,9 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Docs pages › Preview: docs-only card, a single hairline at a
-// 16px radius and no fill, so demos keep the page background they fade into.
+// DESIGN.md › Docs pages › Components › Preview: docs-only card, a single
+// hairline at a 16px radius and no fill, so demos keep the page background they
+// fade into.
 const Preview = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     className={cn(

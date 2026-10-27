@@ -3,7 +3,8 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Colour: prose is muted by default; links switch to foreground.
+// DESIGN.md › Site › Colour: prose is muted by default; links switch to
+// foreground.
 const textVariants = cva("text-pretty", {
   defaultVariants: {
     variant: "default",
@@ -28,7 +29,7 @@ const Text = ({
   />
 );
 
-// DESIGN.md › Components › Text link, drawn by `link-text` in theme.css.
+// DESIGN.md › Site › Components › Text link, drawn by `link-text` in theme.css.
 const textLinkVariants = cva("link-text");
 
 type TextLinkProps = React.ComponentProps<"a"> & {

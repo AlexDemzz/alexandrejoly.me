@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
-// DESIGN.md › Layout: the title always sits above its content, muted by
+// DESIGN.md › Site › Layout: the title always sits above its content, muted by
 // default; `stacked` sets it as an 18px docs heading in foreground.
 const sectionVariants = cva("group/section flex flex-col gap-4 py-10", {
   defaultVariants: {

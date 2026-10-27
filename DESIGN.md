@@ -11,7 +11,7 @@ colors: # role of each token; values (oklch, light and dark) live in packages/ui
   accent: raised fills in stock components
   card: alerts, popovers and dialogs
   selection: text selection
-  scrollbar: scroll thumb, 3:1 on the page and the tint
+  scrollbar: scroll thumb, 3:1 on the page and on `muted`
   destructive: errors
   warning: warning icons only
 typography:
@@ -25,7 +25,7 @@ typography:
   link: { family: system-ui, size: 16px, weight: 450, line-height: 1.625 }
   control: { family: system-ui, size: 14px, weight: 500, line-height: 20px }
   dense: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
-rounded: { logo: 9999px, favicon: 5px, focus: 5px, card: 16px, hero-card: 24px }
+rounded: { logo: 9999px, favicon: 5px, focus: 5px, card: 16px, outer-card: 24px }
 spacing: { column: 624px, docs: 864px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: "48px, 128px from sm, 64px from md", section-y: 40px, row-y: 14px }
 components:
   row: { text: "{colors.foreground}", rule: "{colors.border}", padding-y: 14px, hover: title underline }
@@ -45,7 +45,7 @@ The one design system of the monorepo (`@portfolio/ui`), for alexandrejoly.me an
 
 ### Overview
 
-The mark over a one-sentence 20px statement, then sections whose titles sit above ruled rows. A neutral palette warmed to hue 70, the system font at a 16px reading size, one 624px column. Spacing separates sections; the header is the identity alone.
+The mark over a one-sentence 20px statement, then sections whose titles sit above ruled rows. A neutral palette warmed to hue 70, the system font at a 16px reading size, one column. Spacing separates sections; the header is the identity alone.
 
 ### Colour
 
@@ -58,7 +58,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 ### Typography
 
 - System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
-- 16px is the reading size: prose, rows, links and the `heading` level. Display text steps up: 20px for the home statement and the docs page title, 18px for docs section titles. Controls and dense content step down: 14px for buttons, tabs, toggles, tables, panels, code blocks and the footer, 12px for the compact sizes of buttons and code blocks.
+- 16px is the reading size: prose, rows, links and the `heading` level. Display text steps up: 20px for the home statement and the docs page title, 18px for docs section titles. Controls and dense content step down: 14px for buttons, tabs, toggles, tables, panels, code blocks and the footer; compact sizes go smaller, 12.8px for `sm` buttons and toggles, 12px for `xs` buttons and `sm` code blocks.
 - Line-height 1.625 for reading text and the statement, 1.375 for docs titles.
 - Weight carries the hierarchy within a size: 500 for headings and the name, 450 (`font-book`) for row titles and links, 400 for body, the rest of the statement and section titles. Build hierarchy with weight and colour first, and step the size only along this scale.
 - Years use `tabular-nums`.
@@ -80,10 +80,10 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 - **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content, a 16px title in `muted-foreground`; `variant="stacked"` makes it the 18px docs section heading in `foreground`.
 - **Row** (`ItemLight`, styled by `data-slot` in `apps/web/src/index.css`): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), an inset hairline under each row but the last, no fill. Titles wrap to as many lines as they need.
-- **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at control size on one line: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
+- **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at control size, the title on one line and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
 - **Text link** (`TextLink`, `link-text`): `foreground`, weight 450, underline in `underline` at 3px; may lead with a favicon.
 - **Heading** (`Heading`): 16px at 500 in `foreground`, any level through `render`; `variant="title"` is the 20px docs page title.
-- **Button** (`Button`): shadcn's Button, rounded-full at every size; inside a button group it keeps `rounded-lg`.
+- **Button** (`Button`): shadcn's Button, rounded-full at every size; inside a button group the compact sizes (`xs`, `sm`, `icon-xs`, `icon-sm`) turn `rounded-lg`.
 - **Tabs and toggles** (`Tabs`, `ToggleGroup`, `Toggle`): rounded-full like the button, list and items alike. A tab list wider than its column scrolls sideways, its edges faded with `scroll-fade-x`.
 - **Code** (`Code`, `CodeBlock`): system mono. Inline code is `foreground` at the surrounding size (`muted-foreground` for secondary code such as types). Blocks are a `muted` card at 16px radius with no border, Shiki's vitesse colours highlighted at build time, and a ghost copy button at the top end, or in the header next to a file title, shown on hover or focus and always on touch devices. Capped blocks fade top and bottom with `scroll-fade-y`.
 - **Breadcrumb** (`Breadcrumb`, composed on each page): the way up on every page but home, above the title, never including the page itself. "Home" alone on About, Contact, Privacy, Components and 404; "Home / Components" on docs pages, mirroring their `BreadcrumbList` JSON-LD up to the parent. Text links at body size, separated by a `/` in `subtle-foreground`.
@@ -119,16 +119,15 @@ Two engines, one look. alexandrejoly.me draws its component docs (`/components/$
 ### Fumadocs
 
 - `@portfolio/docs-theme` wraps stock Fumadocs (`DocsLayout`, its default MDX components, `Steps`, `Tabs`) and recolours it through `theme.css`: the docs sites style Fumadocs through the tokens alone.
-- Dark follows `prefers-color-scheme`, Shiki's dark colours included; the theme switch is off.
+- Shiki's dark colours follow the system like the rest, so the theme switch is off.
 - The nav title is the site name as a text link to the landing. The sidebar does not collapse; its footer lists GitHub first, then the site's own links.
+- Demos sit in a `Preview`. A headless library's demos draw their own backdrop and panel, to show that the library ships no look of its own.
 - A page: title, a 14px description, an optional row of page actions above a hairline, then the body, at `max-w-3xl`.
 
 ## Library landings
 
-The home pages of the docs sites (`apps/responsivecn`, `apps/react-easy-modals`), built from `@portfolio/ui` in the column.
+The home pages of the docs sites (`apps/responsivecn`, `apps/react-easy-modals`), built from `@portfolio/ui`.
 
-- Header: the site's 40px mark with an outline GitHub button at the end, a 20px statement that opens with the `h1` library name, then a large "Read the docs" button.
-- **Hero card:** the one card a landing allows, wider than the column (`max-w-breakout`, 816px), showing the library live. Nested radii stay concentric (outer radius minus the inset).
-- Tabbed demos keep fixed heights, so switching tabs never moves the page. What a demo reports stays readable once its overlay closes.
-- The sections end on a **Docs** list: one underline `Item` per page (title and description, no media), separated by `ItemSeparator`, flush with the section title.
-- Code cards are `CodeBlock`s that share the site's Shiki config with its MDX pages; diff cards mark lines with the `removed` and `added` variants and their screen-reader labels.
+- Header in the column: the site's 40px mark with an outline GitHub button at the end, a 20px statement that opens with the `h1` library name, then a large "Read the docs" button.
+- **Hero card:** the one card a landing allows, wider than the column (`max-w-breakout`, 816px), showing the library live. A card that nests others keeps its radii concentric (outer radius minus the inset).
+- Then the sections, in the column.

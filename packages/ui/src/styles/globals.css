@@ -12,7 +12,7 @@
   --container-docs: calc(var(--container-column) + 15rem);
 }
 
-/* DESIGN.md › States: the mark draws itself once, arc then bar. */
+/* DESIGN.md › Site › States: the mark draws itself once, arc then bar. */
 @theme {
   --animate-mark-draw: mark-draw 900ms cubic-bezier(0.23, 1, 0.32, 1) both;
   --animate-mark-draw-late: mark-draw 450ms cubic-bezier(0.23, 1, 0.32, 1) 500ms
@@ -35,8 +35,8 @@
 }
 
 /*
- * DESIGN.md › States: project logos and the skill slash move on row hover.
- * Kwern's ponder runs from kwern-icon.tsx so it can ease back on leave.
+ * DESIGN.md › Site › States: project logos and the skill slash move on row
+ * hover. Kwern's ponder runs from kwern-icon.tsx so it can ease back on leave.
  */
 @theme {
   --animate-caret-blink: caret-blink 1s step-end 200ms infinite;

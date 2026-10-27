@@ -1,10 +1,10 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Docs pages › Panel: the Preview's hairline card at a 16px radius,
-// holding one block of docs content such as a component part's API, at 14px. A
-// table inside runs edge to edge; its outer cells and its last row take the
-// panel's inset, so the card keeps one padding on every side.
+// DESIGN.md › Docs pages › Components › Panel: the Preview's hairline card at a
+// 16px radius, holding one block of docs content such as a component part's
+// API, at 14px. A table inside runs edge to edge; its outer cells and its last
+// row take the panel's inset, so the card keeps one padding on every side.
 const Panel = ({ className, ...props }: React.ComponentProps<"section">) => (
   <section
     className={cn(

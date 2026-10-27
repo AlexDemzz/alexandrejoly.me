@@ -1,9 +1,9 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Docs pages › API reference: 14px text, hairline rules, 14px
-// vertical padding, no hover fill. `--table-inset` pads the outer cells when a
-// container draws the table edge to edge.
+// DESIGN.md › Docs pages › Components › API reference: 14px text, hairline
+// rules, 14px vertical padding, no hover fill. `--table-inset` pads the outer
+// cells when a container draws the table edge to edge.
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div

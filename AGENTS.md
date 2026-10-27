@@ -14,7 +14,7 @@ Use the repository’s installed Intent. If it is unavailable, report the missin
 
 ## Project Guides
 
-- UI work in any app or package (styles, tokens, components, pages, demos): read `DESIGN.md` first; it is the monorepo's one design system.
+- UI work in any app or package: read `DESIGN.md` first.
 - Registry work (a component in `apps/web/registry/`, its docs page or demos): load the `registry-components` skill (`.agents/skills/registry-components/SKILL.md`) first.
 - Writing docs (docs pages, demo copy, README, `.agents/skills/`): load the `better-writing` skill first and write with it.
 
