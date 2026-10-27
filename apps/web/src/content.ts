@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
 import { AwwwardsIcon } from "@/components/awwwards-icon";
+import { CarbonIcon } from "@/components/carbon-icon";
 import { CssDesignAwardsIcon } from "@/components/css-design-awards-icon";
 import { EnvelopeIcon } from "@/components/envelope-icon";
 import { GithubIcon } from "@/components/github-icon";
@@ -104,6 +105,14 @@ export const PROJECTS: Project[] = [
     icon: KwernIcon,
     kind: "Web app",
     name: "Kwern",
+    year: 2026,
+  },
+  {
+    description: "Meeting transcripts that stay on your Mac",
+    href: "https://carbon.alexandrejoly.me/",
+    icon: CarbonIcon,
+    kind: "macOS app",
+    name: "Carbon",
     year: 2026,
   },
   {

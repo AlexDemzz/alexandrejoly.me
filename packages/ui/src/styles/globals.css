@@ -56,6 +56,12 @@
   }
 }
 
+/* Carbon's row logo: its dot takes macOS's systemRed on hover, as in Carbon's
+   menu bar glyph while a meeting is transcribed. */
+@theme {
+  --color-recording: oklch(0.654 0.226 28.4);
+}
+
 /*
  * The CSS the registry items ship in registry.json, which the shadcn CLI adds
  * to a consumer's stylesheet: the marquee keyframes. Keep the two in step.
