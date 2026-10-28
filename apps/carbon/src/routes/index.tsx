@@ -82,8 +82,8 @@ const Header = () => (
     </div>
     <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
       <h1 className="text-foreground inline font-medium">{SITE_NAME}</h1> is a
-      lightweight, native macOS app that sits in your menu bar and turns every
-      meeting into a Markdown file on your Mac.
+      lightweight, native macOS app that turns every meeting into a Markdown
+      file on your Mac, ready for any AI agent. No sign-in, no bot, no cloud.
     </div>
     <DownloadButton className="mt-5" />
   </header>

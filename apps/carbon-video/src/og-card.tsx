@@ -33,8 +33,9 @@ export const OgCard = () => (
       <strong style={{ color: COLOR.pageForeground, fontWeight: 600 }}>
         Carbon
       </strong>{" "}
-      turns your meetings into Markdown files on your Mac, ready for any AI
-      agent. No sign-in, no bot, no cloud.
+      is a lightweight, native macOS app that turns every meeting into a
+      Markdown file on your Mac, ready for any AI agent. No sign-in, no bot, no
+      cloud.
     </p>
   </AbsoluteFill>
 );
