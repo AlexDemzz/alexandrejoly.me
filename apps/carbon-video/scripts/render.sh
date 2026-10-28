@@ -1,27 +1,23 @@
 #!/usr/bin/env bash
-# Renders the landing film into apps/carbon/src/media, once per appearance:
-# an H.264 MP4 and a VP9 WebM, both muted, plus the poster (the intro card,
-# before any motion). Then the share card into apps/carbon/public/og.png.
+# Renders the landing film into apps/carbon/src/media, once per appearance: a
+# muted H.264 MP4 plus the poster (the intro card, before any motion). Then the
+# share card into apps/carbon/public/og.png.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
 media=../carbon/src/media
 mkdir -p out "$media"
 
-# Remotion writes full-range YUV with no color tags. macOS plays that as
-# limited range and crushes the near-black title cards to black, so convert to
-# limited range and tag it as BT.601, the matrix Remotion used.
-range="scale=in_range=pc:out_range=tv,format=yuv420p"
-tags=(-color_range tv -colorspace smpte170m -color_primaries smpte170m -color_trc smpte170m)
+# Remotion writes full-range BT.601 YUV with no color tags. Tagged as such,
+# Chrome and Safari draw the title cards in exactly the poster's color. VP9 is
+# left out: Chrome draws it darker whatever its tags say.
+tags=(-color_range pc -colorspace bt470bg -color_primaries bt709 -color_trc iec61966-2-1)
 
 render() {
   local composition=$1 name=$2
   remotion render "$composition" "out/$name.mp4" --muted --crf=12 --concurrency=2 --log=error
-  ffmpeg -v error -y -i "out/$name.mp4" -an -vf "$range" "${tags[@]}" \
-    -c:v libx264 -preset slow -crf 26 -movflags +faststart "$media/$name.mp4"
-  ffmpeg -v error -y -i "out/$name.mp4" -an -vf "$range" "${tags[@]}" \
-    -c:v libvpx-vp9 -crf 44 -b:v 0 -row-mt 1 -deadline good -cpu-used 2 \
-    "$media/$name.webm"
+  ffmpeg -v error -y -i "out/$name.mp4" -an "${tags[@]}" -c:v libx264 \
+    -preset slow -crf 26 -pix_fmt yuvj420p -movflags +faststart "$media/$name.mp4"
   remotion still "$composition" "out/$name-poster.png" --frame=40 --log=error
   magick "out/$name-poster.png" -quality 82 "$media/$name-poster.webp"
 }

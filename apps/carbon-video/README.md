@@ -17,4 +17,4 @@ pnpm --filter carbon-video studio   # preview in the browser
 pnpm --filter carbon-video render   # needs ffmpeg and ImageMagick
 ```
 
-`render` writes both appearances to `apps/carbon/src/media` (`carbon-flow*.mp4`, `.webm`, `-poster.webp`) and the share card to `apps/carbon/public/og.png`. Fonts come from the system, so render on a Mac to get San Francisco.
+`render` writes both appearances to `apps/carbon/src/media` (`carbon-flow*.mp4`, `-poster.webp`) and the share card to `apps/carbon/public/og.png`. Fonts come from the system, so render on a Mac to get San Francisco.

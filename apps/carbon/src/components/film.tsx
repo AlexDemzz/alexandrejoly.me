@@ -9,10 +9,8 @@ import { useRef, useState } from "react";
 
 import darkPoster from "@/media/carbon-flow-dark-poster.webp?no-inline";
 import darkMp4 from "@/media/carbon-flow-dark.mp4";
-import darkWebm from "@/media/carbon-flow-dark.webm";
 import poster from "@/media/carbon-flow-poster.webp?no-inline";
 import mp4 from "@/media/carbon-flow.mp4";
-import webm from "@/media/carbon-flow.webm";
 
 const DARK = "(prefers-color-scheme: dark)";
 
@@ -72,9 +70,7 @@ export const Film = () => {
         ref={ref}
         width={1600}
       >
-        <source media={DARK} src={darkWebm} type="video/webm" />
         <source media={DARK} src={darkMp4} type="video/mp4" />
-        <source src={webm} type="video/webm" />
         <source src={mp4} type="video/mp4" />
       </video>
       {playback === "idle" ? (
