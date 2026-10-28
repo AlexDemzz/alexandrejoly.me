@@ -13,6 +13,7 @@ import {
 import { Link } from "@tanstack/react-router";
 
 import { Prose } from "@/components/prose";
+import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
 import { SITE } from "@/content";
 import { INFO_PAGES } from "@/info-pages";
@@ -45,16 +46,18 @@ export const InfoPageView = ({ slug }: { slug: InfoPageSlug }) => {
         <Prose paragraphs={intro} />
       </header>
 
-      {sections.map((section) => (
-        <Section key={section.title}>
-          <SectionTitle>{section.title}</SectionTitle>
-          <SectionContent>
-            <div className="flex flex-col gap-5">
-              <Prose paragraphs={section.paragraphs} />
-            </div>
-          </SectionContent>
-        </Section>
-      ))}
+      <SectionStack>
+        {sections.map((section) => (
+          <Section key={section.title} spacing="none">
+            <SectionTitle>{section.title}</SectionTitle>
+            <SectionContent>
+              <div className="flex flex-col gap-5">
+                <Prose paragraphs={section.paragraphs} />
+              </div>
+            </SectionContent>
+          </Section>
+        ))}
+      </SectionStack>
 
       <SiteFooter />
     </main>

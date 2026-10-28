@@ -47,9 +47,13 @@
     @apply focus-visible:outline-ring relative flex w-full items-center gap-4 rounded-none py-3.5 text-base leading-relaxed transition-none outline-none [anchor-scope:--item-content] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid;
   }
 
-  /* Flush with the section title. */
+  /* Flush with the section title, and with whatever follows the list. */
   :first-child > [data-slot="item-light"] {
     @apply pt-0;
+  }
+
+  :last-child > [data-slot="item-light"] {
+    @apply pb-0;
   }
 
   /* The inset rule: from the text start, or the full row without anchors. */
