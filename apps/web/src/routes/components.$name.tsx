@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@portfolio/ui/components/breadcrumb";
 import { Heading } from "@portfolio/ui/components/heading";
+import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
 import {
   Section,
   SectionContent,
@@ -38,7 +39,6 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { ComponentPreview } from "@/components/docs/component-preview";
 import { ComponentsSidebar } from "@/components/docs/components-sidebar";
 import { CopyMarkdownButton } from "@/components/docs/copy-markdown-button";
-import { HeadingAnchor } from "@/components/docs/heading-anchor";
 import { InlineCode } from "@/components/docs/inline-code";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import type { BrowserNotice } from "@/components/docs/registry-docs";

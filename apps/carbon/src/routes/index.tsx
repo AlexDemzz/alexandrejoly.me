@@ -1,13 +1,14 @@
 import { buttonVariants } from "@portfolio/ui/components/button";
 import { Code, codeVariants } from "@portfolio/ui/components/code";
-import { Text } from "@portfolio/ui/components/text";
+import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { cn } from "@portfolio/ui/lib/utils";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Film } from "@/components/film";
 import { GitHubIcon } from "@/components/github-icon";
 import { LogoMark } from "@/components/logo";
+import { SiteFooter } from "@/components/site-footer";
 import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // The library landings' header (apps/responsivecn, apps/react-easy-modals),
@@ -50,7 +51,9 @@ const Home = () => (
         to, no bot in the call and nothing uploaded. Carbon transcribes with
         Apple’s on-device speech recognition and deletes the audio once the
         transcript is written.{" "}
-        <Emphasis>Your calls never leave your Mac.</Emphasis>
+        <Link className={textLinkVariants()} to="/privacy">
+          Your calls never leave your Mac.
+        </Link>
       </Text>
       <DownloadButton />
       <p className="text-muted-foreground text-sm">
@@ -63,6 +66,7 @@ const Home = () => (
         after your events.
       </p>
     </Column>
+    <SiteFooter />
   </main>
 );
 

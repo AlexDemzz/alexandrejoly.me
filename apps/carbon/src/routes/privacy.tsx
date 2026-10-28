@@ -1,4 +1,5 @@
 import { Code } from "@portfolio/ui/components/code";
+import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
 import {
   Section,
   SectionContent,
@@ -9,6 +10,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { LogoMark } from "@/components/logo";
+import { SiteFooter } from "@/components/site-footer";
 import { CONTACT_EMAIL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // Every claim is backed by the Privacy section of Carbon's README and v1 spec
@@ -34,7 +36,7 @@ const Privacy = () => (
       that means in practice.
     </Text>
 
-    <PrivacySection title="Your meetings never leave your Mac">
+    <PrivacySection id="meetings" title="Your meetings never leave your Mac">
       <Text>
         Carbon records and transcribes on your Mac, with Apple’s on-device
         speech recognition. It tells speakers apart on your Mac too, with models
@@ -48,7 +50,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Voices stay on your Mac too">
+    <PrivacySection id="voices" title="Voices stay on your Mac too">
       <Text>
         When you name a speaker, Carbon remembers their voice as a Voice Print,
         a numeric voice signature. Voice Prints are stored only on your Mac, and
@@ -57,7 +59,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Carbon doesn’t track you">
+    <PrivacySection id="tracking" title="Carbon doesn’t track you">
       <Text>
         No account to sign in to, no analytics, and no server of mine for Carbon
         to report to. Nothing about your meetings, or how you use Carbon, is
@@ -65,7 +67,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Checking for updates">
+    <PrivacySection id="updates" title="Checking for updates">
       <Text>
         Carbon asks <Code>carbon.alexandrejoly.me</Code> whether a newer version
         exists, and downloads it if there is one. That’s Sparkle, and it’s the
@@ -76,7 +78,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Telling people you’re recording">
+    <PrivacySection id="recording" title="Telling people you’re recording">
       <Text>
         By default, Carbon starts transcribing when a call starts, and the dot
         in its menu bar icon stays red while it does. You’re responsible for
@@ -84,7 +86,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="This site">
+    <PrivacySection id="this-site" title="This site">
       <Text>
         carbon.alexandrejoly.me sets no cookies and runs no analytics or
         tracking scripts. It runs on{" "}
@@ -97,7 +99,7 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Questions">
+    <PrivacySection id="questions" title="Questions">
       <Text>
         Write to{" "}
         <TextLink href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</TextLink>,
@@ -108,6 +110,7 @@ const Privacy = () => (
         . If any of this changes, I’ll update this page.
       </Text>
     </PrivacySection>
+    <SiteFooter />
   </main>
 );
 
@@ -117,13 +120,17 @@ const Emphasis = ({ children }: { children: ReactNode }) => (
 
 const PrivacySection = ({
   children,
+  id,
   title,
 }: {
   children: ReactNode;
+  id: string;
   title: string;
 }) => (
-  <Section>
-    <SectionTitle>{title}</SectionTitle>
+  <Section variant="stacked">
+    <SectionTitle className="scroll-mt-6" id={id}>
+      <HeadingAnchor id={id}>{title}</HeadingAnchor>
+    </SectionTitle>
     <SectionContent className="flex flex-col gap-5">{children}</SectionContent>
   </Section>
 );
