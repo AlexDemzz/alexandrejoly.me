@@ -94,7 +94,7 @@ Done when the server HTML already shows the right state: `curl` the docs page fr
 
 ## Demos
 
-A demo file ships in its code tab, so it holds exactly what a reader copies: no docs-only UI, no selector reaching into the docs page such as `[data-slot=preview]`. The one exception is undoing a style this site's `@portfolio/ui` adds on top of stock shadcn, such as the rounded-full Button under the notification badge: open it with `// site-only: <why>`, then the `oxlint-disable-next-line` and the line itself; the code tab and the Markdown twin drop the marker and every line through the next one that is not a comment, and `markdown.test.ts` fails if any `site-only` or `oxlint-disable` reaches them. What only explains the component goes through its docs entry:
+A demo file ships whole in its code tab, so it holds exactly what a reader copies: no docs-only UI, no `oxlint-disable`, no selector reaching into the docs page such as `[data-slot=preview]`. What only explains the component goes through its docs entry:
 
 - a browser-support caveat above the preview: `notice` (see Browser support);
 - a trace over part of the component: `inspector`. The preview renders the toggle and sets `data-inspect` to its `name`; the trace lives in `apps/web/src/index.css`, keyed by that name and the part's `data-slot`, in the `inspect` color. Example: the notification badge's "Show hole".

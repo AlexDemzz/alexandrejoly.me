@@ -40,14 +40,6 @@ const IMPORT_REWRITES: [string, string][] = [
   ["@portfolio/ui/lib/utils", "@/lib/utils"],
 ];
 
-// A demo can need a line only this site needs, such as undoing a site style the
-// stock shadcn component lacks. `// site-only: <why>` drops itself and every
-// line through the next one that is not a comment, so the shown code stays
-// what a reader's project would run.
-const SITE_ONLY = /^[\t ]*\/\/ site-only:.*\n(?:[\t ]*\/\/.*\n)*.*\n/gmu;
-
-const withoutSiteOnly = (source: string) => source.replaceAll(SITE_ONLY, "");
-
 const toProjectImports = (source: string) => {
   let code = source;
   for (const [from, to] of IMPORT_REWRITES) {
@@ -179,9 +171,7 @@ const buildComponentCode = async (
           [
             file,
             await highlight(
-              toProjectImports(
-                withoutSiteOnly(readFileSync(demoPath(file), "utf-8"))
-              ),
+              toProjectImports(readFileSync(demoPath(file), "utf-8")),
               "tsx"
             ),
           ] as const
