@@ -11,7 +11,7 @@ export const HeadingAnchor = ({
   id: string;
 }) => (
   <a
-    className="group/anchor decoration-underline can-hover:hover:underline can-hover:after:opacity-0 can-hover:group-hover/anchor:after:opacity-100 can-hover:group-focus-visible/anchor:after:opacity-100 after:text-subtle-foreground relative underline-offset-3 after:absolute after:-start-6 after:w-6 after:text-center after:transition-opacity after:duration-200 after:ease-out after:content-['#'_/_''] focus-visible:underline max-sm:after:static max-sm:after:inline-block"
+    className="decoration-underline can-hover:hover:underline can-hover:after:opacity-0 can-hover:hover:after:opacity-100 can-hover:focus-visible:after:opacity-100 after:text-subtle-foreground relative underline-offset-3 after:absolute after:-start-6 after:w-6 after:text-center after:transition-opacity after:duration-200 after:ease-out after:content-['#'_/_''] focus-visible:underline max-sm:after:static max-sm:after:inline-block"
     href={`#${id}`}
   >
     {children}
