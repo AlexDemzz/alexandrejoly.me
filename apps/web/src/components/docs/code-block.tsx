@@ -13,7 +13,12 @@ import {
 import { useId, useState } from "react";
 import type { CSSProperties } from "react";
 
-import type { HighlightedCode } from "@/lib/component-code";
+import type { HighlightedCode, HighlightedToken } from "@/lib/component-code";
+import { withOffsets } from "@/lib/text-offsets";
+
+const tokenLength = ([content]: HighlightedToken) => content.length;
+const lineLength = (line: HighlightedToken[]) =>
+  line.reduce((length, token) => length + tokenLength(token), 0);
 
 // As on ui.shadcn.com: an example's code scrolls; a full source collapses,
 // then scrolls once expanded; everything else shows in full.
@@ -76,26 +81,28 @@ export const CodeBlock = ({
         className={contentClassName({ collapsible, expanded, scrollable })}
         id={id}
       >
-        {code.lines.map((line, lineIndex) => (
-          // oxlint-disable-next-line react/no-array-index-key -- the lines of static code never reorder
-          <CodeBlockLine key={lineIndex}>
-            {line.map(([content, light, dark], tokenIndex) => (
-              <span
-                className="text-(--shiki-light) dark:text-(--shiki-dark)"
-                // oxlint-disable-next-line react/no-array-index-key -- the tokens of static code never reorder
-                key={tokenIndex}
-                style={
-                  {
-                    "--shiki-dark": dark,
-                    "--shiki-light": light,
-                  } as CSSProperties
-                }
-              >
-                {content}
-              </span>
-            ))}
-          </CodeBlockLine>
-        ))}
+        {withOffsets(code.lines, lineLength, 1).map(
+          ({ offset, part: line }) => (
+            <CodeBlockLine key={offset}>
+              {withOffsets(line, tokenLength).map(
+                ({ offset: tokenOffset, part: [content, light, dark] }) => (
+                  <span
+                    className="text-(--shiki-light) dark:text-(--shiki-dark)"
+                    key={tokenOffset}
+                    style={
+                      {
+                        "--shiki-dark": dark,
+                        "--shiki-light": light,
+                      } as CSSProperties
+                    }
+                  >
+                    {content}
+                  </span>
+                )
+              )}
+            </CodeBlockLine>
+          )
+        )}
       </CodeBlockContent>
       {collapsible && (
         <CodeBlockFooter className="justify-center">

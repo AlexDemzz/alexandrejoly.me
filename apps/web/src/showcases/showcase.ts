@@ -20,7 +20,14 @@ export type ShowcaseStep =
   /** Move to a point, such as out of the way of the component. */
   | { moveTo: ViewportPoint }
   /** Keep the cursor still, in milliseconds. */
-  | { rest: number };
+  | { rest: number }
+  /**
+   * Zoom the frame onto the element the selector matches, like a screen
+   * recorder's zoom: the page scales (3 by default) and the cursor keeps its size.
+   */
+  | { zoomIn: string; scale?: number }
+  /** Zoom back out to the whole page. */
+  | { zoomOut: true };
 
 /** A screen recording of a component: what the page shows and what the cursor does. */
 export interface Showcase {

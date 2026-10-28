@@ -1,7 +1,8 @@
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { varlockCloudflareVitePlugin } from "@varlock/cloudflare-integration";
-import viteReact from "@vitejs/plugin-react";
+import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 import { componentCode } from "./plugins/component-code.ts";
@@ -19,5 +20,6 @@ export default defineConfig({
     componentCode(),
     tanstackStart(),
     viteReact(),
+    babel({ presets: [reactCompilerPreset()] }),
   ],
 });

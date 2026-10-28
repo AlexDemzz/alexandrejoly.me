@@ -1,0 +1,93 @@
+---
+title: Nested Modals
+description: "Open modals inside other modals and close any level of the chain."
+---
+
+Nested modals allow you to open modals inside other modals. This creates a chain where each modal can have one nested child, which can have its own nested child, and so on.
+
+## Opening a nested modal
+
+Use the `open` prop to open a modal inside the current modal. It works exactly like `modals.open` but ensures the nested modal is rendered as a child in the DOM.
+
+<NestedExample />
+
+```tsx
+import { ModalProps } from "react-easy-modals";
+
+function ParentModal({ close, open, nested }: ModalProps) {
+  const handleOpen = async () => {
+    const result = await open(ChildModal, { title: "Nested!" });
+    console.log("Nested modal returned:", result);
+  };
+
+  return (
+    <div className="modal">
+      <h2>Parent Modal</h2>
+      <button onClick={handleOpen}>Open Nested</button>
+      <button onClick={() => close()}>Close</button>
+      {nested}
+    </div>
+  );
+}
+```
+
+## The nested prop
+
+When a nested modal is opened, it is passed to the parent modal via the `nested` prop. You must render `{nested}` in your modal component to display nested modals.
+
+```tsx
+function ParentModal({ close, open, nested }: ModalProps) {
+  return (
+    <div className="modal">
+      <h2>Parent Modal</h2>
+      <button onClick={() => open(ChildModal)}>Open Nested</button>
+      {nested} {/* Nested modal renders here */}
+    </div>
+  );
+}
+```
+
+## The isNested prop
+
+Each modal receives an `isNested` boolean prop that indicates whether it's a nested modal or a root modal.
+
+```tsx
+function MyModal({ isNested, close }: ModalProps) {
+  return (
+    <div className="modal">
+      {isNested ? "I'm nested!" : "I'm the root modal"}
+      <button onClick={() => close()}>Close</button>
+    </div>
+  );
+}
+```
+
+## Chain model
+
+Nested modals follow a chain model: each modal can have at most one direct nested child. When you call `open` from a nested modal, it adds another level to the chain.
+
+```
+Root Modal
+└── Nested Level 1
+    └── Nested Level 2
+        └── Nested Level 3
+```
+
+## Closing nested modals
+
+Each modal closes itself with its own `close` function. **Closing the parent will also close all nested modals**.
+
+## Closing a parent
+
+Use [`useModalAt`](/docs/use-modal-at) to access a parent or the root from a deeply nested modal:
+
+```tsx
+import { useModalAt } from "react-easy-modals";
+
+function DeepChild() {
+  const root = useModalAt("root");
+  return <button onClick={() => root.close()}>Close everything</button>;
+}
+```
+
+Calling `close()` on the returned parent resolves the original `open()` promise correctly.

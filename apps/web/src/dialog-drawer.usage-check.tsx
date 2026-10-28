@@ -13,7 +13,7 @@ import {
   DialogDrawerHeader,
   DialogDrawerTitle,
   DialogDrawerTrigger,
-} from "@registry/dialog-drawer";
+} from "@portfolio/ui/components/dialog-drawer";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";

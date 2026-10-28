@@ -1,0 +1,21 @@
+---
+title: Lazy Loading
+description: "Load modal components on demand with dynamic imports."
+---
+
+Pass `modals.open` a function that returns a dynamic import, instead of the component itself. The modal's code is fetched the first time it opens.
+
+<LazyExemple />
+
+```tsx
+const result = await modals.open(() => import("./modal"), props);
+```
+
+The module must have a default export: the modal component.
+
+While the module loads, `<ModalProvider />` renders its `backdrop` and `loading` components. See the [ModalProvider](/docs/modal-provider) API.
+
+<Callout type="warning">
+  Don't wrap the import in `React.lazy`. A lazy component suspends while it
+  renders, so the provider's `loading` state never shows.
+</Callout>

@@ -34,13 +34,14 @@ function ItemSeparator({
 }
 
 const itemVariants = cva(
-  "group/item focus-visible:border-ring focus-visible:ring-ring/50 [a]:hover:bg-muted flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:ring-[3px] [a]:transition-colors",
+  "group/item focus-visible:border-ring focus-visible:ring-ring/50 not-data-[variant=underline]:[a]:hover:bg-muted flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:ring-[3px] [a]:transition-colors",
   {
     variants: {
       variant: {
         default: "border-transparent",
         outline: "border-border",
         muted: "bg-muted/50 border-transparent",
+        underline: "border-transparent",
       },
       size: {
         default: "gap-2.5 px-3 py-2.5",
@@ -48,6 +49,7 @@ const itemVariants = cva(
         xs: "gap-2 px-2.5 py-2 in-data-[slot=dropdown-menu-content]:p-0",
       },
     },
+    compoundVariants: [{ variant: "underline", className: "px-0" }],
     defaultVariants: {
       variant: "default",
       size: "default",
@@ -80,7 +82,7 @@ function Item({
 }
 
 const itemMediaVariants = cva(
-  "flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start [&_svg]:pointer-events-none",
+  "group-data-[variant=underline]/item:text-muted-foreground/80 can-hover:group-data-[variant=underline]/item:group-hover/item:text-foreground group-data-[variant=underline]/item:group-focus-visible/item:text-foreground flex shrink-0 items-center justify-center gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start group-data-[variant=underline]/item:transition-colors group-data-[variant=underline]/item:duration-200 group-data-[variant=underline]/item:ease-out [&_svg]:pointer-events-none",
   {
     variants: {
       variant: {
@@ -129,7 +131,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-title"
       className={cn(
-        "line-clamp-1 flex w-fit items-center gap-2 text-sm leading-snug font-medium underline-offset-4",
+        "can-hover:group-data-[variant=underline]/item:group-hover/item:decoration-underline group-data-[variant=underline]/item:group-focus-visible/item:decoration-underline line-clamp-1 flex w-fit items-center gap-2 text-sm leading-snug font-medium underline-offset-4 group-data-[variant=underline]/item:underline group-data-[variant=underline]/item:decoration-transparent group-data-[variant=underline]/item:underline-offset-3 group-data-[variant=underline]/item:transition-[text-decoration-color] group-data-[variant=underline]/item:duration-200 group-data-[variant=underline]/item:ease-out",
         className
       )}
       {...props}

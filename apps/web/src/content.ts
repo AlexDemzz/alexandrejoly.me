@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 
 import { AwwwardsIcon } from "@/components/awwwards-icon";
+import { CarbonIcon } from "@/components/carbon-icon";
 import { CssDesignAwardsIcon } from "@/components/css-design-awards-icon";
 import { EnvelopeIcon } from "@/components/envelope-icon";
 import { GithubIcon } from "@/components/github-icon";
@@ -8,7 +9,7 @@ import { GymupIcon } from "@/components/gymup-icon";
 import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
-// import { ResponsivecnIcon } from "@/components/responsivecn-icon";
+import { ResponsivecnIcon } from "@/components/responsivecn-icon";
 import { SkipprIcon } from "@/components/skippr-icon";
 import { XIcon } from "@/components/x-icon";
 import archive2018 from "@/media/archive-2018.webm";
@@ -107,6 +108,14 @@ export const PROJECTS: Project[] = [
     year: 2026,
   },
   {
+    description: "Meeting transcripts that stay on your Mac",
+    href: "https://carbon.alexandrejoly.me/",
+    icon: CarbonIcon,
+    kind: "macOS app",
+    name: "Carbon",
+    year: 2026,
+  },
+  {
     description: "AI strength coach, built on a professional coach's system",
     href: "https://gymup.ai",
     icon: GymupIcon,
@@ -122,15 +131,14 @@ export const PROJECTS: Project[] = [
     name: "Skippr",
     year: 2026,
   },
-  // Hidden until responsive-cn.dev is live.
-  // {
-  //   description: "shadcn overlays that turn into drawers on mobile",
-  //   href: "https://responsive-cn.dev",
-  //   icon: ResponsivecnIcon,
-  //   kind: "shadcn registry",
-  //   name: "responsivecn",
-  //   year: 2026,
-  // },
+  {
+    description: "shadcn overlays that turn into drawers on mobile",
+    href: "https://responsivecn.alexandrejoly.me/",
+    icon: ResponsivecnIcon,
+    kind: "shadcn registry",
+    name: "responsivecn",
+    year: 2026,
+  },
   {
     description: "Headless, zero-dependency modal stack for React",
     href: "https://react-easy-modals.alexandrejoly.me/",

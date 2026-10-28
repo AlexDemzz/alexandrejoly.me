@@ -2,7 +2,7 @@
 
 Alexandre Joly's portfolio at alexandrejoly.me: TanStack Start, Tailwind v4 and shadcn/ui, deployed to Cloudflare Workers on every push to `master`. The previous portfolios (2025.alexandrejoly.me, 2018.alexandrejoly.me) live in their own repositories.
 
-For the design of `apps/web`, see `DESIGN.md` and `.scratch/docs/design/home-design.md`.
+For the design of every app, see `DESIGN.md`. The `apps/web` home also has notes in `.scratch/docs/design/home-design.md`.
 
 This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, TanStack Start, Self, and more.
 
@@ -35,7 +35,8 @@ Open [http://localhost:3001](http://localhost:3001) in your browser to see the f
 
 React web apps in this stack share shadcn/ui primitives through `packages/ui`.
 
-- Change design tokens and global styles in `packages/ui/src/styles/globals.css`
+- Change design tokens and base styles in `packages/ui/src/styles/theme.css`, shared with the docs sites through `packages/docs-theme`
+- Change portfolio-only styles (animations, registry CSS) in `packages/ui/src/styles/globals.css`
 - Update shared primitives in `packages/ui/src/components/*`
 - Adjust shadcn aliases or style config in `packages/ui/components.json` and `apps/web/components.json`
 
@@ -76,7 +77,9 @@ Run standalone Node/Bun tools that use Varlock from the owning app directory so 
 ```
 portfolio/
 ├── apps/
-│   └── web/         # alexandrejoly.me (React + TanStack Start)
+│   ├── web/         # alexandrejoly.me (React + TanStack Start)
+│   ├── responsivecn/ # responsivecn.alexandrejoly.me docs (TanStack Start + Fumadocs)
+│   └── react-easy-modals/ # react-easy-modals.alexandrejoly.me docs (TanStack Start + Fumadocs)
 ├── packages/
 │   ├── ui/          # Shared shadcn/ui components and styles
 ```

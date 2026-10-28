@@ -14,6 +14,8 @@ description: Registry components in apps/web/registry/. Use when building or cha
 
 An item documented on another site sets `meta.docs` to that site's URL and stays out of `REGISTRY_ITEM_NAMES`: it is served under /r/ only, with no page, sitemap entry or OG card (e.g. dialog-drawer, easy-modal).
 
+An item another app also renders keeps its source in `packages/ui/src/components/<name>.tsx`, symlinked from `apps/web/registry/`. It imports `@portfolio/ui/...`; `scripts/registry-imports.mjs` rewrites those imports in `public/r` to the stock `@/components/ui`, `@/hooks` and `@/lib` aliases, packages first, so the item installs as if written here. Unlike `apps/web/registry/`, packages/ui is linted: `oxlint.config.ts` turns off the rules its stock style breaks.
+
 Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.
 
 ## Open Graph card

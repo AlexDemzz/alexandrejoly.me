@@ -1,8 +1,11 @@
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cn } from "@portfolio/ui/lib/utils";
 import type * as React from "react";
 
-// DESIGN.md › Identity: a 40px mark over one 20px statement that names the
-// person at 500 in ink while the rest of the statement stays muted.
+// DESIGN.md › Site › Components › Identity: a 40px mark over one 20px statement
+// that names the person at 500 in foreground while the rest of the statement
+// stays muted.
 const Identity = ({ className, ...props }: React.ComponentProps<"div">) => (
   <div
     className={cn("flex flex-col gap-6", className)}
@@ -33,18 +36,20 @@ const IdentityStatement = ({
   />
 );
 
+// Renders an `h1` unless `render` picks another element.
 const IdentityName = ({
-  children,
   className,
+  render,
   ...props
-}: React.ComponentProps<"h1">) => (
-  <h1
-    className={cn("text-foreground inline font-medium", className)}
-    data-slot="identity-name"
-    {...props}
-  >
-    {children}
-  </h1>
-);
+}: useRender.ComponentProps<"h1">) =>
+  useRender({
+    defaultTagName: "h1",
+    props: mergeProps<"h1">(
+      { className: cn("text-foreground inline font-medium", className) },
+      props
+    ),
+    render,
+    state: { slot: "identity-name" },
+  });
 
 export { Identity, IdentityMark, IdentityName, IdentityStatement };

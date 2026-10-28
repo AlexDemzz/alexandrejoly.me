@@ -5,7 +5,7 @@ import {
   SheetDrawerContent,
   SheetDrawerTitle,
   SheetDrawerTrigger,
-} from "@registry/sheet-drawer";
+} from "@portfolio/ui/components/sheet-drawer";
 import {
   act,
   cleanup,

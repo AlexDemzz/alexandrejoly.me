@@ -12,8 +12,8 @@ const numberFormat = new Intl.NumberFormat("en-US");
 
 /**
  * The cells live in `/contributions.svg`, out of the page's HTML; the SVG masks
- * a box painted in the theme's ink. The total in the URL refetches the graph
- * once the count moves.
+ * a box painted in the theme's foreground. The total in the URL refetches the
+ * graph once the count moves.
  */
 export const ContributionGraph = ({
   contributions: { total, weekCount },

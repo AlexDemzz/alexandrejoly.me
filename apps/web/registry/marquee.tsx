@@ -82,7 +82,7 @@ function MarqueeViewport({
   return (
     <div
       className={cn(
-        "group/marquee-viewport flex min-w-0 flex-1 scroll-p-[50%] flex-col gap-4 self-stretch overflow-hidden [--scroll-fade-reveal:0px] has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]:[--scroll-fade-reveal:initial]",
+        "group/marquee-viewport flex min-w-0 flex-1 scroll-p-[50%] flex-col justify-center-safe gap-4 self-stretch overflow-hidden [--scroll-fade-reveal:0px] has-[[data-slot=marquee-copy]:not([aria-hidden])_:focus-visible]:[--scroll-fade-reveal:initial]",
         "[scroll-timeline:--marquee_inline] has-[>div>[data-slot=marquee-content][data-orientation=vertical]]:[scroll-timeline:--marquee_block]",
         className
       )}

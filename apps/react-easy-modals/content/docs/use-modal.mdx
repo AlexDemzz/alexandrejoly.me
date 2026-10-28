@@ -1,0 +1,53 @@
+---
+title: useModal
+description: "Read the current modal's props from any child component."
+---
+
+Access modal props from any child component inside a modal.
+
+```tsx
+import { useModal } from "react-easy-modals";
+
+function MyModalContent() {
+  const { close, id, isNested } = useModal();
+
+  return <button onClick={() => close("result")}>Close Modal</button>;
+}
+```
+
+## Return value
+
+The hook returns a `ModalProps` object. See the [Props](/docs/props) page for all available properties.
+
+## TypeScript
+
+You can pass a generic type to `useModal` to type the `close` function return value:
+
+```tsx
+type CloseValue = "confirm" | "cancel";
+
+function MyModalContent() {
+  const { close } = useModal<CloseValue>();
+
+  close("confirm"); // ✅ typed
+  close("invalid"); // ❌ TypeScript error
+}
+```
+
+<Callout type="info">
+  The type cannot be inferred automatically from the parent modal. You need to
+  specify it manually, similar to `useBeforeClose`.
+</Callout>
+
+## When to use
+
+Use `useModal` when you need to access modal props from a deeply nested child component without prop drilling.
+
+<Callout type="warning">
+  `useModal` must be called inside a modal component or one of its children.
+  Calling it outside a modal will throw an error.
+</Callout>
+
+## See also
+
+- [`useModalAt`](/docs/use-modal-at) — access a parent modal (parent, root, or by id) from a nested modal.

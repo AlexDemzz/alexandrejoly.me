@@ -23,7 +23,7 @@ import { cn } from "@portfolio/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
-// DESIGN.md › Layout: the docs sidebar column.
+// DESIGN.md › Docs pages › Layout: the docs sidebar column.
 const SIDEBAR_WIDTH = "12rem";
 const SIDEBAR_WIDTH_MOBILE = "18rem";
 const SIDEBAR_WIDTH_ICON = "3rem";
@@ -480,8 +480,8 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
-// DESIGN.md › Components: a muted link that turns ink once active and, like a
-// row, underlines on hover. No fill.
+// DESIGN.md › Docs pages › Components › Docs sidebar: a muted link that turns
+// foreground once active and, like a row, underlines on hover. No fill.
 const sidebarMenuButtonVariants = cva(
   "peer/menu-button group/menu-button font-book text-muted-foreground decoration-underline focus-visible:outline-ring data-active:text-foreground can-hover:hover:underline flex w-full items-center gap-2 text-left underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out outline-none group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {

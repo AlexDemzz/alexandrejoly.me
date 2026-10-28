@@ -1,0 +1,10 @@
+---
+title: Breakpoint
+description: Every responsive component switches at 768px through the shadcn use-mobile hook. Only one side is mounted, so uncontrolled fields reset.
+---
+
+The **breakpoint** is fixed at 768px, read through the standard shadcn `use-mobile` hook, the same one the shadcn Sidebar uses. At 768px and up the desktop component renders, below it the mobile one. This is a conditional render, not CSS: only one side is mounted at a time.
+
+## What carries over
+
+Crossing 768px unmounts one side and mounts the other. Every responsive component holds the open state itself, so an uncontrolled overlay that is open stays open on the other side. State held _inside_ the overlay does not carry over: uncontrolled form fields reset. Keep values you cannot afford to lose in your own state or a form library.

@@ -1,0 +1,37 @@
+---
+title: Installation
+description: Install a responsive component with the shadcn CLI from the @alexandrejoly registry, and migrate from the shadcn component it replaces.
+---
+
+Responsive components install with the shadcn CLI into a shadcn project on Base UI or Radix (see [Bases](/docs#bases)).
+
+## Add a component
+
+The components ship from the `@alexandrejoly` registry, listed in the shadcn registry directory, so the CLI resolves the namespace with no setup:
+
+```bash
+npx shadcn@latest add @alexandrejoly/dialog-drawer
+```
+
+To pin the namespace in your project, add it to the `registries` field of your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@alexandrejoly": "https://alexandrejoly.me/r/{name}.json"
+  }
+}
+```
+
+The install adds the official shadcn items the component builds on (`dialog`, `drawer`, `use-mobile`, …) as registry dependencies. You get the standard shadcn components, not copies of them.
+
+## Migrating
+
+A responsive component takes the desktop component's props 1:1, on the root and on every part. To migrate, change your imports and the tag names, nothing else:
+
+```diff
+- import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog"
++ import { DialogDrawer, DialogDrawerTrigger, DialogDrawerContent } from "@/components/ui/dialog-drawer"
+```
+
+Each part name inserts the mobile side's name after the desktop one: `DialogContent` becomes `DialogDrawerContent`, and so on. Same props, same children.

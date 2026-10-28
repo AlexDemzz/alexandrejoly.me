@@ -1,0 +1,221 @@
+---
+title: Registry
+description: "A ready-made shadcn/ui Modal built on the Base UI Dialog."
+---
+
+The Modal component is available as a shadcn/ui registry component, `easy-modal`, from the `@alexandrejoly` registry. This provides a pre-built Modal wrapper that integrates react-easy-modals with shadcn's Base UI Dialog component.
+
+## Installation
+
+```bash
+npx shadcn@latest add @alexandrejoly/easy-modal
+```
+
+To pin the namespace in your project, add it to the `registries` field of your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@alexandrejoly": "https://alexandrejoly.me/r/{name}.json"
+  }
+}
+```
+
+## Usage
+
+Simply replace `Dialog` with `Modal` in your imports:
+
+```diff
+- import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
++ import { Modal, ModalContent, ModalHeader, ModalTitle } from "@/components/ui/modal"
+```
+
+No more `DialogTrigger` - just use [`modals.open()`](/docs/use-modals) anywhere in your application:
+
+```diff
+- <Dialog>
+-   <DialogTrigger asChild>
+-     <Button>Open</Button>
+-   </DialogTrigger>
+-   <DialogContent>...</DialogContent>
+- </Dialog>
++ const modals = useModals()
++ <Button onClick={() => modals.open(MyModal)}>Open</Button>
+```
+
+## Example
+
+Here's a simple confirm modal using the registry component:
+
+<RegistryModalExample />
+
+```tsx
+import { ModalProps, ModalProvider, useModals } from "react-easy-modals";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
+
+type ConfirmModalReturnType = "confirm" | "cancel";
+
+function ConfirmModal({ close }: ModalProps<ConfirmModalReturnType>) {
+  return (
+    <Modal>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Confirm Action</ModalTitle>
+          <ModalDescription>
+            "Are you sure you want to proceed?
+          </ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => close("cancel")}>
+            Cancel
+          </Button>
+          <Button onClick={() => close("confirm")}>Confirm</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+function App() {
+  const modals = useModals();
+
+  const handleClick = async () => {
+    const result = await modals.open(ConfirmModal);
+    if (result === "confirm") {
+      // User confirmed
+    }
+  };
+
+  return <Button onClick={handleClick}>Open Modal</Button>;
+}
+```
+
+## Nested modals
+
+For [nested modals](/docs/nested) , the react-easy-modals nested API works perfectly with [Base UI's nested dialogs](https://base-ui.com/react/components/dialog#nested-dialogs).
+
+To use nested modals, you must install shadcn with base-ui component library.
+
+<RegistryNestedExample />
+
+```tsx
+import {
+  ModalProps,
+  ModalProvider,
+  useModalAt,
+  useModals,
+} from "react-easy-modals";
+import {
+  Modal,
+  ModalContent,
+  ModalDescription,
+  ModalFooter,
+  ModalHeader,
+  ModalTitle,
+} from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
+
+function ChildModal({
+  close,
+  open,
+  title,
+  nested,
+}: ModalProps & { title: string }) {
+  const modals = useModals();
+  const root = useModalAt("root");
+  const parent = useModalAt(-1);
+
+  return (
+    <Modal>
+      <ModalContent>
+        {nested}
+        <ModalHeader>
+          <ModalTitle>{title}</ModalTitle>
+          <ModalDescription>
+            Open another nested modal, close this one, or close the root.
+          </ModalDescription>
+        </ModalHeader>
+        <ModalFooter className="flex flex-wrap gap-2">
+          <Button
+            variant="outline"
+            onClick={() => open(ChildModal, { title: `Nested under ${title}` })}
+          >
+            Open nested
+          </Button>
+          <Button variant="outline" onClick={() => close()}>
+            Close this
+          </Button>
+          <Button variant="outline" onClick={() => parent.close()}>
+            Close parent
+          </Button>
+          <Button variant="outline" onClick={() => modals.open(ParentModal)}>
+            Open new root
+          </Button>
+          <Button onClick={() => root.close()}>Close root</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+function ParentModal({ open, close, nested }: ModalProps) {
+  return (
+    <Modal>
+      <ModalContent>
+        {nested}
+        <ModalHeader>
+          <ModalTitle>Parent Modal</ModalTitle>
+          <ModalDescription>
+            Open a nested modal inside this one.
+          </ModalDescription>
+        </ModalHeader>
+        <ModalFooter>
+          <Button variant="outline" onClick={() => close()}>
+            Close
+          </Button>
+          <Button onClick={() => open(ChildModal, { title: "Nested!" })}>
+            Open nested
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}
+
+function App() {
+  const modals = useModals();
+  return <Button onClick={() => modals.open(ParentModal)}>Open</Button>;
+}
+
+export default function NestedExample() {
+  return (
+    <ModalProvider>
+      <App />
+    </ModalProvider>
+  );
+}
+```
+
+### Nested dialog style
+
+To enable the shadcn Base UI nested dialog style, make sure your `DialogContent` adds the nested transform and shadow classes inside the `DialogPrimitive.Popup` `className={cn(...)}` block.
+
+```diff
+<DialogPrimitive.Popup
+  data-slot="dialog-content"
+  className={cn(
+    "fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-sm text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
++   "translate-y-[calc(1.20rem*var(--nested-dialogs,0))] scale-[calc(1-0.08*var(--nested-dialogs,0))] transition-[scale,translate]",
++   "data-nested:shadow-xl",
+    className
+  )}
+/>
+```

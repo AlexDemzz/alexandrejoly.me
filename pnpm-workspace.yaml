@@ -5,6 +5,10 @@ allowBuilds:
   esbuild: true
   workerd: true
 catalog:
+  "@babel/core": ^7.29.7
+  "@rolldown/plugin-babel": ^0.2.4
+  "@types/babel__core": ^7.20.5
+  babel-plugin-react-compiler: ^1.0.0
   zod: ^4.5.4
   typescript: ^6.0.3
   varlock: 1.23.0

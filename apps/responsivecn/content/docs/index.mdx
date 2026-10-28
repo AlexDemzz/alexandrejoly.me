@@ -1,0 +1,24 @@
+---
+title: Introduction
+description: Responsive shadcn/ui overlays that render the desktop component at 768px and up, and its mobile counterpart below.
+---
+
+A centered Dialog is hard to use on a phone. The shadcn docs offer a recipe: combine Dialog and Drawer yourself behind a `useMediaQuery` hook. Each project then rewrites that code, and the same bugs come back: cast types, overwritten `className`s, lost callbacks, duplicated children. **responsivecn** ships that recipe as installable components that follow the shadcn conventions: open code, a registry install, compound components.
+
+A **pair** is a curated desktop→mobile combination. Each pair produces a **responsive component**: a drop-in replacement for the desktop component that renders the mobile one below the [breakpoint](/docs/breakpoint). Three pairs exist:
+
+| Pair             | Responsive component                    |
+| ---------------- | --------------------------------------- |
+| Dialog → Drawer  | [`DialogDrawer`](/docs/dialog-drawer)   |
+| Sheet → Drawer   | [`SheetDrawer`](/docs/sheet-drawer)     |
+| Popover → Drawer | [`PopoverDrawer`](/docs/popover-drawer) |
+
+## Bases
+
+Each component works on **Base UI** (shadcn's default) and **Radix**, whichever shadcn base you installed. It is one file that builds on your own shadcn components (`@/components/ui/dialog`, `drawer`, …), so its props are those of your Dialog, Sheet or Popover, including `render` on Base UI and `asChild` on Radix. **React Aria** is not supported yet: its shadcn components have a different part structure, so a drop-in replacement cannot map onto them.
+
+## What these docs cover
+
+[Installation](/docs/installation), the [breakpoint](/docs/breakpoint) and the [override prop](/docs/override-prop) work the same for every component, so each has its own page. A component page covers only what is specific to its pair.
+
+The underlying components are documented upstream. For their APIs, see the [shadcn/ui docs](https://ui.shadcn.com/docs/components), the [Base UI docs](https://base-ui.com/react/components) and the [Radix docs](https://www.radix-ui.com/primitives).

@@ -60,7 +60,7 @@ export const graphViewBox = (weekCount: number) => {
   return `0 0 ${width} ${height}`;
 };
 
-// Monochrome: GitHub's five quartiles become five strengths of ink.
+// Monochrome: GitHub's five quartiles become five strengths of foreground.
 const LEVEL_OPACITY = [0.12, 0.3, 0.5, 0.75, 1] as const;
 
 /**

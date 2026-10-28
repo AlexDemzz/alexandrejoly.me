@@ -1,0 +1,43 @@
+@import "@portfolio/docs-theme/styles.css";
+
+@layer base {
+  :root {
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button,
+  a,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /* 16px keeps iOS from zooming into a focused field. */
+  input,
+  textarea,
+  select {
+    font-size: max(16px, 1rem);
+  }
+}
+
+/* Base UI's scroll lock shifts the page; the stable gutter already reserves
+   the scrollbar's room. */
+html > body[data-scroll-locked] {
+  margin-inline-end: 0 !important;
+  --removed-body-scroll-bar-size: 0px !important;
+}
+
+/* The landing's code blocks: both vitesse themes ride on CSS variables and
+   the colour scheme picks one. */
+@layer components {
+  [data-slot="code-block-content"] [style*="--shiki-light"] {
+    color: var(--shiki-light);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    [data-slot="code-block-content"] [style*="--shiki-dark"] {
+      color: var(--shiki-dark);
+    }
+  }
+}

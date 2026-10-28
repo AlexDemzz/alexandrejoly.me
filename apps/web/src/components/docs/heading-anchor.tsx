@@ -1,8 +1,8 @@
-// DESIGN.md › Components › Heading anchor: the title links to its own section
-// and underlines on hover, like a sidebar link; a `#` in the margin (after the
-// title below `sm`, where there is no margin) shows while it is hovered or
-// focused, and stays on touch. A pseudo-element with empty alt text, so the `#`
-// is in neither the heading's text nor its accessible name.
+// DESIGN.md › Docs pages › Components › Heading anchor: the title links to its
+// own section and underlines on hover, like a sidebar link; a `#` in the margin
+// (after the title below `sm`, where there is no margin) shows while it is
+// hovered or focused, and stays on touch. A pseudo-element with empty alt text,
+// so the `#` is in neither the heading's text nor its accessible name.
 export const HeadingAnchor = ({
   children,
   id,

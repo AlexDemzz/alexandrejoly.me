@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "getting-started",
+    "how-it-works",
+    "---Modal Components---",
+    "props",
+    "transitions",
+    "lazy-loading",
+    "nested",
+    "registry",
+    "---API---",
+    "modal-provider",
+    "use-modals",
+    "use-modal",
+    "use-modal-at",
+    "use-before-close"
+  ]
+}

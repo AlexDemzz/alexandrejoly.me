@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "fumadocs-ui/css/shadcn.css";
+@import "fumadocs-ui/css/preset.css";
+/* After the preset, so the design system's dark variant replaces Fumadocs'
+   `.dark` class one and its base layer wins. */
+@import "@portfolio/ui/theme.css";
+@source "./**/*.{ts,tsx}";
+@source "../../ui/src/components/**/*.tsx";
+
+:root {
+  color-scheme: light dark;
+}
+
+@theme inline {
+  --color-fd-warning: var(--warning);
+}
+
+/* Fumadocs keys the dark Shiki colours to `.dark`; dark follows the system. */
+@media (prefers-color-scheme: dark) {
+  .shiki:not(.not-fumadocs-codeblock *) code span,
+  code.shiki:not(.not-fumadocs-code *) span {
+    color: var(--shiki-dark);
+    font-style: var(--shiki-dark-font-style);
+  }
+}
