@@ -22,16 +22,17 @@ const Home = () => (
     </div>
     <Column>
       <Text>
-        You know how you’re on a call, thinking “I should write this down,” but
-        you don’t want to stop listening? Then the call ends and your notes are
-        half a sentence.{" "}
+        Halfway through a call, you think “I should write this down” and keep
+        listening instead. By the end, your notes are half a sentence.{" "}
         <Emphasis>
           What was decided, who said they’d do what, the number someone
           mentioned
         </Emphasis>
         : gone, unless you let a note taker bot into the call.
       </Text>
-      <Text>I wanted the transcript without the bot, so I built Carbon.</Text>
+      <Text>
+        Carbon writes it all down for you, with no one else in the call.
+      </Text>
       <Text>
         When Zoom, Google Meet, Teams or any other meeting app starts using your
         microphone, Carbon starts transcribing and the dot in its icon turns
@@ -45,17 +46,16 @@ const Home = () => (
         and paste it into Claude Code, Codex or whatever you use.
       </Text>
       <Text>
-        I wanted something I could trust with every call. So there’s no account
-        to sign in to, no bot in the call and nothing uploaded. Carbon
-        transcribes with Apple’s on-device speech recognition and deletes the
-        audio once the transcript is written.{" "}
-        <Emphasis>Everything stays on your Mac.</Emphasis>
+        Calls are private, and Carbon keeps them that way: no account to sign in
+        to, no bot in the call and nothing uploaded. Carbon transcribes with
+        Apple’s on-device speech recognition and deletes the audio once the
+        transcript is written.{" "}
+        <Emphasis>Your calls never leave your Mac.</Emphasis>
       </Text>
-      <Text>If this feels like something you’d use, it’s free.</Text>
       <DownloadButton />
       <p className="text-muted-foreground text-sm">
-        Drag it to Applications and it shows up in your menu bar. It updates
-        itself.
+        Carbon is free. Drag it to Applications and it shows up in your menu
+        bar. It updates itself.
       </p>
       <p className="text-muted-foreground text-sm">
         macOS 26 or later on Apple silicon. Carbon asks for microphone, system
