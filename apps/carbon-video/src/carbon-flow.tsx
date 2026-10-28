@@ -36,7 +36,7 @@ const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
     frames: CARD_FRAMES,
     name: "card-library",
-    node: <TitleCard text="When it ends: a summary, then every word" />,
+    node: <TitleCard text="When it ends: every word, and who said it" />,
   },
   { frames: LIBRARY_FRAMES, name: "library", node: <LibraryScene /> },
   {

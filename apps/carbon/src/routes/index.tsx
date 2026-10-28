@@ -60,8 +60,8 @@ const Home = () => (
       <Text>
         When Zoom, Google Meet, Teams or any other meeting app starts using your
         microphone, Carbon starts transcribing and the dot in its icon turns
-        red. When the call ends, the meeting opens on a summary, key points then
-        next steps, with the full transcript below it.
+        red. When the call ends, the meeting opens on its transcript: every
+        word, with who said it and when.
       </Text>
       <Text>
         Each meeting is a plain Markdown file in <Code>~/Documents/Carbon</Code>
@@ -88,9 +88,9 @@ const Home = () => (
         itself.
       </p>
       <p className="text-muted-foreground text-sm">
-        macOS 26 or later. Summaries need Apple Intelligence. Carbon asks for
-        microphone, system audio recording and calendar access, to notice your
-        calls and name them after your events.
+        macOS 26 or later on Apple silicon. Carbon asks for microphone, system
+        audio recording and calendar access, to notice your calls and name them
+        after your events.
       </p>
     </Column>
   </main>

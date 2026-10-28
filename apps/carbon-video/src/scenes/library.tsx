@@ -9,9 +9,9 @@ export const LIBRARY_FRAMES = 270;
 const REVEAL = 16;
 const SCROLL_FROM = 150;
 const SCROLL_TO = 215;
-const SCROLL_BY = 190;
+const SCROLL_BY = 110;
 
-/** The Meeting that just ended opens: participants, the Summary, then the Transcript. */
+/** The Meeting that just ended opens: its participants, then the Transcript. */
 export const LibraryScene = () => {
   const frame = useCurrentFrame();
   const enter = settle(frame, 0, 18);

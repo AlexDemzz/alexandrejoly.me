@@ -54,23 +54,6 @@ export const ROWS: Row[] = [
 
 export const SUBTITLE = `Oct 27 at 10:00 AM · 42 min · ${PROVIDER} · ${LANGUAGE}`;
 
-export const SUMMARY = [
-  {
-    bullets: [
-      "Onboarding stays out of v1; the menu bar icon is the only entry point.",
-      "The new empty state ships with the next build.",
-    ],
-    heading: "Key points",
-  },
-  {
-    bullets: [
-      "Priya: export the final icon from Icon Composer.",
-      "Marcus: draft the privacy page.",
-    ],
-    heading: "Next steps",
-  },
-];
-
 export interface Line {
   speaker: string;
   elapsed: string;

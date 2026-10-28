@@ -116,9 +116,9 @@ export const Film = () => {
         A 36-second demo without sound. Join a call, and Carbon starts on its
         own: the dot in its menu bar icon turns red and a notification reads
         “Transcribing in English.” When the call ends, the meeting opens on its
-        participants, a summary with key points and next steps, then every word.
-        Copy Path hands the meeting’s Markdown file to an AI agent in a
-        terminal. No sign-in, no bot, no cloud.
+        participants, then every word with who said it and when. Copy Path hands
+        the meeting’s Markdown file to an AI agent in a terminal. No sign-in, no
+        bot, no cloud.
       </figcaption>
     </figure>
   );

@@ -6,7 +6,6 @@ import {
   DOT_COLORS,
   ROWS,
   SUBTITLE,
-  SUMMARY,
   TITLE,
   TRANSCRIPT,
   isUnnamed,
@@ -205,7 +204,7 @@ const HEADING: CSSProperties = {
 
 /**
  * The main window: Meetings in the sidebar, the selected one's participants,
- * Summary and Transcript in the panel. `reveal` is the frame the panel's
+ * then the Transcript in the panel. `reveal` is the frame the panel's
  * content starts to appear, in step order; `scroll` moves the panel up, in pt.
  */
 export const CarbonWindow = ({
@@ -299,35 +298,6 @@ export const CarbonWindow = ({
               <Token key={name} name={name} />
             ))}
           </div>
-          {SUMMARY.map((block) => (
-            <div key={block.heading}>
-              <p style={{ ...HEADING, ...appear() }}>{block.heading}</p>
-              {block.bullets.map((bullet) => (
-                <div
-                  key={bullet}
-                  style={{
-                    ...appear(),
-                    display: "flex",
-                    gap: 9,
-                    lineHeight: 1.45,
-                    marginBottom: 3,
-                  }}
-                >
-                  <span
-                    style={{
-                      background: COLOR.secondary,
-                      borderRadius: 3,
-                      flexShrink: 0,
-                      height: 5,
-                      marginTop: 7,
-                      width: 5,
-                    }}
-                  />
-                  {bullet}
-                </div>
-              ))}
-            </div>
-          ))}
           <p style={{ ...HEADING, ...appear(), marginTop: 10 }}>Transcript</p>
           {TRANSCRIPT.map((line) => (
             <div key={`${line.elapsed}-${line.speaker}`} style={appear()}>
