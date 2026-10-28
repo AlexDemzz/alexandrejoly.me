@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 import { Film } from "@/components/film";
 import { GitHubIcon } from "@/components/github-icon";
 import { LogoMark } from "@/components/logo";
-import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME } from "@/lib/site";
+import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // The library landings' header (apps/responsivecn, apps/react-easy-modals),
 // the film, then a letter after the copper page: the hook, the problem, how
@@ -117,4 +117,8 @@ const Key = ({ children }: { children: string }) => (
 
 export const Route = createFileRoute("/")({
   component: Home,
+  head: () => ({
+    links: [{ href: `${SITE_URL}/`, rel: "canonical" }],
+    meta: [{ content: `${SITE_URL}/`, property: "og:url" }],
+  }),
 });
