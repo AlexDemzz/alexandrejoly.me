@@ -1,14 +1,9 @@
 import { Code } from "@portfolio/ui/components/code";
-import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
-import {
-  Section,
-  SectionContent,
-  SectionTitle,
-} from "@portfolio/ui/components/section";
 import { Text, TextLink } from "@portfolio/ui/components/text";
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
 
+import { AnchoredSection } from "@/components/anchored-section";
+import { Emphasis } from "@/components/emphasis";
 import { HomeBreadcrumb } from "@/components/home-breadcrumb";
 import { SiteFooter } from "@/components/site-footer";
 import { CONTACT_EMAIL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -34,7 +29,7 @@ const Privacy = () => (
       that means in practice.
     </Text>
 
-    <PrivacySection id="meetings" title="Your meetings never leave your Mac">
+    <AnchoredSection id="meetings" title="Your meetings never leave your Mac">
       <Text>
         Carbon records and transcribes on your Mac, with Apple’s on-device
         speech recognition. It tells speakers apart on your Mac too, with models
@@ -46,26 +41,26 @@ const Privacy = () => (
         deleted once the transcript is written, unless you turn on Keep audio.{" "}
         <Emphasis>I never see any of it.</Emphasis>
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="voices" title="Voices stay on your Mac too">
+    <AnchoredSection id="voices" title="Voices stay on your Mac too">
       <Text>
         When you name a speaker, Carbon remembers their voice as a Voice Print,
         a numeric voice signature. Voice Prints are stored only on your Mac, and
         Carbon never sends them anywhere. You can delete them, or turn voice
         recognition off, in Settings.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="tracking" title="Carbon doesn’t track you">
+    <AnchoredSection id="tracking" title="Carbon doesn’t track you">
       <Text>
         No account to sign in to, no analytics, and no server of mine for Carbon
         to report to. Nothing about your meetings, or how you use Carbon, is
         sent anywhere.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="updates" title="Checking for updates">
+    <AnchoredSection id="updates" title="Checking for updates">
       <Text>
         Carbon asks <Code>carbon.alexandrejoly.me</Code> whether a newer version
         exists, and downloads it if there is one. That’s Sparkle, and it’s the
@@ -74,17 +69,17 @@ const Privacy = () => (
       <Text>
         The only other traffic is macOS downloading Apple’s own speech models.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="recording" title="Telling people you’re recording">
+    <AnchoredSection id="recording" title="Telling people you’re recording">
       <Text>
         By default, Carbon starts transcribing when a call starts, and the dot
         in its menu bar icon stays red while it does. You’re responsible for
         telling the others on the call that they’re being recorded.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="this-site" title="This site">
+    <AnchoredSection id="this-site" title="This site">
       <Text>
         carbon.alexandrejoly.me sets no cookies and runs no analytics or
         tracking scripts. It runs on{" "}
@@ -95,9 +90,9 @@ const Privacy = () => (
         details, to serve the page and protect it from abuse. Request logs are
         kept for a few days to debug errors.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
 
-    <PrivacySection id="questions" title="Questions">
+    <AnchoredSection id="questions" title="Questions">
       <Text>
         Write to{" "}
         <TextLink href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</TextLink>,
@@ -107,30 +102,9 @@ const Privacy = () => (
         </TextLink>
         . If any of this changes, I’ll update this page.
       </Text>
-    </PrivacySection>
+    </AnchoredSection>
     <SiteFooter />
   </main>
-);
-
-const Emphasis = ({ children }: { children: ReactNode }) => (
-  <span className="text-foreground">{children}</span>
-);
-
-const PrivacySection = ({
-  children,
-  id,
-  title,
-}: {
-  children: ReactNode;
-  id: string;
-  title: string;
-}) => (
-  <Section variant="stacked">
-    <SectionTitle className="scroll-mt-6" id={id}>
-      <HeadingAnchor id={id}>{title}</HeadingAnchor>
-    </SectionTitle>
-    <SectionContent className="flex flex-col gap-5">{children}</SectionContent>
-  </Section>
 );
 
 export const Route = createFileRoute("/privacy")({
