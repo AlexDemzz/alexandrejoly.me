@@ -18,6 +18,8 @@ export const NotificationBadgeDemo = () => {
             aria-label={
               count > 0 ? `Notifications, ${count} unread` : "Notifications"
             }
+            // oxlint-disable-next-line shadcn/no-restyle -- shadcn's stock radius, where the badge's default corner placement is the right one
+            className="rounded-md"
             size="icon-lg"
             variant="outline"
           >
