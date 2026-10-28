@@ -19,14 +19,17 @@ const INDICATOR = '[data-slot="notification-badge-indicator"]';
 const CONTENTS = ["bell", "avatar", "dot"] as const;
 
 // The demo from components/demos/notification-badge-demo.tsx, from 8, on a
-// gradient so the hole shows something other than the page.
+// striped backdrop (index.css) so the hole shows something other than the page.
 const Scene = () => {
   const [count, setCount] = useState(START_COUNT);
   const [contentIndex, setContentIndex] = useState(0);
   const content = CONTENTS[contentIndex];
 
   return (
-    <div className="from-background to-selection grid h-dvh w-dvw place-items-center bg-linear-to-br">
+    <div
+      className="grid h-dvh w-dvw place-items-center"
+      data-slot="showcase-backdrop"
+    >
       {/* Twice the size, so the badge reads on a phone. */}
       <div className="flex [zoom:2] flex-col items-center gap-6">
         <NotificationBadge
@@ -82,30 +85,21 @@ export const notificationBadgeHole: Showcase = {
   Scene,
   start: [0.3, 0.88],
   steps: [
-    { moveTo: [0.36, 0.84] },
-    { moveTo: [0.44, 0.74] },
+    // One glide per beat: two moves in a row stop the cursor between them.
     { click: ADD },
-    { rest: 450 },
-    { moveTo: [0.43, 0.76] },
+    { rest: 600 },
     { click: ADD },
-    { rest: 450 },
+    { rest: 600 },
     { zoomIn: INDICATOR, scale: 4 },
-    { rest: 500 },
+    { rest: 600 },
     { zoomOut: true },
-    { moveTo: [0.47, 0.84] },
-    { moveTo: [0.52, 0.8] },
     { click: SWITCH },
-    { rest: 450 },
-    { moveTo: [0.55, 0.78] },
+    { rest: 600 },
     { click: SWITCH },
-    { rest: 450 },
+    { rest: 600 },
     { zoomIn: INDICATOR, scale: 4 },
-    { rest: 500 },
+    { rest: 600 },
     { zoomOut: true },
-    // Down and away, in short drifts, so the dot reads untouched.
-    { moveTo: [0.62, 0.88] },
-    { moveTo: [0.74, 0.8] },
-    { moveTo: [0.86, 0.92] },
-    { moveTo: [0.94, 0.82] },
+    { moveTo: [0.86, 0.9] },
   ],
 };
