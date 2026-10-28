@@ -14,6 +14,30 @@
 }
 
 /*
+ * Demos show the Button a reader's stock shadcn project has, not this site's
+ * rounded-full one, so their code never has to undo a site style. Unlayered
+ * so it wins over the Button's own utilities.
+ */
+[data-slot="component-preview-demo"] [data-slot="button"] {
+  @apply rounded-lg;
+}
+
+/* The xs and sm sizes, told apart by their stock height classes. */
+[data-slot="component-preview-demo"]
+  [data-slot="button"]:is([class~="h-6"], [class~="size-6"]):not(
+    [data-slot="button-group"] *
+  ) {
+  @apply rounded-[min(var(--radius-md),10px)];
+}
+
+[data-slot="component-preview-demo"]
+  [data-slot="button"]:is([class~="h-7"], [class~="size-7"]):not(
+    [data-slot="button-group"] *
+  ) {
+  @apply rounded-[min(var(--radius-md),12px)];
+}
+
+/*
  * DESIGN.md › Site › Components › Row, drawn for the lean parts in
  * components/item-light.tsx: the look that the stock Item, its row overrides
  * and ItemInsetSeparator used to print as classes on every row.
