@@ -26,7 +26,7 @@ typography:
   control: { family: system-ui, size: 14px, weight: 500, line-height: 20px }
   dense: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
 rounded: { logo: 9999px, favicon: 5px, focus: 5px, card: 16px, outer-card: 24px }
-spacing: { column: 624px, docs: 864px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: "48px, 128px from sm, 64px from md", section-y: 40px, row-y: 14px }
+spacing: { column: 624px, docs: 864px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: "48px, 128px from sm, 64px from md", section-y: 40px, page-break: 64px, section-gap: 48px, row-y: 14px }
 components:
   row: { text: "{colors.foreground}", rule: "{colors.border}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.muted-foreground}" }
@@ -73,12 +73,12 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 - **Column** `max-w-column` (624px, a 576px measure inside the `px-6` gutters), `py-12 sm:py-32 md:py-16`: the home and every page without navigation.
 - Header: the 40px mark, the statement 24px below it, then the 18px social icons 20px under the statement (their hit-area padding cancelled so the gap is the visible one), and the contribution graph 28px under the icons.
-- Sections: the title above its rows with a 16px gap, at every width, and 40px above and below each section.
-- The first row of a section has no top padding, so its title lines up with the section title.
+- Sections: the title above its rows with a 16px gap, at every width. On the home, About, Contact and Components, sections sit 48px apart and 64px from the header and the footer, in a `SectionStack` (`apps/web`) of `Section spacing="none"`, so the breaks around them read larger than the gaps between them.
+- The first row of a section has no top padding, so its title lines up with the section title, and the last row has no bottom padding, so the gap after it is the visible one.
 
 ### Components
 
-- **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content, a 16px title in `muted-foreground`; `variant="stacked"` makes it the 18px docs section heading in `foreground`.
+- **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content, a 16px title in `muted-foreground`; `variant="stacked"` makes it the 18px docs section heading in `foreground`. It carries the 40px above and below; `spacing="none"` drops it for a column that spaces its sections with a gap (see Library landings › Rhythm).
 - **Row** (`ItemLight`, styled by `data-slot` in `apps/web/src/index.css`): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), an inset hairline under each row but the last, no fill. Titles wrap to as many lines as they need.
 - **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at control size, the title on one line and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
 - **Text link** (`TextLink`, `link-text`): `foreground`, weight 450, underline in `underline` at 3px; may lead with a favicon.
@@ -131,4 +131,8 @@ The home pages of the docs sites (`apps/responsivecn`, `apps/react-easy-modals`)
 - Header in the column: the site's 40px mark with an outline GitHub button at the end, a 20px statement that opens with the `h1` library name, then a large "Read the docs" button.
 - **Hero card:** the one card a landing allows, wider than the column (`max-w-breakout`, 816px), showing the library live. A card that nests others keeps its radii concentric (outer radius minus the inset).
 - Then the sections, in the column.
-- **Product landing** (`apps/carbon`): the same header, with the large button reading "Download Carbon for Mac" and the outline GitHub button pointing at the app's repository, then the film in the hero card, in the appearance that matches the page, with its title cards on the theme's `primary` and `primary-foreground` text so it stands out. It plays only when clicked, muted and once, with a Play/Pause/Replay pill at its bottom-start corner. Then a letter in the column, after the copper page: body prose with key phrases in `foreground`, no section titles. A second download button closes the letter, followed by install notes and requirements at 14px, then the docs sites' footer with a Privacy link. The letter's privacy sentence links to `/privacy`, whose sections take anchored `stacked` titles.
+- **Rhythm**, as on the Site: 64px at each break of the page (header to hero card, hero card to the first section, the last section to the closing call, the closing call to the footer), 48px between two sections, 16px between a section's title and its content. A section is a sibling in a `gap-12` column with no padding of its own (`Section spacing="none"`), so two sections never stack their 40px into 80px and read further apart than the hero.
+- **Product landing** (`apps/carbon`): the same header, with the large button reading "Download Carbon for Mac" and the outline GitHub button pointing at the app's repository, then the film in the hero card, in the appearance that matches the page, with its title cards on the theme's `primary` and `primary-foreground` text so it stands out. It plays only when clicked, muted and once, with a Play/Pause/Replay pill at its bottom-start corner.
+  - Four feature sections with anchored `stacked` titles, body prose with key phrases in `foreground`. The file section shows a sample Meeting file in a `CodeBlock` titled with its path; the privacy section links to `/privacy`, whose sections take anchored `stacked` titles too.
+  - **FAQ**, the last section: disclosure rows (`details`), the question in `foreground` at 450 with a `+` at the end that turns into `×` when open, the answer in body prose under it, a hairline between rows and none after the last. Every answer is checked against Carbon's sources.
+  - **Closing call**, aligned to the start: a 20px line in `foreground`, a sentence in `muted-foreground` 8px under it, the large download button 24px lower, then the install notes and requirements at body size, 24px under the button and 20px apart. Then the docs sites' footer with a Privacy link.
