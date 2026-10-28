@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { CSSProperties } from "react";
 
 import type { Dot } from "../data";
 import {
@@ -11,13 +11,18 @@ import {
   isUnnamed,
 } from "../data";
 import { mix, settle } from "../motion";
+import { Glass } from "./glass";
 import { TrafficLights } from "./screen";
+import { SFSymbol } from "./symbols";
 import { usePalette } from "./theme";
 
 export const WINDOW = { height: 396, left: 40, top: 36, width: 720 };
 export const SIDEBAR_WIDTH = 236;
-const ROW_HEIGHT = 46;
-const ROWS_TOP = 84;
+const ROW_HEIGHT = 47;
+const ROWS_TOP = 98;
+// macOS 26 toolbar controls: 36 pt glass circles, 8 pt apart and from the edge.
+const CONTROL = 36;
+const CONTROL_INSET = 8;
 
 const TRUNCATE: CSSProperties = {
   overflow: "hidden",
@@ -30,44 +35,6 @@ export const rowCenter = (index: number) => ({
   x: WINDOW.left + SIDEBAR_WIDTH / 2,
   y: WINDOW.top + ROWS_TOP + ROW_HEIGHT * index + ROW_HEIGHT / 2,
 });
-
-const Icon = ({ children }: { children: ReactNode }) => {
-  const COLOR = usePalette();
-  return (
-    <svg
-      fill="none"
-      height={15}
-      stroke={COLOR.label}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      viewBox="0 0 16 16"
-      width={15}
-    >
-      {children}
-    </svg>
-  );
-};
-
-const ToolbarButton = ({ children }: { children: ReactNode }) => {
-  const COLOR = usePalette();
-  return (
-    <div
-      style={{
-        alignItems: "center",
-        background: COLOR.toolbar,
-        borderRadius: 999,
-        boxShadow: `0 0 0 0.5px ${COLOR.separator}, 0 1px 3px rgba(0,0,0,0.08)`,
-        display: "flex",
-        height: 30,
-        justifyContent: "center",
-        width: 34,
-      }}
-    >
-      {children}
-    </div>
-  );
-};
 
 const dotColor = (dot: Dot | undefined, selected: boolean) => {
   if (!dot) {
@@ -88,32 +55,37 @@ const Sidebar = () => {
         width: SIDEBAR_WIDTH,
       }}
     >
-      <div style={{ left: 16, position: "absolute", top: 17 }}>
-        <TrafficLights />
+      <div style={{ left: 19, position: "absolute", top: 19 }}>
+        <TrafficLights gap={9} size={14} />
       </div>
-      <div
+      <Glass
+        height={CONTROL}
         style={{
-          alignItems: "center",
-          background: COLOR.tertiaryFill,
-          borderRadius: 8,
-          color: COLOR.secondary,
-          display: "flex",
-          gap: 6,
-          height: 26,
-          left: 10,
-          padding: "0 8px",
           position: "absolute",
-          right: 10,
-          top: 46,
+          right: CONTROL_INSET,
+          top: CONTROL_INSET,
         }}
+        width={CONTROL}
       >
-        <Icon>
-          <circle cx={7} cy={7} r={4.5} stroke={COLOR.secondary} />
-          <path d="m10.5 10.5 3 3" stroke={COLOR.secondary} />
-        </Icon>
+        <SFSymbol name="sidebar.left" />
+      </Glass>
+      <Glass
+        height={28}
+        kind="field"
+        style={{
+          color: COLOR.secondary,
+          justifyContent: "flex-start",
+          left: 10,
+          paddingLeft: 8.5,
+          position: "absolute",
+          top: 61,
+        }}
+        width={SIDEBAR_WIDTH - 20}
+      >
+        <SFSymbol name="magnifyingglass" />
         Search Meetings
-      </div>
-      <div style={{ left: 8, position: "absolute", right: 8, top: ROWS_TOP }}>
+      </Glass>
+      <div style={{ left: 10, position: "absolute", right: 10, top: ROWS_TOP }}>
         {ROWS.map((row, index) => {
           const selected = index === 0;
           return (
@@ -127,7 +99,7 @@ const Sidebar = () => {
                 display: "flex",
                 gap: 8,
                 height: ROW_HEIGHT,
-                padding: "6px 10px",
+                padding: "6px 10px 6px 6px",
               }}
             >
               <span
@@ -252,7 +224,7 @@ export const CarbonWindow = ({
             height: 52,
             justifyContent: "space-between",
             left: 0,
-            padding: "0 14px 0 22px",
+            padding: `0 ${CONTROL_INSET}px 0 22px`,
             position: "absolute",
             right: 0,
             top: 0,
@@ -265,20 +237,13 @@ export const CarbonWindow = ({
               {SUBTITLE}
             </div>
           </div>
-          <div style={{ display: "flex", gap: 10 }}>
-            <ToolbarButton>
-              <Icon>
-                <path d="M8.5 3H4a1.5 1.5 0 0 0-1.5 1.5v7.5A1.5 1.5 0 0 0 4 13.5h7.5A1.5 1.5 0 0 0 13 12V7.5" />
-                <path d="m7 9 .5-2L12.5 2l1.5 1.5-5 5z" />
-              </Icon>
-            </ToolbarButton>
-            <ToolbarButton>
-              <Icon>
-                <circle cx={3.5} cy={8} fill={COLOR.label} r={0.6} />
-                <circle cx={8} cy={8} fill={COLOR.label} r={0.6} />
-                <circle cx={12.5} cy={8} fill={COLOR.label} r={0.6} />
-              </Icon>
-            </ToolbarButton>
+          <div style={{ color: COLOR.controlLabel, display: "flex", gap: 8 }}>
+            <Glass height={CONTROL} width={CONTROL}>
+              <SFSymbol name="square.and.pencil" />
+            </Glass>
+            <Glass height={CONTROL} width={CONTROL}>
+              <SFSymbol name="ellipsis" />
+            </Glass>
           </div>
         </div>
         <div
@@ -320,7 +285,9 @@ export const CarbonWindow = ({
                 >
                   {line.speaker}
                   {line.speaker === "Me" ? null : (
-                    <span style={{ fontSize: 9, marginLeft: 3 }}>⌄</span>
+                    <span style={{ display: "inline-block", marginLeft: 2 }}>
+                      <SFSymbol name="chevron.down" />
+                    </span>
                   )}
                 </span>
                 <span

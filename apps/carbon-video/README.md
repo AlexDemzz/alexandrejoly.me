@@ -8,6 +8,8 @@ The 36-second film on the Carbon landing (`apps/carbon`), written in [Remotion](
 
 The scenes draw Carbon's SwiftUI mock in code, with its sample meetings in `src/data.ts`. Once the real app ships, swap the data for an exported Library or the scenes for screen recordings, then render again.
 
+The window matches macOS 26. `src/ui/symbols.tsx` holds the app's SF Symbols, exported as vectors from SwiftUI's `ImageRenderer` at the size each control draws them. `src/ui/glass.tsx` draws Liquid Glass with values measured from SwiftUI captures in both appearances: a blurred, tinted backdrop, a specular rim and a hairline. Headless Chrome renders it, so `backdrop-filter` and `mask-composite` are safe to use.
+
 ## Render
 
 ```sh
