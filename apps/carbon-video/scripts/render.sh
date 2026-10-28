@@ -18,7 +18,7 @@ render() {
   remotion render "$composition" "out/$name.mp4" --muted --crf=12 --concurrency=2 --log=error
   ffmpeg -v error -y -i "out/$name.mp4" -an "${tags[@]}" -c:v libx264 \
     -preset slow -crf 26 -pix_fmt yuvj420p -movflags +faststart "$media/$name.mp4"
-  remotion still "$composition" "out/$name-poster.png" --frame=40 --log=error
+  remotion still "$composition" "out/$name-poster.png" --frame=0 --log=error
   magick "out/$name-poster.png" -quality 82 "$media/$name-poster.webp"
 }
 

@@ -1,6 +1,6 @@
 # Carbon film
 
-The 36-second film on the Carbon landing (`apps/carbon`), written in [Remotion](https://www.remotion.dev). It plays like a short demo: title cards between three scenes of the app.
+The 34-second film on the Carbon landing (`apps/carbon`), written in [Remotion](https://www.remotion.dev). It plays like a short demo: title cards between three scenes of the app.
 
 1. A call starts. The dot in the menu bar glyph turns red, the "Transcribing in English" notification shows, the menu bar menu opens on the language switcher, then the call ends.
 2. The meeting window opens: participants, then the transcript with "Speaker · 0:19" above each line.

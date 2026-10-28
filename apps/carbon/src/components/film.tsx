@@ -9,8 +9,8 @@ import { useRef, useState } from "react";
 
 import darkPoster from "@/media/carbon-flow-dark-poster.webp?no-inline";
 import darkMp4 from "@/media/carbon-flow-dark.mp4";
-import lightPoster from "@/media/carbon-flow-poster.webp?no-inline";
-import lightMp4 from "@/media/carbon-flow.mp4";
+import poster from "@/media/carbon-flow-poster.webp?no-inline";
+import mp4 from "@/media/carbon-flow.mp4";
 
 const DARK = "(prefers-color-scheme: dark)";
 
@@ -24,10 +24,9 @@ const CONTROL = {
 } as const;
 
 /**
- * The landing film, rendered by apps/carbon-video in both appearances and
- * shown in the opposite one, so it stands out from the page. It plays only
- * when asked, muted and once, so it never moves on its own: the whole card is
- * its play/pause button, and the pill names the next action.
+ * The landing film, rendered by apps/carbon-video in both appearances. It
+ * plays only when asked, muted and once, so it never moves on its own: the
+ * whole card is its play/pause button, and the pill names the next action.
  * The poster is a picture over the video, since `poster` can't follow the
  * color scheme.
  */
@@ -71,17 +70,17 @@ export const Film = () => {
         ref={ref}
         width={1600}
       >
-        <source media={DARK} src={lightMp4} type="video/mp4" />
-        <source src={darkMp4} type="video/mp4" />
+        <source media={DARK} src={darkMp4} type="video/mp4" />
+        <source src={mp4} type="video/mp4" />
       </video>
       {playback === "idle" ? (
         <picture>
-          <source media={DARK} srcSet={lightPoster} />
+          <source media={DARK} srcSet={darkPoster} />
           <img
             alt=""
             className="absolute inset-0 size-full"
             height={900}
-            src={darkPoster}
+            src={poster}
             width={1600}
           />
         </picture>
@@ -110,7 +109,7 @@ export const Film = () => {
         </span>
       </button>
       <figcaption className="sr-only">
-        A 36-second demo without sound. Join a call, and Carbon starts on its
+        A 34-second demo without sound. Join a call, and Carbon starts on its
         own: the dot in its menu bar icon turns red and a notification reads
         “Transcribing in English.” When the call ends, the meeting opens on its
         participants, then every word with who said it and when. Copy Path hands

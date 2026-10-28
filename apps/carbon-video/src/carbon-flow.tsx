@@ -23,7 +23,8 @@ const FADE = 8;
 
 const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
-    frames: 66,
+    // The poster already shows this card, so it only holds long enough to fade.
+    frames: 12,
     name: "intro",
     node: (
       <TitleCard
