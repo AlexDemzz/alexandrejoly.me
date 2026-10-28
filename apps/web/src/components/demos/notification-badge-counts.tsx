@@ -24,7 +24,8 @@ export const NotificationBadgeCounts = () => (
         <NotificationBadgeContent>
           <Button
             aria-label={toUnreadLabel(count)}
-            // oxlint-disable-next-line shadcn/no-restyle -- shadcn's stock radius, where the badge's default corner placement is the right one
+            // site-only: this site's Button is rounded-full; shadcn's is rounded-md, where the badge's default corner placement is the right one.
+            // oxlint-disable-next-line shadcn/no-restyle -- see site-only above
             className="rounded-md"
             size="icon-lg"
             variant="outline"

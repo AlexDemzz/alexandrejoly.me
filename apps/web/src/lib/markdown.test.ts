@@ -111,6 +111,10 @@ describe("componentMarkdown", () => {
       } = REGISTRY_DOCS[name];
 
       expect(markdown).toContain(code.demos[demo.file]?.code);
+      // Lines marked `site-only` never reach a reader's copy.
+      for (const { code: shown } of Object.values(code.demos)) {
+        expect(shown).not.toMatch(/site-only|oxlint-disable/u);
+      }
       // The source sits in a list item, indented under its step.
       expect(markdown.replaceAll(LIST_ITEM_INDENT, "")).toContain(
         code.source.code
