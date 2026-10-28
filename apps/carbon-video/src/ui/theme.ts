@@ -22,6 +22,7 @@ export const PALETTES = {
     controlLabel: "rgba(255,255,255,0.85)",
     destructive: "#ff453a",
     field: "rgba(255,255,255,0.08)",
+    film: "#000",
     label: "#f5f5f7",
     menuBar: "rgba(28,28,30,0.5)",
     menuShadow:
@@ -48,6 +49,7 @@ export const PALETTES = {
     controlLabel: "rgba(0,0,0,0.85)",
     destructive: "#d70015",
     field: "rgba(0,0,0,0.06)",
+    film: "#fff",
     label: "#1d1d1f",
     menuBar: "rgba(255,255,255,0.42)",
     menuShadow:

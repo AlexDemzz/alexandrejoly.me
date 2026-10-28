@@ -5,20 +5,23 @@ import { CarbonMark } from "../ui/mark";
 import { Stage } from "../ui/screen";
 import { usePalette } from "../ui/theme";
 
-/** A line of text on the page color, as on alexandrejoly.me; the mark on the first and last. */
+/** A line of text on black or white, so the film stands out from the page; the mark on the first and last. */
 export const TitleCard = ({
+  entering = true,
   text,
   withMark = false,
 }: {
+  /** Off for the first card, which must match the poster from frame 0. */
+  entering?: boolean;
   text: string;
   withMark?: boolean;
 }) => {
   const frame = useCurrentFrame();
   const COLOR = usePalette();
-  const enter = settle(frame, 0, 18);
+  const enter = entering ? settle(frame, 0, 18) : 1;
 
   return (
-    <Stage background={COLOR.page}>
+    <Stage background={COLOR.film}>
       <div
         style={{
           alignItems: "center",
