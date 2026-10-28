@@ -1,44 +1,30 @@
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@portfolio/ui/components/breadcrumb";
 import { buttonVariants } from "@portfolio/ui/components/button";
 import { Code, codeVariants } from "@portfolio/ui/components/code";
 import { Text } from "@portfolio/ui/components/text";
+import { cn } from "@portfolio/ui/lib/utils";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Film } from "@/components/film";
-import { AUTHOR_URL, DOWNLOAD_URL } from "@/lib/site";
+import { GitHubIcon } from "@/components/github-icon";
+import { LogoMark } from "@/components/logo";
+import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME } from "@/lib/site";
 
-// A letter after the copper page: the hook as the h1, the problem, the film,
-// what Carbon is, how it works, why it can be trusted, then the download.
-// Every claim is backed by Carbon's v1 product design and UI mock
-// (carbon/.scratch/carbon-v1/issues/01 and 12).
+// The library landings' header (apps/responsivecn, apps/react-easy-modals),
+// the film, then a letter after the copper page: the hook, the problem, how
+// it works, why it can be trusted, then the download. Every claim is backed
+// by Carbon's v1 spec and UI mock (carbon/.scratch/carbon-v1).
 const Home = () => (
-  <main className="flex flex-1 flex-col gap-5 px-6 py-12 sm:py-24">
+  <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
+    <Header />
+    <div className="max-w-breakout mx-auto mt-8 w-full">
+      <Film />
+    </div>
     <Column>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href={AUTHOR_URL}>Alexandre Joly</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>/</BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbPage>Carbon</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <h1 className="text-foreground mt-7 text-xl leading-relaxed text-balance">
-        You know how you’re on a call, thinking “I should write this down,” but
-        you don’t want to stop listening?
-      </h1>
       <Text>
-        Then the call ends and your notes are half a sentence.{" "}
+        You know how you’re on a call, thinking “I should write this down,” but
+        you don’t want to stop listening? Then the call ends and your notes are
+        half a sentence.{" "}
         <Emphasis>
           What was decided, who said they’d do what, the number someone
           mentioned
@@ -46,17 +32,6 @@ const Home = () => (
         : gone, unless you let a note taker bot into the call.
       </Text>
       <Text>I wanted the transcript without the bot, so I built Carbon.</Text>
-    </Column>
-
-    <div className="max-w-breakout mx-auto my-3 w-full">
-      <Film />
-    </div>
-
-    <Column>
-      <p className="text-foreground font-medium text-balance">
-        Carbon is a lightweight, native macOS app that sits in your menu bar and
-        turns every meeting into a Markdown file on your Mac.
-      </p>
       <Text>
         When Zoom, Google Meet, Teams or any other meeting app starts using your
         microphone, Carbon starts transcribing and the dot in its icon turns
@@ -77,12 +52,7 @@ const Home = () => (
         <Emphasis>Everything stays on your Mac.</Emphasis>
       </Text>
       <Text>If this feels like something you’d use, it’s free.</Text>
-      <a
-        className={buttonVariants({ className: "w-fit", size: "lg" })}
-        href={DOWNLOAD_URL}
-      >
-        Download Carbon for Mac
-      </a>
+      <DownloadButton />
       <p className="text-muted-foreground text-sm">
         Drag it to Applications and it shows up in your menu bar. It updates
         itself.
@@ -96,8 +66,43 @@ const Home = () => (
   </main>
 );
 
+const Header = () => (
+  <header className="max-w-column mx-auto flex w-full flex-col">
+    <div className="flex items-center justify-between">
+      <LogoMark className="text-foreground size-10" />
+      <a
+        className={buttonVariants({ variant: "outline" })}
+        href={GITHUB_URL}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <GitHubIcon data-icon="inline-start" />
+        GitHub
+      </a>
+    </div>
+    <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
+      <h1 className="text-foreground inline font-medium">{SITE_NAME}</h1> is a
+      lightweight, native macOS app that sits in your menu bar and turns every
+      meeting into a Markdown file on your Mac.
+    </div>
+    <DownloadButton className="mt-5" />
+  </header>
+);
+
+const DownloadButton = ({ className }: { className?: string }) => (
+  <a
+    className={buttonVariants({
+      className: cn("w-fit", className),
+      size: "lg",
+    })}
+    href={DOWNLOAD_URL}
+  >
+    Download Carbon for Mac
+  </a>
+);
+
 const Column = ({ children }: { children: ReactNode }) => (
-  <div className="max-w-column mx-auto flex w-full flex-col gap-5">
+  <div className="max-w-column mx-auto mt-10 flex w-full flex-col gap-5">
     {children}
   </div>
 );
