@@ -4,6 +4,7 @@ import { useCurrentFrame } from "remotion";
 import {
   ATTENDEES,
   LANGUAGE,
+  MEETING_LANGUAGES,
   OTHER_LANGUAGE,
   PROVIDER,
   STARTED_AT,
@@ -383,8 +384,13 @@ const MenuBarMenu = ({ frame }: { frame: number }) => {
             width: 148,
           }}
         >
-          <MenuItem checked label={LANGUAGE} />
-          <MenuItem checked={false} label={OTHER_LANGUAGE} />
+          {MEETING_LANGUAGES.map((language) => (
+            <MenuItem
+              checked={language === LANGUAGE}
+              key={language}
+              label={language}
+            />
+          ))}
         </div>
       ) : null}
     </div>

@@ -5,6 +5,14 @@
 export const PROVIDER = "Google Meet";
 export const LANGUAGE = "English";
 export const OTHER_LANGUAGE = "French";
+// The Meeting Languages chosen in Settings, in the language switcher's order.
+export const MEETING_LANGUAGES = [
+  LANGUAGE,
+  OTHER_LANGUAGE,
+  "Italian",
+  "Spanish",
+  "German",
+];
 export const TITLE = "Weekly design sync";
 export const STARTED_AT = "10:00 AM";
 export const MARKDOWN_PATH =
