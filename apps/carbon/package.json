@@ -7,7 +7,8 @@
     "serve": "vite preview",
     "deploy": "pnpm build && wrangler deploy",
     "dev": "vite dev --port 3002",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
@@ -32,6 +33,7 @@
     "@vitejs/plugin-react": "^6.1.2",
     "babel-plugin-react-compiler": "catalog:",
     "typescript": "catalog:",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "vitest": "catalog:"
   }
 }
