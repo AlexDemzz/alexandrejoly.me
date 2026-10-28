@@ -45,6 +45,8 @@ const Scene = () => {
             {content === "bell" ? (
               <Button
                 aria-label={`Notifications, ${count} unread`}
+                // oxlint-disable-next-line shadcn/no-restyle -- shadcn's stock radius, where the badge's default corner placement is the right one
+                className="rounded-md"
                 size="icon-lg"
                 variant="outline"
               >
