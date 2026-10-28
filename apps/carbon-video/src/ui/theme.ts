@@ -13,8 +13,8 @@ export const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
 export type Theme = "light" | "dark";
 
 // alexandrejoly.me's palette (packages/ui/src/styles/theme.css) for the title
-// cards, macOS system colors for the app, one set per appearance so the film
-// matches the page it plays on.
+// cards, macOS system colors for the app, one set per appearance. The landing
+// plays each in the opposite appearance to the page.
 export const PALETTES = {
   dark: {
     accent: "#0a84ff",
