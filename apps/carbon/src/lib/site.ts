@@ -8,5 +8,6 @@ export const DOWNLOAD_URL = "/download";
 export const AUTHOR_URL = "https://alexandrejoly.me";
 export const CONTACT_EMAIL = "alexandre.joly36@gmail.com";
 export const GITHUB_URL = "https://github.com/AlexDemzz/carbon";
+export const LICENSE_URL = `${GITHUB_URL}/blob/main/LICENSE`;
 
 export const absoluteUrl = (path: string) => new URL(path, SITE_URL).href;
