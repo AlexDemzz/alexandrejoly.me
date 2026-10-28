@@ -1,5 +1,6 @@
 import { Code } from "@portfolio/ui/components/code";
 import { Heading } from "@portfolio/ui/components/heading";
+import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
 import { Panel, PanelHeader } from "@portfolio/ui/components/panel";
 import {
   Table,
@@ -13,7 +14,6 @@ import {
 import { Text, TextLink } from "@portfolio/ui/components/text";
 import { Fragment } from "react";
 
-import { HeadingAnchor } from "@/components/docs/heading-anchor";
 import { InlineCode } from "@/components/docs/inline-code";
 import type {
   ApiExtends,

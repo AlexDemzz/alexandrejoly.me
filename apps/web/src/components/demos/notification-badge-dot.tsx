@@ -11,6 +11,8 @@ export const NotificationBadgeDot = () => (
     <NotificationBadgeContent>
       <Button
         aria-label="Messages, new activity"
+        // oxlint-disable-next-line shadcn/no-restyle -- shadcn's stock radius, where the badge's default corner placement is the right one
+        className="rounded-md"
         size="icon-lg"
         variant="outline"
       >

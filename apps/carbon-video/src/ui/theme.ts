@@ -19,6 +19,7 @@ export const PALETTES = {
   dark: {
     accent: "#0a84ff",
     callChrome: "#2b2a29",
+    controlLabel: "rgba(255,255,255,0.85)",
     destructive: "#ff453a",
     field: "rgba(255,255,255,0.08)",
     label: "#f5f5f7",
@@ -34,7 +35,6 @@ export const PALETTES = {
     separator: "rgba(255, 255, 255, 0.12)",
     sidebar: "#262524",
     tertiaryFill: "rgba(118, 118, 128, 0.26)",
-    toolbar: "rgba(255,255,255,0.08)",
     toolbarBar: "rgba(30,30,30,0.86)",
     wallpaper:
       "radial-gradient(120% 90% at 20% 0%, oklch(0.36 0.02 70), transparent 60%), radial-gradient(90% 80% at 100% 100%, oklch(0.27 0.025 50), transparent 70%), oklch(0.22 0.012 65)",
@@ -45,6 +45,7 @@ export const PALETTES = {
   light: {
     accent: "#0a84ff",
     callChrome: "#f4f3f2",
+    controlLabel: "rgba(0,0,0,0.85)",
     destructive: "#d70015",
     field: "rgba(0,0,0,0.06)",
     label: "#1d1d1f",
@@ -60,7 +61,6 @@ export const PALETTES = {
     separator: "rgba(60, 60, 67, 0.14)",
     sidebar: "#f2f1f0",
     tertiaryFill: "rgba(118, 118, 128, 0.12)",
-    toolbar: "rgba(255,255,255,0.8)",
     toolbarBar: "rgba(255,255,255,0.86)",
     wallpaper:
       "radial-gradient(120% 90% at 20% 0%, oklch(0.95 0.012 75), transparent 60%), radial-gradient(90% 80% at 100% 100%, oklch(0.84 0.02 55), transparent 70%), oklch(0.9 0.014 68)",

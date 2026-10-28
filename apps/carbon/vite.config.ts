@@ -15,6 +15,9 @@ export default defineConfig({
     cloudflare({ viteEnvironment: { name: "ssr" } }),
     tanstackStart({
       prerender: {
+        // privacy.html, not privacy/index.html, so /privacy answers 200
+        // instead of a redirect to /privacy/.
+        autoSubfolderIndex: false,
         enabled: true,
         // The release Worker serves the DMG there; it isn't a page.
         filter: ({ path }) => path !== "/download",

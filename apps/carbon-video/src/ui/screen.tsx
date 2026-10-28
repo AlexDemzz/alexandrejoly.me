@@ -87,17 +87,23 @@ export const MenuBar = ({
   );
 };
 
-export const TrafficLights = () => (
-  <div style={{ display: "flex", gap: 8 }}>
+export const TrafficLights = ({
+  gap = 8,
+  size = 12,
+}: {
+  gap?: number;
+  size?: number;
+}) => (
+  <div style={{ display: "flex", gap }}>
     {["#ff5f57", "#febc2e", "#28c840"].map((color) => (
       <div
         key={color}
         style={{
           background: color,
-          borderRadius: 6,
+          borderRadius: size / 2,
           boxShadow: "inset 0 0 0 0.5px rgba(0,0,0,0.12)",
-          height: 12,
-          width: 12,
+          height: size,
+          width: size,
         }}
       />
     ))}

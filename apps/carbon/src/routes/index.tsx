@@ -1,14 +1,16 @@
 import { buttonVariants } from "@portfolio/ui/components/button";
-import { Code, codeVariants } from "@portfolio/ui/components/code";
-import { Text } from "@portfolio/ui/components/text";
+import { Code } from "@portfolio/ui/components/code";
+import { Kbd, KbdGroup } from "@portfolio/ui/components/kbd";
+import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { cn } from "@portfolio/ui/lib/utils";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Film } from "@/components/film";
 import { GitHubIcon } from "@/components/github-icon";
 import { LogoMark } from "@/components/logo";
-import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME } from "@/lib/site";
+import { SiteFooter } from "@/components/site-footer";
+import { DOWNLOAD_URL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // The library landings' header (apps/responsivecn, apps/react-easy-modals),
 // the film, then a letter after the copper page: the hook, the problem, how
@@ -22,16 +24,17 @@ const Home = () => (
     </div>
     <Column>
       <Text>
-        You know how you’re on a call, thinking “I should write this down,” but
-        you don’t want to stop listening? Then the call ends and your notes are
-        half a sentence.{" "}
+        Halfway through a call, you think “I should write this down” and keep
+        listening instead. By the end, your notes are half a sentence.{" "}
         <Emphasis>
           What was decided, who said they’d do what, the number someone
           mentioned
         </Emphasis>
         : gone, unless you let a note taker bot into the call.
       </Text>
-      <Text>I wanted the transcript without the bot, so I built Carbon.</Text>
+      <Text>
+        Carbon writes it all down for you, with no one else in the call.
+      </Text>
       <Text>
         When Zoom, Google Meet, Teams or any other meeting app starts using your
         microphone, Carbon starts transcribing and the dot in its icon turns
@@ -40,22 +43,28 @@ const Home = () => (
       </Text>
       <Text>
         Each meeting is a plain Markdown file in <Code>~/Documents/Carbon</Code>
-        , so <Emphasis>any AI agent can read it</Emphasis>. Right-click a
-        meeting, press <Key>⇧</Key> <Key>⌘</Key> <Key>C</Key> to copy its path,
-        and paste it into Claude Code, Codex or whatever you use.
+        , so <Emphasis>any AI agent can read it</Emphasis>. Press{" "}
+        <KbdGroup>
+          <Kbd>⇧</Kbd>
+          <Kbd>⌘</Kbd>
+          <Kbd>C</Kbd>
+        </KbdGroup>{" "}
+        on a meeting to copy its path, and paste it into Claude Code, Codex or
+        whatever you use.
       </Text>
       <Text>
-        I wanted something I could trust with every call. So there’s no account
-        to sign in to, no bot in the call and nothing uploaded. Carbon
-        transcribes with Apple’s on-device speech recognition and deletes the
-        audio once the transcript is written.{" "}
-        <Emphasis>Everything stays on your Mac.</Emphasis>
+        Calls are private, and Carbon keeps them that way: no account to sign in
+        to, no bot in the call and nothing uploaded. Carbon transcribes with
+        Apple’s on-device speech recognition and deletes the audio once the
+        transcript is written.{" "}
+        <Link className={textLinkVariants()} to="/privacy">
+          Your calls never leave your Mac.
+        </Link>
       </Text>
-      <Text>If this feels like something you’d use, it’s free.</Text>
       <DownloadButton />
       <p className="text-muted-foreground text-sm">
-        Drag it to Applications and it shows up in your menu bar. It updates
-        itself.
+        Carbon is free. Drag it to Applications and it shows up in your menu
+        bar. It updates itself.
       </p>
       <p className="text-muted-foreground text-sm">
         macOS 26 or later on Apple silicon. Carbon asks for microphone, system
@@ -63,6 +72,7 @@ const Home = () => (
         after your events.
       </p>
     </Column>
+    <SiteFooter />
   </main>
 );
 
@@ -111,10 +121,10 @@ const Emphasis = ({ children }: { children: ReactNode }) => (
   <span className="text-foreground">{children}</span>
 );
 
-const Key = ({ children }: { children: string }) => (
-  <kbd className={codeVariants()}>{children}</kbd>
-);
-
 export const Route = createFileRoute("/")({
   component: Home,
+  head: () => ({
+    links: [{ href: `${SITE_URL}/`, rel: "canonical" }],
+    meta: [{ content: `${SITE_URL}/`, property: "og:url" }],
+  }),
 });

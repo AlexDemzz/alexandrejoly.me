@@ -9,7 +9,6 @@ import {
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_TITLE,
-  SITE_URL,
   absoluteUrl,
 } from "@/lib/site";
 
@@ -39,13 +38,11 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { property: "og:title", content: SITE_TITLE },
       { property: "og:description", content: SITE_DESCRIPTION },
-      { property: "og:url", content: `${SITE_URL}/` },
       { property: "og:image", content: absoluteUrl("/og.png") },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:image", content: absoluteUrl("/og.png") },
     ],
     links: [
-      { rel: "canonical", href: `${SITE_URL}/` },
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", type: "image/svg+xml", href: "/icon.svg" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
