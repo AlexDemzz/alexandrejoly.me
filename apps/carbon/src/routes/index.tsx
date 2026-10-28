@@ -1,5 +1,6 @@
 import { buttonVariants } from "@portfolio/ui/components/button";
-import { Code, codeVariants } from "@portfolio/ui/components/code";
+import { Code } from "@portfolio/ui/components/code";
+import { Kbd, KbdGroup } from "@portfolio/ui/components/kbd";
 import { Text, textLinkVariants } from "@portfolio/ui/components/text";
 import { cn } from "@portfolio/ui/lib/utils";
 import { Link, createFileRoute } from "@tanstack/react-router";
@@ -42,9 +43,14 @@ const Home = () => (
       </Text>
       <Text>
         Each meeting is a plain Markdown file in <Code>~/Documents/Carbon</Code>
-        , so <Emphasis>any AI agent can read it</Emphasis>. Right-click a
-        meeting, press <Key>⇧</Key> <Key>⌘</Key> <Key>C</Key> to copy its path,
-        and paste it into Claude Code, Codex or whatever you use.
+        , so <Emphasis>any AI agent can read it</Emphasis>. Press{" "}
+        <KbdGroup>
+          <Kbd>⇧</Kbd>
+          <Kbd>⌘</Kbd>
+          <Kbd>C</Kbd>
+        </KbdGroup>{" "}
+        on a meeting to copy its path, and paste it into Claude Code, Codex or
+        whatever you use.
       </Text>
       <Text>
         Calls are private, and Carbon keeps them that way: no account to sign in
@@ -113,10 +119,6 @@ const Column = ({ children }: { children: ReactNode }) => (
 
 const Emphasis = ({ children }: { children: ReactNode }) => (
   <span className="text-foreground">{children}</span>
-);
-
-const Key = ({ children }: { children: string }) => (
-  <kbd className={codeVariants()}>{children}</kbd>
 );
 
 export const Route = createFileRoute("/")({
