@@ -36,7 +36,7 @@ const LEAVE_BUTTON = { height: 28, left: 370, top: 354, width: 64 };
 const MENU = { left: 524, top: 28, width: 270 };
 const MENU_ITEM = 22;
 const MENU_DIVIDER = 11;
-const LANGUAGE_ITEM_TOP = MENU.top + 5 + MENU_ITEM * 5 + MENU_DIVIDER;
+const LANGUAGE_ITEM_TOP = MENU.top + 5 + MENU_ITEM * 6 + MENU_DIVIDER;
 
 const CURSOR_PATH = [
   { at: 0, x: 360, y: 300 },
@@ -275,12 +275,12 @@ type MenuEntry =
 const MENU_ENTRIES: MenuEntry[] = [
   { kind: "item", label: `Transcribing “${TITLE}”`, muted: true },
   { kind: "item", label: `${PROVIDER} · since ${STARTED_AT}`, muted: true },
-  { kind: "item", label: "Stop and Discard" },
+  { kind: "item", label: "Stop" },
+  { kind: "item", label: "Discard" },
   { kind: "divider" },
   { kind: "item", label: "Show Carbon", shortcut: "⌥⌘C" },
   { kind: "item", label: "Reveal in Finder" },
-  { kind: "item", label: "Transcribing In", submenu: true },
-  { kind: "divider" },
+  { kind: "item", label: "Meeting Language", submenu: true },
   { kind: "item", label: "Check for Updates…" },
   { kind: "item", label: "Settings…", shortcut: "⌘," },
   { kind: "divider" },
@@ -334,7 +334,7 @@ const MenuItem = ({
 };
 
 // While live: the Meeting, Stop and Discard, then the usual items; the
-// language submenu switches the live Meeting.
+// language submenu switches the live Meeting and ends on Add Languages….
 const MenuBarMenu = ({ frame }: { frame: number }) => {
   const open = visible(frame, MENU_OPEN, MENU_CLOSE, 5);
   const submenu = frame >= SUBMENU_OPEN;
@@ -391,6 +391,14 @@ const MenuBarMenu = ({ frame }: { frame: number }) => {
               label={language}
             />
           ))}
+          <div
+            style={{
+              background: COLOR.separator,
+              height: 1,
+              margin: `${(MENU_DIVIDER - 1) / 2}px 8px`,
+            }}
+          />
+          <MenuItem checked={false} label="Add Languages…" />
         </div>
       ) : null}
     </div>
