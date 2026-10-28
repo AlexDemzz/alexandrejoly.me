@@ -3,8 +3,7 @@
   "name": "carbon",
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "./src/server.ts",
-  "r2_buckets": [{ "binding": "RELEASES", "bucket_name": "carbon-releases" }],
+  "main": "@tanstack/react-start/server-entry",
   "routes": [{ "pattern": "carbon.alexandrejoly.me", "custom_domain": true }],
   "observability": { "enabled": true },
 }
