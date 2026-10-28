@@ -15,7 +15,7 @@ import { CONTACT_EMAIL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 // (carbon/.scratch/carbon-v1); never promise more than they do.
 const TITLE = `Privacy – ${SITE_NAME}`;
 const DESCRIPTION =
-  "Carbon has no account, no analytics and no server. Audio and transcripts stay on your Mac; the only network traffic is update checks and Apple’s speech model downloads.";
+  "Everything Carbon hears stays on your Mac: no account, no analytics, no server. Audio and transcripts never leave it.";
 const PAGE_URL = `${SITE_URL}/privacy`;
 
 const Privacy = () => (
@@ -24,27 +24,31 @@ const Privacy = () => (
       <LogoMark className="text-foreground size-10" />
     </Link>
     <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
-      <h1 className="text-foreground inline font-medium">Privacy.</h1> Carbon
-      has no account, no analytics and no server. Your meetings stay on your
-      Mac.
+      <h1 className="text-foreground inline font-medium">Privacy.</h1>{" "}
+      Everything Carbon hears stays on your Mac.
     </div>
+    <Text className="mt-5">
+      I built Carbon to get my meeting transcripts without sending my calls to
+      anyone, me included. So there’s{" "}
+      <Emphasis>no account, no analytics and no server</Emphasis>. Here’s what
+      that means in practice.
+    </Text>
 
-    <PrivacySection title="Your meetings">
+    <PrivacySection title="Your meetings never leave your Mac">
       <Text>
-        Carbon records and transcribes on your Mac. Apple’s on-device speech
-        recognition writes the transcript. Telling speakers apart also happens
-        on your Mac, with models that ship inside the app, so nothing is
-        downloaded for it.
+        Carbon records and transcribes on your Mac, with Apple’s on-device
+        speech recognition. It tells speakers apart on your Mac too, with models
+        that ship inside the app, so nothing is downloaded for it.
       </Text>
       <Text>
-        The audio is deleted once the transcript is written, unless you turn on
-        Keep audio. Transcripts are plain Markdown files in{" "}
-        <Code>~/Documents/Carbon</Code>, or in the folder you choose in
-        Settings.
+        Each transcript is a plain Markdown file in{" "}
+        <Code>~/Documents/Carbon</Code>, or the folder you choose. The audio is
+        deleted once the transcript is written, unless you turn on Keep audio.{" "}
+        <Emphasis>I never see any of it.</Emphasis>
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Voice Prints">
+    <PrivacySection title="Voices stay on your Mac too">
       <Text>
         When you name a speaker, Carbon remembers their voice as a Voice Print,
         a numeric voice signature. Voice Prints are stored only on your Mac, and
@@ -53,17 +57,26 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Network">
+    <PrivacySection title="Carbon doesn’t track you">
       <Text>
-        Carbon only goes online for updates. Sparkle checks{" "}
-        <Code>carbon.alexandrejoly.me/appcast.xml</Code> for a new version and
-        downloads it from the same domain. You can turn automatic checks off in
-        Settings. The only other traffic is Apple’s own download of its speech
-        models.
+        No account to sign in to, no analytics, and no server of mine for Carbon
+        to report to. Nothing about your meetings, or how you use Carbon, is
+        sent anywhere.
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="Recording others">
+    <PrivacySection title="Checking for updates">
+      <Text>
+        Carbon asks <Code>carbon.alexandrejoly.me</Code> whether a newer version
+        exists, and downloads it if there is one. That’s Sparkle, and it’s the
+        only call Carbon makes. You can turn automatic checks off in Settings.
+      </Text>
+      <Text>
+        The only other traffic is macOS downloading Apple’s own speech models.
+      </Text>
+    </PrivacySection>
+
+    <PrivacySection title="Telling people you’re recording">
       <Text>
         By default, Carbon starts transcribing when a call starts, and the dot
         in its menu bar icon stays red while it does. You’re responsible for
@@ -71,19 +84,16 @@ const Privacy = () => (
       </Text>
     </PrivacySection>
 
-    <PrivacySection title="This website">
+    <PrivacySection title="This site">
       <Text>
-        This site sets no cookies and runs no analytics or tracking scripts.
-        Text uses your device’s own fonts, and the film comes from this domain.
-      </Text>
-      <Text>
-        The site, update checks and downloads run on{" "}
+        carbon.alexandrejoly.me sets no cookies and runs no analytics or
+        tracking scripts. It runs on{" "}
         <TextLink external href="https://www.cloudflare.com/privacypolicy/">
           Cloudflare
         </TextLink>
         , which processes each request, including your IP address and browser
-        details, to serve it and protect it from abuse. Request logs are kept
-        for a few days to debug errors.
+        details, to serve the page and protect it from abuse. Request logs are
+        kept for a few days to debug errors.
       </Text>
     </PrivacySection>
 
@@ -95,10 +105,14 @@ const Privacy = () => (
         <TextLink external href={`${GITHUB_URL}/issues`}>
           Carbon’s repository
         </TextLink>
-        .
+        . If any of this changes, I’ll update this page.
       </Text>
     </PrivacySection>
   </main>
+);
+
+const Emphasis = ({ children }: { children: ReactNode }) => (
+  <span className="text-foreground">{children}</span>
 );
 
 const PrivacySection = ({
