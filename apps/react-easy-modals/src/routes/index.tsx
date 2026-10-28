@@ -69,12 +69,12 @@ const Home = () => {
   return (
     <main className="flex flex-1 flex-col px-6 pt-12 pb-12 sm:pb-24">
       <Header />
-      <div className="max-w-breakout mx-auto mt-8 w-full">
+      <div className="max-w-breakout mx-auto mt-16 w-full">
         <HeroDemo code={code.hero} />
       </div>
-      <div className="max-w-column mx-auto mt-10 flex w-full flex-col">
+      <div className="max-w-column mx-auto mt-16 flex w-full flex-col gap-12">
         <GetStarted code={code.snippets} />
-        <Section>
+        <Section spacing="none">
           <SectionTitle>Features</SectionTitle>
           <SectionContent>
             <Features code={code.snippets} />
@@ -145,7 +145,7 @@ const STEPS: {
 ];
 
 const GetStarted = ({ code }: { code: LandingCode["snippets"] }) => (
-  <Section>
+  <Section spacing="none">
     <SectionTitle>Get started</SectionTitle>
     <SectionContent>
       <ol className="flex flex-col gap-8">
@@ -180,7 +180,7 @@ const DiffLine = ({
 );
 
 const Shadcn = ({ code }: { code: LandingCode }) => (
-  <Section>
+  <Section spacing="none">
     <SectionTitle>shadcn/ui</SectionTitle>
     <SectionContent>
       <div className="flex flex-col items-start gap-4">
@@ -218,10 +218,11 @@ const Docs = () => {
   const entries = Route.useLoaderData().docs;
 
   return (
-    <Section>
+    <Section spacing="none">
       <SectionTitle>Docs</SectionTitle>
       <SectionContent>
-        <ul>
+        {/* Cancels Item's py-2.5 at both ends, so the rows' text sets the section's edges. */}
+        <ul className="-my-2.5">
           {entries.map((entry, index) => (
             <li key={entry.slug}>
               {index > 0 && <ItemSeparator />}
