@@ -5,7 +5,7 @@ import { CarbonMark } from "../ui/mark";
 import { Stage } from "../ui/screen";
 import { usePalette } from "../ui/theme";
 
-/** A line of text on black or white, so the film stands out from the page; the mark on the first and last. */
+/** A line of text on the page's primary color, so the film stands out from it; the mark on the first and last. */
 export const TitleCard = ({
   entering = true,
   text,
@@ -35,11 +35,11 @@ export const TitleCard = ({
         }}
       >
         {withMark ? (
-          <CarbonMark color={COLOR.pageForeground} size={44} />
+          <CarbonMark color={COLOR.filmForeground} size={44} />
         ) : null}
         <p
           style={{
-            color: COLOR.pageForeground,
+            color: COLOR.filmForeground,
             fontSize: 28,
             fontWeight: 600,
             letterSpacing: -0.4,
