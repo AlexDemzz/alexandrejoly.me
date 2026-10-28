@@ -1,9 +1,9 @@
 import { buttonVariants } from "@portfolio/ui/components/button";
 import { Code } from "@portfolio/ui/components/code";
 import { Kbd, KbdGroup } from "@portfolio/ui/components/kbd";
-import { Text, textLinkVariants } from "@portfolio/ui/components/text";
+import { Text } from "@portfolio/ui/components/text";
 import { cn } from "@portfolio/ui/lib/utils";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { Film } from "@/components/film";
@@ -53,13 +53,10 @@ const Home = () => (
         whatever you use.
       </Text>
       <Text>
-        Calls are private, and Carbon keeps them that way: no account to sign in
-        to, no bot in the call and nothing uploaded. Carbon transcribes with
-        Apple’s on-device speech recognition and deletes the audio once the
-        transcript is written.{" "}
-        <Link className={textLinkVariants()} to="/privacy">
-          Your calls never leave your Mac.
-        </Link>
+        <Emphasis>Nothing Carbon records leaves your Mac</Emphasis>: no account
+        to sign in to, no bot in the call and nothing uploaded. Carbon
+        transcribes with Apple’s on-device speech recognition and deletes the
+        audio once the transcript is written.
       </Text>
       <DownloadButton />
       <p className="text-muted-foreground text-sm">

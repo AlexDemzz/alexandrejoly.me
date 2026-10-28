@@ -6,10 +6,10 @@ import {
   SectionTitle,
 } from "@portfolio/ui/components/section";
 import { Text, TextLink } from "@portfolio/ui/components/text";
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import { LogoMark } from "@/components/logo";
+import { HomeBreadcrumb } from "@/components/home-breadcrumb";
 import { SiteFooter } from "@/components/site-footer";
 import { CONTACT_EMAIL, GITHUB_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -22,9 +22,7 @@ const PAGE_URL = `${SITE_URL}/privacy`;
 
 const Privacy = () => (
   <main className="max-w-column mx-auto flex w-full flex-col px-6 pt-12 pb-12 sm:pb-24">
-    <Link aria-label={SITE_NAME} className="w-fit" to="/">
-      <LogoMark className="text-foreground size-10" />
-    </Link>
+    <HomeBreadcrumb />
     <div className="text-muted-foreground mt-6 text-xl leading-relaxed text-balance">
       <h1 className="text-foreground inline font-medium">Privacy.</h1>{" "}
       Everything Carbon hears stays on your Mac.
