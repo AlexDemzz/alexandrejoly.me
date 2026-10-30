@@ -14,7 +14,7 @@ import type { Showcase, ShowcaseStep } from "@/showcases/showcase";
 // Six items fit the strip; the second click adds the seventh, which overflows.
 const START_ITEMS = 5;
 const ADD = 'role=button[name="Add item"]';
-const TABS = 5;
+const TABS = 4;
 
 const Scene = () => {
   const [count, setCount] = useState(START_ITEMS);
@@ -53,27 +53,27 @@ const Scene = () => {
 
 export const marqueeHoldsStill: Showcase = {
   Scene,
-  start: [0.76, 0.84],
+  start: [0.6, 0.66],
   steps: [
     { rest: 900 },
     { click: ADD },
     { rest: 800 },
     { click: ADD },
-    { rest: 500 },
-    { moveTo: [0.7, 0.9] },
-    { rest: 1500 },
+    { rest: 900 },
+    { hover: 'role=button[name="Pause"]' },
+    { rest: 1600 },
     { click: 'role=button[name="Pause"]' },
-    { rest: 1000 },
+    { rest: 1800 },
     { click: 'role=button[name="Play"]' },
-    { rest: 400 },
+    { rest: 300 },
     // The hand leaves the mouse for the keyboard, out of the strip's way.
-    { moveTo: [0.24, 0.72] },
+    { moveTo: [0.3, 0.86] },
     { rest: 600 },
     // Each Tab focuses the next item: the strip stops and scrolls it into view.
     ...Array.from({ length: TABS }, (): ShowcaseStep[] => [
       { press: "Tab" },
-      { rest: 700 },
+      { rest: 1350 },
     ]).flat(),
-    { rest: 1000 },
+    { rest: 2100 },
   ],
 };
