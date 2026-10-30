@@ -206,7 +206,7 @@ participants:
 const SampleFile = () => (
   <CodeBlock>
     <CodeBlockHeader>
-      <CodeBlockTitle>~/Documents/Carbon/2026/Launch sync.md</CodeBlockTitle>
+      <CodeBlockTitle>~/Carbon/2026/2026-10-27-launch-sync.md</CodeBlockTitle>
     </CodeBlockHeader>
     <CodeBlockContent wrap>{SAMPLE_FILE}</CodeBlockContent>
   </CodeBlock>

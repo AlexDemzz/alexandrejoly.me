@@ -36,9 +36,9 @@ const Privacy = () => (
         that ship inside the app, so nothing is downloaded for it.
       </Text>
       <Text>
-        Each transcript is a plain Markdown file in{" "}
-        <Code>~/Documents/Carbon</Code>, or the folder you choose. The audio is
-        deleted once the transcript is written, unless you turn on Keep audio.{" "}
+        Each transcript is a plain Markdown file in <Code>~/Carbon</Code>, or
+        the folder you choose. The audio is deleted once the transcript is
+        written, unless you turn on Keep audio.{" "}
         <Emphasis>I never see any of it.</Emphasis>
       </Text>
     </AnchoredSection>
