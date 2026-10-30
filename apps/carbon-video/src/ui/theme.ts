@@ -13,8 +13,9 @@ export const MONO = 'ui-monospace, "SF Mono", Menlo, monospace';
 export type Theme = "light" | "dark";
 
 // alexandrejoly.me's palette (packages/ui/src/styles/theme.css) for the title
-// cards, macOS system colors for the app, one set per appearance so the film
-// matches the page it plays on.
+// cards, macOS system colors for the app, one set per appearance so the app
+// matches the page it plays on. The title cards take the theme's primary and
+// primary-foreground, so the film stands out from the page.
 export const PALETTES = {
   dark: {
     accent: "#0a84ff",
@@ -22,6 +23,8 @@ export const PALETTES = {
     controlLabel: "rgba(255,255,255,0.85)",
     destructive: "#ff453a",
     field: "rgba(255,255,255,0.08)",
+    film: "oklch(0.955 0.004 70)",
+    filmForeground: "oklch(0.166 0.003 70)",
     label: "#f5f5f7",
     menuBar: "rgba(28,28,30,0.5)",
     menuShadow:
@@ -48,6 +51,8 @@ export const PALETTES = {
     controlLabel: "rgba(0,0,0,0.85)",
     destructive: "#d70015",
     field: "rgba(0,0,0,0.06)",
+    film: "oklch(0.238 0.005 70)",
+    filmForeground: "oklch(0.988 0.003 70)",
     label: "#1d1d1f",
     menuBar: "rgba(255,255,255,0.42)",
     menuShadow:

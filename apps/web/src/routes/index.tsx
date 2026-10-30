@@ -19,6 +19,7 @@ import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MediaBackdrop } from "@/components/media-backdrop";
+import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
 import { SkillIcon } from "@/components/skill-icon";
 import {
@@ -102,99 +103,101 @@ const HomeComponent = () => {
         )}
       </div>
 
-      <Section>
-        <SectionTitle>Projects</SectionTitle>
-        <SectionContent>
-          <RowList>
-            {PROJECTS.map((project) => (
-              <ExternalRow
-                aside={project.year}
-                description={project.description}
-                href={project.href}
-                key={project.name}
-                media={<ProjectMedia project={project} />}
-                title={project.name}
-              />
-            ))}
-          </RowList>
-        </SectionContent>
-      </Section>
+      <SectionStack>
+        <Section spacing="none">
+          <SectionTitle>Projects</SectionTitle>
+          <SectionContent>
+            <RowList>
+              {PROJECTS.map((project) => (
+                <ExternalRow
+                  aside={project.year}
+                  description={project.description}
+                  href={project.href}
+                  key={project.name}
+                  media={<ProjectMedia project={project} />}
+                  title={project.name}
+                />
+              ))}
+            </RowList>
+          </SectionContent>
+        </Section>
 
-      <Section>
-        <SectionTitle>Agent skills</SectionTitle>
-        <SectionContent>
-          <RowList>
-            {SKILLS.map((skill) => (
-              <ExternalRow
-                description={skill.description}
-                href={skillHref(skill.name)}
-                key={skill.name}
-                media={
-                  <ItemLightMedia>
-                    <SkillIcon />
-                  </ItemLightMedia>
-                }
-                title={skill.name}
-              />
-            ))}
-          </RowList>
-        </SectionContent>
-      </Section>
+        <Section spacing="none">
+          <SectionTitle>Agent skills</SectionTitle>
+          <SectionContent>
+            <RowList>
+              {SKILLS.map((skill) => (
+                <ExternalRow
+                  description={skill.description}
+                  href={skillHref(skill.name)}
+                  key={skill.name}
+                  media={
+                    <ItemLightMedia>
+                      <SkillIcon />
+                    </ItemLightMedia>
+                  }
+                  title={skill.name}
+                />
+              ))}
+            </RowList>
+          </SectionContent>
+        </Section>
 
-      <Section>
-        <SectionTitle>Components</SectionTitle>
-        <SectionContent>
-          <ComponentRows />
-        </SectionContent>
-      </Section>
+        <Section spacing="none">
+          <SectionTitle>Components</SectionTitle>
+          <SectionContent>
+            <ComponentRows />
+          </SectionContent>
+        </Section>
 
-      <Section>
-        <SectionTitle>Recognition</SectionTitle>
-        <SectionContent>
-          <RowList>
-            {AWARDS.map((award) => (
-              <ExternalRow
-                aside={award.year}
-                description={award.issuer}
-                href={award.href}
-                key={award.href}
-                media={
-                  <ItemLightMedia>
-                    <award.icon />
-                  </ItemLightMedia>
-                }
-                title={award.title}
-              />
-            ))}
-          </RowList>
-        </SectionContent>
-      </Section>
+        <Section spacing="none">
+          <SectionTitle>Recognition</SectionTitle>
+          <SectionContent>
+            <RowList>
+              {AWARDS.map((award) => (
+                <ExternalRow
+                  aside={award.year}
+                  description={award.issuer}
+                  href={award.href}
+                  key={award.href}
+                  media={
+                    <ItemLightMedia>
+                      <award.icon />
+                    </ItemLightMedia>
+                  }
+                  title={award.title}
+                />
+              ))}
+            </RowList>
+          </SectionContent>
+        </Section>
 
-      <Section>
-        <SectionTitle>Previously</SectionTitle>
-        <SectionContent>
-          <RowList>
-            {ARCHIVES.map((archive) => (
-              <ExternalRow
-                aside={archive.year}
-                description={archive.description}
-                href={archive.href}
-                key={archive.href}
-                media={
-                  <ItemLightMedia aria-hidden>
-                    <LazyVideo
-                      className="size-full object-cover"
-                      poster={archive.poster}
-                      src={archive.media}
-                    />
-                  </ItemLightMedia>
-                }
-                title={archive.title}
-              />
-            ))}
-          </RowList>
-        </SectionContent>
-      </Section>
+        <Section spacing="none">
+          <SectionTitle>Previously</SectionTitle>
+          <SectionContent>
+            <RowList>
+              {ARCHIVES.map((archive) => (
+                <ExternalRow
+                  aside={archive.year}
+                  description={archive.description}
+                  href={archive.href}
+                  key={archive.href}
+                  media={
+                    <ItemLightMedia aria-hidden>
+                      <LazyVideo
+                        className="size-full object-cover"
+                        poster={archive.poster}
+                        src={archive.media}
+                      />
+                    </ItemLightMedia>
+                  }
+                  title={archive.title}
+                />
+              ))}
+            </RowList>
+          </SectionContent>
+        </Section>
+      </SectionStack>
 
       <SiteFooter />
     </main>

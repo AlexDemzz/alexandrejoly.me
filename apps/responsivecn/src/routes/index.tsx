@@ -22,6 +22,11 @@ import {
 } from "@portfolio/ui/components/item";
 import { ItemInsetSeparator } from "@portfolio/ui/components/item-inset-separator";
 import {
+  Section,
+  SectionContent,
+  SectionTitle,
+} from "@portfolio/ui/components/section";
+import {
   ToggleGroup,
   ToggleGroupItem,
   ToggleGroupItemLabel,
@@ -147,7 +152,7 @@ const Home = () => {
 
       <section
         aria-label="Playground"
-        className="max-w-breakout mx-auto mt-8 w-full"
+        className="max-w-breakout mx-auto mt-16 w-full"
       >
         <Playground
           desktop={desktop}
@@ -168,9 +173,10 @@ const Home = () => {
         />
       </section>
 
-      <div className="max-w-column mx-auto mt-10 flex w-full flex-col">
-        <Section title="Pairs">
-          <ul>
+      <div className="max-w-column mx-auto mt-16 flex w-full flex-col gap-12">
+        <LandingSection title="Pairs">
+          {/* -my-2.75 cancels the rows' hit-area padding and border, so the gaps are the visible ones. */}
+          <ul className="-my-2.75">
             {PAIRS.map((item, index) => (
               <li key={item.slug}>
                 <Item
@@ -194,9 +200,9 @@ const Home = () => {
               </li>
             ))}
           </ul>
-        </Section>
+        </LandingSection>
 
-        <Section title="Drop-in replacement">
+        <LandingSection title="Drop-in replacement">
           <p className="text-muted-foreground text-pretty">
             Change the import, rename the tags, and every prop of your{" "}
             <span className="text-foreground">Dialog</span> keeps working. Props
@@ -204,9 +210,9 @@ const Home = () => {
             <code className="text-foreground font-mono text-sm">drawer</code>.
           </p>
           <MigrationCode />
-        </Section>
+        </LandingSection>
 
-        <Section
+        <LandingSection
           title={
             <>
               Works on{" "}
@@ -239,10 +245,10 @@ const Home = () => {
               </Row>
             ))}
           </ul>
-        </Section>
+        </LandingSection>
       </div>
 
-      <div className="max-w-column mx-auto mt-auto w-full pt-6">
+      <div className="max-w-column mx-auto mt-auto w-full pt-16">
         <SiteFooter />
       </div>
     </main>
@@ -321,7 +327,7 @@ const ViewportToggle = ({
   </ToggleGroup>
 );
 
-const Section = ({
+const LandingSection = ({
   title,
   children,
 }: {
@@ -330,12 +336,10 @@ const Section = ({
 }) => {
   const id = React.useId();
   return (
-    <section aria-labelledby={id} className="py-10">
-      <h2 id={id} className="text-muted-foreground mb-4">
-        {title}
-      </h2>
-      {children}
-    </section>
+    <Section aria-labelledby={id} spacing="none">
+      <SectionTitle id={id}>{title}</SectionTitle>
+      <SectionContent>{children}</SectionContent>
+    </Section>
   );
 };
 

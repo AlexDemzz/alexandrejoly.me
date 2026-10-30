@@ -23,9 +23,16 @@ const FADE = 8;
 
 const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
-    frames: 66,
+    // The poster already shows this card, so it only holds long enough to fade.
+    frames: 12,
     name: "intro",
-    node: <TitleCard text="Every call, transcribed on your Mac" withMark />,
+    node: (
+      <TitleCard
+        entering={false}
+        text="Every call, transcribed on your Mac"
+        withMark
+      />
+    ),
   },
   {
     frames: CARD_FRAMES,
@@ -63,18 +70,22 @@ export const FILM_FRAMES = SCENES.reduce(
   0
 );
 
-/** Each scene fades in from the one before it. */
+/** Each scene fades in from the one before it; the first starts as the poster. */
 const Fade = ({
   children,
+  first,
   frames,
 }: {
   children: ReactNode;
+  first: boolean;
   frames: number;
 }) => {
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, FADE, frames], [0, 1, 1], {
-    extrapolateRight: "clamp",
-  });
+  const opacity = first
+    ? 1
+    : interpolate(frame, [0, FADE, frames], [0, 1, 1], {
+        extrapolateRight: "clamp",
+      });
   return <AbsoluteFill style={{ opacity }}>{children}</AbsoluteFill>;
 };
 
@@ -85,7 +96,7 @@ export interface CarbonFlowProps extends Record<string, unknown> {
 
 export const CarbonFlow = ({ theme }: CarbonFlowProps) => (
   <ThemeContext value={theme}>
-    <AbsoluteFill style={{ background: PALETTES[theme].page }}>
+    <AbsoluteFill style={{ background: PALETTES[theme].film }}>
       {TIMELINE.map((scene) => (
         <Sequence
           durationInFrames={scene.frames}
@@ -93,7 +104,9 @@ export const CarbonFlow = ({ theme }: CarbonFlowProps) => (
           key={scene.name}
           name={scene.name}
         >
-          <Fade frames={scene.frames}>{scene.node}</Fade>
+          <Fade first={scene.from === 0} frames={scene.frames}>
+            {scene.node}
+          </Fade>
         </Sequence>
       ))}
     </AbsoluteFill>

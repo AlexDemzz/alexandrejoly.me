@@ -75,7 +75,9 @@ export const ComponentPreview = ({
           className={inspector && "relative"}
           data-inspect={inspecting ? inspector?.name : undefined}
         >
-          {children}
+          <div className="contents" data-slot="component-preview-demo">
+            {children}
+          </div>
           {inspector && (
             <InspectorToggle
               inspector={inspector}

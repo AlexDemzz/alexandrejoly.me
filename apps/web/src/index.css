@@ -29,6 +29,30 @@
 }
 
 /*
+ * Demos show the Button a reader's stock shadcn project has, not this site's
+ * rounded-full one, so their code never has to undo a site style. Unlayered
+ * so it wins over the Button's own utilities.
+ */
+[data-slot="component-preview-demo"] [data-slot="button"] {
+  @apply rounded-lg;
+}
+
+/* The xs and sm sizes, told apart by their stock height classes. */
+[data-slot="component-preview-demo"]
+  [data-slot="button"]:is([class~="h-6"], [class~="size-6"]):not(
+    [data-slot="button-group"] *
+  ) {
+  @apply rounded-[min(var(--radius-md),10px)];
+}
+
+[data-slot="component-preview-demo"]
+  [data-slot="button"]:is([class~="h-7"], [class~="size-7"]):not(
+    [data-slot="button-group"] *
+  ) {
+  @apply rounded-[min(var(--radius-md),12px)];
+}
+
+/*
  * DESIGN.md › Site › Components › Row, drawn for the lean parts in
  * components/item-light.tsx: the look that the stock Item, its row overrides
  * and ItemInsetSeparator used to print as classes on every row.
@@ -38,9 +62,13 @@
     @apply focus-visible:outline-ring relative flex w-full items-center gap-4 rounded-none py-3.5 text-base leading-relaxed transition-none outline-none [anchor-scope:--item-content] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid;
   }
 
-  /* Flush with the section title. */
+  /* Flush with the section title, and with whatever follows the list. */
   :first-child > [data-slot="item-light"] {
     @apply pt-0;
+  }
+
+  :last-child > [data-slot="item-light"] {
+    @apply pb-0;
   }
 
   /* The inset rule: from the text start, or the full row without anchors. */

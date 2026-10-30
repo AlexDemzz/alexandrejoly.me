@@ -15,6 +15,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { ComponentRows } from "@/components/home-rows";
 import { COMPONENTS_CARD } from "@/components/og-card";
+import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
 import { COMPONENTS_PAGE } from "@/content";
 import { componentsJsonLd } from "@/lib/component-json-ld";
@@ -44,12 +45,14 @@ const ComponentsPage = () => (
       <Text>{COMPONENTS_PAGE.intro}</Text>
     </header>
 
-    <Section>
-      <SectionTitle>{COMPONENTS_PAGE.listTitle}</SectionTitle>
-      <SectionContent>
-        <ComponentRows />
-      </SectionContent>
-    </Section>
+    <SectionStack>
+      <Section spacing="none">
+        <SectionTitle>{COMPONENTS_PAGE.listTitle}</SectionTitle>
+        <SectionContent>
+          <ComponentRows />
+        </SectionContent>
+      </Section>
+    </SectionStack>
 
     <SiteFooter />
   </main>

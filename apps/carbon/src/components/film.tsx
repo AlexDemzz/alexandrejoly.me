@@ -9,10 +9,8 @@ import { useRef, useState } from "react";
 
 import darkPoster from "@/media/carbon-flow-dark-poster.webp?no-inline";
 import darkMp4 from "@/media/carbon-flow-dark.mp4";
-import darkWebm from "@/media/carbon-flow-dark.webm";
 import poster from "@/media/carbon-flow-poster.webp?no-inline";
 import mp4 from "@/media/carbon-flow.mp4";
-import webm from "@/media/carbon-flow.webm";
 
 const DARK = "(prefers-color-scheme: dark)";
 
@@ -72,9 +70,7 @@ export const Film = () => {
         ref={ref}
         width={1600}
       >
-        <source media={DARK} src={darkWebm} type="video/webm" />
         <source media={DARK} src={darkMp4} type="video/mp4" />
-        <source src={webm} type="video/webm" />
         <source src={mp4} type="video/mp4" />
       </video>
       {playback === "idle" ? (
@@ -113,7 +109,7 @@ export const Film = () => {
         </span>
       </button>
       <figcaption className="sr-only">
-        A 36-second demo without sound. Join a call, and Carbon starts on its
+        A 34-second demo without sound. Join a call, and Carbon starts on its
         own: the dot in its menu bar icon turns red and a notification reads
         “Transcribing in English.” When the call ends, the meeting opens on its
         participants, then every word with who said it and when. Copy Path hands
