@@ -5,7 +5,7 @@ import { CarbonMark } from "../ui/mark";
 import { Stage } from "../ui/screen";
 import { usePalette } from "../ui/theme";
 
-/** A line of text on the page's primary color, so the film stands out from it; the mark on the first and last. */
+/** A line of text on the film's color (see `PALETTES`); the mark on the first and last. */
 export const TitleCard = ({
   entering = true,
   text,

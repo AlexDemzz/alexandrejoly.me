@@ -15,8 +15,7 @@ export const MEETING_LANGUAGES = [
 ];
 export const TITLE = "Weekly design sync";
 export const STARTED_AT = "10:00 AM";
-export const MARKDOWN_PATH =
-  "~/Documents/Carbon/2026/2026-10-27-weekly-design-sync.md";
+export const MARKDOWN_PATH = "~/Carbon/2026/2026-10-27-weekly-design-sync.md";
 
 export const ATTENDEES = ["Dana Whitfield", "Marcus Lee", "Priya Raman"];
 
@@ -60,7 +59,13 @@ export const ROWS: Row[] = [
   },
 ];
 
-export const SUBTITLE = `Oct 27 at 10:00 AM · 42 min · ${PROVIDER} · ${LANGUAGE}`;
+// The Meeting header above the Transcript, one labelled line each, like Mail.
+export const HEADER_DETAILS = [
+  { label: "Date", value: "Oct 27, 2026 at 10:00 AM" },
+  { label: "Length", value: "42 min" },
+  { label: "App", value: PROVIDER },
+  { label: "Language", value: LANGUAGE },
+];
 
 export interface Line {
   speaker: string;

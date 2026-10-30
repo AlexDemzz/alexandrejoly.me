@@ -14,8 +14,8 @@ export type Theme = "light" | "dark";
 
 // alexandrejoly.me's palette (packages/ui/src/styles/theme.css) for the title
 // cards, macOS system colors for the app, one set per appearance so the app
-// matches the page it plays on. The title cards take the theme's primary and
-// primary-foreground, so the film stands out from the page.
+// matches the page it plays on. The title cards take the theme's card and
+// card-foreground, so the film sits on the page like its other cards.
 export const PALETTES = {
   dark: {
     accent: "#0a84ff",
@@ -23,8 +23,8 @@ export const PALETTES = {
     controlLabel: "rgba(255,255,255,0.85)",
     destructive: "#ff453a",
     field: "rgba(255,255,255,0.08)",
-    film: "oklch(0.955 0.004 70)",
-    filmForeground: "oklch(0.166 0.003 70)",
+    film: "oklch(0.144 0.002 70)",
+    filmForeground: "oklch(0.955 0.004 70)",
     label: "#f5f5f7",
     menuBar: "rgba(28,28,30,0.5)",
     menuShadow:
@@ -34,6 +34,7 @@ export const PALETTES = {
     pageForeground: "oklch(0.955 0.004 70)",
     pageMuted: "oklch(0.785 0.007 70)",
     pressed: "rgba(255,255,255,0.16)",
+    quaternary: "rgba(255,255,255,0.1)",
     secondary: "rgba(235, 235, 245, 0.62)",
     separator: "rgba(255, 255, 255, 0.12)",
     sidebar: "#262524",
@@ -51,8 +52,8 @@ export const PALETTES = {
     controlLabel: "rgba(0,0,0,0.85)",
     destructive: "#d70015",
     field: "rgba(0,0,0,0.06)",
-    film: "oklch(0.238 0.005 70)",
-    filmForeground: "oklch(0.988 0.003 70)",
+    film: "oklch(0.997 0.0015 70)",
+    filmForeground: "oklch(0.238 0.005 70)",
     label: "#1d1d1f",
     menuBar: "rgba(255,255,255,0.42)",
     menuShadow:
@@ -62,6 +63,7 @@ export const PALETTES = {
     pageForeground: "oklch(0.238 0.005 70)",
     pageMuted: "oklch(0.532 0.008 70)",
     pressed: "rgba(0,0,0,0.12)",
+    quaternary: "rgba(0,0,0,0.1)",
     secondary: "rgba(60, 60, 67, 0.72)",
     separator: "rgba(60, 60, 67, 0.14)",
     sidebar: "#f2f1f0",

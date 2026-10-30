@@ -1,11 +1,11 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import type { Dot } from "../data";
 import {
   ATTENDEES,
   DOT_COLORS,
+  HEADER_DETAILS,
   ROWS,
-  SUBTITLE,
   TITLE,
   TRANSCRIPT,
   isUnnamed,
@@ -135,38 +135,52 @@ const Sidebar = () => {
   );
 };
 
-const Token = ({ name }: { name: string }) => (
-  <div
-    style={{
-      alignItems: "center",
-      background: "rgba(118,118,128,0.14)",
-      borderRadius: 999,
-      display: "flex",
-      gap: 6,
-      padding: "2px 10px 2px 2px",
-    }}
-  >
+// How far a badge's name sits inside its border, for lining it up with text.
+const BADGE_INSET = 6;
+
+/** A person's name in a bordered badge, as in the header and the Transcript. */
+const Badge = ({
+  bordered = true,
+  color,
+  name,
+  weight = 400,
+}: {
+  bordered?: boolean;
+  color: string;
+  name: string;
+  weight?: number;
+}) => {
+  const COLOR = usePalette();
+  return (
     <span
       style={{
-        alignItems: "center",
-        background: "rgba(118,118,128,0.28)",
-        borderRadius: 999,
-        display: "flex",
-        fontSize: 8.5,
-        fontWeight: 600,
-        height: 20,
-        justifyContent: "center",
-        width: 20,
+        border: `1px solid ${bordered ? COLOR.quaternary : "transparent"}`,
+        borderRadius: 5,
+        color,
+        fontWeight: weight,
+        padding: `0 ${BADGE_INSET - 1}px`,
       }}
     >
-      {name
-        .split(" ")
-        .map((part) => part[0])
-        .join("")}
+      {name}
     </span>
-    <span style={{ fontSize: 12 }}>{name}</span>
-  </div>
-);
+  );
+};
+
+const HeaderLine = ({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) => {
+  const COLOR = usePalette();
+  return (
+    <div style={{ alignItems: "baseline", display: "flex", gap: 7 }}>
+      <span>{label}:</span>
+      <div style={{ color: COLOR.secondary }}>{children}</div>
+    </div>
+  );
+};
 
 const HEADING: CSSProperties = {
   fontSize: 15,
@@ -175,8 +189,8 @@ const HEADING: CSSProperties = {
 };
 
 /**
- * The main window: Meetings in the sidebar, the selected one's participants,
- * then the Transcript in the panel. `reveal` is the frame the panel's
+ * The main window: Meetings in the sidebar, the selected one's header (its
+ * details and participants), then the Transcript in the panel. `reveal` is the frame the panel's
  * content starts to appear, in step order; `scroll` moves the panel up, in pt.
  */
 export const CarbonWindow = ({
@@ -231,12 +245,7 @@ export const CarbonWindow = ({
             zIndex: 1,
           }}
         >
-          <div style={{ lineHeight: 1.25 }}>
-            <div style={{ fontSize: 14, fontWeight: 700 }}>{TITLE}</div>
-            <div style={{ color: COLOR.secondary, fontSize: 11 }}>
-              {SUBTITLE}
-            </div>
-          </div>
+          <div style={{ fontSize: 14, fontWeight: 700 }}>{TITLE}</div>
           <div style={{ color: COLOR.controlLabel, display: "flex", gap: 8 }}>
             <Glass height={CONTROL} width={CONTROL}>
               <SFSymbol name="square.and.pencil" />
@@ -250,20 +259,52 @@ export const CarbonWindow = ({
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 14,
+            gap: 16,
             maxWidth: 440,
-            padding: "68px 24px 24px",
+            padding: "62px 24px 24px",
             transform: `translateY(${-scroll}px)`,
           }}
         >
           <div
-            style={{ ...appear(), display: "flex", flexWrap: "wrap", gap: 6 }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              fontSize: 12,
+              gap: 4,
+            }}
           >
-            {ATTENDEES.map((name) => (
-              <Token key={name} name={name} />
-            ))}
+            <div
+              style={{
+                ...appear(),
+                display: "flex",
+                flexDirection: "column",
+                gap: 4,
+              }}
+            >
+              {HEADER_DETAILS.map((detail) => (
+                <HeaderLine key={detail.label} label={detail.label}>
+                  {detail.value}
+                </HeaderLine>
+              ))}
+            </div>
+            <div style={appear()}>
+              <HeaderLine label="With">
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                  {ATTENDEES.map((name) => (
+                    <Badge color={COLOR.secondary} key={name} name={name} />
+                  ))}
+                </div>
+              </HeaderLine>
+            </div>
+            <div
+              style={{
+                ...appear(),
+                borderTop: `1px solid ${COLOR.separator}`,
+                marginTop: 12,
+              }}
+            />
           </div>
-          <p style={{ ...HEADING, ...appear(), marginTop: 10 }}>Transcript</p>
+          <p style={{ ...HEADING, ...appear() }}>Transcript</p>
           {TRANSCRIPT.map((line) => (
             <div key={`${line.elapsed}-${line.speaker}`} style={appear()}>
               <div
@@ -275,20 +316,13 @@ export const CarbonWindow = ({
                   marginBottom: 2,
                 }}
               >
-                <span
-                  style={{
-                    color: isUnnamed(line.speaker)
-                      ? COLOR.accent
-                      : COLOR.secondary,
-                    fontWeight: 600,
-                  }}
-                >
-                  {line.speaker}
-                  {line.speaker === "Me" ? null : (
-                    <span style={{ display: "inline-block", marginLeft: 2 }}>
-                      <SFSymbol name="chevron.down" />
-                    </span>
-                  )}
+                <span style={{ marginLeft: -BADGE_INSET }}>
+                  <Badge
+                    bordered={line.speaker !== "Me"}
+                    color={isUnnamed(line.speaker) ? COLOR.accent : COLOR.label}
+                    name={line.speaker}
+                    weight={600}
+                  />
                 </span>
                 <span
                   style={{

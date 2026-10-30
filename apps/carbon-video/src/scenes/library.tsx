@@ -9,7 +9,7 @@ export const LIBRARY_FRAMES = 270;
 const REVEAL = 16;
 const SCROLL_FROM = 150;
 const SCROLL_TO = 215;
-const SCROLL_BY = 110;
+const SCROLL_BY = 170;
 
 /** The Meeting that just ended opens: its participants, then the Transcript. */
 export const LibraryScene = () => {
