@@ -9,10 +9,6 @@
 @source "./**/*.{ts,tsx}";
 @source "../../ui/src/components/**/*.tsx";
 
-:root {
-  color-scheme: light dark;
-}
-
 @theme inline {
   --color-fd-warning: var(--warning);
 }
