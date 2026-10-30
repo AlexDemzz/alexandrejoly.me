@@ -14,6 +14,21 @@
 }
 
 /*
+ * Showcase backdrop: stripes at the scale of a badge, so a zoomed recording
+ * shows them running on through a transparent cut, which a page-coloured ring
+ * could not draw. Quiet at full frame, in the theme's own colours.
+ */
+[data-slot="showcase-backdrop"] {
+  background-image:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 3px,
+      color-mix(in oklch, var(--foreground) 7%, transparent) 3px 6px
+    ),
+    linear-gradient(to bottom right, var(--background), var(--selection));
+}
+
+/*
  * Demos show the Button a reader's stock shadcn project has, not this site's
  * rounded-full one, so their code never has to undo a site style. Unlayered
  * so it wins over the Button's own utilities.
