@@ -53,9 +53,19 @@ const Canvas = () => {
   // Held above the swap, so a name typed in the Drawer is still there in the
   // Dialog: an uncontrolled input would remount at its default.
   const [name, setName] = useState("Jordan Lee");
+  const [caret, setCaret] = useState<number | null>(null);
+  const trackCaret = (input: HTMLInputElement) =>
+    setCaret(
+      input.selectionStart === input.selectionEnd ? input.selectionStart : null
+    );
   return (
     <DialogDrawer defaultOpen>
-      <DialogDrawerTrigger render={<Button variant="outline" />}>
+      {/* Kept for focus return but hidden: behind the overlay its blurred
+          label reads as a smudge, and the Dialog is open from frame 0. */}
+      <DialogDrawerTrigger
+        className="invisible"
+        render={<Button variant="outline" />}
+      >
         Edit profile
       </DialogDrawerTrigger>
       <DialogDrawerContent
@@ -74,14 +84,35 @@ const Canvas = () => {
             htmlFor="showcase-name"
           >
             Name
-            {/* No caret: the recorder steps frames slower than the caret
-                blinks, so it reads as a flicker. The typed name shows the edit. */}
-            <input
-              className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal caret-transparent outline-none"
-              id="showcase-name"
-              onChange={(event) => setName(event.target.value)}
-              value={name}
-            />
+            <span className="relative grid">
+              {/* The native caret blinks on the wall clock, which the
+                  recorder outpaces, so it flickers on video. This one blinks
+                  on the page's animation clock, which the recorder steps. */}
+              <input
+                className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal caret-transparent outline-none"
+                id="showcase-name"
+                onBlur={() => setCaret(null)}
+                onChange={(event) => setName(event.target.value)}
+                onFocus={(event) => trackCaret(event.currentTarget)}
+                onSelect={(event) => trackCaret(event.currentTarget)}
+                value={name}
+              />
+              {caret === null ? null : (
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-y-0 left-0 flex items-center border border-transparent px-3 text-sm font-normal"
+                >
+                  <span className="invisible whitespace-pre">
+                    {name.slice(0, caret)}
+                  </span>
+                  <span
+                    className="bg-foreground h-4 w-px"
+                    data-slot="showcase-caret"
+                    key={`${name}:${caret}`}
+                  />
+                </span>
+              )}
+            </span>
           </label>
         </form>
         <DialogDrawerFooter showCloseButton />
@@ -110,7 +141,14 @@ const Playground = () => {
       // from zero on camera, so frame 0 would show the canvas empty.
       if (time === 0) {
         for (const animation of canvas?.document.getAnimations() ?? []) {
-          animation.cancel();
+          if (
+            !(
+              animation instanceof CSSAnimation &&
+              animation.animationName === "showcase-caret"
+            )
+          ) {
+            animation.cancel();
+          }
         }
       }
       time += ms;

@@ -135,3 +135,17 @@
     animation-timing-function: var(--ease-settle);
   }
 }
+
+/*
+ * A text caret for showcases, at macOS's blink rate. It runs on the animation
+ * clock the recorder steps, where the native caret runs on the wall clock.
+ */
+[data-slot="showcase-caret"] {
+  animation: showcase-caret 1.06s steps(1, end) infinite;
+}
+
+@keyframes showcase-caret {
+  50% {
+    opacity: 0;
+  }
+}
