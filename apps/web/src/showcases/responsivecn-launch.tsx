@@ -74,8 +74,10 @@ const Canvas = () => {
             htmlFor="showcase-name"
           >
             Name
+            {/* No caret: the recorder steps frames slower than the caret
+                blinks, so it reads as a flicker. The typed name shows the edit. */}
             <input
-              className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal outline-none"
+              className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal caret-transparent outline-none"
               id="showcase-name"
               onChange={(event) => setName(event.target.value)}
               value={name}
@@ -100,11 +102,19 @@ const Playground = () => {
     if (!advance) {
       return;
     }
+    let time = 0;
     page.advanceAnimations = (ms) => {
       advance(ms);
-      (
-        frameRef.current?.contentWindow as RecordedWindow | null
-      )?.advanceAnimations?.(ms);
+      const canvas = frameRef.current?.contentWindow as RecordedWindow | null;
+      // The Dialog opened before the first frame: its enter fade would play
+      // from zero on camera, so frame 0 would show the canvas empty.
+      if (time === 0) {
+        for (const animation of canvas?.document.getAnimations() ?? []) {
+          animation.cancel();
+        }
+      }
+      time += ms;
+      canvas?.advanceAnimations?.(ms);
     };
     return () => {
       page.advanceAnimations = advance;
@@ -174,8 +184,8 @@ export const responsivecnLaunch: Showcase = {
     { click: DESKTOP },
     { moveTo: [0.66, 0.5] },
     { zoomIn: NAME_FIELD, scale: 2.2 },
-    { moveTo: [0.6, 0.56] },
     { zoomOut: true },
+    { moveTo: [0.7, 0.45] },
     { moveTo: [0.66, 0.3] },
     { click: MOBILE },
     { moveTo: [0.6, 0.62] },
