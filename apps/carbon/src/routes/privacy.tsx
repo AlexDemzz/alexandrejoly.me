@@ -73,9 +73,9 @@ const Privacy = () => (
 
     <AnchoredSection id="recording" title="Telling people you’re recording">
       <Text>
-        By default, Carbon starts transcribing when a call starts, and the dot
-        in its menu bar icon stays red while it does. You’re responsible for
-        telling the others on the call that they’re being recorded.
+        By default, Carbon starts transcribing when a call starts, and its menu
+        bar icon turns into a moving mic meter while it does. You’re responsible
+        for telling the others on the call that they’re being recorded.
       </Text>
     </AnchoredSection>
 

@@ -109,12 +109,14 @@ export const Film = () => {
         </span>
       </button>
       <figcaption className="sr-only">
-        A 34-second demo without sound. Join a call, and Carbon starts on its
-        own: the dot in its menu bar icon turns red and a notification reads
-        “Transcribing in English.” When the call ends, the meeting opens on its
-        date, length, app, language and participants, then every word with who said it and when. Copy Path hands
-        the meeting’s Markdown file to an AI agent in a terminal. No sign-in, no
-        bot, no cloud.
+        A 32-second demo without sound. Join a call, and Carbon starts on its
+        own: its menu bar icon turns into a mic meter and a notification reads
+        “Transcribing.” When the call ends, the meeting opens on its date,
+        length, app, language and participants, then every word with who said it
+        and when. In Finder, each meeting is a Markdown file in ~/Carbon, and
+        Quick Look shows its details and transcript as plain text. Copy Path
+        hands the meeting’s Markdown file to an AI agent in a terminal. No
+        sign-in, no bot, no cloud.
       </figcaption>
     </figure>
   );

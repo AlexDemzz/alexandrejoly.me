@@ -4,18 +4,7 @@
 
 export const PROVIDER = "Google Meet";
 export const LANGUAGE = "English";
-export const OTHER_LANGUAGE = "French";
-// The Meeting Languages chosen in Settings, in the language switcher's order.
-export const MEETING_LANGUAGES = [
-  LANGUAGE,
-  OTHER_LANGUAGE,
-  "Italian",
-  "Spanish",
-  "German",
-];
 export const TITLE = "Weekly design sync";
-export const STARTED_AT = "10:00 AM";
-export const MARKDOWN_PATH = "~/Carbon/2026/2026-10-27-weekly-design-sync.md";
 
 export const ATTENDEES = ["Dana Whitfield", "Marcus Lee", "Priya Raman"];
 
@@ -31,33 +20,49 @@ export const DOT_COLORS: Record<Dot, string> = {
 export interface Row {
   title: string;
   metadata: string;
+  /** Its Markdown file in ~/Carbon/2026: the day, then the title's slug. */
+  file: string;
   dot?: Dot;
 }
 
 export const ROWS: Row[] = [
   {
     dot: "blue",
+    file: "2026-10-27-weekly-design-sync.md",
     metadata: "Oct 27 at 10:00 AM · 42 min · Dana, Marcus +1",
     title: TITLE,
   },
-  { metadata: "Oct 26 at 4:30 PM · 28 min · Tom", title: "1:1 Tom / Alex" },
+  {
+    metadata: "Oct 26 at 4:30 PM · 28 min · Tom",
+    title: "1:1 Tom / Alex",
+    file: "2026-10-26-1-1-tom-alex.md",
+  },
   {
     dot: "orange",
+    file: "2026-10-25-point-projet-lumen.md",
     metadata: "Oct 25 at 2:02 PM · 55 min · Claire",
     title: "Point projet Lumen",
   },
-  { metadata: "Oct 23 at 9:15 AM · 12 min", title: "Meeting Oct 23, 9:15 AM" },
+  {
+    metadata: "Oct 23 at 9:15 AM · 12 min",
+    title: "Meeting Oct 23, 9:15 AM",
+    file: "2026-10-23-meeting-oct-23-9-15-am.md",
+  },
   {
     dot: "green",
+    file: "2026-10-21-acme-pricing-review.md",
     metadata: "Oct 21 at 11:00 AM · 61 min · Tom, Sam +1",
     title: "Acme pricing review",
   },
   {
     dot: "purple",
+    file: "2026-10-18-interview-senior-ios-engineer.md",
     metadata: "Oct 18 at 3:00 PM · 47 min · Marcus",
     title: "Interview: senior iOS engineer",
   },
 ];
+
+export const MARKDOWN_PATH = `~/Carbon/2026/${ROWS[0].file}`;
 
 // The Meeting header above the Transcript, one labelled line each, like Mail.
 export const HEADER_DETAILS = [
@@ -108,3 +113,22 @@ export const TRANSCRIPT: Line[] = [
 
 export const isUnnamed = (speaker: string) =>
   speaker.startsWith("Speaker ") || speaker === "Them";
+
+// The first Meeting's file as Carbon writes it: YAML frontmatter, then one
+// "**Speaker** [elapsed] text" line per Turn.
+export const MARKDOWN = [
+  "---",
+  `provider: ${PROVIDER}`,
+  "id: 6F2A9C41-0B7E-4D5A-9E13-2C8B7F4D1A60",
+  "date: 2026-10-27T10:00:00+01:00",
+  `title: ${TITLE}`,
+  "duration: 42:13",
+  "language: en-US",
+  "participants:",
+  ...ATTENDEES.map((name) => `  - ${name}`),
+  "---",
+  "",
+  ...TRANSCRIPT.map(
+    ({ elapsed, speaker, text }) => `**${speaker}** [${elapsed}] ${text}`
+  ),
+].join("\n");

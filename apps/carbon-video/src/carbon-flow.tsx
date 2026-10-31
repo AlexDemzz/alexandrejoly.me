@@ -10,6 +10,7 @@ import { AbsoluteFill, Sequence, interpolate, useCurrentFrame } from "remotion";
 import { AGENT_FRAMES, AgentScene } from "./scenes/agent";
 import { DETECT_FRAMES, DetectScene } from "./scenes/detect";
 import { LIBRARY_FRAMES, LibraryScene } from "./scenes/library";
+import { MARKDOWN_FRAMES, MarkdownScene } from "./scenes/markdown";
 import { TitleCard } from "./scenes/title-card";
 import { PALETTES, ThemeContext } from "./ui/theme";
 import type { Theme } from "./ui/theme";
@@ -18,18 +19,18 @@ export const FPS = 30;
 export const WIDTH = 1600;
 export const HEIGHT = 900;
 
-const CARD_FRAMES = 54;
+const CARD_FRAMES = 48;
 const FADE = 8;
 
 const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   {
-    // The poster already shows this card, so it only holds long enough to fade.
-    frames: 12,
+    // The poster already shows this card; it holds a second more to be read.
+    frames: 42,
     name: "intro",
     node: (
       <TitleCard
         entering={false}
-        text="Every call, transcribed on your Mac"
+        text="Every call, transcribed to Markdown on your Mac"
         withMark
       />
     ),
@@ -48,8 +49,14 @@ const SCENES: { frames: number; node: ReactNode; name: string }[] = [
   { frames: LIBRARY_FRAMES, name: "library", node: <LibraryScene /> },
   {
     frames: CARD_FRAMES,
+    name: "card-markdown",
+    node: <TitleCard text="Each meeting is saved as a Markdown file" />,
+  },
+  { frames: MARKDOWN_FRAMES, name: "markdown", node: <MarkdownScene /> },
+  {
+    frames: CARD_FRAMES,
     name: "card-agent",
-    node: <TitleCard text="One Markdown file per meeting, for your agent" />,
+    node: <TitleCard text="Hand the file to your AI agent" />,
   },
   { frames: AGENT_FRAMES, name: "agent", node: <AgentScene /> },
   {

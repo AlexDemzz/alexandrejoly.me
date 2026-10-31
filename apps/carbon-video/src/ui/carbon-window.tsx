@@ -203,10 +203,10 @@ export const CarbonWindow = ({
   scroll?: number;
 }) => {
   const COLOR = usePalette();
-  // Each call reveals the next piece, 6 frames after the one before.
+  // Each call reveals the next piece, 4 frames after the one before.
   const steps = { next: 0 };
   const appear = (): CSSProperties => {
-    const start = reveal + steps.next * 6;
+    const start = reveal + steps.next * 4;
     steps.next += 1;
     const progress = settle(frame, start, start + 16);
     return {

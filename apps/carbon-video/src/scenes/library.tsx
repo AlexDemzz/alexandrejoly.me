@@ -4,12 +4,13 @@ import { mix, settle, travel } from "../motion";
 import { CarbonWindow } from "../ui/carbon-window";
 import { MenuBar, Stage } from "../ui/screen";
 
-export const LIBRARY_FRAMES = 270;
+export const LIBRARY_FRAMES = 176;
 
-const REVEAL = 16;
-const SCROLL_FROM = 150;
-const SCROLL_TO = 215;
-const SCROLL_BY = 170;
+const REVEAL = 10;
+// The Transcript starts scrolling while its last lines still appear, and keeps going.
+const SCROLL_FROM = 64;
+const SCROLL_TO = LIBRARY_FRAMES;
+const SCROLL_BY = 190;
 
 /** The Meeting that just ended opens: its participants, then the Transcript. */
 export const LibraryScene = () => {
@@ -18,7 +19,7 @@ export const LibraryScene = () => {
 
   return (
     <Stage>
-      <MenuBar live={false} />
+      <MenuBar />
       <div
         style={{
           inset: 0,

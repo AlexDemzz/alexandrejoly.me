@@ -7,14 +7,15 @@ import { Cursor, cursorAt } from "../ui/cursor";
 import { MenuBar, Stage } from "../ui/screen";
 import { MONO, menuSurface, usePalette } from "../ui/theme";
 
-export const AGENT_FRAMES = 240;
+export const AGENT_FRAMES = 168;
 
-const RIGHT_CLICK = 30;
-const COPY_PATH = 66;
-const TERMINAL_IN = 82;
-const TYPE_FROM = 100;
-const PASTE = 150;
-const READING = 172;
+const RIGHT_CLICK = 24;
+const COPY_PATH = 52;
+const TERMINAL_IN = 64;
+const TYPE_FROM = 76;
+const PASTE = 102;
+const READING = 116;
+const REPLY_FROM = 130;
 
 const ROW = rowCenter(0);
 const MENU = { left: ROW.x + 2, top: ROW.y + 2, width: 220 };
@@ -23,7 +24,10 @@ const ITEM = 22;
 const PROMPT = "Draft the follow-up email from ";
 const PATH = MARKDOWN_PATH.replace("~", "/Users/alex");
 const FILE_NAME = PATH.split("/").at(-1) ?? PATH;
-const CHARS_PER_FRAME = 1;
+const CHARS_PER_FRAME = 1.25;
+const REPLY =
+  "Here's the follow-up: no onboarding, the empty state explains Carbon, and the privacy page lands this week.";
+const REPLY_CHARS_PER_FRAME = 3;
 
 const CURSOR_PATH = [
   { at: 0, x: 420, y: 320 },
@@ -142,7 +146,7 @@ const Terminal = ({ frame }: { frame: number }) => {
         color: "#f2f2f7",
         fontFamily: MONO,
         fontSize: 12,
-        height: 150,
+        height: 176,
         left: 150,
         lineHeight: 1.6,
         opacity: enter,
@@ -191,6 +195,12 @@ const Terminal = ({ frame }: { frame: number }) => {
       >
         Reading {FILE_NAME}…
       </div>
+      <div style={{ marginTop: 8 }}>
+        {REPLY.slice(
+          0,
+          Math.max(0, Math.floor((frame - REPLY_FROM) * REPLY_CHARS_PER_FRAME))
+        )}
+      </div>
     </div>
   );
 };
@@ -205,7 +215,7 @@ export const AgentScene = () => {
 
   return (
     <Stage>
-      <MenuBar live={false} />
+      <MenuBar />
       <CarbonWindow frame={frame} />
       <ContextMenu frame={frame} />
       <Terminal frame={frame} />

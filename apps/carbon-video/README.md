@@ -1,10 +1,11 @@
 # Carbon film
 
-The 34-second film on the Carbon landing (`apps/carbon`), written in [Remotion](https://www.remotion.dev). It plays like a short demo: title cards between three scenes of the app.
+The 32-second film on the Carbon landing (`apps/carbon`), written in [Remotion](https://www.remotion.dev). It plays like a short demo: title cards between four scenes.
 
-1. A call starts. The dot in the menu bar glyph turns red, the "Transcribing in English" notification shows, the menu bar menu opens on the language switcher, then the call ends.
+1. A call starts. The menu bar glyph turns into a live mic meter, the "Transcribing" notification shows with Stop, then the call ends. The language menu stays out: Carbon picks the language on its own.
 2. The meeting window opens: a Mail-style header (Date, Length, App, Language, then the participants as badges), then the transcript with the speaker's badge and "0:19" above each line.
-3. Copy Path from the meeting's context menu, pasted into an AI agent in a terminal.
+3. Finder on `~/Carbon/2026`, one Markdown file per meeting; Quick Look opens the one that just ended, frontmatter then a `**Speaker** [0:04]` line per turn, as Carbon 0.5.0 writes it.
+4. Copy Path from the meeting's context menu, pasted into an AI agent in a terminal.
 
 The scenes draw Carbon's SwiftUI mock in code, with its sample meetings in `src/data.ts`. Once the real app ships, swap the data for an exported Library or the scenes for screen recordings, then render again.
 

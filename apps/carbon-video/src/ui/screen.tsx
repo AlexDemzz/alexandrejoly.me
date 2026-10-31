@@ -37,16 +37,41 @@ export const Stage = ({
 };
 
 export const MENU_BAR_HEIGHT = 24;
-// Where the Carbon glyph sits in the menu bar, for the cursor and the menu.
-export const GLYPH = { x: 626, y: 12 };
+// Carbon's status item grows leftward from this edge, like any status item.
+const ITEM_RIGHT = 639;
+const ITEM_PADDING = 4;
+// The glyph, or the mic meter while live.
+const SIDE = 18;
 
-export const MenuBar = ({
-  live,
-  pressed = false,
-}: {
-  live: boolean;
-  pressed?: boolean;
-}) => {
+/** Three 2 pt bars that follow the mic; at rest, 2 pt dots. */
+const MicMeter = ({ levels }: { levels: readonly number[] }) => {
+  const COLOR = usePalette();
+  return (
+    <svg height={SIDE} viewBox={`0 0 ${SIDE} ${SIDE}`} width={SIDE}>
+      {levels.map((level, index) => {
+        const height = 2 + level * 10;
+        return (
+          <rect
+            fill={COLOR.label}
+            height={height}
+            // The bars only differ by position.
+            key={index}
+            rx={1}
+            width={2}
+            x={4 + index * 4}
+            y={(SIDE - height) / 2}
+          />
+        );
+      })}
+    </svg>
+  );
+};
+
+/**
+ * Carbon's status item as of 0.5.0: the glyph when idle, a mic meter while a
+ * Meeting is live.
+ */
+export const MenuBar = ({ live }: { live?: { levels: readonly number[] } }) => {
   const COLOR = usePalette();
   return (
     <div
@@ -69,18 +94,19 @@ export const MenuBar = ({
       <div
         style={{
           alignItems: "center",
-          background: pressed ? COLOR.pressed : "transparent",
-          borderRadius: 5,
           display: "flex",
           height: 20,
-          justifyContent: "center",
-          left: GLYPH.x - 13,
+          padding: `0 ${ITEM_PADDING}px`,
           position: "absolute",
+          right: POINTS.width - ITEM_RIGHT,
           top: 2,
-          width: 26,
         }}
       >
-        <CarbonMark color={COLOR.label} live={live} size={18} />
+        {live ? (
+          <MicMeter levels={live.levels} />
+        ) : (
+          <CarbonMark color={COLOR.label} size={SIDE} stroke={1.5} />
+        )}
       </div>
       <span style={{ fontWeight: 500 }}>Tue Oct 27&nbsp;&nbsp;10:00 AM</span>
     </div>
