@@ -15,6 +15,7 @@ import {
 } from "@registry/dialog-drawer";
 import { useSearch } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import type { Showcase } from "@/showcases/showcase";
 
@@ -27,6 +28,20 @@ const DESKTOP_WIDTH = 880;
 const MOBILE_WIDTH = 375;
 const DESKTOP = 'role=button[name="Desktop"]';
 const MOBILE = 'role=button[name="Mobile"]';
+const NAME_FIELD =
+  'iframe >> internal:control=enter-frame >> role=textbox[name="Name"]';
+
+const morph = (update: () => void) => {
+  if (!("startViewTransition" in document)) {
+    update();
+    return;
+  }
+  // Styled in index.css, as the playground's is in its styles.css.
+  document.startViewTransition({
+    types: ["showcase-viewport"],
+    update: () => flushSync(update),
+  });
+};
 
 type Advance = (ms: number) => void;
 type RecordedWindow = Window & { advanceAnimations?: Advance };
@@ -34,38 +49,44 @@ type RecordedWindow = Window & { advanceAnimations?: Advance };
 // The demo the responsivecn playground opens for Dialog → Drawer
 // (apps/responsivecn/src/components/previews/dialog-drawer-preview.tsx),
 // already open.
-const Canvas = () => (
-  <DialogDrawer defaultOpen>
-    <DialogDrawerTrigger render={<Button variant="outline" />}>
-      Edit profile
-    </DialogDrawerTrigger>
-    <DialogDrawerContent
-      className="sm:max-w-sm"
-      drawer={{ className: "sm:max-w-none" }}
-    >
-      <DialogDrawerHeader>
-        <DialogDrawerTitle>Edit profile</DialogDrawerTitle>
-        <DialogDrawerDescription>
-          Change the name shown on your profile.
-        </DialogDrawerDescription>
-      </DialogDrawerHeader>
-      <form className="grid gap-4 p-4 md:p-0">
-        <label
-          className="grid gap-1.5 text-sm font-medium"
-          htmlFor="showcase-name"
-        >
-          Name
-          <input
-            className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal outline-none"
-            defaultValue="Jordan Lee"
-            id="showcase-name"
-          />
-        </label>
-      </form>
-      <DialogDrawerFooter showCloseButton />
-    </DialogDrawerContent>
-  </DialogDrawer>
-);
+const Canvas = () => {
+  // Held above the swap, so a name typed in the Drawer is still there in the
+  // Dialog: an uncontrolled input would remount at its default.
+  const [name, setName] = useState("Jordan Lee");
+  return (
+    <DialogDrawer defaultOpen>
+      <DialogDrawerTrigger render={<Button variant="outline" />}>
+        Edit profile
+      </DialogDrawerTrigger>
+      <DialogDrawerContent
+        className="sm:max-w-sm"
+        drawer={{ className: "sm:max-w-none" }}
+      >
+        <DialogDrawerHeader>
+          <DialogDrawerTitle>Edit profile</DialogDrawerTitle>
+          <DialogDrawerDescription>
+            Change the name shown on your profile.
+          </DialogDrawerDescription>
+        </DialogDrawerHeader>
+        <form className="grid gap-4 p-4 md:p-0">
+          <label
+            className="grid gap-1.5 text-sm font-medium"
+            htmlFor="showcase-name"
+          >
+            Name
+            <input
+              className="border-input h-9 rounded-md border bg-transparent px-3 text-sm font-normal outline-none"
+              id="showcase-name"
+              onChange={(event) => setName(event.target.value)}
+              value={name}
+            />
+          </label>
+        </form>
+        <DialogDrawerFooter showCloseButton />
+      </DialogDrawerContent>
+    </DialogDrawer>
+  );
+};
 
 const Playground = () => {
   const [width, setWidth] = useState(DESKTOP_WIDTH);
@@ -95,7 +116,7 @@ const Playground = () => {
       <ToggleGroup
         onValueChange={([value]) => {
           if (value) {
-            setWidth(Number(value));
+            morph(() => setWidth(Number(value)));
           }
         }}
         value={[String(width)]}
@@ -109,7 +130,7 @@ const Playground = () => {
         </ToggleGroupItem>
       </ToggleGroup>
       <div
-        className="bg-background h-110 w-(--frame-width) overflow-clip rounded-2xl border transition-all duration-700 ease-in-out"
+        className="bg-background h-110 w-(--frame-width) overflow-clip rounded-2xl border [view-transition-name:showcase-frame]"
         style={{ "--frame-width": `${width + 2}px` } as React.CSSProperties}
       >
         {/* The cursor stays on this page: over the iframe, its own copy of the
@@ -135,26 +156,31 @@ export const responsivecnLaunch: Showcase = {
   Scene,
   start: [0.62, 0.12],
   steps: [
-    { rest: 400 },
-    { moveTo: [0.56, 0.18] },
+    { rest: 300 },
+    { moveTo: [0.58, 0.08] },
     { click: MOBILE },
-    { rest: 500 },
-    { moveTo: [0.62, 0.55] },
-    { rest: 400 },
-    { moveTo: [0.6, 0.85] },
-    { rest: 400 },
+    { moveTo: [0.6, 0.6] },
+    // Tab leaves the toggle for the canvas, where the Drawer's trap puts
+    // focus on the Name field, its text selected.
+    { press: "Tab" },
+    { moveTo: [0.62, 0.66] },
+    { press: "ArrowRight" },
+    { moveTo: [0.64, 0.72] },
+    { press: "Backspace" },
+    { press: "Backspace" },
+    { press: "i" },
+    { moveTo: [0.6, 0.5] },
+    { moveTo: [0.56, 0.2] },
     { click: DESKTOP },
-    { rest: 500 },
-    { moveTo: [0.72, 0.4] },
-    { rest: 400 },
+    { moveTo: [0.66, 0.5] },
+    { zoomIn: NAME_FIELD, scale: 2.2 },
+    { moveTo: [0.6, 0.56] },
+    { zoomOut: true },
+    { moveTo: [0.66, 0.3] },
     { click: MOBILE },
-    { rest: 500 },
-    { moveTo: [0.68, 0.74] },
-    { rest: 400 },
-    { click: DESKTOP },
-    { rest: 500 },
-    { moveTo: [0.8, 0.6] },
-    { rest: 500 },
-    { moveTo: [0.74, 0.3] },
+    { moveTo: [0.6, 0.62] },
+    { moveTo: [0.66, 0.78] },
+    { moveTo: [0.78, 0.5] },
+    { moveTo: [0.72, 0.3] },
   ],
 };

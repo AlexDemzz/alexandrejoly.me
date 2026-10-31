@@ -100,3 +100,38 @@
     @apply text-muted-foreground flex shrink-0 items-center gap-2 tabular-nums;
   }
 }
+
+/*
+ * The responsivecn showcase's viewport morph, as on the responsivecn
+ * playground: the frame resizes at once and its snapshots crossfade inside
+ * the morphing box, so the component swaps sides under the crossfade.
+ */
+:active-view-transition-type(showcase-viewport) {
+  &::view-transition-old(root) {
+    display: none;
+  }
+
+  &::view-transition-new(root) {
+    animation: none;
+  }
+
+  &::view-transition-image-pair(showcase-frame) {
+    box-sizing: border-box;
+    overflow: clip;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
+  }
+
+  &::view-transition-old(showcase-frame),
+  &::view-transition-new(showcase-frame) {
+    height: 100%;
+    object-fit: none;
+  }
+
+  &::view-transition-group(showcase-frame),
+  &::view-transition-old(showcase-frame),
+  &::view-transition-new(showcase-frame) {
+    animation-duration: 280ms;
+    animation-timing-function: var(--ease-settle);
+  }
+}
