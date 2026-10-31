@@ -56,10 +56,41 @@
   }
 }
 
-/* Carbon's row logo: its dot takes macOS's systemRed on hover, as in Carbon's
-   menu bar glyph while a meeting is transcribed. */
-@theme {
-  --color-recording: oklch(0.654 0.226 28.4);
+/* Carbon's row logo: on hover it turns into the mic meter Carbon's menu bar
+   icon shows while a meeting is transcribed. Each bar sets its own
+   --mic-meter-duration and --mic-meter-delay, so the three never move
+   together; reduced motion keeps each at its still --mic-meter-level. The
+   meter is paused until `mic-meter-running` plays it. */
+@utility mic-meter {
+  scale: 1 var(--mic-meter-level, 1);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: mic-meter var(--mic-meter-duration, 1s) ease-in-out
+      var(--mic-meter-delay, 0s) infinite paused;
+  }
+}
+
+@utility mic-meter-running {
+  animation-play-state: running;
+}
+
+@keyframes mic-meter {
+  0%,
+  100% {
+    scale: 1 0.4;
+  }
+  20% {
+    scale: 1 0.9;
+  }
+  40% {
+    scale: 1 0.55;
+  }
+  60% {
+    scale: 1 1;
+  }
+  80% {
+    scale: 1 0.35;
+  }
 }
 
 /*
