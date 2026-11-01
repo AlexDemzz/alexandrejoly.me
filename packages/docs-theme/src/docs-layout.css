@@ -295,10 +295,13 @@
   & #nd-sidebar {
     align-items: stretch;
 
-    /* Header (site crumb) and list: no inner gutters. */
+    /* Header (site crumb, at body size like every breadcrumb) and list:
+       no inner gutters. */
     & > div:first-child {
       padding-block: 64px 16px;
       padding-inline: 0;
+      font-size: 1rem;
+      line-height: 1.625;
     }
 
     & > div:nth-child(2) > div:first-child {
