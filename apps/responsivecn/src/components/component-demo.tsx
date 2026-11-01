@@ -20,7 +20,9 @@ const ComponentDemo = ({ children }: { children: React.ReactNode }) => (
 );
 
 const ComponentDemoRender = ({ children }: { children: React.ReactNode }) => (
-  <TabsContent value="preview">{children}</TabsContent>
+  <TabsContent keepMounted value="preview">
+    {children}
+  </TabsContent>
 );
 
 // The MDX code fence renders Fumadocs' block; its scroll container takes the cap.
