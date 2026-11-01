@@ -35,6 +35,8 @@ export const NotFound = () => (
       </Text>
     </div>
 
-    <SiteFooter />
+    <div className="pt-10">
+      <SiteFooter />
+    </div>
   </main>
 );

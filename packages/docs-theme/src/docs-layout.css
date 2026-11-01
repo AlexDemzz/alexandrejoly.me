@@ -1,0 +1,342 @@
+/* DESIGN.md › Docs pages › Fumadocs: stock Fumadocs restyled into the
+   alexandrejoly.me/components page. Unlayered, so it beats Fumadocs'
+   utilities without !important, except where Fumadocs sets an inline style.
+   `layout.tsx` sets `data-docs-layout` and the grid template. */
+
+/* ---- No rules, no fills, the /components type and rhythm ---- */
+
+[data-docs-layout] {
+  & #nd-sidebar {
+    border: 0;
+    background: var(--background);
+  }
+
+  /* The mobile drawer and its header. */
+  & [data-state]:has(> #nd-sidebar),
+  & #nd-subnav,
+  & [data-state].fixed,
+  & [data-state].fixed > div {
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* Folder guide lines and the nested active marker. */
+  & [class*="before:bg-fd-border"]::before,
+  & a[data-active]::before {
+    display: none;
+  }
+
+  /* Sidebar items: text links, the current one in foreground. */
+  & a[data-active]:not(#nd-toc a),
+  & :is(#nd-sidebar, #nd-sidebar-mobile) button[data-active] {
+    border-radius: 0;
+    background: none;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+    font-weight: var(--font-weight-book);
+    line-height: 1.625;
+    padding-block: 4px;
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition:
+      color 200ms ease-out,
+      text-decoration-color 200ms ease-out;
+
+    &[data-active="true"] {
+      color: var(--foreground);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background: none;
+        color: var(--muted-foreground);
+        text-decoration-color: var(--underline);
+      }
+
+      &[data-active="true"]:hover {
+        color: var(--foreground);
+      }
+    }
+  }
+
+  /* Group labels take the 16px heading, above their muted links. */
+  & #nd-sidebar > div:nth-child(2) p,
+  & [data-state] [data-radix-scroll-area-viewport] p,
+  & [data-state] > div:nth-child(2) p {
+    color: var(--foreground);
+    font-size: 1rem;
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* TOC: Fumadocs' curved track gives way to a straight one, drawn by each
+     item's ::before (see the TOC indicator below). */
+  & #nd-toc {
+    & #toc-title svg,
+    & [class~="absolute"] {
+      display: none;
+    }
+
+    /* Hidden from sight only: screen readers still land on the heading. */
+    & #toc-title {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    & a[data-active] {
+      padding-inline-start: 16px !important;
+      color: var(--muted-foreground);
+      transition: color 200ms ease-out;
+
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        inset-block: 0;
+        inset-inline-start: 0;
+        transition:
+          color 200ms ease-out,
+          background-color 200ms ease-out;
+      }
+
+      &[data-active="true"] {
+        color: var(--foreground);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        &,
+        &::before {
+          transition: none;
+        }
+      }
+    }
+  }
+
+  & #nd-subnav + * > div,
+  & [data-toc-popover] > div {
+    border: 0;
+  }
+
+  /* Page head: the 20px docs title over a body-size description. */
+  & #nd-page {
+    & > h1 {
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.375;
+    }
+
+    & > h1 + p {
+      margin-block: -12px 24px;
+      font-size: 1rem;
+      line-height: 1.625;
+    }
+
+    & .prose h2 {
+      font-size: 1.125rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.375;
+    }
+
+    & .prose h3 {
+      font-size: 1rem;
+      font-weight: var(--font-weight-medium);
+      line-height: 1.625;
+    }
+  }
+
+  /* Prose in muted-foreground, links, bold and code in foreground. Rhythm,
+     as on /components: 12px between text, 24px around blocks,
+     a section title 80px below the last section and 16px above its content,
+     a subheading 48px below and flush with its text. */
+  & #nd-page .prose {
+    --tw-prose-body: var(--muted-foreground);
+
+    & :where(p, li) {
+      line-height: 1.625;
+    }
+
+    & > * {
+      margin-block: 0;
+    }
+
+    & > * + * {
+      margin-block-start: 12px;
+    }
+
+    & > :not(p, ul, ol, h2, h3, h4) + *,
+    & > * + :not(p, ul, ol, h2, h3, h4) {
+      margin-block-start: 24px;
+    }
+
+    & > * + h2 {
+      margin-block-start: 80px;
+    }
+
+    & > * + h3 {
+      margin-block-start: 48px;
+    }
+
+    & > h2 + * {
+      margin-block-start: 16px;
+    }
+
+    & > h3 + * {
+      margin-block-start: 12px;
+    }
+
+    & > h3 + p {
+      margin-block-start: 0;
+    }
+  }
+
+  /* Code blocks: the muted card, no border, no title rule. */
+  & figure.shiki,
+  & [data-codeblock-tabs],
+  & .shiki.relative.border {
+    border: 0;
+    border-radius: var(--radius-xl);
+    background: var(--muted);
+
+    & > div:first-child {
+      border: 0;
+    }
+  }
+
+  /* Page names come as inline-flex spans, which the next page title's
+     underline would skip. */
+  & nav[aria-label="Next page"] .fd-page-tree-item-name {
+    display: inline;
+  }
+}
+
+/* ---- Below md: the mobile page of alexandrejoly.me/components ---- */
+
+@media (width < 48rem) {
+  [data-docs-layout] {
+    & #nd-page {
+      padding-block: 20px 48px;
+      padding-inline: 0;
+    }
+  }
+
+  /* Fumadocs' close icon gives way to the "Close" link in the banner. */
+  [data-docs-layout]
+    #nd-sidebar-mobile
+    > div:first-child
+    > div:first-child
+    > button:last-child {
+    display: none;
+  }
+}
+
+/* ---- TOC indicator: a 1px `border` track under one 1px `foreground` bar.
+   The bar is anchored to the first and last active items, so it glides
+   between sections instead of switching item by item. Without anchor
+   positioning the bar drops and the active titles keep their foreground
+   colour. ---- */
+
+[data-docs-layout] #nd-toc {
+  anchor-scope: --toc-start, --toc-end;
+
+  & a[data-active] {
+    &::before {
+      width: 1px;
+      background: var(--border);
+    }
+
+    &[data-active="true"]:not(a[data-active="true"] + a) {
+      anchor-name: --toc-start;
+    }
+
+    &[data-active="true"]:not(:has(+ a[data-active="true"])) {
+      anchor-name: --toc-end;
+    }
+  }
+
+  & div:has(> a[data-active])::after {
+    content: "";
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block: anchor(--toc-start start) anchor(--toc-end end);
+    width: 1px;
+    background: var(--foreground);
+    transition: opacity 200ms ease-out;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition:
+        inset-block 250ms var(--ease-in-out),
+        opacity 200ms ease-out;
+    }
+  }
+
+  & div:not(:has(> a[data-active="true"])):has(> a[data-active])::after {
+    opacity: 0;
+  }
+}
+
+/* ---- The /components block: sidebar and content centred together, the
+   TOC beside them from xl ---- */
+
+[data-docs-layout] {
+  padding-inline: 24px;
+
+  @media (width >= 48rem) {
+    --fd-sidebar-width: 192px;
+  }
+
+  @media (width >= 80rem) {
+    --fd-toc-width: 240px;
+  }
+
+  & #nd-sidebar {
+    align-items: stretch;
+
+    /* Header (site crumb) and list: no inner gutters. */
+    & > div:first-child {
+      padding-block: 64px 16px;
+      padding-inline: 0;
+    }
+
+    & > div:nth-child(2) > div:first-child {
+      padding: 0;
+      mask: none;
+    }
+
+    & a[data-active],
+    & p {
+      padding-inline: 0 !important;
+    }
+
+    & nav[aria-label] {
+      margin-inline: 0;
+    }
+  }
+
+  & #nd-page {
+    max-width: none;
+    padding-inline: 0;
+
+    @media (width >= 48rem) {
+      padding-block: 64px;
+      padding-inline: 48px 0;
+    }
+  }
+
+  & [data-layout-main] {
+    justify-items: stretch;
+  }
+
+  & #nd-subnav {
+    padding-inline: 0;
+  }
+
+  /* The first TOC item lines up with the page title. */
+  & #nd-toc {
+    padding-block: 52px 16px;
+    padding-inline: 48px 0;
+  }
+}

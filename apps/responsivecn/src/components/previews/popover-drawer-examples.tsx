@@ -1,4 +1,5 @@
 import { Button } from "@portfolio/ui/components/button";
+import { Input } from "@portfolio/ui/components/input";
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -10,14 +11,23 @@ import {
 } from "@portfolio/ui/components/popover-drawer";
 import * as React from "react";
 
-import {
-  PreviewFrame,
-  previewInputClassName,
-} from "@/components/previews/preview-frame";
+import { PreviewFrame } from "@/components/previews/preview-frame";
 
 const STATUSES = ["Open", "In review", "Closed"];
 
-const StatusFilters = ({ idPrefix }: { idPrefix: string }) => (
+// The checked statuses live above PopoverDrawer: crossing 768px swaps the
+// Popover subtree for the Drawer one, which would reset uncontrolled inputs.
+const DEFAULT_STATUSES = ["Open", "In review"];
+
+const StatusFilters = ({
+  idPrefix,
+  checked,
+  onCheckedChange,
+}: {
+  idPrefix: string;
+  checked: string[];
+  onCheckedChange: (checked: string[]) => void;
+}) => (
   <fieldset className="grid gap-2 text-sm">
     <legend className="mb-2 font-medium">Status</legend>
     {STATUSES.map((status) => {
@@ -27,7 +37,14 @@ const StatusFilters = ({ idPrefix }: { idPrefix: string }) => (
           <input
             id={id}
             type="checkbox"
-            defaultChecked={status !== "Closed"}
+            checked={checked.includes(status)}
+            onChange={(event) =>
+              onCheckedChange(
+                event.target.checked
+                  ? [...checked, status]
+                  : checked.filter((item) => item !== status)
+              )
+            }
             className="accent-primary size-4"
           />
           {status}
@@ -59,11 +76,10 @@ export const PopoverDrawerContentBoxExample = () => (
         <label htmlFor="popover-drawer-content-box-link" className="sr-only">
           Link
         </label>
-        <input
+        <Input
           id="popover-drawer-content-box-link"
           readOnly
           defaultValue="https://example.com/p/4f2a"
-          className={previewInputClassName}
         />
       </PopoverDrawerContent>
     </PopoverDrawer>
@@ -93,6 +109,7 @@ export const PopoverDrawerNonModalExample = () => (
 
 export const PopoverDrawerFooterExample = () => {
   const [open, setOpen] = React.useState(false);
+  const [statuses, setStatuses] = React.useState(DEFAULT_STATUSES);
 
   return (
     <PreviewFrame
@@ -110,7 +127,11 @@ export const PopoverDrawerFooterExample = () => {
               Show only the issues you need.
             </PopoverDrawerDescription>
           </PopoverDrawerHeader>
-          <StatusFilters idPrefix="popover-drawer-footer" />
+          <StatusFilters
+            idPrefix="popover-drawer-footer"
+            checked={statuses}
+            onCheckedChange={setStatuses}
+          />
           <PopoverDrawerFooter>
             <Button type="button" onClick={() => setOpen(false)}>
               Apply
@@ -122,19 +143,27 @@ export const PopoverDrawerFooterExample = () => {
   );
 };
 
-export const PopoverDrawerHiddenTitleExample = () => (
-  <PreviewFrame
-    desktop="At 768px and up: the hidden title names the Popover."
-    mobile="Below 768px: the hidden title names the Drawer for screen readers."
-  >
-    <PopoverDrawer>
-      <PopoverDrawerTrigger render={<Button variant="outline" />}>
-        Filters
-      </PopoverDrawerTrigger>
-      <PopoverDrawerContent>
-        <PopoverDrawerTitle className="sr-only">Filters</PopoverDrawerTitle>
-        <StatusFilters idPrefix="popover-drawer-hidden-title" />
-      </PopoverDrawerContent>
-    </PopoverDrawer>
-  </PreviewFrame>
-);
+export const PopoverDrawerHiddenTitleExample = () => {
+  const [statuses, setStatuses] = React.useState(DEFAULT_STATUSES);
+
+  return (
+    <PreviewFrame
+      desktop="At 768px and up: the hidden title names the Popover."
+      mobile="Below 768px: the hidden title names the Drawer for screen readers."
+    >
+      <PopoverDrawer>
+        <PopoverDrawerTrigger render={<Button variant="outline" />}>
+          Filters
+        </PopoverDrawerTrigger>
+        <PopoverDrawerContent>
+          <PopoverDrawerTitle className="sr-only">Filters</PopoverDrawerTitle>
+          <StatusFilters
+            idPrefix="popover-drawer-hidden-title"
+            checked={statuses}
+            onCheckedChange={setStatuses}
+          />
+        </PopoverDrawerContent>
+      </PopoverDrawer>
+    </PreviewFrame>
+  );
+};

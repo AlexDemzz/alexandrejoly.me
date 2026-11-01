@@ -7,7 +7,7 @@
     "./styles.css": "./src/styles.css",
     "./layout": "./src/layout.tsx",
     "./provider": "./src/provider.tsx",
-    "./mdx": "./src/mdx.ts"
+    "./mdx": "./src/mdx.tsx"
   },
   "scripts": {
     "check-types": "tsc --noEmit",

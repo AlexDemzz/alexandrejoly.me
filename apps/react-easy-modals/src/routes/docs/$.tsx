@@ -7,6 +7,7 @@ import { MarkdownCopyButton } from "fumadocs-ui/layouts/docs/page";
 import { Suspense, use } from "react";
 
 import { getMDXComponents } from "@/components/mdx";
+import { SiteFooter } from "@/components/site-footer";
 import { docsSite } from "@/lib/docs-site";
 import { pageHead } from "@/lib/seo";
 import { getPageMarkdownUrl } from "@/lib/shared";
@@ -60,6 +61,7 @@ const DocsContent = ({
           <MarkdownCopyButton markdownUrl={markdownUrl} />
         </>
       }
+      footer={<SiteFooter />}
     >
       <MdxContent components={getMDXComponents()} />
     </DocsArticle>

@@ -9,6 +9,7 @@ import {
   DialogDrawerTitle,
   DialogDrawerTrigger,
 } from "@portfolio/ui/components/dialog-drawer";
+import { Input } from "@portfolio/ui/components/input";
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -59,29 +60,43 @@ const useOpenOnLoad = (open: boolean) => {
   };
 };
 
+// The fields live above the component: crossing 768px swaps the Dialog or
+// Sheet subtree for the Drawer one, which would reset uncontrolled inputs.
+const useProfile = () => {
+  const [name, setName] = React.useState("Jordan Lee");
+  const [username, setUsername] = React.useState("@jordanlee");
+  return {
+    name: { value: name, onValueChange: setName },
+    username: { value: username, onValueChange: setUsername },
+  };
+};
+
 const Field = ({
   id,
   label,
-  defaultValue,
+  value,
+  onValueChange,
 }: {
   id: string;
   label: string;
-  defaultValue: string;
+  value: string;
+  onValueChange: (value: string) => void;
 }) => (
   <div className="flex flex-col gap-2">
     <label htmlFor={id} className="text-sm font-medium">
       {label}
     </label>
-    <input
+    <Input
       id={id}
-      defaultValue={defaultValue}
-      className="border-input focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 h-9 w-full min-w-0 rounded-lg border bg-transparent px-3 text-sm shadow-xs transition-shadow outline-none focus-visible:ring-3"
+      value={value}
+      onChange={(event) => onValueChange(event.target.value)}
     />
   </div>
 );
 
 const DialogDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
+  const profile = useProfile();
   return (
     <DialogDrawer {...load.root}>
       <DialogDrawerTrigger render={<Button variant="outline" />}>
@@ -99,8 +114,8 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
           </DialogDrawerDescription>
         </DialogDrawerHeader>
         <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:p-0">
-          <Field id="name" label="Name" defaultValue="Jordan Lee" />
-          <Field id="username" label="Username" defaultValue="@jordanlee" />
+          <Field id="name" label="Name" {...profile.name} />
+          <Field id="username" label="Username" {...profile.username} />
         </div>
         <DialogDrawerFooter>
           <DialogDrawerClose render={<Button variant="outline" />}>
@@ -117,6 +132,7 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
 
 const SheetDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
+  const profile = useProfile();
   return (
     <SheetDrawer {...load.root} drawer={{ swipeDirection: "down" }}>
       <SheetDrawerTrigger render={<Button variant="outline" />}>
@@ -129,13 +145,9 @@ const SheetDrawerDemo = ({ open }: DemoProps) => {
             Make changes to your profile here, then save them.
           </SheetDrawerDescription>
         </SheetDrawerHeader>
-        <div className="flex flex-col gap-4 p-4 md:py-0">
-          <Field id="sheet-name" label="Name" defaultValue="Jordan Lee" />
-          <Field
-            id="sheet-username"
-            label="Username"
-            defaultValue="@jordanlee"
-          />
+        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:py-0">
+          <Field id="sheet-name" label="Name" {...profile.name} />
+          <Field id="sheet-username" label="Username" {...profile.username} />
         </div>
         <SheetDrawerFooter>
           <SheetDrawerClose render={<Button />}>Save changes</SheetDrawerClose>
@@ -147,6 +159,7 @@ const SheetDrawerDemo = ({ open }: DemoProps) => {
 
 const PopoverDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
+  const [size, setSize] = React.useState({ width: "100%", height: "25px" });
   return (
     <PopoverDrawer {...load.root}>
       <PopoverDrawerTrigger render={<Button variant="outline" />}>
@@ -162,10 +175,10 @@ const PopoverDrawerDemo = ({ open }: DemoProps) => {
         <div className="flex flex-col gap-3">
           {(
             [
-              ["width", "Width", "100%"],
-              ["height", "Height", "25px"],
+              ["width", "Width"],
+              ["height", "Height"],
             ] as const
-          ).map(([id, label, defaultValue]) => (
+          ).map(([id, label]) => (
             <div
               key={id}
               className="grid grid-cols-[4rem_1fr] items-center gap-2"
@@ -173,10 +186,13 @@ const PopoverDrawerDemo = ({ open }: DemoProps) => {
               <label htmlFor={id} className="text-sm font-medium">
                 {label}
               </label>
-              <input
+              <Input
                 id={id}
-                defaultValue={defaultValue}
-                className="border-input focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-input/30 h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 text-sm shadow-xs transition-shadow outline-none focus-visible:ring-3"
+                value={size[id]}
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setSize((current) => ({ ...current, [id]: value }));
+                }}
               />
             </div>
           ))}

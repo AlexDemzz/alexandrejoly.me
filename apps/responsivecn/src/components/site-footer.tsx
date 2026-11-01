@@ -1,6 +1,6 @@
 import { Text, TextLink } from "@portfolio/ui/components/text";
 
-import { authorUrl, githubUrl } from "@/lib/shared";
+import { authorUrl, githubUrl, registryUrl } from "@/lib/shared";
 
 export const SiteFooter = () => (
   <footer className="flex flex-wrap gap-x-4 gap-y-1">
@@ -16,6 +16,11 @@ export const SiteFooter = () => (
         <li>
           <TextLink href={githubUrl} external>
             GitHub
+          </TextLink>
+        </li>
+        <li>
+          <TextLink href={`${registryUrl}/registry.json`} external>
+            Registry
           </TextLink>
         </li>
         <li>

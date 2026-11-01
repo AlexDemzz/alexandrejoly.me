@@ -235,6 +235,7 @@ type DialogDrawerFooterProps = React.ComponentProps<typeof DialogFooter> & {
 };
 
 function DialogDrawerFooter({
+  className,
   drawer,
   showCloseButton,
   children,
@@ -244,7 +245,12 @@ function DialogDrawerFooter({
 
   if (isMobile) {
     return (
-      <DrawerFooter {...toMobileProps(props, drawer)}>
+      <DrawerFooter
+        {...toMobileProps(
+          { className: cn("flex-col-reverse", className), ...props },
+          drawer
+        )}
+      >
         {children}
         {showCloseButton && (
           <DrawerClose className={buttonVariants({ variant: "outline" })}>
@@ -255,7 +261,11 @@ function DialogDrawerFooter({
     );
   }
   return (
-    <DialogFooter showCloseButton={showCloseButton} {...props}>
+    <DialogFooter
+      className={className}
+      showCloseButton={showCloseButton}
+      {...props}
+    >
       {children}
     </DialogFooter>
   );

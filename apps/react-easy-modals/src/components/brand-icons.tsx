@@ -17,10 +17,3 @@ export const GitHubIcon = (props: React.ComponentProps<"svg">) => (
     />
   </svg>
 );
-
-// The npm glyph in currentColor like GitHub's, so it follows the link's colour.
-export const NpmIcon = (props: React.ComponentProps<"svg">) => (
-  <svg aria-hidden="true" fill="currentColor" viewBox="0 0 24 24" {...props}>
-    <path d="M3 21H12V7.5H16.5V21H21V3H3V21Z" />
-  </svg>
-);

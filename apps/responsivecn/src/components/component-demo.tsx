@@ -1,118 +1,38 @@
-import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import { Button } from "@portfolio/ui/components/button";
-import { cn } from "@portfolio/ui/lib/utils";
-import * as React from "react";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@portfolio/ui/components/tabs";
+import type * as React from "react";
 
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+const ComponentDemo = ({ children }: { children: React.ReactNode }) => (
+  // oxlint-disable-next-line shadcn/no-unknown-classes -- Fumadocs' prose opt-out marker, not a utility
+  <div className="not-prose" data-slot="component-demo">
+    <Tabs defaultValue="preview">
+      <TabsList>
+        <TabsTrigger value="preview">Preview</TabsTrigger>
+        <TabsTrigger value="code">Code</TabsTrigger>
+      </TabsList>
+      {children}
+    </Tabs>
+  </div>
+);
 
-// A demo block shared by every component page: the real registry component in a
-// bordered box with a copy button, and its userland code collapsed below. The
-// code lives in the DOM even while collapsed so the copy button can read it.
-interface ComponentDemoContextValue {
-  codeRef: React.RefObject<HTMLDivElement | null>;
-  expanded: boolean;
-  toggle: () => void;
-}
+const ComponentDemoRender = ({ children }: { children: React.ReactNode }) => (
+  <TabsContent value="preview">{children}</TabsContent>
+);
 
-const ComponentDemoContext =
-  React.createContext<ComponentDemoContextValue | null>(null);
-
-const useComponentDemo = () => {
-  const context = React.useContext(ComponentDemoContext);
-  if (!context) {
-    throw new Error("ComponentDemo parts must be used within <ComponentDemo>");
-  }
-  return context;
-};
-
-const COPY_KEY = "component-demo";
-
-const ComponentDemo = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => {
-  const codeRef = React.useRef<HTMLDivElement>(null);
-  const [expanded, setExpanded] = React.useState(false);
-  const value = React.useMemo(
-    () => ({ codeRef, expanded, toggle: () => setExpanded((open) => !open) }),
-    [expanded]
-  );
-
-  return (
-    <ComponentDemoContext.Provider value={value}>
-      <div
-        data-slot="component-demo"
-        className={cn("not-prose my-6 flex flex-col gap-2", className)}
-        {...props}
-      />
-    </ComponentDemoContext.Provider>
-  );
-};
-
-const ComponentDemoRender = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"div">) => {
-  const { codeRef } = useComponentDemo();
-  const { copied, copy } = useCopyToClipboard();
-
-  return (
+// The MDX code fence renders Fumadocs' block; its scroll container takes the cap.
+const ComponentDemoCode = ({ children }: { children: React.ReactNode }) => (
+  <TabsContent value="code">
     <div
-      data-slot="component-demo-render"
-      className={cn("relative", className)}
-      {...props}
+      className="**:[.fd-scroll-container]:scroll-fade-y **:[.fd-scroll-container]:max-h-72 **:[figure]:my-0"
+      data-slot="component-demo-code"
     >
-      <div className="text-muted-foreground absolute top-3 right-3 z-10 flex">
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon-sm"
-          aria-label={copied === COPY_KEY ? "Copied" : "Copy code"}
-          onClick={() => copy(codeRef.current?.textContent ?? "", COPY_KEY)}
-        >
-          {copied === COPY_KEY ? <CheckIcon /> : <CopyIcon />}
-        </Button>
-      </div>
       {children}
     </div>
-  );
-};
+  </TabsContent>
+);
 
-const ComponentDemoCode = ({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"div">) => {
-  const { codeRef, expanded, toggle } = useComponentDemo();
-
-  return (
-    <div
-      data-slot="component-demo-code-wrapper"
-      className="flex flex-col items-start gap-2"
-    >
-      <div className="text-muted-foreground flex">
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          aria-expanded={expanded}
-          onClick={toggle}
-        >
-          {expanded ? "Collapse code" : "Expand code"}
-        </Button>
-      </div>
-      <div
-        ref={codeRef}
-        data-slot="component-demo-code"
-        hidden={!expanded}
-        className={cn("w-full", className)}
-        {...props}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
-
-export { ComponentDemo, ComponentDemoRender, ComponentDemoCode };
+export { ComponentDemo, ComponentDemoCode, ComponentDemoRender };

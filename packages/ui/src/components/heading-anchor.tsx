@@ -3,11 +3,13 @@
 // (after the title below `sm`, where there is no margin) shows while it is
 // hovered or focused, and stays on touch. A pseudo-element with empty alt text,
 // so the `#` is in neither the heading's text nor its accessible name.
+import type { ReactNode } from "react";
+
 export const HeadingAnchor = ({
   children,
   id,
 }: {
-  children: string;
+  children: ReactNode;
   id: string;
 }) => (
   <a

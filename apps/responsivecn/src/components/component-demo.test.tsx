@@ -1,5 +1,5 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import {
   ComponentDemo,
@@ -21,58 +21,19 @@ const setup = () =>
     </ComponentDemo>
   );
 
-const codeRegion = (container: HTMLElement) => {
-  const region = container.querySelector<HTMLElement>(
-    '[data-slot="component-demo-code"]'
-  );
-  if (!region) {
-    throw new Error("ComponentDemoCode did not render its code region");
-  }
-  return region;
-};
-
 describe("ComponentDemo", () => {
   afterEach(cleanup);
 
-  beforeEach(() => {
-    Object.assign(navigator, {
-      clipboard: {
-        writeText: vi.fn<() => Promise<void>>().mockResolvedValue(),
-      },
-    });
-  });
-
-  it("renders the preview child", () => {
+  it("opens on the preview", () => {
     setup();
     expect(screen.getByRole("button", { name: "Edit profile" })).toBeTruthy();
+    expect(screen.queryByText(CODE)).toBeNull();
   });
 
-  it("keeps the code in the DOM but hidden until expanded", () => {
-    const { container } = setup();
-    const region = codeRegion(container);
-
-    // Present (so it can be copied) but collapsed.
-    expect(region.textContent).toContain(CODE);
-    expect(region.hidden).toBe(true);
-
-    fireEvent.click(screen.getByRole("button", { name: /expand code/iu }));
-    expect(region.hidden).toBe(false);
-
-    fireEvent.click(screen.getByRole("button", { name: /collapse code/iu }));
-    expect(region.hidden).toBe(true);
-  });
-
-  it("copies the full code text to the clipboard while still collapsed", () => {
+  it("swaps the preview for the code on the Code tab", () => {
     setup();
-    fireEvent.click(screen.getByRole("button", { name: /copy code/iu }));
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(CODE);
-  });
-
-  it("exposes copy and expand as accessible, labeled buttons", () => {
-    setup();
-    const copy = screen.getByRole("button", { name: /copy code/iu });
-    const expand = screen.getByRole("button", { name: /expand code/iu });
-    expect(copy.tagName).toBe("BUTTON");
-    expect(expand.getAttribute("aria-expanded")).toBe("false");
+    fireEvent.click(screen.getByRole("tab", { name: "Code" }));
+    expect(screen.getByText(CODE)).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Edit profile" })).toBeNull();
   });
 });

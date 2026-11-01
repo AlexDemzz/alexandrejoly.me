@@ -34,7 +34,7 @@ function ItemSeparator({
 }
 
 const itemVariants = cva(
-  "group/item focus-visible:border-ring focus-visible:ring-ring/50 not-data-[variant=underline]:[a]:hover:bg-muted flex w-full flex-wrap items-center rounded-lg border text-sm transition-colors duration-100 outline-none focus-visible:ring-[3px] [a]:transition-colors",
+  "group/item focus-visible:border-ring focus-visible:ring-ring/50 not-data-[variant=underline]:[a]:hover:bg-muted flex w-full flex-wrap items-center rounded-lg border text-base transition-colors duration-100 outline-none focus-visible:ring-[3px] [a]:transition-colors",
   {
     variants: {
       variant: {
@@ -118,7 +118,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-content"
       className={cn(
-        "flex flex-1 flex-col gap-1 group-data-[size=xs]/item:gap-0 [&+[data-slot=item-content]]:flex-none",
+        "flex flex-1 flex-col [&+[data-slot=item-content]]:flex-none",
         className
       )}
       {...props}
@@ -131,7 +131,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="item-title"
       className={cn(
-        "can-hover:group-data-[variant=underline]/item:group-hover/item:decoration-underline group-data-[variant=underline]/item:group-focus-visible/item:decoration-underline line-clamp-1 flex w-fit items-center gap-2 text-sm leading-snug font-medium underline-offset-4 group-data-[variant=underline]/item:underline group-data-[variant=underline]/item:decoration-transparent group-data-[variant=underline]/item:underline-offset-3 group-data-[variant=underline]/item:transition-[text-decoration-color] group-data-[variant=underline]/item:duration-200 group-data-[variant=underline]/item:ease-out",
+        "can-hover:group-data-[variant=underline]/item:group-hover/item:decoration-underline group-data-[variant=underline]/item:group-focus-visible/item:decoration-underline font-book line-clamp-1 flex w-fit items-center gap-2 text-base leading-relaxed underline-offset-4 group-data-[variant=underline]/item:underline group-data-[variant=underline]/item:decoration-transparent group-data-[variant=underline]/item:underline-offset-3 group-data-[variant=underline]/item:transition-[text-decoration-color] group-data-[variant=underline]/item:duration-200 group-data-[variant=underline]/item:ease-out",
         className
       )}
       {...props}
@@ -144,7 +144,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
     <p
       data-slot="item-description"
       className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary line-clamp-2 text-left text-sm leading-normal font-normal group-data-[size=xs]/item:text-xs [&>a]:underline [&>a]:underline-offset-4",
+        "text-muted-foreground [&>a:hover]:text-primary line-clamp-2 text-left text-base leading-relaxed font-normal group-data-[size=xs]/item:text-xs [&>a]:underline [&>a]:underline-offset-4",
         className
       )}
       {...props}

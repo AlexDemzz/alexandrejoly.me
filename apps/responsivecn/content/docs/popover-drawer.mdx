@@ -12,6 +12,8 @@ A drop-in replacement for the shadcn [Popover](https://ui.shadcn.com/docs/compon
   <ComponentDemoCode>
 
 ```tsx
+import { useState } from "react";
+
 import {
   PopoverDrawer,
   PopoverDrawerContent,
@@ -22,6 +24,10 @@ import {
 } from "@/components/ui/popover-drawer";
 
 export function Dimensions() {
+  // Above PopoverDrawer, so the values survive crossing 768px.
+  const [width, setWidth] = useState("100%");
+  const [height, setHeight] = useState("25px");
+
   return (
     <PopoverDrawer>
       <PopoverDrawerTrigger>Open popover</PopoverDrawerTrigger>
@@ -35,11 +41,21 @@ export function Dimensions() {
         <div className="grid gap-2">
           <div className="grid grid-cols-3 items-center gap-4">
             <label htmlFor="width">Width</label>
-            <input id="width" defaultValue="100%" className="col-span-2" />
+            <input
+              id="width"
+              value={width}
+              onChange={(event) => setWidth(event.target.value)}
+              className="col-span-2"
+            />
           </div>
           <div className="grid grid-cols-3 items-center gap-4">
             <label htmlFor="height">Height</label>
-            <input id="height" defaultValue="25px" className="col-span-2" />
+            <input
+              id="height"
+              value={height}
+              onChange={(event) => setHeight(event.target.value)}
+              className="col-span-2"
+            />
           </div>
         </div>
       </PopoverDrawerContent>

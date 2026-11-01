@@ -22,7 +22,7 @@ const MenuBody = () => (
         Go to any page in this workspace.
       </SheetDrawerDescription>
     </SheetDrawerHeader>
-    <nav className="grid gap-1 px-4 text-sm">
+    <nav className="grid min-h-0 gap-1 overflow-y-auto px-1 py-4 text-sm md:py-0">
       {PAGES.map((page) => (
         <button
           key={page}

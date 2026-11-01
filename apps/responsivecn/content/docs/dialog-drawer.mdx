@@ -12,6 +12,8 @@ A drop-in replacement for the shadcn [Dialog](https://ui.shadcn.com/docs/compone
   <ComponentDemoCode>
 
 ```tsx
+import { useState } from "react";
+
 import {
   DialogDrawer,
   DialogDrawerContent,
@@ -23,6 +25,9 @@ import {
 } from "@/components/ui/dialog-drawer";
 
 export function EditProfile() {
+  // Above DialogDrawer, so the name survives crossing 768px.
+  const [name, setName] = useState("Jordan Lee");
+
   return (
     <DialogDrawer>
       <DialogDrawerTrigger>Edit profile</DialogDrawerTrigger>
@@ -38,7 +43,11 @@ export function EditProfile() {
         </DialogDrawerHeader>
         <form className="grid gap-4 p-4 md:p-0">
           <label htmlFor="name">Name</label>
-          <input id="name" defaultValue="Jordan Lee" />
+          <input
+            id="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
         </form>
         <DialogDrawerFooter showCloseButton />
       </DialogDrawerContent>
@@ -135,7 +144,16 @@ Everything inside `drawer={{...}}` is your installed Drawer's own API, for examp
     showSwipeHandle: true,
   }}
 >
-  {/* … */}
+  <DialogDrawerTrigger>Keyboard shortcuts</DialogDrawerTrigger>
+  {/* Pads the part of the drawer below the screen, so the list scrolls to its end at every snap point. */}
+  <DialogDrawerContent
+    drawer={{
+      className:
+        "pb-[max(0px,calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y,0px)))]",
+    }}
+  >
+    {/* … */}
+  </DialogDrawerContent>
 </DialogDrawer>
 ```
 
