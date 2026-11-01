@@ -83,7 +83,7 @@ const Home = () => {
         <Shadcn code={code} />
         <Docs />
       </div>
-      <div className="max-w-column mx-auto mt-auto w-full pt-6">
+      <div className="max-w-column mx-auto mt-auto w-full pt-16">
         <SiteFooter />
       </div>
     </main>

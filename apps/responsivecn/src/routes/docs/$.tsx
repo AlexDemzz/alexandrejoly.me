@@ -6,6 +6,7 @@ import { useFumadocsLoader } from "fumadocs-core/source/client";
 import { Suspense } from "react";
 
 import { getMDXComponents } from "@/components/mdx";
+import { SiteFooter } from "@/components/site-footer";
 import { docsSeo } from "@/lib/docs-seo";
 import { docsSite } from "@/lib/docs-site";
 import { legacyDocsRedirect } from "@/lib/legacy-docs";
@@ -36,6 +37,7 @@ const clientLoader = browserCollections.docs.createClientLoader({
         title={frontmatter.title}
         description={frontmatter.description}
         toc={toc}
+        footer={<SiteFooter />}
       >
         <MdxContent components={getMDXComponents()} />
       </DocsArticle>

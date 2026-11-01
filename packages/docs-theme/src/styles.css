@@ -6,6 +6,7 @@
 /* After the preset, so the design system's dark variant replaces Fumadocs'
    `.dark` class one and its base layer wins. */
 @import "@portfolio/ui/theme.css";
+@import "./docs-layout.css";
 @source "./**/*.{ts,tsx}";
 @source "../../ui/src/components/**/*.tsx";
 

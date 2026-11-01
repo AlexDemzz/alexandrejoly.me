@@ -80,7 +80,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 - **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content, a 16px title in `muted-foreground`; `variant="stacked"` makes it the 18px docs section heading in `foreground`. It carries the 40px above and below; `spacing="none"` drops it for a column that spaces its sections with a gap (see Library landings › Rhythm).
 - **Row** (`ItemLight`, styled by `data-slot` in `apps/web/src/index.css`): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), an inset hairline under each row but the last, no fill. Titles wrap to as many lines as they need.
-- **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at control size, the title on one line and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
+- **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at the 16px reading size, the title in book weight (450) on one line, flush on its description, both at 1.625 line height, and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
 - **Text link** (`TextLink`, `link-text`): `foreground`, weight 450, underline in `underline` at 3px; may lead with a favicon.
 - **Heading** (`Heading`): 16px at 500 in `foreground`, any level through `render`; `variant="title"` is the 20px docs page title.
 - **Button** (`Button`): shadcn's Button, rounded-full at every size; inside a button group the compact sizes (`xs`, `sm`, `icon-xs`, `icon-sm`) turn `rounded-lg`.
@@ -118,11 +118,14 @@ Two engines, one look. alexandrejoly.me draws its component docs (`/components/$
 
 ### Fumadocs
 
-- `@portfolio/docs-theme` wraps stock Fumadocs (`DocsLayout`, its default MDX components, `Steps`, `Tabs`) and recolours it through `theme.css`: the docs sites style Fumadocs through the tokens alone.
+- `@portfolio/docs-theme` wraps stock Fumadocs (`DocsLayout`, its default MDX components, `Steps`, `Tabs`) and restyles it into the /components page: tokens through `theme.css`, layout and type in `docs-layout.css`. No rules and no fills, except the TOC track and the cards Docs pages › Components keeps.
 - Shiki's dark colours follow the system like the rest, so the theme switch is off.
-- The nav title is the site name as a text link to the landing. The sidebar does not collapse; its footer lists GitHub first, then the site's own links.
-- Demos sit in a `Preview`. A headless library's demos draw their own backdrop and panel, to show that the library ships no look of its own.
-- A page: title, a 14px description, an optional row of page actions above a hairline, then the body, at `max-w-3xl`.
+- Layout: the sidebar and the content share one centred block like `max-w-docs` (192px sidebar, 48px gap, the 576px measure), and the TOC sits beside them in a 240px column from `xl`. Sidebar, page and TOC start 64px from the top, the first TOC item level with the page title.
+- Sidebar: the site name as a text link on top, group labels at the 16px `heading`, then text links like the docs sidebar. It has no footer and does not collapse.
+- TOC: titles in `muted-foreground`, the visible ones in `foreground`, beside a 1px `border` track. One 1px `foreground` bar spans the visible titles and glides between them, anchored to the first and last; without anchor positioning the bar drops and the titles keep the state.
+- Mobile: the page header of /components, the crumb with a menu icon button at the end, which opens Fumadocs' drawer with a "Close" text link in place of its close icon.
+- A page: the 20px title, a 16px description, an optional row of page actions, then the body 40px below. Section titles are `HeadingAnchor` headings in the docs section rhythm: 16px to their content, 80px between sections, 48px above a 16px subheading that sits flush on its text, 12px between paragraphs and 24px around blocks. Prose is `muted-foreground`, links, bold and code `foreground`. 48px under the page, only the way forward: an `underline` Item titled "Next: " and the next page's name, its description under it; the sidebar holds the way back. Then the site's own footer 64px lower, as on its home.
+- Demos sit behind Preview and Code tabs, as on /components: the demo in a `Preview`, the code capped at 288px with `scroll-fade-y`. A headless library's demos draw their own backdrop and panel, to show that the library ships no look of its own.
 
 ## Library landings
 

@@ -8,12 +8,10 @@ import {
   DialogDrawerTitle,
   DialogDrawerTrigger,
 } from "@portfolio/ui/components/dialog-drawer";
+import { Input } from "@portfolio/ui/components/input";
 import * as React from "react";
 
-import {
-  PreviewFrame,
-  previewInputClassName,
-} from "@/components/previews/preview-frame";
+import { PreviewFrame } from "@/components/previews/preview-frame";
 
 const SHORTCUTS = [
   { keys: "⌘ K", action: "Open the command menu" },
@@ -27,6 +25,17 @@ const SHORTCUTS = [
   { keys: "G then H", action: "Go to home" },
   { keys: "G then P", action: "Go to projects" },
   { keys: "G then S", action: "Go to settings" },
+  { keys: "G then I", action: "Go to inbox" },
+  { keys: "G then M", action: "Go to members" },
+  { keys: "⌘ S", action: "Save changes" },
+  { keys: "⌘ Z", action: "Undo" },
+  { keys: "⌘ ⇧ Z", action: "Redo" },
+  { keys: "⌘ A", action: "Select all" },
+  { keys: "⌘ C", action: "Copy the selection" },
+  { keys: "⌘ V", action: "Paste" },
+  { keys: "⌘ ↵", action: "Submit the form" },
+  { keys: "⌘ P", action: "Print this page" },
+  { keys: "⌘ ↑", action: "Jump to the top" },
   { keys: "Esc", action: "Close the open panel" },
 ];
 
@@ -45,14 +54,20 @@ export const DialogDrawerSnapPointsExample = () => (
       <DialogDrawerTrigger render={<Button variant="outline" />}>
         Keyboard shortcuts
       </DialogDrawerTrigger>
-      <DialogDrawerContent>
+      <DialogDrawerContent
+        className="md:max-h-[calc(100dvh-4rem)] md:grid-rows-[auto_minmax(0,1fr)_auto]"
+        drawer={{
+          className:
+            "pb-[max(0px,calc(var(--drawer-snap-point-offset,0px)+var(--drawer-swipe-movement-y,0px)))]",
+        }}
+      >
         <DialogDrawerHeader>
           <DialogDrawerTitle>Keyboard shortcuts</DialogDrawerTitle>
           <DialogDrawerDescription>
             Move around the app without a mouse.
           </DialogDrawerDescription>
         </DialogDrawerHeader>
-        <dl className="grid min-h-0 gap-2 overflow-y-auto px-4 text-sm md:px-0">
+        <dl className="grid min-h-0 flex-1 content-start gap-2 overflow-y-auto p-4 text-sm md:p-0">
           {SHORTCUTS.map(({ keys, action }) => (
             <div key={keys} className="flex justify-between gap-4">
               <dt className="text-muted-foreground">{action}</dt>
@@ -66,79 +81,88 @@ export const DialogDrawerSnapPointsExample = () => (
   </PreviewFrame>
 );
 
-export const DialogDrawerSizingExample = () => (
-  <PreviewFrame
-    desktop="At 768px and up: a Dialog capped at sm:max-w-sm."
-    mobile="Below 768px: a full-width Drawer, since sm:max-w-none resets the Dialog width."
-  >
-    <DialogDrawer>
-      <DialogDrawerTrigger render={<Button variant="outline" />}>
-        Rename file
-      </DialogDrawerTrigger>
-      <DialogDrawerContent
-        className="sm:max-w-sm"
-        drawer={{ className: "sm:max-w-none" }}
-      >
-        <DialogDrawerHeader>
-          <DialogDrawerTitle>Rename file</DialogDrawerTitle>
-          <DialogDrawerDescription>
-            The new name shows everywhere the file is shared.
-          </DialogDrawerDescription>
-        </DialogDrawerHeader>
-        <form className="grid gap-4 p-4 md:p-0">
-          <label
-            className="grid gap-1.5 text-sm font-medium"
-            htmlFor="dialog-drawer-sizing-name"
-          >
-            File name
-            <input
-              id="dialog-drawer-sizing-name"
-              defaultValue="Quarterly report.pdf"
-              className={previewInputClassName}
-            />
-          </label>
-        </form>
-        <DialogDrawerFooter showCloseButton />
-      </DialogDrawerContent>
-    </DialogDrawer>
-  </PreviewFrame>
-);
+export const DialogDrawerSizingExample = () => {
+  const [fileName, setFileName] = React.useState("Quarterly report.pdf");
 
-export const DialogDrawerBodyPaddingExample = () => (
-  <PreviewFrame
-    desktop="At 768px and up: md:p-0 drops the form padding, since the Dialog pads its whole box."
-    mobile="Below 768px: the form keeps p-4, in line with the Drawer header and footer."
-  >
-    <DialogDrawer>
-      <DialogDrawerTrigger render={<Button variant="outline" />}>
-        Invite member
-      </DialogDrawerTrigger>
-      <DialogDrawerContent>
-        <DialogDrawerHeader>
-          <DialogDrawerTitle>Invite member</DialogDrawerTitle>
-          <DialogDrawerDescription>
-            They get an email with a link to join.
-          </DialogDrawerDescription>
-        </DialogDrawerHeader>
-        <form className="grid gap-4 p-4 md:p-0">
-          <label
-            className="grid gap-1.5 text-sm font-medium"
-            htmlFor="dialog-drawer-padding-email"
-          >
-            Email
-            <input
-              id="dialog-drawer-padding-email"
-              type="email"
-              placeholder="name@example.com"
-              className={previewInputClassName}
-            />
-          </label>
-        </form>
-        <DialogDrawerFooter showCloseButton />
-      </DialogDrawerContent>
-    </DialogDrawer>
-  </PreviewFrame>
-);
+  return (
+    <PreviewFrame
+      desktop="At 768px and up: a Dialog capped at sm:max-w-sm."
+      mobile="Below 768px: a full-width Drawer, since sm:max-w-none resets the Dialog width."
+    >
+      <DialogDrawer>
+        <DialogDrawerTrigger render={<Button variant="outline" />}>
+          Rename file
+        </DialogDrawerTrigger>
+        <DialogDrawerContent
+          className="sm:max-w-sm"
+          drawer={{ className: "sm:max-w-none" }}
+        >
+          <DialogDrawerHeader>
+            <DialogDrawerTitle>Rename file</DialogDrawerTitle>
+            <DialogDrawerDescription>
+              The new name shows everywhere the file is shared.
+            </DialogDrawerDescription>
+          </DialogDrawerHeader>
+          <form className="grid gap-4 p-4 md:p-0">
+            <label
+              className="grid gap-1.5 text-sm font-medium"
+              htmlFor="dialog-drawer-sizing-name"
+            >
+              File name
+              <Input
+                id="dialog-drawer-sizing-name"
+                value={fileName}
+                onChange={(event) => setFileName(event.target.value)}
+              />
+            </label>
+          </form>
+          <DialogDrawerFooter showCloseButton />
+        </DialogDrawerContent>
+      </DialogDrawer>
+    </PreviewFrame>
+  );
+};
+
+export const DialogDrawerBodyPaddingExample = () => {
+  const [email, setEmail] = React.useState("");
+
+  return (
+    <PreviewFrame
+      desktop="At 768px and up: md:p-0 drops the form padding, since the Dialog pads its whole box."
+      mobile="Below 768px: the form keeps p-4, in line with the Drawer header and footer."
+    >
+      <DialogDrawer>
+        <DialogDrawerTrigger render={<Button variant="outline" />}>
+          Invite member
+        </DialogDrawerTrigger>
+        <DialogDrawerContent>
+          <DialogDrawerHeader>
+            <DialogDrawerTitle>Invite member</DialogDrawerTitle>
+            <DialogDrawerDescription>
+              They get an email with a link to join.
+            </DialogDrawerDescription>
+          </DialogDrawerHeader>
+          <form className="grid gap-4 p-4 md:p-0">
+            <label
+              className="grid gap-1.5 text-sm font-medium"
+              htmlFor="dialog-drawer-padding-email"
+            >
+              Email
+              <Input
+                id="dialog-drawer-padding-email"
+                type="email"
+                placeholder="name@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </label>
+          </form>
+          <DialogDrawerFooter showCloseButton />
+        </DialogDrawerContent>
+      </DialogDrawer>
+    </PreviewFrame>
+  );
+};
 
 export const DialogDrawerSwipeReasonExample = () => {
   const [open, setOpen] = React.useState(false);
@@ -170,6 +194,9 @@ export const DialogDrawerSwipeReasonExample = () => {
               Only a swipe adds to the count.
             </DialogDrawerDescription>
           </DialogDrawerHeader>
+          <p className="text-muted-foreground p-4 text-sm md:p-0">
+            Swipe it down, press Esc or use Close.
+          </p>
           <DialogDrawerFooter showCloseButton />
         </DialogDrawerContent>
       </DialogDrawer>

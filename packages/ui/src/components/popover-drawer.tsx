@@ -301,7 +301,13 @@ function PopoverDrawerHeader({
     return (
       <DrawerHeader
         {...toMobileProps(
-          { className: cn("p-0", className), ...props },
+          {
+            className: cn(
+              "p-0 group-data-[swipe-axis=y]/drawer-popup:text-start",
+              className
+            ),
+            ...props,
+          },
           drawer
         )}
       />
