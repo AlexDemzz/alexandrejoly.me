@@ -30,7 +30,7 @@ export const OnboardingTransition = () => {
 
   if (completed) {
     return (
-      <div className="flex min-h-76.5 flex-col items-center justify-center gap-4">
+      <div className="flex min-h-75 flex-col items-center justify-center gap-4">
         <p>Onboarding complete</p>
         <Button onClick={() => setCompleted(false)} variant="outline">
           Restart
