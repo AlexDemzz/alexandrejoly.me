@@ -24,6 +24,7 @@
     "@tanstack/react-router": "^1.170.44",
     "@tanstack/react-start": "^1.169.1",
     "class-variance-authority": "^0.7.1",
+    "motion": "^12.43.0",
     "next-themes": "catalog:",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
