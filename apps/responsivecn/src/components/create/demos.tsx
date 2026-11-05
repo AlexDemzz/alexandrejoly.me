@@ -111,7 +111,7 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
             Change the name shown on your profile.
           </DialogDrawerDescription>
         </DialogDrawerHeader>
-        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:p-0">
+        <div className="p-4 md:p-0">
           <Field id="name" label="Name" {...name} />
         </div>
         <DialogDrawerFooter>
@@ -142,7 +142,7 @@ const SheetDrawerDemo = ({ open }: DemoProps) => {
             Change the name shown on your profile.
           </SheetDrawerDescription>
         </SheetDrawerHeader>
-        <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:py-0">
+        <div className="p-4 md:py-0">
           <Field id="sheet-name" label="Name" {...name} />
         </div>
         <SheetDrawerFooter>
