@@ -40,12 +40,17 @@ const HAND_SIZE = {
   "--pitch": "min(200px, 15.6cqw)",
 } as CSSProperties;
 const MAX_RAKE_SPEED = 3200;
-const POT_R = 340;
+const POT_R = 240;
 // The deck waits at 80% of the final card size: bigger than a real card
 // next to these chips, so it still reads in a small video.
 const IDLE_DECK_SCALE = 0.8;
 // The face-down stack offsets its cards a few pixels up and left.
 const DECK_STACK = 6;
+// The hand's spot leaves this much felt around the stack, which leans up and
+// left, so the spot shifts that way by half the stack to look even.
+const SPOT_GAP = 20;
+const SPOT_PAD = DECK_STACK + SPOT_GAP;
+const SPOT_SHIFT = -DECK_STACK / 2;
 const DECK_BOUNCE = 0.2;
 const ROW_GAP = 98;
 // The pot's felt holds a little harder, so a chip pushed in stays in.
@@ -303,15 +308,19 @@ export const AllIn = () => {
       const cardW = fullW * IDLE_DECK_SCALE;
       size.current = {
         deck: {
-          halfH: (cardW * 1.4) / 2 + DECK_STACK,
-          halfW: cardW / 2 + DECK_STACK,
-          x: deck ? deck.left - box.left + deck.width / 2 : box.width / 2,
-          y: deck ? deck.top - box.top + deck.height / 2 : box.height / 2,
+          halfH: (cardW * 1.4) / 2 + SPOT_PAD,
+          halfW: cardW / 2 + SPOT_PAD,
+          x:
+            (deck ? deck.left - box.left + deck.width / 2 : box.width / 2) +
+            SPOT_SHIFT,
+          y:
+            (deck ? deck.top - box.top + deck.height / 2 : box.height / 2) +
+            SPOT_SHIFT,
         },
         height: box.height,
-        // The same size as the circle's CSS, `min(2 × POT_R px, 76cqh)`,
-        // centred on the deck like the circle. The circle's own box can read
-        // 0 while the page hydrates, so it isn't measured.
+        // The same size as the pot's CSS, centred on the deck like it. The
+        // pot's own box can read 0 while the page hydrates, so it isn't
+        // measured.
         pot: {
           r: Math.min(POT_R, box.height * 0.38),
           x: deck ? deck.left - box.left + deck.width / 2 : box.width / 2,
@@ -588,11 +597,22 @@ export const AllIn = () => {
                 width: "calc(var(--card-w) + 4 * var(--pitch))",
               }}
             >
+              {/* The hand's spot, the deck's collision box: the cards sit on
+                  their own mark inside the pot, never in it. */}
+              <div
+                className="absolute top-1/2 left-1/2 -translate-1/2 rounded-[32px] border border-dashed border-[var(--pk-line)]"
+                style={{
+                  height: `calc(var(--card-w) * ${IDLE_DECK_SCALE * 1.4} + ${SPOT_PAD * 2}px)`,
+                  marginLeft: SPOT_SHIFT,
+                  marginTop: SPOT_SHIFT,
+                  width: `calc(var(--card-w) * ${IDLE_DECK_SCALE} + ${SPOT_PAD * 2}px)`,
+                }}
+              />
               <div
                 className="absolute top-1/2 left-1/2 aspect-square -translate-1/2 rounded-full border border-dashed transition-colors duration-500"
                 style={{
                   borderColor: allIn ? "var(--pk-hi)" : "var(--pk-line)",
-                  width: `min(${POT_R * 2}px, 76cqh)`,
+                  width: `min(${POT_R * 2}px, 76dvh)`,
                 }}
               >
                 {!playing && !reduceMotion ? (
@@ -603,38 +623,6 @@ export const AllIn = () => {
                     transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
                   />
                 ) : null}
-                <div className="absolute top-1/2 left-full flex -translate-y-1/2 items-center">
-                  <span className="size-1 -translate-x-1/2 rounded-full bg-[var(--pk-line)]" />
-                  <span className="h-px w-28 bg-[var(--pk-line)]" />
-                  <div className="ms-5 flex flex-col gap-1.5 whitespace-nowrap">
-                    <motion.span
-                      animate={{
-                        filter: "blur(0px)",
-                        opacity: 1,
-                        transform: "translateY(0px)",
-                      }}
-                      className={`pk-caps text-[20px] ${allIn ? "text-foreground!" : ""}`}
-                      initial={
-                        allIn
-                          ? reduceMotion
-                            ? { opacity: 0 }
-                            : {
-                                filter: "blur(4px)",
-                                opacity: 0,
-                                transform: "translateY(6px)",
-                              }
-                          : false
-                      }
-                      key={allIn ? "all-in" : "pot"}
-                      transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
-                    >
-                      {allIn ? "All in" : "The pot"}
-                    </motion.span>
-                    <span className="text-[20px] tabular-nums">
-                      {count} of {CHIPS.length} chips
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
             <p className="invisible text-3xl">
