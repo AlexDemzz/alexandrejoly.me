@@ -9,7 +9,6 @@ import {
 import {
   DialogDrawerBodyPaddingExample,
   DialogDrawerSizingExample,
-  DialogDrawerSnapPointsExample,
   DialogDrawerSwipeReasonExample,
 } from "@/components/previews/dialog-drawer-examples";
 import { DialogDrawerPreview } from "@/components/previews/dialog-drawer-preview";
@@ -38,7 +37,6 @@ export const getMDXComponents = (components?: MDXComponents) =>
     SheetDrawerPreview,
     PopoverDrawerPreview,
     OverridePropExample,
-    DialogDrawerSnapPointsExample,
     DialogDrawerSizingExample,
     DialogDrawerBodyPaddingExample,
     DialogDrawerSwipeReasonExample,

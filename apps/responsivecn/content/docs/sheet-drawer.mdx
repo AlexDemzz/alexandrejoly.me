@@ -3,7 +3,7 @@ title: SheetDrawer
 description: An edge-anchored Sheet at desktop that becomes a swipeable Drawer below 768px.
 ---
 
-A drop-in replacement for the shadcn [Sheet](https://ui.shadcn.com/docs/components/sheet): at 768px and up it renders your Sheet unchanged; below, the same children render inside your [Drawer](https://ui.shadcn.com/docs/components/drawer), anchored to the edge you set with `side`. The [breakpoint](/docs/breakpoint) and the [override prop](/docs/override-prop) work the same for every pair, so this page covers only what is specific to this one.
+A drop-in replacement for the shadcn [Sheet](https://ui.shadcn.com/docs/components/sheet): at 768px and up it renders your Sheet unchanged; below, the same children render inside your [Drawer](https://ui.shadcn.com/docs/components/drawer), anchored to the edge you set with `side`.
 
 <ComponentDemo>
   <ComponentDemoRender>
@@ -55,74 +55,17 @@ export function WorkspaceMenu() {
 
 ## Installation
 
-<Steps>
-
-<Step>
-
 ```bash
 npx shadcn@latest add @alexandrejoly/sheet-drawer
 ```
 
-</Step>
-
-<Step>
-
-Update the import paths to match your project setup.
-
-</Step>
-
-</Steps>
-
 ## Migrating
 
-Change the imports and insert `Drawer` after `Sheet` in each part name: `SheetContent` becomes `SheetDrawerContent`, and so on, with the same props and children (see [Migrating](/docs/installation#migrating)). Then check three things below 768px: width classes on the Content (see [Sizing classes](#sizing-classes)), sheets that rely on the built-in close button, and detached triggers (both in [Desktop-only props](#desktop-only-props)).
-
-## Usage
-
-```tsx
-import {
-  SheetDrawer,
-  SheetDrawerClose,
-  SheetDrawerContent,
-  SheetDrawerDescription,
-  SheetDrawerFooter,
-  SheetDrawerHeader,
-  SheetDrawerTitle,
-  SheetDrawerTrigger,
-} from "@/components/ui/sheet-drawer";
-```
-
-```tsx
-<SheetDrawer>
-  <SheetDrawerTrigger>Open menu</SheetDrawerTrigger>
-  <SheetDrawerContent side="right">
-    <SheetDrawerHeader>
-      <SheetDrawerTitle>Title</SheetDrawerTitle>
-      <SheetDrawerDescription>Description</SheetDrawerDescription>
-    </SheetDrawerHeader>
-    <SheetDrawerFooter>
-      <SheetDrawerClose>Close</SheetDrawerClose>
-    </SheetDrawerFooter>
-  </SheetDrawerContent>
-</SheetDrawer>
-```
-
-## Composition
-
-```txt
-SheetDrawer
-├── SheetDrawerTrigger
-└── SheetDrawerContent
-    ├── SheetDrawerHeader
-    │   ├── SheetDrawerTitle
-    │   └── SheetDrawerDescription
-    └── SheetDrawerFooter
-        └── SheetDrawerClose
-```
+Rename as in [Migrating](/docs/installation#migrating), then check below 768px: [Content width](#sizing-classes), and sheets that close only through the built-in close button or open from detached triggers (see [Desktop-only props](#desktop-only-props)).
 
 ## The drawer edge
 
-The Sheet sets its edge with `side` on the Content; the Drawer sets it on the root, where it also drives the swipe gesture. `SheetDrawerContent` passes its `side` up to the root, so below 768px the drawer opens from the same edge and swipes the same way. This works wherever the Content sits: inside a Fragment, behind a condition or in your own component.
+`SheetDrawerContent` passes its `side` up to the root, so below 768px the drawer opens from the same edge and swipes the same way. This works wherever the Content sits: inside a Fragment, behind a condition or in your own component.
 
 <ComponentDemo>
   <ComponentDemoRender>
@@ -141,7 +84,7 @@ The Sheet sets its edge with `side` on the Content; the Drawer sets it on the ro
   </ComponentDemoCode>
 </ComponentDemo>
 
-Without `side`, each component keeps its own default: the Sheet opens from the right, the Drawer from the bottom. Write `side="right"` to get a right drawer too.
+Without `side`, the Sheet and the Drawer each keep their default edge. Write `side="right"` to get a right drawer too.
 
 To pick another edge below 768px only, set it on the root override. It wins over `side`:
 
@@ -163,7 +106,7 @@ To pick another edge below 768px only, set it on the root override. It wins over
 
 ## Sizing classes
 
-The `className` on `SheetDrawerContent` applies to both sides. Your Sheet sets its width under a `data-[side=…]` prefix, such as `data-[side=right]:sm:max-w-sm`, so widen it with the same prefix: `cn` replaces the matching class, and the drawer, which has no `data-side`, ignores it. A width without that prefix, such as `w-[400px]`, also narrows the drawer below 768px. Reset it in the override with the same prefix.
+The `className` on `SheetDrawerContent` applies to both sides. Your Sheet sets its width under a `data-[side=…]` prefix, such as `data-[side=right]:sm:max-w-sm`, so widen it with the same prefix: `cn` replaces the matching class, and the drawer, which has no `data-side`, ignores it. A width without that prefix, such as `w-[400px]`, also narrows the drawer below 768px. Write it as `md:w-[400px]` instead.
 
 <ComponentDemo>
   <ComponentDemoRender>
@@ -178,32 +121,26 @@ The `className` on `SheetDrawerContent` applies to both sides. Your Sheet sets i
   </ComponentDemoCode>
 </ComponentDemo>
 
-## Opening on load
-
-On the first render, before the viewport is known, the Sheet renders. A `defaultOpen` sheet on a phone therefore shows briefly as a Sheet before it becomes a Drawer. To open on load without that flash, control `open` and set it after mount.
-
 ## Desktop-only props
 
-These props apply at 768px and up and are dropped below:
+Dropped below 768px:
 
-- **`showCloseButton` on the Content.** A drawer has no close button in the corner; it closes on swipe or on an overlay tap. If the built-in button is your only way to close the sheet, add a `SheetDrawerClose`.
-- **Detached triggers on Base UI:** `handle`, `triggerId` and `defaultTriggerId` on the root, `handle` and `payload` on the Trigger. Below 768px, the drawer opens only from a `SheetDrawerTrigger` placed inside `SheetDrawer`, or from a controlled `open`.
+- **`showCloseButton` on the Content.** If the built-in button is your only way to close the sheet, add a `SheetDrawerClose`.
+- **[Detached triggers](/docs/override-prop#shared-root) on Base UI.**
 
 ## Nested sheets
 
-A `SheetDrawer` inside another one renders a drawer inside a drawer below 768px. On Base UI, your Drawer styles the parent as a stacked drawer while the child is open.
+A `SheetDrawer` inside another one renders a drawer inside a drawer below 768px.
 
 ## API reference
 
-Each part takes every prop of its shadcn Sheet counterpart, plus a `drawer` prop that takes the props of the matching Drawer part, except `children`: `drawer` on the Content takes your `DrawerContent` props, and so on. Only the parts below leave out more.
+Each part takes every prop of its shadcn Sheet counterpart, plus a `drawer` prop that takes the props of the matching Drawer part, except `children`. Only the parts below leave out more (see [Shared root](/docs/override-prop#shared-root)).
 
 ### SheetDrawer
 
 | Prop | Type | Default |
 | --- | --- | --- |
 | `drawer` | `Omit<ComponentProps<typeof Drawer>, "children" \| RootState>` | - |
-
-`RootState` stands for the keys that `drawer` leaves out because they belong to the shared root: `open` and `defaultOpen`, since both sides share one open state, and the detached-trigger props `handle`, `triggerId` and `defaultTriggerId`. `drawer.onOpenChange` runs after the shared `onOpenChange` and receives your Drawer's own arguments, such as a `"swipe"` reason on Base UI.
 
 ### SheetDrawerTrigger
 
@@ -213,11 +150,5 @@ Each part takes every prop of its shadcn Sheet counterpart, plus a `drawer` prop
 
 ## Radix notes
 
-- `drawer={{...}}` is typed on Vaul. The edge for below 768px only is `drawer={{ direction }}`, which takes the same four values as `side`.
-- Like Radix Dialog, the drawer moves focus inside when it opens. Pass `drawer={{ autoFocus: false }}` to keep Vaul's own default.
-- Vaul nests drawers through `Drawer.NestedRoot`, which your shadcn Drawer does not export: a nested `SheetDrawer` opens a second drawer on top, without Vaul's nested-drawer styling.
-- Vaul, the drawer library under the Radix Drawer, is no longer maintained. It still works; the Base UI Drawer is the maintained option.
-
-## Learn more
-
-The underlying components are documented upstream: shadcn [Sheet](https://ui.shadcn.com/docs/components/sheet) and [Drawer](https://ui.shadcn.com/docs/components/drawer), built on [Base UI Dialog](https://base-ui.com/react/components/dialog) and [Base UI Drawer](https://base-ui.com/react/components/drawer), or on [Radix Dialog](https://www.radix-ui.com/primitives/docs/components/dialog) and [Vaul](https://vaul.emilkowal.ski/).
+- `drawer={{...}}` is typed on Vaul. The edge for below 768px only is `drawer={{ direction }}`.
+- The drawer moves focus inside when it opens. Pass `drawer={{ autoFocus: false }}` to turn that off.
