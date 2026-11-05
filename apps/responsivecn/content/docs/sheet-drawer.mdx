@@ -106,7 +106,7 @@ To pick another edge below 768px only, set it on the root override. It wins over
 
 ## Sizing classes
 
-The `className` on `SheetDrawerContent` applies to both sides. Your Sheet sets its width under a `data-[side=…]` prefix, such as `data-[side=right]:sm:max-w-sm`, so widen it with the same prefix: `cn` replaces the matching class, and the drawer, which has no `data-side`, ignores it. A width without that prefix, such as `w-[400px]`, also narrows the drawer below 768px. Write it as `md:w-[400px]` instead.
+The `className` on `SheetDrawerContent` applies to both sides. Your Sheet sets its width under a `data-[side=…]` prefix, such as `data-[side=right]:sm:max-w-sm`, so widen it with the same prefix: `cn` replaces the matching class, and the drawer, which has no `data-side`, ignores it. Set a fixed width the same way, lifting the max width with it: `data-[side=right]:w-[400px] data-[side=right]:sm:max-w-none`.
 
 <ComponentDemo>
   <ComponentDemoRender>
