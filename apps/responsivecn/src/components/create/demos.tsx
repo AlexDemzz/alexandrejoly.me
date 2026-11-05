@@ -60,15 +60,13 @@ const useOpenOnLoad = (open: boolean) => {
   };
 };
 
-// The fields live above the component: crossing 768px swaps the Dialog or
-// Sheet subtree for the Drawer one, which would reset uncontrolled inputs.
-const useProfile = () => {
-  const [name, setName] = React.useState("Jordan Lee");
-  const [username, setUsername] = React.useState("@jordanlee");
-  return {
-    name: { value: name, onValueChange: setName },
-    username: { value: username, onValueChange: setUsername },
-  };
+// The field lives above the component: crossing 768px swaps the Dialog or
+// Sheet subtree for the Drawer one, which would reset an uncontrolled input.
+// One field keeps the Drawer short enough that it never scrolls in the
+// playground's iframe.
+const useName = () => {
+  const [value, setValue] = React.useState("Jordan Lee");
+  return { value, onValueChange: setValue };
 };
 
 const Field = ({
@@ -96,7 +94,7 @@ const Field = ({
 
 const DialogDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
-  const profile = useProfile();
+  const name = useName();
   return (
     <DialogDrawer {...load.root}>
       <DialogDrawerTrigger render={<Button variant="outline" />}>
@@ -110,12 +108,11 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
         <DialogDrawerHeader>
           <DialogDrawerTitle>Edit profile</DialogDrawerTitle>
           <DialogDrawerDescription>
-            Make changes to your profile here, then save them.
+            Change the name shown on your profile.
           </DialogDrawerDescription>
         </DialogDrawerHeader>
         <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:p-0">
-          <Field id="name" label="Name" {...profile.name} />
-          <Field id="username" label="Username" {...profile.username} />
+          <Field id="name" label="Name" {...name} />
         </div>
         <DialogDrawerFooter>
           <DialogDrawerClose render={<Button variant="outline" />}>
@@ -132,7 +129,7 @@ const DialogDrawerDemo = ({ open }: DemoProps) => {
 
 const SheetDrawerDemo = ({ open }: DemoProps) => {
   const load = useOpenOnLoad(open);
-  const profile = useProfile();
+  const name = useName();
   return (
     <SheetDrawer {...load.root} drawer={{ swipeDirection: "down" }}>
       <SheetDrawerTrigger render={<Button variant="outline" />}>
@@ -142,12 +139,11 @@ const SheetDrawerDemo = ({ open }: DemoProps) => {
         <SheetDrawerHeader>
           <SheetDrawerTitle>Edit profile</SheetDrawerTitle>
           <SheetDrawerDescription>
-            Make changes to your profile here, then save them.
+            Change the name shown on your profile.
           </SheetDrawerDescription>
         </SheetDrawerHeader>
         <div className="flex min-h-0 flex-col gap-4 overflow-y-auto p-4 md:py-0">
-          <Field id="sheet-name" label="Name" {...profile.name} />
-          <Field id="sheet-username" label="Username" {...profile.username} />
+          <Field id="sheet-name" label="Name" {...name} />
         </div>
         <SheetDrawerFooter>
           <SheetDrawerClose render={<Button />}>Save changes</SheetDrawerClose>
