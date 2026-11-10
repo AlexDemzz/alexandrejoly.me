@@ -1,0 +1,14 @@
+[
+  {
+    "description": "Hear from your coding agents in your Grok Bot chat",
+    "name": "notify-grokbot"
+  },
+  {
+    "description": "Skin shadcn primitives from a reference design",
+    "name": "design-to-shadcn"
+  },
+  {
+    "description": "Compound-component laws for shadcn projects",
+    "name": "shadcn-composition-patterns"
+  }
+]

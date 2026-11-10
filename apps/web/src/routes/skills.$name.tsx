@@ -27,6 +27,7 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { InlineCode } from "@/components/docs/inline-code";
 import { Prose, ProseRuns, paragraphKey } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
+import { SKILLS } from "@/content";
 import { pageHead } from "@/lib/head";
 import { slugify } from "@/lib/heading-ids";
 import { EXACT_ACTIVE } from "@/lib/link";
@@ -171,10 +172,16 @@ export const Route = createFileRoute("/skills/$name")({
     if (!loaderData) {
       return {};
     }
-    const { description, documentTitle } = SKILL_PAGES[loaderData.name];
+    const { name } = loaderData;
+    const { description, documentTitle } = SKILL_PAGES[name];
+    const skill = SKILLS.find((candidate) => candidate.name === name);
     return pageHead({
       description,
-      path: skillPath(loaderData.name),
+      image: {
+        alt: `${name}: ${skill?.description ?? description}`,
+        path: `og/skills/${name}.png`,
+      },
+      path: skillPath(name),
       title: documentTitle,
       type: "article",
     });
