@@ -6,6 +6,7 @@ import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
 import { componentCode } from "./plugins/component-code.ts";
+import { skillCode } from "./plugins/skill-code.ts";
 
 export default defineConfig({
   server: {
@@ -18,6 +19,7 @@ export default defineConfig({
     tailwindcss(),
     varlockCloudflareVitePlugin({ viteEnvironment: { name: "ssr" } }),
     componentCode(),
+    skillCode(),
     tanstackStart(),
     viteReact(),
     babel({ presets: [reactCompilerPreset()] }),

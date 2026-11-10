@@ -5,6 +5,8 @@ import { PROJECTS } from "@/content";
 import { INFO_PAGE_SLUGS } from "@/info-pages";
 import { getComponentCode } from "@/lib/component-code";
 import { REGISTRY_ITEMS, REGISTRY_ITEM_NAMES } from "@/lib/registry";
+import { SKILL_PAGE_NAMES } from "@/skill-pages";
+import { SKILL_SNIPPETS } from "@/skill-snippets";
 
 import {
   componentMarkdown,
@@ -12,6 +14,7 @@ import {
   infoPageMarkdown,
   llmsTxt,
   markdownFor,
+  skillPageMarkdown,
 } from "./markdown";
 
 const MARKDOWN_LINK = /\[[^\]]+\]\([^)]+\)/gu;
@@ -84,6 +87,25 @@ describe("infoPageMarkdown", () => {
       );
     }
   );
+});
+
+describe("skillPageMarkdown", () => {
+  it.each(SKILL_PAGE_NAMES)(
+    "carries every snippet the /skills/%s page shows",
+    (name) => {
+      const markdown = skillPageMarkdown(name);
+
+      for (const { code } of Object.values(SKILL_SNIPPETS[name])) {
+        expect(markdown).toContain(code);
+      }
+    }
+  );
+
+  it("sends the home page's skill row to the skill's own page", () => {
+    expect(homeMarkdown()).toContain(
+      "[notify-grokbot](https://alexandrejoly.me/skills/notify-grokbot.md)"
+    );
+  });
 });
 
 describe("componentMarkdown", () => {
@@ -170,21 +192,27 @@ describe("markdownFor", () => {
     "/components",
     "/components.md",
     "/components/marquee",
+    "/skills/notify-grokbot",
+    "/skills/notify-grokbot.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
 
-  it.each(["/index", "/components/nope", "/about/team", "/x.md"])(
-    "reports %s as missing",
-    async (path) => {
-      await expect(markdownFor(path)).resolves.toMatchObject({ status: 404 });
-    }
-  );
+  it.each([
+    "/index",
+    "/components/nope",
+    "/skills/nope",
+    "/about/team",
+    "/x.md",
+  ])("reports %s as missing", async (path) => {
+    await expect(markdownFor(path)).resolves.toMatchObject({ status: 404 });
+  });
 
   it("only links absolute URLs, so agents can follow them anywhere", async () => {
     const pages = await Promise.all([
       markdownFor("/x"),
       markdownFor("/components/onboarding"),
+      markdownFor("/skills/notify-grokbot"),
     ]);
     const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]
       .join("\n")

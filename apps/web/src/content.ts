@@ -174,6 +174,10 @@ export interface Skill {
 
 export const SKILLS: Skill[] = [
   {
+    description: "Hear from your coding agents in your Grok Bot chat",
+    name: "notify-grokbot",
+  },
+  {
     description: "Skin shadcn primitives from any website or screenshot",
     name: "design-to-shadcn",
   },
@@ -183,6 +187,7 @@ export const SKILLS: Skill[] = [
   },
 ];
 
+/** The skill on skills.sh, for a skill without a page on this site. */
 export const skillHref = (name: string) => `${LINKS.skills}/${name}`;
 
 export interface Award {
