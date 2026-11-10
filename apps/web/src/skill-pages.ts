@@ -46,11 +46,11 @@ export const skillPath = (name: SkillPageName) => `skills/${name}`;
 
 export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
   "notify-grokbot": {
-    description: `notify-grokbot, an open-source agent skill by ${SITE.name}: your Claude Code or T3 Code agent messages you in your Grok Bot chat when it finishes a task, gets blocked or needs your decision.`,
+    description: `notify-grokbot, an open-source agent skill by ${SITE.name}: your Claude Code agent messages you in your Grok Bot chat when it finishes a task, gets blocked or needs your decision.`,
     documentTitle: `notify-grokbot agent skill – ${SITE.name}`,
     intro: [
       [
-        "An agent skill that lets your Claude Code or T3 Code agent message you in your Grok Bot chat.",
+        "An agent skill that lets your Claude Code agent message you in your Grok Bot chat.",
       ],
     ],
     sections: [
@@ -76,7 +76,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              'You don’t call it; the agent does, once per outcome, with `scripts/notify-grokbot <status> "<summary>" [link …]`. Progress never earns a message.',
+              'You don’t call it; the agent does, once per outcome, with `~/.claude/skills/notify-grokbot/scripts/notify-grokbot <status> "<summary>" [link …]`. Progress never earns a message.',
             ],
           },
           {
@@ -104,7 +104,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "A Grok Bot account with its desktop app, where you create the routine and copy its webhook. Claude Code or T3 Code. Sending also uses `curl` and `python3`.",
+              "A Grok Bot account with its desktop app, where you create the routine and copy its webhook. Claude Code. Sending also uses `curl` and `python3`.",
             ],
           },
         ],
@@ -170,7 +170,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
             kind: "text",
             lead: "Can I see what gets sent?",
             text: [
-              "Yes. One JSON object, with `from` set to `claude-code` or `t3code`, the repository’s folder as `project`, and the current `branch`:",
+              "Yes. One JSON object, with `from` set to `claude-code`, the repository’s folder as `project`, and the current `branch`:",
             ],
           },
           { kind: "code", snippet: "payload" },
