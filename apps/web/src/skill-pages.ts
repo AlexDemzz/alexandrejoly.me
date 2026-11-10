@@ -358,7 +358,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
             kind: "text",
             lead: "Will my app fill up with overrides?",
             text: [
-              "No. Your app keeps layout classes only. A color, border, radius or font class there counts as an override, and each one goes on the record with its reason. A new variant has to earn its place: a role the reference reuses at least twice, or a change to at least two CSS properties. Anything less becomes a `className` or folds into the base classes.",
+              "No. Your app keeps layout classes only. A color, border, radius or font class there counts as an override, and each one goes on the record with its reason. A new variant has to earn its place: a role the reference reuses at least twice, or a change to at least two of color, radius, size, spacing, type, border and shadow. Anything less becomes a `className` or folds into the base classes.",
             ],
           },
           {
@@ -610,7 +610,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
                 href: "/skills/notify-grokbot",
                 text: "notify-grokbot",
               },
-              ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs you.",
+              ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs your decision.",
             ],
           },
         ],
