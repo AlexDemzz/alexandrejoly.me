@@ -196,7 +196,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "Grok Bot tells you in your chat that a test message arrived, right after the wizard’s last stage. If the wizard shows a warning instead, check both values and run it again.",
+              "Send the test message at the wizard’s last stage: Grok Bot tells you in your chat that it arrived. If the wizard shows a warning instead, check both values and run it again.",
             ],
           },
         ],
@@ -397,7 +397,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "The bundled `check-design.mjs` stays silent on your `DESIGN.md` and CSS file after the capture phase: silence is the pass. At the end, every deviation the iso page shows in light and dark has a fate, and the ledger answers one question: are the tokens and primitives enough?",
+              "Your iso page and the reference look the same in light and dark, and the ledger lists the primitives that had to change and the overrides your app needed.",
             ],
           },
         ],
@@ -572,7 +572,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "After a build, the file exports one prefixed family, and one consumer renders it with its own `className` and, where a link applies, its own element. Your lint and typecheck pass on the file.",
+              "After a build, you get one file of prefixed parts, such as `Navbar` and `NavbarTitle`, already used in one place in your app with its own `className`. Lint and typecheck pass on the file.",
             ],
           },
           {
