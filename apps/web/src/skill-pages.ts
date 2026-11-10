@@ -217,7 +217,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
                 href: "/skills/design-to-shadcn",
                 text: "design-to-shadcn",
               },
-              ", which skins shadcn primitives from any website or screenshot, and ",
+              ", which skins shadcn primitives from a reference design, and ",
               {
                 href: "/skills/shadcn-composition-patterns",
                 text: "shadcn-composition-patterns",
@@ -231,11 +231,11 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
     ],
   },
   "design-to-shadcn": {
-    description: `design-to-shadcn, an open-source agent skill by ${SITE.name}: your agent skins your shadcn primitives from a live website or screenshots, then rebuilds one screen to prove the match.`,
+    description: `design-to-shadcn, an open-source agent skill by ${SITE.name}: your agent skins your shadcn primitives from a reference design, then rebuilds one screen to prove the match.`,
     documentTitle: `design-to-shadcn agent skill – ${SITE.name}`,
     intro: [
       [
-        "An agent skill that makes your shadcn primitives wear a design you found somewhere else.",
+        "An agent skill that skins your shadcn primitives from a reference design.",
       ],
     ],
     sections: [
@@ -288,7 +288,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "You have a design you want but no tokens for it: a live product, a portfolio case study, screenshots someone pasted. Your project runs shadcn on Tailwind v4, or doesn’t exist yet.",
+              "You have a reference design but no tokens for it yet: a live site, a case study or a set of screenshots. Your project runs shadcn on Tailwind v4, or doesn’t exist yet.",
             ],
           },
           {
@@ -605,7 +605,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
                 href: "/skills/design-to-shadcn",
                 text: "design-to-shadcn",
               },
-              ", which skins shadcn primitives from any website or screenshot, and ",
+              ", which skins shadcn primitives from a reference design, and ",
               {
                 href: "/skills/notify-grokbot",
                 text: "notify-grokbot",

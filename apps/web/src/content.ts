@@ -178,7 +178,7 @@ export const SKILLS: Skill[] = [
     name: "notify-grokbot",
   },
   {
-    description: "Skin shadcn primitives from any website or screenshot",
+    description: "Skin shadcn primitives from a reference design",
     name: "design-to-shadcn",
   },
   {
