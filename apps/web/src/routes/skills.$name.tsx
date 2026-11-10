@@ -10,10 +10,20 @@ import {
   SectionContent,
   SectionTitle,
 } from "@portfolio/ui/components/section";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableRowHeader,
+} from "@portfolio/ui/components/table";
 import { Text } from "@portfolio/ui/components/text";
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 
 import { CodeBlock } from "@/components/docs/code-block";
+import { InlineCode } from "@/components/docs/inline-code";
 import { Prose, ProseRuns, paragraphKey } from "@/components/prose";
 import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
@@ -27,51 +37,63 @@ import {
 } from "@/skill-pages";
 import type {
   AnySkillBlock,
-  LeadItem,
   SkillCode,
   SkillPageName,
+  SkillTable,
 } from "@/skill-pages";
 
-const LeadList = ({
-  items,
-  ordered,
-}: {
-  items: LeadItem[];
-  ordered: boolean;
-}) => {
-  const List = ordered ? "ol" : "ul";
-  return (
-    <List className="flex flex-col gap-3">
-      {items.map(({ lead, text }) => (
-        <li key={lead}>
-          <Text>
-            <span className="font-book text-foreground">{lead}</span>{" "}
-            <ProseRuns paragraph={text} />
-          </Text>
-        </li>
+const SkillTableView = ({ head, label, rows }: SkillTable) => (
+  <Table aria-label={label}>
+    <TableHeader>
+      <TableRow>
+        <TableHead className="w-1/3">{head[0]}</TableHead>
+        <TableHead>{head[1]}</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {rows.map(([name, value]) => (
+        <TableRow key={name}>
+          <TableRowHeader>
+            <InlineCode>{name}</InlineCode>
+          </TableRowHeader>
+          <TableCell>
+            <Text>
+              <InlineCode>{value}</InlineCode>
+            </Text>
+          </TableCell>
+        </TableRow>
       ))}
-    </List>
-  );
-};
+    </TableBody>
+  </Table>
+);
 
 const Block = ({ block, code }: { block: AnySkillBlock; code: SkillCode }) => {
   if (block.kind === "code") {
     return <CodeBlock code={code[block.snippet]} />;
   }
-  if (block.kind === "list") {
-    return <LeadList items={block.items} ordered={block.ordered} />;
+  if (block.kind === "table") {
+    return <SkillTableView {...block} />;
   }
-  return <Prose paragraphs={[block.text]} />;
+  return (
+    <Text>
+      {block.lead === undefined ? null : (
+        <>
+          <span className="font-book text-foreground">{block.lead}</span>{" "}
+        </>
+      )}
+      <ProseRuns paragraph={block.text} />
+    </Text>
+  );
 };
 
 const blockKey = (block: AnySkillBlock) => {
   if (block.kind === "code") {
     return block.snippet;
   }
-  if (block.kind === "list") {
-    return block.items[0]?.lead ?? "list";
+  if (block.kind === "table") {
+    return block.label;
   }
-  return paragraphKey(block.text);
+  return block.lead ?? paragraphKey(block.text);
 };
 
 interface SkillPageData {

@@ -23,12 +23,6 @@ export const SKILL_SNIPPETS = {
 }`,
       lang: "json",
     },
-    send: {
-      code: `scripts/notify-grokbot done \\
-  "Fixed the login redirect loop. The PR is ready for review." \\
-  https://github.com/owner/my-app/pull/42`,
-      lang: "bash",
-    },
     setup: {
       code: "~/.claude/skills/notify-grokbot/scripts/setup-webhook",
       lang: "bash",

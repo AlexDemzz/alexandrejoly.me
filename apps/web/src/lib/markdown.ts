@@ -162,21 +162,26 @@ export const infoPageMarkdown = (slug: InfoPageSlug) => {
   ]);
 };
 
+const TABLE_PIPE = /\|/gu;
+
+const tableRow = (cells: string[]) =>
+  `| ${cells.map((cell) => cell.replaceAll(TABLE_PIPE, "\\|")).join(" | ")} |`;
+
 const skillBlockMarkdown = (name: SkillPageName, block: AnySkillBlock) => {
   if (block.kind === "code") {
     const snippets: Record<string, Snippet> = SKILL_SNIPPETS[name];
     const { code, lang } = snippets[block.snippet];
     return fence(code, lang);
   }
-  if (block.kind === "list") {
-    return block.items
-      .map(
-        ({ lead, text }, index) =>
-          `${block.ordered ? `${index + 1}.` : "-"} **${lead}** ${paragraphs([text])}`
-      )
-      .join("\n");
+  if (block.kind === "table") {
+    return [
+      tableRow(block.head),
+      tableRow(block.head.map(() => "---")),
+      ...block.rows.map(tableRow),
+    ].join("\n");
   }
-  return paragraphs([block.text]);
+  const text = paragraphs([block.text]);
+  return block.lead === undefined ? text : `**${block.lead}** ${text}`;
 };
 
 export const skillPageMarkdown = (name: SkillPageName) => {
@@ -193,11 +198,6 @@ export const skillPageMarkdown = (name: SkillPageName) => {
     `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 };
-
-const TABLE_PIPE = /\|/gu;
-
-const tableRow = (cells: string[]) =>
-  `| ${cells.map((cell) => cell.replaceAll(TABLE_PIPE, "\\|")).join(" | ")} |`;
 
 const extendsLine = ({ href, name }: ApiExtends) => {
   const target = href === undefined ? `\`${name}\`` : `[${name}](${href})`;
