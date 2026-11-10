@@ -1,4 +1,4 @@
-import { SITE, skillHref } from "@/content";
+import { SITE } from "@/content";
 import type { Paragraph } from "@/content";
 import type { HighlightedCode } from "@/lib/component-code";
 import { SKILL_SNIPPETS } from "@/skill-snippets";
@@ -214,12 +214,12 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
               },
               ", next to ",
               {
-                href: skillHref("design-to-shadcn"),
+                href: "/skills/design-to-shadcn",
                 text: "design-to-shadcn",
               },
               ", which skins shadcn primitives from any website or screenshot, and ",
               {
-                href: skillHref("shadcn-composition-patterns"),
+                href: "/skills/shadcn-composition-patterns",
                 text: "shadcn-composition-patterns",
               },
               ", the compound-component laws for shadcn projects.",
@@ -415,7 +415,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
               },
               ", next to ",
               {
-                href: skillHref("shadcn-composition-patterns"),
+                href: "/skills/shadcn-composition-patterns",
                 text: "shadcn-composition-patterns",
               },
               ", the compound-component laws for shadcn projects, and ",
@@ -424,6 +424,193 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
                 text: "notify-grokbot",
               },
               ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs your decision.",
+            ],
+          },
+        ],
+        title: "Where it fits",
+      },
+    ],
+  },
+  "shadcn-composition-patterns": {
+    description: `shadcn-composition-patterns, an open-source agent skill by ${SITE.name}: your coding agent builds React components the way shadcn builds its own, and grades existing ones against the same laws.`,
+    documentTitle: `shadcn-composition-patterns agent skill – ${SITE.name}`,
+    intro: [
+      [
+        "An agent skill that makes your coding agent build components the way shadcn builds its own.",
+      ],
+    ],
+    sections: [
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "Your agent builds every component as a compound: one file, one prefixed family of parts, each part a single element you style and replace from the call site.",
+            ],
+          },
+          { kind: "code", snippet: "skeleton" },
+          {
+            kind: "text",
+            text: [
+              "Hand it an existing file instead and it grades that file against the same laws, part by part.",
+            ],
+          },
+        ],
+        title: "What it does",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "Every time a React component is created, changed or audited in a project with a `components.json`. Give it a component to build, or a file to review.",
+            ],
+          },
+          {
+            head: ["Law", "What it asks"],
+            kind: "table",
+            label: "Laws",
+            rows: [
+              [
+                "Compound, prefixed named exports",
+                "One root plus parts, each a top-level export: `NavbarTitle`, never `Navbar.Title`.",
+              ],
+              [
+                "Each part is one element",
+                "`data-slot`, `className` through `cn` and props spread last. Spacing between parts lives on the parent.",
+              ],
+              [
+                "Variants at the call site",
+                "A one-off look is the consumer’s `className`. A `cva` variant needs several consumers.",
+              ],
+              [
+                "Polymorphic root, navigation-agnostic",
+                "The consumer picks the element: `render` on Base UI, `asChild` on Radix. No auto-`<Link>`.",
+              ],
+              [
+                "Styling from outside targets `data-slot`",
+                "`[&_[data-slot=item-title]]:font-semibold` on the root’s `className`.",
+              ],
+            ],
+          },
+        ],
+        title: "When to reach for it",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "A shadcn project: a `components.json`, with Base UI or Radix in the `package.json` beside it. In a monorepo, that’s your ui package. And a coding agent that loads skills.",
+            ],
+          },
+        ],
+        title: "Prerequisites",
+      },
+      {
+        blocks: [
+          { kind: "text", text: ["Install the skill:"] },
+          { kind: "code", snippet: "install" },
+          {
+            kind: "text",
+            text: [
+              "There’s nothing to configure. On each run, the agent reads your project’s base from that `package.json`: any `@base-ui` dependency means Base UI, otherwise `radix-ui` or `@radix-ui/*` means Radix. The base decides how a part becomes a link.",
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "Then it lists your components directory before writing anything. If a primitive or a compound already covers the need, it stops and points you to it.",
+            ],
+          },
+        ],
+        title: "Setup",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            lead: "Where does the new component go?",
+            text: [
+              "Used by one consumer, it lives in that consumer’s file. Shared, it follows your existing component convention, or sits beside the shadcn primitives at your `aliases` path.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "Can I add a variant prop?",
+            text: [
+              "Only for a purely visual look that several consumers share. A variant with one consumer is that consumer’s `className`. A prop that only makes sense for one variant gets a part of its own.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "How do I make a part a link?",
+            text: [
+              "Hand it the element. The component never guesses a link from a `url` prop:",
+            ],
+          },
+          { kind: "code", snippet: "link" },
+          {
+            kind: "text",
+            lead: "Why the callback form for a plain anchor?",
+            text: [
+              "On Base UI, `render={<a href={url} />}` trips the anchor-content lint, and silencing the lint fails the law. `render={(props) => <a {...props} href={url} />}` spreads the children in, so the lint passes.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "Why does my data-state class do nothing?",
+            text: [
+              "Tailwind v4 needs the bracket form for custom data attributes: `data-[state=open]:…`. A bare `data-state-open:` fails silently.",
+            ],
+          },
+        ],
+        title: "Common questions",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "After a build, the file exports one prefixed family, and one consumer renders it with its own `className` and, where a link applies, its own element. Your lint and typecheck pass on the file.",
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "After a review, you get every law per part, pass or fail, with the offending line and the fix.",
+            ],
+          },
+        ],
+        title: "It’s working if",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "shadcn-composition-patterns is the shadcn layer on top of `vercel-composition-patterns`, which covers the React theory: why compounds, why no boolean props, lifting state into a provider.",
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "It lives in ",
+              {
+                href: "https://github.com/AlexDemzz/skills/tree/master/shadcn-composition-patterns",
+                text: "my skills repository on GitHub",
+              },
+              ", next to ",
+              {
+                href: "/skills/design-to-shadcn",
+                text: "design-to-shadcn",
+              },
+              ", which skins shadcn primitives from any website or screenshot, and ",
+              {
+                href: "/skills/notify-grokbot",
+                text: "notify-grokbot",
+              },
+              ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs you.",
             ],
           },
         ],
@@ -440,6 +627,8 @@ export type SkillCode = Record<string, HighlightedCode>;
 const SKILL_CODE: Record<SkillPageName, () => Promise<{ default: SkillCode }>> =
   {
     "design-to-shadcn": () => import("virtual:skill-code/design-to-shadcn"),
+    "shadcn-composition-patterns": () =>
+      import("virtual:skill-code/shadcn-composition-patterns"),
     "notify-grokbot": () => import("virtual:skill-code/notify-grokbot"),
   };
 

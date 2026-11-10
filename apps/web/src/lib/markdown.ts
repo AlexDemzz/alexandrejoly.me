@@ -43,8 +43,12 @@ import type { Snippet } from "@/skill-snippets";
 // Indents every non-empty line after the first, to nest a step in its list item.
 const PARAGRAPH_LINE = /\n(?=.)/gu;
 
+/** A link to a page of this site points at its Markdown twin. */
+const linkTarget = (href: string) =>
+  href.startsWith("/") ? markdownUrl(href.slice(1)) : href;
+
 const inline = (run: Inline) =>
-  typeof run === "string" ? run : `[${run.text}](${run.href})`;
+  typeof run === "string" ? run : `[${run.text}](${linkTarget(run.href)})`;
 
 const paragraphs = (runs: Paragraph[]) =>
   runs.map((paragraph) => paragraph.map(inline).join("")).join("\n\n");

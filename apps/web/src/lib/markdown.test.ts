@@ -212,7 +212,7 @@ describe("markdownFor", () => {
     const pages = await Promise.all([
       markdownFor("/x"),
       markdownFor("/components/onboarding"),
-      markdownFor("/skills/notify-grokbot"),
+      ...SKILL_PAGE_NAMES.map((name) => markdownFor(`/skills/${name}`)),
     ]);
     const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]
       .join("\n")

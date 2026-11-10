@@ -17,6 +17,7 @@ const paths = [
   "/privacy",
   "/skills/notify-grokbot",
   "/skills/design-to-shadcn",
+  "/skills/shadcn-composition-patterns",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];
