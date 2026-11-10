@@ -11,6 +11,10 @@ describe("slugify", () => {
     expect(slugify("useOnboarding()")).toBe("use-onboarding");
     expect(slugify("Pause on hover")).toBe("pause-on-hover");
   });
+
+  it("keeps a contraction in one word", () => {
+    expect(slugify("It’s working if")).toBe("its-working-if");
+  });
 });
 
 describe("headingIds", () => {

@@ -9,6 +9,7 @@ export const SECTION_IDS = {
 } as const;
 
 const CAMEL_BOUNDARY = /(?<before>[a-z\d])(?<after>[A-Z])/gu;
+const APOSTROPHES = /['’]/gu;
 const NON_ALPHANUMERIC = /[^a-z\d]+/gu;
 const EDGE_HYPHENS = /^-|-$/gu;
 
@@ -16,6 +17,7 @@ export const slugify = (text: string) =>
   text
     .replaceAll(CAMEL_BOUNDARY, "$<before>-$<after>")
     .toLowerCase()
+    .replaceAll(APOSTROPHES, "")
     .replaceAll(NON_ALPHANUMERIC, "-")
     .replaceAll(EDGE_HYPHENS, "");
 

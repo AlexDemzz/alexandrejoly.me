@@ -5,6 +5,7 @@ import {
   BreadcrumbList,
 } from "@portfolio/ui/components/breadcrumb";
 import { Heading } from "@portfolio/ui/components/heading";
+import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
 import {
   Section,
   SectionContent,
@@ -25,9 +26,9 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/docs/code-block";
 import { InlineCode } from "@/components/docs/inline-code";
 import { Prose, ProseRuns, paragraphKey } from "@/components/prose";
-import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
 import { pageHead } from "@/lib/head";
+import { slugify } from "@/lib/heading-ids";
 import { EXACT_ACTIVE } from "@/lib/link";
 import {
   SKILL_PAGES,
@@ -106,7 +107,7 @@ const SkillPageView = ({ code, name }: SkillPageData) => {
 
   return (
     <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
-      <header className="flex flex-col items-start gap-5 pb-6">
+      <header className="flex flex-col items-start gap-5">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -118,18 +119,24 @@ const SkillPageView = ({ code, name }: SkillPageData) => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Heading
-          render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
-        >
-          {name}
-        </Heading>
-        <Prose paragraphs={intro} />
+        <div>
+          <Heading
+            render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
+            variant="title"
+          >
+            {name}
+          </Heading>
+          <Prose paragraphs={intro} />
+        </div>
       </header>
 
-      <SectionStack>
-        {sections.map((section) => (
-          <Section key={section.title} spacing="none">
-            <SectionTitle>{section.title}</SectionTitle>
+      {sections.map((section) => {
+        const id = slugify(section.title);
+        return (
+          <Section key={section.title} variant="stacked">
+            <SectionTitle className="scroll-mt-6" id={id}>
+              <HeadingAnchor id={id}>{section.title}</HeadingAnchor>
+            </SectionTitle>
             <SectionContent>
               <div className="flex flex-col gap-5">
                 {section.blocks.map((block) => (
@@ -138,8 +145,8 @@ const SkillPageView = ({ code, name }: SkillPageData) => {
               </div>
             </SectionContent>
           </Section>
-        ))}
-      </SectionStack>
+        );
+      })}
 
       <SiteFooter />
     </main>
