@@ -230,6 +230,207 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       },
     ],
   },
+  "design-to-shadcn": {
+    description: `design-to-shadcn, an open-source agent skill by ${SITE.name}: your agent skins your shadcn primitives from a live website or screenshots, then rebuilds one screen to prove the match.`,
+    documentTitle: `design-to-shadcn agent skill – ${SITE.name}`,
+    intro: [
+      [
+        "An agent skill that makes your shadcn primitives wear a design you found somewhere else.",
+      ],
+    ],
+    sections: [
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "Give your agent a reference: a live website, a case study made of screenshots, or a folder of images. It skins your project’s shadcn primitives until they match: same colors, radii, type, spacing and states, in light and dark. Your app never restyles; it only lays out.",
+            ],
+          },
+          {
+            kind: "text",
+            text: ["The work runs in four phases, in order, one commit each:"],
+          },
+          {
+            head: ["Phase", "What you get"],
+            kind: "table",
+            label: "Phases",
+            rows: [
+              [
+                "Capture",
+                "A `DESIGN.md` written from sampled pixels, with a `shadcnMapping` block every later phase reads.",
+              ],
+              [
+                "Tokens",
+                "That mapping written to `:root` and `.dark` in your CSS file, in OKLCH. No component file changes.",
+              ],
+              [
+                "Primitives",
+                "Missing primitives installed from a registry, then skinned in their base classes and variants, shown on a `/dev/primitives` page.",
+              ],
+              [
+                "Iso page",
+                "One screen rebuilt from the primitives alone, compared region by region with the reference.",
+              ],
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "The iso page is the proof. If a stranger can tell it from the reference, a primitive still needs work.",
+            ],
+          },
+        ],
+        title: "What it does",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "You have a design you want but no tokens for it: a live product, a portfolio case study, screenshots someone pasted. Your project runs shadcn on Tailwind v4, or doesn’t exist yet.",
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "Your agent never picks this skill on its own. You call it with the reference and, optionally, the screen to rebuild:",
+            ],
+          },
+          { kind: "code", snippet: "run" },
+          {
+            kind: "text",
+            text: [
+              "Without a screen, the agent picks the one that uses the most primitives: a settings page beats a hero. If your `DESIGN.md` already holds the reference, say so instead, and the capture phase shrinks to a check.",
+            ],
+          },
+        ],
+        title: "When to reach for it",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "A shadcn project on Tailwind v4. A folder without `components.json` works too: the agent scaffolds it first, with the shadcn style closest to the reference.",
+            ],
+          },
+        ],
+        title: "Prerequisites",
+      },
+      {
+        blocks: [
+          { kind: "text", text: ["Install the skill:"] },
+          { kind: "code", snippet: "install" },
+          {
+            kind: "text",
+            text: [
+              "It loads the `shadcn` skill before anything else, so install that one too if you haven’t:",
+            ],
+          },
+          { kind: "code", snippet: "installShadcn" },
+          {
+            kind: "text",
+            text: ["Then make sure these tools are on your machine:"],
+          },
+          {
+            head: ["Tool", "What it’s for"],
+            kind: "table",
+            label: "Tools",
+            rows: [
+              [
+                "`magick`",
+                "ImageMagick. Samples the pixel each color comes from.",
+              ],
+              ["`node`", "Runs the two bundled scripts."],
+              [
+                "`agent-browser`",
+                "Drives a live site and reads its computed styles. Without it, headless Chrome takes the screenshots, with no style readout.",
+              ],
+            ],
+          },
+        ],
+        title: "Setup",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            lead: "Will my app fill up with overrides?",
+            text: [
+              "No. Your app keeps layout classes only. A color, border, radius or font class there counts as an override, and each one goes on the record with its reason. A new variant has to earn its place: a role the reference reuses at least twice, or a change to at least two CSS properties. Anything less becomes a `className` or folds into the base classes.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "Is the brand color my primary?",
+            text: [
+              "Not by default. `--primary` follows the reference’s primary button, read from its computed style. The hex everyone quotes for a brand is often a pressed state or a section band.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "What about the frame around case-study screenshots?",
+            text: [
+              "Ignored. The window on a gray desk, the browser bar, the device bezel and the drop shadow are the portfolio’s staging. The agent samples inside the screen only.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "Do I get a say before the iso page?",
+            text: [
+              "Yes. The agent lists every region of the screen with the primitive and variant that renders it, then waits for your go.",
+            ],
+          },
+          {
+            kind: "text",
+            lead: "Where does the progress go?",
+            text: [
+              "Into a ledger, `docs/design/<slug>-skin.md`, one section per phase. On a repository with `docs/agents/issue-tracker.md`, the four phases become four tickets instead.",
+            ],
+          },
+        ],
+        title: "Common questions",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "The bundled `check-design.mjs` stays silent on your `DESIGN.md` and CSS file after the capture phase: silence is the pass. At the end, every deviation the iso page shows in light and dark has a fate, and the ledger answers one question: are the tokens and primitives enough?",
+            ],
+          },
+        ],
+        title: "It’s working if",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
+              "design-to-shadcn lives in ",
+              {
+                href: "https://github.com/AlexDemzz/skills/tree/master/design-to-shadcn",
+                text: "my skills repository on GitHub",
+              },
+              ", next to ",
+              {
+                href: skillHref("shadcn-composition-patterns"),
+                text: "shadcn-composition-patterns",
+              },
+              ", the compound-component laws for shadcn projects, and ",
+              {
+                href: "/skills/notify-grokbot",
+                text: "notify-grokbot",
+              },
+              ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs your decision.",
+            ],
+          },
+        ],
+        title: "Where it fits",
+      },
+    ],
+  },
 };
 
 /** A page's snippets, highlighted and keyed as in `SKILL_SNIPPETS`. */
@@ -238,6 +439,7 @@ export type SkillCode = Record<string, HighlightedCode>;
 // One chunk per page, built by plugins/skill-code.ts.
 const SKILL_CODE: Record<SkillPageName, () => Promise<{ default: SkillCode }>> =
   {
+    "design-to-shadcn": () => import("virtual:skill-code/design-to-shadcn"),
     "notify-grokbot": () => import("virtual:skill-code/notify-grokbot"),
   };
 

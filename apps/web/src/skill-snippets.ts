@@ -28,6 +28,21 @@ export const SKILL_SNIPPETS = {
       lang: "bash",
     },
   },
+  "design-to-shadcn": {
+    install: {
+      code: "npx skills add AlexDemzz/skills --skill design-to-shadcn -g",
+      lang: "bash",
+    },
+    installShadcn: {
+      code: "npx skills add shadcn/ui --skill shadcn -g",
+      lang: "bash",
+    },
+    run: {
+      code: `/design-to-shadcn https://example.com
+/design-to-shadcn ./shots/home-light.png ./shots/home-dark.png settings`,
+      lang: "bash",
+    },
+  },
 } as const satisfies Record<string, Record<string, Snippet>>;
 
 export type SkillPageName = keyof typeof SKILL_SNIPPETS;
