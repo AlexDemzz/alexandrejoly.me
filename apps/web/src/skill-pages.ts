@@ -113,6 +113,17 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
+              "A Grok Bot account with its desktop app, where you create the routine and copy its webhook. Claude Code. Sending also uses `curl` and `python3`.",
+            ],
+          },
+        ],
+        title: "Prerequisites",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
               "Your agent tells you when it finishes a task, gets blocked or needs your decision. Leave a session running and hear back without watching it.",
             ],
           },
@@ -152,17 +163,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "When to reach for it",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A Grok Bot account with its desktop app, where you create the routine and copy its webhook. Claude Code. Sending also uses `curl` and `python3`.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
@@ -317,6 +317,17 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
+              "A shadcn project on Tailwind v4. A folder without `components.json` works too: the agent scaffolds it first, with the shadcn style closest to the reference.",
+            ],
+          },
+        ],
+        title: "Prerequisites",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
               "Give your agent a reference: a live website, a case study made of screenshots, or a folder of images. It skins your project’s shadcn primitives until they match: same colors, radii, type, spacing and states, in light and dark. Your app never restyles; it only lays out.",
             ],
           },
@@ -379,17 +390,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "When to reach for it",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A shadcn project on Tailwind v4. A folder without `components.json` works too: the agent scaffolds it first, with the shadcn style closest to the reference.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
@@ -528,6 +528,17 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
+              "A shadcn project: a `components.json`, with Base UI or Radix in the `package.json` beside it. In a monorepo, that’s your ui package. And a coding agent that loads skills.",
+            ],
+          },
+        ],
+        title: "Prerequisites",
+      },
+      {
+        blocks: [
+          {
+            kind: "text",
+            text: [
               "Your agent builds every component as a compound: one file, one prefixed family of parts, each part a single element you style and replace from the call site.",
             ],
           },
@@ -578,17 +589,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "When to reach for it",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A shadcn project: a `components.json`, with Base UI or Radix in the `package.json` beside it. In a monorepo, that’s your ui package. And a coding agent that loads skills.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
