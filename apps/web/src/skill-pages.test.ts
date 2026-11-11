@@ -17,12 +17,7 @@ describe("skill pages", () => {
     }
   );
 
-  it.each(SKILL_PAGE_NAMES)(
-    "opens %s with setup, then prerequisites",
-    (name) => {
-      expect(
-        SKILL_PAGES[name].sections.slice(0, 2).map(({ title }) => title)
-      ).toEqual(["Setup", "Prerequisites"]);
-    }
-  );
+  it.each(SKILL_PAGE_NAMES)("opens %s with its setup", (name) => {
+    expect(SKILL_PAGES[name].sections[0]?.title).toBe("Setup");
+  });
 });

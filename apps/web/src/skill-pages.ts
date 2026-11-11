@@ -70,6 +70,12 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
     sections: [
       {
         blocks: [
+          {
+            kind: "text",
+            text: [
+              "You need Claude Code and a Grok Bot account with its desktop app. Sending uses `curl` and `python3`.",
+            ],
+          },
           { kind: "text", text: ["Install the skill:"] },
           { kind: "code", snippet: "install" },
           {
@@ -107,17 +113,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A Grok Bot account with its desktop app, where you create the routine and copy its webhook. Claude Code. Sending also uses `curl` and `python3`.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
@@ -280,6 +275,12 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
     sections: [
       {
         blocks: [
+          {
+            kind: "text",
+            text: [
+              "You need a shadcn project on Tailwind v4. A folder without `components.json` works too: the agent scaffolds one first, in the shadcn style closest to the reference.",
+            ],
+          },
           { kind: "text", text: ["Install the skill:"] },
           { kind: "code", snippet: "install" },
           {
@@ -311,17 +312,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A shadcn project on Tailwind v4. A folder without `components.json` works too: the agent scaffolds it first, with the shadcn style closest to the reference.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
@@ -511,7 +501,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "There’s nothing to configure. On each run, the agent reads your project’s base from the `package.json` beside `components.json`: any `@base-ui` dependency means Base UI, otherwise `radix-ui` or `@radix-ui/*` means Radix. The base decides how a part becomes a link.",
+              "There’s nothing to configure. On each run, the agent reads your project’s base from the `package.json` beside `components.json`, in your ui package if you have a monorepo. Any `@base-ui` dependency means Base UI, otherwise `radix-ui` or `@radix-ui/*` means Radix. The base decides how a part becomes a link.",
             ],
           },
           {
@@ -522,17 +512,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           },
         ],
         title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            text: [
-              "A shadcn project: a `components.json`, with Base UI or Radix in the `package.json` beside it. In a monorepo, that’s your ui package. And a coding agent that loads skills.",
-            ],
-          },
-        ],
-        title: "Prerequisites",
       },
       {
         blocks: [
