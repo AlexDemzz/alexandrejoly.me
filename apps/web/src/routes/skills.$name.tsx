@@ -1,4 +1,10 @@
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@portfolio/ui/components/accordion";
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -38,6 +44,7 @@ import {
   skillPath,
 } from "@/skill-pages";
 import type {
+  AnySkillAnswerBlock,
   AnySkillBlock,
   SkillCode,
   SkillPageName,
@@ -69,33 +76,59 @@ const SkillTableView = ({ head, label, rows }: SkillTable) => (
   </Table>
 );
 
-const Block = ({ block, code }: { block: AnySkillBlock; code: SkillCode }) => {
-  if (block.kind === "code") {
-    return <CodeBlock code={code[block.snippet]} />;
-  }
-  if (block.kind === "table") {
-    return <SkillTableView {...block} />;
-  }
-  return (
+const answerKey = (block: AnySkillAnswerBlock) =>
+  block.kind === "code" ? block.snippet : paragraphKey(block.text);
+
+const Answer = ({
+  block,
+  code,
+}: {
+  block: AnySkillAnswerBlock;
+  code: SkillCode;
+}) =>
+  block.kind === "code" ? (
+    <CodeBlock code={code[block.snippet]} />
+  ) : (
     <Text>
-      {block.lead === undefined ? null : (
-        <>
-          <span className="font-book text-foreground">{block.lead}</span>{" "}
-        </>
-      )}
       <ProseRuns paragraph={block.text} />
     </Text>
   );
+
+const Block = ({ block, code }: { block: AnySkillBlock; code: SkillCode }) => {
+  if (block.kind === "table") {
+    return <SkillTableView {...block} />;
+  }
+  if (block.kind === "questions") {
+    // hiddenUntilFound keeps closed answers in the page, so find-in-page
+    // reaches them and opens their item.
+    return (
+      <Accordion hiddenUntilFound>
+        {block.items.map(({ answer, question }) => (
+          <AccordionItem key={question}>
+            <AccordionTrigger>{question}</AccordionTrigger>
+            <AccordionContent>
+              <div className="flex flex-col gap-5">
+                {answer.map((part) => (
+                  <Answer block={part} code={code} key={answerKey(part)} />
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    );
+  }
+  return <Answer block={block} code={code} />;
 };
 
 const blockKey = (block: AnySkillBlock) => {
-  if (block.kind === "code") {
-    return block.snippet;
-  }
   if (block.kind === "table") {
     return block.label;
   }
-  return block.lead ?? paragraphKey(block.text);
+  if (block.kind === "questions") {
+    return block.kind;
+  }
+  return answerKey(block);
 };
 
 interface SkillPageData {

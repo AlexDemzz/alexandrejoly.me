@@ -14,15 +14,29 @@ export interface SkillTable {
   rows: [string, string][];
 }
 
-export type SkillBlock<Name extends SkillPageName> =
+export type SkillAnswerBlock<Name extends SkillPageName> =
   | { kind: "code"; snippet: SnippetKey<Name> }
-  | ({ kind: "table" } & SkillTable)
-  /** `lead` opens the paragraph in `foreground`, as a question or key phrase. */
-  | { kind: "text"; lead?: string; text: Paragraph };
+  | { kind: "text"; text: Paragraph };
+
+export interface SkillQuestion<Name extends SkillPageName> {
+  answer: SkillAnswerBlock<Name>[];
+  question: string;
+}
+
+export type SkillBlock<Name extends SkillPageName> =
+  | SkillAnswerBlock<Name>
+  /** Questions fold into an accordion, each answer under its question. */
+  | { items: SkillQuestion<Name>[]; kind: "questions" }
+  | ({ kind: "table" } & SkillTable);
 
 /** A block of any skill page. */
 export type AnySkillBlock = {
   [Name in SkillPageName]: SkillBlock<Name>;
+}[SkillPageName];
+
+/** An answer block of any skill page. */
+export type AnySkillAnswerBlock = {
+  [Name in SkillPageName]: SkillAnswerBlock<Name>;
 }[SkillPageName];
 
 export interface SkillSection<Name extends SkillPageName> {
@@ -54,6 +68,46 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       ],
     ],
     sections: [
+      {
+        blocks: [
+          { kind: "text", text: ["Install the skill:"] },
+          { kind: "code", snippet: "install" },
+          {
+            kind: "text",
+            text: [
+              "Then run the wizard in your own terminal. It needs you at the keyboard, so don’t hand it to an agent:",
+            ],
+          },
+          { kind: "code", snippet: "setup" },
+          {
+            head: ["Stage", "What you do"],
+            kind: "table",
+            label: "Wizard stages",
+            rows: [
+              [
+                "Create the routine",
+                "Paste the prompt the wizard copied into your Bot’s chat in the desktop app, and send it. Skip this if the routine exists.",
+              ],
+              [
+                "Webhook URL",
+                "Copy “POST to” from the routine’s Webhook section and paste it.",
+              ],
+              [
+                "Authorization header",
+                "Copy “header” from the same section and paste it.",
+              ],
+              ["Test message", "Send one test ping, or skip it."],
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "The wizard saves both values to `~/.config/grokbot/webhook.env`. Run it again when one changes: Enter keeps the others.",
+            ],
+          },
+        ],
+        title: "Setup",
+      },
       {
         blocks: [
           {
@@ -112,81 +166,66 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       },
       {
         blocks: [
-          { kind: "text", text: ["Install the skill:"] },
-          { kind: "code", snippet: "install" },
           {
-            kind: "text",
-            text: [
-              "Then run the wizard in your own terminal. It needs you at the keyboard, so don’t hand it to an agent:",
+            items: [
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "The header already is `Bearer <key>`, so it carries the key. Paste the bare key instead and the wizard adds `Bearer` for you.",
+                    ],
+                  },
+                ],
+                question: "Why paste the header, not the key?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "No. The script always exits 0. When nothing went out, it prints a warning, and the agent tells you once to run the wizard, then carries on.",
+                    ],
+                  },
+                ],
+                question: "Will it fail my agent’s task?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Yes. One JSON object, with `from` set to `claude-code`, the repository’s folder as `project`, and the current `branch`:",
+                    ],
+                  },
+                  { kind: "code", snippet: "payload" },
+                ],
+                question: "Can I see what gets sent?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Not on its own. The routine treats every message as untrusted data: it tells you what a message asks and acts only if you say yes in the chat.",
+                    ],
+                  },
+                ],
+                question: "Can a message make Grok Bot act?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Secrets, tokens and customer data. The skill tells agents to send summaries and links only.",
+                    ],
+                  },
+                ],
+                question: "What stays out of a message?",
+              },
             ],
-          },
-          { kind: "code", snippet: "setup" },
-          {
-            head: ["Stage", "What you do"],
-            kind: "table",
-            label: "Wizard stages",
-            rows: [
-              [
-                "Create the routine",
-                "Paste the prompt the wizard copied into your Bot’s chat in the desktop app, and send it. Skip this if the routine exists.",
-              ],
-              [
-                "Webhook URL",
-                "Copy “POST to” from the routine’s Webhook section and paste it.",
-              ],
-              [
-                "Authorization header",
-                "Copy “header” from the same section and paste it.",
-              ],
-              ["Test message", "Send one test ping, or skip it."],
-            ],
-          },
-          {
-            kind: "text",
-            text: [
-              "The wizard saves both values to `~/.config/grokbot/webhook.env`. Run it again when one changes: Enter keeps the others.",
-            ],
-          },
-        ],
-        title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            lead: "Why paste the header, not the key?",
-            text: [
-              "The header already is `Bearer <key>`, so it carries the key. Paste the bare key instead and the wizard adds `Bearer` for you.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Will it fail my agent’s task?",
-            text: [
-              "No. The script always exits 0. When nothing went out, it prints a warning, and the agent tells you once to run the wizard, then carries on.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Can I see what gets sent?",
-            text: [
-              "Yes. One JSON object, with `from` set to `claude-code`, the repository’s folder as `project`, and the current `branch`:",
-            ],
-          },
-          { kind: "code", snippet: "payload" },
-          {
-            kind: "text",
-            lead: "Can a message make Grok Bot act?",
-            text: [
-              "Not on its own. The routine treats every message as untrusted data: it tells you what a message asks and acts only if you say yes in the chat.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "What stays out of a message?",
-            text: [
-              "Secrets, tokens and customer data. The skill tells agents to send summaries and links only.",
-            ],
+            kind: "questions",
           },
         ],
         title: "Common questions",
@@ -239,6 +278,40 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       ],
     ],
     sections: [
+      {
+        blocks: [
+          { kind: "text", text: ["Install the skill:"] },
+          { kind: "code", snippet: "install" },
+          {
+            kind: "text",
+            text: [
+              "It loads the `shadcn` skill before anything else, so install that one too if you haven’t:",
+            ],
+          },
+          { kind: "code", snippet: "installShadcn" },
+          {
+            kind: "text",
+            text: ["Then make sure these tools are on your machine:"],
+          },
+          {
+            head: ["Tool", "What it’s for"],
+            kind: "table",
+            label: "Tools",
+            rows: [
+              [
+                "`magick`",
+                "ImageMagick. Samples the pixel each color comes from.",
+              ],
+              ["`node`", "Runs the two bundled scripts."],
+              [
+                "`agent-browser`",
+                "Drives a live site and reads its computed styles. Without it, headless Chrome takes the screenshots, with no style readout.",
+              ],
+            ],
+          },
+        ],
+        title: "Setup",
+      },
       {
         blocks: [
           {
@@ -320,74 +393,65 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       },
       {
         blocks: [
-          { kind: "text", text: ["Install the skill:"] },
-          { kind: "code", snippet: "install" },
           {
-            kind: "text",
-            text: [
-              "It loads the `shadcn` skill before anything else, so install that one too if you haven’t:",
+            items: [
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "No. Your app keeps layout classes only. A color, border, radius or font class there counts as an override, and each one goes on the record with its reason. A new variant has to earn its place: a role the reference reuses at least twice, or a change to at least two of color, radius, size, spacing, type, border and shadow. Anything less becomes a `className` or folds into the base classes.",
+                    ],
+                  },
+                ],
+                question: "Will my app fill up with overrides?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Not by default. `--primary` follows the reference’s primary button, read from its computed style. The hex everyone quotes for a brand is often a pressed state or a section band.",
+                    ],
+                  },
+                ],
+                question: "Is the brand color my primary?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Ignored. The window on a gray desk, the browser bar, the device bezel and the drop shadow are the portfolio’s staging. The agent samples inside the screen only.",
+                    ],
+                  },
+                ],
+                question: "What about the frame around case-study screenshots?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Yes. The agent lists every region of the screen with the primitive and variant that renders it, then waits for your go.",
+                    ],
+                  },
+                ],
+                question: "Do I get a say before the iso page?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Into a ledger, `docs/design/<slug>-skin.md`, one section per phase. On a repository with `docs/agents/issue-tracker.md`, the four phases become four tickets instead.",
+                    ],
+                  },
+                ],
+                question: "Where does the progress go?",
+              },
             ],
-          },
-          { kind: "code", snippet: "installShadcn" },
-          {
-            kind: "text",
-            text: ["Then make sure these tools are on your machine:"],
-          },
-          {
-            head: ["Tool", "What it’s for"],
-            kind: "table",
-            label: "Tools",
-            rows: [
-              [
-                "`magick`",
-                "ImageMagick. Samples the pixel each color comes from.",
-              ],
-              ["`node`", "Runs the two bundled scripts."],
-              [
-                "`agent-browser`",
-                "Drives a live site and reads its computed styles. Without it, headless Chrome takes the screenshots, with no style readout.",
-              ],
-            ],
-          },
-        ],
-        title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            lead: "Will my app fill up with overrides?",
-            text: [
-              "No. Your app keeps layout classes only. A color, border, radius or font class there counts as an override, and each one goes on the record with its reason. A new variant has to earn its place: a role the reference reuses at least twice, or a change to at least two of color, radius, size, spacing, type, border and shadow. Anything less becomes a `className` or folds into the base classes.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Is the brand color my primary?",
-            text: [
-              "Not by default. `--primary` follows the reference’s primary button, read from its computed style. The hex everyone quotes for a brand is often a pressed state or a section band.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "What about the frame around case-study screenshots?",
-            text: [
-              "Ignored. The window on a gray desk, the browser bar, the device bezel and the drop shadow are the portfolio’s staging. The agent samples inside the screen only.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Do I get a say before the iso page?",
-            text: [
-              "Yes. The agent lists every region of the screen with the primitive and variant that renders it, then waits for your go.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Where does the progress go?",
-            text: [
-              "Into a ledger, `docs/design/<slug>-skin.md`, one section per phase. On a repository with `docs/agents/issue-tracker.md`, the four phases become four tickets instead.",
-            ],
+            kind: "questions",
           },
         ],
         title: "Common questions",
@@ -440,6 +504,25 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       ],
     ],
     sections: [
+      {
+        blocks: [
+          { kind: "text", text: ["Install the skill:"] },
+          { kind: "code", snippet: "install" },
+          {
+            kind: "text",
+            text: [
+              "There’s nothing to configure. On each run, the agent reads your project’s base from the `package.json` beside `components.json`: any `@base-ui` dependency means Base UI, otherwise `radix-ui` or `@radix-ui/*` means Radix. The base decides how a part becomes a link.",
+            ],
+          },
+          {
+            kind: "text",
+            text: [
+              "Then it lists your components directory before writing anything. If a primitive or a compound already covers the need, it stops and points you to it.",
+            ],
+          },
+        ],
+        title: "Setup",
+      },
       {
         blocks: [
           {
@@ -509,60 +592,66 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
       },
       {
         blocks: [
-          { kind: "text", text: ["Install the skill:"] },
-          { kind: "code", snippet: "install" },
           {
-            kind: "text",
-            text: [
-              "There’s nothing to configure. On each run, the agent reads your project’s base from that `package.json`: any `@base-ui` dependency means Base UI, otherwise `radix-ui` or `@radix-ui/*` means Radix. The base decides how a part becomes a link.",
+            items: [
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Used by one consumer, it lives in that consumer’s file. Shared, it follows your existing component convention, or sits beside the shadcn primitives at your `aliases` path.",
+                    ],
+                  },
+                ],
+                question: "Where does the new component go?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Only for a purely visual look that several consumers share. A variant with one consumer is that consumer’s `className`. A prop that only makes sense for one variant gets a part of its own.",
+                    ],
+                  },
+                ],
+                question: "Can I add a variant prop?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Hand it the element. The component never guesses a link from a `url` prop:",
+                    ],
+                  },
+                  { kind: "code", snippet: "link" },
+                ],
+                question: "How do I make a part a link?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "On Base UI, `render={<a href={url} />}` trips the anchor-content lint, and silencing the lint fails the law. `render={(props) => <a {...props} href={url} />}` spreads the children in, so the lint passes.",
+                    ],
+                  },
+                ],
+                question: "Why the callback form for a plain anchor?",
+              },
+              {
+                answer: [
+                  {
+                    kind: "text",
+                    text: [
+                      "Tailwind v4 needs the bracket form for custom data attributes: `data-[state=open]:…`. A bare `data-state-open:` fails silently.",
+                    ],
+                  },
+                ],
+                question: "Why does my data-state class do nothing?",
+              },
             ],
-          },
-          {
-            kind: "text",
-            text: [
-              "Then it lists your components directory before writing anything. If a primitive or a compound already covers the need, it stops and points you to it.",
-            ],
-          },
-        ],
-        title: "Setup",
-      },
-      {
-        blocks: [
-          {
-            kind: "text",
-            lead: "Where does the new component go?",
-            text: [
-              "Used by one consumer, it lives in that consumer’s file. Shared, it follows your existing component convention, or sits beside the shadcn primitives at your `aliases` path.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Can I add a variant prop?",
-            text: [
-              "Only for a purely visual look that several consumers share. A variant with one consumer is that consumer’s `className`. A prop that only makes sense for one variant gets a part of its own.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "How do I make a part a link?",
-            text: [
-              "Hand it the element. The component never guesses a link from a `url` prop:",
-            ],
-          },
-          { kind: "code", snippet: "link" },
-          {
-            kind: "text",
-            lead: "Why the callback form for a plain anchor?",
-            text: [
-              "On Base UI, `render={<a href={url} />}` trips the anchor-content lint, and silencing the lint fails the law. `render={(props) => <a {...props} href={url} />}` spreads the children in, so the lint passes.",
-            ],
-          },
-          {
-            kind: "text",
-            lead: "Why does my data-state class do nothing?",
-            text: [
-              "Tailwind v4 needs the bracket form for custom data attributes: `data-[state=open]:…`. A bare `data-state-open:` fails silently.",
-            ],
+            kind: "questions",
           },
         ],
         title: "Common questions",

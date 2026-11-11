@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 
 import { SKILLS } from "@/content";
 
-import { SKILL_PAGE_NAMES } from "./skill-pages";
+import { SKILL_PAGES, SKILL_PAGE_NAMES } from "./skill-pages";
 
 describe("skill pages", () => {
   it.each(SKILL_PAGE_NAMES)(
@@ -16,4 +16,8 @@ describe("skill pages", () => {
       ).toBe(true);
     }
   );
+
+  it.each(SKILL_PAGE_NAMES)("opens %s with its setup", (name) => {
+    expect(SKILL_PAGES[name].sections[0]?.title).toBe("Setup");
+  });
 });

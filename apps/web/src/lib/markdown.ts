@@ -36,7 +36,11 @@ import {
 import type { RegistryItemName } from "@/lib/registry";
 import { stripTrailingSlashes } from "@/lib/trailing-slash";
 import { SKILL_PAGES, isSkillPageName, skillPath } from "@/skill-pages";
-import type { AnySkillBlock, SkillPageName } from "@/skill-pages";
+import type {
+  AnySkillAnswerBlock,
+  AnySkillBlock,
+  SkillPageName,
+} from "@/skill-pages";
 import { SKILL_SNIPPETS } from "@/skill-snippets";
 import type { Snippet } from "@/skill-snippets";
 
@@ -171,21 +175,35 @@ const TABLE_PIPE = /\|/gu;
 const tableRow = (cells: string[]) =>
   `| ${cells.map((cell) => cell.replaceAll(TABLE_PIPE, "\\|")).join(" | ")} |`;
 
+const skillAnswerMarkdown = (
+  name: SkillPageName,
+  block: AnySkillAnswerBlock
+) => {
+  if (block.kind === "text") {
+    return paragraphs([block.text]);
+  }
+  const snippets: Record<string, Snippet> = SKILL_SNIPPETS[name];
+  const { code, lang } = snippets[block.snippet];
+  return fence(code, lang);
+};
+
 const skillBlockMarkdown = (name: SkillPageName, block: AnySkillBlock) => {
-  if (block.kind === "code") {
-    const snippets: Record<string, Snippet> = SKILL_SNIPPETS[name];
-    const { code, lang } = snippets[block.snippet];
-    return fence(code, lang);
+  if (block.kind === "code" || block.kind === "text") {
+    return skillAnswerMarkdown(name, block);
   }
-  if (block.kind === "table") {
-    return [
-      tableRow(block.head),
-      tableRow(block.head.map(() => "---")),
-      ...block.rows.map(tableRow),
-    ].join("\n");
+  if (block.kind === "questions") {
+    return block.items
+      .flatMap(({ answer, question }) => [
+        `**${question}**`,
+        ...answer.map((part) => skillAnswerMarkdown(name, part)),
+      ])
+      .join("\n\n");
   }
-  const text = paragraphs([block.text]);
-  return block.lead === undefined ? text : `**${block.lead}** ${text}`;
+  return [
+    tableRow(block.head),
+    tableRow(block.head.map(() => "---")),
+    ...block.rows.map(tableRow),
+  ].join("\n");
 };
 
 export const skillPageMarkdown = (name: SkillPageName) => {
