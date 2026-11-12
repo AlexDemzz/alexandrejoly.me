@@ -1,7 +1,7 @@
 [
   {
     "description": "Hear from your coding agents in your Grok Bot chat",
-    "name": "notify-grokbot"
+    "name": "grokbot-notify"
   },
   {
     "description": "Skin shadcn primitives from a reference design",

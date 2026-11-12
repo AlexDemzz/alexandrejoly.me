@@ -103,7 +103,7 @@ describe("skillPageMarkdown", () => {
 
   it("sends the home page's skill row to the skill's own page", () => {
     expect(homeMarkdown()).toContain(
-      "[notify-grokbot](https://alexandrejoly.me/skills/notify-grokbot.md)"
+      "[grokbot-notify](https://alexandrejoly.me/skills/grokbot-notify.md)"
     );
   });
 });
@@ -192,8 +192,8 @@ describe("markdownFor", () => {
     "/components",
     "/components.md",
     "/components/marquee",
-    "/skills/notify-grokbot",
-    "/skills/notify-grokbot.md",
+    "/skills/grokbot-notify",
+    "/skills/grokbot-notify.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });

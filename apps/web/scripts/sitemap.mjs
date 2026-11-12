@@ -15,7 +15,7 @@ const paths = [
   "/about",
   "/contact",
   "/privacy",
-  "/skills/notify-grokbot",
+  "/skills/grokbot-notify",
   "/skills/design-to-shadcn",
   "/skills/shadcn-composition-patterns",
   "/components",

@@ -59,9 +59,9 @@ export const isSkillPageName = (name: string): name is SkillPageName =>
 export const skillPath = (name: SkillPageName) => `skills/${name}`;
 
 export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
-  "notify-grokbot": {
-    description: `notify-grokbot, an open-source agent skill by ${SITE.name}: your Claude Code agent messages you in your Grok Bot chat when it finishes a task, gets blocked or needs your decision.`,
-    documentTitle: `notify-grokbot agent skill – ${SITE.name}`,
+  "grokbot-notify": {
+    description: `grokbot-notify, an open-source agent skill by ${SITE.name}: your Claude Code agent messages you in your Grok Bot chat when it finishes a task, gets blocked or needs your decision.`,
+    documentTitle: `grokbot-notify agent skill – ${SITE.name}`,
     intro: [
       [
         "An agent skill that lets your Claude Code agent message you in your Grok Bot chat.",
@@ -136,7 +136,7 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              'You don’t call it; the agent does, once per outcome, with `~/.claude/skills/notify-grokbot/scripts/notify-grokbot <status> "<summary>" [link …]`. Progress never earns a message.',
+              'You don’t call it; the agent does, once per outcome, with `~/.claude/skills/grokbot-notify/scripts/grokbot-notify <status> "<summary>" [link …]`. Progress never earns a message.',
             ],
           },
           {
@@ -230,9 +230,9 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
           {
             kind: "text",
             text: [
-              "notify-grokbot lives in ",
+              "grokbot-notify lives in ",
               {
-                href: "https://github.com/AlexDemzz/skills/tree/master/notify-grokbot",
+                href: "https://github.com/AlexDemzz/skills/tree/master/grokbot-notify",
                 text: "my skills repository on GitHub",
               },
               ", next to ",
@@ -463,8 +463,8 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
               },
               ", the compound-component laws for shadcn projects, and ",
               {
-                href: "/skills/notify-grokbot",
-                text: "notify-grokbot",
+                href: "/skills/grokbot-notify",
+                text: "grokbot-notify",
               },
               ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs your decision.",
             ],
@@ -664,8 +664,8 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
               },
               ", which skins shadcn primitives from a reference design, and ",
               {
-                href: "/skills/notify-grokbot",
-                text: "notify-grokbot",
+                href: "/skills/grokbot-notify",
+                text: "grokbot-notify",
               },
               ", which messages you in your Grok Bot chat when your agent finishes, gets blocked or needs your decision.",
             ],
@@ -686,7 +686,7 @@ const SKILL_CODE: Record<SkillPageName, () => Promise<{ default: SkillCode }>> =
     "design-to-shadcn": () => import("virtual:skill-code/design-to-shadcn"),
     "shadcn-composition-patterns": () =>
       import("virtual:skill-code/shadcn-composition-patterns"),
-    "notify-grokbot": () => import("virtual:skill-code/notify-grokbot"),
+    "grokbot-notify": () => import("virtual:skill-code/grokbot-notify"),
   };
 
 export const getSkillCode = async (name: SkillPageName): Promise<SkillCode> => {

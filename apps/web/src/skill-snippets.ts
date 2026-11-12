@@ -7,9 +7,9 @@ export interface Snippet {
 }
 
 export const SKILL_SNIPPETS = {
-  "notify-grokbot": {
+  "grokbot-notify": {
     install: {
-      code: "npx skills add AlexDemzz/skills --skill notify-grokbot -g",
+      code: "npx skills add AlexDemzz/skills --skill grokbot-notify -g",
       lang: "bash",
     },
     payload: {
@@ -24,7 +24,7 @@ export const SKILL_SNIPPETS = {
       lang: "json",
     },
     setup: {
-      code: "~/.claude/skills/notify-grokbot/scripts/setup-webhook",
+      code: "~/.claude/skills/grokbot-notify/scripts/setup-webhook",
       lang: "bash",
     },
   },
