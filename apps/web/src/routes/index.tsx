@@ -14,7 +14,12 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
-import { ComponentRows, ExternalRow, RowList } from "@/components/home-rows";
+import {
+  ComponentRows,
+  ExternalRow,
+  RowList,
+  SkillPageRow,
+} from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
@@ -37,6 +42,7 @@ import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
+import { isSkillPageName } from "@/skill-pages";
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -126,19 +132,29 @@ const HomeComponent = () => {
           <SectionTitle>Agent skills</SectionTitle>
           <SectionContent>
             <RowList>
-              {SKILLS.map((skill) => (
-                <ExternalRow
-                  description={skill.description}
-                  href={skillHref(skill.name)}
-                  key={skill.name}
-                  media={
-                    <ItemLightMedia>
-                      <SkillIcon />
-                    </ItemLightMedia>
-                  }
-                  title={skill.name}
-                />
-              ))}
+              {SKILLS.map((skill) => {
+                const media = (
+                  <ItemLightMedia>
+                    <SkillIcon />
+                  </ItemLightMedia>
+                );
+                return isSkillPageName(skill.name) ? (
+                  <SkillPageRow
+                    description={skill.description}
+                    key={skill.name}
+                    media={media}
+                    name={skill.name}
+                  />
+                ) : (
+                  <ExternalRow
+                    description={skill.description}
+                    href={skillHref(skill.name)}
+                    key={skill.name}
+                    media={media}
+                    title={skill.name}
+                  />
+                );
+              })}
             </RowList>
           </SectionContent>
         </Section>

@@ -35,12 +35,24 @@ import {
 } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
 import { stripTrailingSlashes } from "@/lib/trailing-slash";
+import { SKILL_PAGES, isSkillPageName, skillPath } from "@/skill-pages";
+import type {
+  AnySkillAnswerBlock,
+  AnySkillBlock,
+  SkillPageName,
+} from "@/skill-pages";
+import { SKILL_SNIPPETS } from "@/skill-snippets";
+import type { Snippet } from "@/skill-snippets";
 
 // Indents every non-empty line after the first, to nest a step in its list item.
 const PARAGRAPH_LINE = /\n(?=.)/gu;
 
+/** A link to a page of this site points at its Markdown twin. */
+const linkTarget = (href: string) =>
+  href.startsWith("/") ? markdownUrl(href.slice(1)) : href;
+
 const inline = (run: Inline) =>
-  typeof run === "string" ? run : `[${run.text}](${run.href})`;
+  typeof run === "string" ? run : `[${run.text}](${linkTarget(run.href)})`;
 
 const paragraphs = (runs: Paragraph[]) =>
   runs.map((paragraph) => paragraph.map(inline).join("")).join("\n\n");
@@ -54,6 +66,10 @@ const markdownDocument = (blocks: string[]) => `${blocks.join("\n\n")}\n`;
 
 const fence = (code: string, lang: string) =>
   `\`\`\`${lang}\n${code.trimEnd()}\n\`\`\``;
+
+/** A skill's own page on this site, else its skills.sh page. */
+const skillLink = (name: string) =>
+  isSkillPageName(name) ? markdownUrl(skillPath(name)) : skillHref(name);
 
 const SITE_PAGES = [
   linkItem(
@@ -97,7 +113,7 @@ export const homeMarkdown = () =>
     section(
       "Agent skills",
       SKILLS.map((skill) =>
-        linkItem(skill.name, skillHref(skill.name), skill.description)
+        linkItem(skill.name, skillLink(skill.name), skill.description)
       ).join("\n")
     ),
     section("Components", COMPONENT_ITEMS.join("\n")),
@@ -158,6 +174,52 @@ const TABLE_PIPE = /\|/gu;
 
 const tableRow = (cells: string[]) =>
   `| ${cells.map((cell) => cell.replaceAll(TABLE_PIPE, "\\|")).join(" | ")} |`;
+
+const skillAnswerMarkdown = (
+  name: SkillPageName,
+  block: AnySkillAnswerBlock
+) => {
+  if (block.kind === "text") {
+    return paragraphs([block.text]);
+  }
+  const snippets: Record<string, Snippet> = SKILL_SNIPPETS[name];
+  const { code, lang } = snippets[block.snippet];
+  return fence(code, lang);
+};
+
+const skillBlockMarkdown = (name: SkillPageName, block: AnySkillBlock) => {
+  if (block.kind === "code" || block.kind === "text") {
+    return skillAnswerMarkdown(name, block);
+  }
+  if (block.kind === "questions") {
+    return block.items
+      .flatMap(({ answer, question }) => [
+        `**${question}**`,
+        ...answer.map((part) => skillAnswerMarkdown(name, part)),
+      ])
+      .join("\n\n");
+  }
+  return [
+    tableRow(block.head),
+    tableRow(block.head.map(() => "---")),
+    ...block.rows.map(tableRow),
+  ].join("\n");
+};
+
+export const skillPageMarkdown = (name: SkillPageName) => {
+  const { intro, sections } = SKILL_PAGES[name];
+  return markdownDocument([
+    `# ${name}`,
+    paragraphs(intro),
+    ...sections.map(({ blocks, title }) =>
+      section(
+        title,
+        blocks.map((block) => skillBlockMarkdown(name, block)).join("\n\n")
+      )
+    ),
+    `[Back to ${SITE.name}](${markdownUrl("")})`,
+  ]);
+};
 
 const extendsLine = ({ href, name }: ApiExtends) => {
   const target = href === undefined ? `\`${name}\`` : `[${name}](${href})`;
@@ -338,7 +400,7 @@ export const llmsTxt = () =>
         ...SKILLS.map((skill) =>
           linkItem(
             skill.name,
-            skillHref(skill.name),
+            skillLink(skill.name),
             `agent skill: ${skill.description}`
           )
         ),
@@ -378,6 +440,16 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: infoPageMarkdown(slug),
       canonical: absolute(slug),
+      status: 200,
+    };
+  }
+  const skill = page.startsWith("/skills/")
+    ? page.slice("/skills/".length)
+    : "";
+  if (isSkillPageName(skill)) {
+    return {
+      body: skillPageMarkdown(skill),
+      canonical: absolute(skillPath(skill)),
       status: 200,
     };
   }

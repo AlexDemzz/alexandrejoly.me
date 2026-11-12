@@ -76,6 +76,30 @@ export const ComponentRow = ({
   </li>
 );
 
+export const SkillPageRow = ({
+  description,
+  media,
+  name,
+}: {
+  description: string;
+  media?: ReactNode;
+  name: string;
+}) => (
+  <li>
+    <ItemLight
+      render={(props) => (
+        <Link {...props} params={{ name }} to="/skills/$name" />
+      )}
+    >
+      {media}
+      <ItemLightContent>
+        <ItemLightTitle>{name}</ItemLightTitle>
+        <ItemLightDescription>{description}</ItemLightDescription>
+      </ItemLightContent>
+    </ItemLight>
+  </li>
+);
+
 /** One row per registry item, linking to its docs page. */
 export const ComponentRows = () => (
   <RowList>

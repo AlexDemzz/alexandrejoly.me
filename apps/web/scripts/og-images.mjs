@@ -1,11 +1,12 @@
 // Writes public/og/components/<name>.png for every registry item documented
 // here (see documented-items.mjs) whose card changed: its title, description,
 // row icon or the card itself, and public/og/components.png for the index,
-// whose card shows every row icon.
+// whose card shows every row icon. Each agent skill in skills.json gets
+// public/og/skills/<name>.png the same way.
 // Hashes of those inputs live in og-images.lock.json; a run with nothing stale
 // starts nothing. `--force` redraws every card. Stale cards are screenshotted
-// from a dev server's /og/components/<name> and /og/components in a light
-// colour scheme.
+// from a dev server's /og/components/<name>, /og/components and
+// /og/skills/<name> in a light colour scheme.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -21,13 +22,17 @@ const OUT_DIR = new URL("../public/og/", import.meta.url);
 const INDEX = "components";
 const LOCK = new URL("og-images.lock.json", import.meta.url);
 const CARD = new URL("../src/components/og-card.tsx", import.meta.url);
+const SKILL_ICON = new URL("../src/components/skill-icon.tsx", import.meta.url);
+const SKILL_PREFIX = "skills/";
 
 const read = (url) => readFile(url, "utf-8");
 const readJson = async (url) => JSON.parse(await read(url));
 
 const registry = await readJson(new URL("../registry.json", import.meta.url));
 const items = documentedItems(registry);
+const skills = await readJson(new URL("../skills.json", import.meta.url));
 const card = await read(CARD);
+const skillIcon = await read(SKILL_ICON);
 const previous = existsSync(LOCK) ? await readJson(LOCK) : {};
 
 const iconSource = async (name) => {
@@ -55,13 +60,24 @@ const hashes = {
     ])
   ),
   [INDEX]: hash([Object.entries(icons), card]),
+  ...Object.fromEntries(
+    skills.map(({ description, name }) => [
+      `${SKILL_PREFIX}${name}`,
+      hash([name, description, skillIcon, card]),
+    ])
+  ),
 };
 
 /** Where each card is served, and where its PNG goes under public/og/. */
-const target = (key) =>
-  key === INDEX
-    ? { file: `${INDEX}.png`, path: `/og/${INDEX}` }
-    : { file: `components/${key}.png`, path: `/og/components/${key}` };
+const target = (key) => {
+  if (key === INDEX) {
+    return { file: `${INDEX}.png`, path: `/og/${INDEX}` };
+  }
+  if (key.startsWith(SKILL_PREFIX)) {
+    return { file: `${key}.png`, path: `/og/${key}` };
+  }
+  return { file: `components/${key}.png`, path: `/og/components/${key}` };
+};
 
 const force = process.argv.includes("--force");
 const stale = Object.keys(hashes).filter(
@@ -88,11 +104,13 @@ const capture = async (keys) => {
   const server = spawn(
     "pnpm",
     ["exec", "vite", "dev", "--port", String(PORT), "--strictPort"],
-    { cwd: new URL("..", import.meta.url), stdio: "ignore" }
+    // Its own process group, so the kill below reaches vite and not only pnpm.
+    { cwd: new URL("..", import.meta.url), detached: true, stdio: "ignore" }
   );
   try {
     await waitForServer();
     await mkdir(new URL("components/", OUT_DIR), { recursive: true });
+    await mkdir(new URL(SKILL_PREFIX, OUT_DIR), { recursive: true });
     const browser = await chromium.launch();
     const context = await browser.newContext({
       colorScheme: "light",
@@ -112,7 +130,7 @@ const capture = async (keys) => {
     );
     await browser.close();
   } finally {
-    server.kill();
+    process.kill(-server.pid);
   }
 };
 

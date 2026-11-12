@@ -1,9 +1,12 @@
 {
-  "notification-badge": "b8ac8f40c0a810f46355815047378bb1c56590c509e2155d958a89ffff59ce9a",
-  "onboarding": "ef62e76d27c0364a600996f1d4d2e24fe10b363f428bb74ae779563ccf76af92",
-  "hint": "a0da18f115f9dae9a224cce8b6870039123b4754f7aad740ae3e409c052c8a87",
-  "infinite-scroll": "c300c7d69b646663d7f5023166b25d5490fd7b93fb18445fcb18916a35726009",
-  "marquee": "8cf1408f53b2830daa3f0c6fda07ed1a506f28eb5c3372e3cfdbe56a8f7d52ea",
-  "item-inset-separator": "91761425c5cb97ef84ea439592e2e4bc2039abb69b037dc1426db7f0d31e0e3f",
-  "components": "9ce8edad96b4b082b7624ae77556eed101e8c0cba3d09899697ed775c0fad480"
+  "notification-badge": "a969ddfb2f4600a8e2f81b2e0adc2028adde51883baee7af0024297c611c1797",
+  "onboarding": "9ff79273522d7202c8f090edd0afabe608a7e45afc78d7841a3f03a573c49a13",
+  "hint": "4673a9bb2fabbdf48a97e2e6a465299394acb126838b48a77ab0731f9e2e14b1",
+  "infinite-scroll": "bb600cedd71bac9af959e1a7686f506e865a281decc8b47ca0ee02825b43ab23",
+  "marquee": "56c5137cfe15326dfa0077a2e50a0a2f745ab81481a2727efe47e77a23e953e0",
+  "item-inset-separator": "a886fcc858976edb431d73aa8bcab36bbd49468fddb981880933edf4e6477748",
+  "components": "fe46450fb4a78593ece5edcb432e2dc87a276e78df2519475e5a04402a9d4bce",
+  "skills/grokbot-notify": "76651fc047c9fa58ff72450935cbd0d8c727bd68ae554b4576774451cbe34229",
+  "skills/design-to-shadcn": "0b556e066e735c20e86257d9595893a8d2428aba9f5eee0675c01da57a2057ab",
+  "skills/shadcn-composition-patterns": "ccbf9847191c9cbbdb160902f4435774615cd94bcd8c888f798e56099abffa63"
 }

@@ -3,24 +3,13 @@ import { fileURLToPath } from "node:url";
 
 import { getConfig } from "@shadcn/registry/internal/get-config";
 import { transformIcons } from "@shadcn/registry/internal/transformers/transform-icons";
-import { createHighlighterCore } from "shiki/core";
-import type { HighlighterCore } from "shiki/core";
-import { createJavaScriptRegexEngine } from "shiki/engine/javascript";
-import bash from "shiki/langs/bash.mjs";
-import css from "shiki/langs/css.mjs";
-import tsx from "shiki/langs/tsx.mjs";
-import vitesseDark from "shiki/themes/vitesse-dark.mjs";
-import vitesseLight from "shiki/themes/vitesse-light.mjs";
 import { runnerImport } from "vite";
 import type { Plugin } from "vite";
 
 import type { REGISTRY_USAGE } from "../src/components/docs/registry-usage.ts";
-import type {
-  ComponentCode,
-  HighlightedCode,
-  HighlightedToken,
-} from "../src/lib/component-code.ts";
+import type { ComponentCode } from "../src/lib/component-code.ts";
 import type * as Registry from "../src/lib/registry.ts";
+import { highlight } from "./highlight.ts";
 
 const VIRTUAL_PREFIX = "virtual:component-code/";
 const RESOLVED_PREFIX = `\0${VIRTUAL_PREFIX}`;
@@ -57,40 +46,6 @@ const toInstalledSource = async (filename: string) => {
   }
   const raw = readFileSync(filename, "utf-8");
   return await transformIcons(raw, { config, filename, raw });
-};
-
-let highlighter: Promise<HighlighterCore> | undefined;
-
-/**
- * Both themes ride on CSS variables (`--shiki-light`, `--shiki-dark`) with no
- * inline colour, so the code block picks one per colour scheme.
- */
-const highlight = async (
-  source: string,
-  lang: "bash" | "css" | "tsx"
-): Promise<HighlightedCode> => {
-  highlighter ??= createHighlighterCore({
-    engine: createJavaScriptRegexEngine(),
-    langs: [bash, css, tsx],
-    themes: [vitesseLight, vitesseDark],
-  });
-  const shiki = await highlighter;
-  const code = source.trimEnd();
-  const { tokens } = shiki.codeToTokens(code, {
-    defaultColor: false,
-    lang,
-    themes: { dark: "vitesse-dark", light: "vitesse-light" },
-  });
-  return {
-    code,
-    lines: tokens.map((line) =>
-      line.map(({ content, htmlStyle }): HighlightedToken => [
-        content,
-        htmlStyle?.["--shiki-light"] ?? "",
-        htmlStyle?.["--shiki-dark"] ?? "",
-      ])
-    ),
-  };
 };
 
 const highlightOptional = (code: string | null, lang: "bash" | "css") =>
