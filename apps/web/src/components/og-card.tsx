@@ -2,7 +2,9 @@ import { cn } from "@portfolio/ui/lib/utils";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
+import { SkillIcon } from "@/components/skill-icon";
 import { SITE } from "@/content";
+import type { Skill } from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItem, RegistryItemName } from "@/lib/registry";
 
@@ -15,6 +17,29 @@ const OPTICAL_NUDGE: Partial<Record<RegistryItemName, string>> = {
 };
 
 /** A row glyph in its hairline circle, scaled rather than resized so it keeps its grid. */
+const OgGlyphFrame = ({
+  children,
+  className,
+  nudge,
+  scale,
+}: {
+  children: ReactNode;
+  className: string;
+  nudge?: string;
+  scale: string;
+}) => (
+  <div
+    className={cn(
+      "shadow-hairline flex items-center justify-center rounded-full",
+      className
+    )}
+  >
+    <span className={cn("flex", nudge)}>
+      <span className={cn("flex", scale)}>{children}</span>
+    </span>
+  </div>
+);
+
 const OgGlyph = ({
   className,
   name,
@@ -26,18 +51,13 @@ const OgGlyph = ({
 }) => {
   const Icon = COMPONENT_ICONS[name];
   return (
-    <div
-      className={cn(
-        "shadow-hairline flex items-center justify-center rounded-full",
-        className
-      )}
+    <OgGlyphFrame
+      className={className}
+      nudge={OPTICAL_NUDGE[name]}
+      scale={scale}
     >
-      <span className={cn("flex", OPTICAL_NUDGE[name])}>
-        <span className={cn("flex", scale)}>
-          <Icon />
-        </span>
-      </span>
-    </div>
+      <Icon />
+    </OgGlyphFrame>
   );
 };
 
@@ -119,5 +139,18 @@ export const ComponentsOgCard = () => (
       </div>
     }
     title={COMPONENTS_CARD.title}
+  />
+);
+
+/** An agent skill's card: the slash glyph of its home row, its name and description. */
+export const SkillOgCard = ({ skill }: { skill: Skill }) => (
+  <OgCardFrame
+    description={`${skill.description}.`}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <SkillIcon />
+      </OgGlyphFrame>
+    }
+    title={skill.name}
   />
 );

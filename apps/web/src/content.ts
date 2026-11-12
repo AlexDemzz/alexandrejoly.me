@@ -18,6 +18,8 @@ import archive2025 from "@/media/archive-2025.webm";
 import archive2025Poster from "@/media/archive-2025.webp?no-inline";
 import kwernLandscapes from "@/media/kwern-landscapes.webm";
 
+import skills from "../skills.json";
+
 export const SITE = {
   description:
     "I’m a design engineer at Yoojo. I design and build interfaces end to end, care about the details that make them feel right, and share free shadcn/ui components.",
@@ -172,20 +174,8 @@ export interface Skill {
   name: string;
 }
 
-export const SKILLS: Skill[] = [
-  {
-    description: "Hear from your coding agents in your Grok Bot chat",
-    name: "notify-grokbot",
-  },
-  {
-    description: "Skin shadcn primitives from any website or screenshot",
-    name: "design-to-shadcn",
-  },
-  {
-    description: "Compound-component laws for shadcn projects",
-    name: "shadcn-composition-patterns",
-  },
-];
+// In JSON so scripts/og-images.mjs can read each skill's card copy.
+export const SKILLS: Skill[] = skills;
 
 /** The skill on skills.sh, for a skill without a page on this site. */
 export const skillHref = (name: string) => `${LINKS.skills}/${name}`;
