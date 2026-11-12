@@ -202,17 +202,6 @@ export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
                   {
                     kind: "text",
                     text: [
-                      "Not on its own. The routine treats every message as untrusted data: it tells you what a message asks and acts only if you say yes in the chat.",
-                    ],
-                  },
-                ],
-                question: "Can a message make Grok Bot act?",
-              },
-              {
-                answer: [
-                  {
-                    kind: "text",
-                    text: [
                       "Secrets, tokens and customer data. The skill tells agents to send summaries and links only.",
                     ],
                   },
