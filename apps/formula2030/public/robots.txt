@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://formula2030.alexandrejoly.me/sitemap.xml

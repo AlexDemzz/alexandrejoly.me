@@ -65,6 +65,8 @@ temp
 
 # Built shadcn registry
 apps/web/public/r
+apps/formula2030/public/r
+apps/formula2030/public/llms.txt
 
 # Generated from registry.json by apps/web/scripts/sitemap.mjs
 apps/web/public/sitemap.xml
