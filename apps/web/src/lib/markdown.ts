@@ -13,6 +13,7 @@ import {
   EMPLOYER,
   INTRO,
   ASCII_PAGE,
+  FORMULA_PAGE,
   LAB_PAGE,
   SKILLS_PAGE,
   LINKS,
@@ -25,7 +26,12 @@ import {
 import type { Inline, Paragraph } from "@/content";
 import { INFO_PAGES, INFO_PAGE_SLUGS, isInfoPageSlug } from "@/info-pages";
 import type { InfoPageSlug } from "@/info-pages";
-import { ASCII_PATH, EXPERIMENTS, LAB_PATH } from "@/lab/experiments";
+import {
+  ASCII_PATH,
+  EXPERIMENTS,
+  FORMULA_PATH,
+  LAB_PATH,
+} from "@/lab/experiments";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { absolute, markdownUrl } from "@/lib/head";
@@ -102,6 +108,11 @@ const SITE_PAGES = [
     markdownUrl(ASCII_PATH),
     ASCII_PAGE.description
   ),
+  linkItem(
+    `${LAB_PAGE.title}: ${FORMULA_PAGE.title}`,
+    markdownUrl(FORMULA_PATH),
+    FORMULA_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -120,6 +131,14 @@ const ASCII_ITEM = linkItem(
   markdownUrl(ASCII_PATH),
   ASCII_PAGE.rowDescription
 );
+
+const FORMULA_ITEM = linkItem(
+  FORMULA_PAGE.title,
+  markdownUrl(FORMULA_PATH),
+  FORMULA_PAGE.rowDescription
+);
+
+const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM].join("\n");
 
 const skillItems = () =>
   SKILLS.map((skill) =>
@@ -143,7 +162,7 @@ export const homeMarkdown = () =>
     ),
     section("Agent skills", skillItems()),
     section("Components", COMPONENT_ITEMS.join("\n")),
-    section(LAB_PAGE.title, ASCII_ITEM),
+    section(LAB_PAGE.title, LAB_ITEMS),
     section(
       "Recognition",
       AWARDS.map((award) =>
@@ -189,7 +208,7 @@ export const labMarkdown = () =>
   markdownDocument([
     `# ${LAB_PAGE.title}`,
     LAB_PAGE.intro,
-    section(LAB_PAGE.listTitle, ASCII_ITEM),
+    section(LAB_PAGE.listTitle, LAB_ITEMS),
     `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 
@@ -202,6 +221,14 @@ export const asciiMarkdown = () =>
         ({ formula, hint, name }) => `- **${name}**: ${hint}. \`${formula}\``
       ).join("\n")
     ),
+    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
+  ]);
+
+export const formulaMarkdown = () =>
+  markdownDocument([
+    `# ${FORMULA_PAGE.title}`,
+    FORMULA_PAGE.description,
+    paragraphs([[...FORMULA_PAGE.credit]]),
     `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
   ]);
 
@@ -498,6 +525,13 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: asciiMarkdown(),
       canonical: absolute(ASCII_PATH),
+      status: 200,
+    };
+  }
+  if (slug === FORMULA_PATH) {
+    return {
+      body: formulaMarkdown(),
+      canonical: absolute(FORMULA_PATH),
       status: 200,
     };
   }

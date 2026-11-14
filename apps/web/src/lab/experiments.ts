@@ -1,5 +1,6 @@
 export const LAB_PATH = "lab";
 export const ASCII_PATH = "lab/ascii";
+export const FORMULA_PATH = "lab/formula-2030";
 
 /** What a lab card says about its experiment; the scenes live in `scenes.ts`. */
 export interface Experiment {

@@ -6,6 +6,7 @@ import { CssDesignAwardsIcon } from "@/components/css-design-awards-icon";
 import { EnvelopeIcon } from "@/components/envelope-icon";
 import { GithubIcon } from "@/components/github-icon";
 import { GymupIcon } from "@/components/gymup-icon";
+import { HumantasteIcon } from "@/components/humantaste-icon";
 import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
@@ -110,6 +111,14 @@ export const PROJECTS: Project[] = [
     year: 2026,
   },
   {
+    description: "A score for how human your website looks",
+    href: "https://humantaste.xyz",
+    icon: HumantasteIcon,
+    kind: "Web app",
+    name: "humantaste",
+    year: 2026,
+  },
+  {
     description: "Meeting transcripts that stay on your Mac",
     href: "https://carbon.alexandrejoly.me/",
     icon: CarbonIcon,
@@ -183,6 +192,23 @@ export const ASCII_PAGE = {
     "Pictures drawn in glyphs that answer a drag, a hold or a fling",
   // oxlint-disable-next-line unicorn/text-encoding-identifier-case -- a title, not an encoding name
   title: "ASCII",
+} as const;
+
+/** The lab's second experiment, at `/lab/formula-2030`. */
+export const FORMULA_PAGE = {
+  credit: [
+    "Drawn after the control panel of Polestar’s Formula 2030 concept, as an independent study. Its parts come from the ",
+    {
+      href: "https://formula2030.alexandrejoly.me",
+      text: "Formula 2030 component registry",
+    },
+    ".",
+  ],
+  description: `Formula 2030 by ${SITE.name}: a concept car’s control panel rebuilt as a live page, where the display tilts under a drag and every knob, key and switch works.`,
+  documentTitle: `Formula 2030 – Lab – ${SITE.name}`,
+  rowDescription:
+    "A concept car’s control panel, live: tilt the display, turn the knobs",
+  title: "Formula 2030",
 } as const;
 
 /** The `/skills` index of the agent skills. */

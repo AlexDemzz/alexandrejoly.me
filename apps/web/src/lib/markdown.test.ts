@@ -197,6 +197,7 @@ describe("markdownFor", () => {
     "/skills/grokbot-notify.md",
     "/lab",
     "/lab/ascii.md",
+    "/lab/formula-2030",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });

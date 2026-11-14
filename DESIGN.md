@@ -112,6 +112,14 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - **Home:** a "Lab" section after Components, one row per experiment.
 - `prefers-reduced-motion`: idle drifts, momentum, bounces and bursts are off; what the pointer moves directly still follows it, and every scene settles on its final frame.
 
+`/lab/formula-2030` is the second: a concept car's control panel rebuilt live from the Formula 2030 registry (`packages/formula2030`), under the same crumb and bare title as `/lab/ascii`, then a one-line credit under the panel.
+
+- **Look:** the panel alone is drawn in the registry's look. Its colours are the `--formula-*` tokens and its parts the registry's components, never `theme.css` or `@portfolio/ui`; it keeps the same tones in both colour schemes, on a stage of `--formula-ice` at 16px radius that reads on either page. The page's own rules sit in `apps/web/src/index.css` under `[data-lab="formula-2030"]` and only compose those parts.
+- **Layout:** the Column. One device, 400px wide at most, whose zones scale with its width: the g-force display, five tonal bands with the drive modes on the lower three and a readout on each, the climate strip, two rows of four square tiles, then the dock. A 2px black pin splits the bands and the climate strip down the middle.
+- **Gestures:** a drag on the display tilts the reading 1:1, stopping at the scale's ends, and the release hands its velocity to a spring back to rest, with a slight overshoot; at rest the reading drifts by a few hundredths of a g. The display is `touch-pan-y`, like the ASCII scenes. Knobs turn by a vertical drag or the arrow keys.
+- **Sound:** every press, detent and step sounds through the registry's `FormulaSound`, at the level the panel's own volume control sets and silenced by its mute key.
+- `prefers-reduced-motion`: no idle drift and a critically damped spring, so the reading returns without overshoot; the drag still follows the pointer.
+
 ## Docs pages
 
 Two engines, one look. alexandrejoly.me draws its component docs (`/components/$name`) with its own layout (Layout, Components below); the docs sites render their MDX with Fumadocs (Fumadocs below).
