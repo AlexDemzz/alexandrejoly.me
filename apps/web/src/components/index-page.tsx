@@ -16,6 +16,7 @@ import type { ReactNode } from "react";
 
 import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
+import { SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 
 /** A section's index: its title and intro, then one list of rows to its pages. */
@@ -38,7 +39,7 @@ export const IndexPage = ({
             <BreadcrumbLink
               render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
             >
-              Home
+              {SITE.name}
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>

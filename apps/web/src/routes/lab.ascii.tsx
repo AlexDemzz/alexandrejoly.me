@@ -10,7 +10,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { ASCII_CARD } from "@/components/og-card";
 import { SiteFooter } from "@/components/site-footer";
-import { ASCII_PAGE, LAB_PAGE } from "@/content";
+import { ASCII_PAGE, LAB_PAGE, SITE } from "@/content";
 import { ASCII_PATH, EXPERIMENTS } from "@/lab/experiments";
 import { LabCard } from "@/lab/lab-card";
 import { pageHead } from "@/lib/head";
@@ -25,7 +25,7 @@ const AsciiPage = () => (
             <BreadcrumbLink
               render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
             >
-              Home
+              {SITE.name}
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>

@@ -33,7 +33,7 @@ export const InfoPageView = ({ slug }: { slug: InfoPageSlug }) => {
               <BreadcrumbLink
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
-                Home
+                {SITE.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>

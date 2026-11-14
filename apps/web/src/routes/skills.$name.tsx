@@ -34,7 +34,7 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { InlineCode } from "@/components/docs/inline-code";
 import { Prose, ProseRuns, paragraphKey } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
-import { SKILLS, SKILLS_PAGE } from "@/content";
+import { SKILLS, SKILLS_PAGE, SITE } from "@/content";
 import { pageHead } from "@/lib/head";
 import { slugify } from "@/lib/heading-ids";
 import { EXACT_ACTIVE } from "@/lib/link";
@@ -149,7 +149,7 @@ const SkillPageView = ({ code, name }: SkillPageData) => {
               <BreadcrumbLink
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
-                Home
+                {SITE.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>

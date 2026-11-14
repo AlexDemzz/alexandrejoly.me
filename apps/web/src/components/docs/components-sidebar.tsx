@@ -18,7 +18,7 @@ import {
 import { textLinkVariants } from "@portfolio/ui/components/text";
 import { Link } from "@tanstack/react-router";
 
-import { COMPONENTS_PAGE } from "@/content";
+import { COMPONENTS_PAGE, SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
@@ -51,7 +51,7 @@ export const ComponentsSidebar = ({
                   <BreadcrumbLink
                     render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
                   >
-                    Home
+                    {SITE.name}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator>/</BreadcrumbSeparator>

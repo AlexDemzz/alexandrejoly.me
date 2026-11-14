@@ -10,6 +10,7 @@ import { Text } from "@portfolio/ui/components/text";
 import { Link, useLocation } from "@tanstack/react-router";
 
 import { SiteFooter } from "@/components/site-footer";
+import { SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 
 export const NotFound = () => {
@@ -24,7 +25,7 @@ export const NotFound = () => {
               <BreadcrumbLink
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
-                Home
+                {SITE.name}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>

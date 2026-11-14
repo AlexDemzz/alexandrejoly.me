@@ -168,7 +168,7 @@ const ComponentDocsPage = ({
                       <BreadcrumbLink
                         render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
                       >
-                        Home
+                        {SITE.name}
                       </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator>/</BreadcrumbSeparator>
