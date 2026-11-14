@@ -181,6 +181,7 @@ export const ASCII_PAGE = {
   documentTitle: `ASCII – Lab – ${SITE.name}`,
   rowDescription:
     "Pictures drawn in glyphs that answer a drag, a hold or a fling",
+  // oxlint-disable-next-line unicorn/text-encoding-identifier-case -- a title, not an encoding name
   title: "ASCII",
 } as const;
 
