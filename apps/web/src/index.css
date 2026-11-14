@@ -1,3 +1,5 @@
+/* UI SDK's own rules sit in this layer; declared first so it ranks lowest. */
+@layer ui-sdk;
 @import "@portfolio/ui/globals.css";
 
 /*
@@ -111,5 +113,413 @@
 
   @media (prefers-color-scheme: dark) {
     --lab-hot: oklch(0.78 0.16 66);
+  }
+}
+
+/*
+ * DESIGN.md › Lab › Formula 2030: the panel takes its colours and parts from
+ * the Formula 2030 registry (packages/formula2030), never from theme.css, so
+ * it keeps the same tones in both colour schemes. These rules only compose
+ * those parts into the reference layout: a 400px device whose zones scale
+ * with its width.
+ */
+[data-lab="formula-2030"] {
+  --formula-sparkle-1: oklch(0.64 0.19 255);
+  --formula-sparkle-2: oklch(0.6 0.22 300);
+  --formula-sparkle-3: oklch(0.68 0.2 25);
+  --formula-sparkle-4: oklch(0.87 0.16 92);
+
+  & [data-formula-stage] {
+    display: grid;
+    justify-items: center;
+    padding: 32px 16px;
+    border-radius: 16px;
+    background: var(--formula-ice);
+
+    @media (width >= 40rem) {
+      padding-block: 48px;
+    }
+  }
+
+  & [data-formula-panel] {
+    --formula-band: max(56px, 20cqi);
+    --formula-band-1: color-mix(
+      in oklch,
+      var(--formula-ink) 80%,
+      var(--formula-tone-1)
+    );
+    --formula-band-2: color-mix(
+      in oklch,
+      var(--formula-ink) 40%,
+      var(--formula-tone-1)
+    );
+    position: relative;
+    container-type: inline-size;
+    inline-size: min(100%, 400px);
+    overflow: hidden;
+    border-radius: var(--formula-radius);
+    background: var(--formula-bed);
+    box-shadow:
+      0 0 0 0.5px oklch(var(--formula-shade) / 0.2),
+      0 4px 12px oklch(var(--formula-shade) / 0.12),
+      0 32px 56px -20px oklch(var(--formula-shade) / 0.4);
+    color: var(--formula-tile-ink);
+    font-family: "Geist Variable", Geist, system-ui, sans-serif;
+    font-size: var(--formula-text);
+    line-height: 1.3;
+    text-align: start;
+  }
+
+  /* Zone 1: the g-force display, dragged like the car's weight. */
+  & [data-formula-display] {
+    padding-block: 10px 18px;
+    padding-inline: 6px 50px;
+    cursor: grab;
+    touch-action: pan-y;
+    user-select: none;
+
+    &[data-dragging] {
+      cursor: grabbing;
+    }
+
+    & [data-slot="glass-caption"] {
+      position: absolute;
+      inset-block-start: 13px;
+      inset-inline-start: 24px;
+    }
+
+    & [data-slot="glass-caption"] + [data-slot="glass-caption"] {
+      inset-inline: auto 24px;
+    }
+
+    & [data-slot="meter-cross"][data-formula="readout"] {
+      grid-template-columns: 44px 1fr;
+
+      & > [data-slot="meter"] [data-slot="meter-value"] {
+        font-size: var(--formula-text);
+      }
+    }
+
+    &
+      [data-slot="meter"][data-orientation="vertical"]
+      [data-slot="meter-track"] {
+      min-block-size: 40cqi;
+      margin-block: 8px 0;
+    }
+
+    &
+      [data-slot="meter"][data-orientation="horizontal"]
+      [data-slot="meter-scale"]
+      > :is(:first-child, :last-child) {
+      color: var(--formula-limit);
+    }
+  }
+
+  /* Zone 2: five bands stepping from near-black to light, split by the pin. */
+  & [data-formula-spine] {
+    position: relative;
+  }
+
+  & [data-formula-pin] {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: calc(50% - 1px);
+    inline-size: 2px;
+    background: var(--formula-glass);
+    pointer-events: none;
+  }
+
+  & [data-formula-strata] {
+    display: grid;
+    grid-template-rows: repeat(5, var(--formula-band));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    & > [data-formula-band] {
+      grid-column: 1;
+      background: var(--formula-band-1);
+    }
+
+    & > [data-formula-band] + [data-formula-band] {
+      background: var(--formula-band-2);
+    }
+
+    & > [data-slot="segmented-control"] {
+      grid-row: 3 / span 3;
+      grid-column: 1;
+    }
+  }
+
+  & [data-formula-readouts] {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: 1 / -1;
+    grid-column: 2;
+    margin: 0;
+
+    & > div {
+      display: grid;
+      align-content: center;
+      padding-inline: min(48%, 100% - 92px) 8px;
+      background: var(--formula-band-1);
+      color: var(--formula-on-ink);
+    }
+
+    & > div:nth-child(2) {
+      background: var(--formula-band-2);
+    }
+
+    & > div:nth-child(3) {
+      background: var(--formula-tone-1);
+    }
+
+    & > div:nth-child(4) {
+      background: var(--formula-tone-2);
+      color: var(--formula-ink);
+    }
+
+    & > div:nth-child(5) {
+      background: var(--formula-tone-3);
+      color: var(--formula-ink);
+    }
+
+    & dt {
+      color: color-mix(in oklch, currentColor 64%, transparent);
+      font-size: var(--formula-caption);
+    }
+
+    & dd {
+      margin: 0;
+      font-size: var(--formula-caption);
+      font-weight: 600;
+    }
+  }
+
+  /* Zone 3: the climate strip, on the pale tone the bands step up to. */
+  & [data-formula-climate] {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    block-size: max(64px, var(--formula-band));
+    background: var(--formula-tile);
+
+    & [data-slot="number-input"][data-formula="machined"] {
+      align-content: center;
+      gap: 0;
+    }
+
+    &
+      [data-slot="number-input"][data-formula="machined"]
+      [data-slot="number-input-group"] {
+      row-gap: 2px;
+    }
+
+    &
+      [data-slot="number-input"][data-formula="machined"]
+      [data-slot="number-input-control"] {
+      font-size: min(1.375rem, 7cqi);
+    }
+  }
+
+  /* Glyph controls drawn flat on their strip: the key face and edge go. */
+  &
+    [data-formula-panel]
+    :is(
+      [data-slot="button"],
+      [data-slot="toggle"]
+    )[data-formula-flat][data-formula="machined"] {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 8px;
+    inline-size: 100%;
+    min-inline-size: 0;
+    block-size: 100%;
+    min-block-size: 0;
+    padding: 0;
+    border-radius: 0;
+    text-shadow: none;
+    translate: none;
+
+    &::before,
+    &::after {
+      content: none;
+    }
+
+    &:focus-visible {
+      outline-offset: -4px;
+    }
+
+    &:active:not([data-disabled]) {
+      scale: 0.94;
+    }
+  }
+
+  & [data-formula-marks] {
+    display: flex;
+    gap: 5px;
+    block-size: 10px;
+
+    & > span {
+      inline-size: 1.5px;
+      background: var(--formula-tile-line);
+    }
+
+    & > [data-lit] {
+      background: var(--formula-tile-ink);
+    }
+  }
+
+  & [data-formula-heat] [data-formula-marks] > [data-lit] {
+    background: var(--formula-limit);
+  }
+
+  & [data-formula-latch] {
+    align-items: center;
+
+    & > span {
+      inline-size: 14px;
+      block-size: 1.5px;
+    }
+  }
+
+  & [data-pressed] [data-formula-latch] > span {
+    background: var(--formula-tile-ink);
+  }
+
+  /* Zone 4: two rows of four square tiles. */
+  & [data-formula-keys][data-formula="machined"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding-block: var(--formula-seam);
+
+    & > * {
+      aspect-ratio: 1 / 0.95;
+    }
+
+    & > [data-slot="tile"][data-formula="machined"] {
+      align-content: center;
+      padding: 0;
+    }
+
+    & > [data-slot="button"][data-formula="machined"] {
+      block-size: auto;
+      min-block-size: 0;
+      padding: 0;
+    }
+
+    & [data-slot="slider"][data-formula="machined"] {
+      --formula-knob-size: min(72px, 22cqi);
+    }
+
+    /*
+     * The switch has no size token, so it shrinks with the knobs by scale:
+     * tan(atan2(a, b)) is a / b as a plain number.
+     */
+    & [data-slot="switch"][data-formula="machined"] {
+      scale: tan(atan2(min(72px, 22cqi), 72px));
+    }
+  }
+
+  /* Zone 5: volume, ride height, tow mode and the assistant. */
+  & [data-formula-dock] {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    block-size: max(88px, 22cqi);
+    border-radius: var(--formula-radius);
+    background: var(--formula-tile);
+    box-shadow: inset 0 1px 0 var(--formula-hi);
+    color: var(--formula-tile-dim);
+
+    & [data-formula-cell] {
+      min-inline-size: 0;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      display: grid;
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      place-items: center;
+      gap: 0;
+    }
+
+    & [data-formula-steps] {
+      display: flex;
+      align-self: stretch;
+      justify-self: stretch;
+      justify-content: center;
+    }
+
+    &
+      [data-formula-steps]
+      [data-slot="button"][data-formula-flat][data-formula="machined"] {
+      flex: 1 1 0;
+      max-inline-size: 40px;
+    }
+
+    /*
+     * The sparkle sits a hair above the other glyphs, as on the reference, so
+     * its caption fits under it inside the row.
+     */
+    & [data-formula-ai] {
+      position: relative;
+      display: grid;
+      translate: 0 -5px;
+
+      & svg {
+        inline-size: 20px;
+        block-size: 20px;
+      }
+
+      & > [data-formula-ai-caption] {
+        position: absolute;
+        inset-block-start: calc(100% - 2px);
+        inset-inline: 0;
+        font-size: var(--formula-caption);
+        line-height: 1;
+        text-align: center;
+      }
+    }
+
+    & [data-slot="slider"][data-formula="readout"] {
+      --formula-glass-ink: var(--formula-tile-ink);
+      --formula-glass-line: var(--formula-tile-line);
+      --formula-limit: transparent;
+      inline-size: 76%;
+
+      & [data-slot="slider-control"] {
+        block-size: 28px;
+      }
+
+      & [data-slot="slider-track"] {
+        block-size: 10px;
+      }
+
+      & [data-slot="slider-thumb"] {
+        background: transparent;
+
+        &::before {
+          content: none;
+        }
+      }
+    }
+  }
+
+  & [data-formula-sparkle] stop {
+    stop-color: var(--formula-sparkle-1);
+
+    &:nth-child(2) {
+      stop-color: var(--formula-sparkle-2);
+    }
+
+    &:nth-child(3) {
+      stop-color: var(--formula-sparkle-3);
+    }
+
+    &:nth-child(4) {
+      stop-color: var(--formula-sparkle-4);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-lab="formula-2030"] [data-formula-marks] > span {
+    transition: background-color 150ms ease-out;
   }
 }

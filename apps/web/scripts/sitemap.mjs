@@ -21,6 +21,7 @@ const paths = [
   "/skills/shadcn-composition-patterns",
   "/lab",
   "/lab/ascii",
+  "/lab/formula-2030",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];

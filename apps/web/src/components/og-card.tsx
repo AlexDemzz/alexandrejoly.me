@@ -2,6 +2,7 @@ import { cn } from "@portfolio/ui/lib/utils";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
+import { FormulaIcon } from "@/components/formula-icon";
 import { LabIcon } from "@/components/lab-icon";
 import { SkillIcon } from "@/components/skill-icon";
 import { SITE } from "@/content";
@@ -209,5 +210,24 @@ export const AsciiOgCard = () => (
     description={ASCII_CARD.description}
     media={<LabGlyph />}
     title={ASCII_CARD.title}
+  />
+);
+
+export const FORMULA_CARD = {
+  description:
+    "A concept car’s control panel, live: tilt the display, turn the knobs.",
+  title: "Formula 2030",
+};
+
+/** The `/lab/formula-2030` card. */
+export const FormulaOgCard = () => (
+  <OgCardFrame
+    description={FORMULA_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <FormulaIcon />
+      </OgGlyphFrame>
+    }
+    title={FORMULA_CARD.title}
   />
 );

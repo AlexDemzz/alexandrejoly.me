@@ -194,6 +194,23 @@ export const ASCII_PAGE = {
   title: "ASCII",
 } as const;
 
+/** The lab's second experiment, at `/lab/formula-2030`. */
+export const FORMULA_PAGE = {
+  credit: [
+    "Drawn after the control panel of Polestar’s Formula 2030 concept, as an independent study. Its parts come from the ",
+    {
+      href: "https://formula2030.alexandrejoly.me",
+      text: "Formula 2030 component registry",
+    },
+    ".",
+  ],
+  description: `Formula 2030 by ${SITE.name}: a concept car’s control panel rebuilt as a live page, where the display tilts under a drag and every knob, key and switch works.`,
+  documentTitle: `Formula 2030 – Lab – ${SITE.name}`,
+  rowDescription:
+    "A concept car’s control panel, live: tilt the display, turn the knobs",
+  title: "Formula 2030",
+} as const;
+
 /** The `/skills` index of the agent skills. */
 export const SKILLS_PAGE = {
   description: `Agent skills by ${SITE.name}: instructions a coding agent loads to build interfaces the way a design engineer would.`,

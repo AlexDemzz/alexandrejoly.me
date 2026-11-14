@@ -24,6 +24,7 @@
       "@/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
       "@/hooks/*": ["../../packages/ui/src/hooks/*"],
       "@registry/*": ["./registry/*"],
+      "@/registry/formula/*": ["../../packages/formula2030/registry/formula/*"],
       "@/*": ["./src/*"],
       "@portfolio/ui/*": ["../../packages/ui/src/*"]
     }
