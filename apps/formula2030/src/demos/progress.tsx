@@ -1,4 +1,4 @@
-import { Glass } from "@/registry/formula/ui/formula/glass";
+import { Glass, GlassBrackets } from "@/registry/formula/ui/formula/glass";
 import {
   Progress,
   ProgressIndicator,
@@ -11,7 +11,8 @@ import {
 const CHARGE_MARKS = [0, 25, 50, 75, 100];
 
 const Demo = () => (
-  <Glass brackets>
+  <Glass>
+    <GlassBrackets />
     <div className="demo-stack">
       <Progress major={5} ticks={40} value={62}>
         <ProgressLabel>Charging</ProgressLabel>

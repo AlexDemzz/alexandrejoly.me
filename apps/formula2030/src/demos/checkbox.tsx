@@ -1,9 +1,11 @@
+import { Label } from "@ui-sdk/react/label";
+
 import {
   Checkbox,
   CheckboxGroup,
   CheckboxIndicator,
 } from "@/registry/formula/ui/formula/checkbox";
-import { TileGroup, TileLabel } from "@/registry/formula/ui/formula/tile";
+import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 
 const OPENINGS = [
   { label: "Front windows", value: "front" },
@@ -19,47 +21,47 @@ const Demo = () => (
       defaultValue={["front"]}
     >
       <TileGroup>
-        <TileLabel>
+        <Tile render={<Label />}>
           <Checkbox parent>
             <CheckboxIndicator />
           </Checkbox>
           Vent all
-        </TileLabel>
+        </Tile>
         {OPENINGS.map((item) => (
-          <TileLabel key={item.value}>
+          <Tile render={<Label />} key={item.value}>
             <Checkbox value={item.value}>
               <CheckboxIndicator />
             </Checkbox>
             {item.label}
-          </TileLabel>
+          </Tile>
         ))}
       </TileGroup>
     </CheckboxGroup>
     <TileGroup>
-      <TileLabel>
+      <Tile render={<Label />}>
         <Checkbox defaultChecked>
           <CheckboxIndicator />
         </Checkbox>
         Alarm
-      </TileLabel>
-      <TileLabel>
+      </Tile>
+      <Tile render={<Label />}>
         <Checkbox defaultChecked disabled>
           <CheckboxIndicator />
         </Checkbox>
         Child lock
-      </TileLabel>
-      <TileLabel>
+      </Tile>
+      <Tile render={<Label />}>
         <Checkbox defaultChecked="indeterminate" disabled>
           <CheckboxIndicator />
         </Checkbox>
         Charge port
-      </TileLabel>
-      <TileLabel>
+      </Tile>
+      <Tile render={<Label />}>
         <Checkbox>
           <CheckboxIndicator />
         </Checkbox>
         Glovebox
-      </TileLabel>
+      </Tile>
     </TileGroup>
   </>
 );

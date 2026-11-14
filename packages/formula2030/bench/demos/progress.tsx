@@ -1,4 +1,4 @@
-import { Glass } from "@/registry/formula/ui/formula/glass";
+import { Glass, GlassBrackets } from "@/registry/formula/ui/formula/glass";
 import {
   Progress,
   ProgressIndicator,
@@ -17,7 +17,8 @@ const GIGABYTES = {
 
 const Demo = () => (
   <>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Progress major={5} ticks={40} value={62}>
         <ProgressLabel>Charging</ProgressLabel>
         <ProgressValue />
@@ -31,7 +32,8 @@ const Demo = () => (
         </ProgressScale>
       </Progress>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Progress format={GIGABYTES} max={3.4} value={1.2}>
         <ProgressLabel>Software update</ProgressLabel>
         <ProgressValue />
@@ -40,7 +42,8 @@ const Demo = () => (
         </ProgressTrack>
       </Progress>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Progress value={null}>
         <ProgressLabel>Pairing phone key</ProgressLabel>
         <ProgressTrack>
@@ -48,7 +51,8 @@ const Demo = () => (
         </ProgressTrack>
       </Progress>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Progress value={100}>
         <ProgressLabel>Map download</ProgressLabel>
         <ProgressValue />

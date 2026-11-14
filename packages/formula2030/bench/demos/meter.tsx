@@ -1,4 +1,8 @@
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import {
   Meter,
   MeterCross,
@@ -30,7 +34,8 @@ const CELSIUS = {
 
 const Demo = () => (
   <>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <GlassCaption>G-force (g)</GlassCaption>
       <MeterCross>
         <Meter
@@ -69,7 +74,8 @@ const Demo = () => (
         </Meter>
       </MeterCross>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Meter major={5} ticks={40} value={68}>
         <MeterLabel>State of charge</MeterLabel>
         <MeterValue />
@@ -84,7 +90,8 @@ const Demo = () => (
         </MeterScale>
       </Meter>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Meter
         format={CELSIUS}
         major={4}

@@ -385,7 +385,7 @@
       aspect-ratio: 1 / 0.95;
     }
 
-    & > [data-slot="tile"][data-formula="machined"] {
+    & > :is([data-slot="tile"], [data-slot="label"])[data-formula="machined"] {
       align-content: center;
       padding: 0;
     }

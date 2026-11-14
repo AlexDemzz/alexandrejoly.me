@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import {
   Meter,
   MeterCross,
@@ -215,7 +219,8 @@ export const GForceDisplay = ({ drive }: { drive: Drive }) => {
   const { markerRef, reading, surfaceRef } = useGForce(drive);
 
   return (
-    <Glass brackets data-formula-display ref={surfaceRef}>
+    <Glass data-formula-display ref={surfaceRef}>
+      <GlassBrackets />
       <GlassCaption>G-force</GlassCaption>
       <GlassCaption aria-hidden>(g)</GlassCaption>
       <MeterCross>

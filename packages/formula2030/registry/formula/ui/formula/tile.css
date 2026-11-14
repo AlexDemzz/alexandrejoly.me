@@ -5,7 +5,7 @@
   background: var(--formula-bed);
 }
 
-[data-slot="tile"][data-formula="machined"] {
+:is([data-slot="tile"], [data-slot="label"])[data-formula="machined"] {
   position: relative;
   display: grid;
   align-content: start;
@@ -34,8 +34,7 @@
     color: var(--formula-tile-ink);
   }
 
-  &[data-lamp]::after {
-    content: "";
+  & [data-slot="tile-lamp"] {
     position: absolute;
     inset-block-start: 8px;
     inset-inline-end: 8px;
@@ -48,7 +47,7 @@
       box-shadow 150ms ease-out;
   }
 
-  &[data-lamp]:has([data-checked], [data-pressed])::after {
+  &:has([data-checked], [data-pressed]) [data-slot="tile-lamp"] {
     background: var(--formula-lamp);
     box-shadow: 0 0 5px
       color-mix(in oklch, var(--formula-lamp) 70%, transparent);

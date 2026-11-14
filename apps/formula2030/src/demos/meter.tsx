@@ -1,4 +1,8 @@
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import {
   Meter,
   MeterCross,
@@ -24,7 +28,8 @@ const CHARGE_MARKS = [0, 25, 50, 75, 100];
 
 const Demo = () => (
   <div className="demo-seams">
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <GlassCaption>G-force (g)</GlassCaption>
       <MeterCross>
         <Meter
@@ -63,7 +68,8 @@ const Demo = () => (
         </Meter>
       </MeterCross>
     </Glass>
-    <Glass brackets>
+    <Glass>
+      <GlassBrackets />
       <Meter major={5} ticks={40} value={68}>
         <MeterLabel>State of charge</MeterLabel>
         <MeterValue />

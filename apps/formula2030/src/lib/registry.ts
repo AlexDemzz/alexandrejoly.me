@@ -69,7 +69,8 @@ const demos = import.meta.glob<{ default: ComponentType }>("../demos/*.tsx", {
   eager: true,
 });
 
-const SDK_IMPORT = /from "@ui-sdk\/react\/(?<module>[a-z-]+)"/gu;
+// `primitive` is UI SDK's rendering helper, not a component an item is built on.
+const SDK_IMPORT = /from "@ui-sdk\/react\/(?!primitive")(?<module>[a-z-]+)"/gu;
 
 const titleCase = (slug: string) =>
   slug
@@ -101,7 +102,7 @@ const demoOf = (name: string) =>
 // Surfaces such as glass and tile hold other controls, so they close each
 // group after the controls they carry.
 const isSurface = (item: RegistryItemJson) =>
-  !item.files.some((file) => sourceOf(file).includes("@ui-sdk/react/")) &&
+  primitivesOf(item).length === 0 &&
   item.meta?.register !== undefined &&
   isRegister(item.meta.register);
 

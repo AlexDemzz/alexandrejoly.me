@@ -1,7 +1,12 @@
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 
 const Demo = () => (
-  <Glass brackets>
+  <Glass>
+    <GlassBrackets />
     <dl className="demo-readings">
       <div>
         <dt>
