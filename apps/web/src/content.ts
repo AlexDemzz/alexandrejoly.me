@@ -167,16 +167,31 @@ export const COMPONENTS_PAGE = {
 } as const;
 
 export const LAB_PAGE = {
-  description: `Interaction experiments by ${SITE.name}, set in glyphs: ASCII scenes that answer a drag, a hold or a fling.`,
+  description: `Interaction experiments by ${SITE.name}: small studies of gesture and motion, each with its own page.`,
   documentTitle: `Lab – ${SITE.name}`,
   intro:
-    "Small experiments in interaction, set in glyphs. Each one draws a picture in type on a canvas and answers a gesture, with its formula and live readings underneath.",
-  row: {
-    description:
-      "Pictures drawn in glyphs that answer a drag, a hold or a fling",
-    title: "ascii",
-  },
+    "Small experiments in interaction: studies of gesture and motion that are too playful for a product and too good to throw away.",
+  listTitle: "Experiments",
   title: "Lab",
+} as const;
+
+/** The lab's first experiment, at `/lab/ascii`. */
+export const ASCII_PAGE = {
+  description: `ASCII scenes by ${SITE.name}: pictures drawn in glyphs on a canvas that answer a drag, a hold or a fling.`,
+  documentTitle: `ASCII – Lab – ${SITE.name}`,
+  rowDescription:
+    "Pictures drawn in glyphs that answer a drag, a hold or a fling",
+  title: "ASCII",
+} as const;
+
+/** The `/skills` index of the agent skills. */
+export const SKILLS_PAGE = {
+  description: `Agent skills by ${SITE.name}: instructions a coding agent loads to build interfaces the way a design engineer would.`,
+  documentTitle: `Agent skills – ${SITE.name}`,
+  intro:
+    "Agent skills I write and use every day. Each one is a set of instructions a coding agent loads when a task calls for it, installed with the skills CLI.",
+  listTitle: "Published",
+  title: "Skills",
 } as const;
 
 export const INTRO =

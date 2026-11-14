@@ -17,6 +17,7 @@ const PAGES = [
   { label: "Contact", to: "/contact" },
   { label: "Lab", to: "/lab" },
   { label: "Privacy", to: "/privacy" },
+  { label: "Skills", to: "/skills" },
 ] as const;
 
 export const SiteFooter = () => (

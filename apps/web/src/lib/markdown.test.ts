@@ -192,8 +192,11 @@ describe("markdownFor", () => {
     "/components",
     "/components.md",
     "/components/marquee",
+    "/skills",
     "/skills/grokbot-notify",
     "/skills/grokbot-notify.md",
+    "/lab",
+    "/lab/ascii.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
@@ -202,6 +205,7 @@ describe("markdownFor", () => {
     "/index",
     "/components/nope",
     "/skills/nope",
+    "/lab/nope",
     "/about/team",
     "/x.md",
   ])("reports %s as missing", async (path) => {

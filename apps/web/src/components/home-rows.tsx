@@ -11,7 +11,11 @@ import {
   ItemLightMedia,
   ItemLightTitle,
 } from "@/components/item-light";
+import { LabIcon } from "@/components/lab-icon";
+import { SkillIcon } from "@/components/skill-icon";
+import { ASCII_PAGE, SKILLS, skillHref } from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
+import { isSkillPageName } from "@/skill-pages";
 
 export const RowList = ({ children }: { children: ReactNode }) => (
   <ul className="flex flex-col">{children}</ul>
@@ -140,5 +144,50 @@ export const ComponentRows = () => (
         />
       );
     })}
+  </RowList>
+);
+
+/** One row per agent skill: its page here when it has one, else skills.sh. */
+export const SkillRows = () => (
+  <RowList>
+    {SKILLS.map((skill) => {
+      const media = (
+        <ItemLightMedia>
+          <SkillIcon />
+        </ItemLightMedia>
+      );
+      return isSkillPageName(skill.name) ? (
+        <SkillPageRow
+          description={skill.description}
+          key={skill.name}
+          media={media}
+          name={skill.name}
+        />
+      ) : (
+        <ExternalRow
+          description={skill.description}
+          href={skillHref(skill.name)}
+          key={skill.name}
+          media={media}
+          title={skill.name}
+        />
+      );
+    })}
+  </RowList>
+);
+
+/** One row per lab experiment. */
+export const LabRows = () => (
+  <RowList>
+    <PageRow
+      description={ASCII_PAGE.rowDescription}
+      media={
+        <ItemLightMedia>
+          <LabIcon />
+        </ItemLightMedia>
+      }
+      title={ASCII_PAGE.title}
+      to="/lab/ascii"
+    />
   </RowList>
 );

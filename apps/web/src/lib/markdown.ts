@@ -12,7 +12,9 @@ import {
   COMPONENTS_PAGE,
   EMPLOYER,
   INTRO,
+  ASCII_PAGE,
   LAB_PAGE,
+  SKILLS_PAGE,
   LINKS,
   PROJECTS,
   SITE,
@@ -23,7 +25,7 @@ import {
 import type { Inline, Paragraph } from "@/content";
 import { INFO_PAGES, INFO_PAGE_SLUGS, isInfoPageSlug } from "@/info-pages";
 import type { InfoPageSlug } from "@/info-pages";
-import { EXPERIMENTS, LAB_PATH } from "@/lab/experiments";
+import { ASCII_PATH, EXPERIMENTS, LAB_PATH } from "@/lab/experiments";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { absolute, markdownUrl } from "@/lib/head";
@@ -37,7 +39,12 @@ import {
 } from "@/lib/registry";
 import type { RegistryItemName } from "@/lib/registry";
 import { stripTrailingSlashes } from "@/lib/trailing-slash";
-import { SKILL_PAGES, isSkillPageName, skillPath } from "@/skill-pages";
+import {
+  SKILLS_PATH,
+  SKILL_PAGES,
+  isSkillPageName,
+  skillPath,
+} from "@/skill-pages";
 import type {
   AnySkillAnswerBlock,
   AnySkillBlock,
@@ -84,7 +91,17 @@ const SITE_PAGES = [
     markdownUrl(COMPONENTS_PATH),
     COMPONENTS_PAGE.description
   ),
+  linkItem(
+    SKILLS_PAGE.title,
+    markdownUrl(SKILLS_PATH),
+    SKILLS_PAGE.description
+  ),
   linkItem(LAB_PAGE.title, markdownUrl(LAB_PATH), LAB_PAGE.description),
+  linkItem(
+    `${LAB_PAGE.title}: ${ASCII_PAGE.title}`,
+    markdownUrl(ASCII_PATH),
+    ASCII_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -97,6 +114,17 @@ const SITE_PAGES = [
 const COMPONENT_ITEMS = REGISTRY_ITEMS.map((item) =>
   linkItem(item.title, markdownUrl(componentPath(item.name)), item.description)
 );
+
+const ASCII_ITEM = linkItem(
+  ASCII_PAGE.title,
+  markdownUrl(ASCII_PATH),
+  ASCII_PAGE.rowDescription
+);
+
+const skillItems = () =>
+  SKILLS.map((skill) =>
+    linkItem(skill.name, skillLink(skill.name), skill.description)
+  ).join("\n");
 
 export const homeMarkdown = () =>
   markdownDocument([
@@ -113,21 +141,9 @@ export const homeMarkdown = () =>
         )
       ).join("\n")
     ),
-    section(
-      "Agent skills",
-      SKILLS.map((skill) =>
-        linkItem(skill.name, skillLink(skill.name), skill.description)
-      ).join("\n")
-    ),
+    section("Agent skills", skillItems()),
     section("Components", COMPONENT_ITEMS.join("\n")),
-    section(
-      LAB_PAGE.title,
-      linkItem(
-        LAB_PAGE.row.title,
-        markdownUrl(LAB_PATH),
-        LAB_PAGE.row.description
-      )
-    ),
+    section(LAB_PAGE.title, ASCII_ITEM),
     section(
       "Recognition",
       AWARDS.map((award) =>
@@ -173,12 +189,27 @@ export const labMarkdown = () =>
   markdownDocument([
     `# ${LAB_PAGE.title}`,
     LAB_PAGE.intro,
+    section(LAB_PAGE.listTitle, ASCII_ITEM),
+    `[Back to ${SITE.name}](${markdownUrl("")})`,
+  ]);
+
+export const asciiMarkdown = () =>
+  markdownDocument([
+    `# ${ASCII_PAGE.title}`,
     section(
-      "Experiments",
+      "Scenes",
       EXPERIMENTS.map(
         ({ formula, hint, name }) => `- **${name}**: ${hint}. \`${formula}\``
       ).join("\n")
     ),
+    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
+  ]);
+
+export const skillsMarkdown = () =>
+  markdownDocument([
+    `# ${SKILLS_PAGE.title}`,
+    SKILLS_PAGE.intro,
+    section(SKILLS_PAGE.listTitle, skillItems()),
     `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 
@@ -241,7 +272,7 @@ export const skillPageMarkdown = (name: SkillPageName) => {
         blocks.map((block) => skillBlockMarkdown(name, block)).join("\n\n")
       )
     ),
-    `[Back to ${SITE.name}](${markdownUrl("")})`,
+    `[Back to ${SKILLS_PAGE.title}](${markdownUrl(SKILLS_PATH)})`,
   ]);
 };
 
@@ -462,6 +493,20 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
   }
   if (slug === LAB_PATH) {
     return { body: labMarkdown(), canonical: absolute(LAB_PATH), status: 200 };
+  }
+  if (slug === ASCII_PATH) {
+    return {
+      body: asciiMarkdown(),
+      canonical: absolute(ASCII_PATH),
+      status: 200,
+    };
+  }
+  if (slug === SKILLS_PATH) {
+    return {
+      body: skillsMarkdown(),
+      canonical: absolute(SKILLS_PATH),
+      status: 200,
+    };
   }
   if (isInfoPageSlug(slug)) {
     return {

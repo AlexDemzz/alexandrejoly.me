@@ -9,6 +9,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
+  BreadcrumbSeparator,
 } from "@portfolio/ui/components/breadcrumb";
 import { Heading } from "@portfolio/ui/components/heading";
 import { HeadingAnchor } from "@portfolio/ui/components/heading-anchor";
@@ -33,7 +34,7 @@ import { CodeBlock } from "@/components/docs/code-block";
 import { InlineCode } from "@/components/docs/inline-code";
 import { Prose, ProseRuns, paragraphKey } from "@/components/prose";
 import { SiteFooter } from "@/components/site-footer";
-import { SKILLS } from "@/content";
+import { SKILLS, SKILLS_PAGE } from "@/content";
 import { pageHead } from "@/lib/head";
 import { slugify } from "@/lib/heading-ids";
 import { EXACT_ACTIVE } from "@/lib/link";
@@ -149,6 +150,14 @@ const SkillPageView = ({ code, name }: SkillPageData) => {
                 render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
               >
                 Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                render={<Link activeOptions={EXACT_ACTIVE} to="/skills" />}
+              >
+                {SKILLS_PAGE.title}
               </BreadcrumbLink>
             </BreadcrumbItem>
           </BreadcrumbList>

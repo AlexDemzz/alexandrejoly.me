@@ -2,6 +2,7 @@ import { cn } from "@portfolio/ui/lib/utils";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
+import { LabIcon } from "@/components/lab-icon";
 import { SkillIcon } from "@/components/skill-icon";
 import { SITE } from "@/content";
 import type { Skill } from "@/content";
@@ -152,5 +153,60 @@ export const SkillOgCard = ({ skill }: { skill: Skill }) => (
       </OgGlyphFrame>
     }
     title={skill.name}
+  />
+);
+
+export const SKILLS_CARD = {
+  description:
+    "Instructions a coding agent loads to build interfaces the way a design engineer would.",
+  title: "Agent skills",
+};
+
+/** The `/skills` index's card. */
+export const SkillsOgCard = () => (
+  <OgCardFrame
+    description={SKILLS_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <SkillIcon />
+      </OgGlyphFrame>
+    }
+    title={SKILLS_CARD.title}
+  />
+);
+
+export const LAB_CARD = {
+  description:
+    "Small experiments in interaction: studies of gesture and motion.",
+  title: "Lab",
+};
+
+const LabGlyph = () => (
+  <OgGlyphFrame className="size-32" scale="scale-500">
+    <LabIcon />
+  </OgGlyphFrame>
+);
+
+/** The `/lab` index's card. */
+export const LabOgCard = () => (
+  <OgCardFrame
+    description={LAB_CARD.description}
+    media={<LabGlyph />}
+    title={LAB_CARD.title}
+  />
+);
+
+export const ASCII_CARD = {
+  description:
+    "Pictures drawn in glyphs that answer a drag, a hold or a fling.",
+  title: "ASCII",
+};
+
+/** The `/lab/ascii` card. */
+export const AsciiOgCard = () => (
+  <OgCardFrame
+    description={ASCII_CARD.description}
+    media={<LabGlyph />}
+    title={ASCII_CARD.title}
   />
 );

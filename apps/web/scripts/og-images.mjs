@@ -2,11 +2,11 @@
 // here (see documented-items.mjs) whose card changed: its title, description,
 // row icon or the card itself, and public/og/components.png for the index,
 // whose card shows every row icon. Each agent skill in skills.json gets
-// public/og/skills/<name>.png the same way.
+// public/og/skills/<name>.png the same way, and the skills index, the lab and
+// its ascii page one card each (PAGES).
 // Hashes of those inputs live in og-images.lock.json; a run with nothing stale
 // starts nothing. `--force` redraws every card. Stale cards are screenshotted
-// from a dev server's /og/components/<name>, /og/components and
-// /og/skills/<name> in a light colour scheme.
+// from a dev server's /og/<card> in a light colour scheme.
 import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
@@ -24,6 +24,9 @@ const LOCK = new URL("og-images.lock.json", import.meta.url);
 const CARD = new URL("../src/components/og-card.tsx", import.meta.url);
 const SKILL_ICON = new URL("../src/components/skill-icon.tsx", import.meta.url);
 const SKILL_PREFIX = "skills/";
+const LAB_ICON = new URL("../src/components/lab-icon.tsx", import.meta.url);
+/** Cards whose copy lives in og-card.tsx, keyed by their path under /og/. */
+const PAGES = { lab: LAB_ICON, "lab/ascii": LAB_ICON, skills: SKILL_ICON };
 
 const read = (url) => readFile(url, "utf-8");
 const readJson = async (url) => JSON.parse(await read(url));
@@ -66,6 +69,14 @@ const hashes = {
       hash([name, description, skillIcon, card]),
     ])
   ),
+  ...Object.fromEntries(
+    await Promise.all(
+      Object.entries(PAGES).map(async ([key, icon]) => [
+        key,
+        hash([await read(icon), card]),
+      ])
+    )
+  ),
 };
 
 /** Where each card is served, and where its PNG goes under public/og/. */
@@ -73,7 +84,7 @@ const target = (key) => {
   if (key === INDEX) {
     return { file: `${INDEX}.png`, path: `/og/${INDEX}` };
   }
-  if (key.startsWith(SKILL_PREFIX)) {
+  if (key in PAGES || key.startsWith(SKILL_PREFIX)) {
     return { file: `${key}.png`, path: `/og/${key}` };
   }
   return { file: `components/${key}.png`, path: `/og/components/${key}` };
@@ -111,6 +122,7 @@ const capture = async (keys) => {
     await waitForServer();
     await mkdir(new URL("components/", OUT_DIR), { recursive: true });
     await mkdir(new URL(SKILL_PREFIX, OUT_DIR), { recursive: true });
+    await mkdir(new URL("lab/", OUT_DIR), { recursive: true });
     const browser = await chromium.launch();
     const context = await browser.newContext({
       colorScheme: "light",

@@ -73,7 +73,8 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 - **Column** `max-w-column` (624px, a 576px measure inside the `px-6` gutters), `py-12 sm:py-32 md:py-16`: the home and every page without navigation.
 - Header: the 40px mark, the statement 24px below it, then the 18px social icons 20px under the statement (their hit-area padding cancelled so the gap is the visible one), and the contribution graph 28px under the icons.
-- Sections: the title above its rows with a 16px gap, at every width. On the home, About, Contact and Components, sections sit 48px apart and 64px from the header and the footer, in a `SectionStack` (`apps/web`) of `Section spacing="none"`, so the breaks around them read larger than the gaps between them.
+- **Index page** (`IndexPage` in `apps/web`): `/components`, `/skills` and `/lab` share one shape: a Home crumb, the `h1`, an intro, then one titled list of rows to their pages. Each page under an index carries a crumb back to it, and each index and page has its own Open Graph card.
+- Sections: the title above its rows with a 16px gap, at every width. On the home, About, Contact and the index pages, sections sit 48px apart and 64px from the header and the footer, in a `SectionStack` (`apps/web`) of `Section spacing="none"`, so the breaks around them read larger than the gaps between them.
 - The first row of a section has no top padding, so its title lines up with the section title, and the last row has no bottom padding, so the gap after it is the visible one.
 
 ### Components
@@ -101,14 +102,14 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 ## Lab
 
-`/lab`: interaction experiments set in glyphs, one card each. The page's own rules, on top of the Site's.
+`/lab` is an index page (see Site) of experiments. `/lab/ascii` is the first: scenes drawn in glyphs, one card each, under a crumb back to the Lab and its name alone, with no intro. Its own rules, on top of the Site's.
 
-- **Layout:** `max-w-lab` (1152px), the Column's padding. The header (crumb, `h1`, intro) keeps the 576px measure; under it the cards sit in a `gap-6` grid, one column below `md`, two from `md`, every card square. Keep an even count so the last row is full.
+- **Layout:** `max-w-lab` (1152px), the Column's padding. The header (crumb, `h1`) keeps the 576px measure; under it the cards sit in a `gap-6` grid, one column below `md`, two from `md`, every card square. Keep an even count so the last row is full.
 - **Card** (`LabCard`): the Preview's hairline at 16px radius, no fill. On top, the name as a `heading` with the gesture to try at the end in 14px `muted-foreground`; then the canvas, inset to the header's 20px (24px from `sm`); then a dashed rule and two 12px mono lines: the formula in `foreground` and a live readout in `muted-foreground` with `tabular-nums`, hidden from screen readers.
 - **Canvas:** glyphs in system mono on the page background, at `foreground` with opacity for every tone. One accent, `--lab-hot` with `--lab-hot-ink` on it, scoped to the page by `data-lab` (`apps/web/src/index.css`): the tile or glyph under the hand, a charge, a highlight. No other page uses it.
 - **Gestures**, by the `gestures` rules: the track phase follows the pointer 1:1 (rubber-banded where it pulls against a spring), the release hands its velocity to a spring or a momentum decay, a snap lands on the keyframe the velocity projects to, a hold charges linearly and cancels in 200ms ease-out. Every scene is `touch-pan-y`: a touch that starts up or down scrolls the page, and one that starts sideways or rests plays the scene in both dimensions.
 - **Loop:** a canvas only draws while it is on screen and its scene still moves, never below 60 frames a second; on a faster display the scene under the pointer takes every frame and the others 60. Readouts update at most every 90ms.
-- **Home:** one row in a "Lab" section, after Components.
+- **Home:** a "Lab" section after Components, one row per experiment.
 - `prefers-reduced-motion`: idle drifts, momentum, bounces and bursts are off; what the pointer moves directly still follows it, and every scene settles on its final frame.
 
 ## Docs pages

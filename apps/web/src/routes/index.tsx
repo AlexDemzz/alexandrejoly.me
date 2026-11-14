@@ -17,18 +17,16 @@ import type { ContributionSummary } from "@/components/contribution-graph";
 import {
   ComponentRows,
   ExternalRow,
-  PageRow,
+  LabRows,
   RowList,
-  SkillPageRow,
+  SkillRows,
 } from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
-import { LabIcon } from "@/components/lab-icon";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MediaBackdrop } from "@/components/media-backdrop";
 import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
-import { SkillIcon } from "@/components/skill-icon";
 import {
   ARCHIVES,
   AWARDS,
@@ -37,15 +35,12 @@ import {
   LAB_PAGE,
   PROJECTS,
   SITE,
-  SKILLS,
   SOCIALS,
-  skillHref,
 } from "@/content";
 import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
-import { isSkillPageName } from "@/skill-pages";
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -134,31 +129,7 @@ const HomeComponent = () => {
         <Section spacing="none">
           <SectionTitle>Agent skills</SectionTitle>
           <SectionContent>
-            <RowList>
-              {SKILLS.map((skill) => {
-                const media = (
-                  <ItemLightMedia>
-                    <SkillIcon />
-                  </ItemLightMedia>
-                );
-                return isSkillPageName(skill.name) ? (
-                  <SkillPageRow
-                    description={skill.description}
-                    key={skill.name}
-                    media={media}
-                    name={skill.name}
-                  />
-                ) : (
-                  <ExternalRow
-                    description={skill.description}
-                    href={skillHref(skill.name)}
-                    key={skill.name}
-                    media={media}
-                    title={skill.name}
-                  />
-                );
-              })}
-            </RowList>
+            <SkillRows />
           </SectionContent>
         </Section>
 
@@ -172,18 +143,7 @@ const HomeComponent = () => {
         <Section spacing="none">
           <SectionTitle>{LAB_PAGE.title}</SectionTitle>
           <SectionContent>
-            <RowList>
-              <PageRow
-                description={LAB_PAGE.row.description}
-                media={
-                  <ItemLightMedia>
-                    <LabIcon />
-                  </ItemLightMedia>
-                }
-                title={LAB_PAGE.row.title}
-                to="/lab"
-              />
-            </RowList>
+            <LabRows />
           </SectionContent>
         </Section>
 

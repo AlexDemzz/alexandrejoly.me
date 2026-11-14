@@ -56,7 +56,9 @@ export const SKILL_PAGE_NAMES = Object.keys(SKILL_SNIPPETS) as SkillPageName[];
 export const isSkillPageName = (name: string): name is SkillPageName =>
   (SKILL_PAGE_NAMES as string[]).includes(name);
 
-export const skillPath = (name: SkillPageName) => `skills/${name}`;
+export const SKILLS_PATH = "skills";
+
+export const skillPath = (name: SkillPageName) => `${SKILLS_PATH}/${name}`;
 
 export const SKILL_PAGES: { [Name in SkillPageName]: SkillPage<Name> } = {
   "grokbot-notify": {
