@@ -5,7 +5,7 @@ import {
   IconArrowUpRight,
   IconCar,
   IconMinus,
-  IconTruck,
+  IconRobot,
   IconVolume,
   IconVolumeOff,
   IconWiper,
@@ -33,7 +33,7 @@ export const SpeakerGlyph = ({ muted }: { muted: boolean }) =>
 
 export const CarGlyph = () => <IconCar {...GLYPH} />;
 
-export const TruckGlyph = () => <IconTruck {...GLYPH} />;
+export const RobotGlyph = () => <IconRobot {...GLYPH} />;
 
 export const ArrowUpGlyph = () => <IconArrowUp {...GLYPH} />;
 

@@ -40,10 +40,10 @@ import {
   DefrostGlyph,
   EngravedArrowGlyph,
   EngravedLineGlyph,
+  RobotGlyph,
   SeatHeatGlyph,
   SparkleGlyph,
   SpeakerGlyph,
-  TruckGlyph,
   WiperGlyph,
 } from "./glyphs";
 
@@ -380,12 +380,12 @@ export const FormulaPanel = () => {
           </div>
           <CarGlyph />
         </fieldset>
-        <Toggle aria-label="Tow mode" data-formula-cell data-formula-flat>
+        <Toggle aria-label="Robot" data-formula-cell data-formula-flat>
           <span aria-hidden data-formula-marks data-formula-latch>
             <span />
           </span>
           <ToggleIcon>
-            <TruckGlyph />
+            <RobotGlyph />
           </ToggleIcon>
         </Toggle>
         <Toggle aria-label="AI assistant" data-formula-cell data-formula-flat>
