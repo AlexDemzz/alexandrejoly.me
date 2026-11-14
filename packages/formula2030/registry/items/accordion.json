@@ -1,0 +1,25 @@
+{
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "description": "Stacked tonal bands whose plus turns into a minus as the band turns to ink and its panel opens on a light tone.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "strata"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/accordion.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/accordion.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/accordion.css",
+      "type": "registry:file",
+      "target": "@ui/formula/accordion.css"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "number-input",
+  "type": "registry:ui",
+  "title": "Number Input",
+  "description": "A large thin numeral over a pair of engraved stepper arrows, with a knurled grip to drag the value.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "machined"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/number-input.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/number-input.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/number-input.css",
+      "type": "registry:file",
+      "target": "@ui/formula/number-input.css"
+    }
+  ]
+}

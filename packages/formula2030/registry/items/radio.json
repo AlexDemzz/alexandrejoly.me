@@ -1,0 +1,25 @@
+{
+  "name": "radio",
+  "type": "registry:ui",
+  "title": "Radio",
+  "description": "A list of tonal option rows, each with a square marker: the checked row turns to ink and its marker fills.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "strata"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/radio.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/radio.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/radio.css",
+      "type": "registry:file",
+      "target": "@ui/formula/radio.css"
+    }
+  ]
+}

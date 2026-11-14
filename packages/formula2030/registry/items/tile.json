@@ -1,0 +1,25 @@
+{
+  "name": "tile",
+  "type": "registry:ui",
+  "title": "Tile",
+  "description": "A machined tile for one control, with a lamp that lights while the control is on.",
+  "dependencies": [],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "machined"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/tile.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/tile.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/tile.css",
+      "type": "registry:file",
+      "target": "@ui/formula/tile.css"
+    }
+  ]
+}

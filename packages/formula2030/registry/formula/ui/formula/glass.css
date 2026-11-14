@@ -1,0 +1,32 @@
+[data-slot="glass"][data-formula="readout"] {
+  --formula-bracket: 10px;
+  position: relative;
+  padding: 30px 28px;
+  background: var(--formula-glass);
+  color: var(--formula-glass-ink);
+  font-size: var(--formula-text);
+  line-height: 1.3;
+
+  &[data-brackets]::before {
+    content: "";
+    position: absolute;
+    inset: var(--formula-bracket);
+    border: 1px solid
+      color-mix(in oklch, var(--formula-glass-ink) 45%, transparent);
+    pointer-events: none;
+    mask:
+      linear-gradient(#000 0 0) top left / var(--formula-bracket)
+        var(--formula-bracket) no-repeat,
+      linear-gradient(#000 0 0) top right / var(--formula-bracket)
+        var(--formula-bracket) no-repeat,
+      linear-gradient(#000 0 0) bottom left / var(--formula-bracket)
+        var(--formula-bracket) no-repeat,
+      linear-gradient(#000 0 0) bottom right / var(--formula-bracket)
+        var(--formula-bracket) no-repeat;
+  }
+
+  & [data-slot="glass-caption"] {
+    color: var(--formula-glass-dim);
+    font-size: var(--formula-caption);
+  }
+}

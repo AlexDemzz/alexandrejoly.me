@@ -11,6 +11,7 @@ export default defineConfig({
     ".claude/**",
     // Registry source ships verbatim to installs: no lint directives in it.
     "apps/web/registry/**",
+    "packages/formula2030/registry/**",
   ],
   jsPlugins: shadcn.jsPlugins,
   overrides: [

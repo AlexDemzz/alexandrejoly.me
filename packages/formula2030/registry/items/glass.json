@@ -1,0 +1,25 @@
+{
+  "name": "glass",
+  "type": "registry:ui",
+  "title": "Glass",
+  "description": "The black display the readout components sit on, with optional corner brackets.",
+  "dependencies": [],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "readout"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/glass.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/glass.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/glass.css",
+      "type": "registry:file",
+      "target": "@ui/formula/glass.css"
+    }
+  ]
+}

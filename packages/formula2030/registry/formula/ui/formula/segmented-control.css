@@ -1,0 +1,107 @@
+[data-slot="segmented-control"][data-formula="strata"] {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  color: var(--formula-ink);
+  font-size: var(--formula-text);
+  cursor: pointer;
+  user-select: none;
+
+  &[data-orientation="vertical"] {
+    grid-auto-flow: row;
+  }
+
+  & [data-slot="segmented-control-item"] {
+    position: relative;
+    min-block-size: var(--formula-band);
+    padding-inline: 20px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: inherit;
+    transition: color 150ms ease-out;
+
+    &::before {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      background: var(--formula-tone-5);
+      transition: filter 150ms ease-out;
+    }
+
+    &:nth-of-type(1) {
+      color: var(--formula-on-ink);
+
+      &::before {
+        background: var(--formula-tone-1);
+      }
+    }
+
+    &:nth-of-type(2)::before {
+      background: var(--formula-tone-2);
+    }
+
+    &:nth-of-type(3)::before {
+      background: var(--formula-tone-3);
+    }
+
+    &:nth-of-type(4)::before {
+      background: var(--formula-tone-4);
+    }
+
+    &[data-checked] {
+      color: var(--formula-signal);
+    }
+
+    &[data-unchecked]:active::before {
+      filter: brightness(0.88);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--formula-ink);
+      outline-offset: -4px;
+    }
+
+    &[data-checked]:focus-visible {
+      outline-color: var(--formula-on-ink);
+    }
+
+    &[data-disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  & [data-slot="segmented-control-indicator"] {
+    position: absolute;
+    z-index: -1;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: var(--segmented-control-indicator-width);
+    block-size: var(--segmented-control-indicator-height);
+    background: var(--formula-ink);
+    translate: var(--segmented-control-indicator-left)
+      var(--segmented-control-indicator-top);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-slot="segmented-control"][data-formula="strata"]
+    [data-slot="segmented-control-item"][data-unchecked]:not(
+      [data-disabled]
+    ):hover::before {
+    filter: brightness(0.94);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-slot="segmented-control"][data-formula="strata"]
+    [data-slot="segmented-control-indicator"] {
+    transition: translate 240ms var(--formula-ease-out);
+  }
+}

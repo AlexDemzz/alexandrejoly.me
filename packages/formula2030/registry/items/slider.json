@@ -1,0 +1,25 @@
+{
+  "name": "slider",
+  "type": "registry:ui",
+  "title": "Slider",
+  "description": "A ruler: ticks light up to the value and a square marker rides the scale.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "readout"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/slider.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/slider.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/slider.css",
+      "type": "registry:file",
+      "target": "@ui/formula/slider.css"
+    }
+  ]
+}

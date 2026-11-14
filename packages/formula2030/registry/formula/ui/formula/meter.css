@@ -1,0 +1,244 @@
+[data-slot="meter"][data-formula="readout"] {
+  --formula-start: left;
+  display: grid;
+  color: var(--formula-glass-ink);
+  font-size: var(--formula-text);
+
+  &:dir(rtl) {
+    --formula-start: right;
+  }
+
+  & [data-slot="meter-label"] {
+    color: var(--formula-glass-dim);
+    font-size: var(--formula-caption);
+  }
+
+  & [data-slot="meter-value"] {
+    display: block;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  & [data-slot="meter-track"] {
+    --formula-tick: var(--formula-glass-line);
+    --formula-span: 100%;
+    --formula-pitch: calc((100% - 1px) / var(--formula-ticks, 20));
+    container-type: size;
+    position: relative;
+    overflow: visible;
+  }
+
+  & [data-slot="meter-indicator"] {
+    --formula-tick: var(--formula-glass-ink);
+  }
+
+  & [data-slot="meter-marker"] {
+    position: absolute;
+    inline-size: 13px;
+    block-size: 13px;
+    background: var(--formula-glass-ink);
+
+    &::before {
+      content: "";
+      position: absolute;
+      background: var(--formula-glass-ink);
+    }
+  }
+
+  & [data-slot="meter-scale"] {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    display: flex;
+    justify-content: space-between;
+    color: var(--formula-glass-dim);
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+
+    & > * {
+      display: grid;
+      place-content: center;
+    }
+  }
+
+  &[data-orientation="horizontal"] {
+    & :is([data-slot="meter-track"], [data-slot="meter-indicator"]) {
+      --formula-rule:
+        repeating-linear-gradient(
+            to right,
+            var(--formula-tick) 0 1px,
+            transparent 1px calc(var(--formula-pitch) * var(--formula-major, 5))
+          )
+          var(--formula-start) 0 top 0 / var(--formula-span) 100% no-repeat,
+        repeating-linear-gradient(
+            to right,
+            var(--formula-tick) 0 1px,
+            transparent 1px var(--formula-pitch)
+          )
+          var(--formula-start) 0 top 50% / var(--formula-span) 9px no-repeat;
+    }
+
+    & [data-slot="meter-track"] {
+      block-size: 22px;
+      margin-block: 13px;
+      background:
+        linear-gradient(var(--formula-limit) 0 0) left / 1px 100% no-repeat,
+        linear-gradient(var(--formula-limit) 0 0) right / 1px 100% no-repeat,
+        var(--formula-rule);
+    }
+
+    & [data-slot="meter-indicator"] {
+      --formula-span: 100cqi;
+      --formula-pitch: calc((100cqi - 1px) / var(--formula-ticks, 20));
+      block-size: 100%;
+      background:
+        linear-gradient(var(--formula-limit) 0 0) var(--formula-start) 0 top 0 /
+          1px 100% no-repeat,
+        linear-gradient(var(--formula-limit) 0 0) var(--formula-start)
+          calc(100cqi - 1px) top 0 / 1px 100% no-repeat,
+        var(--formula-rule);
+    }
+
+    & [data-slot="meter-marker"] {
+      inset-block-start: calc(50% - 6.5px);
+      inset-inline-start: calc(var(--meter-value) - 6.5px);
+
+      &::before {
+        inset-block: -14px;
+        inset-inline: 0;
+        inline-size: 1px;
+        margin-inline: auto;
+      }
+    }
+
+    & [data-slot="meter-scale"] > * {
+      inline-size: 0;
+    }
+  }
+
+  &[data-orientation="vertical"] {
+    display: inline-grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: auto 1fr;
+
+    & :is([data-slot="meter-label"], [data-slot="meter-value"]) {
+      grid-column: 1 / -1;
+    }
+
+    & :is([data-slot="meter-track"], [data-slot="meter-indicator"]) {
+      --formula-rule:
+        repeating-linear-gradient(
+            to top,
+            var(--formula-tick) 0 1px,
+            transparent 1px calc(var(--formula-pitch) * var(--formula-major, 5))
+          )
+          left 0 bottom 0 / 100% var(--formula-span) no-repeat,
+        repeating-linear-gradient(
+            to top,
+            var(--formula-tick) 0 1px,
+            transparent 1px var(--formula-pitch)
+          )
+          left 50% bottom 0 / 9px var(--formula-span) no-repeat;
+    }
+
+    & [data-slot="meter-track"] {
+      display: grid;
+      grid-area: 3 / 1;
+      align-items: end;
+      inline-size: 22px;
+      min-block-size: 160px;
+      margin: 13px 10px;
+      background:
+        linear-gradient(var(--formula-limit) 0 0) top / 100% 1px no-repeat,
+        linear-gradient(var(--formula-limit) 0 0) bottom / 100% 1px no-repeat,
+        var(--formula-rule);
+    }
+
+    & [data-slot="meter-indicator"] {
+      --formula-span: 100cqb;
+      --formula-pitch: calc((100cqb - 1px) / var(--formula-ticks, 20));
+      min-inline-size: 100%;
+      block-size: var(--meter-value);
+      background:
+        linear-gradient(var(--formula-limit) 0 0) left 0 bottom 0 / 100% 1px
+          no-repeat,
+        linear-gradient(var(--formula-limit) 0 0) left 0 bottom
+          calc(100cqb - 1px) / 100% 1px no-repeat,
+        var(--formula-rule);
+    }
+
+    & [data-slot="meter-marker"] {
+      inset-block-end: calc(var(--meter-value) - 6.5px);
+      inset-inline-start: calc(50% - 6.5px);
+
+      &::before {
+        inset-block: 0;
+        inset-inline: -14px;
+        block-size: 1px;
+        margin-block: auto;
+      }
+    }
+
+    & [data-slot="meter-scale"] {
+      grid-area: 3 / 2;
+      flex-direction: column-reverse;
+      margin-block: 13px;
+      padding-inline-start: 4px;
+
+      & > * {
+        justify-content: start;
+        block-size: 0;
+      }
+    }
+  }
+}
+
+[data-slot="meter-cross"][data-formula="readout"] {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
+
+  & > [data-slot="meter"] [data-slot="meter-value"] {
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  & > [data-slot="meter"][data-orientation="horizontal"] {
+    grid-area: 2 / 1 / 3 / 3;
+    grid-template-columns: subgrid;
+    align-items: center;
+
+    & [data-slot="meter-value"] {
+      grid-area: 1 / 1;
+      padding-inline-end: 8px;
+    }
+
+    & [data-slot="meter-track"] {
+      grid-area: 1 / 2;
+    }
+
+    & [data-slot="meter-scale"] {
+      grid-area: 1 / 2;
+      margin-block-end: 48px;
+    }
+  }
+
+  & > [data-slot="meter"][data-orientation="vertical"] {
+    display: grid;
+    grid-area: 1 / 2 / 3 / 3;
+    grid-template-rows: subgrid;
+    grid-template-columns: auto;
+    justify-items: center;
+
+    & [data-slot="meter-value"] {
+      grid-area: 1 / 1;
+    }
+
+    & [data-slot="meter-track"] {
+      grid-area: 2 / 1;
+    }
+  }
+}
