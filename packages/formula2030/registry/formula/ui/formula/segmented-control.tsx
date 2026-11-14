@@ -1,5 +1,9 @@
+"use client";
+
 import { SegmentedControl as SdkSegmentedControl } from "@ui-sdk/react/segmented-control";
 import * as React from "react";
+
+import "@/registry/formula/ui/formula/modality";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/segmented-control.css";

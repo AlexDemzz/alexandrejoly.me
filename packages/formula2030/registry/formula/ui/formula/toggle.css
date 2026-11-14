@@ -83,7 +83,7 @@
 
   &:focus-visible {
     z-index: 1;
-    outline: 2px solid var(--formula-tile-ink);
+    outline: var(--formula-ring) solid var(--formula-tile-ink);
     outline-offset: 2px;
   }
 

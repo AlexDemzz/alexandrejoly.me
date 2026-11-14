@@ -1,5 +1,9 @@
+"use client";
+
 import { Button as SdkButton } from "@ui-sdk/react/button";
 import * as React from "react";
+
+import "@/registry/formula/ui/formula/modality";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/button.css";

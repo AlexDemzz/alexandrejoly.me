@@ -1,8 +1,12 @@
+"use client";
+
 import {
   Toggle as SdkToggle,
   ToggleGroup as SdkToggleGroup,
 } from "@ui-sdk/react/toggle";
 import * as React from "react";
+
+import "@/registry/formula/ui/formula/modality";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/toggle.css";

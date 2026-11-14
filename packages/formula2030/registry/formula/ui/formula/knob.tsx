@@ -3,6 +3,8 @@
 import { Slider as SdkSlider } from "@ui-sdk/react/slider";
 import * as React from "react";
 
+import "@/registry/formula/ui/formula/modality";
+
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/knob.css";
 

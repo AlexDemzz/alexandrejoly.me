@@ -38,7 +38,12 @@
   --formula-text: 0.8125rem;
   --formula-caption: 0.6875rem;
   --formula-radius: 6px;
+  --formula-ring: 2px;
   --formula-seam: 2px;
   --formula-band: 64px;
   --formula-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root[data-formula-input="pointer"] {
+  --formula-ring: 0px;
 }
