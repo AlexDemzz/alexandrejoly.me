@@ -174,7 +174,7 @@ export const FormulaPanel = () => {
     <section aria-label="Formula 2030 control panel" data-formula-panel>
       {/* The panel's own volume and mute drive the interaction sounds. */}
       <FormulaSound muted={muted} volume={volume / VOLUME_MAX} />
-      <GForceDisplay />
+      <GForceDisplay drive={mode.value} />
 
       <div data-formula-spine>
         <div data-formula-strata>

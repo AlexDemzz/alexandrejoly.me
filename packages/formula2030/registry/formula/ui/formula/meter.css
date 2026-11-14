@@ -198,7 +198,10 @@
 [data-slot="meter-cross"][data-formula="readout"] {
   display: grid;
   grid-template-rows: auto 1fr;
-  grid-template-columns: auto 1fr;
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, var(--formula-cross-span, 4fr))
+    minmax(0, 1fr);
 
   & > [data-slot="meter"] [data-slot="meter-value"] {
     font-size: 1rem;
@@ -207,12 +210,13 @@
   }
 
   & > [data-slot="meter"][data-orientation="horizontal"] {
-    grid-area: 2 / 1 / 3 / 3;
+    grid-area: 2 / 1 / 3 / -1;
     grid-template-columns: subgrid;
     align-items: center;
 
     & [data-slot="meter-value"] {
       grid-area: 1 / 1;
+      justify-self: end;
       padding-inline-end: 8px;
     }
 

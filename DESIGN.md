@@ -116,9 +116,11 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 - **Look:** the panel alone is drawn in the registry's look. Its colours are the `--formula-*` tokens and its parts the registry's components, never `theme.css` or `@portfolio/ui`; it keeps the same tones in both colour schemes, on a stage of `--formula-ice` at 16px radius that reads on either page. The page's own rules sit in `apps/web/src/index.css` under `[data-lab="formula-2030"]` and only compose those parts.
 - **Layout:** the Column. One device, 400px wide at most, whose zones scale with its width: the g-force display, five tonal bands with the drive modes on the lower three and a readout on each, the climate strip, two rows of four square tiles, then the dock. A 2px black pin splits the bands and the climate strip down the middle.
-- **Gestures:** a drag on the display tilts the reading 1:1, stopping at the scale's ends, and the release hands its velocity to a spring back to rest, with a slight overshoot; at rest the reading drifts by a few hundredths of a g. The display is `touch-pan-y`, like the ASCII scenes. Knobs turn by a vertical drag or the arrow keys.
+- **Display:** an indicator, never a control. It reads a looped lap (launch, brake, corner, power out) through a soft spring, scaled by the drive mode, with the square at the reading; the lateral value sits in a side column of a symmetric grid, so the rulers stay centred on the glass.
+- **Gestures:** knobs turn whole (reflections, knurling and index) by a vertical drag or the arrow keys, under a vertical resize cursor; switches turn their bar upright.
+- **Icons:** Tabler icons at a 1.5px stroke, and the Gemini mark on the AI key; none is drawn by hand.
 - **Sound:** every press, detent and step sounds through the registry's `FormulaSound`, at the level the panel's own volume control sets and silenced by its mute key.
-- `prefers-reduced-motion`: no idle drift and a critically damped spring, so the reading returns without overshoot; the drag still follows the pointer.
+- `prefers-reduced-motion`: the display rests at 0.00 and the switch bars turn without a transition; knobs still follow the pointer.
 
 ## Docs pages
 

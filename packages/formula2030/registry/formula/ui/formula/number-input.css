@@ -60,6 +60,14 @@
       outline-offset: 2px;
     }
 
+    [data-focus-from] &:focus-visible {
+      outline-color: transparent;
+    }
+
+    [data-focus-from="stepper"] &:focus-visible {
+      --formula-numeral-line: transparent;
+    }
+
     &:is([data-invalid], [aria-invalid="true"]) {
       --formula-numeral-line: var(--formula-limit);
 
