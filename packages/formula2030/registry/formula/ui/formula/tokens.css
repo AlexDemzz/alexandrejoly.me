@@ -1,0 +1,44 @@
+:root {
+  --formula-glass: oklch(0 0 none);
+  --formula-glass-ink: oklch(0.97 0 none);
+  --formula-glass-dim: oklch(0.66 0.006 255);
+  --formula-glass-line: color-mix(
+    in oklch,
+    var(--formula-glass-ink) 24%,
+    transparent
+  );
+
+  --formula-ink: oklch(0.16 0.004 255);
+  --formula-on-ink: oklch(0.97 0 none);
+  --formula-tone-1: oklch(0.36 0.008 255);
+  --formula-tone-2: oklch(0.62 0.011 255);
+  --formula-tone-3: oklch(0.79 0.011 255);
+  --formula-tone-4: oklch(0.88 0.01 255);
+  --formula-tone-5: oklch(0.925 0.008 255);
+
+  --formula-ice: oklch(0.915 0.009 255);
+  --formula-bed: oklch(0.88 0.01 255);
+  --formula-tile: oklch(0.972 0.005 255);
+  --formula-well: oklch(0.905 0.009 255);
+  --formula-tile-ink: oklch(0.24 0.006 255);
+  --formula-tile-dim: oklch(0.54 0.011 255);
+  --formula-tile-line: oklch(0.82 0.011 255);
+  --formula-hi: oklch(1 0 none);
+  --formula-shade: 0.3 0.04 255;
+  --formula-metal-hi: oklch(0.985 0.003 255);
+  --formula-metal-lo: oklch(0.74 0.012 255);
+  --formula-gold-hi: oklch(0.93 0.07 92);
+  --formula-gold-lo: oklch(0.7 0.12 78);
+
+  --formula-signal: oklch(0.93 0.09 102);
+  --formula-limit: oklch(0.7 0.17 22);
+  --formula-cold: oklch(0.74 0.1 245);
+  --formula-lamp: oklch(0.76 0.16 62);
+
+  --formula-text: 0.8125rem;
+  --formula-caption: 0.6875rem;
+  --formula-radius: 6px;
+  --formula-seam: 2px;
+  --formula-band: 64px;
+  --formula-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}

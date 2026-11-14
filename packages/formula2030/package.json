@@ -1,0 +1,30 @@
+{
+  "name": "@portfolio/formula2030",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "registry:json": "node scripts/build-registry.mjs",
+    "registry:build": "node scripts/build-registry.mjs && shadcn build registry.json --output ../../apps/formula2030/public/r",
+    "bench": "vite --config bench/vite.config.ts",
+    "bench:shot": "node scripts/bench-shot.mjs",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ui-sdk/core": "0.1.0-beta.2",
+    "@ui-sdk/react": "0.1.0-beta.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "playwright": "^1.64.1",
+    "shadcn": "^4.22.1",
+    "typescript": "catalog:",
+    "vite": "^8.3.5"
+  }
+}

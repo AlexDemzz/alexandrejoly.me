@@ -1,0 +1,152 @@
+[data-slot="progress"][data-formula="readout"] {
+  --formula-start: left;
+  --formula-way: 1;
+  --formula-run: 5;
+  display: grid;
+  color: var(--formula-glass-ink);
+  font-size: var(--formula-text);
+
+  &:dir(rtl) {
+    --formula-start: right;
+    --formula-way: -1;
+  }
+
+  & [data-slot="progress-label"] {
+    color: var(--formula-glass-dim);
+    font-size: var(--formula-caption);
+  }
+
+  & [data-slot="progress-value"] {
+    display: block;
+    font-size: 2.75rem;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  & :is([data-slot="progress-track"], [data-slot="progress-indicator"]) {
+    --formula-rule:
+      repeating-linear-gradient(
+          to right,
+          var(--formula-tick) 0 1px,
+          transparent 1px calc(var(--formula-pitch) * var(--formula-major, 5))
+        )
+        var(--formula-start) 0 top 0 / var(--formula-span) 100% no-repeat,
+      repeating-linear-gradient(
+          to right,
+          var(--formula-tick) 0 1px,
+          transparent 1px var(--formula-pitch)
+        )
+        var(--formula-start) 0 top 50% / var(--formula-span) 9px no-repeat;
+  }
+
+  & [data-slot="progress-track"] {
+    --formula-tick: var(--formula-glass-line);
+    --formula-span: 100%;
+    --formula-pitch: calc((100% - 1px) / var(--formula-ticks, 20));
+    container-type: size;
+    position: relative;
+    block-size: 22px;
+    margin-block: 13px;
+    overflow: visible;
+    background:
+      linear-gradient(var(--formula-limit) 0 0) left / 1px 100% no-repeat,
+      linear-gradient(var(--formula-limit) 0 0) right / 1px 100% no-repeat,
+      var(--formula-rule);
+  }
+
+  & [data-slot="progress-indicator"] {
+    --formula-tick: var(--formula-glass-ink);
+    --formula-span: 100cqi;
+    --formula-pitch: calc((100cqi - 1px) / var(--formula-ticks, 20));
+    --formula-lit:
+      linear-gradient(var(--formula-limit) 0 0) var(--formula-start) 0 top 0 /
+        1px 100% no-repeat,
+      linear-gradient(var(--formula-limit) 0 0) var(--formula-start)
+        calc(100cqi - 1px) top 0 / 1px 100% no-repeat,
+      var(--formula-rule);
+    block-size: 100%;
+    background: var(--formula-lit);
+
+    &[data-complete] {
+      --formula-tick: var(--formula-signal);
+    }
+
+    &[data-indeterminate] {
+      inline-size: calc(var(--formula-pitch) * var(--formula-run) + 1px);
+      overflow: clip;
+      background: none;
+      translate: calc(
+        var(--formula-pitch) * (var(--formula-ticks, 20) - var(--formula-run)) /
+          2 * var(--formula-way)
+      );
+
+      &::before {
+        content: "";
+        display: block;
+        inline-size: 100cqi;
+        block-size: 100%;
+        background: var(--formula-lit);
+        translate: calc(
+          var(--formula-pitch) *
+            (var(--formula-ticks, 20) - var(--formula-run)) / -2 *
+            var(--formula-way)
+        );
+      }
+    }
+  }
+
+  & [data-slot="progress-scale"] {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    display: flex;
+    justify-content: space-between;
+    color: var(--formula-glass-dim);
+    font-size: 0.625rem;
+    font-variant-numeric: tabular-nums;
+
+    & > * {
+      display: grid;
+      justify-content: center;
+      inline-size: 0;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-slot="progress"][data-formula="readout"]
+    [data-slot="progress-indicator"][data-indeterminate] {
+    animation: formula-progress-run 1600ms steps(var(--formula-ticks, 20))
+      infinite;
+
+    &::before {
+      animation: formula-progress-hold 1600ms steps(var(--formula-ticks, 20))
+        infinite;
+    }
+  }
+}
+
+@keyframes formula-progress-run {
+  from {
+    translate: 0;
+  }
+
+  to {
+    translate: calc(
+      var(--formula-pitch) * var(--formula-ticks, 20) * var(--formula-way)
+    );
+  }
+}
+
+@keyframes formula-progress-hold {
+  from {
+    translate: 0;
+  }
+
+  to {
+    translate: calc(
+      var(--formula-pitch) * var(--formula-ticks, 20) * var(--formula-way) * -1
+    );
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "A key cap standing on a solid skirt: a press sinks it flush, and it stays down while its action runs.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "machined"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/button.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/button.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/button.css",
+      "type": "registry:file",
+      "target": "@ui/formula/button.css"
+    }
+  ]
+}

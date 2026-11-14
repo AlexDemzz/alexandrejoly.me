@@ -1,0 +1,39 @@
+@layer ui-sdk, bench;
+
+@layer bench {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background: var(--formula-ice);
+    color: var(--formula-tile-ink);
+    font-family: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.3;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  [data-bench] {
+    display: grid;
+    gap: 48px;
+    inline-size: min(100%, 448px);
+    margin-inline: auto;
+    padding: 48px 24px 96px;
+  }
+
+  [data-bench-demo] {
+    display: grid;
+    gap: 16px;
+  }
+
+  [data-bench-name] {
+    margin: 0;
+    color: var(--formula-tile-dim);
+    font-size: 0.6875rem;
+    font-weight: 400;
+  }
+}

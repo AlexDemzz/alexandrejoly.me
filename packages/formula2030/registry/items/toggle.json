@@ -1,0 +1,25 @@
+{
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "A latching key that stays sunk while pressed and lights the engraved bar under its content; a group lines keys up along shared seams.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "machined"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/toggle.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/toggle.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/toggle.css",
+      "type": "registry:file",
+      "target": "@ui/formula/toggle.css"
+    }
+  ]
+}

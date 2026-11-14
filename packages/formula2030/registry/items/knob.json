@@ -1,0 +1,25 @@
+{
+  "name": "knob",
+  "type": "registry:ui",
+  "title": "Knob",
+  "description": "A knurled metal dial in a ring of ticks: dragging up turns its index dot and lights the ticks up to the value.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
+  "registryDependencies": [
+    "https://formula2030.alexandrejoly.me/r/formula.json"
+  ],
+  "meta": {
+    "register": "machined"
+  },
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/knob.tsx",
+      "type": "registry:ui",
+      "target": "@ui/formula/knob.tsx"
+    },
+    {
+      "path": "registry/formula/ui/formula/knob.css",
+      "type": "registry:file",
+      "target": "@ui/formula/knob.css"
+    }
+  ]
+}

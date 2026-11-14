@@ -1,0 +1,3 @@
+# Assembled from registry/items/*.json by scripts/build-registry.mjs.
+registry.json
+bench/.shots

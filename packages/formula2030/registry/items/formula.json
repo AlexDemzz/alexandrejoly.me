@@ -1,0 +1,14 @@
+{
+  "name": "formula",
+  "type": "registry:item",
+  "title": "Formula 2030",
+  "description": "The tokens every Formula 2030 component reads: the glass, the tonal ramp, the tiles, the metals and the signal colours.",
+  "categories": ["theme"],
+  "files": [
+    {
+      "path": "registry/formula/ui/formula/tokens.css",
+      "type": "registry:file",
+      "target": "@ui/formula/tokens.css"
+    }
+  ]
+}

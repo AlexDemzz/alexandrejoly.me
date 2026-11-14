@@ -1,0 +1,25 @@
+{
+  "include": [
+    "registry/**/*.ts",
+    "registry/**/*.tsx",
+    "bench/**/*.ts",
+    "bench/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["DOM", "DOM.Iterable", "ES2024"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "paths": {
+      "@/registry/formula/*": ["./registry/formula/*"]
+    }
+  }
+}
