@@ -1,6 +1,6 @@
 [data-slot="switch"][data-formula="machined"] {
-  --formula-knob-hi: var(--formula-metal-hi);
-  --formula-knob-lo: var(--formula-metal-lo);
+  --formula-bar-hi: var(--formula-metal-hi);
+  --formula-bar-lo: var(--formula-metal-lo);
   display: inline-grid;
   place-items: center;
   flex: none;
@@ -16,8 +16,8 @@
   cursor: pointer;
 
   &[data-tone="gold"] {
-    --formula-knob-hi: var(--formula-gold-hi);
-    --formula-knob-lo: var(--formula-gold-lo);
+    --formula-bar-hi: var(--formula-gold-hi);
+    --formula-bar-lo: var(--formula-gold-lo);
   }
 
   &:focus-visible {
@@ -35,52 +35,58 @@
     inline-size: 38px;
     block-size: 38px;
     border-radius: 50%;
-    background: conic-gradient(
-      from 38deg,
-      var(--formula-knob-hi),
-      var(--formula-knob-lo) 12.5%,
-      var(--formula-knob-hi) 25%,
-      var(--formula-knob-lo) 37.5%,
-      var(--formula-knob-hi) 50%,
-      var(--formula-knob-lo) 62.5%,
-      var(--formula-knob-hi) 75%,
-      var(--formula-knob-lo) 87.5%,
-      var(--formula-knob-hi)
-    );
+    background: linear-gradient(var(--formula-hi), var(--formula-tile));
     box-shadow:
-      inset 0 0 0 1px oklch(1 0 none / 0.55),
-      0 0 0 0.5px oklch(var(--formula-shade) / 0.45),
-      0 1px 2px oklch(var(--formula-shade) / 0.3),
-      0 7px 10px -4px oklch(var(--formula-shade) / 0.45);
+      inset 0 1px 0 var(--formula-hi),
+      0 0 0 0.5px oklch(var(--formula-shade) / 0.16),
+      0 1px 2px oklch(var(--formula-shade) / 0.16);
 
     &::before {
       content: "";
       position: absolute;
       inset: 0;
-      border-radius: inherit;
-      background: repeating-conic-gradient(
-        oklch(0 0 none / 0.2) 0 2deg,
-        transparent 2deg 6deg
-      );
-      mask: radial-gradient(circle closest-side, transparent 80%, #000 82%);
+      inline-size: 27px;
+      block-size: 11px;
+      margin: auto;
+      border-radius: 3px;
+      background: oklch(var(--formula-shade) / 0.42);
+      filter: blur(2.5px);
+      translate: 1.5px 3px;
     }
 
     &::after {
       content: "";
       position: absolute;
       inset: 0;
-      inline-size: 18px;
-      block-size: 5px;
+      inline-size: 27px;
+      block-size: 11px;
       margin: auto;
       border-radius: 3px;
-      background: linear-gradient(oklch(0.22 0.006 255), oklch(0.4 0.008 255));
+      background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 2px,
+            oklch(0 0 none / 0.22) 2px 3px
+          )
+          0 1px / 100% 9px no-repeat,
+        linear-gradient(
+          var(--formula-bar-lo),
+          var(--formula-bar-hi) 30%,
+          var(--formula-bar-hi) 55%,
+          var(--formula-bar-lo)
+        );
       box-shadow:
-        inset 0 1px 1px oklch(0 0 none / 0.5),
-        0 1px 0 oklch(1 0 none / 0.65);
+        inset 0 0 0 0.5px oklch(1 0 none / 0.6),
+        0 0 0 0.5px oklch(var(--formula-shade) / 0.5);
     }
 
+    &[data-checked]::before,
     &[data-checked]::after {
       rotate: 90deg;
+    }
+
+    &[data-checked]::before {
+      translate: 3px 1.5px;
     }
   }
 
@@ -93,8 +99,11 @@
   [data-slot="switch"][data-formula="machined"] [data-slot="switch-thumb"] {
     transition: scale 120ms var(--formula-ease-out);
 
+    &::before,
     &::after {
-      transition: rotate 220ms var(--formula-ease-out);
+      transition:
+        rotate 220ms var(--formula-ease-out),
+        translate 220ms var(--formula-ease-out);
     }
   }
 }

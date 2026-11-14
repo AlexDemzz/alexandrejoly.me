@@ -124,11 +124,6 @@
  * with its width.
  */
 [data-lab="formula-2030"] {
-  --formula-sparkle-1: oklch(0.64 0.19 255);
-  --formula-sparkle-2: oklch(0.6 0.22 300);
-  --formula-sparkle-3: oklch(0.68 0.2 25);
-  --formula-sparkle-4: oklch(0.87 0.16 92);
-
   & [data-formula-stage] {
     display: grid;
     justify-items: center;
@@ -170,30 +165,26 @@
     text-align: start;
   }
 
-  /* Zone 1: the g-force display, dragged like the car's weight. */
-  & [data-formula-display] {
+  /* Zone 1: the g-force display, a readout of the car's motion. */
+  & [data-formula-display][data-formula="readout"] {
     padding-block: 10px 18px;
-    padding-inline: 6px 50px;
-    cursor: grab;
-    touch-action: pan-y;
+    padding-inline: 0;
     user-select: none;
-
-    &[data-dragging] {
-      cursor: grabbing;
-    }
 
     & [data-slot="glass-caption"] {
       position: absolute;
       inset-block-start: 13px;
-      inset-inline-start: 24px;
+      inset-inline-start: 11.5%;
     }
 
     & [data-slot="glass-caption"] + [data-slot="glass-caption"] {
-      inset-inline: auto 24px;
+      inset-inline: auto 11.5%;
     }
 
+    /* Equal side columns centre the rulers; the lateral value sits in the
+       first one. The ruler takes the middle 77%, as on the reference. */
     & [data-slot="meter-cross"][data-formula="readout"] {
-      grid-template-columns: 44px 1fr;
+      --formula-cross-span: 6.7fr;
 
       & > [data-slot="meter"] [data-slot="meter-value"] {
         font-size: var(--formula-text);
@@ -210,7 +201,7 @@
     &
       [data-slot="meter"][data-orientation="horizontal"]
       [data-slot="meter-scale"]
-      > :is(:first-child, :last-child) {
+      > :first-child {
       color: var(--formula-limit);
     }
   }
@@ -462,7 +453,7 @@
       display: grid;
       translate: 0 -5px;
 
-      & svg {
+      & img {
         inline-size: 20px;
         block-size: 20px;
       }
@@ -498,22 +489,6 @@
           content: none;
         }
       }
-    }
-  }
-
-  & [data-formula-sparkle] stop {
-    stop-color: var(--formula-sparkle-1);
-
-    &:nth-child(2) {
-      stop-color: var(--formula-sparkle-2);
-    }
-
-    &:nth-child(3) {
-      stop-color: var(--formula-sparkle-3);
-    }
-
-    &:nth-child(4) {
-      stop-color: var(--formula-sparkle-4);
     }
   }
 }
