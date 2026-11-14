@@ -79,7 +79,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--formula-ink);
+      outline: var(--formula-ring) solid var(--formula-ink);
       outline-offset: -4px;
     }
 
@@ -125,7 +125,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--formula-ink);
+      outline: var(--formula-ring) solid var(--formula-ink);
       outline-offset: -4px;
     }
   }

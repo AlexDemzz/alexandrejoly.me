@@ -83,7 +83,7 @@ code {
 
   &:focus-visible {
     border-radius: 2px;
-    outline: 2px solid var(--formula-tile-ink);
+    outline: var(--formula-ring) solid var(--formula-tile-ink);
     outline-offset: 2px;
   }
 
@@ -113,7 +113,7 @@ code {
   translate: 0 calc(-100% - 1rem);
 
   &:focus-visible {
-    outline: 2px solid var(--formula-signal);
+    outline: var(--formula-ring) solid var(--formula-signal);
     outline-offset: 2px;
     translate: 0 0;
   }

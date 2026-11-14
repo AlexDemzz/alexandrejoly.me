@@ -56,7 +56,7 @@
 
     &:focus-visible {
       --formula-numeral-line: var(--formula-tile-ink);
-      outline: 2px solid var(--formula-tile-ink);
+      outline: var(--formula-ring) solid var(--formula-tile-ink);
       outline-offset: 2px;
     }
 
@@ -125,7 +125,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--formula-tile-ink);
+      outline: var(--formula-ring) solid var(--formula-tile-ink);
       outline-offset: 2px;
     }
 

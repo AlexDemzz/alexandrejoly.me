@@ -1,5 +1,9 @@
+"use client";
+
 import { Tabs as SdkTabs } from "@ui-sdk/react/tabs";
 import * as React from "react";
+
+import "@/registry/formula/ui/formula/modality";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/tabs.css";

@@ -17,7 +17,7 @@
   -webkit-tap-highlight-color: transparent;
 
   &:focus-visible {
-    outline: 2px solid var(--formula-tile-ink);
+    outline: var(--formula-ring) solid var(--formula-tile-ink);
     outline-offset: 2px;
   }
 

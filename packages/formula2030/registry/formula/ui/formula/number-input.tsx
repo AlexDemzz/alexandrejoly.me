@@ -6,6 +6,8 @@ import {
 } from "@ui-sdk/react/number-input";
 import * as React from "react";
 
+import "@/registry/formula/ui/formula/modality";
+
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/number-input.css";
 

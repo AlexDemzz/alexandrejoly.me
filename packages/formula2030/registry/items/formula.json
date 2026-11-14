@@ -2,13 +2,18 @@
   "name": "formula",
   "type": "registry:item",
   "title": "Formula 2030",
-  "description": "The tokens every Formula 2030 component reads: the glass, the tonal ramp, the tiles, the metals and the signal colours.",
+  "description": "The tokens every Formula 2030 component reads (glass, tonal ramp, tiles, metals, signal colours), and the input-modality module that keeps focus rings to keyboard use.",
   "categories": ["theme"],
   "files": [
     {
       "path": "registry/formula/ui/formula/tokens.css",
       "type": "registry:file",
       "target": "@ui/formula/tokens.css"
+    },
+    {
+      "path": "registry/formula/ui/formula/modality.ts",
+      "type": "registry:file",
+      "target": "@ui/formula/modality.ts"
     }
   ]
 }

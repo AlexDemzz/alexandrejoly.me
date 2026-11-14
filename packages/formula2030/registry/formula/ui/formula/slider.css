@@ -74,7 +74,7 @@
     }
 
     &:has(:focus-visible) {
-      outline: 2px solid var(--formula-glass-ink);
+      outline: var(--formula-ring) solid var(--formula-glass-ink);
       outline-offset: 3px;
     }
 
