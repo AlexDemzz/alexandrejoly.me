@@ -1,12 +1,13 @@
+import { Label } from "@ui-sdk/react/label";
 import "@fontsource-variable/geist";
 import { useState } from "react";
 
 import { Button } from "@/registry/formula/ui/formula/button";
 import {
   Knob,
-  SliderControl,
-  SliderThumb,
-  SliderTrack,
+  KnobControl,
+  KnobThumb,
+  KnobTrack,
 } from "@/registry/formula/ui/formula/knob";
 import {
   NumberInput,
@@ -29,7 +30,7 @@ import {
 } from "@/registry/formula/ui/formula/slider";
 import { FormulaSound } from "@/registry/formula/ui/formula/sound";
 import { Switch, SwitchThumb } from "@/registry/formula/ui/formula/switch";
-import { Tile, TileGroup, TileLabel } from "@/registry/formula/ui/formula/tile";
+import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 import { Toggle, ToggleIcon } from "@/registry/formula/ui/formula/toggle";
 
 import { GForceDisplay } from "./display";
@@ -124,11 +125,11 @@ const LevelMarks = ({ level }: { level: number }) => (
 
 // No tick ring (`SliderIndicator`): the reference's dials are plain.
 const Dial = ({ label }: { label: string }) => (
-  <SliderControl>
-    <SliderTrack>
-      <SliderThumb aria-label={label} />
-    </SliderTrack>
-  </SliderControl>
+  <KnobControl>
+    <KnobTrack>
+      <KnobThumb aria-label={label} />
+    </KnobTrack>
+  </KnobControl>
 );
 
 interface Readout {
@@ -253,11 +254,11 @@ export const FormulaPanel = () => {
       </div>
 
       <TileGroup data-formula-keys>
-        <TileLabel>
+        <Tile render={<Label />}>
           <Switch aria-label="Lane assist" defaultChecked>
             <SwitchThumb />
           </Switch>
-        </TileLabel>
+        </Tile>
         <Tile>
           <Knob max={6} onValueChange={setFan} ticks={6} value={fan}>
             <Dial label="Fan speed" />
@@ -293,11 +294,11 @@ export const FormulaPanel = () => {
             <Dial label="Volume" />
           </Knob>
         </Tile>
-        <TileLabel>
+        <Tile render={<Label />}>
           <Switch aria-label="One-pedal drive">
             <SwitchThumb />
           </Switch>
-        </TileLabel>
+        </Tile>
         <Button
           aria-label="Next drive mode"
           onClick={() => chooseMode((modeIndex + 1) % DRIVE_MODES.length)}

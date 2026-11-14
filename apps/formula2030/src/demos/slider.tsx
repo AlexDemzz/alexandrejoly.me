@@ -1,6 +1,10 @@
 import { Field, FieldLabel } from "@ui-sdk/react/field";
 
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import {
   Slider,
   SliderControl,
@@ -14,7 +18,8 @@ import {
 const MARKS = [-40, -20, 0, 20, 40];
 
 const Demo = () => (
-  <Glass brackets>
+  <Glass>
+    <GlassBrackets />
     <Field>
       <Slider
         defaultValue={-20}

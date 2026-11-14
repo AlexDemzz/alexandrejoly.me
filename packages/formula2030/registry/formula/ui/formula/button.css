@@ -57,7 +57,7 @@
       0 0 0 0.5px oklch(var(--formula-shade) / 0.3);
   }
 
-  &[data-tone="gold"] {
+  &[data-variant="gold"] {
     --formula-key-face: color-mix(
       in oklch,
       var(--formula-gold-hi),
@@ -80,7 +80,7 @@
     );
   }
 
-  &[data-tone="ink"] {
+  &[data-variant="ink"] {
     --formula-key-face: var(--formula-ink);
     --formula-key-face-hover: color-mix(
       in oklch,
@@ -141,7 +141,10 @@
     color: var(--formula-tile-line);
   }
 
-  &:is(:active, [data-pending]):not([data-disabled], [data-variant]) {
+  &:is(:active, [data-pending]):not(
+      [data-disabled],
+      [data-variant="engraved"]
+    ) {
     translate: 0 var(--formula-key-travel);
 
     &::before {
@@ -171,7 +174,7 @@
 @media (hover: hover) and (pointer: fine) {
   [data-slot="button"][data-formula="machined"]:not(
       [data-disabled],
-      [data-variant]
+      [data-variant="engraved"]
     ):hover::after {
     background-color: var(--formula-key-face-hover);
   }

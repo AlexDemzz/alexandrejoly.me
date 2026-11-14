@@ -3,7 +3,11 @@ import type { RefObject } from "react";
 
 import { CheckGlyph, CopyGlyph } from "@/components/glyphs";
 import { Button } from "@/registry/formula/ui/formula/button";
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 
 type CopyState = "idle" | "copied" | "selected";
 
@@ -81,7 +85,8 @@ export const CopyBlock = ({
 
   return (
     <div className="copy-block">
-      <Glass brackets className="copy-block-glass">
+      <Glass className="copy-block-glass">
+        <GlassBrackets />
         <GlassCaption>{caption}</GlassCaption>
         <code className="copy-block-text" ref={source}>
           <Breakable text={text} />

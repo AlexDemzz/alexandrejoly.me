@@ -1,32 +1,38 @@
+import { Label } from "@ui-sdk/react/label";
+
 import { Switch, SwitchThumb } from "@/registry/formula/ui/formula/switch";
-import { TileGroup, TileLabel } from "@/registry/formula/ui/formula/tile";
+import { Tile, TileGroup, TileLamp } from "@/registry/formula/ui/formula/tile";
 
 const Demo = () => (
   <TileGroup>
-    <TileLabel lamp>
+    <Tile render={<Label />}>
+      <TileLamp />
       <Switch defaultChecked>
         <SwitchThumb />
       </Switch>
       One-pedal drive
-    </TileLabel>
-    <TileLabel lamp>
+    </Tile>
+    <Tile render={<Label />}>
+      <TileLamp />
       <Switch tone="gold">
         <SwitchThumb />
       </Switch>
       Launch control
-    </TileLabel>
-    <TileLabel lamp>
+    </Tile>
+    <Tile render={<Label />}>
+      <TileLamp />
       <Switch defaultChecked>
         <SwitchThumb />
       </Switch>
       Lane assist
-    </TileLabel>
-    <TileLabel lamp>
+    </Tile>
+    <Tile render={<Label />}>
+      <TileLamp />
       <Switch disabled>
         <SwitchThumb />
       </Switch>
       Creep
-    </TileLabel>
+    </Tile>
   </TileGroup>
 );
 

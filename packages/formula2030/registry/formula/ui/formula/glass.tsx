@@ -1,26 +1,30 @@
-import * as React from "react";
+import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/glass.css";
 
-function Glass({
-  brackets,
-  ...props
-}: React.ComponentProps<"div"> & {
-  brackets?: boolean;
-}) {
-  return (
-    <div
-      data-slot="glass"
-      data-formula="readout"
-      data-brackets={brackets ? "" : undefined}
-      {...props}
-    />
+function Glass({ render, ...props }: PartProps<"div">) {
+  return renderElement(
+    "div",
+    { "data-slot": "glass", "data-formula": "readout", ...props },
+    render
   );
 }
 
-function GlassCaption(props: React.ComponentProps<"span">) {
-  return <span data-slot="glass-caption" {...props} />;
+function GlassBrackets({ render, ...props }: PartProps<"span">) {
+  return renderElement(
+    "span",
+    { "data-slot": "glass-brackets", "aria-hidden": true, ...props },
+    render
+  );
 }
 
-export { Glass, GlassCaption };
+function GlassCaption({ render, ...props }: PartProps<"span">) {
+  return renderElement(
+    "span",
+    { "data-slot": "glass-caption", ...props },
+    render
+  );
+}
+
+export { Glass, GlassBrackets, GlassCaption };

@@ -79,9 +79,9 @@ function Knob({
 
 export { Knob };
 export {
-  SliderControl,
-  SliderIndicator,
-  SliderThumb,
-  SliderTrack,
-  SliderValue,
+  SliderControl as KnobControl,
+  SliderIndicator as KnobIndicator,
+  SliderThumb as KnobThumb,
+  SliderTrack as KnobTrack,
+  SliderValue as KnobValue,
 } from "@ui-sdk/react/slider";

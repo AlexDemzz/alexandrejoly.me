@@ -1,42 +1,30 @@
-import * as React from "react";
+import { renderElement, type PartProps } from "@ui-sdk/react/primitive";
 
 import "@/registry/formula/ui/formula/tokens.css";
 import "@/registry/formula/ui/formula/tile.css";
 
-function TileGroup(props: React.ComponentProps<"div">) {
-  return <div data-slot="tile-group" data-formula="machined" {...props} />;
-}
-
-function Tile({
-  lamp,
-  ...props
-}: React.ComponentProps<"div"> & {
-  lamp?: boolean;
-}) {
-  return (
-    <div
-      data-slot="tile"
-      data-formula="machined"
-      data-lamp={lamp ? "" : undefined}
-      {...props}
-    />
+function TileGroup({ render, ...props }: PartProps<"div">) {
+  return renderElement(
+    "div",
+    { "data-slot": "tile-group", "data-formula": "machined", ...props },
+    render
   );
 }
 
-function TileLabel({
-  lamp,
-  ...props
-}: React.ComponentProps<"label"> & {
-  lamp?: boolean;
-}) {
-  return (
-    <label
-      data-slot="tile"
-      data-formula="machined"
-      data-lamp={lamp ? "" : undefined}
-      {...props}
-    />
+function Tile({ render, ...props }: PartProps<"div">) {
+  return renderElement(
+    "div",
+    { "data-slot": "tile", "data-formula": "machined", ...props },
+    render
   );
 }
 
-export { Tile, TileGroup, TileLabel };
+function TileLamp({ render, ...props }: PartProps<"span">) {
+  return renderElement(
+    "span",
+    { "data-slot": "tile-lamp", "aria-hidden": true, ...props },
+    render
+  );
+}
+
+export { Tile, TileGroup, TileLamp };

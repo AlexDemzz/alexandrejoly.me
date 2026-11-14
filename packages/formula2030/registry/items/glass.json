@@ -2,8 +2,8 @@
   "name": "glass",
   "type": "registry:ui",
   "title": "Glass",
-  "description": "The black display the readout components sit on, with optional corner brackets.",
-  "dependencies": [],
+  "description": "The black display the readout components sit on, with a brackets part for its corners.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
   "registryDependencies": [
     "https://formula2030.alexandrejoly.me/r/formula.json"
   ],

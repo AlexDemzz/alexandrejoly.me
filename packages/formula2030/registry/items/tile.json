@@ -2,8 +2,8 @@
   "name": "tile",
   "type": "registry:ui",
   "title": "Tile",
-  "description": "A machined tile for one control, with a lamp that lights while the control is on.",
-  "dependencies": [],
+  "description": "A machined tile for one control, with a lamp part that lights while the control inside is on.",
+  "dependencies": ["@ui-sdk/react@0.1.0-beta.2", "@ui-sdk/core@0.1.0-beta.2"],
   "registryDependencies": [
     "https://formula2030.alexandrejoly.me/r/formula.json"
   ],

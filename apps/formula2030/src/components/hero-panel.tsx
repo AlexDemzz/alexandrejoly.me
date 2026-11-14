@@ -1,7 +1,12 @@
 import { Field, FieldLabel } from "@ui-sdk/react/field";
+import { Label } from "@ui-sdk/react/label";
 import { useState } from "react";
 
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import {
   SegmentedControl,
   SegmentedControlIndicator,
@@ -17,7 +22,7 @@ import {
   SliderValue,
 } from "@/registry/formula/ui/formula/slider";
 import { Switch, SwitchThumb } from "@/registry/formula/ui/formula/switch";
-import { TileGroup, TileLabel } from "@/registry/formula/ui/formula/tile";
+import { Tile, TileGroup, TileLamp } from "@/registry/formula/ui/formula/tile";
 
 const MODES = {
   autonomous: {
@@ -63,7 +68,8 @@ export const HeroPanel = () => {
 
   return (
     <div className="panel">
-      <Glass brackets className="panel-glass">
+      <Glass className="panel-glass">
+        <GlassBrackets />
         <Field>
           <Slider
             defaultValue={22}
@@ -135,13 +141,15 @@ export const HeroPanel = () => {
         </dl>
       </div>
       <TileGroup className="panel-tiles">
-        <TileLabel lamp>
+        <Tile render={<Label />}>
+          <TileLamp />
           <Switch defaultChecked>
             <SwitchThumb />
           </Switch>
           One-pedal drive
-        </TileLabel>
-        <TileLabel lamp>
+        </Tile>
+        <Tile render={<Label />}>
+          <TileLamp />
           <Switch
             checked={launch}
             disabled={mode !== "performance"}
@@ -151,19 +159,21 @@ export const HeroPanel = () => {
             <SwitchThumb />
           </Switch>
           Launch control
-        </TileLabel>
-        <TileLabel lamp>
+        </Tile>
+        <Tile render={<Label />}>
+          <TileLamp />
           <Switch defaultChecked>
             <SwitchThumb />
           </Switch>
           Lane assist
-        </TileLabel>
-        <TileLabel lamp>
+        </Tile>
+        <Tile render={<Label />}>
+          <TileLamp />
           <Switch>
             <SwitchThumb />
           </Switch>
           Creep
-        </TileLabel>
+        </Tile>
       </TileGroup>
     </div>
   );

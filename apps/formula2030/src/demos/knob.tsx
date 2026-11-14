@@ -2,21 +2,21 @@ import { Field, FieldLabel } from "@ui-sdk/react/field";
 
 import {
   Knob,
-  SliderControl,
-  SliderIndicator,
-  SliderThumb,
-  SliderTrack,
-  SliderValue,
+  KnobControl,
+  KnobIndicator,
+  KnobThumb,
+  KnobTrack,
+  KnobValue,
 } from "@/registry/formula/ui/formula/knob";
 import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 
 const Dial = () => (
-  <SliderControl>
-    <SliderTrack>
-      <SliderIndicator />
-      <SliderThumb />
-    </SliderTrack>
-  </SliderControl>
+  <KnobControl>
+    <KnobTrack>
+      <KnobIndicator />
+      <KnobThumb />
+    </KnobTrack>
+  </KnobControl>
 );
 
 const Demo = () => (
@@ -25,7 +25,7 @@ const Demo = () => (
       <Field>
         <Knob defaultValue={12} max={30}>
           <Dial />
-          <SliderValue />
+          <KnobValue />
           <FieldLabel>Volume</FieldLabel>
         </Knob>
       </Field>
@@ -41,7 +41,7 @@ const Demo = () => (
           tone="gold"
         >
           <Dial />
-          <SliderValue />
+          <KnobValue />
           <FieldLabel>Boost</FieldLabel>
         </Knob>
       </Field>
@@ -50,7 +50,7 @@ const Demo = () => (
       <Field>
         <Knob defaultValue={2} max={6} ticks={6}>
           <Dial />
-          <SliderValue />
+          <KnobValue />
           <FieldLabel>Fan speed</FieldLabel>
         </Knob>
       </Field>
@@ -59,7 +59,7 @@ const Demo = () => (
       <Field>
         <Knob defaultValue={4} disabled max={10} ticks={10}>
           <Dial />
-          <SliderValue />
+          <KnobValue />
           <FieldLabel>Trailer brake</FieldLabel>
         </Knob>
       </Field>

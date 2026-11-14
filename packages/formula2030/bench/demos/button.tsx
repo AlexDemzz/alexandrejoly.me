@@ -77,13 +77,13 @@ const Demo = () => (
         Lock
       </Tile>
       <Tile>
-        <Button aria-label="Boost" size="icon" tone="gold">
+        <Button aria-label="Boost" size="icon" variant="gold">
           <BoostGlyph />
         </Button>
         Boost
       </Tile>
       <Tile>
-        <Button aria-label="Horn" size="icon" tone="ink">
+        <Button aria-label="Horn" size="icon" variant="ink">
           <HornGlyph />
         </Button>
         Horn
@@ -99,11 +99,11 @@ const Demo = () => (
         Trip meter
       </Tile>
       <Tile>
-        <Button tone="gold">Arm</Button>
+        <Button variant="gold">Arm</Button>
         Launch control
       </Tile>
       <Tile>
-        <Button tone="ink">Park</Button>
+        <Button variant="ink">Park</Button>
         Gearbox
       </Tile>
       <Tile>
@@ -117,19 +117,24 @@ const Demo = () => (
         Windows
       </Tile>
       <Tile>
-        <Button disabled tone="gold">
+        <Button disabled variant="gold">
           Summon
         </Button>
         Valet
       </Tile>
       <Tile>
-        <Button disabled tone="ink">
+        <Button disabled variant="ink">
           Tow
         </Button>
         Transport
       </Tile>
       <Tile>
-        <Button aria-label="Sound horn twice" disabled size="icon" tone="ink">
+        <Button
+          aria-label="Sound horn twice"
+          disabled
+          size="icon"
+          variant="ink"
+        >
           <HornGlyph />
         </Button>
         Locate

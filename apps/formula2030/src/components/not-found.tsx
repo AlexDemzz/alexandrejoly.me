@@ -1,13 +1,18 @@
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/registry/formula/ui/formula/button";
-import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
+import {
+  Glass,
+  GlassCaption,
+  GlassBrackets,
+} from "@/registry/formula/ui/formula/glass";
 import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 
 export const NotFound = () => (
   <>
     <main className="not-found" id="main">
       <div className="not-found-panel">
-        <Glass brackets className="not-found-glass">
+        <Glass className="not-found-glass">
+          <GlassBrackets />
           <GlassCaption>Route</GlassCaption>
           <p aria-hidden="true" className="not-found-code">
             404
@@ -22,7 +27,7 @@ export const NotFound = () => (
           <Tile className="not-found-tile">
             <Button
               render={<a aria-label="Back to Formula 2030" href="/" />}
-              tone="ink"
+              variant="ink"
             >
               Back to Formula 2030
             </Button>
