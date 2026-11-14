@@ -6,6 +6,7 @@ import { CssDesignAwardsIcon } from "@/components/css-design-awards-icon";
 import { EnvelopeIcon } from "@/components/envelope-icon";
 import { GithubIcon } from "@/components/github-icon";
 import { GymupIcon } from "@/components/gymup-icon";
+import { HumantasteIcon } from "@/components/humantaste-icon";
 import { KwernIcon } from "@/components/kwern-icon";
 import { LinkedinIcon } from "@/components/linkedin-icon";
 import { ReactEasyModalsIcon } from "@/components/react-easy-modals-icon";
@@ -107,6 +108,14 @@ export const PROJECTS: Project[] = [
     icon: KwernIcon,
     kind: "Web app",
     name: "Kwern",
+    year: 2026,
+  },
+  {
+    description: "A score for how human your website looks",
+    href: "https://humantaste.xyz",
+    icon: HumantasteIcon,
+    kind: "Web app",
+    name: "humantaste",
     year: 2026,
   },
   {
