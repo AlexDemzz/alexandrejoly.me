@@ -159,10 +159,11 @@
 }
 
 /* DESIGN.md › Site › Layout: the page column; DESIGN.md › Library landings:
-   the breakout a hero card takes past it. */
+   the breakout a hero card takes past it; DESIGN.md › Lab: the lab's grid. */
 @theme {
   --container-column: 39rem;
   --container-breakout: 51rem;
+  --container-lab: 72rem;
 }
 
 /* DESIGN.md › Site › States: the settle curve every hover and draw-on uses. */

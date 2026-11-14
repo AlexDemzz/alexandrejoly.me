@@ -26,7 +26,7 @@ typography:
   control: { family: system-ui, size: 14px, weight: 500, line-height: 20px }
   dense: { family: system-ui, size: 14px, weight: 400, line-height: 20px }
 rounded: { logo: 9999px, favicon: 5px, focus: 5px, card: 16px, outer-card: 24px }
-spacing: { column: 624px, docs: 864px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: "48px, 128px from sm, 64px from md", section-y: 40px, page-break: 64px, section-gap: 48px, row-y: 14px }
+spacing: { column: 624px, docs: 864px, lab: 1152px, sidebar: 192px, sidebar-gap: 48px, gutter: 24px, page-y: "48px, 128px from sm, 64px from md", section-y: 40px, page-break: 64px, section-gap: 48px, row-y: 14px }
 components:
   row: { text: "{colors.foreground}", rule: "{colors.border}", padding-y: 14px, hover: title underline }
   row-description: { text: "{colors.muted-foreground}" }
@@ -83,7 +83,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at the 16px reading size, the title in book weight (450) on one line, flush on its description, both at 1.625 line height, and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
 - **Text link** (`TextLink`, `link-text`): `foreground`, weight 450, underline in `underline` at 3px; may lead with a favicon.
 - **Heading** (`Heading`): 16px at 500 in `foreground`, any level through `render`; `variant="title"` is the 20px docs page title.
-- **Button** (`Button`): shadcn's Button, rounded-full at every size; inside a button group the compact sizes (`xs`, `sm`, `icon-xs`, `icon-sm`) turn `rounded-lg`.
+- **Button** (`Button`): shadcn's Button, rounded-full at every size; inside a button group the compact sizes (`xs`, `sm`, `icon-xs`, `icon-sm`) turn `rounded-lg`. The `overlay` variant is for a button that sits on content: a translucent `background` fill over a backdrop blur, with a hairline border.
 - **Tabs and toggles** (`Tabs`, `ToggleGroup`, `Toggle`): rounded-full like the button, list and items alike. A tab list wider than its column scrolls sideways, its edges faded with `scroll-fade-x`.
 - **Code** (`Code`, `CodeBlock`): system mono. Inline code is `foreground` at the surrounding size (`muted-foreground` for secondary code such as types). Blocks are a `muted` card at 16px radius with no border, Shiki's vitesse colours highlighted at build time, and a ghost copy button at the top end, or in the header next to a file title, shown on hover or focus and always on touch devices. Capped blocks fade top and bottom with `scroll-fade-y`.
 - **Breadcrumb** (`Breadcrumb`, composed on each page): the way up on every page but home, above the title, never including the page itself. "Home" alone on About, Contact, Privacy, Components and 404; "Home / Components" on docs pages, mirroring their `BreadcrumbList` JSON-LD up to the parent. Text links at body size, separated by a `/` in `subtle-foreground`.
@@ -98,6 +98,18 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - Selection: `selection` fill.
 - Load: the mark draws itself once, the arc then the bar (`animate-mark-draw`, `animate-mark-draw-late`).
 - `prefers-reduced-motion`: transitions, the draw-on and the media motion off; the mark and logos show at rest.
+
+## Lab
+
+`/lab`: interaction experiments set in glyphs, one card each. The page's own rules, on top of the Site's.
+
+- **Layout:** `max-w-lab` (1152px), the Column's padding. The header (crumb, `h1`, intro) keeps the 576px measure; under it the cards sit in a `gap-6` grid, one column below `md`, two from `md`, every card square. Keep an even count so the last row is full.
+- **Card** (`LabCard`): the Preview's hairline at 16px radius, no fill. On top, the name as a `heading` with the gesture to try at the end in 14px `muted-foreground`; then the canvas, inset to the header's 20px (24px from `sm`); then a dashed rule and two 12px mono lines: the formula in `foreground` and a live readout in `muted-foreground` with `tabular-nums`, hidden from screen readers.
+- **Canvas:** glyphs in system mono on the page background, at `foreground` with opacity for every tone. One accent, `--lab-hot` with `--lab-hot-ink` on it, scoped to the page by `data-lab` (`apps/web/src/index.css`): the tile or glyph under the hand, a charge, a highlight. No other page uses it.
+- **Gestures**, by the `gestures` rules: the track phase follows the pointer 1:1 (rubber-banded where it pulls against a spring), the release hands its velocity to a spring or a momentum decay, a snap lands on the keyframe the velocity projects to, a hold charges linearly and cancels in 200ms ease-out. Every scene is `touch-pan-y`: a touch that starts up or down scrolls the page, and one that starts sideways or rests plays the scene in both dimensions.
+- **Loop:** a canvas only draws while it is on screen and its scene still moves, never below 60 frames a second; on a faster display the scene under the pointer takes every frame and the others 60. Readouts update at most every 90ms.
+- **Home:** one row in a "Lab" section, after Components.
+- `prefers-reduced-motion`: idle drifts, momentum, bounces and bursts are off; what the pointer moves directly still follows it, and every scene settles on its final frame.
 
 ## Docs pages
 

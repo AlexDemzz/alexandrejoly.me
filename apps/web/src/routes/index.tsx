@@ -17,10 +17,12 @@ import type { ContributionSummary } from "@/components/contribution-graph";
 import {
   ComponentRows,
   ExternalRow,
+  PageRow,
   RowList,
   SkillPageRow,
 } from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
+import { LabIcon } from "@/components/lab-icon";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
 import { MediaBackdrop } from "@/components/media-backdrop";
@@ -32,6 +34,7 @@ import {
   AWARDS,
   EMPLOYER,
   INTRO,
+  LAB_PAGE,
   PROJECTS,
   SITE,
   SKILLS,
@@ -163,6 +166,24 @@ const HomeComponent = () => {
           <SectionTitle>Components</SectionTitle>
           <SectionContent>
             <ComponentRows />
+          </SectionContent>
+        </Section>
+
+        <Section spacing="none">
+          <SectionTitle>{LAB_PAGE.title}</SectionTitle>
+          <SectionContent>
+            <RowList>
+              <PageRow
+                description={LAB_PAGE.row.description}
+                media={
+                  <ItemLightMedia>
+                    <LabIcon />
+                  </ItemLightMedia>
+                }
+                title={LAB_PAGE.row.title}
+                to="/lab"
+              />
+            </RowList>
           </SectionContent>
         </Section>
 

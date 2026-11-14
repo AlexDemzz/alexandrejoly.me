@@ -1,6 +1,6 @@
 // Writes public/sitemap.xml: the home page, the about, contact and privacy
-// pages, the skill pages (SKILL_SNIPPETS in src/skill-snippets.ts), the
-// components index, then one page per registry item documented here (see
+// pages, the skill pages (SKILL_SNIPPETS in src/skill-snippets.ts), the lab,
+// the components index, then one page per registry item documented here (see
 // documented-items.mjs).
 import { readFile, writeFile } from "node:fs/promises";
 
@@ -18,6 +18,7 @@ const paths = [
   "/skills/grokbot-notify",
   "/skills/design-to-shadcn",
   "/skills/shadcn-composition-patterns",
+  "/lab",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];

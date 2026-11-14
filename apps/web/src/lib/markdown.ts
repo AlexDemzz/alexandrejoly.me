@@ -12,6 +12,7 @@ import {
   COMPONENTS_PAGE,
   EMPLOYER,
   INTRO,
+  LAB_PAGE,
   LINKS,
   PROJECTS,
   SITE,
@@ -22,6 +23,7 @@ import {
 import type { Inline, Paragraph } from "@/content";
 import { INFO_PAGES, INFO_PAGE_SLUGS, isInfoPageSlug } from "@/info-pages";
 import type { InfoPageSlug } from "@/info-pages";
+import { EXPERIMENTS, LAB_PATH } from "@/lab/experiments";
 import { getComponentCode } from "@/lib/component-code";
 import type { ComponentCode } from "@/lib/component-code";
 import { absolute, markdownUrl } from "@/lib/head";
@@ -82,6 +84,7 @@ const SITE_PAGES = [
     markdownUrl(COMPONENTS_PATH),
     COMPONENTS_PAGE.description
   ),
+  linkItem(LAB_PAGE.title, markdownUrl(LAB_PATH), LAB_PAGE.description),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -117,6 +120,14 @@ export const homeMarkdown = () =>
       ).join("\n")
     ),
     section("Components", COMPONENT_ITEMS.join("\n")),
+    section(
+      LAB_PAGE.title,
+      linkItem(
+        LAB_PAGE.row.title,
+        markdownUrl(LAB_PATH),
+        LAB_PAGE.row.description
+      )
+    ),
     section(
       "Recognition",
       AWARDS.map((award) =>
@@ -155,6 +166,19 @@ export const componentsMarkdown = () =>
     `# ${COMPONENTS_PAGE.title}`,
     COMPONENTS_PAGE.intro,
     section(COMPONENTS_PAGE.listTitle, COMPONENT_ITEMS.join("\n")),
+    `[Back to ${SITE.name}](${markdownUrl("")})`,
+  ]);
+
+export const labMarkdown = () =>
+  markdownDocument([
+    `# ${LAB_PAGE.title}`,
+    LAB_PAGE.intro,
+    section(
+      "Experiments",
+      EXPERIMENTS.map(
+        ({ formula, hint, name }) => `- **${name}**: ${hint}. \`${formula}\``
+      ).join("\n")
+    ),
     `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 
@@ -435,6 +459,9 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
       canonical: absolute(COMPONENTS_PATH),
       status: 200,
     };
+  }
+  if (slug === LAB_PATH) {
+    return { body: labMarkdown(), canonical: absolute(LAB_PATH), status: 200 };
   }
   if (isInfoPageSlug(slug)) {
     return {

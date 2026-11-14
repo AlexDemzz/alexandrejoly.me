@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import type { LinkProps } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
@@ -44,6 +45,26 @@ export const ExternalRow = ({
       {aside === undefined ? null : (
         <ItemLightActions>{aside}</ItemLightActions>
       )}
+    </ItemLight>
+  </li>
+);
+
+interface PageRowProps {
+  description: string;
+  media?: ReactNode;
+  title: string;
+  to: LinkProps["to"];
+}
+
+/** A row that opens one of the site's own pages. */
+export const PageRow = ({ description, media, title, to }: PageRowProps) => (
+  <li>
+    <ItemLight render={(props) => <Link {...props} to={to} />}>
+      {media}
+      <ItemLightContent>
+        <ItemLightTitle>{title}</ItemLightTitle>
+        <ItemLightDescription>{description}</ItemLightDescription>
+      </ItemLightContent>
     </ItemLight>
   </li>
 );

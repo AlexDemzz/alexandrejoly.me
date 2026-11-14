@@ -100,3 +100,16 @@
     @apply text-muted-foreground flex shrink-0 items-center gap-2 tabular-nums;
   }
 }
+
+/*
+ * DESIGN.md › Lab: the one accent the lab allows, the hot tile under a hand.
+ * Off the theme on purpose: no other page uses it.
+ */
+[data-lab] {
+  --lab-hot: oklch(0.74 0.16 62);
+  --lab-hot-ink: oklch(0.22 0.03 62);
+
+  @media (prefers-color-scheme: dark) {
+    --lab-hot: oklch(0.78 0.16 66);
+  }
+}

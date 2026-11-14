@@ -166,6 +166,19 @@ export const COMPONENTS_PAGE = {
   title: "Components",
 } as const;
 
+export const LAB_PAGE = {
+  description: `Interaction experiments by ${SITE.name}, set in glyphs: ASCII scenes that answer a drag, a hold or a fling.`,
+  documentTitle: `Lab – ${SITE.name}`,
+  intro:
+    "Small experiments in interaction, set in glyphs. Each one draws a picture in type on a canvas and answers a gesture, with its formula and live readings underneath.",
+  row: {
+    description:
+      "Pictures drawn in glyphs that answer a drag, a hold or a fling",
+    title: "ascii",
+  },
+  title: "Lab",
+} as const;
+
 export const INTRO =
   "I design and build interfaces end to end, and I care about the details that make them feel right.";
 
