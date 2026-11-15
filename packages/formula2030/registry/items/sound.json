@@ -2,7 +2,7 @@
   "name": "sound",
   "type": "registry:ui",
   "title": "Sound",
-  "description": "Interaction sounds for every Formula component, synthesised in the browser: keys thock, knobs tick, bands thud, rulers blip. Mount it once; it ships no audio files.",
+  "description": "Interaction sounds for every Formula component, synthesised in the browser: keys click, toggles latch, knobs tick, rulers blip. Mount it once; it ships no audio files.",
   "dependencies": [],
   "registryDependencies": [],
   "meta": {
