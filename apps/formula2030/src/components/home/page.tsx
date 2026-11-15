@@ -1,10 +1,9 @@
 import { GithubLogoIcon } from "@phosphor-icons/react";
 import { FormulaPanel } from "@portfolio/formula2030/panel";
-import { Fragment } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
-import type { FormulaItem, Register } from "@/lib/registry";
-import { REGISTER_INFO, themeItem } from "@/lib/registry";
+import type { FormulaItem } from "@/lib/registry";
+import { themeItem } from "@/lib/registry";
 import {
   AGENT_PROMPT,
   AUTHOR_URL,
@@ -42,12 +41,6 @@ const SWATCHES = [
   "cold",
 ];
 
-const GROUNDS: Record<Register, string> = {
-  machined: "ice",
-  readout: "glass",
-  strata: "t4",
-};
-
 /* A full-bleed ground whose content sits on the one column. */
 
 const Band = ({
@@ -83,6 +76,7 @@ const Tile = ({ item }: { item: FormulaItem }) => {
       aria-label={item.title}
       className="home-tile"
       data-item={item.name}
+      data-register={item.register}
       id={tileId(item.name)}
     >
       {code ? (
@@ -104,55 +98,22 @@ const Tile = ({ item }: { item: FormulaItem }) => {
   );
 };
 
-const Sheet = ({
-  children,
-  items,
-  register,
-}: {
-  children?: ReactNode;
-  items: FormulaItem[];
-  register: string;
-}) => (
-  <div className="home-sheet-frame">
-    <div className="home-sheet" data-register={register}>
-      {children}
-      {items.map((item) => (
-        <Tile item={item} key={item.name} />
-      ))}
-    </div>
-  </div>
-);
+/** Every component in one sheet, register by register, each on its material. */
+const SHOWCASE: FormulaItem[] = [
+  ...CHAPTER_REGISTERS.flatMap((register) => rowsIn(register).flat()),
+  ...sharedItems,
+];
 
-const Chapter = ({ register }: { register: Register }) => {
-  const titleId = `home-${register}-title`;
-
-  return (
-    <Band
-      className="home-chapter"
-      ground={GROUNDS[register]}
-      id={register}
-      labelledBy={titleId}
-    >
-      <h2 className="home-head-title" id={titleId}>
-        {REGISTER_INFO[register].title}
-      </h2>
-      <Sheet items={rowsIn(register).flat()} register={register} />
-    </Band>
-  );
-};
-
-/** The break between bands and glass: three more steps, each one darker. */
-const Steps = () => (
-  <div aria-hidden="true" className="home-steps">
-    <span data-ground="t3" />
-    <span data-ground="t2" />
-    <span data-ground="t1" />
-  </div>
-);
+const TOKENS_NUMBER = String(SHOWCASE.length + 1).padStart(2, "0");
 
 const TokensTile = () => (
-  <article aria-label="Theme tokens" className="home-tile" data-item="tokens">
-    <h3 className="home-tile-name">Theme tokens</h3>
+  <article
+    aria-label="Theme tokens"
+    className="home-tile"
+    data-item="tokens"
+    data-register="other"
+  >
+    <TileName number={TOKENS_NUMBER}>Theme tokens</TileName>
     <ul aria-label="Token colours" className="home-swatches">
       {SWATCHES.map((token) => (
         <li
@@ -172,19 +133,24 @@ const TokensTile = () => (
   </article>
 );
 
-const Shared = () => (
+const Showcase = () => (
   <Band
-    className="home-chapter"
-    ground="hi"
-    id="shared"
-    labelledBy="home-shared-title"
+    className="home-showcase"
+    ground="ice"
+    id="components"
+    labelledBy="home-components-title"
   >
-    <h2 className="home-head-title" id="home-shared-title">
-      Every register
+    <h2 className="sr-only" id="home-components-title">
+      Components
     </h2>
-    <Sheet items={sharedItems} register="other">
-      {themeItem ? <TokensTile /> : null}
-    </Sheet>
+    <div className="home-sheet-frame">
+      <div className="home-sheet">
+        {SHOWCASE.map((item) => (
+          <Tile item={item} key={item.name} />
+        ))}
+        {themeItem ? <TokensTile /> : null}
+      </div>
+    </div>
   </Band>
 );
 
@@ -297,15 +263,7 @@ export const HomePage = () => (
     </header>
     <main id="main">
       <Opening />
-      <div id="components">
-        {CHAPTER_REGISTERS.map((register) => (
-          <Fragment key={register}>
-            <Chapter register={register} />
-            {register === "strata" ? <Steps /> : null}
-          </Fragment>
-        ))}
-        <Shared />
-      </div>
+      <Showcase />
     </main>
     <Footer />
   </div>

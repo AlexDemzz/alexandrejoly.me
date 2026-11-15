@@ -1,6 +1,6 @@
 import {
-  ArmchairIcon,
   ArrowsClockwiseIcon,
+  FanIcon,
   FootprintsIcon,
   SteeringWheelIcon,
   UserIcon,
@@ -41,12 +41,12 @@ const Demo = () => (
         Recirculate
       </Tile>
       <Tile>
-        <Toggle aria-label="Seat heat" defaultPressed>
+        <Toggle aria-label="Seat ventilation" defaultPressed>
           <ToggleIcon>
-            <ArmchairIcon aria-hidden size={20} />
+            <FanIcon aria-hidden size={20} />
           </ToggleIcon>
         </Toggle>
-        Seat heat
+        Seat vent
       </Tile>
       <Tile>
         <Toggle aria-label="Hazard lights" disabled>

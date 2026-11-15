@@ -416,10 +416,9 @@ code {
 
 /*
  * The home page: a showcase. The title, the prompt and the panel open it;
- * then one column descends through the registers as chapters, the ground
- * changing under each one (white, ice, tonal bands, black glass, white
- * again). Each register is one contact sheet of live plates, and each
- * plate's title opens its usage code.
+ * then one sheet holds every component as a live plate, each on its own
+ * material (ice tiles, tonal bands, black glass), and each plate's title
+ * opens its usage code.
  */
 
 :root:has(.home) {
@@ -672,41 +671,10 @@ code {
   }
 }
 
-/* Chapters */
+/* The showcase: every component on one ice ground, below the hero. */
 
-.home .home-chapter {
-  row-gap: 1.25rem;
+.home .home-showcase {
   padding-block: var(--home-chapter-pad);
-}
-
-.home .home-head-title {
-  margin-block-end: clamp(1.25rem, 1rem + 1vw, 2rem);
-  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-/* Three steps under the Strata chapter, each one darker, then glass. */
-
-.home .home-steps {
-  display: grid;
-
-  & > span {
-    block-size: clamp(2.5rem, 1.75rem + 3vw, 4.5rem);
-  }
-
-  & > [data-ground="t3"] {
-    background: var(--formula-tone-3);
-  }
-
-  & > [data-ground="t2"] {
-    background: var(--formula-tone-2);
-  }
-
-  & > [data-ground="t1"] {
-    background: var(--formula-tone-1);
-  }
 }
 
 /* The contact sheet: tiles of mixed proportion, placed in source order. */
@@ -722,8 +690,10 @@ code {
 }
 
 /*
- * A tile's material and the roles of the text on it: a bed tile by default.
- * The transparent border keeps tiles apart in forced colours.
+ * Every plate is the same card on the ice ground, in the bed colour a tile
+ * group shows between its tiles, so a group's seams run on into the card.
+ * The demo inside carries its own material. The transparent border keeps
+ * cards apart in forced colours.
  */
 .home .home-tile {
   --home-bg: var(--formula-bed);
@@ -769,46 +739,17 @@ code {
   overflow-clip-margin: calc(var(--formula-ring) + 2px);
 }
 
-/* Strata: light bands on a hairline grid, so tone-5 reads on tone-4. */
+/* Bands start at the top, so two strata demos in a row line up. */
 
-.home .home-sheet[data-register="strata"] {
-  --home-grid: color-mix(
-    in oklch,
-    var(--formula-ink) 30%,
-    var(--formula-tone-5)
-  );
-
-  & .home-tile {
-    --home-bg: var(--formula-tone-5);
-    --home-fg: var(--formula-ink);
-    /* 8.8:1 on tone-5. */
-    --home-dim: var(--formula-tone-1);
-    --home-line: color-mix(in oklch, var(--formula-ink) 22%, transparent);
-    --home-ring: var(--formula-ink);
-  }
-
-  & .home-tile-stage {
-    align-content: start;
-    padding: 0;
-  }
+.home .home-tile[data-register="strata"] .home-tile-stage {
+  align-content: start;
 }
 
-/* Readout: glass on glass, drawn as a hairline grid instead of seams. */
+/* A glass demo fills its stage, so a pair of glasses keeps one height. */
 
-.home .home-sheet[data-register="readout"] {
-  --home-grid: var(--formula-glass-line);
-
-  & .home-tile {
-    --home-bg: var(--formula-glass);
-    --home-fg: var(--formula-glass-ink);
-    --home-dim: var(--formula-glass-dim);
-    --home-line: var(--formula-glass-line);
-    --home-ring: var(--formula-glass-ink);
-  }
-
+.home .home-tile[data-register="readout"] {
   & .home-tile-stage {
     align-content: stretch;
-    padding: 0;
   }
 
   & .home-tile-stage > [data-slot="glass"] {
@@ -821,36 +762,12 @@ code {
   }
 }
 
-.home .home-sheet:is([data-register="strata"], [data-register="readout"]) {
-  gap: 0;
-  border-block-start: 1px solid var(--home-grid);
-  border-inline-start: 1px solid var(--home-grid);
+.home [data-item="sound"] .home-tile-stage {
+  justify-items: center;
+  padding-block: 1.5rem 2.5rem;
 
-  & > * {
-    border-width: 0 1px 1px 0;
-    border-style: solid;
-    border-color: var(--home-grid);
-  }
-}
-
-.home .home-sheet[data-register="other"] {
-  & [data-item="sound"] .home-tile-stage {
-    justify-items: center;
-    padding-block: 1.5rem 2.5rem;
-
-    & > [data-slot="tile-group"] {
-      inline-size: min(100%, 16rem);
-    }
-  }
-
-  & [data-item="tokens"] {
-    --home-bg: var(--formula-ice);
-    /* 6.6:1 on ice. */
-    --home-dim: color-mix(
-      in oklch,
-      var(--formula-tile-dim) 60%,
-      var(--formula-tile-ink)
-    );
+  & > [data-slot="tile-group"] {
+    inline-size: min(100%, 16rem);
   }
 }
 
@@ -925,19 +842,15 @@ code {
   }
 }
 
-/* Two columns: Button and the shared sheet's pair keep a whole row. */
+/* Two columns: Button keeps a whole row. */
 
 @container home-sheet (width >= 34rem) {
   .home .home-sheet {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .home .home-sheet[data-register="machined"] > [data-item="button"] {
+  .home .home-sheet > [data-item="button"] {
     grid-column: 1 / -1;
-  }
-
-  .home .home-sheet[data-register="other"] {
-    grid-template-columns: 7fr 5fr;
   }
 
   .home .home-swatches {
@@ -946,25 +859,22 @@ code {
 }
 
 /*
- * Full column: three tracks of mixed proportion per sheet, the wide tile of
- * each row spanning two. Each pairing was measured so neither tile in a row
- * is left with a block of empty ground.
+ * Full column: twelve tracks, two tiles of mixed proportion per row. Each
+ * pairing was measured so neither tile in a row is left with a block of
+ * empty ground.
  */
 
 @container home-sheet (width >= 52rem) {
-  .home .home-sheet[data-register="machined"] {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 5fr);
+  .home .home-sheet {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 
-  .home .home-sheet[data-register="strata"] {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 1fr) minmax(0, 6fr);
+  .home .home-sheet > * {
+    grid-column: span 6;
   }
 
-  /* Meter 7 and Progress 5 over Slider 8 and Glass 4. */
-  .home .home-sheet[data-register="readout"] {
-    grid-template-columns:
-      minmax(0, 5fr) minmax(0, 2fr) minmax(0, 1fr)
-      minmax(0, 4fr);
+  .home .home-sheet > [data-item="button"] {
+    grid-column: 1 / -1;
   }
 
   .home
@@ -973,16 +883,32 @@ code {
       [data-item="knob"],
       [data-item="toggle"],
       [data-item="switch"],
-      [data-item="tabs"],
       [data-item="segmented-control"],
       [data-item="meter"],
-      [data-item="progress"]
+      [data-item="tokens"]
     ) {
-    grid-column: span 2;
+    grid-column: span 7;
+  }
+
+  .home
+    .home-sheet
+    > :is(
+      [data-item="number-input"],
+      [data-item="checkbox"],
+      [data-item="tile"],
+      [data-item="radio"],
+      [data-item="progress"],
+      [data-item="sound"]
+    ) {
+    grid-column: span 5;
   }
 
   .home .home-sheet > [data-item="slider"] {
-    grid-column: span 3;
+    grid-column: span 8;
+  }
+
+  .home .home-sheet > [data-item="glass"] {
+    grid-column: span 4;
   }
 }
 

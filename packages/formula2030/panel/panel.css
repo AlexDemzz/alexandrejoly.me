@@ -229,8 +229,8 @@
     }
   }
 
-  & [data-formula-heat] [data-formula-marks] > [data-lit] {
-    background: var(--formula-limit);
+  & [data-formula-cool] [data-formula-marks] > [data-lit] {
+    background: var(--formula-cold);
   }
 
   & [data-formula-latch] {

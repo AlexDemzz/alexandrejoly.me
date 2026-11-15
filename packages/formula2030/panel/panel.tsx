@@ -1,9 +1,9 @@
 import {
-  ArmchairIcon,
   ArrowDownIcon,
   ArrowUpIcon,
   ArrowUpRightIcon,
   CarProfileIcon,
+  FanIcon,
   HeadlightsIcon,
   MinusIcon,
   RobotIcon,
@@ -98,7 +98,7 @@ const ENGRAVED = { "aria-hidden": true, weight: "light" } as const;
 const RIDE_HEIGHT = { max: 40, min: -40, step: 5 } as const;
 const VOLUME_MAX = 30;
 const LEVELS = 3;
-const SEAT_LEVELS = ["off", "low", "medium", "high"] as const;
+const VENT_LEVELS = ["off", "low", "medium", "high"] as const;
 const WIPER_LEVELS = ["off", "intermittent", "low", "high"] as const;
 const CELSIUS = {
   maximumFractionDigits: 1,
@@ -161,7 +161,7 @@ export const FormulaPanel = () => {
   const [modeIndex, setModeIndex] = useState(0);
   const mode = DRIVE_MODES[modeIndex] ?? DRIVE_MODES[0];
   const [rideHeight, setRideHeight] = useState(mode.rideHeight);
-  const [seatHeat, setSeatHeat] = useState(2);
+  const [seatVent, setSeatVent] = useState(2);
   const [wipers, setWipers] = useState(2);
   const [fan, setFan] = useState(3);
   const [boost, setBoost] = useState(0.6);
@@ -233,14 +233,14 @@ export const FormulaPanel = () => {
             </NumberInputGroup>
           </NumberInput>
           <Button
-            aria-label={`Seat heating: ${SEAT_LEVELS[seatHeat]}`}
+            aria-label={`Seat ventilation: ${VENT_LEVELS[seatVent]}`}
             data-formula-flat
-            data-formula-heat
-            onClick={() => setSeatHeat((level) => (level + 1) % (LEVELS + 1))}
+            data-formula-cool
+            onClick={() => setSeatVent((level) => (level + 1) % (LEVELS + 1))}
             variant="engraved"
           >
-            <ArmchairIcon {...ICON} />
-            <LevelMarks level={seatHeat} />
+            <FanIcon {...ICON} />
+            <LevelMarks level={seatVent} />
           </Button>
           <Toggle aria-label="Windscreen defrost" data-formula-flat>
             <ToggleIcon>
