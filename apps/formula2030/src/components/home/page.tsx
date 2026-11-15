@@ -27,7 +27,6 @@ import {
   itemsIn,
   numberOf,
   partsOf,
-  registerCount,
   rowsIn,
   sharedItems,
   tileId,
@@ -55,10 +54,10 @@ const SWATCHES = [
   "cold",
 ];
 
-const CHAPTERS: Record<Register, { ground: string; line: string }> = {
-  machined: { ground: "ice", line: "Keys, knobs and switches on ice tiles." },
-  readout: { ground: "glass", line: "Values on black glass, against a scale." },
-  strata: { ground: "t4", line: "Flat bands. The choice turns to ink." },
+const GROUNDS: Record<Register, string> = {
+  machined: "ice",
+  readout: "glass",
+  strata: "t4",
 };
 
 /* Wayfinding: the chapter under the upper middle of the viewport is current. */
@@ -307,29 +306,15 @@ const Sheet = ({
   );
 };
 
-const ChapterHead = ({
-  id,
-  line,
-  title,
-  verb,
-}: {
-  id: string;
-  line: string;
-  title: string;
-  verb: string;
-}) => (
-  <header className="home-head">
-    <p className="home-head-verb">{verb}</p>
-    <h3 className="home-head-title" id={id}>
-      {title}
-    </h3>
-    <p>{line}</p>
-  </header>
+const ChapterHead = ({ id, title }: { id: string; title: string }) => (
+  <h3 className="home-head-title" id={id}>
+    {title}
+  </h3>
 );
 
 const Chapter = ({ register }: { register: Register }) => {
-  const { ground, line } = CHAPTERS[register];
-  const { title, verb } = REGISTER_INFO[register];
+  const ground = GROUNDS[register];
+  const { title } = REGISTER_INFO[register];
   const titleId = `home-${register}-title`;
 
   return (
@@ -340,7 +325,7 @@ const Chapter = ({ register }: { register: Register }) => {
       labelledBy={titleId}
       spy={register}
     >
-      <ChapterHead id={titleId} line={line} title={title} verb={verb} />
+      <ChapterHead id={titleId} title={title} />
       <Sheet register={register} rows={rowsIn(register)} />
     </Band>
   );
@@ -363,12 +348,7 @@ const Shared = () => (
     labelledBy="home-shared-title"
     spy="shared"
   >
-    <ChapterHead
-      id="home-shared-title"
-      line="Theme tokens and sound."
-      title="Every register"
-      verb="Shared"
-    />
+    <ChapterHead id="home-shared-title" title="Every register" />
     <Sheet register="other" rows={[sharedItems]}>
       {themeItem ? (
         <article
@@ -469,9 +449,6 @@ const Install = () => {
         <h2 className="home-section-title" id="home-install-title">
           Install
         </h2>
-        <p>
-          Files land in <code>components/ui/formula/</code>.
-        </p>
       </header>
       <div className="home-sheet-frame">
         <ul className="home-sheet" data-register="install">
@@ -591,9 +568,6 @@ export const HomePage = () => {
               <h2 className="home-section-title" id="home-components-title">
                 Components
               </h2>
-              <p className="home-section-aside">
-                {registerCount} in three registers, plus Sound
-              </p>
             </header>
           </Band>
           <Chapter register="machined" />

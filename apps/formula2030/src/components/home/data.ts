@@ -44,8 +44,6 @@ export const itemsIn = (register: Register) => rowsIn(register).flat();
 
 export const sharedItems = items.filter((item) => !isRegister(item.register));
 
-export const registerCount = items.length - sharedItems.length;
-
 const numbers = new Map<string, string>();
 for (const item of [
   ...CHAPTER_REGISTERS.flatMap((register) => itemsIn(register)),

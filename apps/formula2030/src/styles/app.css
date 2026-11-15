@@ -735,7 +735,6 @@ code {
 }
 
 .home .home-section-head,
-.home .home-head,
 .home .home-intro {
   display: grid;
   gap: 0.75em;
@@ -747,11 +746,6 @@ code {
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.02em;
-}
-
-.home .home-section-aside {
-  margin-block-start: -0.5em;
-  color: var(--home-dim);
 }
 
 /* Opening: the title and the dictionary entry stand on the stage. */
@@ -1179,20 +1173,8 @@ code {
   padding-block: var(--home-chapter-pad);
 }
 
-.home .home-head {
-  gap: 0.625rem;
-  margin-block-end: clamp(1.25rem, 1rem + 1vw, 2rem);
-}
-
-.home .home-head-verb {
-  color: var(--home-dim);
-}
-
 .home .home-head-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-block-start: -0.375rem;
+  margin-block-end: clamp(1.25rem, 1rem + 1vw, 2rem);
   font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
   font-weight: 400;
   line-height: 1.1;
