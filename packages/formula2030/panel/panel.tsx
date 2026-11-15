@@ -1,3 +1,16 @@
+import {
+  ArmchairIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
+  ArrowUpRightIcon,
+  CarProfileIcon,
+  HeadlightsIcon,
+  MinusIcon,
+  RobotIcon,
+  SpeakerHighIcon,
+  SpeakerSlashIcon,
+  WavesIcon,
+} from "@phosphor-icons/react";
 import { Label } from "@ui-sdk/react/label";
 import "@fontsource-variable/geist";
 import { useState } from "react";
@@ -34,19 +47,7 @@ import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 import { Toggle, ToggleIcon } from "@/registry/formula/ui/formula/toggle";
 
 import { GForceDisplay } from "./display";
-import {
-  ArrowDownGlyph,
-  ArrowUpGlyph,
-  CarGlyph,
-  DefrostGlyph,
-  EngravedArrowGlyph,
-  EngravedLineGlyph,
-  RobotGlyph,
-  SeatHeatGlyph,
-  SparkleGlyph,
-  SpeakerGlyph,
-  WiperGlyph,
-} from "./glyphs";
+import geminiMark from "./gemini.svg";
 
 import "./panel.css";
 
@@ -90,6 +91,10 @@ const DRIVE_MODES: readonly [DriveMode, ...DriveMode[]] = [
   },
 ];
 
+// Phosphor's regular weight is a 1.5px line at the panel's 24px grid; the
+// larger engraved marks keep a line that weight by going light.
+const ICON = { "aria-hidden": true, size: 24 } as const;
+const ENGRAVED = { "aria-hidden": true, weight: "light" } as const;
 const RIDE_HEIGHT = { max: 40, min: -40, step: 5 } as const;
 const VOLUME_MAX = 30;
 const LEVELS = 3;
@@ -234,12 +239,12 @@ export const FormulaPanel = () => {
             onClick={() => setSeatHeat((level) => (level + 1) % (LEVELS + 1))}
             variant="engraved"
           >
-            <SeatHeatGlyph />
+            <ArmchairIcon {...ICON} />
             <LevelMarks level={seatHeat} />
           </Button>
           <Toggle aria-label="Windscreen defrost" data-formula-flat>
             <ToggleIcon>
-              <DefrostGlyph />
+              <HeadlightsIcon {...ICON} />
             </ToggleIcon>
             <span aria-hidden data-formula-marks data-formula-latch>
               <span />
@@ -251,7 +256,7 @@ export const FormulaPanel = () => {
             onClick={() => setWipers((level) => (level + 1) % (LEVELS + 1))}
             variant="engraved"
           >
-            <WiperGlyph />
+            <WavesIcon {...ICON} />
             <LevelMarks level={wipers} />
           </Button>
         </div>
@@ -275,7 +280,7 @@ export const FormulaPanel = () => {
           onClick={() => setFan(0)}
           variant="engraved"
         >
-          <EngravedLineGlyph />
+          <MinusIcon {...ENGRAVED} size={40} />
         </Button>
         <Tile>
           <Knob
@@ -310,14 +315,14 @@ export const FormulaPanel = () => {
           onClick={() => chooseMode((modeIndex + 1) % DRIVE_MODES.length)}
           variant="engraved"
         >
-          <EngravedArrowGlyph />
+          <ArrowUpRightIcon {...ENGRAVED} size={34} />
         </Button>
         <Button
           aria-label="Turn boost off"
           onClick={() => setBoost(0)}
           variant="engraved"
         >
-          <EngravedLineGlyph />
+          <MinusIcon {...ENGRAVED} size={40} />
         </Button>
       </TileGroup>
 
@@ -346,7 +351,11 @@ export const FormulaPanel = () => {
             pressed={muted}
           >
             <ToggleIcon>
-              <SpeakerGlyph muted={muted} />
+              {muted ? (
+                <SpeakerSlashIcon {...ICON} />
+              ) : (
+                <SpeakerHighIcon {...ICON} />
+              )}
             </ToggleIcon>
           </Toggle>
         </div>
@@ -366,7 +375,7 @@ export const FormulaPanel = () => {
               }
               variant="engraved"
             >
-              <ArrowUpGlyph />
+              <ArrowUpIcon {...ICON} />
             </Button>
             <Button
               aria-label="Lower the car"
@@ -382,17 +391,17 @@ export const FormulaPanel = () => {
               }
               variant="engraved"
             >
-              <ArrowDownGlyph />
+              <ArrowDownIcon {...ICON} />
             </Button>
           </div>
-          <CarGlyph />
+          <CarProfileIcon {...ICON} />
         </fieldset>
         <Toggle aria-label="Robot" data-formula-cell data-formula-flat>
           <span aria-hidden data-formula-marks data-formula-latch>
             <span />
           </span>
           <ToggleIcon>
-            <RobotGlyph />
+            <RobotIcon {...ICON} />
           </ToggleIcon>
         </Toggle>
         <Toggle aria-label="AI assistant" data-formula-cell data-formula-flat>
@@ -401,7 +410,7 @@ export const FormulaPanel = () => {
           </span>
           <span data-formula-ai>
             <ToggleIcon>
-              <SparkleGlyph />
+              <img alt="" height={20} src={geminiMark} width={20} />
             </ToggleIcon>
             <span aria-hidden data-formula-ai-caption>
               AI

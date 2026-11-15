@@ -1,6 +1,6 @@
+import { LockIcon } from "@phosphor-icons/react";
 import { Label } from "@ui-sdk/react/label";
 
-import { LockGlyph } from "@/components/glyphs";
 import { Button } from "@/registry/formula/ui/formula/button";
 import {
   Checkbox,
@@ -13,7 +13,7 @@ const Demo = () => (
   <TileGroup>
     <Tile>
       <Button aria-label="Lock doors" size="icon">
-        <LockGlyph />
+        <LockIcon aria-hidden size={20} />
       </Button>
       Lock
     </Tile>

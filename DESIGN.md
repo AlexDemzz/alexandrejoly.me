@@ -118,7 +118,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - **Layout:** the Column. One device, 400px wide at most, whose zones scale with its width: the g-force display, five tonal bands with the drive modes on the lower three and a readout on each, the climate strip, two rows of four square tiles, then the dock. A 2px black pin splits the bands and the climate strip down the middle.
 - **Display:** an indicator, never a control. It reads a looped lap (launch, brake, corner, power out) through a soft spring, scaled by the drive mode, with the square at the reading; the lateral value sits in a side column of a symmetric grid, so the rulers stay centred on the glass.
 - **Gestures:** knobs turn whole (reflections, knurling and index) by a vertical drag or the arrow keys, under a vertical resize cursor; switches turn their bar upright.
-- **Icons:** Tabler icons at a 1.5px stroke, and the Gemini mark on the AI key; none is drawn by hand.
+- **Icons:** Phosphor icons, the monorepo's one pack, at a 1.5px line (regular at 24px, light on the larger engraved marks), and the Gemini mark on the AI key; none is drawn by hand.
 - **Sound:** every press, detent and step sounds through the registry's `FormulaSound`, at the level the panel's own volume control sets and silenced by its mute key.
 - `prefers-reduced-motion`: the display rests at 0.00 and the switch bars turn without a transition; knobs still follow the pointer.
 

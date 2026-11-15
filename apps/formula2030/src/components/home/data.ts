@@ -72,18 +72,6 @@ export const usageOf = (name: string) => {
 
 const SITE_IMPORT = /from "(?<path>@\/(?!components\/ui\/formula\/)[^"]+)"/gu;
 
-const FORMULA_IMPORT = /from "@\/components\/ui\/formula\/(?<name>[a-z-]+)"/gu;
-
-/** Other Formula components the usage imports, by title. */
-export const needsOf = (name: string, code: string) =>
-  [
-    ...new Set(
-      [...code.matchAll(FORMULA_IMPORT)]
-        .map((match) => match.groups?.name ?? name)
-        .filter((other) => other !== name)
-    ),
-  ].map((other) => items.find((item) => item.name === other)?.title ?? other);
-
 /** Modules of this site the usage imports, which a consumer has to replace. */
 export const siteImportsOf = (code: string) => [
   ...new Set(

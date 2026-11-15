@@ -1,10 +1,11 @@
 import {
-  BoostGlyph,
-  HornGlyph,
-  LockGlyph,
-  NextGlyph,
-  PreviousGlyph,
-} from "@/components/glyphs";
+  CaretLeftIcon,
+  CaretRightIcon,
+  LightningIcon,
+  LockIcon,
+  MegaphoneIcon,
+} from "@phosphor-icons/react";
+
 import { Button } from "@/registry/formula/ui/formula/button";
 import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 
@@ -21,19 +22,19 @@ const Demo = () => (
     <TileGroup>
       <Tile>
         <Button aria-label="Lock doors" size="icon">
-          <LockGlyph />
+          <LockIcon aria-hidden size={20} />
         </Button>
         Lock
       </Tile>
       <Tile>
         <Button aria-label="Boost" size="icon" variant="gold">
-          <BoostGlyph />
+          <LightningIcon aria-hidden size={20} />
         </Button>
         Boost
       </Tile>
       <Tile>
         <Button aria-label="Sound the horn" size="icon" variant="ink">
-          <HornGlyph />
+          <MegaphoneIcon aria-hidden size={20} />
         </Button>
         Horn
       </Tile>
@@ -62,14 +63,14 @@ const Demo = () => (
     </TileGroup>
     <TileGroup>
       <Button aria-label="Previous track" variant="engraved">
-        <PreviousGlyph />
+        <CaretLeftIcon aria-hidden size={20} />
       </Button>
       <Button variant="engraved">Trip A</Button>
       <Button disabled variant="engraved">
         Trip B
       </Button>
       <Button aria-label="Next track" variant="engraved">
-        <NextGlyph />
+        <CaretRightIcon aria-hidden size={20} />
       </Button>
     </TileGroup>
   </>

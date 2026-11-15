@@ -7,6 +7,8 @@ export const SITE_DESCRIPTION =
 export const REGISTRY_URL = `${SITE_URL}/r/registry.json`;
 export const AUTHOR_URL = "https://alexandrejoly.me";
 export const UI_SDK_URL = "https://ui-sdk.dev";
+export const POLESTAR_URL =
+  "https://www.polestar.com/global/concept-cars/formula-2030/";
 export const SOURCE_URL = "https://github.com/AlexDemzz/alexandrejoly.me";
 export const THEME_COLOR = "#dfe3e9";
 

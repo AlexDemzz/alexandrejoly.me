@@ -1,12 +1,13 @@
 import {
-  DefrostGlyph,
-  FaceGlyph,
-  FeetGlyph,
-  HazardGlyph,
-  RecirculateGlyph,
-  ScreenGlyph,
-  SeatGlyph,
-} from "@/components/glyphs";
+  ArmchairIcon,
+  ArrowsClockwiseIcon,
+  FootprintsIcon,
+  SteeringWheelIcon,
+  UserIcon,
+  WarningIcon,
+  WavesIcon,
+} from "@phosphor-icons/react";
+
 import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 import {
   Toggle,
@@ -26,7 +27,7 @@ const Demo = () => (
       <Tile>
         <Toggle aria-label="Rear defrost" defaultPressed>
           <ToggleIcon>
-            <DefrostGlyph />
+            <WavesIcon aria-hidden size={20} />
           </ToggleIcon>
         </Toggle>
         Rear defrost
@@ -34,7 +35,7 @@ const Demo = () => (
       <Tile>
         <Toggle aria-label="Recirculate">
           <ToggleIcon>
-            <RecirculateGlyph />
+            <ArrowsClockwiseIcon aria-hidden size={20} />
           </ToggleIcon>
         </Toggle>
         Recirculate
@@ -42,7 +43,7 @@ const Demo = () => (
       <Tile>
         <Toggle aria-label="Seat heat" defaultPressed>
           <ToggleIcon>
-            <SeatGlyph />
+            <ArmchairIcon aria-hidden size={20} />
           </ToggleIcon>
         </Toggle>
         Seat heat
@@ -50,7 +51,7 @@ const Demo = () => (
       <Tile>
         <Toggle aria-label="Hazard lights" disabled>
           <ToggleIcon>
-            <HazardGlyph />
+            <WarningIcon aria-hidden size={20} />
           </ToggleIcon>
         </Toggle>
         Hazards
@@ -65,17 +66,17 @@ const Demo = () => (
         >
           <Toggle aria-label="Face" value="face">
             <ToggleIcon>
-              <FaceGlyph />
+              <UserIcon aria-hidden size={20} />
             </ToggleIcon>
           </Toggle>
           <Toggle aria-label="Feet" value="feet">
             <ToggleIcon>
-              <FeetGlyph />
+              <FootprintsIcon aria-hidden size={20} />
             </ToggleIcon>
           </Toggle>
           <Toggle aria-label="Windscreen" value="screen">
             <ToggleIcon>
-              <ScreenGlyph />
+              <SteeringWheelIcon aria-hidden size={20} />
             </ToggleIcon>
           </Toggle>
         </ToggleGroup>

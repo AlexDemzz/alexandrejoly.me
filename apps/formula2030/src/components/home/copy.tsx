@@ -1,62 +1,10 @@
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { Fragment, useEffect, useState } from "react";
-import type { RefObject } from "react";
 
-import { CheckGlyph, CopyGlyph } from "@/components/glyphs";
-
-type CopyState = "idle" | "copied" | "selected";
-
-const COPIED_MS = 2000;
-const COPIED = "Copied to the clipboard";
-const FALLBACK = "Selected. Press Ctrl+C or ⌘C to copy.";
+const COPIED_MS = 3000;
 
 // After "://", after each dot and after each path slash.
 const URL_BREAK = /(?<=:\/\/|[^:/]\/|\.)/u;
-
-const writeClipboard = async (text: string) => {
-  if (!navigator.clipboard?.writeText) {
-    return false;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const statusOf = (state: CopyState) => {
-  if (state === "copied") {
-    return COPIED;
-  }
-  return state === "selected" ? FALLBACK : "";
-};
-
-/** Copies the text, or selects its source when the clipboard is refused. */
-const useCopy = (text: string, source: RefObject<HTMLElement | null>) => {
-  const [state, setState] = useState<CopyState>("idle");
-
-  useEffect(() => {
-    if (state !== "copied") {
-      return;
-    }
-    const timer = setTimeout(() => setState("idle"), COPIED_MS);
-    return () => clearTimeout(timer);
-  }, [state]);
-
-  const copy = async () => {
-    if (await writeClipboard(text)) {
-      setState("copied");
-      return;
-    }
-    const selection = window.getSelection();
-    if (source.current && selection) {
-      selection.selectAllChildren(source.current);
-    }
-    setState("selected");
-  };
-
-  return { copy, state };
-};
 
 /** Lets a long URL wrap between its parts instead of mid-word. */
 export const Breakable = ({ text }: { text: string }) =>
@@ -68,47 +16,44 @@ export const Breakable = ({ text }: { text: string }) =>
     </Fragment>
   ));
 
-/** Its visible word starts the accessible name; the object follows unseen. */
-const Key = ({
-  object,
-  onClick,
-  state,
-}: {
-  object: string;
-  onClick: () => void;
-  state: CopyState;
-}) => (
-  <button
-    className="home-key"
-    data-state={state}
-    onClick={onClick}
-    type="button"
-  >
-    {state === "copied" ? <CheckGlyph /> : <CopyGlyph />}
-    {state === "copied" ? "Copied" : "Copy"}
-    <span className="sr-only"> {object}</span>
-  </button>
-);
-
 /** A copy key for a text shown beside it. */
-export const CopyKey = ({
-  object,
-  source,
-  text,
-}: {
-  object: string;
-  source: RefObject<HTMLElement | null>;
-  text: string;
-}) => {
-  const { copy, state } = useCopy(text, source);
+export const CopyKey = ({ object, text }: { object: string; text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) {
+      return;
+    }
+    const timer = setTimeout(() => setCopied(false), COPIED_MS);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+    } catch {
+      // A refused clipboard leaves the key as it was.
+    }
+  };
 
   return (
-    <div className="home-copy-key">
-      <Key object={object} onClick={copy} state={state} />
-      <span aria-hidden="true" className="home-copy-status">
-        {statusOf(state)}
-      </span>
-      <output className="sr-only">{statusOf(state)}</output>
-    </div>
+    <>
+      <button
+        className="home-key"
+        data-state={copied ? "copied" : "idle"}
+        onClick={copy}
+        type="button"
+      >
+        {copied ? (
+          <CheckIcon aria-hidden size={20} />
+        ) : (
+          <CopyIcon aria-hidden size={20} />
+        )}
+        Copy
+        <span className="sr-only"> {object}</span>
+      </button>
+      <output className="sr-only">{copied ? "Copied" : ""}</output>
+    </>
   );
 };

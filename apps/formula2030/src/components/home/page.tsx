@@ -1,3 +1,4 @@
+import { GithubLogoIcon } from "@phosphor-icons/react";
 import { FormulaPanel } from "@portfolio/formula2030/panel";
 import { Fragment } from "react";
 import type { CSSProperties, ReactNode } from "react";
@@ -7,6 +8,7 @@ import { REGISTER_INFO, themeItem } from "@/lib/registry";
 import {
   AGENT_PROMPT,
   AUTHOR_URL,
+  POLESTAR_URL,
   REGISTRY_URL,
   SITE_NAME,
   SOURCE_URL,
@@ -228,8 +230,16 @@ const Footer = () => (
   <footer className="home-band home-footer" data-ground="hi">
     <div className="home-footer-inner">
       <p>
-        Inspired by Polestar’s Formula 2030 concept. Not affiliated with
-        Polestar or Vercel.
+        Inspired by{" "}
+        <a
+          className="link"
+          href={POLESTAR_URL}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Polestar’s Formula 2030 concept
+        </a>
+        . Not affiliated with Polestar or Vercel.
       </p>
       <ul className="home-footer-links">
         <li>
@@ -279,14 +289,10 @@ export const HomePage = () => (
             </li>
           </ol>
         </nav>
-        <nav aria-label="Sections" className="home-top-nav">
-          <a className="link" href="#components">
-            Components
-          </a>
-          <a className="link" href={SOURCE_URL}>
-            Source
-          </a>
-        </nav>
+        <a className="home-key" href={SOURCE_URL}>
+          <GithubLogoIcon aria-hidden size={20} />
+          GitHub
+        </a>
       </div>
     </header>
     <main id="main">
