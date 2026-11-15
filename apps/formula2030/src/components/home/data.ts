@@ -98,13 +98,10 @@ export const siteImportsOf = (code: string) => [
   ),
 ];
 
-export const partsOf = (item: FormulaItem) => {
-  if (item.primitives.length === 0) {
-    return "No UI SDK part";
-  }
-  const label = item.primitives.length > 1 ? "UI SDK parts" : "UI SDK part";
-  return `${label}: ${item.primitives.join(", ")}`;
-};
+export const partsOf = (item: FormulaItem) =>
+  item.primitives.length > 0
+    ? `UI SDK: ${item.primitives.join(", ")}`
+    : undefined;
 
 export const registerTitle = (register: string) =>
   isRegister(register) ? REGISTER_INFO[register].title : "Every register";

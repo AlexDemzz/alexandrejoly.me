@@ -1197,20 +1197,6 @@ code {
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
-
-  & .register-mark {
-    inline-size: 0.5em;
-    block-size: 0.5em;
-  }
-}
-
-.home .home-head-gloss {
-  color: var(--home-dim);
-}
-
-/* The marks drawn in glass would vanish on the black chapter. */
-.home [data-ground="glass"] .home-head-title .register-mark {
-  outline: 1px solid var(--home-line);
 }
 
 /* Three steps under the Strata chapter, each one darker, then glass. */
@@ -1318,6 +1304,12 @@ code {
 
 .home .home-tile-part {
   color: var(--home-dim);
+}
+
+/* The indeterminate bar sweeps past its track; keep it inside the tile. */
+.home [data-item="progress"] .home-tile-stage {
+  overflow-x: clip;
+  overflow-clip-margin: calc(var(--formula-ring) + 2px);
 }
 
 /* Strata: light bands on a hairline grid, so tone-5 reads on tone-4. */
@@ -1746,15 +1738,6 @@ code {
   align-items: baseline;
   gap: 0 0.5rem;
   font-weight: 500;
-}
-
-.home .home-fold-path {
-  color: var(--home-dim);
-  font-weight: 400;
-
-  & code {
-    font-weight: 400;
-  }
 }
 
 .home .home-fold-note {

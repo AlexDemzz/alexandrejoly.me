@@ -88,9 +88,6 @@ export const FoldPanel = ({
             </span>
           ) : null}
           {title} usage
-          <span className="home-fold-path">
-            imports from <code>@/components/ui/formula/</code>
-          </span>
         </p>
         <CopyKey
           object={`the ${title} usage code`}
@@ -98,30 +95,23 @@ export const FoldPanel = ({
           text={code}
         />
         {needs.length > 0 ? (
-          <p className="home-fold-note">
-            Also uses {listed(needs)}: install{" "}
-            {needs.length > 1 ? "them" : "it"} the same way.
-          </p>
+          <p className="home-fold-note">Needs {listed(needs)}.</p>
         ) : null}
         {siteImports.length > 0 ? (
           <p className="home-fold-note">
-            Also imports{" "}
+            Replace{" "}
             {siteImports.map((path, index) => (
               <Fragment key={path}>
                 {index > 0 ? " and " : null}
                 <code>{path}</code>
               </Fragment>
-            ))}
-            {siteImports.length > 1 ? ", modules" : ", a module"} of this site:
-            use your own.
+            ))}{" "}
+            with your own.
           </p>
         ) : null}
         {name === "sound" ? (
           <p className="home-fold-note">
-            That module is this site’s on and off switch for sound. What it
-            mounts, once for the whole page, is{" "}
-            <code>{"<FormulaSound muted={!on} />"}</code>: mount FormulaSound
-            once in your app the same way.
+            Mount <code>{"<FormulaSound />"}</code> once in your app.
           </p>
         ) : null}
       </div>

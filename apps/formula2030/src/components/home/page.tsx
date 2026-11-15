@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties, MouseEvent, ReactNode, RefObject } from "react";
 
-import { RegisterMark } from "@/components/register-mark";
 import type { FormulaItem, Register } from "@/lib/registry";
 import { REGISTER_INFO, themeItem } from "@/lib/registry";
 import {
@@ -56,25 +55,10 @@ const SWATCHES = [
   "cold",
 ];
 
-const CHAPTERS: Record<
-  Register,
-  { ground: string; lede: string; statement: string }
-> = {
-  machined: {
-    ground: "ice",
-    lede: "The lowest row of the panel, where the hand rests. Keys, knobs and switches are milled into ice tiles; a press sinks the key and a lamp lights while it is on. Gold marks the one control in a group that does the most.",
-    statement: "Seven components, each one pressed, turned or flipped.",
-  },
-  readout: {
-    ground: "glass",
-    lede: "The top of the panel, where the eye goes. Values are read on black glass against hairline tick scales, with a square marker at the reading. Every tick is a unit.",
-    statement: "Nothing on the glass is there for decoration.",
-  },
-  strata: {
-    ground: "t4",
-    lede: "The middle of the panel. A choice between a few settings is a run of flat bands, darkest first, with no outline around any of them. The chosen band turns to ink.",
-    statement: "The choice reads without a tick or a dot.",
-  },
+const CHAPTERS: Record<Register, { ground: string; line: string }> = {
+  machined: { ground: "ice", line: "Keys, knobs and switches on ice tiles." },
+  readout: { ground: "glass", line: "Values on black glass, against a scale." },
+  strata: { ground: "t4", line: "Flat bands. The choice turns to ink." },
 };
 
 /* Wayfinding: the chapter under the upper middle of the viewport is current. */
@@ -175,20 +159,17 @@ const Band = ({
 
 const TileCaption = ({
   children,
-  description,
   install,
   name,
   part,
 }: {
   children?: ReactNode;
-  description: ReactNode;
   install: string;
   name: string;
-  part: string;
+  part: string | undefined;
 }) => (
   <div className="home-tile-caption">
-    <p>{description}</p>
-    <p className="home-tile-part">{part}</p>
+    {part ? <p className="home-tile-part">{part}</p> : null}
     <CopyLine object={`the ${name} install command`} text={install} />
     {children}
   </div>
@@ -225,7 +206,6 @@ const Tile = ({
         </section>
       ) : null}
       <TileCaption
-        description={item.description}
         install={installCommand(item.name)}
         name={item.title}
         part={partsOf(item)}
@@ -328,37 +308,28 @@ const Sheet = ({
 };
 
 const ChapterHead = ({
-  gloss,
   id,
-  lede,
-  register,
-  statement,
+  line,
   title,
   verb,
 }: {
-  gloss: string;
   id: string;
-  lede: string;
-  register: string;
-  statement: string;
+  line: string;
   title: string;
   verb: string;
 }) => (
   <header className="home-head">
     <p className="home-head-verb">{verb}</p>
     <h3 className="home-head-title" id={id}>
-      <RegisterMark register={register} />
       {title}
     </h3>
-    <p className="home-head-gloss">{gloss}</p>
-    <p>{lede}</p>
-    <p className="home-statement">{statement}</p>
+    <p>{line}</p>
   </header>
 );
 
 const Chapter = ({ register }: { register: Register }) => {
-  const { ground, lede, statement } = CHAPTERS[register];
-  const { gloss, title, verb } = REGISTER_INFO[register];
+  const { ground, line } = CHAPTERS[register];
+  const { title, verb } = REGISTER_INFO[register];
   const titleId = `home-${register}-title`;
 
   return (
@@ -369,15 +340,7 @@ const Chapter = ({ register }: { register: Register }) => {
       labelledBy={titleId}
       spy={register}
     >
-      <ChapterHead
-        gloss={gloss}
-        id={titleId}
-        lede={lede}
-        register={register}
-        statement={statement}
-        title={title}
-        verb={verb}
-      />
+      <ChapterHead id={titleId} line={line} title={title} verb={verb} />
       <Sheet register={register} rows={rowsIn(register)} />
     </Band>
   );
@@ -401,11 +364,8 @@ const Shared = () => (
     spy="shared"
   >
     <ChapterHead
-      gloss="Parts of the theme that serve every register at once."
       id="home-shared-title"
-      lede="The tokens every component reads, and the sounds every component makes. Each installs once."
-      register="other"
-      statement="Sound is the one shared component so far."
+      line="Theme tokens and sound."
       title="Every register"
       verb="Shared"
     />
@@ -439,15 +399,9 @@ const Shared = () => (
             ))}
           </ul>
           <TileCaption
-            description={
-              <>
-                {themeItem.description} Every component installs them as a
-                dependency, into <code>components/ui/formula/</code>.
-              </>
-            }
             install={installCommand(themeItem.name)}
             name="theme tokens"
-            part="The --formula-* custom properties"
+            part="--formula-* custom properties"
           />
         </article>
       ) : null}
@@ -516,16 +470,7 @@ const Install = () => {
           Install
         </h2>
         <p>
-          Hand the prompt to a coding agent, or add one component at a time with
-          the shadcn CLI. Files land in <code>components/ui/formula/</code>,
-          beside the components a shadcn project already has.
-        </p>
-        <p>
-          Every component brings the{" "}
-          <a className="link" href={`#${TOKENS_ID}`}>
-            theme tokens
-          </a>{" "}
-          with it.
+          Files land in <code>components/ui/formula/</code>.
         </p>
       </header>
       <div className="home-sheet-frame">
@@ -533,12 +478,11 @@ const Install = () => {
           <li className="home-tile" data-ground="glass" data-item="prompt">
             <Glass className="home-install-glass">
               <GlassBrackets />
-              <GlassCaption>Prompt for a coding agent</GlassCaption>
+              <GlassCaption>Agent prompt</GlassCaption>
               <code className="home-install-text" ref={prompt}>
                 <Breakable text={AGENT_PROMPT} />
               </code>
               <div className="home-install-foot">
-                <p>It names the registry and where the files go.</p>
                 <CopyKey
                   object="the prompt for a coding agent"
                   source={prompt}
@@ -548,17 +492,11 @@ const Install = () => {
             </Glass>
           </li>
           <li className="home-tile" data-item="cli">
-            <p className="home-install-caption">
-              One component, with the shadcn CLI
-            </p>
+            <p className="home-install-caption">shadcn CLI</p>
             <code className="home-install-text" ref={cli}>
               <Breakable text={CLI_COMMAND} />
             </code>
             <div className="home-install-foot">
-              <p>
-                Adds Switch and the theme tokens it reads. Every tile below
-                gives its own command.
-              </p>
               <CopyKey
                 object="the shadcn command for Switch"
                 source={cli}
@@ -576,8 +514,8 @@ const Footer = () => (
   <footer className="home-band home-footer" data-ground="hi">
     <div className="home-footer-inner">
       <p>
-        An independent project inspired by the control panel of Polestar’s
-        Formula 2030 concept. Not affiliated with Polestar or Vercel.
+        Inspired by Polestar’s Formula 2030 concept. Not affiliated with
+        Polestar or Vercel.
       </p>
       <ul className="home-footer-links">
         <li>
@@ -593,7 +531,7 @@ const Footer = () => (
         </li>
         <li>
           <a className="link" href={SOURCE_URL}>
-            Source on GitHub
+            Source
           </a>
         </li>
         <li>
@@ -655,11 +593,6 @@ export const HomePage = () => {
               </h2>
               <p className="home-section-aside">
                 {registerCount} in three registers, plus Sound
-              </p>
-              <p>
-                Each one is live, on its register’s ground. Under each: what it
-                does, the UI SDK part underneath and its install command. Its
-                usage code folds open below its row.
               </p>
             </header>
           </Band>
