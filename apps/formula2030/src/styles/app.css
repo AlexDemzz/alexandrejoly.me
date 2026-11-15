@@ -12,10 +12,6 @@
   --site-gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
   --site-max: 76rem;
   --site-panel: 30rem;
-  --site-rise:
-    0 0 0 0.5px oklch(var(--formula-shade) / 0.14),
-    0 1px 2px oklch(var(--formula-shade) / 0.08),
-    0 24px 48px -28px oklch(var(--formula-shade) / 0.45);
   color-scheme: light;
   interpolate-size: allow-keywords;
   scrollbar-gutter: stable;
@@ -52,7 +48,7 @@ body {
  * Only the site's own prose may break long words: the registry's tick-scale
  * labels sit in zero-width boxes and would break between digits.
  */
-:is(.page, .site-footer, .not-found) :is(p, h1, h2, h3, h4, dd) {
+:is(.site-footer, .not-found) :is(p, h1, h2, h3, h4, dd) {
   overflow-wrap: break-word;
 }
 
@@ -119,95 +115,6 @@ code {
   }
 }
 
-/* Top bar */
-
-.topbar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-  inline-size: 100%;
-  max-inline-size: calc(var(--site-max) + 2 * var(--site-gutter));
-  margin-inline: auto;
-  padding-block: 1.25rem 0;
-  padding-inline: var(--site-gutter);
-  font-size: var(--formula-text);
-}
-
-.topbar-registry {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.625rem;
-  text-decoration-color: transparent;
-}
-
-.mark {
-  flex: none;
-  inline-size: 1.5rem;
-  block-size: 1.5rem;
-}
-
-.topbar-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
-
-  & .link {
-    padding-block: 0.25rem;
-    color: var(--formula-tile-dim);
-  }
-
-  & .link:active {
-    color: var(--formula-tile-ink);
-  }
-}
-
-/* Page */
-
-.page {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: clamp(4rem, 3rem + 4vw, 7rem);
-  inline-size: 100%;
-  max-inline-size: calc(var(--site-max) + 2 * var(--site-gutter));
-  margin-inline: auto;
-  padding-block: clamp(2.5rem, 2rem + 2.5vw, 4.5rem)
-    clamp(4rem, 3rem + 4vw, 7rem);
-  padding-inline: var(--site-gutter);
-}
-
-.section {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
-}
-
-.section-head {
-  display: grid;
-  gap: 0.625rem;
-  max-inline-size: 40rem;
-}
-
-.section-title {
-  margin: 0;
-  font-size: clamp(1.625rem, 1.4rem + 1vw, 2.25rem);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
-}
-
-.section-lede {
-  margin: 0;
-  color: var(--formula-tile-dim);
-
-  & code {
-    color: var(--formula-tile-ink);
-    font-weight: 500;
-  }
-}
-
 /* Register marks: a tiny sample of each register's material. */
 
 .register-mark {
@@ -256,79 +163,7 @@ code {
   }
 }
 
-/* Hero: the rules on the left line up with the panel's registers. */
-
-.hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 2rem;
-}
-
-.hero-masthead {
-  display: grid;
-  gap: 1rem;
-  max-inline-size: 36rem;
-
-  & h1 {
-    margin: 0;
-    font-size: clamp(2.75rem, 2rem + 3.5vw, 5rem);
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.035em;
-  }
-}
-
-.hero-lede {
-  margin: 0;
-  max-inline-size: 34rem;
-  color: var(--formula-tile-dim);
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  line-height: 1.45;
-
-  & .link {
-    color: var(--formula-tile-ink);
-  }
-}
-
-.hero-intro-title {
-  margin: 0;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-  font-weight: 400;
-}
-
-.hero-rules {
-  display: grid;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.rule {
-  display: flex;
-  align-items: center;
-}
-
-.rule-text {
-  display: grid;
-  gap: 0.125rem;
-  max-inline-size: 22rem;
-}
-
-.rule-line {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0;
-  font-size: 1.0625rem;
-  font-weight: 500;
-
-  & .register-mark {
-    margin-inline-start: 0.125rem;
-  }
-}
+/* The register rules of the Open Graph image. */
 
 .rule-verb {
   color: var(--formula-tile-dim);
@@ -338,16 +173,6 @@ code {
 .rule-arrow {
   color: var(--formula-tile-dim);
   font-weight: 400;
-}
-
-.rule-gloss {
-  margin: 0;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-}
-
-.rule-leader {
-  display: none;
 }
 
 .panel {
@@ -467,293 +292,6 @@ code {
 .panel [data-slot="tile-group"].panel-tiles {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   padding-block-start: var(--formula-seam);
-}
-
-/* Install */
-
-.install-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-  gap: 1.25rem;
-  align-items: stretch;
-}
-
-.copy-block,
-.theme-card {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 1fr auto;
-  border-radius: var(--formula-radius);
-  overflow: clip;
-  box-shadow: var(--site-rise);
-}
-
-.copy-block-glass {
-  display: grid;
-  align-content: start;
-  gap: 0.75rem;
-}
-
-.copy-block-text {
-  color: var(--formula-glass-ink);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-
-  &::selection {
-    background: color-mix(in oklch, var(--formula-signal) 40%, transparent);
-  }
-}
-
-.copy-block-plate {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem 1rem;
-  padding: 1rem 1.25rem 1.125rem;
-  background: var(--formula-tile);
-  box-shadow: inset 0 1px 0 var(--formula-hi);
-}
-
-.copy-status {
-  color: var(--formula-tile-ink);
-  font-size: var(--formula-caption);
-}
-
-.theme-card {
-  grid-template-rows: auto auto 1fr auto;
-  gap: 0.75rem;
-  padding-block-start: 1.5rem;
-  background: var(--formula-tile);
-
-  & > :not(.copy-command) {
-    margin: 0;
-    padding-inline: 1.25rem;
-  }
-}
-
-.theme-title {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.theme-description {
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-}
-
-.theme-swatches {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  align-self: end;
-  gap: var(--formula-seam);
-  list-style: none;
-
-  & > li {
-    aspect-ratio: 1;
-    background: var(--swatch);
-    border-radius: 3px;
-    box-shadow: inset 0 0 0 0.5px oklch(var(--formula-shade) / 0.25);
-  }
-}
-
-/* One install command with its copy key */
-
-.copy-command {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.125rem 0.75rem;
-  padding: 0.875rem 1rem 1rem 1.25rem;
-  background: var(--formula-tile);
-  box-shadow: inset 0 1px 0 var(--formula-hi);
-}
-
-.copy-command-caption {
-  grid-column: 1;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-caption);
-
-  &:not([data-state="idle"]) {
-    color: var(--formula-tile-ink);
-  }
-}
-
-.copy-command-text {
-  grid-column: 1;
-  color: var(--formula-tile-ink);
-  font-size: 0.75rem;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
-
-  &::selection {
-    background: color-mix(in oklch, var(--formula-lamp) 35%, transparent);
-  }
-}
-
-.copy-command-key {
-  grid-row: 1 / 3;
-  grid-column: 2;
-}
-
-/* Components */
-
-.gallery-filter {
-  display: grid;
-  gap: 0.75rem;
-  max-inline-size: 36rem;
-
-  & [data-slot="segmented-control"] {
-    border-radius: var(--formula-radius);
-    overflow: clip;
-    box-shadow: var(--site-rise);
-  }
-}
-
-/* Four bands do not fit a phone's width in one row, so they pair up. */
-@media (max-width: 26rem) {
-  .gallery-filter [data-slot="segmented-control"][data-formula="strata"] {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-flow: row;
-  }
-}
-
-.gallery-status {
-  display: block;
-  margin: 0;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-}
-
-.group {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1.25rem;
-  padding-block-start: 1.5rem;
-  border-block-start: 1px solid var(--formula-tile-line);
-
-  &[hidden] {
-    display: none;
-  }
-}
-
-.group-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 1rem;
-}
-
-.group-title {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-.group-gloss {
-  margin: 0;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-}
-
-.group-cards {
-  columns: 3 21rem;
-  column-gap: 1.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  & > li {
-    break-inside: avoid;
-    margin-block-end: 1.25rem;
-  }
-}
-
-.card {
-  display: grid;
-  border-radius: var(--formula-radius);
-  overflow: clip;
-  background: var(--formula-tile);
-  box-shadow: var(--site-rise);
-}
-
-.card-head {
-  display: grid;
-  gap: 0.5rem;
-  padding: 1.25rem 1.25rem 1.125rem;
-}
-
-.card-title {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.card-description {
-  margin: 0;
-  color: var(--formula-tile-dim);
-  font-size: var(--formula-text);
-}
-
-.card-specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
-  margin: 0.25rem 0 0;
-  font-size: var(--formula-caption);
-
-  & dt {
-    color: var(--formula-tile-dim);
-  }
-
-  & dd {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    margin: 0;
-    color: var(--formula-tile-ink);
-    font-weight: 500;
-  }
-}
-
-.card-stage {
-  container: stage / inline-size;
-  display: grid;
-  gap: var(--formula-seam);
-  padding-block: var(--formula-seam);
-  background: var(--formula-bed);
-
-  &[data-register="readout"] {
-    padding-block: 0;
-    background: var(--formula-glass);
-  }
-
-  &[data-register="strata"] {
-    padding-block: 0;
-    background: var(--formula-tone-5);
-  }
-}
-
-/*
- * The tile group's own 88px minimum leaves one tile alone on a row in a
- * phone-width card. A slightly smaller minimum keeps rows of four together,
- * and a narrow card splits groups of four into pairs.
- */
-.card-stage [data-slot="tile-group"][data-formula="machined"] {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
-}
-
-@container stage (max-width: 21rem) {
-  .card-stage
-    [data-slot="tile-group"][data-formula="machined"]:has(
-      > :nth-child(4n):last-child
-    ) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .demo-seams {
@@ -876,86 +414,1478 @@ code {
   padding-block: 1.25rem;
 }
 
-/* Wide: the rules sit in a column beside the panel, one per register. */
+/*
+ * The home page: one column that descends through the registers as chapters,
+ * the ground changing under each one (white, ice, tonal bands, black glass,
+ * white again). Each register is one contact sheet; every tile carries its
+ * own caption and install command, and its usage code folds open as a full
+ * row of the sheet, right under the tile's row.
+ */
 
-@media (min-width: 60rem) {
-  .hero {
-    grid-template-columns: minmax(0, 1fr) var(--site-panel);
-    grid-template-rows: auto auto auto auto;
-    gap: 0;
+:root:has(.home) {
+  /* Below 84rem the rail is sticky: keep focus and anchors clear of it. */
+  scroll-padding-block-start: 2.875rem;
+  background: var(--formula-hi);
+
+  & body {
+    background: var(--formula-hi);
+  }
+}
+
+.home {
+  --home-gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
+  --home-column: 56rem;
+  --home-track: min(100% - 2 * var(--home-gutter), var(--home-column));
+  --home-measure: 22rem;
+  --home-chapter-pad: clamp(4rem, 2.75rem + 5vw, 7.5rem);
+  --home-anchor: 1.5rem;
+  --home-key: 2rem;
+  --home-arrow: 2.5rem;
+  --home-mark-hit: 1.5rem;
+  --home-mark: 0.5rem;
+
+  /* Ground roles, white by default; each [data-ground] swaps them. */
+  --home-bg: var(--formula-hi);
+  --home-fg: var(--formula-tile-ink);
+  --home-dim: var(--formula-tile-dim);
+  --home-line: var(--formula-tile-line);
+  --home-ring: var(--formula-tile-ink);
+
+  min-block-size: 100svh;
+  background: var(--home-bg);
+  color: var(--home-fg);
+  font-size: var(--formula-text);
+  line-height: 1.5;
+
+  & :is(h1, h2, h3, h4, p, dl, dd) {
+    margin: 0;
   }
 
-  .hero-masthead {
-    grid-row: 1;
-    grid-column: 1;
-    align-self: start;
-    padding-block: 0.5rem 2.5rem;
-    padding-inline-end: 2rem;
+  & :is(p, h1, h2, h3, h4, dd) {
+    overflow-wrap: break-word;
   }
 
-  .hero-intro-title {
-    grid-row: 2;
-    grid-column: 1;
-    align-self: start;
+  & code {
+    font-family: inherit;
+    font-weight: 500;
   }
 
-  .hero-rules {
-    display: grid;
-    grid-row: 2 / 5;
-    grid-column: 1;
-    grid-template-rows: subgrid;
-    gap: 0;
+  & .skip-link {
+    z-index: 30;
   }
 
-  .rule {
-    gap: 1.5rem;
-  }
-
-  .rule-text {
-    flex: 0 1 22rem;
-  }
-
-  .rule[data-register="readout"] {
-    align-self: end;
-    padding-block: 2.25rem 2.5rem;
-  }
-
-  .rule-leader {
-    display: block;
-    flex: 1;
-    position: relative;
-    min-inline-size: 2rem;
-    block-size: 1px;
-    background: var(--formula-tile-line);
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
-      inset-block-start: -2px;
-      inline-size: 5px;
-      block-size: 5px;
-      background: var(--formula-tile-dim);
+  & .link {
+    &:focus-visible {
+      outline-color: var(--home-ring);
     }
+
+    &:active {
+      color: var(--home-fg);
+    }
+  }
+
+  & [id] {
+    scroll-margin-block-start: var(--home-anchor);
+  }
+
+  @media (pointer: coarse) {
+    --home-key: 2.75rem;
+    --home-arrow: 2.75rem;
+    --home-mark-hit: 2.75rem;
+  }
+}
+
+/* Grounds. Every text colour was measured on its ground: 4.5:1 or more. */
+
+.home [data-ground] {
+  background: var(--home-bg);
+  color: var(--home-fg);
+}
+
+.home [data-ground="hi"] {
+  --home-bg: var(--formula-hi);
+  --home-fg: var(--formula-tile-ink);
+  /* 5.1:1 on white. */
+  --home-dim: var(--formula-tile-dim);
+  --home-line: var(--formula-tile-line);
+  --home-ring: var(--formula-tile-ink);
+}
+
+.home [data-ground="ice"] {
+  --home-bg: var(--formula-ice);
+  --home-fg: var(--formula-tile-ink);
+  /* tile-dim alone is 3.9:1 on ice; this mix is 6.6:1. */
+  --home-dim: color-mix(
+    in oklch,
+    var(--formula-tile-dim) 60%,
+    var(--formula-tile-ink)
+  );
+  --home-line: color-mix(in oklch, var(--formula-tile-ink) 22%, transparent);
+  --home-ring: var(--formula-tile-ink);
+}
+
+.home [data-ground="t4"] {
+  --home-bg: var(--formula-tone-4);
+  --home-fg: var(--formula-ink);
+  /* 7.5:1 on tone-4. */
+  --home-dim: var(--formula-tone-1);
+  --home-line: color-mix(in oklch, var(--formula-ink) 22%, transparent);
+  --home-ring: var(--formula-ink);
+}
+
+.home [data-ground="glass"] {
+  --home-bg: var(--formula-glass);
+  --home-fg: var(--formula-glass-ink);
+  /* 6.7:1 on glass. */
+  --home-dim: var(--formula-glass-dim);
+  --home-line: var(--formula-glass-line);
+  --home-ring: var(--formula-glass-ink);
+}
+
+/* A full-bleed band whose children sit on the one centred column. */
+
+.home .home-band {
+  display: grid;
+  grid-template-columns: 1fr var(--home-track) 1fr;
+
+  & > * {
+    grid-column: 2;
+  }
+}
+
+/* Top bar */
+
+.home .home-top {
+  display: grid;
+  grid-template-columns: 1fr var(--home-track) 1fr;
+  border-block-end: 1px solid var(--formula-tile-line);
+}
+
+.home .home-top-inner {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem 1.5rem;
+  padding-block: 0.75rem;
+}
+
+.home .home-crumbs {
+  & ol {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  & li + li::before {
+    content: "/" / "";
+    padding-inline: 0.5rem;
+    color: var(--home-dim);
+  }
+
+  & .link {
+    display: inline-block;
+    padding-block: 0.25rem;
+    text-decoration-color: transparent;
+  }
+}
+
+.home .home-top-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+
+  & .link {
+    display: inline-block;
+    padding-block: 0.25rem;
+    text-decoration-color: transparent;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home :is(.home-crumbs .link, .home-top-nav .link):hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+/* The chapter rail: a small readout of its own, so it reads on every ground. */
+
+.home .home-rail {
+  position: sticky;
+  z-index: 20;
+  inset-block-start: 0;
+  border-block-end: 1px solid var(--formula-glass-line);
+  background: var(--formula-glass);
+  color: var(--formula-glass-dim);
+}
+
+.home .home-rail-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  inline-size: var(--home-track);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.home .home-rail-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-block-size: 2.75rem;
+  padding-inline: 0.375rem;
+  color: inherit;
+  text-decoration: none;
+  touch-action: manipulation;
+  transition:
+    color 150ms ease-out,
+    transform 120ms var(--formula-ease-out);
+
+  &[aria-current] {
+    color: var(--formula-glass-ink);
+  }
+
+  &:focus-visible {
+    outline: var(--formula-ring) solid var(--formula-glass-ink);
+    outline-offset: -4px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+/* Hollow where the reader is not; a thick border fills it where they are. */
+.home .home-rail-marker {
+  flex: none;
+  box-sizing: border-box;
+  inline-size: 6px;
+  block-size: 6px;
+  border: 1px solid currentColor;
+
+  [aria-current] > & {
+    border-width: 3px;
+  }
+}
+
+.home .home-rail-count {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home .home-rail-link:hover {
+    color: var(--formula-glass-ink);
+  }
+}
+
+@media (max-width: 24rem) {
+  .home .home-rail-count {
+    display: none;
+  }
+}
+
+/* Wide: the rail moves into the left margin, clear of the column. */
+@media (min-width: 84rem) {
+  :root:has(.home) {
+    scroll-padding-block-start: 0;
+  }
+
+  .home .home-rail {
+    position: fixed;
+    inset-block-start: 50%;
+    inset-inline-start: var(--home-gutter);
+    inline-size: 9rem;
+    padding: 0.375rem;
+    border: 1px solid var(--formula-glass-line);
+    translate: 0 -50%;
+  }
+
+  .home .home-rail-list {
+    grid-template-columns: minmax(0, 1fr);
+    inline-size: auto;
+  }
+
+  .home .home-rail-link {
+    justify-content: start;
+    min-block-size: 2.25rem;
+    padding-inline: 0.625rem;
+  }
+
+  .home .home-rail-count {
+    margin-inline-start: auto;
+  }
+}
+
+/* Shared text pieces */
+
+.home .home-statement {
+  font-weight: 500;
+}
+
+.home .home-num {
+  font-size: var(--formula-caption);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.home .home-section-head,
+.home .home-head,
+.home .home-intro {
+  display: grid;
+  gap: 0.75em;
+  max-inline-size: var(--home-measure);
+}
+
+.home .home-section-title {
+  font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.75rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.home .home-section-aside {
+  margin-block-start: -0.5em;
+  color: var(--home-dim);
+}
+
+/* Opening: the title and the dictionary entry stand on the stage. */
+
+.home .home-opening {
+  padding-block-start: clamp(2.5rem, 1.5rem + 4vw, 5.5rem);
+}
+
+.home .home-masthead {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem 2rem;
+  margin-block-end: clamp(1rem, 0.75rem + 1vw, 1.75rem);
+
+  @media (min-width: 48rem) {
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    align-items: end;
+  }
+}
+
+.home .home-title {
+  font-size: clamp(2.75rem, 1.75rem + 4vw, 5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.home .home-word {
+  display: grid;
+  gap: 0.5rem;
+  max-inline-size: 18rem;
+
+  & dt {
+    font-size: 1.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+}
+
+.home .home-word-term {
+  font-style: normal;
+}
+
+.home :is(.home-word-ipa, .home-word-class) {
+  color: var(--home-dim);
+  letter-spacing: 0;
+}
+
+.home .home-intro {
+  margin-block-start: clamp(3rem, 2.5rem + 2vw, 4.5rem);
+}
+
+/* The stage: one ice block, round arrows at its edges, square marks below. */
+
+.home .home-viewer {
+  display: grid;
+  gap: 1rem;
+}
+
+.home .home-stage {
+  display: grid;
+  grid-template-columns: var(--home-arrow) minmax(0, 1fr) var(--home-arrow);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "label label label"
+    "prev plates next"
+    "marks marks marks";
+  gap: 0 1rem;
+  padding-block: 1rem 0.5rem;
+  padding-inline: 1rem;
+  background: var(--formula-ice);
+  color: var(--formula-tile-ink);
+  /* The marks: grey where idle, ink where current, 3:1 or more on ice. */
+  --home-mark-idle: color-mix(
+    in oklch,
+    var(--formula-tile-dim) 70%,
+    var(--formula-tile-ink)
+  );
+}
+
+.home .home-stage-label {
+  grid-area: label;
+  display: grid;
+  gap: 0.125rem;
+  line-height: 1.35;
+}
+
+.home .home-stage-register {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 0.5rem;
+  font-weight: 500;
+}
+
+.home .home-stage-count {
+  margin-inline-start: 0.25rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.home .home-arrow {
+  grid-area: prev;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  inline-size: var(--home-arrow);
+  block-size: var(--home-arrow);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: var(--formula-hi);
+  color: var(--formula-ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 140ms var(--formula-ease-out);
+
+  &[data-side="end"] {
+    grid-area: next;
+  }
+
+  & svg {
+    inline-size: 1rem;
+    block-size: 1rem;
+  }
+
+  &:focus-visible {
+    outline: var(--formula-ring) solid var(--formula-ink);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  @media (forced-colors: active) {
+    border-color: ButtonText;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home .home-arrow:hover {
+    border-color: var(--formula-tile-line);
+  }
+}
+
+/*
+ * Every plate sits in the same cell, so the stage is as tall as the tallest
+ * one at every width and never jumps. Only the current plate is visible.
+ */
+.home .home-plates {
+  grid-area: plates;
+  display: grid;
+  min-inline-size: 0;
+  padding-block: 1.5rem 2rem;
+}
+
+.home .home-plate {
+  grid-area: 1 / 1;
+  display: grid;
+  place-items: center;
+  min-inline-size: 0;
+  visibility: hidden;
+  opacity: 0;
+
+  &[data-active] {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  [data-fade] > & {
+    transition:
+      opacity 180ms var(--formula-ease-out),
+      visibility 0s linear 180ms;
+
+    &[data-active] {
+      transition: opacity 180ms var(--formula-ease-out);
+    }
+  }
+}
+
+.home .home-plate-ground {
+  container: home-plate / inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--formula-seam);
+  inline-size: min(100%, var(--home-plate-width));
+
+  &[data-ground="machined"] {
+    padding-block: var(--formula-seam);
+    background: var(--formula-bed);
+  }
+
+  &[data-ground="strata"] {
+    background: var(--formula-tone-5);
+  }
+
+  &[data-ground="readout"] {
+    background: var(--formula-glass);
+
+    & .demo-seams {
+      background: var(--formula-glass-line);
+    }
+  }
+
+  &[data-ground="panel"] {
+    justify-items: center;
+  }
+}
+
+.home .home-marks {
+  grid-area: marks;
+  display: flex;
+  flex-wrap: wrap;
+  margin-inline-start: calc((var(--home-mark-hit) - var(--home-mark)) / -2);
+}
+
+.home .home-mark {
+  display: grid;
+  place-items: center;
+  inline-size: var(--home-mark-hit);
+  block-size: var(--home-mark-hit);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--home-mark-idle);
+  cursor: pointer;
+  touch-action: manipulation;
+
+  /* A filled square drawn as a border, so it holds in forced colours. */
+  &::before {
+    content: "";
+    box-sizing: border-box;
+    inline-size: var(--home-mark);
+    block-size: var(--home-mark);
+    border: calc(var(--home-mark) / 2) solid currentColor;
+    transform-origin: 0 50%;
+  }
+
+  &[aria-selected="true"] {
+    color: var(--formula-ink);
 
     &::before {
-      inset-inline-start: 0;
-    }
-
-    &::after {
-      inset-inline-end: 0;
-      background: var(--formula-tile-line);
+      scale: 1.75 1;
     }
   }
 
-  .hero .panel {
-    grid-row: 1 / 5;
+  &:focus-visible {
+    outline: var(--formula-ring) solid var(--formula-ink);
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: transform 140ms var(--formula-ease-out);
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+/* The mark only stretches in motion when a pointer changed the view. */
+@media (prefers-reduced-motion: no-preference) {
+  .home .home-stage:has(> .home-plates[data-fade]) .home-mark::before {
+    transition: scale 200ms var(--formula-ease-out);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home .home-mark:hover {
+    color: var(--formula-ink);
+  }
+}
+
+/* The caption under the stage: a grey label, then two lines of text. */
+
+.home .home-plate-captions {
+  display: grid;
+}
+
+.home .home-plate-caption {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+  max-inline-size: 26rem;
+  visibility: hidden;
+
+  &[data-active] {
+    visibility: visible;
+  }
+
+  & > :last-child {
+    margin-block-start: 0.375rem;
+  }
+}
+
+.home .home-plate-caption-label {
+  color: var(--home-dim);
+}
+
+/* Narrow: the stage runs to the screen's edges and the arrows go top right. */
+@media (max-width: 40rem) {
+  .home .home-stage {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "label prev next"
+      "plates plates plates"
+      "marks marks marks";
+    gap: 0 0.25rem;
+    margin-inline: calc(var(--home-gutter) * -1);
+    padding-block: 0.5rem;
+    padding-inline: 0.5rem;
+  }
+
+  .home .home-stage-label {
+    align-self: center;
+    padding-inline-start: 0.25rem;
+  }
+
+  .home .home-arrow {
+    align-self: start;
+  }
+
+  .home .home-plates {
+    padding-block: 1rem 1.25rem;
+  }
+
+  .home .home-marks {
+    margin-inline-start: 0;
+  }
+
+  /* The arrows sit on top here, so the stage may take each plate's height. */
+  .home :is(.home-plate, .home-plate-caption):not([data-active]) {
+    display: none;
+  }
+}
+
+@media (min-width: 40rem) {
+  .home .home-stage {
+    min-block-size: 36rem;
+  }
+}
+
+/* Install: right under the opening, before the descent. */
+
+.home .home-install {
+  gap: 1.5rem;
+  padding-block-start: clamp(4.5rem, 3.5rem + 4vw, 7.5rem);
+}
+
+.home .home-install-glass {
+  display: grid;
+  align-content: space-between;
+  gap: 2rem;
+  block-size: 100%;
+  min-block-size: 12rem;
+}
+
+.home .home-install-text {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+
+  &::selection {
+    background: color-mix(in oklch, var(--formula-lamp) 35%, transparent);
+  }
+}
+
+.home .home-install-caption {
+  color: var(--home-dim);
+  font-size: var(--formula-caption);
+}
+
+.home .home-install-foot {
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+
+  & > p {
+    max-inline-size: 22rem;
+    color: var(--home-dim);
+  }
+}
+
+.home .home-sheet[data-register="install"] {
+  & .home-tile {
+    grid-template-rows: none;
+  }
+
+  & [data-item="prompt"] {
+    --home-bg: var(--formula-glass);
+    --home-fg: var(--formula-glass-ink);
+    --home-dim: var(--formula-glass-dim);
+    --home-line: var(--formula-glass-line);
+    --home-ring: var(--formula-glass-ink);
+  }
+
+  & [data-item="cli"] {
+    --home-bg: var(--formula-ice);
+    --home-dim: color-mix(
+      in oklch,
+      var(--formula-tile-dim) 60%,
+      var(--formula-tile-ink)
+    );
+
+    align-content: space-between;
+    gap: 2rem;
+    padding: 1.25rem 1.5rem 1.5rem;
+  }
+}
+
+/* Chapters */
+
+.home .home-entry-band {
+  padding-block: clamp(4.5rem, 3.5rem + 4vw, 7.5rem)
+    clamp(2.5rem, 2rem + 2vw, 4rem);
+}
+
+.home .home-chapter {
+  row-gap: 1.25rem;
+  padding-block: var(--home-chapter-pad);
+}
+
+.home .home-head {
+  gap: 0.625rem;
+  margin-block-end: clamp(1.25rem, 1rem + 1vw, 2rem);
+}
+
+.home .home-head-verb {
+  color: var(--home-dim);
+}
+
+.home .home-head-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: -0.375rem;
+  font-size: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+
+  & .register-mark {
+    inline-size: 0.5em;
+    block-size: 0.5em;
+  }
+}
+
+.home .home-head-gloss {
+  color: var(--home-dim);
+}
+
+/* The marks drawn in glass would vanish on the black chapter. */
+.home [data-ground="glass"] .home-head-title .register-mark {
+  outline: 1px solid var(--home-line);
+}
+
+/* Three steps under the Strata chapter, each one darker, then glass. */
+
+.home .home-steps {
+  display: grid;
+
+  & > span {
+    block-size: clamp(2.5rem, 1.75rem + 3vw, 4.5rem);
+  }
+
+  & > [data-ground="t3"] {
+    background: var(--formula-tone-3);
+  }
+
+  & > [data-ground="t2"] {
+    background: var(--formula-tone-2);
+  }
+
+  & > [data-ground="t1"] {
+    background: var(--formula-tone-1);
+  }
+}
+
+/*
+ * The contact sheet: tiles of mixed proportion, placed in source order. An
+ * open fold spans the whole sheet, so it lands right under its row. A closed
+ * fold takes no room, so the seams between rows are the tiles' own end
+ * margins, never a row gap that a hidden fold would double.
+ */
+
+.home .home-sheet-frame {
+  container: home-sheet / inline-size;
+}
+
+.home .home-sheet {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 var(--formula-seam);
+  margin: 0;
+  margin-block-end: calc(var(--formula-seam) * -1);
+  padding: 0;
+  list-style: none;
+
+  & > * {
+    margin-block-end: var(--formula-seam);
+  }
+}
+
+/*
+ * A tile's material and the roles of the text on it: a bed tile by default.
+ * The transparent border keeps tiles apart in forced colours.
+ */
+.home .home-tile {
+  --home-bg: var(--formula-bed);
+  --home-fg: var(--formula-tile-ink);
+  /* 5.9:1 on bed. */
+  --home-dim: color-mix(
+    in oklch,
+    var(--formula-tile-dim) 60%,
+    var(--formula-tile-ink)
+  );
+  --home-line: color-mix(in oklch, var(--formula-tile-ink) 22%, transparent);
+  --home-ring: var(--formula-tile-ink);
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-inline-size: 0;
+  border: 1px solid transparent;
+  background: var(--home-bg);
+  color: var(--home-fg);
+}
+
+.home .home-tile-name {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.75rem 0.875rem 0.625rem;
+  font-size: var(--formula-text);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.home .home-tile-stage {
+  container: home-stage / inline-size;
+  display: grid;
+  align-content: center;
+  gap: var(--formula-seam);
+  padding: 0 var(--formula-seam) var(--formula-seam);
+}
+
+/* Under the demo: what it is, what it is built on, how to get it. */
+
+.home .home-tile-caption {
+  display: grid;
+  align-content: start;
+  gap: 0.125rem;
+  padding: 0.625rem 0.875rem 0.875rem;
+
+  & > p {
+    max-inline-size: 30rem;
+    text-wrap: pretty;
+  }
+}
+
+.home .home-tile-part {
+  color: var(--home-dim);
+}
+
+/* Strata: light bands on a hairline grid, so tone-5 reads on tone-4. */
+
+.home .home-sheet[data-register="strata"] {
+  --home-grid: color-mix(
+    in oklch,
+    var(--formula-ink) 30%,
+    var(--formula-tone-5)
+  );
+
+  & .home-tile {
+    --home-bg: var(--formula-tone-5);
+    --home-fg: var(--formula-ink);
+    /* 8.8:1 on tone-5. */
+    --home-dim: var(--formula-tone-1);
+    --home-line: color-mix(in oklch, var(--formula-ink) 22%, transparent);
+    --home-ring: var(--formula-ink);
+  }
+
+  & .home-tile-stage {
+    align-content: start;
+    padding: 0;
+  }
+}
+
+/* Readout: glass on glass, drawn as a hairline grid instead of seams. */
+
+.home .home-sheet[data-register="readout"] {
+  --home-grid: var(--formula-glass-line);
+
+  & .home-tile {
+    --home-bg: var(--formula-glass);
+    --home-fg: var(--formula-glass-ink);
+    --home-dim: var(--formula-glass-dim);
+    --home-line: var(--formula-glass-line);
+    --home-ring: var(--formula-glass-ink);
+  }
+
+  & .home-tile-stage {
+    align-content: stretch;
+    padding: 0;
+  }
+
+  & .home-tile-stage > [data-slot="glass"] {
+    block-size: 100%;
+  }
+
+  & .demo-seams {
+    block-size: 100%;
+    background: var(--formula-glass-line);
+  }
+}
+
+.home .home-sheet:is([data-register="strata"], [data-register="readout"]) {
+  gap: 0;
+  margin-block-end: 0;
+  border-block-start: 1px solid var(--home-grid);
+  border-inline-start: 1px solid var(--home-grid);
+
+  & > * {
+    margin-block-end: 0;
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: var(--home-grid);
+  }
+}
+
+.home .home-sheet[data-register="other"] {
+  & [data-item="sound"] .home-tile-stage {
+    justify-items: center;
+    padding-block: 1.5rem 2.5rem;
+
+    & > [data-slot="tile-group"] {
+      inline-size: min(100%, 16rem);
+    }
+  }
+
+  & [data-item="tokens"] {
+    --home-bg: var(--formula-ice);
+    /* 6.6:1 on ice. */
+    --home-dim: color-mix(
+      in oklch,
+      var(--formula-tile-dim) 60%,
+      var(--formula-tile-ink)
+    );
+  }
+}
+
+/* The chips grow to fill whatever height the row gives the tile. */
+.home .home-swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr));
+  gap: 0.75rem var(--formula-seam);
+  margin: 0;
+  padding: 0.25rem var(--formula-seam) 0.5rem;
+  list-style: none;
+
+  & > li {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 0.25rem;
+  }
+}
+
+.home .home-swatch {
+  display: block;
+  min-block-size: 3rem;
+  border: 1px solid color-mix(in oklch, var(--formula-ink) 12%, transparent);
+  background: var(--home-swatch);
+}
+
+.home .home-swatch-name {
+  padding-inline: 0.25rem;
+  color: var(--home-dim);
+  font-size: var(--formula-caption);
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Tile groups lay out by the width their tile gives them: a group of four
+ * (or eight) keeps its row of four where there is room and pairs up where not.
+ */
+.home .home-tile-stage [data-slot="tile-group"][data-formula="machined"] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
+}
+
+@container home-stage (width >= 22rem) {
+  .home
+    .home-tile-stage
+    [data-slot="tile-group"][data-formula="machined"]:has(
+      > :nth-child(4n):last-child
+    ) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@container home-stage (width < 22rem) {
+  .home
+    .home-tile-stage
+    [data-slot="tile-group"][data-formula="machined"]:has(
+      > :nth-child(4n):last-child
+    ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Four bands do not fit a narrow tile in one row, so they pair up. */
+@container home-stage (width < 20rem) {
+  .home
+    .home-tile-stage
+    [data-slot="segmented-control"][data-formula="strata"]:not(
+      [data-orientation="vertical"]
+    ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row;
+  }
+}
+
+@container home-plate (width < 20rem) {
+  .home
+    .home-plate-ground
+    [data-slot="tile-group"][data-formula="machined"]:has(
+      > :nth-child(4n):last-child
+    ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Two columns: Button and the shared sheet's pair keep a whole row. */
+
+@container home-sheet (width >= 34rem) {
+  .home .home-sheet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home .home-sheet[data-register="machined"] > [data-item="button"] {
+    grid-column: 1 / -1;
+  }
+
+  .home .home-sheet:is([data-register="install"], [data-register="other"]) {
+    grid-template-columns: 7fr 5fr;
+  }
+
+  .home .home-swatches {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Full column: three tracks of mixed proportion per sheet, the wide tile of
+ * each row spanning two. Each pairing was measured so neither tile in a row
+ * is left with a block of empty ground.
+ */
+
+@container home-sheet (width >= 52rem) {
+  .home .home-sheet[data-register="machined"] {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 5fr);
+  }
+
+  .home .home-sheet[data-register="strata"] {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 1fr) minmax(0, 6fr);
+  }
+
+  /* Meter 7 and Progress 5 over Slider 8 and Glass 4. */
+  .home .home-sheet[data-register="readout"] {
+    grid-template-columns:
+      minmax(0, 5fr) minmax(0, 2fr) minmax(0, 1fr)
+      minmax(0, 4fr);
+  }
+
+  .home
+    .home-sheet
+    > :is(
+      [data-item="knob"],
+      [data-item="toggle"],
+      [data-item="switch"],
+      [data-item="tabs"],
+      [data-item="segmented-control"],
+      [data-item="meter"],
+      [data-item="progress"]
+    ) {
+    grid-column: span 2;
+  }
+
+  .home .home-sheet > [data-item="slider"] {
+    grid-column: span 3;
+  }
+}
+
+/* A Meter tile wide enough for both glasses sets them side by side. */
+@container home-stage (width >= 30rem) {
+  .home [data-item="meter"] .demo-seams {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Copy */
+
+.home .home-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.125rem 1rem;
+  margin-block-start: 0.5rem;
+  padding-block-start: 0.5rem;
+  border-block-start: 1px solid var(--home-line);
+
+  & > :is(.home-copy-label, .home-copy-text) {
+    grid-column: 1;
+  }
+
+  & > .home-key {
+    grid-row: 1 / span 2;
     grid-column: 2;
-    grid-template-rows: subgrid;
+    margin-block-start: 0;
+  }
+}
+
+.home .home-copy-label {
+  color: var(--home-dim);
+  font-size: var(--formula-caption);
+
+  &:not([data-state="idle"]) {
+    color: var(--home-fg);
+  }
+}
+
+.home .home-copy-text {
+  font-weight: 400;
+  overflow-wrap: break-word;
+
+  &::selection {
+    background: color-mix(in oklch, var(--formula-lamp) 35%, transparent);
+  }
+}
+
+.home .home-copy-key {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+}
+
+.home .home-copy-status {
+  font-size: var(--formula-caption);
+}
+
+/* The keys: Copy, and the fold's Show code, which turns to ink while open. */
+
+.home :is(.home-key, .home-fold-key) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-block-size: var(--home-key);
+  padding-inline: 0.625rem 0.75rem;
+  border: 1px solid var(--home-dim);
+  border-radius: 2px;
+  background: none;
+  color: var(--home-fg);
+  font: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: border-color 150ms ease-out;
+
+  & svg {
+    flex: none;
+    inline-size: 0.875rem;
+    block-size: 0.875rem;
   }
 
-  .hero .panel-glass {
-    grid-row: 1 / 3;
+  &:focus-visible {
+    outline: var(--formula-ring) solid var(--home-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      border-color 150ms ease-out,
+      transform 120ms var(--formula-ease-out);
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+}
+
+.home .home-key[data-state="copied"] {
+  border-color: var(--home-fg);
+}
+
+.home .home-fold-key {
+  justify-self: start;
+  margin-block-start: 0.625rem;
+  padding-inline: 0.5rem 0.75rem;
+
+  &[aria-expanded="true"] {
+    border-color: var(--home-fg);
+    background: var(--home-fg);
+    color: var(--home-bg);
+  }
+
+  @media (forced-colors: active) {
+    &[aria-expanded="true"] {
+      border-width: 2px;
+    }
+  }
+}
+
+.home .home-fold-words {
+  display: grid;
+
+  & > * {
+    grid-area: 1 / 1;
+  }
+
+  & > :not([data-shown]) {
+    visibility: hidden;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home :is(.home-key, .home-fold-key):hover {
+    border-color: var(--home-fg);
+  }
+}
+
+/*
+ * The fold: a full row of the sheet in the tile's material, lighter on the
+ * bed sheets so the code reads as paper rather than another control.
+ */
+
+.home .home-fold {
+  --home-bg: var(--formula-tile);
+  --home-fg: var(--formula-tile-ink);
+  /* 7.8:1 on tile. */
+  --home-dim: color-mix(
+    in oklch,
+    var(--formula-tile-dim) 60%,
+    var(--formula-tile-ink)
+  );
+  --home-line: var(--formula-tile-line);
+  --home-ring: var(--formula-tile-ink);
+
+  grid-column: 1 / -1;
+  min-inline-size: 0;
+  border: 1px solid transparent;
+  background: var(--home-bg);
+  color: var(--home-fg);
+
+  &:not([hidden]) {
+    display: grid;
+  }
+
+  [data-register="strata"] > & {
+    --home-bg: var(--formula-tone-5);
+    --home-fg: var(--formula-ink);
+    --home-dim: var(--formula-tone-1);
+    --home-line: color-mix(in oklch, var(--formula-ink) 22%, transparent);
+    --home-ring: var(--formula-ink);
+  }
+
+  [data-register="readout"] > & {
+    --home-bg: var(--formula-glass);
+    --home-fg: var(--formula-glass-ink);
+    --home-dim: var(--formula-glass-dim);
+    --home-line: var(--formula-glass-line);
+    --home-ring: var(--formula-glass-ink);
+  }
+}
+
+.home .home-fold-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.875rem;
+  border-block-end: 1px solid var(--home-line);
+}
+
+.home .home-fold-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5rem;
+  font-weight: 500;
+}
+
+.home .home-fold-path {
+  color: var(--home-dim);
+  font-weight: 400;
+
+  & code {
+    font-weight: 400;
+  }
+}
+
+.home .home-fold-note {
+  flex-basis: 100%;
+  margin: 0;
+  color: var(--home-dim);
+}
+
+/* The whole source shows; only long lines scroll, inside the block. */
+
+.home .home-code {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+
+  &:focus-visible {
+    outline: var(--formula-ring) solid var(--home-ring);
+    outline-offset: -4px;
+  }
+
+  & pre {
+    inline-size: max-content;
+    min-inline-size: 100%;
+    margin: 0;
+    padding: 0.875rem 0.875rem 1.25rem;
+  }
+
+  & code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: var(--formula-text);
+    font-weight: 400;
+    line-height: 1.6;
+    tab-size: 2;
+    white-space: pre;
+
+    &::selection {
+      background: color-mix(in oklch, var(--formula-lamp) 35%, transparent);
+    }
+  }
+}
+
+/*
+ * The one motion on the page: a fold opened by pointer unrolls downward from
+ * its top edge. Its row takes its full height at once, so nothing animates
+ * layout. A key press opens it at once; reduced motion keeps only the fade.
+ */
+
+.home .home-fold[data-via="pointer"]:not([hidden]) {
+  transition: opacity 160ms var(--formula-ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    clip-path: inset(0);
+    transition:
+      opacity 220ms var(--formula-ease-out),
+      clip-path 260ms var(--formula-ease-out);
+
+    @starting-style {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+}
+
+/* Footer */
+
+.home .home-footer {
+  color: var(--home-dim);
+}
+
+.home .home-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem 3rem;
+  /* Clears the fixed picker at the bottom centre. */
+  padding-block: 1.5rem 7rem;
+  border-block-start: 1px solid var(--home-line);
+
+  & > p {
+    max-inline-size: 28rem;
+  }
+}
+
+.home .home-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & .link {
+    display: inline-block;
+    padding-block: 0.25rem;
+    color: var(--home-fg);
+  }
+}
+
+/*
+ * First load only: the title, the entry and the stage settle in turn. The
+ * fades stay when motion is reduced; the movement does not.
+ */
+
+.home :is(.home-title, .home-word, .home-viewer) {
+  transition: opacity 600ms var(--formula-ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.home .home-word {
+  transition-delay: 80ms;
+}
+
+.home .home-viewer {
+  transition-delay: 160ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .home :is(.home-title, .home-viewer) {
+    transition-property: opacity, translate;
+    transition-duration: 700ms;
+
+    @starting-style {
+      opacity: 0;
+      translate: 0 0.75rem;
+    }
   }
 }
 
