@@ -3,7 +3,9 @@
     "registry/**/*.ts",
     "registry/**/*.tsx",
     "bench/**/*.ts",
-    "bench/**/*.tsx"
+    "bench/**/*.tsx",
+    "panel/**/*.ts",
+    "panel/**/*.tsx"
   ],
   "compilerOptions": {
     "target": "ES2022",

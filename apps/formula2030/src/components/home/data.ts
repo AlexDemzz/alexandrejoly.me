@@ -1,8 +1,5 @@
-import type { ComponentType } from "react";
-
-import { HeroPanel } from "@/components/hero-panel";
-import type { FormulaItem, Register } from "@/lib/registry";
-import { REGISTER_INFO, isRegister, items } from "@/lib/registry";
+import type { Register } from "@/lib/registry";
+import { isRegister, items } from "@/lib/registry";
 
 /** Light to dark: the order the page descends in. */
 export const CHAPTER_REGISTERS: Register[] = ["machined", "strata", "readout"];
@@ -56,8 +53,6 @@ export const numberOf = (name: string) => numbers.get(name) ?? "";
 
 export const tileId = (name: string) => `home-tile-${name}`;
 
-export const codeId = (name: string) => `home-code-${name}`;
-
 const SOURCES = import.meta.glob<string>("../../demos/*.tsx", {
   eager: true,
   import: "default",
@@ -94,76 +89,4 @@ export const siteImportsOf = (code: string) => [
   ...new Set(
     [...code.matchAll(SITE_IMPORT)].map((match) => match.groups?.path ?? "")
   ),
-];
-
-export const partsOf = (item: FormulaItem) =>
-  item.primitives.length > 0
-    ? `UI SDK: ${item.primitives.join(", ")}`
-    : undefined;
-
-export const registerTitle = (register: string) =>
-  isRegister(register) ? REGISTER_INFO[register].title : "Every register";
-
-/* The stage at the top: the whole panel, then one component per register. */
-
-export interface Plate {
-  Demo: ComponentType | undefined;
-  /** Where the demo stands: its register's ground, or none for the panel. */
-  ground: string;
-  id: string;
-  label: string;
-  /** The tile in the sheet that tells the rest, when there is one. */
-  tile: string | undefined;
-  register: string;
-  registerLabel: string;
-  text: string;
-  title: string;
-  width: string;
-}
-
-const PLATE_ITEMS: { name: string; width: string }[] = [
-  { name: "meter", width: "34rem" },
-  { name: "tabs", width: "34rem" },
-  { name: "knob", width: "38rem" },
-];
-
-const toPlate = ({
-  name,
-  width,
-}: {
-  name: string;
-  width: string;
-}): Plate | undefined => {
-  const item = items.find((entry) => entry.name === name);
-  if (!item) {
-    return undefined;
-  }
-  return {
-    Demo: item.Demo,
-    ground: item.register,
-    id: item.name,
-    label: `${registerTitle(item.register)} · ${partsOf(item)}`,
-    tile: tileId(item.name),
-    register: item.register,
-    registerLabel: registerTitle(item.register),
-    text: item.description,
-    title: item.title,
-    width,
-  };
-};
-
-export const PLATES: Plate[] = [
-  {
-    Demo: HeroPanel,
-    ground: "panel",
-    id: "panel",
-    label: "Five components: Glass, Slider, Segmented Control, Switch and Tile",
-    tile: undefined,
-    register: "other",
-    registerLabel: "All three registers",
-    text: "Glass on top reads the cabin temperature, the bands in the middle choose a drive mode, the tiles below switch the driving aids. Every control on it is one of the components further down.",
-    title: "The whole panel",
-    width: "30rem",
-  },
-  ...PLATE_ITEMS.flatMap((entry) => toPlate(entry) ?? []),
 ];

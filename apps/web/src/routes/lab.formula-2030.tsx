@@ -1,3 +1,4 @@
+import { FormulaPanel } from "@portfolio/formula2030/panel";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +14,6 @@ import { FORMULA_CARD } from "@/components/og-card";
 import { SiteFooter } from "@/components/site-footer";
 import { FORMULA_PAGE, LAB_PAGE, SITE } from "@/content";
 import { FORMULA_PATH } from "@/lab/experiments";
-import { FormulaPanel } from "@/lab/formula/panel";
 import { pageHead } from "@/lib/head";
 import { EXACT_ACTIVE } from "@/lib/link";
 

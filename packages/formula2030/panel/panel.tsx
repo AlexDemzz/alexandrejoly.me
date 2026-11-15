@@ -48,6 +48,8 @@ import {
   WiperGlyph,
 } from "./glyphs";
 
+import "./panel.css";
+
 interface DriveMode {
   label: string;
   power: string;
@@ -145,7 +147,11 @@ const readoutsFor = (mode: DriveMode, rideHeight: number): Readout[] => [
   { label: "Power delivery", value: mode.power },
 ];
 
-/** The control panel, top to bottom: readout, strata, then machined parts. */
+/**
+ * The control panel, top to bottom: readout, strata, then machined parts.
+ * Render it inside a `[data-formula-stage]` element, the ground its rules
+ * apply in.
+ */
 export const FormulaPanel = () => {
   const [modeIndex, setModeIndex] = useState(0);
   const mode = DRIVE_MODES[modeIndex] ?? DRIVE_MODES[0];

@@ -12,7 +12,7 @@ import {
   IconWiperWash,
 } from "@tabler/icons-react";
 
-import geminiMark from "@/media/gemini.svg";
+import geminiMark from "./gemini.svg";
 
 /** Tabler icons on the panel's 24px grid, at its 1.5px stroke. */
 const GLYPH = {

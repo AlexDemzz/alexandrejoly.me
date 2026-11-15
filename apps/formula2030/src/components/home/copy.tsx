@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import type { RefObject } from "react";
 
 import { CheckGlyph, CopyGlyph } from "@/components/glyphs";
@@ -90,36 +90,7 @@ const Key = ({
   </button>
 );
 
-/**
- * A command set as caption text: a label line that turns into the copy
- * status, the command, and a key. The status region is there from mount, so
- * a screen reader hears every change.
- */
-export const CopyLine = ({
-  object,
-  text,
-}: {
-  object: string;
-  text: string;
-}) => {
-  const source = useRef<HTMLElement>(null);
-  const { copy, state } = useCopy(text, source);
-
-  return (
-    <div className="home-copy">
-      <span aria-hidden="true" className="home-copy-label" data-state={state}>
-        {state === "idle" ? "Install" : statusOf(state)}
-      </span>
-      <output className="sr-only">{statusOf(state)}</output>
-      <code className="home-copy-text" ref={source}>
-        <Breakable text={text} />
-      </code>
-      <Key object={object} onClick={copy} state={state} />
-    </div>
-  );
-};
-
-/** A key for a text shown elsewhere, such as on a plate above. */
+/** A copy key for a text shown beside it. */
 export const CopyKey = ({
   object,
   source,
