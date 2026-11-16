@@ -48,6 +48,13 @@ type Mode = keyof typeof MODES;
 const MODE_ORDER: Mode[] = ["performance", "normal", "autonomous"];
 const TEMPERATURE_MARKS = [16, 18, 20, 22, 24, 26, 28];
 
+/* The readings step from dark to light, like the bands beside them. */
+const BAND = [
+  "bg-tone-1 text-on-ink",
+  "bg-tone-2 text-ink",
+  "bg-tone-3 text-ink",
+];
+
 const isMode = (value: string | null): value is Mode =>
   value !== null && value in MODES;
 
@@ -67,8 +74,11 @@ export const HeroPanel = () => {
   ];
 
   return (
-    <div className="panel">
-      <Glass className="panel-glass">
+    <div
+      className="max-w-panel rounded-panel shadow-panel grid w-full overflow-clip"
+      data-og-panel
+    >
+      <Glass className="grid">
         <GlassBrackets />
         <Field>
           <Slider
@@ -84,7 +94,7 @@ export const HeroPanel = () => {
             step={0.5}
             ticks={24}
           >
-            <div className="panel-glass-head">
+            <div className="mb-1.5 flex justify-between gap-4">
               <FieldLabel>
                 <GlassCaption>Cabin temperature</GlassCaption>
               </FieldLabel>
@@ -99,7 +109,7 @@ export const HeroPanel = () => {
                 <SliderThumb />
               </SliderTrack>
             </SliderControl>
-            <SliderScale className="panel-temperature-scale">
+            <SliderScale>
               {TEMPERATURE_MARKS.map((mark) => (
                 <span key={mark}>{mark}</span>
               ))}
@@ -107,7 +117,8 @@ export const HeroPanel = () => {
           </Slider>
         </Field>
       </Glass>
-      <div className="panel-strata">
+      {/* The spine of the reference: an ink seam that runs on into the tiles. */}
+      <div className="gap-seam bg-ink after:w-seam after:bg-ink relative grid grid-cols-2 after:pointer-events-none after:absolute after:top-0 after:-bottom-11 after:left-[calc(50%-var(--formula-seam)/2)] after:z-1">
         <SegmentedControl
           aria-label="Drive mode"
           onValueChange={(next) => {
@@ -130,17 +141,20 @@ export const HeroPanel = () => {
         </SegmentedControl>
         <dl
           aria-label={`${MODES[mode].label} settings`}
-          className="panel-readings"
+          className="grid auto-rows-[minmax(var(--formula-band),1fr)] text-sm"
         >
-          {readings.map((reading) => (
-            <div key={reading.label}>
-              <dt>{reading.label}</dt>
-              <dd>{reading.value}</dd>
+          {readings.map((reading, index) => (
+            <div
+              className={`grid content-center px-5 ${BAND[index]}`}
+              key={reading.label}
+            >
+              <dt className="opacity-72">{reading.label}</dt>
+              <dd className="font-semibold">{reading.value}</dd>
             </div>
           ))}
         </dl>
       </div>
-      <TileGroup className="panel-tiles">
+      <TileGroup>
         <Tile render={<Label />}>
           <TileLamp />
           <Switch defaultChecked>

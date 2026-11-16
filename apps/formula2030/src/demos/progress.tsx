@@ -13,7 +13,7 @@ const CHARGE_MARKS = [0, 25, 50, 75, 100];
 const Demo = () => (
   <Glass>
     <GlassBrackets />
-    <div className="demo-stack">
+    <div className="grid gap-6">
       <Progress major={5} ticks={40} value={62}>
         <ProgressLabel>Charging</ProgressLabel>
         <ProgressValue />

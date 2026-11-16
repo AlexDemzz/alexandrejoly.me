@@ -1,6 +1,8 @@
 import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
 import { Fragment, useEffect, useState } from "react";
 
+import { KEY } from "./key";
+
 const COPIED_MS = 3000;
 
 // After "://", after each dot and after each path slash.
@@ -40,7 +42,7 @@ export const CopyKey = ({ object, text }: { object: string; text: string }) => {
   return (
     <>
       <button
-        className="home-key"
+        className={KEY}
         data-state={copied ? "copied" : "idle"}
         onClick={copy}
         type="button"

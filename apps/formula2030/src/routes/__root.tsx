@@ -20,11 +20,14 @@ import appCss from "@/styles/app.css?url";
 const OG_IMAGE = absoluteUrl("/og.png");
 
 const RootComponent = () => (
-  <html lang="en">
+  <html
+    className="bg-ice has-data-[page=home]:bg-hi scroll-pt-6 motion-safe:scroll-smooth"
+    lang="en"
+  >
     <head>
       <HeadContent />
     </head>
-    <body>
+    <body className="bg-ice text-tile-ink has-data-[page=home]:bg-hi flex min-h-svh flex-col font-sans text-base/normal">
       <Outlet />
       <Scripts />
     </body>

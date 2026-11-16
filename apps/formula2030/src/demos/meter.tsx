@@ -27,7 +27,7 @@ const G_MARKS = [
 const CHARGE_MARKS = [0, 25, 50, 75, 100];
 
 const Demo = () => (
-  <div className="demo-seams">
+  <div className="grid gap-(--formula-seam) bg-(--formula-glass-line) @min-[30rem]:grid-cols-2">
     <Glass>
       <GlassBrackets />
       <GlassCaption>G-force (g)</GlassCaption>
