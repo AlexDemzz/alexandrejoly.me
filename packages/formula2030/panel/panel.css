@@ -29,7 +29,7 @@
       0 4px 12px oklch(var(--formula-shade) / 0.12),
       0 32px 56px -20px oklch(var(--formula-shade) / 0.4);
     color: var(--formula-tile-ink);
-    font-family: "Geist Variable", Geist, system-ui, sans-serif;
+    font-family: ui-sans-serif, "Geist Variable", Geist, system-ui, sans-serif;
     font-size: var(--formula-text);
     line-height: 1.3;
     text-align: start;

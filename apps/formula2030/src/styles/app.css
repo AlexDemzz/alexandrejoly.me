@@ -35,7 +35,7 @@ body {
   flex-direction: column;
   background: var(--formula-ice);
   color: var(--formula-tile-ink);
-  font-family: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  font-family: ui-sans-serif, "Geist Variable", Geist, system-ui, sans-serif;
   font-size: 0.9375rem;
   line-height: 1.5;
 }
