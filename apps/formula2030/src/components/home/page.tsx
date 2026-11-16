@@ -14,6 +14,7 @@ import {
   SOURCE_URL,
   UI_SDK_URL,
 } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 import {
   CHAPTER_REGISTERS,
@@ -58,7 +59,7 @@ const Band = ({
 }) => (
   <section
     aria-labelledby={labelledBy}
-    className={`band bg-ground text-fg ${className}`}
+    className={cn("band bg-ground text-fg", className)}
     id={id}
   >
     {children}
@@ -221,12 +222,15 @@ const Opening = () => (
   >
     <div className="mb-4 grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-[minmax(0,1fr)_18rem] md:items-end lg:mb-7">
       <h1
-        className={`text-5xl leading-none font-normal tracking-tighter sm:text-6xl lg:text-7xl ${SETTLE}`}
+        className={cn(
+          "text-5xl leading-none font-normal tracking-tighter sm:text-6xl lg:text-7xl",
+          SETTLE
+        )}
         id="home-title"
       >
         {SITE_NAME}
       </h1>
-      <dl className={`grid max-w-72 gap-2 delay-80 ${SETTLE}`}>
+      <dl className={cn("grid max-w-72 gap-2 delay-80", SETTLE)}>
         {/* On one column the entry stays body size, so it never rivals the title. */}
         <dt className="md:text-3xl md:leading-tight md:tracking-tight">
           <dfn className="not-italic">Formula</dfn>{" "}
@@ -241,7 +245,10 @@ const Opening = () => (
       </dl>
     </div>
     <div
-      className={`grid max-w-88 justify-items-start gap-3 delay-160 ${SETTLE}`}
+      className={cn(
+        "grid max-w-88 justify-items-start gap-3 delay-160",
+        SETTLE
+      )}
     >
       <p>
         Themed components for <TextLink href={UI_SDK_URL}>UI SDK</TextLink>,
@@ -252,7 +259,10 @@ const Opening = () => (
     </div>
     {/* The hero: the lab's panel, alone on an ice ground like a photograph. */}
     <div
-      className={`bg-ice max-sm:-mx-gutter mt-8 grid justify-items-center px-4 py-8 delay-240 sm:py-12 lg:mt-14 lg:py-20 ${SETTLE}`}
+      className={cn(
+        "bg-ice max-sm:-mx-gutter mt-8 grid justify-items-center px-4 py-8 delay-240 sm:py-12 lg:mt-14 lg:py-20",
+        SETTLE
+      )}
       data-formula-stage
     >
       <FormulaPanel />

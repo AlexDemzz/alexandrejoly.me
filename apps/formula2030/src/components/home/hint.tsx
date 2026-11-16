@@ -7,6 +7,7 @@ import {
 import { Fragment } from "react";
 import type { ReactNode } from "react";
 
+import { cn } from "@/lib/utils";
 import { Glass, GlassCaption } from "@/registry/formula/ui/formula/glass";
 
 import { Breakable, CopyKey } from "./copy";
@@ -38,11 +39,11 @@ export const InstallHint = ({ prompt }: { prompt: string }) => (
     <PopoverTrigger className={TRIGGER}>Installation prompt</PopoverTrigger>
     <PopoverContent
       align="start"
-      className={`${CARD} w-[min(28rem,100vw-2rem)]`}
+      className={cn(CARD, "w-[min(28rem,100vw-2rem)]")}
       collisionPadding={EDGE}
       sideOffset={OFFSET}
     >
-      <Glass className={`${PANE} items-start`} data-hint-glass>
+      <Glass className={cn(PANE, "items-start")} data-hint-glass>
         <PopoverTitle render={<p />}>
           <GlassCaption>Prompt for a coding agent</GlassCaption>
         </PopoverTitle>
@@ -124,7 +125,7 @@ export const CodeHint = ({
     </TileName>
     <PopoverContent
       align="start"
-      className={`${CARD} w-[min(36rem,100vw-2rem)]`}
+      className={cn(CARD, "w-[min(36rem,100vw-2rem)]")}
       collisionPadding={EDGE}
       sideOffset={OFFSET}
     >

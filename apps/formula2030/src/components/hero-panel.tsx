@@ -2,6 +2,7 @@ import { Field, FieldLabel } from "@ui-sdk/react/field";
 import { Label } from "@ui-sdk/react/label";
 import { useState } from "react";
 
+import { cn } from "@/lib/utils";
 import {
   Glass,
   GlassCaption,
@@ -144,7 +145,7 @@ export const HeroPanel = () => {
         >
           {readings.map((reading, index) => (
             <div
-              className={`grid content-center px-5 ${BAND[index]}`}
+              className={cn("grid content-center px-5", BAND[index])}
               key={reading.label}
             >
               <dt className="opacity-72">{reading.label}</dt>
