@@ -262,8 +262,7 @@ const FOOTER_LINK = "inline-block py-1 text-fg";
 
 const Footer = () => (
   <footer className="band ground-hi bg-ground text-dim">
-    {/* The bottom padding clears the fixed picker at the bottom centre. */}
-    <div className="border-line flex flex-wrap justify-between gap-x-12 gap-y-4 border-t pt-6 pb-28">
+    <div className="flex flex-wrap justify-between gap-x-12 gap-y-4 py-6">
       <p className="max-w-md">
         Inspired by{" "}
         <TextLink href={POLESTAR_URL} rel="noopener noreferrer" target="_blank">
