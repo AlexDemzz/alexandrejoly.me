@@ -56,21 +56,19 @@ const FormulaPage = () => (
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Heading
-        render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
-      >
-        {FORMULA_PAGE.title}
-      </Heading>
+      <div>
+        <Heading
+          render={({ children, ...props }) => <h1 {...props}>{children}</h1>}
+        >
+          {FORMULA_PAGE.title}
+        </Heading>
+        <Credit />
+      </div>
     </header>
 
-    <figure className="mt-10 mb-6 flex flex-col gap-4">
-      <div data-formula-stage>
-        <FormulaPanel />
-      </div>
-      <figcaption>
-        <Credit />
-      </figcaption>
-    </figure>
+    <div className="mt-10 mb-6" data-formula-stage>
+      <FormulaPanel />
+    </div>
 
     <SiteFooter />
   </main>
