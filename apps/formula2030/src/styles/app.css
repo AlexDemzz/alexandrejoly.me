@@ -114,6 +114,11 @@
   }
 }
 
+/* What the opening's first-load entrance animates. */
+@utility transition-settle {
+  transition-property: opacity, filter, translate;
+}
+
 /* The keyboard ring, in the ground's ink. --focus-offset moves it inward. */
 @utility focus-ring {
   &:focus-visible {

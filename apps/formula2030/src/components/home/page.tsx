@@ -207,12 +207,12 @@ const Showcase = () => (
 
 /*
  * Opening: the title, the dictionary entry, the prompt, then the panel. On
- * first load the title, the entry and the panel settle in turn; the fades
- * stay when motion is reduced, the movement does not.
+ * first load they settle in that order, coming into focus as they fade in;
+ * the fade and the focus stay when motion is reduced, the movement does not.
  */
 
 const SETTLE =
-  "transition duration-700 ease-formula starting:opacity-0 motion-safe:starting:translate-y-3";
+  "transition-settle duration-700 ease-formula starting:opacity-0 starting:blur-xs motion-safe:starting:translate-y-3";
 
 const Opening = () => (
   <Band
@@ -226,7 +226,7 @@ const Opening = () => (
       >
         {SITE_NAME}
       </h1>
-      <dl className="ease-formula grid max-w-72 gap-2 transition-opacity delay-80 duration-700 starting:opacity-0">
+      <dl className={`grid max-w-72 gap-2 delay-80 ${SETTLE}`}>
         {/* On one column the entry stays body size, so it never rivals the title. */}
         <dt className="md:text-3xl md:leading-tight md:tracking-tight">
           <dfn className="not-italic">Formula</dfn>{" "}
@@ -240,7 +240,9 @@ const Opening = () => (
         </dd>
       </dl>
     </div>
-    <div className="grid max-w-88 justify-items-start gap-3">
+    <div
+      className={`grid max-w-88 justify-items-start gap-3 delay-160 ${SETTLE}`}
+    >
       <p>
         Themed components for <TextLink href={UI_SDK_URL}>UI SDK</TextLink>,
         installed from a shadcn registry. Every control here is a UI SDK
@@ -250,7 +252,7 @@ const Opening = () => (
     </div>
     {/* The hero: the lab's panel, alone on an ice ground like a photograph. */}
     <div
-      className={`bg-ice max-sm:-mx-gutter mt-8 grid justify-items-center px-4 py-8 delay-160 sm:py-12 lg:mt-14 lg:py-20 ${SETTLE}`}
+      className={`bg-ice max-sm:-mx-gutter mt-8 grid justify-items-center px-4 py-8 delay-240 sm:py-12 lg:mt-14 lg:py-20 ${SETTLE}`}
       data-formula-stage
     >
       <FormulaPanel />
