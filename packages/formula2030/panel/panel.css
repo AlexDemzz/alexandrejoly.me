@@ -90,8 +90,13 @@
     pointer-events: none;
   }
 
+  /*
+   * The band-2 ground fills the seam Safari opens above the drive modes when
+   * their moving indicator gets its own layer.
+   */
   & [data-formula-strata] {
     display: grid;
+    background: var(--formula-band-2);
     grid-template-rows: repeat(5, var(--formula-band));
     grid-template-columns: repeat(2, minmax(0, 1fr));
 
@@ -321,16 +326,11 @@
     & [data-formula-ai] {
       position: relative;
       display: grid;
-      translate: 0 -5px;
-
-      & img {
-        inline-size: 20px;
-        block-size: 20px;
-      }
+      translate: 0 -8px;
 
       & > [data-formula-ai-caption] {
         position: absolute;
-        inset-block-start: calc(100% - 2px);
+        inset-block-start: calc(100% + 4px);
         inset-inline: 0;
         font-size: var(--formula-caption);
         line-height: 1;

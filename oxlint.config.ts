@@ -69,6 +69,11 @@ export default defineConfig({
       },
     },
     {
+      // The Gemini mark keeps the brand's own colors.
+      files: ["packages/formula2030/panel/gemini-mark.tsx"],
+      rules: { "shadcn/no-raw-colors": "off" },
+    },
+    {
       // Stock progress renders its track and indicator before declaring them.
       files: ["packages/ui/src/components/progress.tsx"],
       rules: { "eslint/no-use-before-define": "off" },

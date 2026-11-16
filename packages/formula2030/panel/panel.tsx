@@ -47,7 +47,7 @@ import { Tile, TileGroup } from "@/registry/formula/ui/formula/tile";
 import { Toggle, ToggleIcon } from "@/registry/formula/ui/formula/toggle";
 
 import { GForceDisplay } from "./display";
-import geminiMark from "./gemini.svg";
+import { GeminiMark } from "./gemini-mark";
 
 import "./panel.css";
 
@@ -410,7 +410,7 @@ export const FormulaPanel = () => {
           </span>
           <span data-formula-ai>
             <ToggleIcon>
-              <img alt="" height={20} src={geminiMark} width={20} />
+              <GeminiMark />
             </ToggleIcon>
             <span aria-hidden data-formula-ai-caption>
               AI
