@@ -268,7 +268,7 @@ const Footer = () => (
         <TextLink href={POLESTAR_URL} rel="noopener noreferrer" target="_blank">
           Polestar’s Formula 2030 concept
         </TextLink>
-        . Not affiliated with Polestar or Vercel.
+        . Not affiliated with Polestar.
       </p>
       <ul className="flex flex-wrap gap-x-6 gap-y-1">
         <li>

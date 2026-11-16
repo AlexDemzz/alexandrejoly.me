@@ -8,7 +8,7 @@ export const SiteFooter = () => (
     <div className="max-w-site before:bg-tile-line mx-auto flex flex-wrap justify-between gap-x-12 gap-y-4 before:mb-2 before:h-px before:basis-full">
       <p className="max-w-136 wrap-break-word">
         An independent project inspired by the control panel of Polestar’s
-        Formula 2030 concept. Not affiliated with Polestar or Vercel.
+        Formula 2030 concept. Not affiliated with Polestar.
       </p>
       <ul className="flex flex-wrap gap-x-6 gap-y-2">
         <li>
