@@ -195,6 +195,29 @@
   }
 }
 
+/*
+ * Workaround: a segmented control's indicator has no box until it measures
+ * the checked item after hydration, then slides there from the top. Until
+ * UI SDK marks that first placement, as Tabs does with
+ * data-activation-direction="none", the checked item paints its own ink and
+ * the indicator stays out until its inline variables arrive.
+ */
+[data-slot="segmented-control"][data-formula="strata"]
+  > [data-slot="segmented-control-indicator"]:not(
+    [style*="--segmented-control-indicator-width"]
+  ) {
+  display: none;
+}
+
+[data-slot="segmented-control"][data-formula="strata"]:not(
+    :has(
+      > [data-slot="segmented-control-indicator"][style*="--segmented-control-indicator-width"]
+    )
+  )
+  [data-slot="segmented-control-item"][data-checked]::before {
+  background: var(--formula-ink);
+}
+
 /* A tile grown to fill its plate keeps its control and label in the middle. */
 [data-stage] :is([data-slot="tile"], [data-slot="label"])[data-formula] {
   align-content: center;
