@@ -42,7 +42,7 @@ export const InstallHint = ({ prompt }: { prompt: string }) => (
       collisionPadding={EDGE}
       sideOffset={OFFSET}
     >
-      <Glass className={PANE} data-hint-glass>
+      <Glass className={`${PANE} items-start`} data-hint-glass>
         <PopoverTitle render={<p />}>
           <GlassCaption>Prompt for a coding agent</GlassCaption>
         </PopoverTitle>
