@@ -125,7 +125,7 @@
     & > div {
       display: grid;
       align-content: center;
-      padding-inline: min(48%, 100% - 92px) 8px;
+      padding-inline: min(48%, 100% - 112px) 8px;
       background: var(--formula-band-1);
       color: var(--formula-on-ink);
     }
@@ -181,7 +181,7 @@
     &
       [data-slot="number-input"][data-formula="machined"]
       [data-slot="number-input-control"] {
-      font-size: min(1.375rem, 7cqi);
+      font-size: min(var(--text-2xl, 1.5rem), 7cqi);
     }
   }
 

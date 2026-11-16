@@ -18,7 +18,7 @@
 
   & [data-slot="progress-value"] {
     display: block;
-    font-size: 2.75rem;
+    font-size: var(--text-5xl, 3rem);
     font-weight: 300;
     font-variant-numeric: tabular-nums;
     line-height: 1;

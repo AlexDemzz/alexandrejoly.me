@@ -15,7 +15,7 @@
 
   & [data-slot="meter-value"] {
     display: block;
-    font-size: 2.75rem;
+    font-size: var(--text-5xl, 3rem);
     font-weight: 300;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -204,7 +204,7 @@
     minmax(0, 1fr);
 
   & > [data-slot="meter"] [data-slot="meter-value"] {
-    font-size: 1rem;
+    font-size: var(--text-base, 1rem);
     font-weight: 400;
     letter-spacing: 0;
   }

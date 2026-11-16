@@ -36,7 +36,7 @@
     color: var(--formula-tile-ink);
     caret-color: var(--formula-tile-ink);
     font: inherit;
-    font-size: 2.125rem;
+    font-size: var(--text-4xl, 2.25rem);
     font-weight: 300;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
