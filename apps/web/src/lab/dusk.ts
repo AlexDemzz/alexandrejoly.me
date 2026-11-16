@@ -16,17 +16,16 @@ const GRASS = ".,;!|il";
 const DITHER = 0.14;
 const COLUMNS = 50;
 const SUNRISE = 1400;
-/** The sun's radius, as a share of the field's width. */
-const SUN = 0.06;
+/** The sun's radius in cells: the half cell keeps the disc from squaring off. */
+const SUN = 3.5;
 const GLIDE_TAU = 45;
 const START = 0.24;
 const STARS = 0.035;
 
-/** The hill's ridge, as a share of the height, at a share of the width: a dome. */
-const ridge = (u: number) =>
-  0.97 - 0.5 * clamp01(1 - ((u - 0.5) / 0.5) ** 2) ** 0.7;
-
-const slope = (u: number) => (ridge(u + 0.001) - ridge(u - 0.001)) / 0.002;
+/** The planet's crest, as a share of the height. */
+const CREST = 0.47;
+/** Where the planet meets the field's sides, as a share of the height. */
+const SHORE = 0.97;
 
 /** The sun rides an arc across the sky, highest in the middle. */
 const sunY = (u: number) => 0.92 - 0.72 * Math.sin(Math.PI * clamp01(u));
@@ -56,16 +55,24 @@ interface Sky {
   starLight: number;
 }
 
-/** What only a resize changes: the hill under each column and each cell's grain. */
+/** A disc in px: the planet the hill is the top of. */
+interface Planet {
+  radius: number;
+  x: number;
+  y: number;
+}
+
+/** What only a resize changes: the planet under each cell and each cell's grain. */
 interface Land {
   /** The dither noise of a cell. */
   grain: Float64Array;
-  /** The ridge's height in px, per column. */
-  grounds: Float64Array;
-  /** The length of the slope's normal, per column. */
-  lengths: Float64Array;
-  normals: Float64Array;
-  /** How much of the light a hill cell keeps, strongest at the ridge. */
+  /** 1 where a cell lies on the planet. */
+  ground: Uint8Array;
+  /** The planet's outward normal at a cell. */
+  normalsX: Float64Array;
+  normalsY: Float64Array;
+  planet: Planet;
+  /** How much of the light a planet cell keeps, strongest at the surface. */
   rims: Float64Array;
   /** The noise that decides which cells hold a star. */
   stars: Float64Array;
@@ -77,36 +84,59 @@ interface Shade {
   light: number;
 }
 
+/** The circle through the crest and both shores: a true disc, whatever the field's shape. */
+const planetFor = (width: number, height: number): Planet => {
+  const half = width / 2;
+  const rise = (SHORE - CREST) * height;
+  const radius = (half ** 2 + rise ** 2) / (2 * rise);
+  return { radius, x: half, y: CREST * height + radius };
+};
+
+/** The planet's surface in px above `x`, or the field's foot past its sides. */
+const surfaceAt = (
+  x: number,
+  { radius, x: centreX, y }: Planet,
+  height: number
+) => {
+  const across = Math.abs(x - centreX);
+  return across < radius ? y - Math.sqrt(radius ** 2 - across ** 2) : height;
+};
+
 const survey = (
   { cell, cols, count, originX, originY, rows }: Cells,
   width: number,
   height: number
 ): Land => {
+  const planet = planetFor(width, height);
   const land: Land = {
     grain: new Float64Array(count),
-    grounds: new Float64Array(cols),
-    lengths: new Float64Array(cols),
-    normals: new Float64Array(cols),
+    ground: new Uint8Array(count),
+    normalsX: new Float64Array(count),
+    normalsY: new Float64Array(count),
+    planet,
     rims: new Float64Array(count),
     stars: new Float64Array(count),
   };
-  for (let col = 0; col < cols; col += 1) {
-    const u = (originX + (col + 0.5) * cell) / width;
-    const ground = ridge(u) * height;
-    const normalX = slope(u) * (height / width);
-    land.grounds[col] = ground;
-    land.normals[col] = normalX;
-    land.lengths[col] = Math.hypot(normalX, 1);
-    for (let row = 0; row < rows; row += 1) {
+  for (let row = 0; row < rows; row += 1) {
+    const y = originY + (row + 0.5) * cell;
+    for (let col = 0; col < cols; col += 1) {
       const index = row * cols + col;
-      const y = originY + (row + 0.5) * cell;
+      const x = originX + (col + 0.5) * cell;
+      const reach = Math.max(1, Math.hypot(x - planet.x, y - planet.y));
       land.grain[index] = hash(row, col);
       land.stars[index] = hash(col, row);
-      land.rims[index] = Math.exp(-(y - ground) / (height * 0.1));
+      land.ground[index] = reach < planet.radius ? 1 : 0;
+      land.normalsX[index] = (x - planet.x) / reach;
+      land.normalsY[index] = (y - planet.y) / reach;
+      land.rims[index] = Math.exp(-(planet.radius - reach) / (height * 0.1));
     }
   }
   return land;
 };
+
+/** Moves a coordinate onto the nearest cell centre, so the sun's disc stays symmetric. */
+const snap = (value: number, origin: number, cell: number) =>
+  origin + (Math.round((value - origin) / cell - 0.5) + 0.5) * cell;
 
 const pick = (set: string, light: number, noise: number) =>
   set[
@@ -149,22 +179,23 @@ const skyAt = (
 };
 
 /**
- * Shades a hill cell into `shade`: Lambert light on the slope, strongest along
- * the ridge facing the sun. `toSunX` and `toSunY` point from the cell to the sun.
+ * Shades a planet cell into `shade`: Lambert light on the surface, strongest
+ * along the rim facing the sun. `toSunX` and `toSunY` point from the cell to the sun.
  */
 const hillAt = (
   index: number,
-  normalX: number,
-  length: number,
   toSunX: number,
   toSunY: number,
   { dayGain, dayReach }: Sky,
-  { grain, rims }: Land,
+  { grain, normalsX, normalsY, rims }: Land,
   shade: Shade
 ) => {
-  const facing = Math.max(0, (normalX * toSunX - toSunY) / length);
+  const facing = Math.max(
+    0,
+    normalsX[index] * toSunX + normalsY[index] * toSunY
+  );
   const rim = rims[index];
-  // A low sun still catches the ridge: the rim is the golden hour.
+  // A low sun still catches the surface: the rim is the golden hour.
   const lit = facing * dayGain * dayReach;
   const light = 0.03 + lit * (0.05 + 0.95 * rim);
   shade.glyph = pick(GRASS, light, grain[index]);
@@ -202,11 +233,13 @@ export const createDusk = ({ report }: SceneApi): Scene => {
       const rise = reducedMotion ? 1 : easeOutCubic(time / SUNRISE);
       const sunAtX = sunX * width;
       const sunAtY = (sunY(sunX) + (1 - rise) * 0.5) * height;
-      const horizon = ridge(sunX) * height;
+      const horizon = surfaceAt(sunAtX, land.planet, height);
       const elevation = clamp01((horizon - sunAtY) / (horizon * 0.8));
       const day = clamp01(elevation * 1.6);
 
       const { cell, cols, originX, originY, rows } = cells;
+      const discX = snap(sunAtX, originX, cell);
+      const discY = snap(sunAtY, originY, cell);
       clear(frame);
       ctx.font = font;
       ctx.textAlign = "center";
@@ -217,27 +250,24 @@ export const createDusk = ({ report }: SceneApi): Scene => {
         dayReach: clamp01(day * 4),
         glowGain: 0.5 + 0.5 * day,
         glowReach: width * 0.22,
-        radius: SUN * width,
+        radius: SUN * cell,
         starLight: clamp01(1 - day / 0.3) * 0.7,
       };
-      const { grounds, lengths, normals } = land;
       for (let row = 0; row < rows; row += 1) {
         const y = originY + (row + 0.5) * cell;
         const floor = 0.08 + day * (0.2 + 0.3 * (y / height));
         for (let col = 0; col < cols; col += 1) {
           const index = row * cols + col;
           const x = originX + (col + 0.5) * cell;
-          const distance = Math.hypot(x - sunAtX, y - sunAtY);
-          if (y < grounds[col]) {
+          const distance = Math.hypot(x - discX, y - discY);
+          if (land.ground[index] === 0) {
             skyAt(index, distance, floor, sky, land, shade);
           } else {
             const reach = Math.max(1, distance);
             hillAt(
               index,
-              normals[col],
-              lengths[col],
-              (sunAtX - x) / reach,
-              (sunAtY - y) / reach,
+              (discX - x) / reach,
+              (discY - y) / reach,
               sky,
               land,
               shade
@@ -264,9 +294,11 @@ export const createDusk = ({ report }: SceneApi): Scene => {
         sunX = target;
       }
     },
-    press: ({ x, y }, { height, width }) => {
+    press: ({ x, y }, frame) => {
+      const { height, width } = frame;
+      const { cell } = cells ?? cellsFor(frame, COLUMNS);
       const onSun =
-        Math.hypot(x - sunX * width, y - sunY(sunX) * height) < SUN * width * 2;
+        Math.hypot(x - sunX * width, y - sunY(sunX) * height) < SUN * cell * 2;
       // Grabbing the sun keeps it under the finger; anywhere else, it comes over.
       offset = onSun ? sunX * width - x : 0;
       target = clamp01((x + offset) / width);
