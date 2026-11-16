@@ -117,8 +117,7 @@ export const HeroPanel = () => {
           </Slider>
         </Field>
       </Glass>
-      {/* The spine of the reference: an ink seam that runs on into the tiles. */}
-      <div className="gap-seam bg-ink after:w-seam after:bg-ink relative grid grid-cols-2 after:pointer-events-none after:absolute after:top-0 after:-bottom-11 after:left-[calc(50%-var(--formula-seam)/2)] after:z-1">
+      <div className="gap-seam bg-ink grid grid-cols-2">
         <SegmentedControl
           aria-label="Drive mode"
           onValueChange={(next) => {
