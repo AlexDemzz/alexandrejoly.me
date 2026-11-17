@@ -86,13 +86,4 @@ describe("TrackMinimap", () => {
       expect(shown.y).toBeCloseTo(expected.y, 1);
     }
   });
-
-  it("calls out the next corner and how far it is", () => {
-    const { part, set } = renderMinimap(track());
-    set({ distanceM: 3500 });
-    expect(part("callout")?.textContent).toBe("T6150 m");
-
-    set({ distanceM: 3700 });
-    expect(part("callout")?.textContent).toBe("T6now");
-  });
 });

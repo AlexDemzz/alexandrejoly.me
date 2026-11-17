@@ -27,7 +27,7 @@ export const SteeringWheel = () => {
         </div>
         <TrackMinimap />
       </div>
-      <div className="relative mt-6 flex flex-wrap justify-center gap-3">
+      <div className="relative mt-6 flex justify-center gap-2 sm:gap-3">
         <RaceToggle />
         <GearControl />
         <SoundToggle setting={soundSetting} />

@@ -30,7 +30,7 @@ export const SoundToggle = ({ setting }: SoundToggleProps) => {
         <ToggleIcon className="flex-none">
           {on ? <SpeakerHighIcon /> : <SpeakerSlashIcon />}
         </ToggleIcon>
-        Sound
+        <span className="sr-only sm:not-sr-only">Sound</span>
       </Toggle>
     </div>
   );

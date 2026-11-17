@@ -36,20 +36,21 @@
   }
 }
 
+/* A round card: the map is sized to the square inscribed in the circle. */
 [data-slot="track-minimap-card"] {
   container-type: inline-size;
   display: grid;
-  gap: 6px;
+  place-items: center;
   inline-size: clamp(112px, 30cqi, 148px);
-  padding: 10px;
+  aspect-ratio: 1;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 9999px;
   background: var(--background);
 }
 
 [data-slot="track-minimap-map"] {
   display: block;
-  inline-size: 100%;
+  inline-size: 66%;
   block-size: auto;
   overflow: visible;
 }
@@ -80,7 +81,7 @@
   text-anchor: middle;
   dominant-baseline: central;
 
-  /* Too small to read on a phone's card; the callout names the next corner. */
+  /* Too small to read on a phone's card. */
   @container (width < 110px) {
     display: none;
   }
@@ -93,14 +94,4 @@
   stroke-width: 2.4;
   stroke-linejoin: round;
   paint-order: stroke;
-}
-
-[data-slot="track-minimap-callout"] {
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  color: var(--muted-foreground);
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
-  line-height: 16px;
 }

@@ -16,7 +16,7 @@ const selectGearControl = (state: WheelState): GearMode => state.gearControl;
 
 const SEGMENT = cn(
   CONTROL_ITEM,
-  "data-checked:text-foreground px-3 motion-safe:data-checked:active:scale-100"
+  "data-checked:text-foreground px-2.5 motion-safe:data-checked:active:scale-100 sm:px-3"
 );
 
 export const GearControl = () => {
@@ -24,7 +24,7 @@ export const GearControl = () => {
   const dispatch = useWheelDispatch();
   return (
     <Field className={cn(CONTROL_TRACK, "items-center")} data-gear-control>
-      <FieldLabel className="text-muted-foreground ps-3 pe-1 text-sm">
+      <FieldLabel className="text-muted-foreground sr-only text-sm sm:not-sr-only sm:ps-3 sm:pe-1">
         Gears
       </FieldLabel>
       <SegmentedControl

@@ -1,7 +1,5 @@
 import { selectOnTrack } from "../model/selectors";
 import { useWheel } from "../model/store";
-import { LAP_LENGTH_M, upcomingCorners } from "../model/track";
-import type { WheelState } from "../model/types";
 import {
   CORNER_MARKS,
   DRS_PATHS,
@@ -14,7 +12,6 @@ import {
 import "./track-minimap.css";
 
 const DEG_PER_RAD = 180 / Math.PI;
-const CALLOUT_STEP_M = 50;
 const START_TICK = 4;
 const START = poseAt(0);
 const TICK_X = Math.cos(START.heading + Math.PI / 2) * START_TICK;
@@ -56,29 +53,6 @@ const Car = () => {
   );
 };
 
-const selectCallout = (state: WheelState): string => {
-  const [next] = upcomingCorners(state.distanceM, LAP_LENGTH_M);
-  if (next === undefined) {
-    return "";
-  }
-  if (next.distanceM === 0) {
-    return next.corner.name;
-  }
-  const metres = Math.ceil(next.distanceM / CALLOUT_STEP_M) * CALLOUT_STEP_M;
-  return `${next.corner.name}:${metres}`;
-};
-
-const NextCorner = () => {
-  const callout = useWheel(selectCallout);
-  const [name, metres] = callout.split(":");
-  return (
-    <p data-slot="track-minimap-callout">
-      <span>{name}</span>
-      <span>{metres === undefined ? "now" : `${metres} m`}</span>
-    </p>
-  );
-};
-
 /**
  * Where the car is on the lap, shown on track only. Decorative: the dash's
  * live region already speaks the race, and a second one would talk over it.
@@ -99,7 +73,6 @@ export const TrackMinimap = () => {
           <Outline />
           <Car />
         </svg>
-        <NextCorner />
       </div>
     </div>
   );
