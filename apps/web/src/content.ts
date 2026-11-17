@@ -29,7 +29,7 @@ export const SITE = {
   url: "https://alexandrejoly.me/",
 } as const;
 
-export const X_HANDLE = "AlexDmzz";
+export const X_HANDLE = "alexandrejoly";
 
 export const EMAIL = "alexandre.joly36@gmail.com";
 
@@ -209,6 +209,23 @@ export const FORMULA_PAGE = {
   rowDescription:
     "A concept car’s control panel, live: tilt the display, turn the knobs",
   title: "Formula 2030",
+} as const;
+
+/** The lab's third experiment, at `/lab/formula-1`. */
+export const FORMULA1_PAGE = {
+  credit: [
+    "Drawn after the steering wheel of Red Bull Racing’s 2026 car, as an independent study not affiliated with or endorsed by Red Bull or Formula 1. The real screen layouts and the placement of the 2026 controls aren’t public, so those are informed inventions. Built with ",
+    {
+      href: "https://ui-sdk.dev",
+      text: "ui-sdk",
+    },
+    ".",
+  ],
+  description: `Formula 1 by ${SITE.name}: a 2026 Formula 1 steering wheel rebuilt as a live page, where every button and rotary works and the screens follow them.`,
+  documentTitle: `Formula 1 – Lab – ${SITE.name}`,
+  rowDescription:
+    "A 2026 Formula 1 steering wheel, live: press the buttons, turn the rotaries",
+  title: "Formula 1",
 } as const;
 
 /** The `/skills` index of the agent skills. */
