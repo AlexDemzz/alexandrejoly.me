@@ -214,18 +214,18 @@ export const FORMULA_PAGE = {
 /** The lab's third experiment, at `/lab/formula-1`. */
 export const FORMULA1_PAGE = {
   credit: [
-    "Drawn after the steering wheel of Red Bull Racing’s 2026 car, as an independent study not affiliated with or endorsed by Red Bull or Formula 1. The real screen layouts and the placement of the 2026 controls aren’t public, so those are informed inventions. Built with ",
+    "Drawn after Charles Leclerc’s 2025 wheel, as an independent study. Built with ",
     {
       href: "https://ui-sdk.dev",
       text: "ui-sdk",
     },
     ".",
   ],
-  description: `Formula 1 by ${SITE.name}: a 2026 Formula 1 steering wheel rebuilt as a live page, where every button and rotary works and the screens follow them.`,
-  documentTitle: `Formula 1 – Lab – ${SITE.name}`,
+  description: `Ferrari SF-25 Wheel by ${SITE.name}: Charles Leclerc’s 2025 steering wheel rebuilt as a live page, where every button, rotary and thumbwheel works.`,
+  documentTitle: `Ferrari SF-25 Wheel – Lab – ${SITE.name}`,
   rowDescription:
-    "A 2026 Formula 1 steering wheel, live: press the buttons, turn the rotaries",
-  title: "Formula 1",
+    "Charles Leclerc’s 2025 wheel, live: steer it, press the buttons, turn the rotaries",
+  title: "Ferrari SF-25 Wheel",
 } as const;
 
 /** The `/skills` index of the agent skills. */

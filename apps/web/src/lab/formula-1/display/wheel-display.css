@@ -1,0 +1,637 @@
+/*
+ * The SF-25 dash after Leclerc's 2025 software: flat colour blocks on black,
+ * thin dark-grey gaps, a plain grotesque with tabular figures. An LCD keeps
+ * its colours in either page scheme, so the tokens are fixed. Everything is
+ * sized in container units of the screen, which the wheel gives a 5:3 box.
+ */
+[data-slot="dash"] {
+  --dash-bg: oklch(0 0 none);
+  --dash-gap: oklch(0.3 0 none);
+  --dash-grey: oklch(0.21 0 none);
+  --dash-empty: oklch(0.17 0 none);
+  --dash-fg: oklch(1 0 none);
+  --dash-dim: oklch(0.72 0 none);
+  --dash-off: oklch(0.45 0 none);
+  --dash-ink: oklch(0 0 none);
+  --dash-red: oklch(0.544 0.213 22.9);
+  --dash-red-ink: oklch(0.6 0.22 23);
+  --dash-green: oklch(0.581 0.092 140.3);
+  --dash-green-ink: oklch(0.68 0.13 140);
+  --dash-steel: oklch(0.684 0.032 215.2);
+  --dash-bar-green: oklch(0.549 0.088 140.5);
+  --dash-bar-red: oklch(0.541 0.215 23.4);
+  --dash-blue: oklch(0.6 0.16 250);
+  --dash-blue-ink: oklch(0.58 0.21 268);
+  --dash-yellow: oklch(0.86 0.17 95);
+  --dash-cold: oklch(0.66 0.11 240);
+  --dash-open: oklch(0.84 0.2 142);
+  --dash-purple: oklch(0.5 0.2 305);
+  --dash-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  container-type: size;
+  position: relative;
+  display: grid;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: clip;
+  background: var(--dash-bg);
+  color: var(--dash-fg);
+  font-family:
+    "Helvetica Neue", Helvetica, Arial, "Liberation Sans",
+    var(--font-sans, sans-serif);
+  font-variant-numeric: tabular-nums;
+  font-variant-ligatures: none;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Grids */
+
+[data-slot="dash-grid"] {
+  display: grid;
+  gap: 0.5cqh;
+  block-size: 100%;
+  min-block-size: 0;
+  padding: 0.5cqh;
+  background: var(--dash-gap);
+}
+
+/* The 2025 main page: x′ 0 .19 .34 .64 .66 .82 1, y′ 0 .17 .42 .66 .90 1. */
+[data-slot="dash-grid"][data-page="race"] {
+  grid-template-areas:
+    "time time rpm rpm delta delta"
+    "behind fl gear fr fr ahead"
+    "lap rl gear rr rr bbal"
+    "soc model fuel fuel moder drs"
+    "bar bar bar bar bar bar";
+  grid-template-rows: 17fr 25fr 24fr 24fr 10fr;
+  grid-template-columns: 19fr 15fr 30fr 2fr 16fr 18fr;
+}
+
+[data-slot="dash"] [data-area="time"] {
+  grid-area: time;
+}
+[data-slot="dash"] [data-area="rpm"] {
+  grid-area: rpm;
+}
+[data-slot="dash"] [data-area="delta"] {
+  grid-area: delta;
+}
+[data-slot="dash"] [data-area="behind"] {
+  grid-area: behind;
+}
+[data-slot="dash"] [data-area="ahead"] {
+  grid-area: ahead;
+}
+[data-slot="dash"] [data-area="gear"] {
+  grid-area: gear;
+}
+[data-slot="dash"] [data-area="fl"] {
+  grid-area: fl;
+}
+[data-slot="dash"] [data-area="fr"] {
+  grid-area: fr;
+}
+[data-slot="dash"] [data-area="rl"] {
+  grid-area: rl;
+}
+[data-slot="dash"] [data-area="rr"] {
+  grid-area: rr;
+}
+[data-slot="dash"] [data-area="lap"] {
+  grid-area: lap;
+}
+[data-slot="dash"] [data-area="bbal"] {
+  grid-area: bbal;
+}
+[data-slot="dash"] [data-area="soc"] {
+  grid-area: soc;
+}
+[data-slot="dash"] [data-area="model"] {
+  grid-area: model;
+}
+[data-slot="dash"] [data-area="fuel"] {
+  grid-area: fuel;
+}
+[data-slot="dash"] [data-area="moder"] {
+  grid-area: moder;
+}
+[data-slot="dash"] [data-area="drs"] {
+  grid-area: drs;
+}
+[data-slot="dash"] [data-area="bar"] {
+  grid-area: bar;
+}
+[data-slot="dash"] [data-area="ers"] {
+  grid-area: ers;
+}
+[data-slot="dash"] [data-area="k1"] {
+  grid-area: k1;
+}
+[data-slot="dash"] [data-area="k2"] {
+  grid-area: k2;
+}
+[data-slot="dash"] [data-area="chr"] {
+  grid-area: chr;
+}
+
+/* Cells */
+
+[data-slot="dash-cell"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqh;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 0;
+  padding: 1cqh 1.4cqh;
+  overflow: clip;
+  background: var(--dash-bg);
+  color: var(--dash-fg);
+}
+[data-slot="dash-cell"][data-fill="grey"] {
+  background: var(--dash-grey);
+}
+[data-slot="dash-cell"][data-fill="steel"] {
+  background: var(--dash-steel);
+  color: var(--dash-ink);
+}
+[data-slot="dash-cell"]:is([data-fill="green"], [data-fill="ok"]) {
+  background: var(--dash-green);
+  color: var(--dash-ink);
+}
+[data-slot="dash-cell"][data-fill="hot"] {
+  background: var(--dash-red);
+  color: var(--dash-ink);
+}
+[data-slot="dash-cell"][data-fill="cold"] {
+  background: var(--dash-cold);
+  color: var(--dash-ink);
+}
+[data-slot="dash-cell"][data-fill="open"] {
+  background: var(--dash-open);
+  color: var(--dash-ink);
+}
+[data-slot="dash-cell"][data-fill="red"] {
+  background: var(--dash-red);
+}
+[data-slot="dash-cell"][data-fill="yellow"] {
+  background: var(--dash-yellow);
+  color: var(--dash-ink);
+}
+
+[data-slot="dash-cell"] > [data-slot="dash-label"] {
+  align-self: start;
+}
+
+[data-slot="dash-cell-head"] {
+  display: flex;
+  gap: 1cqh;
+  justify-content: space-between;
+  align-items: baseline;
+  align-self: stretch;
+  font-size: 4cqh;
+}
+
+[data-slot="dash-label"] {
+  font-size: 4cqh;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+[data-slot="dash-marker"] {
+  color: var(--dash-off);
+  font-size: 3.4cqh;
+  white-space: nowrap;
+}
+
+[data-slot="dash-value"] {
+  font-size: calc(var(--size) * 1cqh);
+  white-space: nowrap;
+}
+[data-slot="dash-value"][data-ink="white"] {
+  color: var(--dash-fg);
+}
+[data-slot="dash-value"][data-ink="black"] {
+  color: var(--dash-ink);
+}
+[data-slot="dash-value"][data-ink="red"] {
+  color: var(--dash-red-ink);
+}
+[data-slot="dash-value"][data-ink="green"] {
+  color: var(--dash-green-ink);
+}
+[data-slot="dash-value"][data-ink="blue"] {
+  color: var(--dash-blue-ink);
+}
+
+[data-slot="dash-gear"] {
+  font-size: 46cqh;
+  line-height: 0.8;
+}
+
+[data-slot="dash-cell"]:has(> [data-slot="dash-gearbox"]) {
+  position: relative;
+}
+
+/* Who shifts: dim while the car does, lit once the driver takes the paddles. */
+[data-slot="dash-gearbox"] {
+  position: absolute;
+  inset-block-start: 1cqh;
+  inset-inline-end: 1.2cqh;
+  padding: 0.5cqh 0.9cqh;
+  color: var(--dash-off);
+  font-size: 3.4cqh;
+  letter-spacing: 0.04em;
+}
+[data-slot="dash-gearbox"][data-control="manual"] {
+  background: var(--dash-fg);
+  color: var(--dash-ink);
+}
+
+[data-slot="dash-of"] {
+  color: var(--dash-off);
+  font-size: 0.42em;
+}
+
+[data-slot="dash-drs"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqh;
+  align-items: center;
+  color: var(--dash-off);
+  font-size: 7cqh;
+  font-weight: 700;
+}
+[data-slot="dash-drs"] [data-slot="dash-label"] {
+  font-size: 3.4cqh;
+  font-weight: 400;
+}
+[data-slot="dash-drs"]:is([data-drs="enabled"], [data-drs="open"]) {
+  color: var(--dash-ink);
+}
+[data-slot="dash-drs"][data-drs="available"] {
+  color: var(--dash-green-ink);
+}
+[data-slot="dash-cell"]:has([data-drs="available"]) {
+  box-shadow: inset 0 0 0 0.6cqh var(--dash-green);
+}
+
+/* Battery bar */
+
+[data-slot="dash"] [data-slot="meter"][data-area="bar"] {
+  display: block;
+  background: var(--dash-bg);
+}
+
+[data-slot="meter"][data-area="bar"] [data-slot="meter-track"] {
+  display: grid;
+  overflow: clip;
+  background: var(--dash-empty);
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: max(1px, 0.5cqh);
+  block-size: 100%;
+  padding: max(1px, 0.6cqh);
+}
+
+[data-slot="dash-segment"] {
+  background: var(--dash-empty);
+}
+[data-slot="dash-segment"][data-lit] {
+  background: var(--dash-bar-green);
+}
+[data-slot="dash-segment"][data-lit][data-red] {
+  background: var(--dash-bar-red);
+}
+
+/* Secondary pages */
+
+[data-slot="dash-secondary"] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0.5cqh;
+  block-size: 100%;
+  padding: 0.5cqh;
+  background: var(--dash-gap);
+}
+
+[data-slot="dash-secondary"] > [data-slot="dash-grid"] {
+  padding: 0;
+}
+
+[data-slot="dash-head"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1.2cqh 1.6cqh;
+  background: var(--dash-bg);
+}
+
+[data-slot="dash-page-name"] {
+  font-size: 4.4cqh;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+[data-slot="dash-grid"][data-page="energy"] {
+  grid-template-areas:
+    "soc soc ers drs"
+    "flow flow flow flow"
+    "deployed deployed harvested harvested"
+    "k1 k2 chr chr";
+  grid-template-rows: 1.25fr 1fr 1fr 0.8fr;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+[data-slot="dash"] [data-area="flow"] {
+  grid-area: flow;
+}
+[data-slot="dash"] [data-area="deployed"] {
+  grid-area: deployed;
+}
+[data-slot="dash"] [data-area="harvested"] {
+  grid-area: harvested;
+}
+
+[data-slot="dash-flow"] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6cqh;
+  align-self: stretch;
+}
+
+/* The two halves read as one bar under one head; the meters keep their names for screen readers. */
+[data-slot="dash-flow"]
+  :is([data-slot="meter-label"], [data-slot="meter-value"]) {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+[data-slot="dash-grid"][data-page="temps"] {
+  grid-template-areas: "fl fr" "rl rr";
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+[data-slot="dash-corner"] {
+  display: grid;
+  grid-template-rows: 1.3fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5cqh;
+  min-block-size: 0;
+}
+[data-slot="dash-corner"] > :first-child {
+  grid-column: 1 / -1;
+}
+
+[data-slot="dash-grid"][data-page="laps"] {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+[data-slot="dash-laps"] {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  gap: 0.5cqh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-slot="dash-lap-row"] {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  align-items: center;
+  padding-inline: 2.4cqh;
+  background: var(--dash-bg);
+  font-size: 7cqh;
+}
+[data-slot="dash-lap-row"] > :last-child {
+  justify-self: end;
+}
+[data-slot="dash-lap-row"][data-current] {
+  background: var(--dash-grey);
+  color: var(--dash-dim);
+}
+[data-slot="dash-lap-row"][data-best] {
+  background: var(--dash-purple);
+}
+
+/* ui-sdk Meter as a dash bar */
+
+[data-slot="dash"] [data-slot="meter"]:not([data-area="bar"]) {
+  --bar: var(--dash-green-ink);
+
+  display: grid;
+  grid-template-areas: "label value" "track track";
+  grid-template-columns: auto 1fr;
+  gap: 0.8cqh 1.6cqh;
+  align-items: baseline;
+  align-self: stretch;
+}
+[data-slot="dash"] [data-slot="meter"][data-fill="red"] {
+  --bar: var(--dash-red);
+}
+[data-slot="dash"] [data-slot="meter"][data-fill="cold"] {
+  --bar: var(--dash-cold);
+}
+
+[data-slot="dash"]
+  [data-slot="meter"]:not([data-area="bar"])
+  [data-slot="meter-label"] {
+  grid-area: label;
+  font-size: 4cqh;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+[data-slot="dash"] [data-slot="meter-value"] {
+  grid-area: value;
+  justify-self: end;
+  font-size: 5.6cqh;
+  white-space: nowrap;
+}
+
+[data-slot="dash"]
+  [data-slot="meter"]:not([data-area="bar"])
+  [data-slot="meter-track"] {
+  position: relative;
+  grid-area: track;
+  block-size: 2.4cqh;
+  overflow: clip;
+  background: var(--dash-empty);
+}
+
+[data-slot="dash"] [data-slot="meter-indicator"] {
+  block-size: 100%;
+  background: var(--bar);
+}
+
+[data-slot="dash"] [data-mirrored] [data-slot="meter-track"] {
+  direction: rtl;
+}
+
+[data-slot="dash-grid"][data-page="setup"] {
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* Overlays */
+
+[data-slot="dash-radio"] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 18.5cqh;
+  display: flex;
+  gap: 1cqh;
+  align-items: center;
+  inline-size: fit-content;
+  margin-inline: auto;
+  padding: 0.8cqh 1.6cqh;
+  background: var(--dash-red);
+  font-size: 4.4cqh;
+  font-weight: 700;
+}
+
+[data-slot="dash-radio-dot"] {
+  flex: none;
+  inline-size: 1.6cqh;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+[data-slot="dash-pit"] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  block-size: 15cqh;
+  padding-inline: 4cqh;
+  background: var(--dash-blue);
+  color: var(--dash-ink);
+  font-size: 8cqh;
+  font-weight: 700;
+}
+[data-slot="dash-pit"][data-phase="off"] {
+  background: var(--dash-bg);
+  box-shadow: inset 0 0 0 0.8cqh var(--dash-blue);
+  color: var(--dash-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="dash-pit"][data-phase="off"] {
+    background: var(--dash-blue);
+    box-shadow: none;
+    color: var(--dash-ink);
+  }
+}
+
+[data-slot="dash-message"] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 36cqh;
+  display: flex;
+  gap: 4cqh;
+  justify-content: center;
+  align-items: center;
+  min-block-size: 24cqh;
+  padding: 2cqh 4cqh;
+  font-size: 9cqh;
+  font-weight: 700;
+  text-align: center;
+  text-wrap: balance;
+}
+[data-slot="dash-message"][data-tone="info"] {
+  background: var(--dash-fg);
+  color: var(--dash-ink);
+}
+[data-slot="dash-message"][data-tone="warn"] {
+  background: var(--dash-yellow);
+  color: var(--dash-ink);
+}
+[data-slot="dash-message"][data-tone="alert"] {
+  background: var(--dash-red);
+  color: var(--dash-fg);
+}
+
+[data-slot="dash-message-hint"] {
+  flex: none;
+  padding: 0.6cqh 1.2cqh;
+  border: 0.4cqh solid currentColor;
+  font-size: 4cqh;
+}
+
+[data-slot="dash-popup"] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 16cqh;
+  display: grid;
+  gap: 1.4cqh;
+  justify-items: center;
+  inline-size: fit-content;
+  min-inline-size: 56cqh;
+  margin-inline: auto;
+  padding: 2cqh 4cqh;
+  border: 0.6cqh solid var(--dash-steel);
+  background: var(--dash-bg);
+}
+
+[data-slot="dash-popup-value"] {
+  font-size: 11cqh;
+  white-space: nowrap;
+}
+
+[data-slot="dash-menu"] {
+  position: absolute;
+  inset: 6cqh 16cqh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 1.6cqh;
+  padding: 2cqh 3cqh;
+  border: 0.6cqh solid var(--dash-steel);
+  background: var(--dash-bg);
+}
+
+[data-slot="dash-menu-head"] {
+  display: flex;
+  justify-content: space-between;
+  color: var(--dash-steel);
+  font-size: 5cqh;
+  font-weight: 700;
+}
+
+[data-slot="dash-menu-list"] {
+  display: grid;
+  grid-template-rows: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-flow: column;
+  gap: 0.6cqh 3cqh;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-slot="dash-menu-row"] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1.4cqh;
+  font-size: 5.6cqh;
+}
+[data-slot="dash-menu-row"][aria-current="true"] {
+  background: var(--dash-steel);
+  color: var(--dash-ink);
+}
+
+[data-slot="dash-menu-hint"] {
+  margin: 0;
+  color: var(--dash-dim);
+  font-size: 3.8cqh;
+  text-align: center;
+}

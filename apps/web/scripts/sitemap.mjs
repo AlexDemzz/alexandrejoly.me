@@ -22,6 +22,7 @@ const paths = [
   "/lab",
   "/lab/ascii",
   "/lab/formula-2030",
+  "/lab/formula-1",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];

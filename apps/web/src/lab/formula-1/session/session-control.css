@@ -1,0 +1,90 @@
+[data-session-control] {
+  --session-thumb: var(--background);
+
+  @media (prefers-color-scheme: dark) {
+    --session-thumb: var(--accent);
+  }
+
+  & > [data-slot="segmented-control-indicator"] {
+    position: absolute;
+    z-index: -1;
+    /* The indicator variables are physical, so it is placed from the left in either direction. */
+    top: 0;
+    left: 0;
+    inline-size: var(--segmented-control-indicator-width);
+    block-size: var(--segmented-control-indicator-height);
+    border-radius: 9999px;
+    background: var(--session-thumb);
+    box-shadow: var(--hairline-shadow);
+    translate: var(--segmented-control-indicator-left)
+      var(--segmented-control-indicator-top);
+  }
+
+  /*
+   * The indicator has no box until it measures the checked item after
+   * hydration: until then the checked item draws the thumb itself, and the
+   * indicator stays out so it does not slide in from the corner.
+   */
+  &
+    > [data-slot="segmented-control-indicator"]:not(
+      [style*="--segmented-control-indicator-width"]
+    ) {
+    display: none;
+  }
+
+  &:not(
+      :has(
+        > [data-slot="segmented-control-indicator"][style*="--segmented-control-indicator-width"]
+      )
+    )
+    > [data-slot="segmented-control-item"][data-checked] {
+    background: var(--session-thumb);
+    box-shadow: var(--hairline-shadow);
+  }
+}
+
+[data-session-live] {
+  position: relative;
+  flex: none;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.5;
+  transition-property: background-color, opacity;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-settle);
+
+  [data-checked] > & {
+    background: var(--lab-hot);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-session-control] > [data-slot="segmented-control-indicator"] {
+    transition: translate 240ms var(--ease-settle);
+  }
+
+  [data-checked] > [data-session-live]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: session-live 2s var(--ease-settle) infinite;
+  }
+}
+
+@keyframes session-live {
+  from {
+    opacity: 0.6;
+    scale: 1;
+  }
+
+  60%,
+  to {
+    opacity: 0;
+    scale: 2.8;
+  }
+}

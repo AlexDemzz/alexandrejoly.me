@@ -3,7 +3,7 @@
 // row icon or the card itself, and public/og/components.png for the index,
 // whose card shows every row icon. Each agent skill in skills.json gets
 // public/og/skills/<name>.png the same way, and the skills index, the lab and
-// its ascii and formula-2030 pages one card each (PAGES).
+// its ascii, formula-2030 and formula-1 pages one card each (PAGES).
 // Hashes of those inputs live in og-images.lock.json; a run with nothing stale
 // starts nothing. `--force` redraws every card. Stale cards are screenshotted
 // from a dev server's /og/<card> in a light colour scheme.
@@ -29,10 +29,15 @@ const FORMULA_ICON = new URL(
   "../src/components/formula-icon.tsx",
   import.meta.url
 );
+const FORMULA1_ICON = new URL(
+  "../src/components/formula1-icon.tsx",
+  import.meta.url
+);
 /** Cards whose copy lives in og-card.tsx, keyed by their path under /og/. */
 const PAGES = {
   lab: LAB_ICON,
   "lab/ascii": LAB_ICON,
+  "lab/formula-1": FORMULA1_ICON,
   "lab/formula-2030": FORMULA_ICON,
   skills: SKILL_ICON,
 };

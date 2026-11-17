@@ -198,6 +198,7 @@ describe("markdownFor", () => {
     "/lab",
     "/lab/ascii.md",
     "/lab/formula-2030",
+    "/lab/formula-1.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });

@@ -14,6 +14,7 @@ import {
   INTRO,
   ASCII_PAGE,
   FORMULA_PAGE,
+  FORMULA1_PAGE,
   LAB_PAGE,
   SKILLS_PAGE,
   LINKS,
@@ -30,6 +31,7 @@ import {
   ASCII_PATH,
   EXPERIMENTS,
   FORMULA_PATH,
+  FORMULA1_PATH,
   LAB_PATH,
 } from "@/lab/experiments";
 import { getComponentCode } from "@/lib/component-code";
@@ -113,6 +115,11 @@ const SITE_PAGES = [
     markdownUrl(FORMULA_PATH),
     FORMULA_PAGE.description
   ),
+  linkItem(
+    `${LAB_PAGE.title}: ${FORMULA1_PAGE.title}`,
+    markdownUrl(FORMULA1_PATH),
+    FORMULA1_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -138,7 +145,13 @@ const FORMULA_ITEM = linkItem(
   FORMULA_PAGE.rowDescription
 );
 
-const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM].join("\n");
+const FORMULA1_ITEM = linkItem(
+  FORMULA1_PAGE.title,
+  markdownUrl(FORMULA1_PATH),
+  FORMULA1_PAGE.rowDescription
+);
+
+const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM].join("\n");
 
 const skillItems = () =>
   SKILLS.map((skill) =>
@@ -229,6 +242,14 @@ export const formulaMarkdown = () =>
     `# ${FORMULA_PAGE.title}`,
     FORMULA_PAGE.description,
     paragraphs([[...FORMULA_PAGE.credit]]),
+    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
+  ]);
+
+export const formula1Markdown = () =>
+  markdownDocument([
+    `# ${FORMULA1_PAGE.title}`,
+    FORMULA1_PAGE.description,
+    paragraphs([[...FORMULA1_PAGE.credit]]),
     `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
   ]);
 
@@ -532,6 +553,13 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: formulaMarkdown(),
       canonical: absolute(FORMULA_PATH),
+      status: 200,
+    };
+  }
+  if (slug === FORMULA1_PATH) {
+    return {
+      body: formula1Markdown(),
+      canonical: absolute(FORMULA1_PATH),
       status: 200,
     };
   }

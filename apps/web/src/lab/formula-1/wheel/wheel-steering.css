@@ -1,0 +1,56 @@
+/*
+ * The wheel turns round its hub, up to ±180°. The stage keeps the face's own
+ * size, so the page has no empty band around it; a turned wheel swings over
+ * the margins and the lab page clips it sideways.
+ */
+[data-slot="wheel-stage"] {
+  position: relative;
+  inline-size: 100%;
+
+  /* The hub is 500 of the face's 1040 units down. */
+  & > [data-slot="wheel-face"] {
+    transform-origin: 50% calc(500 / 1040 * 100%);
+  }
+}
+
+/* Keys, screen readers and agents steer through the slider; a hand takes the grips. */
+[data-steering-slider] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+[data-slot="wheel-grips"] {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+[data-grip-handle] {
+  fill: transparent;
+  stroke: transparent;
+  stroke-linejoin: round;
+  stroke-width: 6;
+  cursor: grab;
+  pointer-events: visiblePainted;
+  touch-action: none;
+}
+
+[data-slot="wheel-stage"][data-steering] {
+  cursor: grabbing;
+
+  & [data-grip-handle] {
+    cursor: grabbing;
+  }
+}
+
+[data-slot="wheel-stage"]:has([data-steering-slider] :focus-visible)
+  [data-grip-handle] {
+  stroke: var(--wheel-ring);
+}

@@ -1,0 +1,624 @@
+/*
+ * Buttons and lights, lit by one key light from the top left. A pressed part
+ * never scales: its housing stays put and only the cap, dome or lever moves.
+ */
+[data-slot="wheel-face"] {
+  --press-in: 70ms;
+  --press-out: 140ms;
+  --press-travel: 0px;
+
+  @media (prefers-reduced-motion: no-preference) {
+    --press-travel: max(1px, calc(1.6 * var(--u)));
+  }
+}
+
+/* Lights: a glass lens over each LED, its bloom a layer that only fades */
+
+[data-slot="wheel-led"] {
+  --led: transparent;
+  --glass-core: oklch(0.6 0.004 250);
+  --glass-body: oklch(0.38 0.004 250);
+  --glass-edge: oklch(0.15 0 none);
+  --glass-glint: oklch(1 0 none / 0.8);
+
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse 36% 26% at 33% 25%,
+      var(--glass-glint),
+      oklch(1 0 none / 0)
+    ),
+    radial-gradient(
+      ellipse 55% 30% at 62% 84%,
+      oklch(1 0 none / 0.16),
+      oklch(1 0 none / 0)
+    ),
+    radial-gradient(
+      circle at 46% 42%,
+      var(--glass-core),
+      var(--glass-body) 58%,
+      var(--glass-edge)
+    );
+  box-shadow:
+    inset 0 0 0 calc(1 * var(--u)) oklch(0 0 none / 0.8),
+    0 calc(1 * var(--u)) 0 oklch(1 0 none / 0.14);
+  pointer-events: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -110%;
+    border-radius: 50%;
+    background: radial-gradient(
+      closest-side,
+      transparent 30%,
+      color-mix(in oklch, var(--led), transparent 45%) 35%,
+      color-mix(in oklch, var(--led), transparent 78%) 55%,
+      transparent
+    );
+    opacity: 0;
+  }
+
+  &[data-kind="indicator"] {
+    --lens: oklch(0.62 0.17 145);
+    --glass-core: color-mix(in oklch, var(--lens), oklch(0 0 none) 62%);
+    --glass-ring: color-mix(in oklch, var(--lens), oklch(0 0 none) 22%);
+    --glass-glint: oklch(1 0 none / 0.45);
+
+    background:
+      radial-gradient(
+        ellipse 30% 20% at 32% 24%,
+        var(--glass-glint),
+        oklch(1 0 none / 0)
+      ),
+      radial-gradient(
+        circle,
+        var(--glass-core) 34%,
+        var(--glass-ring) 56% 68%,
+        color-mix(in oklch, var(--glass-ring), oklch(0 0 none) 60%) 80%,
+        oklch(0.06 0 none) 84%
+      );
+    box-shadow:
+      0 0 0 calc(1.5 * var(--u)) oklch(0.07 0 none),
+      0 0 0 calc(2.5 * var(--u)) oklch(1 0 none / 0.1),
+      calc(1 * var(--u)) calc(2.5 * var(--u)) calc(3 * var(--u))
+        oklch(0 0 none / 0.55);
+  }
+  &[data-lens="amber"] {
+    --lens: oklch(0.78 0.16 80);
+  }
+  &[data-lens="blue"] {
+    --lens: oklch(0.62 0.15 245);
+  }
+
+  &[data-color="green"] {
+    --led: oklch(0.82 0.24 145);
+  }
+  &[data-color="red"] {
+    --led: oklch(0.64 0.25 27);
+  }
+  &[data-color="blue"] {
+    --led: oklch(0.66 0.2 258);
+  }
+  &[data-color="yellow"] {
+    --led: oklch(0.9 0.18 95);
+  }
+  &[data-color="amber"] {
+    --led: oklch(0.8 0.18 70);
+  }
+  &[data-color="purple"] {
+    --led: oklch(0.62 0.26 305);
+  }
+  &[data-color="white"] {
+    --led: oklch(0.99 0 none);
+  }
+
+  &:not([data-color="off"]) {
+    --glass-core: color-mix(in oklch, var(--led), oklch(1 0 none) 72%);
+    --glass-body: var(--led);
+    --glass-edge: color-mix(in oklch, var(--led), oklch(0 0 none) 32%);
+    --glass-ring: color-mix(in oklch, var(--led), oklch(0 0 none) 20%);
+    --glass-glint: oklch(1 0 none / 0.9);
+
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+/* Push buttons: a domed printed cap that travels inside a fixed black collar */
+
+[data-wheel-button] {
+  --cap: oklch(0.95 0.004 90);
+  --cap-fill: var(--cap);
+  --cap-ink: oklch(0.55 0.21 28);
+  --cap-emboss: oklch(1 0 none / 0.35);
+  --collar-ratio: 0.24;
+  --collar: calc(var(--size) * var(--collar-ratio) * var(--u));
+  --cap-edge: calc(100% / (1 + 2 * var(--collar-ratio)));
+
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--cap-ink);
+  font-family: inherit;
+  font-size: calc(var(--size) * 0.42 * var(--u));
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-touch-callout: none;
+
+  &[data-flush] {
+    --collar: calc(2.5 * var(--u));
+  }
+
+  &[data-tone="lime"] {
+    --cap: oklch(0.79 0.19 127);
+    --cap-ink: oklch(0.14 0 none);
+  }
+  &[data-tone="red"] {
+    --cap: oklch(0.6 0.2 34);
+    --cap-ink: oklch(0.13 0 none);
+  }
+  &[data-tone="purple"] {
+    --cap: oklch(0.31 0.12 295);
+    --cap-ink: oklch(0.98 0 none);
+    --cap-emboss: oklch(0 0 none / 0.5);
+  }
+  &[data-tone="yellow"] {
+    --cap: oklch(0.86 0.17 96);
+    --cap-ink: oklch(0.52 0.21 28);
+  }
+  &[data-control="k2"] {
+    --cap: oklch(0.81 0.17 82);
+  }
+  &[data-tone="orange"] {
+    --cap: oklch(0.67 0.2 42);
+    --cap-ink: oklch(0.12 0 none);
+  }
+  &[data-tone="split"] {
+    --cap-fill: linear-gradient(
+      to bottom,
+      oklch(0.35 0.14 298) calc(50% - 0.6 * var(--u)),
+      oklch(0.16 0.05 298) calc(50% - 0.6 * var(--u)) 50%,
+      oklch(0.93 0.14 98) 50% calc(50% + 0.8 * var(--u)),
+      oklch(0.86 0.17 96) calc(50% + 0.8 * var(--u))
+    );
+  }
+}
+
+[data-slot="wheel-button-bezel"] {
+  position: absolute;
+  inset: calc(-1 * var(--collar));
+  border-radius: 50%;
+  /* From the cap outwards: the dark well, its inner chamfer, the flat top of the collar, the outer lip. */
+  background:
+    radial-gradient(
+      ellipse 22% 13% at 27% 15%,
+      oklch(1 0 none / 0.5),
+      oklch(1 0 none / 0)
+    ),
+    conic-gradient(
+      from 315deg,
+      oklch(1 0 none / 0.2),
+      oklch(1 0 none / 0) 75deg,
+      oklch(0 0 none / 0.45) 180deg,
+      oklch(1 0 none / 0) 290deg,
+      oklch(1 0 none / 0.2)
+    ),
+    radial-gradient(
+      closest-side,
+      oklch(0.03 0 none) calc(var(--cap-edge) + 5%),
+      oklch(0.3 0 none) calc(var(--cap-edge) + 8%),
+      oklch(0.17 0 none) calc(var(--cap-edge) + 12%),
+      oklch(0.13 0 none) 86%,
+      oklch(0.34 0 none) 93%,
+      oklch(0.07 0 none)
+    );
+  box-shadow:
+    0 0 0 calc(0.8 * var(--u)) oklch(0 0 none / 0.7),
+    calc(1 * var(--u)) calc(2 * var(--u)) calc(2 * var(--u))
+      oklch(0 0 none / 0.75),
+    calc(3 * var(--u)) calc(8 * var(--u)) calc(10 * var(--u))
+      oklch(0 0 none / 0.55);
+  pointer-events: none;
+
+  [data-flush] > & {
+    background: linear-gradient(
+      135deg,
+      oklch(0.36 0 none),
+      oklch(0.09 0 none) 45%,
+      oklch(0.04 0 none)
+    );
+    box-shadow:
+      calc(0.5 * var(--u)) calc(1.5 * var(--u)) calc(2 * var(--u))
+        oklch(0 0 none / 0.7),
+      calc(1 * var(--u)) calc(3 * var(--u)) calc(5 * var(--u))
+        oklch(0 0 none / 0.4);
+  }
+}
+
+[data-slot="wheel-button-cap"] {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 40% 34%,
+      oklch(1 0 none / 0.14),
+      oklch(1 0 none / 0) 45%,
+      oklch(0 0 none / 0.1) 72%,
+      oklch(0 0 none / 0.36)
+    ),
+    var(--cap-fill);
+  box-shadow:
+    inset calc(0.4 * var(--u)) calc(1 * var(--u)) calc(0.6 * var(--u))
+      oklch(1 0 none / 0.5),
+    inset calc(-0.5 * var(--u)) calc(-1.5 * var(--u)) calc(2 * var(--u))
+      oklch(0 0 none / 0.3),
+    0 0 0 calc(0.8 * var(--u)) oklch(0 0 none / 0.9),
+    calc(1.2 * var(--u)) calc(3 * var(--u)) calc(3 * var(--u))
+      oklch(0 0 none / 0.8);
+  text-shadow: 0 calc(0.7 * var(--u)) 0 var(--cap-emboss);
+
+  /* The clear coat's glint, over the print. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(
+        ellipse 46% 28% at 34% 17%,
+        oklch(1 0 none / 0.5),
+        oklch(1 0 none / 0)
+      ),
+      radial-gradient(
+        ellipse 50% 22% at 62% 92%,
+        oklch(1 0 none / 0.14),
+        oklch(1 0 none / 0)
+      );
+    pointer-events: none;
+  }
+
+  [data-flush] > & {
+    box-shadow:
+      inset calc(0.3 * var(--u)) calc(0.8 * var(--u)) calc(0.5 * var(--u))
+        oklch(1 0 none / 0.5),
+      inset calc(-0.4 * var(--u)) calc(-1 * var(--u)) calc(1.5 * var(--u))
+        oklch(0 0 none / 0.28),
+      0 calc(1 * var(--u)) calc(1 * var(--u)) oklch(0 0 none / 0.6);
+  }
+
+  /* A latched cap rests part of the way down, in the shade of the collar. */
+  [data-pressed] > & {
+    translate: calc(var(--press-travel) * 0.2) calc(var(--press-travel) * 0.6);
+    box-shadow:
+      inset calc(0.6 * var(--u)) calc(1.6 * var(--u)) calc(2 * var(--u))
+        oklch(0 0 none / 0.4),
+      inset calc(-0.4 * var(--u)) calc(-1 * var(--u)) calc(1.5 * var(--u))
+        oklch(0 0 none / 0.25),
+      0 0 0 calc(0.8 * var(--u)) oklch(0 0 none / 0.9),
+      calc(0.5 * var(--u)) calc(1.2 * var(--u)) calc(1.5 * var(--u))
+        oklch(0 0 none / 0.8);
+
+    &::after {
+      opacity: 0.75;
+    }
+  }
+
+  :is(:active, [data-held]) > & {
+    translate: calc(var(--press-travel) * 0.35) var(--press-travel);
+    box-shadow:
+      inset calc(1 * var(--u)) calc(2.5 * var(--u)) calc(3 * var(--u))
+        oklch(0 0 none / 0.5),
+      inset 0 0 0 calc(1 * var(--u)) oklch(0 0 none / 0.22),
+      0 0 0 calc(0.8 * var(--u)) oklch(0 0 none / 0.9),
+      0 0 0 0 oklch(0 0 none / 0.8);
+    transition-duration: var(--press-in);
+
+    &::after {
+      opacity: 0.55;
+      transition-duration: var(--press-in);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :hover > & {
+      filter: brightness(1.06);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      translate var(--press-out) var(--wheel-snap),
+      box-shadow var(--press-out) var(--wheel-snap);
+
+    &::after {
+      transition: opacity var(--press-out) var(--wheel-snap);
+    }
+  }
+}
+
+[data-slot="wheel-button-glyph"] {
+  font-size: 1.5em;
+  font-weight: 900;
+}
+
+[data-slot="wheel-button-split"] {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  place-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  font-size: 0.8em;
+
+  & > :first-child {
+    align-self: end;
+    color: oklch(0.98 0 none);
+    text-shadow: 0 calc(-0.7 * var(--u)) 0 oklch(0 0 none / 0.5);
+  }
+  & > :last-child {
+    align-self: start;
+    color: oklch(0.12 0 none);
+    font-size: 1.15em;
+  }
+}
+
+[data-slot="wheel-button-curve"] {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+
+  & text {
+    fill: currentColor;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+}
+
+[data-slot="wheel-button-nub"] {
+  inline-size: 36%;
+  block-size: 36%;
+  margin-block-start: 22%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse 38% 28% at 34% 26%,
+      oklch(1 0 none / 0.6),
+      oklch(1 0 none / 0)
+    ),
+    radial-gradient(
+      circle at 42% 36%,
+      oklch(0.3 0 none),
+      oklch(0.1 0 none) 60%,
+      oklch(0.03 0 none)
+    );
+  box-shadow:
+    0 0 0 calc(0.6 * var(--u)) oklch(0 0 none / 0.6),
+    calc(1 * var(--u)) calc(2.5 * var(--u)) calc(2.5 * var(--u))
+      oklch(0 0 none / 0.55);
+}
+
+/* Grip pads: a rubber dome in a moulded seat; the seat stays, the dome gives */
+
+[data-wheel-pad] {
+  position: relative;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    oklch(0.08 0 none) 80%,
+    oklch(0.17 0 none) 90%,
+    oklch(0.24 0 none)
+  );
+  box-shadow:
+    inset calc(0.5 * var(--u)) calc(1.5 * var(--u)) calc(2 * var(--u))
+      oklch(0 0 none / 0.6),
+    calc(-0.3 * var(--u)) calc(-0.8 * var(--u)) 0 oklch(0 0 none / 0.35),
+    calc(0.3 * var(--u)) calc(0.8 * var(--u)) 0 oklch(1 0 none / 0.09);
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-touch-callout: none;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 7%;
+    border-radius: 50%;
+  }
+
+  &::before {
+    background: radial-gradient(
+      circle at 38% 30%,
+      oklch(0.4 0 none),
+      oklch(0.27 0 none) 38%,
+      oklch(0.17 0 none) 72%,
+      oklch(0.09 0 none)
+    );
+    box-shadow:
+      inset calc(0.4 * var(--u)) calc(1 * var(--u)) calc(1 * var(--u))
+        oklch(1 0 none / 0.14),
+      calc(1.5 * var(--u)) calc(4 * var(--u)) calc(4 * var(--u))
+        oklch(0 0 none / 0.7);
+  }
+
+  /* The matt sheen flattens out as the dome is squeezed. */
+  &::after {
+    background: radial-gradient(
+      ellipse 42% 30% at 34% 24%,
+      oklch(1 0 none / 0.22),
+      oklch(1 0 none / 0)
+    );
+  }
+
+  &:active {
+    &::before {
+      scale: 0.965;
+      translate: calc(var(--press-travel) * 0.3) calc(var(--press-travel) * 0.8);
+      box-shadow:
+        inset calc(0.8 * var(--u)) calc(2 * var(--u)) calc(3 * var(--u))
+          oklch(0 0 none / 0.45),
+        calc(0.5 * var(--u)) calc(1 * var(--u)) calc(1.5 * var(--u))
+          oklch(0 0 none / 0.7);
+    }
+    &::after {
+      opacity: 0.35;
+    }
+    &::before,
+    &::after {
+      transition-duration: var(--press-in);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover::before {
+      filter: brightness(1.12);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &::before {
+      transition:
+        scale var(--press-out) var(--wheel-snap),
+        translate var(--press-out) var(--wheel-snap),
+        box-shadow var(--press-out) var(--wheel-snap);
+    }
+    &::after {
+      transition: opacity var(--press-out) var(--wheel-snap);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:active::before {
+      scale: none;
+    }
+  }
+}
+
+/* The P/S lever: a chrome bat in a nut on a black boss, up on P, down on S */
+
+[data-wheel-lever] {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  &::before {
+    inline-size: 100%;
+    background:
+      conic-gradient(
+        from 315deg,
+        oklch(1 0 none / 0.16),
+        oklch(1 0 none / 0) 80deg,
+        oklch(0 0 none / 0.4) 180deg,
+        oklch(1 0 none / 0) 290deg,
+        oklch(1 0 none / 0.16)
+      ),
+      radial-gradient(
+        closest-side,
+        oklch(0.1 0 none) 70%,
+        oklch(0.28 0 none) 88%,
+        oklch(0.06 0 none)
+      );
+    box-shadow:
+      calc(1 * var(--u)) calc(2 * var(--u)) calc(2 * var(--u))
+        oklch(0 0 none / 0.75),
+      calc(2 * var(--u)) calc(5 * var(--u)) calc(6 * var(--u))
+        oklch(0 0 none / 0.5);
+  }
+
+  /* The nut and the pivot's dark socket. */
+  &::after {
+    inline-size: 62%;
+    background:
+      radial-gradient(closest-side, oklch(0.04 0 none) 48%, transparent 52%),
+      conic-gradient(
+        from 300deg,
+        oklch(0.9 0 none),
+        oklch(0.5 0 none) 70deg,
+        oklch(0.22 0 none) 160deg,
+        oklch(0.45 0 none) 230deg,
+        oklch(0.75 0 none) 300deg,
+        oklch(0.9 0 none)
+      );
+    box-shadow: 0 0 0 calc(0.6 * var(--u)) oklch(0 0 none / 0.8);
+  }
+
+  & [data-slot="switch-thumb"] {
+    position: absolute;
+    bottom: 50%;
+    left: 35%;
+    z-index: 1;
+    inline-size: 30%;
+    block-size: 37%;
+    border-radius: 46% 46% 30% 30% / 22% 22% 12% 12%;
+    background:
+      radial-gradient(
+        ellipse 60% 20% at 42% 12%,
+        oklch(1 0 none / 0.9),
+        oklch(1 0 none / 0)
+      ),
+      linear-gradient(
+        to right,
+        oklch(0.42 0 none),
+        oklch(0.97 0 none) 38%,
+        oklch(0.7 0 none) 62%,
+        oklch(0.3 0 none)
+      );
+    box-shadow:
+      0 0 0 calc(0.5 * var(--u)) oklch(0 0 none / 0.55),
+      calc(1.5 * var(--u)) calc(2.5 * var(--u)) calc(3 * var(--u))
+        oklch(0 0 none / 0.6);
+    transform-origin: 50% 100%;
+  }
+
+  /* Seen from above, a lever swinging through its pivot foreshortens, then points the other way. */
+  &[data-checked] [data-slot="switch-thumb"] {
+    scale: 1 -1;
+    box-shadow:
+      0 0 0 calc(0.5 * var(--u)) oklch(0 0 none / 0.55),
+      calc(1.5 * var(--u)) calc(-2.5 * var(--u)) calc(3 * var(--u))
+        oklch(0 0 none / 0.6);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    & [data-slot="switch-thumb"] {
+      transition: scale 130ms var(--wheel-snap);
+    }
+  }
+}
+
+/* Focus: the ring sits outside the fixed collar, so it never moves with the cap */
+
+[data-slot="wheel-face"]
+  :is([data-wheel-button], [data-wheel-pad], [data-wheel-lever]):focus-visible {
+  outline: max(2px, calc(3 * var(--u))) solid var(--wheel-ring);
+  outline-offset: max(2px, calc(5 * var(--u)));
+}
+
+[data-slot="wheel-face"] [data-wheel-button]:focus-visible {
+  outline-offset: calc(var(--collar) + max(2px, calc(3 * var(--u))));
+}

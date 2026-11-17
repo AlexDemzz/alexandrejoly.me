@@ -1,0 +1,558 @@
+/*
+ * Rotaries and thumbwheels. One key light, from the top left, for every dial:
+ * what turns is drawn apart from what the light does to it, so shadows, walls
+ * and lit edges stay put while a knob or a drum moves. Registered so the turn
+ * itself can ease, and everything derived from it follows.
+ */
+@property --rotary-angle {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@property --detent-offset {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/*
+ * A slider whose track is a long invisible rail (dial-drag.ts); the thumb
+ * covers the whole dial, so a drag anywhere on it turns it, one detent per
+ * --drag.
+ */
+
+[data-wheel-dial] {
+  position: absolute;
+
+  & [data-slot="slider-control"] {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    touch-action: none;
+    user-select: none;
+  }
+
+  & [data-slot="slider-track"] {
+    pointer-events: none;
+  }
+
+  & [data-slot="slider-thumb"] {
+    position: absolute;
+    inset: auto !important;
+    border-radius: var(--dial-radius);
+    translate: none !important;
+    pointer-events: auto;
+  }
+
+  &[data-orientation="vertical"] {
+    & [data-slot="slider-control"] {
+      cursor: ns-resize;
+    }
+
+    & [data-slot="slider-track"] {
+      block-size: calc(var(--steps) * var(--drag));
+      margin-block-start: calc(var(--dial-height) - var(--steps) * var(--drag));
+    }
+
+    & [data-slot="slider-thumb"] {
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      block-size: var(--dial-height);
+    }
+  }
+
+  &[data-orientation="horizontal"] {
+    & [data-slot="slider-control"] {
+      cursor: ew-resize;
+    }
+
+    & [data-slot="slider-track"] {
+      inline-size: calc(var(--steps) * var(--drag));
+      block-size: 100%;
+    }
+
+    & [data-slot="slider-thumb"] {
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      inline-size: var(--dial-width);
+    }
+  }
+}
+
+[data-slot="rotary"] [data-slot="slider-thumb"]:has(:focus-visible),
+[data-slot="thumbwheel"]:has(:focus-visible) {
+  outline: max(2px, calc(3 * var(--u))) solid var(--wheel-ring);
+  outline-offset: max(2px, calc(5 * var(--u)));
+}
+
+/*
+ * Thumbwheels: a ribbed drum seen through a slot. Each detent is one face of
+ * the drum, --step degrees wide: it sits at sin() of its angle along the slot
+ * and is squeezed by cos(), so the print closes up toward the slot's ends.
+ */
+
+[data-slot="thumbwheel"] {
+  --drum-face: oklch(0.2 0 none);
+  --drum-ink: oklch(0.96 0 none);
+  --drum-rib: oklch(1 0 none / 0.13);
+  --drum-glint: oklch(1 0 none / 0.12);
+  --drum-glint-edge: oklch(1 0 none / 0.03);
+  --step: 24;
+  --slot: calc(var(--height) * var(--u));
+  --radius: calc(var(--slot) * 0.49);
+  --facet: calc(var(--radius) * var(--step) * 0.01745);
+  --along: to bottom;
+
+  position: relative;
+  border-radius: calc(7 * var(--u));
+  background: oklch(0.04 0 none);
+  box-shadow:
+    0 0 0 calc(3.5 * var(--u)) oklch(0.13 0 none),
+    calc(1 * var(--u)) calc(1.3 * var(--u)) 0 calc(3.8 * var(--u))
+      oklch(1 0 none / 0.2),
+    calc(-0.8 * var(--u)) calc(-1 * var(--u)) 0 calc(3.8 * var(--u))
+      oklch(0 0 none / 0.7),
+    0 calc(3 * var(--u)) calc(6 * var(--u)) calc(3 * var(--u))
+      oklch(0 0 none / 0.45);
+
+  &[data-drum="yellow"] {
+    --drum-face: oklch(0.84 0.17 93);
+    --drum-ink: oklch(0.14 0 none);
+    --drum-rib: oklch(0.3 0.08 80 / 0.4);
+    --drum-glint: oklch(1 0 none / 0.6);
+    --drum-glint-edge: oklch(1 0 none / 0.12);
+  }
+
+  &[data-orientation="horizontal"] {
+    --step: 33;
+    --slot: calc(var(--size) * var(--u));
+    --along: to right;
+  }
+
+  /* The slot's walls shade the drum; the far wall catches a little light. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow:
+      inset calc(1 * var(--u)) calc(2.5 * var(--u)) calc(3 * var(--u))
+        oklch(0 0 none / 0.9),
+      inset calc(-0.6 * var(--u)) calc(-0.8 * var(--u)) calc(0.8 * var(--u))
+        oklch(1 0 none / 0.12);
+    pointer-events: none;
+  }
+
+  /* The rail runs past the slot; clipped, it can't widen the page. */
+  & [data-wheel-dial] {
+    --drag: max(12px, calc(26 * var(--u)));
+    --dial-height: calc(var(--height) * var(--u));
+    --dial-width: calc(var(--size) * var(--u));
+    --dial-radius: calc(7 * var(--u));
+
+    inset: 0;
+    overflow: clip;
+    border-radius: inherit;
+  }
+}
+
+[data-slot="thumbwheel-drum"] {
+  position: absolute;
+  inset: calc(1.5 * var(--u)) calc(4 * var(--u));
+  overflow: clip;
+  border-radius: calc(3 * var(--u));
+  background: var(--drum-face);
+
+  &[data-orientation="horizontal"] {
+    inset: calc(4 * var(--u)) calc(1.5 * var(--u));
+  }
+
+  /* The white reading window the print rolls through. */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    inline-size: 68%;
+    block-size: calc(var(--facet) * 0.7);
+    border-radius: calc(2.5 * var(--u));
+    background: linear-gradient(
+      var(--along),
+      oklch(0.8 0 none),
+      oklch(0.98 0 none) 30% 70%,
+      oklch(0.78 0 none)
+    );
+    box-shadow: 0 0 0 calc(0.6 * var(--u)) oklch(0 0 none / 0.45);
+    translate: -50% -50%;
+  }
+
+  &[data-orientation="horizontal"]::before {
+    inline-size: calc(var(--facet) * 0.84);
+    block-size: 66%;
+  }
+
+  /* A cylinder under a top light: dark where it turns away, a glint above the middle. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        var(--along),
+        transparent 27%,
+        var(--drum-glint-edge) 33%,
+        var(--drum-glint) 38%,
+        var(--drum-glint-edge) 44%,
+        transparent 52%
+      ),
+      linear-gradient(
+        var(--along),
+        oklch(0 0 none / 0.94),
+        oklch(0 0 none / 0.72) 8%,
+        oklch(0 0 none / 0.4) 19%,
+        oklch(0 0 none / 0.12) 32%,
+        transparent 43% 58%,
+        oklch(0 0 none / 0.14) 68%,
+        oklch(0 0 none / 0.45) 81%,
+        oklch(0 0 none / 0.78) 92%,
+        oklch(0 0 none / 0.96)
+      );
+    pointer-events: none;
+  }
+}
+
+[data-slot="thumbwheel-detent"] {
+  --turned: calc(var(--detent-offset) * var(--step) * 1deg);
+  --near: clamp(
+    0,
+    1.6 - 2.2 * max(var(--detent-offset), -1 * var(--detent-offset)),
+    1
+  );
+
+  position: absolute;
+  top: calc(50% - var(--facet) / 2);
+  right: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  block-size: var(--facet);
+  /* A groove above each face, then its ribbed shoulders. */
+  background:
+    linear-gradient(
+        to bottom,
+        oklch(0 0 none / 0.75) 0 50%,
+        oklch(1 0 none / 0.28) 50%
+      )
+      top / 100% calc(2.4 * var(--u)) no-repeat,
+    repeating-linear-gradient(
+        to bottom,
+        transparent 0 20%,
+        var(--drum-rib) 20% 33.33%
+      )
+      left / 14% 100% no-repeat,
+    repeating-linear-gradient(
+        to bottom,
+        transparent 0 20%,
+        var(--drum-rib) 20% 33.33%
+      )
+      right / 14% 100% no-repeat;
+  translate: 0 calc(sin(var(--turned)) * var(--radius));
+  scale: 1 max(0, cos(var(--turned)));
+
+  [data-orientation="horizontal"] > & {
+    top: 0;
+    right: auto;
+    bottom: 0;
+    left: calc(50% - var(--facet) / 2);
+    inline-size: var(--facet);
+    block-size: auto;
+    background:
+      linear-gradient(
+          to right,
+          oklch(0 0 none / 0.75) 0 50%,
+          oklch(1 0 none / 0.28) 50%
+        )
+        left / calc(2.4 * var(--u)) 100% no-repeat,
+      repeating-linear-gradient(
+          to right,
+          transparent 0 20%,
+          var(--drum-rib) 20% 33.33%
+        )
+        top / 100% 15% no-repeat,
+      repeating-linear-gradient(
+          to right,
+          transparent 0 20%,
+          var(--drum-rib) 20% 33.33%
+        )
+        bottom / 100% 15% no-repeat;
+    translate: calc(sin(var(--turned)) * var(--radius) * -1) 0;
+    scale: max(0, cos(var(--turned))) 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: --detent-offset 150ms var(--wheel-snap);
+  }
+}
+
+[data-slot="thumbwheel-print"] {
+  display: grid;
+  place-items: center;
+  min-inline-size: 68%;
+  block-size: 70%;
+  border-radius: calc(2.5 * var(--u));
+  color: color-mix(
+    in oklch,
+    oklch(0.12 0 none) calc(var(--near) * 100%),
+    var(--drum-ink)
+  );
+  font-size: calc(17 * var(--u));
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+
+  [data-orientation="horizontal"] > * > & {
+    min-inline-size: 84%;
+    block-size: 66%;
+    font-size: calc(14 * var(--u));
+  }
+
+  [data-mark="end"] > & {
+    background: color-mix(
+      in oklch,
+      var(--paint-yellow) calc((1 - var(--near)) * 100%),
+      transparent
+    );
+    color: oklch(0.12 0 none);
+  }
+}
+
+/*
+ * Rotaries: a glossy printed disc set into the carbon, under a black knob.
+ * Inside the knob, [data-turn] groups turn; the groups around them only shift
+ * the copy the way the light throws it.
+ */
+
+[data-slot="rotary"] {
+  position: relative;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: --rotary-angle 160ms var(--wheel-snap);
+  }
+
+  & [data-wheel-dial] {
+    --drag: max(18px, calc(34 * var(--u)));
+    --dial-box: calc(var(--dial) * var(--u));
+    --dial-height: var(--dial-box);
+    --dial-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+    inline-size: var(--dial-box);
+    block-size: var(--dial-box);
+    border-radius: 50%;
+    translate: -50% -50%;
+  }
+}
+
+:is([data-slot="rotary-dial"], [data-slot="rotary-knob"]) {
+  & [data-stop="light"] {
+    stop-color: oklch(1 0 none);
+  }
+
+  & [data-stop="shade"] {
+    stop-color: oklch(0 0 none);
+  }
+}
+
+[data-slot="rotary-dial"] {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  pointer-events: none;
+
+  & [data-part="disc-rim"] {
+    fill: oklch(0.05 0 none);
+    stroke-width: 1.8;
+  }
+
+  & [data-stop="lip-shade"] {
+    stop-color: oklch(0 0 none);
+  }
+
+  & [data-stop="lip-light"] {
+    stop-color: oklch(0.62 0 none);
+  }
+
+  & [data-part="hub-well"] {
+    fill: oklch(0.04 0 none);
+  }
+
+  & [data-part="sector"] {
+    stroke: oklch(0 0 none / 0.3);
+    stroke-width: 0.6;
+  }
+
+  & [data-part="divider"] {
+    stroke: oklch(0.95 0 none / 0.8);
+    stroke-width: 1.2;
+  }
+
+  & [data-part="legend"] {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-rendering: geometricPrecision;
+  }
+
+  & [data-paint="black"] {
+    fill: var(--paint-black);
+  }
+  & [data-paint="blue"] {
+    fill: var(--paint-blue);
+  }
+  & [data-paint="deep-blue"] {
+    fill: var(--paint-deep-blue);
+  }
+  & [data-paint="green"] {
+    fill: var(--paint-green);
+  }
+  & [data-paint="grey"] {
+    fill: var(--paint-grey);
+  }
+  & [data-paint="lime"] {
+    fill: var(--paint-lime);
+  }
+  & [data-paint="olive"] {
+    fill: var(--paint-olive);
+  }
+  & [data-paint="orange"] {
+    fill: var(--paint-orange);
+  }
+  & [data-paint="purple"] {
+    fill: var(--paint-purple);
+  }
+  & [data-paint="red"] {
+    fill: var(--paint-red);
+  }
+  & [data-paint="sky"] {
+    fill: var(--paint-sky);
+  }
+  & [data-paint="tyre-blue"] {
+    fill: var(--paint-tyre-blue);
+  }
+  & [data-paint="white"] {
+    fill: var(--paint-white);
+  }
+  & [data-paint="yellow"] {
+    fill: var(--paint-yellow);
+  }
+  & [data-paint="yellow-green"] {
+    fill: var(--paint-yellow-green);
+  }
+
+  & [data-ink="dark"] {
+    fill: oklch(0.14 0 none);
+  }
+  & [data-ink="light"],
+  & [data-ink="white"] {
+    fill: oklch(0.98 0 none);
+  }
+  & [data-ink="sky"] {
+    fill: oklch(0.7 0.13 240);
+  }
+  & [data-ink="red"] {
+    fill: oklch(0.6 0.21 28);
+  }
+  & [data-ink="purple"] {
+    fill: oklch(0.62 0.2 305);
+  }
+  & [data-ink="yellow"] {
+    fill: var(--paint-yellow);
+  }
+  & [data-ink="green"] {
+    fill: oklch(0.68 0.16 145);
+  }
+  & [data-ink="orange"] {
+    fill: var(--paint-orange);
+  }
+}
+
+[data-slot="rotary-knob"] {
+  /* How squarely the wedge's left flank faces the light, -1 to 1; the right flank is its opposite. */
+  --lit: cos(calc((var(--rotary-angle) - 45) * 1deg));
+
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+
+  & [data-turn] {
+    rotate: calc(var(--rotary-angle) * 1deg);
+  }
+
+  & [data-part="cast"] {
+    fill: oklch(0 0 none);
+    stroke: oklch(0 0 none);
+    stroke-linejoin: round;
+    stroke-width: 2;
+    opacity: 0.22;
+  }
+
+  & [data-part="wall"] {
+    fill: oklch(0.03 0 none);
+  }
+
+  & [data-part="edge-light"] {
+    fill: oklch(0.62 0 none);
+  }
+
+  & [data-part="face"] {
+    fill: oklch(0.17 0 none);
+  }
+
+  & [data-part="flank-left"] {
+    fill: oklch(calc(0.22 + 0.13 * var(--lit)) 0 none);
+  }
+
+  & [data-part="flank-right"] {
+    fill: oklch(calc(0.22 - 0.13 * var(--lit)) 0 none);
+  }
+
+  & [data-part="spine"] {
+    stroke: oklch(1 0 none / 0.2);
+    stroke-linecap: round;
+    stroke-width: 2.4;
+  }
+
+  & [data-part="cap-seat"] {
+    fill: oklch(0.05 0 none);
+    stroke-width: 1.4;
+  }
+
+  & [data-stop="dome-glint"] {
+    stop-color: oklch(0.95 0.11 99);
+  }
+
+  & [data-stop="dome-body"] {
+    stop-color: oklch(0.86 0.17 95);
+  }
+
+  & [data-stop="dome-turn"] {
+    stop-color: oklch(0.76 0.16 88);
+  }
+
+  & [data-stop="dome-edge"] {
+    stop-color: oklch(0.56 0.12 78);
+  }
+
+  & [data-part="pointer"] {
+    fill: oklch(0.56 0.22 28);
+    stroke: oklch(0.36 0.14 28);
+    stroke-linejoin: round;
+    stroke-width: 0.5;
+  }
+}

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
 import { FormulaIcon } from "@/components/formula-icon";
+import { Formula1Icon } from "@/components/formula1-icon";
 import { LabIcon } from "@/components/lab-icon";
 import { SkillIcon } from "@/components/skill-icon";
 import { SITE } from "@/content";
@@ -229,5 +230,24 @@ export const FormulaOgCard = () => (
       </OgGlyphFrame>
     }
     title={FORMULA_CARD.title}
+  />
+);
+
+export const FORMULA1_CARD = {
+  description:
+    "Charles Leclerc’s 2025 wheel, live: steer it, press the buttons, turn the rotaries.",
+  title: "Ferrari SF-25 Wheel",
+};
+
+/** The `/lab/formula-1` card. */
+export const Formula1OgCard = () => (
+  <OgCardFrame
+    description={FORMULA1_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <Formula1Icon />
+      </OgGlyphFrame>
+    }
+    title={FORMULA1_CARD.title}
   />
 );

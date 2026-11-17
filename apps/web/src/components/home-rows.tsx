@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
 import { FormulaIcon } from "@/components/formula-icon";
+import { Formula1Icon } from "@/components/formula1-icon";
 import {
   ItemLight,
   ItemLightActions,
@@ -14,7 +15,13 @@ import {
 } from "@/components/item-light";
 import { LabIcon } from "@/components/lab-icon";
 import { SkillIcon } from "@/components/skill-icon";
-import { ASCII_PAGE, FORMULA_PAGE, SKILLS, skillHref } from "@/content";
+import {
+  ASCII_PAGE,
+  FORMULA_PAGE,
+  FORMULA1_PAGE,
+  SKILLS,
+  skillHref,
+} from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import { isSkillPageName } from "@/skill-pages";
 
@@ -199,6 +206,16 @@ export const LabRows = () => (
       }
       title={FORMULA_PAGE.title}
       to="/lab/formula-2030"
+    />
+    <PageRow
+      description={FORMULA1_PAGE.rowDescription}
+      media={
+        <ItemLightMedia>
+          <Formula1Icon />
+        </ItemLightMedia>
+      }
+      title={FORMULA1_PAGE.title}
+      to="/lab/formula-1"
     />
   </RowList>
 );

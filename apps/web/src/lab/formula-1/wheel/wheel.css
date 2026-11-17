@@ -1,0 +1,65 @@
+/*
+ * The wheel face: one aspect-ratio box whose parts sit on a 1650 × 1040 grid
+ * (layout.ts). Each part sets unitless --x, --y, --size (and --height); --u
+ * turns a grid unit into a length, so the face scales whole with its width.
+ * The wheel is a physical object, so it is placed with physical offsets and
+ * never mirrors in right-to-left pages.
+ */
+[data-slot="wheel-face"] {
+  --u: calc(100cqi / 1650);
+  --wheel-font:
+    "Roboto Condensed", "Arial Narrow", "Helvetica Neue",
+    "DejaVu Sans Condensed", system-ui, sans-serif;
+  --wheel-print: oklch(0.98 0 none);
+  --wheel-ring: oklch(0.98 0 none);
+  --wheel-snap: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --paint-black: oklch(0.13 0 none);
+  --paint-blue: oklch(0.53 0.13 245);
+  --paint-deep-blue: oklch(0.38 0.12 270);
+  --paint-green: oklch(0.55 0.14 145);
+  --paint-grey: oklch(0.86 0 none);
+  --paint-lime: oklch(0.74 0.17 120);
+  --paint-olive: oklch(0.53 0.11 115);
+  --paint-orange: oklch(0.66 0.18 45);
+  --paint-purple: oklch(0.33 0.13 305);
+  --paint-red: oklch(0.56 0.19 30);
+  --paint-sky: oklch(0.62 0.13 240);
+  --paint-tyre-blue: oklch(0.45 0.1 250);
+  --paint-white: oklch(0.95 0 none);
+  --paint-yellow: oklch(0.83 0.17 95);
+  --paint-yellow-green: oklch(0.74 0.16 115);
+
+  position: relative;
+  container-type: inline-size;
+  isolation: isolate;
+  inline-size: 100%;
+  aspect-ratio: 1650 / 1040;
+  color: var(--wheel-print);
+  font-family: var(--wheel-font);
+  font-stretch: condensed;
+  font-synthesis: none;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-slot="wheel-at"],
+[data-slot="wheel-led"] {
+  position: absolute;
+  left: calc((var(--x) + 40) * var(--u));
+  top: calc((var(--y) + 30) * var(--u));
+  inline-size: calc(var(--size) * var(--u));
+  block-size: calc(var(--height, var(--size)) * var(--u));
+  translate: -50% -50%;
+}
+
+[data-slot="wheel-at"] {
+  display: grid;
+}
+
+/* Focus: one light ring that reads on carbon and on every cap */
+
+[data-slot="wheel-face"] :is([data-wheel-paddle], [data-rear]):focus-visible {
+  outline: max(2px, calc(3 * var(--u))) solid var(--wheel-ring);
+  outline-offset: max(2px, calc(5 * var(--u)));
+}
