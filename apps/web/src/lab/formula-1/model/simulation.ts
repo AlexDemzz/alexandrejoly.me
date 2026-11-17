@@ -44,7 +44,12 @@ import { completeShift } from "./gearbox";
 import { TRACE_STEP_M, pressuresFor, toGarage } from "./initial-state";
 import { PIT_LIMIT_KPH, clamp, isForwardGear } from "./ranges";
 import { advanceStart } from "./start";
-import { LAP_LENGTH_M, cornerAt, referenceSpeedKph } from "./track";
+import {
+  LAP_LENGTH_M,
+  cornerAt,
+  cornerProfile,
+  referenceSpeedKph,
+} from "./track";
 import type { Corner, WheelState } from "./types";
 
 /** Each tick runs in steps of at most this long. */
@@ -59,8 +64,8 @@ const MS_PER_S = 1000;
 const SCRUB_G = 2;
 
 // The cars ahead and behind drive the reference lap at a share of its speed [INV].
-const AHEAD_PACE = 0.932;
-const BEHIND_PACE = 0.931;
+const AHEAD_PACE = 0.961;
+const BEHIND_PACE = 0.96;
 const FIELD_SIZE = 20;
 const PASS_GAP_S = 0.1;
 /** Off the line every car runs the same launch; the gaps only start to move from here [INV]. */
@@ -68,7 +73,7 @@ const START_GAP_HOLD_M = 700;
 /** A better getaway turns into a place on the run to T1, not on the grid [INV]. */
 const START_PASS_M = 200;
 const NEXT_CAR_GAP_S = 1.4;
-const PASSED_CAR_GAP_S = 0.6;
+const PASSED_CAR_GAP_S = 1;
 const MAX_GAP_S = 30;
 
 // Handling notes [INV]: only far from the sweet spots, at most one a lap.
@@ -221,13 +226,14 @@ const integrateCar = (state: WheelState, dtMs: number): WheelState => {
   return settleRpm(moved, dtMs);
 };
 
-/** Past the corner's grip the car scrubs speed: the driver never pushes past it on purpose. */
+/** Past the corner's grip at this point of it the tyres scrub speed off: the physical ceiling. */
 const scrubInCorner = (state: WheelState, dtMs: number): WheelState => {
   const corner = cornerAt(state.distanceM);
   if (corner === null) {
     return state;
   }
-  const limit = corner.apexKph * gripFactor(state);
+  const limit =
+    corner.apexKph * gripFactor(state) * cornerProfile(corner, state.distanceM);
   if (state.speedKph <= limit) {
     return state;
   }

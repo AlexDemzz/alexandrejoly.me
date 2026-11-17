@@ -1,5 +1,4 @@
 import { cn } from "@portfolio/ui/lib/utils";
-import { Field, FieldLabel } from "@ui-sdk/react/field";
 import {
   SegmentedControl,
   SegmentedControlIndicator,
@@ -23,11 +22,9 @@ export const GearControl = () => {
   const gearControl = useWheel(selectGearControl);
   const dispatch = useWheelDispatch();
   return (
-    <Field className={cn(CONTROL_TRACK, "items-center")} data-gear-control>
-      <FieldLabel className="text-muted-foreground sr-only text-sm sm:not-sr-only sm:ps-3 sm:pe-1">
-        Gears
-      </FieldLabel>
+    <div className={cn(CONTROL_TRACK, "items-center")} data-gear-control>
       <SegmentedControl
+        aria-label="Gears"
         className="relative isolate inline-grid auto-cols-fr grid-flow-col"
         onValueChange={(next) => {
           if (next !== null) {
@@ -44,6 +41,6 @@ export const GearControl = () => {
           Manual
         </SegmentedControlItem>
       </SegmentedControl>
-    </Field>
+    </div>
   );
 };

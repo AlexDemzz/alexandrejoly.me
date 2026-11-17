@@ -38,6 +38,13 @@
 
 /* A round card: the map is sized to the square inscribed in the circle. */
 [data-slot="track-minimap-card"] {
+  --minimap-throttle: oklch(0.66 0.17 148);
+
+  @media (prefers-color-scheme: dark) {
+    --minimap-throttle: oklch(0.74 0.17 148);
+  }
+
+  position: relative;
   container-type: inline-size;
   display: grid;
   place-items: center;
@@ -50,7 +57,7 @@
 
 [data-slot="track-minimap-map"] {
   display: block;
-  inline-size: 66%;
+  inline-size: 84%;
   block-size: auto;
   overflow: visible;
 }
@@ -94,4 +101,31 @@
   stroke-width: 2.4;
   stroke-linejoin: round;
   paint-order: stroke;
+}
+
+/* The throttle fills the card's rim, over its hairline border. */
+[data-slot="track-minimap-throttle"] {
+  position: absolute;
+  inset: -1px;
+  inline-size: calc(100% + 2px);
+  block-size: calc(100% + 2px);
+  pointer-events: none;
+
+  & circle {
+    fill: none;
+    stroke: var(--minimap-throttle);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  /* A round cap draws a dot even at zero length: off the throttle, no ring. */
+  & circle[data-throttle="0"] {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    & circle {
+      transition: stroke-dashoffset 80ms linear;
+    }
+  }
 }

@@ -100,6 +100,40 @@ export const drsZoneAt = (distanceM: number): DrsZone | null => {
   return DRS_ZONES.find((zone) => isInZone(at, zone)) ?? null;
 };
 
+// A corner's speed along its length [INV]: lowest at the apex in the middle,
+// a little higher at turn-in, then rising from the apex as fast as the grip
+// freed by unwinding the steering lets the car accelerate.
+export const CORNER_ENTRY_SHARE = 1.03;
+/** Where the apex sits along the corner, 0..1. */
+export const CORNER_APEX_AT = 0.5;
+/** Acceleration the corner allows from the apex to the exit, in g. */
+export const CORNER_EXIT_ACCEL_G = 0.7;
+const EXIT_GRAVITY = 9.81;
+const EXIT_KPH_PER_MS = 3.6;
+
+/** How far through the corner the car is, 0 at turn-in to 1 at the exit. */
+export const cornerProgress = (
+  turn: TrackCorner,
+  distanceM: number
+): number => {
+  const into = wrapDistance(distanceM) - turn.startM;
+  return Math.min(1, Math.max(0, into / (turn.endM - turn.startM)));
+};
+
+/** The corner's speed at this point as a share of its apex speed. */
+export const cornerProfile = (turn: TrackCorner, distanceM: number): number => {
+  const progress = cornerProgress(turn, distanceM);
+  if (progress <= CORNER_APEX_AT) {
+    const toApex = (CORNER_APEX_AT - progress) / CORNER_APEX_AT;
+    return 1 + (CORNER_ENTRY_SHARE - 1) * toApex ** 2;
+  }
+  const pastApexM = (progress - CORNER_APEX_AT) * (turn.endM - turn.startM);
+  const apexMs = turn.apexKph / EXIT_KPH_PER_MS;
+  return Math.sqrt(
+    1 + (2 * CORNER_EXIT_ACCEL_G * EXIT_GRAVITY * pastApexM) / apexMs ** 2
+  );
+};
+
 export interface UpcomingCorner {
   corner: TrackCorner;
   /** 0 when the car is already in the corner. */

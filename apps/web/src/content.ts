@@ -214,17 +214,17 @@ export const FORMULA_PAGE = {
 /** The lab's third experiment, at `/lab/formula-1`. */
 export const FORMULA1_PAGE = {
   credit: [
-    "Drawn after Charles Leclerc’s 2025 wheel, as an independent study. Built with ",
+    "Drawn after the 2025 Ferrari wheel, as an independent study. Built with ",
     {
       href: "https://ui-sdk.dev",
       text: "ui-sdk",
     },
     ".",
   ],
-  description: `Ferrari SF-25 Wheel by ${SITE.name}: Charles Leclerc’s 2025 steering wheel rebuilt as a live page, where every button, rotary and thumbwheel works.`,
+  description: `Ferrari SF-25 Wheel by ${SITE.name}: a 2025 Formula 1 steering wheel rebuilt as a live page, where every button, rotary and thumbwheel works.`,
   documentTitle: `Ferrari SF-25 Wheel – Lab – ${SITE.name}`,
   rowDescription:
-    "Charles Leclerc’s 2025 wheel, live: steer it, press the buttons, turn the rotaries",
+    "A 2025 F1 wheel, live: steer it, press the buttons, turn the rotaries",
   title: "Ferrari SF-25 Wheel",
 } as const;
 

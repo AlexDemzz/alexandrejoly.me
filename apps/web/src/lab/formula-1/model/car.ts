@@ -81,6 +81,8 @@ const K2_MIN_KPH = 180;
 const SOC_DEPLOY_AT_ONE = 0.3;
 const SOC_DEPLOY_STEP = 0.05;
 const CHR_DEPLOY_SHARE = 0.2;
+/** Deployment maps feed the MGU-K in only from this much throttle, all of it flat out [INV]. */
+const DEPLOY_FROM_THROTTLE = 0.6;
 const CHR_HARVEST_GAIN = 1.4;
 const LIFT_THRESHOLD = 0.05;
 const FLAT_OUT = 0.95;
@@ -135,7 +137,7 @@ export const FUEL_START_KG = 100;
 export const FUEL_FINISH_KG = 1;
 export const RACE_LAPS = 20;
 /** Burn at full ICE power, kg/s: about 5 kg a lap, so 100 kg lasts the 20 laps [INV]. */
-const FUEL_BURN_KG_PER_S = 0.0905;
+const FUEL_BURN_KG_PER_S = 0.0964;
 
 // Body [INV]
 export const CAR_MASS_KG = 800;
@@ -325,7 +327,12 @@ export const mgukFlowKW = (state: EnergyInputs): number => {
     state.socMJ > 0 &&
     state.deployedThisLapMJ < DEPLOY_CAP_MJ &&
     isForwardGear(state.gear);
-  return allowed ? state.throttle * deployCapKW(state) : 0;
+  const pedal = clamp(
+    (state.throttle - DEPLOY_FROM_THROTTLE) / (1 - DEPLOY_FROM_THROTTLE),
+    0,
+    1
+  );
+  return allowed ? pedal * deployCapKW(state) : 0;
 };
 
 /** The MGU-H's charge to the store, outside the MGU-K's lap caps. */

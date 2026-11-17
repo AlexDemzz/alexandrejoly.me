@@ -66,7 +66,7 @@ const checked = (name: string): string | null =>
 const gearActions = (dispatched: WheelAction[]): WheelAction[] =>
   dispatched.filter((action) => action.type === "gearControl");
 
-it("is named Gears by its visible label and starts on Auto", () => {
+it("is named Gears and starts on Auto", () => {
   renderControl();
 
   const group = screen.getByRole("radiogroup", { name: "Gears" });

@@ -8,14 +8,13 @@ import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent, PointerEvent, RefObject } from "react";
 
 import { approach } from "../../engine";
-import { useWheel } from "../model/store";
+import { useWheelStore } from "../model/store";
 import {
   BUFFET_MAX_DEGREES,
   buffetAmplitude,
   shakeAt,
   shakePhases,
 } from "./buffeting";
-import type { BuffetInputs } from "./buffeting";
 import { BODY_ORIGIN, FRAME, MIRROR, PLATE, RIGHT_RUBBER } from "./face-art";
 import { LOCK_DEGREES, STEERING_STEP, createSteering } from "./steering-model";
 import type { Steering, SteeringClock } from "./steering-model";
@@ -73,13 +72,8 @@ export const useSteering = (): SteeringRig => {
   const [value, setValue] = useState(0);
   const [dragging, setDragging] = useState(false);
 
-  // The simulation changes every frame; the shake reads it here, outside
-  // render, and this selection never changes, so it never re-renders.
-  const live = useRef<BuffetInputs | null>(null);
-  useWheel((state) => {
-    live.current = state;
-    return 0;
-  });
+  // The shake reads the simulation each frame, outside render.
+  const store = useWheelStore();
 
   useEffect(() => {
     let steer = 0;
@@ -110,11 +104,8 @@ export const useSteering = (): SteeringRig => {
     let last: number | null = null;
     let frame = 0;
     const shake = (time: number): void => {
-      const state = live.current;
       const target =
-        state === null || reduced?.matches === true
-          ? 0
-          : buffetAmplitude(state);
+        reduced?.matches === true ? 0 : buffetAmplitude(store.getState());
       const dt = last === null ? 0 : Math.min(MAX_SHAKE_STEP_MS, time - last);
       last = time;
       amplitude = approach(amplitude, target, dt, SHAKE_SETTLE_MS);
@@ -138,7 +129,7 @@ export const useSteering = (): SteeringRig => {
       steering.stop();
       steeringRef.current = null;
     };
-  }, []);
+  }, [store]);
 
   /** The pointer's angle round the hub, centred across the stage and `HUB_Y` down it. */
   const pointerDegrees = (event: PointerEvent): number => {

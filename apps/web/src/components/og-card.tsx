@@ -235,7 +235,7 @@ export const FormulaOgCard = () => (
 
 export const FORMULA1_CARD = {
   description:
-    "Charles Leclerc’s 2025 wheel, live: steer it, press the buttons, turn the rotaries.",
+    "A 2025 F1 wheel, live: steer it, press the buttons, turn the rotaries.",
   title: "Ferrari SF-25 Wheel",
 };
 

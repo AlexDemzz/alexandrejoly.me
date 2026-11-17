@@ -95,7 +95,8 @@ export const WheelProvider = ({
   return createElement(WheelContext, { value: store }, children);
 };
 
-const useWheelStore = (): WheelStore => {
+/** The store itself, for code that needs `subscribe` or `getState` outside a render. */
+export const useWheelStore = (): WheelStore => {
   const store = use(WheelContext);
   if (store === null) {
     throw new Error("useWheel needs a <WheelProvider> above it.");

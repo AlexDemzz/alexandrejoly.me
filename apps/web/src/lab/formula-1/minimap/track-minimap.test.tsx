@@ -64,6 +64,13 @@ const carAt = (car: Element | null): { x: number; y: number } => {
   return { x: Number(match?.groups?.x), y: Number(match?.groups?.y) };
 };
 
+/** The first rotate() angle in an element's transform, in degrees. */
+const rotationOf = (element: Element | null): number =>
+  Number(
+    /rotate\((?<angle>-?[\d.]+)/u.exec(element?.getAttribute("transform") ?? "")
+      ?.groups?.angle
+  );
+
 describe("TrackMinimap", () => {
   it("shows only on track", () => {
     const { set, visible } = renderMinimap(initialState(NOW));
@@ -84,6 +91,30 @@ describe("TrackMinimap", () => {
       const shown = carAt(part("car"));
       expect(shown.x).toBeCloseTo(expected.x, 1);
       expect(shown.y).toBeCloseTo(expected.y, 1);
+    }
+  });
+
+  it("fills the rim with the throttle", () => {
+    const { part, set } = renderMinimap(track());
+    const ring = (): Element | null =>
+      part("throttle")?.querySelector("circle") ?? null;
+
+    set({ throttle: 0 });
+    expect(ring()?.getAttribute("stroke-dashoffset")).toBe("100");
+
+    set({ throttle: 0.5 });
+    expect(ring()?.getAttribute("stroke-dashoffset")).toBe("50");
+
+    set({ throttle: 1 });
+    expect(ring()?.getAttribute("stroke-dashoffset")).toBe("0");
+  });
+
+  it("turns the map so the car always points up", () => {
+    const { part, set } = renderMinimap(track());
+    for (const distanceM of [400, 900, 1850, 3690, 4980]) {
+      set({ distanceM });
+      const total = rotationOf(part("turn")) + rotationOf(part("car"));
+      expect(((total % 360) + 360) % 360).toBeCloseTo(270, 0);
     }
   });
 });

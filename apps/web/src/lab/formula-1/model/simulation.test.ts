@@ -22,7 +22,14 @@ import {
   LIGHT_INTERVAL_MS,
   holdFor,
 } from "./start";
-import { CORNERS, DRS_ZONES, LAP_LENGTH_M } from "./track";
+import {
+  CORNERS,
+  CORNER_APEX_AT,
+  DRS_ZONES,
+  LAP_LENGTH_M,
+  cornerAt,
+  cornerProgress,
+} from "./track";
 import type { WheelAction, WheelButton, WheelState } from "./types";
 
 const FRAME_MS = 20;
@@ -120,6 +127,112 @@ const secondLapMs = (state: WheelState): number | null => {
   });
   return time;
 };
+
+type Pedal = "brake" | "throttle" | "none";
+
+const pedalOf = (state: WheelState): Pedal => {
+  if (state.brake > 0) {
+    return "brake";
+  }
+  return state.throttle > 0 ? "throttle" : "none";
+};
+
+/** One full flying lap of the hidden driver, every frame, after a warm-up lap. */
+const LAP_FRAMES: readonly WheelState[] = (() => {
+  const frames: WheelState[] = [];
+  const flyingLap = racing().timing.lap + 1;
+  run(racing(), LAP_MS * 2, (state) => {
+    if (state.timing.lap === flyingLap) {
+      frames.push(state);
+    }
+  });
+  return frames;
+})();
+
+describe("the hidden driver in corners", () => {
+  it("records a whole lap", () => {
+    expect(LAP_FRAMES.at(-1)?.distanceM).toBeGreaterThan(LAP_LENGTH_M - 100);
+  });
+
+  it("changes pedal at most once in each corner", () => {
+    for (const corner of CORNERS) {
+      const inside = LAP_FRAMES.filter(
+        (state) => cornerAt(state.distanceM) === corner
+      );
+      const pedals = inside.map(pedalOf).filter((pedal) => pedal !== "none");
+      const changes = pedals.filter(
+        (pedal, index) => index > 0 && pedal !== pedals[index - 1]
+      );
+      expect(changes.length, corner.name).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("only lets the brake off in a corner, never puts it on", () => {
+    for (const [index, state] of LAP_FRAMES.entries()) {
+      const before = LAP_FRAMES[index - 1];
+      const corner = cornerAt(state.distanceM);
+      const stillIn =
+        before !== undefined &&
+        corner !== null &&
+        cornerAt(before.distanceM) === corner;
+      if (stillIn) {
+        expect(state.brake).toBeLessThanOrEqual(before.brake);
+      }
+    }
+  });
+
+  it("rolls the throttle on from the apex to the exit, never backing off", () => {
+    for (const corner of CORNERS) {
+      const exit = LAP_FRAMES.filter(
+        (state) =>
+          cornerAt(state.distanceM) === corner &&
+          cornerProgress(corner, state.distanceM) > CORNER_APEX_AT
+      );
+      for (const [index, state] of exit.entries()) {
+        if (index > 0) {
+          expect(state.throttle, corner.name).toBeGreaterThanOrEqual(
+            exit[index - 1].throttle - 0.01
+          );
+        }
+      }
+    }
+  });
+
+  it("brakes before each slow corner, not in it", () => {
+    for (const corner of CORNERS.filter((turn) => turn.apexKph < 150)) {
+      const approach = LAP_FRAMES.filter(
+        (state) =>
+          state.distanceM >= corner.startM - 300 &&
+          state.distanceM < corner.startM
+      );
+      expect(
+        approach.some((state) => state.brake > 0.3),
+        corner.name
+      ).toBe(true);
+    }
+  });
+
+  it("never alternates pedals within 300 ms", () => {
+    let lastChange = Number.NEGATIVE_INFINITY;
+    let last: Pedal = "none";
+    for (const state of LAP_FRAMES) {
+      const pedal = pedalOf(state);
+      if (pedal !== "none" && pedal !== last) {
+        if (last !== "none") {
+          expect(state.now - lastChange).toBeGreaterThanOrEqual(300);
+        }
+        lastChange = state.now;
+        last = pedal;
+      }
+    }
+  });
+
+  it("never presses both pedals at once", () => {
+    expect(
+      LAP_FRAMES.some((state) => state.brake > 0 && state.throttle > 0)
+    ).toBe(false);
+  });
+});
 
 describe("the start", () => {
   it("lines up on the grid of lap 1: P4, idling in neutral, full fuel and store, tyres off the blankets", () => {
@@ -527,7 +640,7 @@ describe("the race", () => {
     });
     const passed = run(onStraight, FRAME_MS);
     expect(passed.position).toBe(3);
-    expect(passed.gapBehindS).toBeLessThan(1);
+    expect(passed.gapBehindS).toBeLessThanOrEqual(1);
   });
 
   it("never simulates more than 100 ms in one tick", () => {
