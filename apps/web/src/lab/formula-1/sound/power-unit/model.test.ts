@@ -46,6 +46,18 @@ const render = (unit: PowerUnit, seconds: number): Float32Array => {
   return samples;
 };
 
+/** How far the partials on each bank's firing frequency, rpm / 40 Hz, stand out of what lies between them. */
+const noteOver = (samples: Float32Array, rpm: number): number => {
+  const order = rpm / 40;
+  let on = 0;
+  let between = 0;
+  for (let harmonic = 1; harmonic <= 8; harmonic += 1) {
+    on += levelAt(samples, harmonic * order);
+    between += levelAt(samples, (harmonic + 0.37) * order);
+  }
+  return on / between;
+};
+
 const brightness = (samples: Float32Array): number =>
   levelAt(samples, 2700) / levelAt(samples, 225);
 
@@ -88,14 +100,7 @@ describe("power unit model", () => {
   it("puts its partials on each bank's firing frequency, rpm / 40 Hz, whatever the revs", () => {
     for (const rpm of [8000, 12_000]) {
       const { samples } = settled({ load: 1, rpm });
-      const order = rpm / 40;
-      let on = 0;
-      let between = 0;
-      for (let harmonic = 1; harmonic <= 8; harmonic += 1) {
-        on += levelAt(samples, harmonic * order);
-        between += levelAt(samples, (harmonic + 0.37) * order);
-      }
-      expect(on).toBeGreaterThan(6 * between);
+      expect(noteOver(samples, rpm)).toBeGreaterThan(6);
     }
   });
 
@@ -104,6 +109,15 @@ describe("power unit model", () => {
     const floored = settled({ load: 1, rpm: 9000 }).samples;
     expect(rms(floored)).toBeGreaterThan(1.5 * rms(lifted));
     expect(brightness(floored)).toBeGreaterThan(brightness(lifted));
+  });
+
+  it("drones on the overrun: lifted at high revs it keeps its note, under the throttle's", () => {
+    const rpm = 10_500;
+    const lifted = settled({ load: 0, overrun: 0.7, rpm }, 1).samples;
+    const blipped = settled({ load: 0.85, rpm }, 1).samples;
+    expect(noteOver(lifted, rpm)).toBeGreaterThan(20);
+    expect(rms(lifted)).toBeLessThan(0.8 * rms(blipped));
+    expect(rms(lifted)).toBeGreaterThan(0.5 * rms(blipped));
   });
 
   it("stops the combustion for an ignition cut within a few milliseconds, and brings it back as fast", () => {

@@ -14,9 +14,10 @@
 // at fixed frequencies: the harmonics of the firing frequency (rpm / 20 Hz, and
 // rpm / 40 Hz per bank, the two banks being 90° apart) sweep through them as
 // the revs climb, which a re-pitched loop cannot do. Load raises the cylinder
-// pressure at exhaust-valve opening: taller, steeper pulses. An ignition cut,
-// a limiter or the fuel cut of a lifted throttle gate the combustion itself,
-// cylinder by cylinder; unburnt fuel then pops in the pipes.
+// pressure at exhaust-valve opening: taller, steeper pulses. An ignition cut
+// or a limiter gates the combustion itself, cylinder by cylinder. A lifted
+// throttle gates nothing: the engine keeps pumping against the car, a drone
+// the pulses fade into and swell out of, while unburnt fuel pops in the pipes.
 //
 // This runs inside an AudioWorklet: it allocates nothing while rendering.
 
@@ -73,8 +74,11 @@ const RISE_HARD = 130e-6;
 const RISE_POP = 90e-6;
 const IDLE_FIRE = 0.12;
 const LOAD_CURVE = 1.3;
+/** A cylinder that doesn't fire at all: an ignition cut. */
 const MOTORING = 0.05;
-/** Off the throttle the fuel cut is ragged: some cylinders still light a little. */
+/** Off the throttle at high revs the engine brakes the car, pumping air: a drone under the blips. */
+const ENGINE_BRAKING = 0.25;
+/** The lifted throttle's fuel cut is ragged: some cylinders still light a little. */
 const BURBLE = 0.14;
 const TIMING_JITTER = 0.004;
 const TURBULENCE = 0.5;
@@ -116,7 +120,9 @@ const WHISTLE_WANDER = 0.004;
 const GEAR_HZ_PER_KPH = 11.5;
 
 const RPM_SECONDS = 0.018;
-const LOAD_SECONDS = 0.025;
+// The manifold fills faster than it empties: a blip swells, then dies away.
+const LOAD_UP_SECONDS = 0.035;
+const LOAD_DOWN_SECONDS = 0.07;
 const SPEED_SECONDS = 0.2;
 const FADE_SECONDS = 0.05;
 const REV_LIMITER = { bounceRpm: 260, cutShare: 0.5, hz: 15 };
@@ -189,6 +195,8 @@ export class PowerUnit {
   private rpm = MIN_RPM;
   private load = 0;
   private overrun = 0;
+  /** How much of the pulse is engine braking: the overrun, less whatever throttle is open. */
+  private lift = 0;
   private speed = 0;
   private boost = 0;
   private level = 0;
@@ -235,7 +243,8 @@ export class PowerUnit {
     boostDown: number;
     boostUp: number;
     fade: number;
-    load: number;
+    loadDown: number;
+    loadUp: number;
     rpm: number;
     speed: number;
     attack: number;
@@ -259,7 +268,8 @@ export class PowerUnit {
       boostDown: glideFor(BOOST_DOWN_SECONDS, sampleRate),
       boostUp: glideFor(BOOST_UP_SECONDS, sampleRate),
       fade: glideFor(FADE_SECONDS, sampleRate),
-      load: glideFor(LOAD_SECONDS, sampleRate),
+      loadDown: glideFor(LOAD_DOWN_SECONDS, sampleRate),
+      loadUp: glideFor(LOAD_UP_SECONDS, sampleRate),
       release: glideFor(COMPRESSOR.releaseSeconds, sampleRate),
       rpm: glideFor(RPM_SECONDS, sampleRate),
       speed: glideFor(SPEED_SECONDS, sampleRate),
@@ -313,21 +323,20 @@ export class PowerUnit {
         amplitude = 0.35 + 0.5 * this.chance();
         rise = RISE_POP;
       }
-    } else if (this.overrun > 0.02) {
-      // Fuel cut on a lifted throttle: what little burns does so late, in the pipe.
-      amplitude += BURBLE * this.overrun * this.chance() ** 2;
-      if (this.chance() < this.overrun * OVERRUN_POP_CHANCE) {
-        amplitude = 0.35 + 0.6 * this.chance();
-        rise = RISE_POP;
-        this.pop = Math.max(this.pop, 0.5 * amplitude);
-      }
     } else {
+      const { lift } = this;
       const jitter = 0.05 + 0.2 * (1 - load);
       amplitude =
         (IDLE_FIRE + (1 - IDLE_FIRE) * load ** LOAD_CURVE) *
-        (1 + jitter * this.noise());
+          (1 + jitter * this.noise()) +
+        lift * (ENGINE_BRAKING + BURBLE * this.chance() ** 2);
       rise = RISE_SOFT + (RISE_HARD - RISE_SOFT) * load ** 0.7;
-      if (this.sinceCut > 0) {
+      if (this.chance() < lift * OVERRUN_POP_CHANCE) {
+        // What little fuel gets through burns late, in the pipe.
+        amplitude = 0.35 + 0.6 * this.chance();
+        rise = RISE_POP;
+        this.pop = Math.max(this.pop, 0.5 * amplitude);
+      } else if (this.sinceCut > 0) {
         // The fuel that went through unburnt during the cut lights with the first sparks.
         this.sinceCut -= 1;
         amplitude *= 1 + (POST_CUT_BOOST - 1) * load;
@@ -366,8 +375,11 @@ export class PowerUnit {
         : 0;
     const rpm = Math.max(MIN_RPM, inputs.rpm) - bounce;
     this.rpm += glide.rpm * (rpm - this.rpm);
-    this.load += glide.load * (clamp01(inputs.load) - this.load);
-    this.overrun += glide.load * (clamp01(inputs.overrun) - this.overrun);
+    const load = clamp01(inputs.load);
+    this.load +=
+      (load > this.load ? glide.loadUp : glide.loadDown) * (load - this.load);
+    this.overrun += glide.loadUp * (clamp01(inputs.overrun) - this.overrun);
+    this.lift = this.overrun * (1 - this.load);
     this.speed += glide.speed * (inputs.speedKph - this.speed);
     this.level += glide.fade * ((inputs.running > 0.5 ? 1 : 0) - this.level);
     // The MGU-H holds some turbo speed off the throttle; boost builds with load.
@@ -437,10 +449,7 @@ export class PowerUnit {
       SHOCK_DRIVE;
 
     this.pop *= 1 - 1 / (TAIL_POP_SECONDS * this.innerRate);
-    if (
-      this.overrun > 0.02 &&
-      this.chance() < (this.overrun * TAIL_POPS_PER_SECOND) / this.innerRate
-    ) {
+    if (this.chance() < (this.lift * TAIL_POPS_PER_SECOND) / this.innerRate) {
       this.pop = 0.3 + 0.5 * this.chance();
     }
     const back = this.tail.read(TAIL_SECONDS * hot * this.innerRate);

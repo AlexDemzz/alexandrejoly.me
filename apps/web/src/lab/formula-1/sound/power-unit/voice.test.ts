@@ -3,8 +3,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createEngineFrame } from "./frame";
 import type { EngineFrame } from "./frame";
 import { LIMITER_CODES, PROCESSOR_NAME } from "./model";
+import type { EngineVoice } from "./voice";
 import {
   BUFFER_LEAD,
+  EDGE_FADE,
   RELEASE_MS,
   createBufferedVoice,
   createWorkletVoice,
@@ -101,57 +103,181 @@ describe("worklet voice", () => {
   });
 });
 
-const bufferContext = () => {
-  const starts: number[] = [];
+const RATE = 48_000;
+const FRAME = 1 / 60;
+
+interface GainEvent {
+  ramp: boolean;
+  time: number;
+  value: number;
+}
+
+/** A gain's automation, enough of it to read the value it holds at a time. */
+const fakeGain = () => {
+  let events: GainEvent[] = [];
+  return {
+    at: (time: number): number => {
+      let value = 1;
+      let since = 0;
+      for (const event of events.toSorted((a, b) => a.time - b.time)) {
+        if (event.time > time) {
+          return event.ramp
+            ? value +
+                ((event.value - value) * (time - since)) / (event.time - since)
+            : value;
+        }
+        ({ time: since, value } = event);
+      }
+      return value;
+    },
+    cancelScheduledValues: (from: number) => {
+      events = events.filter((event) => event.time < from);
+    },
+    linearRampToValueAtTime: (value: number, time: number) => {
+      events.push({ ramp: true, time, value });
+    },
+    setTargetAtTime: () => {},
+    setValueAtTime: (value: number, time: number) => {
+      events.push({ ramp: false, time, value });
+    },
+  };
+};
+
+interface Started {
+  samples: Float32Array;
+  /** When the buffer plays, and when the main thread scheduled it. */
+  when: number;
+  scheduledAt: number;
+}
+
+/** A context whose clock the test moves, with a voice fed one frame at a time. */
+const buffered = () => {
+  const starts: Started[] = [];
   const buffers: Float32Array[] = [];
+  const gain = fakeGain();
+  let clock = 0;
   const context = {
     createBuffer: (_channels: number, length: number) => {
       const samples = new Float32Array(length);
       buffers.push(samples);
       return { getChannelData: () => samples };
     },
-    createBufferSource: () => ({
-      buffer: null,
-      connect: () => {},
-      start: (at: number) => starts.push(at),
-    }),
-    createGain: () => ({
-      connect: () => {},
-      disconnect: () => {},
-      gain: { setTargetAtTime: () => {} },
-    }),
-    sampleRate: 48_000,
+    createBufferSource: () => {
+      const source = {
+        buffer: null as { getChannelData: () => Float32Array } | null,
+        connect: () => {},
+        start: (when: number) => {
+          const samples = source.buffer?.getChannelData() ?? new Float32Array();
+          starts.push({ samples, scheduledAt: clock, when });
+        },
+      };
+      return source;
+    },
+    createGain: () => ({ connect: () => {}, disconnect: () => {}, gain }),
+    sampleRate: RATE,
   };
-  return { buffers, context: context as unknown as BaseAudioContext, starts };
+  const voice: EngineVoice = createBufferedVoice(
+    context as unknown as BaseAudioContext,
+    out
+  );
+  /** Frames every 1/60 s from `from`, for `seconds`; returns the time of the last one. */
+  const run = (from: number, seconds: number): number => {
+    for (let index = 0; index * FRAME < seconds; index += 1) {
+      clock = from + index * FRAME;
+      voice.set(frame({ load: 1, rpm: 10_000 }), clock);
+    }
+    return clock;
+  };
+  const rendered = (): number =>
+    (starts.at(-1)?.when ?? 0) + buffers[0].length / RATE;
+  return { buffers, gain, rendered, run, starts };
 };
 
+/** How far each buffer starts from the end of the one before, in samples. */
+const seams = (starts: Started[]): number[] =>
+  starts
+    .slice(1)
+    .map(
+      (start, index) =>
+        (start.when - starts[index].when) * RATE - start.samples.length
+    );
+
 describe("buffered voice", () => {
-  it("renders the engine ahead of the playhead, buffer after buffer without a gap", () => {
-    const { buffers, context, starts } = bufferContext();
-    const voice = createBufferedVoice(context, out);
-    voice.set(frame({ load: 1, rpm: 10_000 }), 1);
-    expect(starts[0]).toBeGreaterThan(1);
-    expect(starts.at(-1)).toBeGreaterThanOrEqual(1 + BUFFER_LEAD - 0.03);
-    const scheduled = starts.length;
-    for (let index = 1; index < scheduled; index += 1) {
-      expect(starts[index] - starts[index - 1]).toBeCloseTo(
-        buffers[0].length / 48_000
-      );
+  it("renders the engine ahead of the playhead, every buffer starting on the sample the last one ended on", () => {
+    const { rendered, run, starts } = buffered();
+    const last = run(1, 2);
+    expect(starts.length).toBeGreaterThan(80);
+    for (const start of starts) {
+      expect(start.when).toBeGreaterThan(start.scheduledAt);
+      expect(start.samples.some((sample) => sample !== 0)).toBe(true);
     }
-    voice.set(frame({ load: 1, rpm: 10_000 }), 1.001);
-    expect(starts).toHaveLength(scheduled);
-    voice.set(frame({ load: 1, rpm: 10_000 }), 1.05);
-    expect(starts.length).toBeGreaterThan(scheduled);
-    expect(buffers.at(-1)?.some((sample) => sample !== 0)).toBe(true);
+    for (const seam of seams(starts)) {
+      expect(Math.abs(seam)).toBeLessThan(1e-3);
+    }
+    expect(rendered() - last).toBeGreaterThanOrEqual(BUFFER_LEAD.min);
+    expect(rendered() - last).toBeLessThan(BUFFER_LEAD.min + 2 * FRAME);
   });
 
-  it("starts again from the playhead after the frames stopped for a while", () => {
-    const { context, starts } = bufferContext();
-    const voice = createBufferedVoice(context, out);
-    voice.set(frame({ rpm: 8000 }), 1);
-    const before = starts.length;
-    voice.set(frame({ rpm: 8000 }), 5);
-    expect(starts[before]).toBeGreaterThan(5);
+  it("writes over the buffers it has played, and never over one still to be heard", () => {
+    const { buffers, run, starts } = buffered();
+    run(1, 2);
+    expect(buffers.length).toBeLessThan(starts.length / 4);
+    const playedUntil = new Map<Float32Array, number>();
+    for (const { samples, scheduledAt, when } of starts) {
+      expect(playedUntil.get(samples) ?? 0).toBeLessThanOrEqual(scheduledAt);
+      playedUntil.set(samples, when + samples.length / RATE);
+    }
+  });
+
+  it("ends what it has rendered on a fade-out, taken back as long as frames keep coming", () => {
+    const { gain, rendered, run } = buffered();
+    const last = run(1, 2);
+    expect(gain.at(rendered())).toBeCloseTo(0, 6);
+    expect(gain.at(rendered() - EDGE_FADE)).toBeCloseTo(1, 6);
+    for (let at = 1.1; at < last; at += FRAME) {
+      expect(gain.at(at)).toBeCloseTo(1, 6);
+    }
+  });
+
+  it("fades out when the main thread stalls past what it rendered, and back in from the playhead", () => {
+    const { gain, rendered, run, starts } = buffered();
+    run(1, 1);
+    const dry = rendered();
+    const scheduled = starts.length;
+    const back = dry + 0.3;
+    run(back, 0.5);
+    const resumed = starts[scheduled];
+    expect(gain.at(dry - EDGE_FADE)).toBeCloseTo(1, 6);
+    expect(gain.at(dry)).toBeCloseTo(0, 6);
+    expect(gain.at(back)).toBeCloseTo(0, 6);
+    expect(resumed.when).toBeGreaterThan(back);
+    expect(gain.at(resumed.when)).toBeCloseTo(0, 6);
+    expect(gain.at(resumed.when + EDGE_FADE)).toBeCloseTo(1, 6);
+    for (const seam of seams(starts.slice(scheduled))) {
+      expect(Math.abs(seam)).toBeLessThan(1e-3);
+    }
+  });
+
+  it("keeps further ahead after a stall, so the next one as long is not heard", () => {
+    const stall = 0.15;
+    const { gain, rendered, run, starts } = buffered();
+    const first = run(1, 1) + stall;
+    const second = run(first, 1) + stall;
+    const recovered = starts.findIndex((start) => start.scheduledAt >= first);
+    expect(seams(starts)[recovered - 1]).toBeGreaterThan(1);
+    expect(rendered() - (second - stall)).toBeGreaterThan(stall);
+    const last = run(second, 1);
+    for (const seam of seams(starts.slice(recovered))) {
+      expect(Math.abs(seam)).toBeLessThan(1e-3);
+    }
+    for (let at = first + 0.1; at < last; at += FRAME / 2) {
+      expect(gain.at(at)).toBeCloseTo(1, 6);
+    }
+    for (const start of starts) {
+      expect(start.when - start.scheduledAt).toBeLessThanOrEqual(
+        BUFFER_LEAD.max
+      );
+    }
   });
 });
 
