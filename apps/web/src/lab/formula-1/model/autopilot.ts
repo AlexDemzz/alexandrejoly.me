@@ -235,7 +235,9 @@ const autoShift = (state: WheelState): WheelState => {
     return tryShift(state, "up");
   }
   const lower = shiftTarget(state.gear, "down");
-  const wantsLower = state.brake > 0 || engineRpm < LUG_RPM;
+  // Gear by gear, each blip closed before the next: every downshift gets its own flare.
+  const settled = state.blip === 0;
+  const wantsLower = settled && (state.brake > 0 || engineRpm < LUG_RPM);
   if (
     lower !== null &&
     wantsLower &&

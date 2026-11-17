@@ -25,6 +25,18 @@ export const LIMITER_RPM = 12_500;
  * the car sits on it on the grid. The value is invented.
  */
 export const LAUNCH_LIMITER_RPM = 10_000;
+// Downshift blip [INV]: while the gears change the ECU opens the throttle on
+// its own so the engine flares just past the lower gear's speed, then the
+// revs settle as the clutch bites. The rules only cap the shift at 300 ms
+// [R T25 9.9.4].
+/** How far past the lower gear's revs the blip flares. */
+export const BLIP_FLARE_RPM = 450;
+/** The throttle opening the ECU blips with. */
+export const BLIP_OPENING = 0.85;
+/** How fast the revs chase the blip's target: a time constant, ms. */
+export const BLIP_RISE_MS = 35;
+/** How long the blip takes to close once the gear has landed. */
+export const BLIP_SETTLE_MS = 120;
 /** Below this the engine bogs: too high a gear out of a slow corner [INV]. */
 const BOG_RPM = 6000;
 

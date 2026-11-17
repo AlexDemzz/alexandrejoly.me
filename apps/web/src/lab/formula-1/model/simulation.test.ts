@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  BLIP_OPENING,
   CLUTCH_OPEN,
   DEPLOY_CAP_MJ,
   ERS_MAX_KW,
@@ -8,10 +9,11 @@ import {
   HARVEST_CAP_MJ,
   LAUNCH_LIMITER_RPM,
   RACE_LAPS,
+  rpmAtSpeed,
 } from "./car";
 import { DRS_FIRST_LAP } from "./drs";
 import { initialState, toTrack } from "./initial-state";
-import { PIT_LIMIT_KPH } from "./ranges";
+import { DOWNSHIFT_MS, PIT_LIMIT_KPH } from "./ranges";
 import { reduce } from "./reducer";
 import { MAX_ELAPSED_MS } from "./simulation";
 import {
@@ -231,6 +233,78 @@ describe("the hidden driver in corners", () => {
     expect(
       LAP_FRAMES.some((state) => state.brake > 0 && state.throttle > 0)
     ).toBe(false);
+  });
+});
+
+const BACK_STRAIGHT_KPH = 160;
+
+/** In 5th on the back straight, the human on the paddles, revs on the gear. */
+const onBackStraight = (): WheelState =>
+  racing({
+    distanceM: backZone.startM + 1,
+    gear: 5,
+    gearControl: "manual",
+    rpm: rpmAtSpeed(BACK_STRAIGHT_KPH, 5),
+    speedKph: BACK_STRAIGHT_KPH,
+  });
+
+const framesOf = (state: WheelState, ms: number): WheelState[] => {
+  const frames: WheelState[] = [];
+  run(state, ms, (next) => {
+    frames.push(next);
+  });
+  return frames;
+};
+
+describe("downshift blip", () => {
+  it("flares the revs past the lower gear's, then settles on it once the gear is in", () => {
+    const frames = framesOf(apply(onBackStraight(), down), DOWNSHIFT_MS + 400);
+    const shifting = frames.filter((state) => state.shift !== null);
+    const peak = Math.max(...shifting.map((state) => state.rpm));
+    expect(peak).toBeGreaterThan(rpmAtSpeed(shifting[0].speedKph, 4) + 200);
+    const last = frames.at(-1);
+    expect(last?.gear).toBe(4);
+    expect(last?.blip).toBe(0);
+    expect(
+      Math.abs((last?.rpm ?? 0) - rpmAtSpeed(last?.speedKph ?? 0, 4))
+    ).toBeLessThan(150);
+  });
+
+  it("opens the ECU's blip, never the driver's throttle, and leaves the speed alone", () => {
+    const shifting = framesOf(apply(onBackStraight(), down), DOWNSHIFT_MS - 20);
+    const steady = framesOf(onBackStraight(), DOWNSHIFT_MS - 20);
+    for (const [index, state] of shifting.entries()) {
+      expect(state.blip).toBe(BLIP_OPENING);
+      expect(state.throttle).toBe(steady[index].throttle);
+      expect(state.speedKph).toBe(steady[index].speedKph);
+    }
+  });
+
+  it("blips every downshift the driver makes gear by gear into a slow corner", () => {
+    const [, hairpin] = CORNERS.filter((corner) => corner.apexKph < 100);
+    const braking = framesOf(
+      racing({ distanceM: hairpin.startM - 500, gear: 8, speedKph: 290 }),
+      9000
+    ).filter((state) => state.distanceM < hairpin.startM);
+    const flares = braking.filter(
+      (state, index) =>
+        index > 0 && state.blip > 0 && braking[index - 1].blip === 0
+    );
+    expect(flares.length).toBeGreaterThanOrEqual(4);
+    for (const start of flares) {
+      expect(start.shift).not.toBeNull();
+    }
+  });
+
+  it("stays shut on an upshift and on a refused downshift", () => {
+    const up6 = framesOf(apply(onBackStraight(), up), 300);
+    expect(up6.every((state) => state.blip === 0)).toBe(true);
+    const refused = apply(
+      racing({ gear: 5, gearControl: "manual", speedKph: 230 }),
+      down
+    );
+    expect(refused.message?.text).toBe("SHIFT REJECTED");
+    expect(run(refused, 100).blip).toBe(0);
   });
 });
 

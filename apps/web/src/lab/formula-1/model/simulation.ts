@@ -4,6 +4,10 @@
 import { drive } from "./autopilot";
 import {
   AIR_DENSITY,
+  BLIP_FLARE_RPM,
+  BLIP_OPENING,
+  BLIP_RISE_MS,
+  BLIP_SETTLE_MS,
   CAR_MASS_KG,
   CLUTCH_CLOSED,
   CLUTCH_OPEN,
@@ -50,7 +54,7 @@ import {
   cornerProfile,
   referenceSpeedKph,
 } from "./track";
-import type { Corner, WheelState } from "./types";
+import type { Corner, Gear, WheelState } from "./types";
 
 /** Each tick runs in steps of at most this long. */
 export const STEP_MS = 20;
@@ -100,9 +104,22 @@ const BRAKE_SHARE_REF = 50;
 
 // Engine and drive
 
+const isDownshifting = (state: WheelState): boolean => {
+  const { gear, shift } = state;
+  return (
+    shift !== null &&
+    isForwardGear(gear) &&
+    isForwardGear(shift.to) &&
+    shift.to < gear
+  );
+};
+
 /** The crank speed: the displayed rpm lags, the limiter does not. */
-const engineRpm = (state: WheelState): number =>
-  Math.max(state.rpm, IDLE_RPM, rpmAtSpeed(state.speedKph, state.gear));
+const engineRpm = (state: WheelState): number => {
+  const engaged = Math.max(IDLE_RPM, rpmAtSpeed(state.speedKph, state.gear));
+  // A blip spins the engine against an open clutch: none of it reaches the wheels.
+  return isDownshifting(state) ? engaged : Math.max(state.rpm, engaged);
+};
 
 const iceKW = (state: WheelState): number =>
   state.fuelKg > 0 && isForwardGear(state.gear)
@@ -202,9 +219,27 @@ const targetRpm = (state: WheelState): number => {
     : engaged;
 };
 
+/** The revs a downshift's blip aims at: the lower gear's, plus the flare. */
+const blipRpm = (state: WheelState, to: Gear): number =>
+  Math.min(LIMITER_RPM, rpmAtSpeed(state.speedKph, to) + BLIP_FLARE_RPM);
+
+/** The ECU's blip: open through a downshift, closing over the settle once the gear lands. */
+const nextBlip = (state: WheelState, dtMs: number): number =>
+  isDownshifting(state)
+    ? BLIP_OPENING
+    : Math.max(0, state.blip - (BLIP_OPENING * dtMs) / BLIP_SETTLE_MS);
+
 const settleRpm = (state: WheelState, dtMs: number): WheelState => {
-  const share = Math.min(1, dtMs / RPM_TIME_CONSTANT_MS);
-  return { ...state, rpm: state.rpm + (targetRpm(state) - state.rpm) * share };
+  const downshift = isDownshifting(state) ? state.shift : null;
+  const target =
+    downshift === null ? targetRpm(state) : blipRpm(state, downshift.to);
+  const timeConstant = downshift === null ? RPM_TIME_CONSTANT_MS : BLIP_RISE_MS;
+  const share = Math.min(1, dtMs / timeConstant);
+  return {
+    ...state,
+    blip: nextBlip(state, dtMs),
+    rpm: state.rpm + (target - state.rpm) * share,
+  };
 };
 
 const integrateCar = (state: WheelState, dtMs: number): WheelState => {

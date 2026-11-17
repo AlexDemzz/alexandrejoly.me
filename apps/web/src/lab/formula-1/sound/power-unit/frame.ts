@@ -1,9 +1,10 @@
 // What the power unit sounds like on one frame of the wheel's state. The
-// model drives the car; this only reads it, and adds what a microphone hears
-// that the state doesn't name: the ignition cut of an upshift, the blip of a
-// downshift, the limiters' stutter and neutral revs.
+// model drives the car, revs included (a downshift's blip flares them, with
+// the ECU's own throttle in `blip`); this reads it and adds what a microphone
+// hears that the state doesn't name: the ignition cut of an upshift, the
+// limiters' stutter and neutral revs.
 
-import { IDLE_RPM, LIMITER_RPM, rpmAtSpeed } from "../../model/car";
+import { IDLE_RPM, LIMITER_RPM } from "../../model/car";
 import { PIT_LIMIT_KPH, isForwardGear } from "../../model/ranges";
 import type { Gear, WheelState } from "../../model/types";
 
@@ -30,8 +31,6 @@ export interface EngineMemory {
 
 /** The cut runs over the end of the shift, until the next gear lands [INV, within the 50–80 ms of a seamless shift]. */
 export const CUT_MS = 65;
-/** A downshift's blip opens the throttle this far while the driver brakes [INV]. */
-export const BLIP_LOAD = 0.85;
 const LIFT = 0.05;
 const FLOORED = 0.5;
 const OVERRUN_FROM_RPM = 6500;
@@ -59,9 +58,6 @@ export const createEngineMemory = (): EngineMemory => ({ blipAt: null });
 
 const isUpshift = (from: Gear, to: Gear): boolean =>
   isForwardGear(from) && isForwardGear(to) && to > from;
-
-const isDownshift = (from: Gear, to: Gear): boolean =>
-  isForwardGear(from) && isForwardGear(to) && to < from;
 
 const limiterFor = (state: WheelState): Limiter => {
   const floored = state.throttle > FLOORED && isForwardGear(state.gear);
@@ -117,7 +113,7 @@ export const readEngine = (
   }
 
   let { rpm } = state;
-  let load = state.throttle;
+  let load = Math.max(state.throttle, state.blip);
   const { shift } = state;
   if (state.gear === "N") {
     rpm = neutralRpm(state, memory);
@@ -125,16 +121,13 @@ export const readEngine = (
   } else {
     memory.blipAt = null;
   }
-  if (shift !== null && isDownshift(state.gear, shift.to)) {
-    const matched = Math.min(LIMITER_RPM, rpmAtSpeed(state.speedKph, shift.to));
-    rpm = Math.max(rpm, matched);
-    load = Math.max(load, BLIP_LOAD);
-  }
+  // The blip fires the cylinders; as it closes, the lift crackles on the overrun.
+  const blipping = shift !== null && state.blip > 0;
 
   out.rpm = rpm;
   out.load = load;
   out.speedKph = state.speedKph;
-  out.overrun = overrunFor(load, rpm);
+  out.overrun = blipping ? 0 : overrunFor(state.throttle, rpm);
   out.cut =
     shift !== null &&
     isUpshift(state.gear, shift.to) &&

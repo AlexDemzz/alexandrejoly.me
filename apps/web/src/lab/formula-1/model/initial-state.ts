@@ -45,6 +45,7 @@ const neutral = <T extends string>(params: readonly T[]): Record<T, number> =>
 /** The car in the garage: engine off, standing still, nothing driven. */
 export const initialState = (now: number): WheelState => ({
   bestTrace: null,
+  blip: 0,
   brake: 0,
   brakeBalance: BRAKE_BALANCE_START,
   brakeTempsC: even(AMBIENT_C),

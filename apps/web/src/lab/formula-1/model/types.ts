@@ -181,6 +181,11 @@ export interface WheelState {
   throttle: number;
   brake: number;
   clutch: number;
+  /**
+   * The ECU's own throttle opening for a downshift, 0..1: it revs the engine
+   * up to the lower gear's speed while the gears change. Not the driver's pedal.
+   */
+  blip: number;
   gearControl: GearControl;
   rpm: number;
   speedKph: number;

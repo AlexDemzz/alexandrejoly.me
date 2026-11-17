@@ -5,7 +5,6 @@ import { initialState, toTrack } from "../../model/initial-state";
 import { DOWNSHIFT_MS, UPSHIFT_MS } from "../../model/ranges";
 import type { WheelState } from "../../model/types";
 import {
-  BLIP_LOAD,
   CUT_MS,
   createEngineFrame,
   createEngineMemory,
@@ -67,22 +66,34 @@ describe("engine frame", () => {
     expect(read(landed).cut).toBe(false);
   });
 
-  it("blips a downshift: the revs rise to the lower gear's before it lands, with the foot off the throttle", () => {
+  it("plays a downshift's blip from the model: its revs, and the ECU's opening as the load", () => {
     const speedKph = 150;
-    const frame = read(
-      onTrack({
-        brake: 1,
-        gear: 5,
-        rpm: rpmAtSpeed(speedKph, 5),
-        shift: { doneAt: NOW + DOWNSHIFT_MS, to: 4 },
-        speedKph,
-        throttle: 0,
-      })
-    );
-    expect(frame.rpm).toBeCloseTo(rpmAtSpeed(speedKph, 4));
-    expect(frame.rpm).toBeGreaterThan(rpmAtSpeed(speedKph, 5));
-    expect(frame.load).toBe(BLIP_LOAD);
+    const blipping = onTrack({
+      blip: 0.85,
+      brake: 1,
+      gear: 5,
+      rpm: 11_000,
+      shift: { doneAt: NOW + DOWNSHIFT_MS, to: 4 },
+      speedKph,
+      throttle: 0,
+    });
+    const frame = read(blipping);
+    expect(frame.rpm).toBe(11_000);
+    expect(frame.load).toBe(0.85);
     expect(frame.overrun).toBe(0);
+  });
+
+  it("crackles on the overrun as the blip closes after the gear lands", () => {
+    const settling = onTrack({
+      blip: 0.4,
+      brake: 1,
+      gear: 4,
+      rpm: 11_200,
+      shift: null,
+      speedKph: 150,
+      throttle: 0,
+    });
+    expect(read(settling).overrun).toBeGreaterThan(0.5);
   });
 
   it("burbles on the overrun when the driver lifts at high revs, not on the throttle", () => {
