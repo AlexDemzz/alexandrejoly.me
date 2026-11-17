@@ -68,6 +68,47 @@
   grid-template-columns: 19fr 15fr 30fr 2fr 16fr 18fr;
 }
 
+/* The race page before lights out: the same rows, the lights where the readings were. */
+[data-slot="dash-grid"][data-page="grid"] {
+  grid-template-areas:
+    "slot phase mode"
+    "soc gear bbal"
+    "soc gear bbal"
+    "lights lights lights"
+    "bar bar bar";
+  grid-template-rows: 17fr 25fr 24fr 24fr 10fr;
+  grid-template-columns: 34fr 32fr 34fr;
+}
+
+[data-slot="dash"] [data-area="slot"] {
+  grid-area: slot;
+}
+[data-slot="dash"] [data-area="phase"] {
+  grid-area: phase;
+}
+[data-slot="dash"] [data-area="mode"] {
+  grid-area: mode;
+}
+[data-slot="dash"] [data-area="lights"] {
+  grid-area: lights;
+}
+
+[data-slot="dash-lights"] {
+  display: flex;
+  gap: 4cqh;
+}
+
+[data-slot="dash-light"] {
+  flex: none;
+  inline-size: 13cqh;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--dash-empty);
+}
+[data-slot="dash-light"][data-lit] {
+  background: var(--dash-red);
+}
+
 [data-slot="dash"] [data-area="time"] {
   grid-area: time;
 }
@@ -530,6 +571,20 @@
     box-shadow: none;
     color: var(--dash-ink);
   }
+}
+
+[data-slot="dash-lights-out"] {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 36cqh;
+  display: grid;
+  place-items: center;
+  min-block-size: 24cqh;
+  background: var(--dash-open);
+  color: var(--dash-ink);
+  font-size: 11cqh;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 [data-slot="dash-message"] {

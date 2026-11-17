@@ -41,7 +41,9 @@ const announcementFor = (before: Events, after: Events): string => {
   }
   const screenChanged = after.screen !== before.screen;
   const menuChanged = after.menu !== null && after.menu !== before.menu;
-  if (screenChanged) {
+  if (screenChanged && before.screen === "grid" && after.screen === "race") {
+    parts.push("Lights out");
+  } else if (screenChanged) {
     parts.push(`${PAGE_SPOKEN[after.screen]} page`);
   }
   if (menuChanged && after.menu !== null) {

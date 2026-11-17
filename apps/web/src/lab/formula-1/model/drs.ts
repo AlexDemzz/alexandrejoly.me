@@ -1,8 +1,8 @@
 import { DRS_DETECTION_GAP_S, DRS_ZONES, drsZoneAt } from "./track";
 import type { WheelState } from "./types";
 
-/** DRS opens from the third lap of a race [R S25 Art. 22.1c]. */
-export const DRS_FIRST_LAP = 3;
+/** DRS may be used "after he has completed one (1) lap after the start" [R S25 Art. 22.1c]. */
+export const DRS_FIRST_LAP = 2;
 
 const crossed = (beforeM: number, afterM: number, lineM: number): boolean =>
   beforeM < lineM && afterM >= lineM;
@@ -13,7 +13,7 @@ const crossed = (beforeM: number, afterM: number, lineM: number): boolean =>
  * for the rest of the zone; the zone's end disables it [R S25 Art. 22.1].
  */
 export const updateDrs = (state: WheelState, beforeM: number): WheelState => {
-  if (state.timing.lap < DRS_FIRST_LAP) {
+  if (state.timing.lap < DRS_FIRST_LAP || state.start.kind !== "go") {
     return state.drs === "disabled" ? state : { ...state, drs: "disabled" };
   }
   const detected = DRS_ZONES.some((zone) =>

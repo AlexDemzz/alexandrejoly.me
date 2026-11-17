@@ -4,7 +4,7 @@ import {
   withMessage,
   withPopup,
 } from "./feedback";
-import { completeShift, requestShift } from "./gearbox";
+import { completeShift, requestShift, shiftTarget } from "./gearbox";
 import type { ShiftRequest } from "./gearbox";
 import { toGarage, toTrack } from "./initial-state";
 import {
@@ -26,6 +26,7 @@ import {
 import type {
   DashSwitch,
   ErsMode,
+  GearControl,
   Session,
   Rotary,
   Thumbwheel,
@@ -135,19 +136,26 @@ const toggleLimiter = (state: WheelState): WheelState => {
   );
 };
 
-/** On track, a paddle or N press hands the gearbox to the human. */
+/** The gearbox mode toggle: the hidden driver picks up from whatever gear the car is in. */
+const setGearControl = (state: WheelState, value: GearControl): WheelState =>
+  withPopup({ ...state, gearControl: value }, "GEARBOX", value.toUpperCase());
+
+/**
+ * On track, a paddle or N press hands the gearbox to the human. Before
+ * lights out the hidden driver holds 1st for the start, so a hand shift is
+ * refused [INV].
+ */
 const shiftByHand = (state: WheelState, request: ShiftRequest): WheelState => {
   if (state.session !== "track") {
     return requestShift(state, request);
   }
+  if (state.start.kind !== "go") {
+    return shiftTarget(state.gear, request) === null
+      ? state
+      : withMessage(state, "SHIFT REJECTED", "warn");
+  }
   const handed =
-    state.gearControl === "manual"
-      ? { ...state, manualIdleM: 0 }
-      : withPopup(
-          { ...state, gearControl: "manual" as const, manualIdleM: 0 },
-          "GEARBOX",
-          "MANUAL"
-        );
+    state.gearControl === "manual" ? state : setGearControl(state, "manual");
   return requestShift(handed, request);
 };
 
@@ -322,6 +330,11 @@ export const reduce = (state: WheelState, action: WheelAction): WheelState => {
     }
     case "release": {
       return release(state, action.button);
+    }
+    case "gearControl": {
+      return state.gearControl === action.value
+        ? state
+        : setGearControl(state, action.value);
     }
     case "session": {
       return setSession(state, action.session);

@@ -11,6 +11,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { initialState } from "../model/initial-state";
 import { BRAKE_BALANCE_STEP } from "../model/ranges";
 import { WheelProvider, createWheelStore } from "../model/store";
+import type { WheelState } from "../model/types";
 import { WheelFace } from "./wheel-face";
 
 declare global {
@@ -61,8 +62,8 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const renderWheel = () => {
-  const store = createWheelStore(initialState(0));
+const renderWheel = (overrides: Partial<WheelState> = {}) => {
+  const store = createWheelStore({ ...initialState(0), ...overrides });
   const view = render(
     <WheelProvider store={store}>
       <WheelFace display={null} />
@@ -245,5 +246,49 @@ describe("steering", () => {
     });
     fireEvent.pointerUp(dial, { pointerId: 3 });
     expect(store.getState().rotaries.eng).toBe(start + 5);
+  });
+
+  it("buffets at speed without moving the steering slider", () => {
+    const { steering, turned } = renderWheel({
+      distanceM: 400,
+      rpm: 11_500,
+      session: "track",
+      speedKph: 310,
+      start: { elapsedMs: 60_000, kind: "go" },
+    });
+    const angles: number[] = [];
+    for (let step = 0; step < 40; step += 1) {
+      advance(FRAME_MS);
+      angles.push(turned());
+    }
+    const widest = Math.max(...angles.map(Math.abs));
+    expect(widest).toBeGreaterThan(0.1);
+    expect(widest).toBeLessThanOrEqual(0.8);
+    expect(
+      new Set(angles.map((angle) => angle.toFixed(3))).size
+    ).toBeGreaterThan(10);
+    expect(steering).toHaveProperty("value", "0");
+    expect(steering.getAttribute("aria-valuetext")).toBe("centre");
+  });
+
+  it("holds still in the garage and when motion is reduced", () => {
+    const garage = renderWheel();
+    advance(500);
+    expect(garage.turned()).toBe(0);
+    cleanup();
+
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: query.includes("reduce"),
+    }));
+    const reduced = renderWheel({
+      distanceM: 400,
+      rpm: 11_500,
+      session: "track",
+      speedKph: 310,
+      start: { elapsedMs: 60_000, kind: "go" },
+    });
+    advance(500);
+    expect(reduced.turned()).toBe(0);
+    expect(reduced.face.style.transform).toBe("");
   });
 });

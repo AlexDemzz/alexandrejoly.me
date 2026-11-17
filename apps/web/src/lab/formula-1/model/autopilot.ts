@@ -1,5 +1,6 @@
-// The hidden driver: works the pedals around the lap, and the gears until the
-// human takes the paddles. It never touches DRS or the ERS buttons.
+// The hidden driver: does the start (1st gear, launch revs, clutch at lights
+// out), works the pedals around the lap, and the gears in auto. It never
+// touches DRS or the ERS buttons.
 
 import {
   GRAVITY,
@@ -13,10 +14,15 @@ import {
 import { isShiftRejected, requestShift, shiftTarget } from "./gearbox";
 import type { ShiftRequest } from "./gearbox";
 import { PIT_LIMIT_KPH, clamp, isForwardGear } from "./ranges";
+import { DRIVER_REACTION_MS } from "./start";
 import { cornerAt, upcomingCorners } from "./track";
 import type { WheelState } from "./types";
 
 const PEDAL_RATE_PER_S = 8;
+/** Throttle held on the grid against the launch limiter [INV]. */
+const LAUNCH_THROTTLE = 0.7;
+/** How long the clutch takes to come fully home after lights out [INV]. */
+const LAUNCH_RELEASE_MS = 300;
 const LOOKAHEAD_M = 1500;
 /** The hidden driver leaves a little grip on the table in every corner [INV]. */
 const CORNER_SPEED_SHARE = 0.97;
@@ -115,11 +121,40 @@ const autoShift = (state: WheelState): WheelState => {
   return state;
 };
 
+/** On the grid: clutch pulled, 1st selected, launch revs once the lights come on. */
+const holdOnGrid = (state: WheelState): WheelState => {
+  const pulled: WheelState = {
+    ...state,
+    brake: 0,
+    clutch: 1,
+    throttle: state.start.kind === "lights" ? LAUNCH_THROTTLE : 0,
+  };
+  return pulled.gear === "N" && pulled.shift === null
+    ? requestShift(pulled, "up")
+    : pulled;
+};
+
+/** The clutch after lights out: held through the reaction, then let home. */
+const launchClutch = (state: WheelState): number => {
+  if (state.start.kind !== "go") {
+    return state.clutch;
+  }
+  const released = state.start.elapsedMs - DRIVER_REACTION_MS;
+  return released <= 0 ? 1 : clamp(1 - released / LAUNCH_RELEASE_MS, 0, 1);
+};
+
 export const drive = (state: WheelState, dtMs: number): WheelState => {
-  const pedals = pedalTargets(state);
+  if (state.start.kind !== "go") {
+    return holdOnGrid(state);
+  }
+  const reacting = state.start.elapsedMs < DRIVER_REACTION_MS;
+  const pedals = reacting
+    ? { brake: 0, throttle: LAUNCH_THROTTLE }
+    : pedalTargets(state);
   const driven: WheelState = {
     ...state,
     brake: approach(state.brake, pedals.brake, dtMs),
+    clutch: launchClutch(state),
     throttle: approach(state.throttle, pedals.throttle, dtMs),
   };
   return driven.gearControl === "auto" ? autoShift(driven) : driven;

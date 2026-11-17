@@ -23,20 +23,32 @@ export const shiftTarget = (gear: Gear, request: ShiftRequest): Gear | null => {
     : null;
 };
 
+/** "One gear change is permitted after the race … has started and before the car speed has reached 80km/h" [R T25 9.9.2]. */
+export const START_SHIFT_KPH = 80;
+
+/** Off the line in 1st, the one change has been used once the car is in another gear. */
+const isStartLocked = (state: WheelState): boolean =>
+  state.session === "track" &&
+  state.start.kind === "go" &&
+  state.timing.lap === 1 &&
+  state.speedKph < START_SHIFT_KPH &&
+  state.gear !== 1;
+
 /**
  * Over-rev protection refuses a shift that would put the engine past the
- * limiter [R T25 9.9.4]; reverse needs neutral and a car that has stopped.
+ * limiter [R T25 9.9.3]; reverse needs neutral and a car that has stopped.
  */
 export const isShiftRejected = (state: WheelState, to: Gear): boolean => {
   if (to === "R") {
     return state.gear !== "N" || state.speedKph >= REVERSE_SELECT_KPH;
   }
-  return rpmAtSpeed(state.speedKph, to) > LIMITER_RPM;
+  return rpmAtSpeed(state.speedKph, to) > LIMITER_RPM || isStartLocked(state);
 };
 
 /**
  * One request at a time: while a shift is in progress every other request is
- * ignored, and a refused one has to be made again [R T25 9.9.3–9.9.4].
+ * ignored, and a refused one has to be made again [R T25 9.9.3]; up in
+ * 200 ms and down in 300 ms at most [R T25 9.9.4].
  */
 export const requestShift = (
   state: WheelState,

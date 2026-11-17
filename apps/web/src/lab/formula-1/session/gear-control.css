@@ -1,8 +1,8 @@
-[data-session-control] {
-  --session-thumb: var(--background);
+[data-gear-control] [data-slot="segmented-control"] {
+  --gear-thumb: var(--background);
 
   @media (prefers-color-scheme: dark) {
-    --session-thumb: var(--accent);
+    --gear-thumb: var(--accent);
   }
 
   & > [data-slot="segmented-control-indicator"] {
@@ -14,7 +14,7 @@
     inline-size: var(--segmented-control-indicator-width);
     block-size: var(--segmented-control-indicator-height);
     border-radius: 9999px;
-    background: var(--session-thumb);
+    background: var(--gear-thumb);
     box-shadow: var(--hairline-shadow);
     translate: var(--segmented-control-indicator-left)
       var(--segmented-control-indicator-top);
@@ -38,53 +38,15 @@
       )
     )
     > [data-slot="segmented-control-item"][data-checked] {
-    background: var(--session-thumb);
+    background: var(--gear-thumb);
     box-shadow: var(--hairline-shadow);
   }
 }
 
-[data-session-live] {
-  position: relative;
-  flex: none;
-  inline-size: 6px;
-  block-size: 6px;
-  border-radius: 9999px;
-  background: currentColor;
-  opacity: 0.5;
-  transition-property: background-color, opacity;
-  transition-duration: 200ms;
-  transition-timing-function: var(--ease-settle);
-
-  [data-checked] > & {
-    background: var(--lab-hot);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  [data-session-control] > [data-slot="segmented-control-indicator"] {
+  [data-gear-control]
+    [data-slot="segmented-control"]
+    > [data-slot="segmented-control-indicator"] {
     transition: translate 240ms var(--ease-settle);
-  }
-
-  [data-checked] > [data-session-live]::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: inherit;
-    animation: session-live 2s var(--ease-settle) infinite;
-  }
-}
-
-@keyframes session-live {
-  from {
-    opacity: 0.6;
-    scale: 1;
-  }
-
-  60%,
-  to {
-    opacity: 0;
-    scale: 2.8;
   }
 }

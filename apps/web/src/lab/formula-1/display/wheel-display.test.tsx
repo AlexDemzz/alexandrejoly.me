@@ -6,9 +6,8 @@ import { initialState, toTrack } from "../model/initial-state";
 import { WheelProvider, createWheelStore } from "../model/store";
 import type { WheelStore } from "../model/store";
 import { DISPLAY_PAGES } from "../model/types";
-import type { WheelState } from "../model/types";
-import { PAGE_NAMES } from "./format";
-import type { Screen } from "./screen";
+import type { DisplayPage, WheelState } from "../model/types";
+import { PAGE_NAMES, formatSigned } from "./format";
 import { WheelDisplay } from "./wheel-display";
 
 beforeEach(() => {
@@ -23,7 +22,13 @@ afterEach(() => {
 
 const NOW = 100_000;
 const garage = (): WheelState => initialState(NOW);
+/** Start: on the grid, before the lights. */
 const track = (): WheelState => toTrack(initialState(NOW));
+/** Racing: the same car, past lights out. */
+const racing = (): WheelState => ({
+  ...track(),
+  start: { elapsedMs: 10_000, kind: "go" },
+});
 
 /** A store the test moves by hand: the screen is a read-out of the state. */
 const renderDisplay = (
@@ -68,14 +73,28 @@ const renderModel = (state: WheelState) => {
   return store;
 };
 
-/** TEMPS and LAPS are screens before they are in DISPLAY_PAGES; see screen.ts. */
-const onPage = (page: Screen): Partial<WheelState> =>
-  ({ dashSwitch: "S", page }) as Partial<WheelState>;
+const onPage = (page: DisplayPage): Partial<WheelState> => ({
+  dashSwitch: "S",
+  page,
+});
 
 const display = (): HTMLElement =>
   screen.getByRole("region", { name: "Wheel display" });
 
 const status = (): string => screen.getByRole("status").textContent ?? "";
+
+const tenths = (gap: number): number => Math.round(gap * 10) / 10;
+
+/** A tyre on the main page: degrees over the 85 °C reference, with a true minus. */
+const overReference = (temp: number): string => {
+  const over = Math.round(temp) - 85;
+  return over < 0 ? formatSigned(over) : String(over);
+};
+
+/** The figure a reading shows after its spoken name. */
+const readingOf = (name: string): string | null =>
+  within(display()).getByText(`${name}`, { exact: false, selector: ".sr-only" })
+    .nextElementSibling?.textContent ?? null;
 
 const cellOf = (text: string): HTMLElement | null =>
   within(display()).getByText(text).closest('[data-slot="dash-cell"]');
@@ -90,7 +109,11 @@ const buttonState = (button: string): string | null =>
 /** Whether an announcement says the state's current message or pop-up. */
 const heardEvent = (state: WheelState, heard: string): boolean => {
   const { message, popup } = state;
-  const events = [message?.text, popup && `${popup.label} ${popup.value}`];
+  const events = [
+    message?.text,
+    popup && `${popup.label} ${popup.value}`,
+    state.start.kind === "go" ? "Lights out" : null,
+  ];
   return events.some(
     (text) => text !== undefined && text !== null && heard.includes(text)
   );
@@ -111,9 +134,9 @@ const textRuns = (root: HTMLElement): string[] => {
   return runs;
 };
 
-const SCREENS: readonly Screen[] = ["race", "temps", "energy", "setup", "laps"];
+const SCREENS: readonly DisplayPage[] = DISPLAY_PAGES;
 
-const PAGE_MARKS: Record<Screen, string> = {
+const PAGE_MARKS: Record<DisplayPage, string> = {
   energy: "ERS MODE",
   laps: "LAPS",
   race: "BEHIND",
@@ -123,7 +146,7 @@ const PAGE_MARKS: Record<Screen, string> = {
 
 describe("pages", () => {
   it.each(SCREENS)("shows the %s page with the switch on S", (page) => {
-    renderDisplay(track(), onPage(page));
+    renderDisplay(racing(), onPage(page));
     expect(screen.getByText(PAGE_MARKS[page])).toBeTruthy();
     for (const other of SCREENS.filter((name) => name !== page)) {
       expect(screen.queryByText(PAGE_MARKS[other])).toBeNull();
@@ -207,38 +230,82 @@ describe("in the garage", () => {
 });
 
 describe("on track", () => {
-  it("reads the joined lap off the model: lap, gaps by position, tyres over the reference", () => {
+  it("waits on the grid after Start: slot, gear, and the start lights as they come on", () => {
+    const { set } = renderDisplay(track(), { gear: 1 });
+    const region = within(display());
+    expect(region.getByText("ON THE GRID")).toBeTruthy();
+    expect(display().textContent).toContain("Grid slot P4");
+    expect(region.getByText("0 of 5 start lights on")).toBeTruthy();
+    expect(region.queryByText("BEHIND")).toBeNull();
+
+    set({ start: { elapsedMs: 2100, holdMs: 900, kind: "lights", lit: 3 } });
+    expect(region.getByText("LIGHTS ON")).toBeTruthy();
+    expect(region.getByText("3 of 5 start lights on")).toBeTruthy();
+    expect(
+      display().querySelectorAll("[data-lit][data-slot=dash-light]")
+    ).toHaveLength(3);
+  });
+
+  it("flashes LIGHTS OUT at the start, then shows the race page", () => {
+    const { set } = renderDisplay(track(), {
+      start: { elapsedMs: 4500, holdMs: 400, kind: "lights", lit: 5 },
+    });
+    expect(status()).toBe("");
+
+    set({ start: { elapsedMs: 0, kind: "go" } });
+    expect(screen.getByText("LIGHTS OUT")).toBeTruthy();
+    expect(screen.getByText("BEHIND")).toBeTruthy();
+    expect(status()).toBe("Lights out");
+
+    set({ start: { elapsedMs: 5000, kind: "go" } });
+    expect(screen.queryByText("LIGHTS OUT")).toBeNull();
+  });
+
+  it("reads the race off the model once the car is away: lap, gaps by position, tyres over the reference", () => {
     const store = renderModel(initialState(NOW));
     act(() => store.dispatch({ session: "track", type: "session" }));
-    const region = within(display());
-    const { gapAheadS, gapBehindS, position, timing, tyreTempsC } =
-      store.getState();
+    let now = NOW;
+    while (store.getState().distanceM < 600 && now < NOW + 60_000) {
+      now += 16;
+      const at = now;
+      act(() => store.dispatch({ now: at, type: "tick" }));
+    }
+    const {
+      distanceM,
+      gapAheadS,
+      gapBehindS,
+      position,
+      start,
+      timing,
+      tyreTempsC,
+    } = store.getState();
+    expect(start.kind).toBe("go");
+    expect(distanceM).toBeGreaterThanOrEqual(600);
 
+    const region = within(display());
     expect(display().textContent).toContain(`Lap ${timing.lap}/20`);
     expect(region.getByText(`P${position + 1}`)).toBeTruthy();
-    expect(region.getByText(`−${gapBehindS.toFixed(1)}`)).toBeTruthy();
+    expect(region.getByText(formatSigned(-tenths(gapBehindS), 1))).toBeTruthy();
     expect(region.getByText(`P${position - 1}`)).toBeTruthy();
-    expect(region.getByText(`+${gapAheadS.toFixed(1)}`)).toBeTruthy();
-    expect(
-      region.getAllByText(String(Math.round(tyreTempsC.fl) - 85))
-    ).toHaveLength(4);
+    expect(region.getByText(formatSigned(tenths(gapAheadS), 1))).toBeTruthy();
+    expect(readingOf("Front left tyre")).toBe(overReference(tyreTempsC.fl));
+    expect(readingOf("Rear right tyre")).toBe(overReference(tyreTempsC.rr));
     expect(region.queryByText("Engine speed: none")).toBeNull();
     expect(region.getByText("Delta: none")).toBeTruthy();
-    expect(status()).toBe("On track");
   });
 
   it("colours the live delta by its sign", () => {
-    const { set } = renderDisplay(track(), {
-      timing: { ...track().timing, bestMs: 75_000, deltaMs: -234 },
+    const { set } = renderDisplay(racing(), {
+      timing: { ...racing().timing, bestMs: 75_000, deltaMs: -234 },
     });
     expect(cellOf("−0.23")?.dataset.fill).toBe("green");
 
-    set({ timing: { ...track().timing, bestMs: 75_000, deltaMs: 412 } });
+    set({ timing: { ...racing().timing, bestMs: 75_000, deltaMs: 412 } });
     expect(cellOf("+0.41")?.dataset.fill).toBe("red");
   });
 
   it("says LEAD in P1 and keeps the car behind", () => {
-    renderDisplay(track(), {
+    renderDisplay(racing(), {
       gapAheadS: Number.POSITIVE_INFINITY,
       gapBehindS: 1.2,
       position: 1,
@@ -249,7 +316,7 @@ describe("on track", () => {
   });
 
   it("tells each DRS state apart", () => {
-    const { set } = renderDisplay(track());
+    const { set } = renderDisplay(racing());
     const seen = new Set<string>();
     for (const drs of ["disabled", "available", "enabled", "open"] as const) {
       set({ drs });
@@ -263,14 +330,14 @@ describe("on track", () => {
   });
 
   it("marks who shifts", () => {
-    const { set } = renderDisplay(track());
+    const { set } = renderDisplay(racing());
     expect(screen.getByText("AUTO")).toBeTruthy();
     set({ gearControl: "manual" });
     expect(screen.getByText("MAN")).toBeTruthy();
   });
 
   it("reads this lap's energy against the 4 MJ and 2 MJ caps", () => {
-    renderDisplay(track(), {
+    renderDisplay(racing(), {
       ...onPage("energy"),
       deployedThisLapMJ: 4,
       harvestedThisLapMJ: 1.2,
@@ -284,10 +351,10 @@ describe("on track", () => {
   });
 
   it("lists lap times with the best one marked", () => {
-    renderDisplay(track(), {
+    renderDisplay(racing(), {
       ...onPage("laps"),
       timing: {
-        ...track().timing,
+        ...racing().timing,
         bestMs: 75_210,
         lap: 6,
         lapTimesMs: [76_004, 75_210, 75_640],
@@ -369,7 +436,7 @@ describe("overlays and announcements", () => {
   });
 
   it("announces pages, menu values and messages, not the numbers that move every frame", () => {
-    const { set, state } = renderDisplay(track(), { dashSwitch: "S" });
+    const { set, state } = renderDisplay(racing(), { dashSwitch: "S" });
     expect(status()).toBe("");
 
     set({ page: "setup" });
@@ -405,7 +472,7 @@ describe("overlays and announcements", () => {
   });
 
   it("never mentions clutch slip or wheelspin, on any page, in either session", () => {
-    for (const start of [garage(), track()]) {
+    for (const start of [garage(), track(), racing()]) {
       const { set } = renderDisplay(start);
       for (const page of SCREENS) {
         set(onPage(page));

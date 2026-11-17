@@ -1,0 +1,106 @@
+/*
+ * The track minimap beside the wheel on track: a quiet hairline card in the
+ * site's palette. The lap line is subtle, DRS zones and the car in
+ * `foreground`.
+ * Beside the wheel when the stage has room, under it, end-aligned, when not.
+ */
+[data-slot="track-minimap"] {
+  display: none;
+  flex: 1 0 100%;
+  justify-content: flex-end;
+  margin-block-start: 12px;
+  opacity: 0;
+
+  &[data-visible] {
+    display: flex;
+    opacity: 1;
+  }
+
+  @container (min-width: 1080px) {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    margin-block-start: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition:
+      opacity 200ms var(--ease-settle, ease-out),
+      display 200ms allow-discrete;
+
+    @starting-style {
+      &[data-visible] {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+[data-slot="track-minimap-card"] {
+  container-type: inline-size;
+  display: grid;
+  gap: 6px;
+  inline-size: clamp(112px, 30cqi, 148px);
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+}
+
+[data-slot="track-minimap-map"] {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  overflow: visible;
+}
+
+[data-slot="track-minimap-lap"] {
+  fill: none;
+  stroke: var(--subtle-foreground);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+[data-slot="track-minimap-drs"] {
+  fill: none;
+  stroke: var(--foreground);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+[data-slot="track-minimap-start"] {
+  stroke: var(--foreground);
+  stroke-width: 1.4;
+}
+
+[data-slot="track-minimap-corner"] {
+  fill: var(--muted-foreground);
+  font-size: 7px;
+  text-anchor: middle;
+  dominant-baseline: central;
+
+  /* Too small to read on a phone's card; the callout names the next corner. */
+  @container (width < 110px) {
+    display: none;
+  }
+}
+
+/* A halo in the card's colour keeps the car clear of the DRS line under it. */
+[data-slot="track-minimap-car"] {
+  fill: var(--foreground);
+  stroke: var(--background);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+[data-slot="track-minimap-callout"] {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  line-height: 16px;
+}

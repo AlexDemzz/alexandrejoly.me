@@ -7,6 +7,15 @@ import {
 import { useEffect, useId, useRef, useState } from "react";
 import type { KeyboardEvent, PointerEvent, RefObject } from "react";
 
+import { approach } from "../../engine";
+import { useWheel } from "../model/store";
+import {
+  BUFFET_MAX_DEGREES,
+  buffetAmplitude,
+  shakeAt,
+  shakePhases,
+} from "./buffeting";
+import type { BuffetInputs } from "./buffeting";
 import { BODY_ORIGIN, FRAME, MIRROR, PLATE, RIGHT_RUBBER } from "./face-art";
 import { LOCK_DEGREES, STEERING_STEP, createSteering } from "./steering-model";
 import type { Steering, SteeringClock } from "./steering-model";
@@ -15,6 +24,12 @@ import type { Steering, SteeringClock } from "./steering-model";
 const HUB_Y = 500 / 1040;
 
 const RADIANS_TO_DEGREES = 180 / Math.PI;
+/** How fast the shake follows the car: kerbs land, braking builds. */
+const SHAKE_SETTLE_MS = 60;
+const SHAKE_REST_DEGREES = 0.001;
+const MAX_SHAKE_STEP_MS = 50;
+/** At the most, the wheel lifts and drops this far in px. */
+const SHAKE_LIFT_PX = 0.5;
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
 /** "20° left", "centre", "20° right". */
@@ -48,7 +63,8 @@ export interface SteeringRig {
 
 /**
  * The turning lives outside React: every frame writes `rotate` on the face
- * itself, and `--steer` on its backing, whose shadow turns back to stay below.
+ * itself, the steer plus the buffeting at speed, and `--steer` alone on its
+ * backing, whose shadow turns back to stay below and ignores the shake.
  */
 export const useSteering = (): SteeringRig => {
   const stageRef = useRef<HTMLDivElement>(null);
@@ -57,20 +73,68 @@ export const useSteering = (): SteeringRig => {
   const [value, setValue] = useState(0);
   const [dragging, setDragging] = useState(false);
 
+  // The simulation changes every frame; the shake reads it here, outside
+  // render, and this selection never changes, so it never re-renders.
+  const live = useRef<BuffetInputs | null>(null);
+  useWheel((state) => {
+    live.current = state;
+    return 0;
+  });
+
   useEffect(() => {
-    const write = (degrees: number): void => {
+    let steer = 0;
+    let roll = 0;
+    let lift = 0;
+    const paint = (): void => {
       const face = faceRef.current;
       if (face === null) {
         return;
       }
-      face.style.rotate = `${degrees}deg`;
-      face
-        .querySelector<SVGElement>('[data-slot="wheel-backing"]')
+      face.style.rotate = `${steer + roll}deg`;
+      face.style.transform = lift === 0 ? "" : `translateY(${lift}px)`;
+    };
+    const write = (degrees: number): void => {
+      steer = degrees;
+      paint();
+      faceRef.current
+        ?.querySelector<SVGElement>('[data-slot="wheel-backing"]')
         ?.style.setProperty("--steer", `${degrees}deg`);
     };
     const steering = createSteering(write, browserClock, () => setValue(0));
     steeringRef.current = steering;
+
+    const reduced =
+      typeof matchMedia === "function" ? matchMedia(REDUCED_MOTION) : null;
+    const phases = shakePhases();
+    let amplitude = 0;
+    let last: number | null = null;
+    let frame = 0;
+    const shake = (time: number): void => {
+      const state = live.current;
+      const target =
+        state === null || reduced?.matches === true
+          ? 0
+          : buffetAmplitude(state);
+      const dt = last === null ? 0 : Math.min(MAX_SHAKE_STEP_MS, time - last);
+      last = time;
+      amplitude = approach(amplitude, target, dt, SHAKE_SETTLE_MS);
+      if (target === 0 && amplitude < SHAKE_REST_DEGREES) {
+        amplitude = 0;
+      }
+      const { lift: up, roll: twist } = shakeAt(time / 1000, phases);
+      const nextRoll = amplitude * twist;
+      const nextLift = (amplitude / BUFFET_MAX_DEGREES) * SHAKE_LIFT_PX * up;
+      if (nextRoll !== roll || nextLift !== lift) {
+        roll = nextRoll;
+        lift = nextLift;
+        paint();
+      }
+      frame = requestAnimationFrame(shake);
+    };
+    frame = requestAnimationFrame(shake);
+
     return () => {
+      cancelAnimationFrame(frame);
       steering.stop();
       steeringRef.current = null;
     };

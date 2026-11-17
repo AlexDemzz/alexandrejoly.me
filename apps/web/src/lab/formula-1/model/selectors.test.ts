@@ -21,6 +21,7 @@ const wheel = (overrides: Partial<WheelState> = {}): WheelState => ({
 
 const track = (overrides: Partial<WheelState> = {}): WheelState => ({
   ...toTrack(initialState(0)),
+  start: { elapsedMs: 60_000, kind: "go" },
   ...overrides,
 });
 
@@ -101,6 +102,23 @@ describe("rotary selectors", () => {
     expect(selectMode(state)).toBe("PSH");
     expect(rotaryDetent(state, "eng")).toBe(0);
     expect(rotaryDetent(state, "mode")).toBe(6);
+  });
+});
+
+describe("start lights", () => {
+  it("stay dark on the grid", () => {
+    expect(selectLeds(toTrack(initialState(0))).shift).toEqual(
+      repeat(15, "off")
+    );
+  });
+
+  it("mirror the gantry: three red LEDs per lit light", () => {
+    const three = selectLeds(
+      track({
+        start: { elapsedMs: 2500, holdMs: 1000, kind: "lights", lit: 3 },
+      })
+    ).shift;
+    expect(three).toEqual([...repeat(9, "red"), ...repeat(6, "off")]);
   });
 });
 

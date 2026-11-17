@@ -6,6 +6,7 @@ import {
   SOC_MAX_MJ,
   deployCapKW,
 } from "./car";
+import { RED_LIGHTS } from "./start";
 import { MODE_POSITIONS } from "./types";
 import type {
   IndicatorLed,
@@ -21,6 +22,7 @@ const SIDE_LEDS = 3;
 /** The rev lights under the "DRS" legend that show DRS status [INV]. */
 export const DRS_LEDS = 2;
 const LEDS_PER_COLOR = 5;
+const LEDS_PER_LIGHT = SHIFT_LEDS / RED_LIGHTS;
 /** The pit limiter's blink half-period, ms [INV]. */
 export const BLINK_MS = 250;
 /** The shift-point flash half-period, ms [INV]. */
@@ -64,7 +66,23 @@ const drsLight = (state: WheelState): LedColor | null => {
   return state.drs === "enabled" ? "green" : null;
 };
 
+/** During the start the rev lights mirror the gantry: three red LEDs per light [INV]. */
+const gantryLights = (state: WheelState): readonly LedColor[] | null => {
+  const { start } = state;
+  if (state.session !== "track" || start.kind === "go") {
+    return null;
+  }
+  const lit = start.kind === "lights" ? start.lit : 0;
+  return row(SHIFT_LEDS, (index) =>
+    index < lit * LEDS_PER_LIGHT ? "red" : "off"
+  );
+};
+
 const shiftLights = (state: WheelState): readonly LedColor[] => {
+  const gantry = gantryLights(state);
+  if (gantry !== null) {
+    return gantry;
+  }
   if (state.pitLimiter) {
     const phase = blinkOn(state.now, BLINK_MS) ? 0 : 1;
     return row(SHIFT_LEDS, (index) => (index % 2 === phase ? "blue" : "off"));

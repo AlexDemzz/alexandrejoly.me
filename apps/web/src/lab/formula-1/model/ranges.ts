@@ -4,7 +4,7 @@ export type ForwardGear = Extract<Gear, number>;
 
 export const TOP_GEAR: ForwardGear = 8;
 
-/** Seamless-shift times, within the 200 ms up / 300 ms down the rules allow [R T25 9.9]. */
+/** Seamless-shift times, within the 200 ms up / 300 ms down the rules allow [R T25 9.9.4]. */
 export const UPSHIFT_MS = 120;
 export const DOWNSHIFT_MS = 180;
 

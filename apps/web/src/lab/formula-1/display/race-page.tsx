@@ -47,7 +47,7 @@ const GearboxMarker = () => {
   );
 };
 
-const Gear = () => {
+export const Gear = () => {
   const gear = useWheel((state) => state.gear);
   return (
     <Cell area="gear">
@@ -232,7 +232,7 @@ const Lap = () => {
   );
 };
 
-const BrakeBalance = () => {
+export const BrakeBalance = () => {
   const balance = useWheel((state) => state.brakeBalance);
   const shaping = useWheel((state) => state.thumbwheels.bs);
   return (
@@ -246,7 +246,7 @@ const BrakeBalance = () => {
   );
 };
 
-const Soc = () => {
+export const Soc = () => {
   const soc = useWheel(selectSocPercent);
   return (
     <Cell area="soc">
@@ -258,10 +258,10 @@ const Soc = () => {
   );
 };
 
-const Mode = () => {
+export const Mode = ({ area = "model" }: { area?: string }) => {
   const mode = useWheel(selectMode);
   return (
-    <Cell area="model" fill="steel">
+    <Cell area={area} fill="steel">
       <span className="sr-only">Mode </span>
       <CellValue ink="black" size={7}>
         {mode}

@@ -1,10 +1,15 @@
-// One flying race on track: physics, energy, fuel, the cars around, timing.
+// The race on track, from the grid: physics, energy, fuel, the cars around, timing.
 // Runs only inside `tick`, so nothing it changes makes a sound.
 
 import { drive } from "./autopilot";
 import {
   AIR_DENSITY,
   CAR_MASS_KG,
+  CLUTCH_CLOSED,
+  CLUTCH_OPEN,
+  LAUNCH_LIMITER_RPM,
+  WHEEL_RADIUS_M,
+  clutchTorqueNm,
   DEPLOY_CAP_MJ,
   DRAG_AREA,
   DRS_DRAG_AREA,
@@ -34,10 +39,11 @@ import {
   tractionG,
 } from "./car";
 import { updateDrs } from "./drs";
-import { expireFeedback, withMessage, withPopup } from "./feedback";
+import { expireFeedback, withMessage } from "./feedback";
 import { completeShift } from "./gearbox";
 import { TRACE_STEP_M, pressuresFor, toGarage } from "./initial-state";
 import { PIT_LIMIT_KPH, clamp, isForwardGear } from "./ranges";
+import { advanceStart } from "./start";
 import { LAP_LENGTH_M, cornerAt, referenceSpeedKph } from "./track";
 import type { Corner, WheelState } from "./types";
 
@@ -57,6 +63,10 @@ const AHEAD_PACE = 0.932;
 const BEHIND_PACE = 0.931;
 const FIELD_SIZE = 20;
 const PASS_GAP_S = 0.1;
+/** Off the line every car runs the same launch; the gaps only start to move from here [INV]. */
+const START_GAP_HOLD_M = 700;
+/** A better getaway turns into a place on the run to T1, not on the grid [INV]. */
+const START_PASS_M = 200;
 const NEXT_CAR_GAP_S = 1.4;
 const PASSED_CAR_GAP_S = 0.6;
 const MAX_GAP_S = 30;
@@ -107,7 +117,8 @@ const driveForceN = (state: WheelState, mgukKW: number): number => {
   const speed = Math.max(state.speedKph / KPH_PER_MS, MIN_FORCE_SPEED_MS);
   const traction =
     tractionG(state.speedKph) * tractionFactor(state) * massKg(state) * GRAVITY;
-  return Math.min((powerKW * MS_PER_S) / speed, traction);
+  const clutch = clutchTorqueNm(state.clutch) / WHEEL_RADIUS_M;
+  return Math.min((powerKW * MS_PER_S) / speed, traction, clutch);
 };
 
 const resistanceN = (state: WheelState, mgukKW: number): number => {
@@ -165,6 +176,32 @@ const updateEnergy = (
   return spent ? withMessage(next, "DEPLOY LIMIT", "info") : next;
 };
 
+/** Revs with the clutch pulled: the throttle against the lower launch limiter [R T25 5.8 c]. */
+const freeRevs = (state: WheelState): number =>
+  IDLE_RPM + state.throttle * (LAUNCH_LIMITER_RPM - IDLE_RPM);
+
+const targetRpm = (state: WheelState): number => {
+  if (!isForwardGear(state.gear)) {
+    return IDLE_RPM;
+  }
+  if (state.clutch >= CLUTCH_OPEN) {
+    return freeRevs(state);
+  }
+  const engaged = clamp(
+    rpmAtSpeed(state.speedKph, state.gear),
+    IDLE_RPM,
+    LIMITER_RPM
+  );
+  return state.clutch >= CLUTCH_CLOSED
+    ? Math.max(engaged, freeRevs(state))
+    : engaged;
+};
+
+const settleRpm = (state: WheelState, dtMs: number): WheelState => {
+  const share = Math.min(1, dtMs / RPM_TIME_CONSTANT_MS);
+  return { ...state, rpm: state.rpm + (targetRpm(state) - state.rpm) * share };
+};
+
 const integrateCar = (state: WheelState, dtMs: number): WheelState => {
   const mgukKW = mgukFlowKW(state);
   const accel =
@@ -179,14 +216,9 @@ const integrateCar = (state: WheelState, dtMs: number): WheelState => {
   const moved = {
     ...updateEnergy(state, mgukKW, dtMs),
     distanceM: state.distanceM + travelled,
-    manualIdleM: state.manualIdleM + travelled,
     speedKph,
   };
-  const target = isForwardGear(moved.gear)
-    ? clamp(rpmAtSpeed(speedKph, moved.gear), IDLE_RPM, LIMITER_RPM)
-    : IDLE_RPM;
-  const share = Math.min(1, dtMs / RPM_TIME_CONSTANT_MS);
-  return { ...moved, rpm: moved.rpm + (target - moved.rpm) * share };
+  return settleRpm(moved, dtMs);
 };
 
 /** Past the corner's grip the car scrubs speed: the driver never pushes past it on purpose. */
@@ -203,12 +235,6 @@ const scrubInCorner = (state: WheelState, dtMs: number): WheelState => {
     state.speedKph - ((SCRUB_G * GRAVITY * dtMs) / MS_PER_S) * KPH_PER_MS;
   return { ...state, speedKph: Math.max(limit, scrubbed) };
 };
-
-/** A full lap without a paddle press hands the gears back to the driver. */
-const returnGears = (state: WheelState): WheelState =>
-  state.gearControl === "manual" && state.manualIdleM >= LAP_LENGTH_M
-    ? withPopup({ ...state, gearControl: "auto" }, "GEARBOX", "AUTO")
-    : state;
 
 // Handling notes
 
@@ -314,7 +340,9 @@ const passedBehind = (state: WheelState): WheelState => {
 
 /** Gaps follow the car's speed against the cars ahead and behind; places change on straights. */
 const updateGaps = (state: WheelState, dtMs: number): WheelState => {
-  const dt = dtMs / MS_PER_S;
+  const launching =
+    state.timing.lap === 1 && state.distanceM < START_GAP_HOLD_M;
+  const dt = launching ? 0 : dtMs / MS_PER_S;
   const next = {
     ...state,
     gapAheadS:
@@ -334,7 +362,8 @@ const updateGaps = (state: WheelState, dtMs: number): WheelState => {
             MAX_GAP_S
           ),
   };
-  if (cornerAt(state.distanceM) !== null) {
+  const onGrid = state.timing.lap === 1 && state.distanceM < START_PASS_M;
+  if (onGrid || cornerAt(state.distanceM) !== null) {
     return next;
   }
   if (next.gapAheadS <= PASS_GAP_S) {
@@ -465,15 +494,26 @@ const updateThermal = (
   };
 };
 
+/** Before lights out the car is held on its slot: only the engine moves. */
+const holdOnGrid = (state: WheelState, dtMs: number): WheelState =>
+  settleRpm({ ...drive(state, dtMs), mgukKW: 0, speedKph: 0 }, dtMs);
+
 const step = (state: WheelState, dtMs: number, now: number): WheelState => {
-  const settled = completeShift(expireFeedback({ ...state, now }, now), now);
+  const settled = advanceStart(
+    completeShift(expireFeedback({ ...state, now }, now), now),
+    dtMs,
+    now
+  );
+  if (settled.start.kind !== "go") {
+    return holdOnGrid(settled, dtMs);
+  }
   const driven = drive(settled, dtMs);
   const moved = integrateCar(driven, dtMs);
   const raced = advanceRace(moved, driven.distanceM, dtMs);
   if (raced.session !== "track") {
     return raced;
   }
-  const handled = noteHandling(returnGears(scrubInCorner(raced, dtMs)));
+  const handled = noteHandling(scrubInCorner(raced, dtMs));
   return updateThermal(handled, driven.speedKph, dtMs);
 };
 

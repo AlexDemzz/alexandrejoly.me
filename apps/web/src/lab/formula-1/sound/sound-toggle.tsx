@@ -3,7 +3,7 @@ import { cn } from "@portfolio/ui/lib/utils";
 import { Toggle, ToggleIcon } from "@ui-sdk/react/toggle";
 import { useSyncExternalStore } from "react";
 
-import { CONTROL_ITEM } from "../session/session-control";
+import { CONTROL_ITEM } from "../control-pill";
 import type { SoundSetting } from "./sound-setting";
 
 const serverOff = (): boolean => false;

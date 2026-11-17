@@ -126,10 +126,25 @@ export type DashSwitch = "P" | "S";
 
 export type ErsMode = "base" | "k1" | "k2" | "chr";
 
-/** Garage: the car stands still. Track: a flying lap of a 20-lap race. */
+/** Stopped (garage): the car stands still. Running (track): a 20-lap race from the grid. */
 export type Session = "garage" | "track";
 
-/** Who shifts on track: the hidden driver (auto) or the human on the paddles (manual). */
+/**
+ * The standing start [R S25 Art. 44.10]: the car waits on the grid, five red
+ * lights come on a second apart, then they all go out after a hold.
+ */
+export type StartPhase =
+  | { kind: "grid"; elapsedMs: number }
+  | {
+      kind: "lights";
+      lit: 0 | 1 | 2 | 3 | 4 | 5;
+      elapsedMs: number;
+      holdMs: number;
+    }
+  /** Lights out; `elapsedMs` counts from that moment. */
+  | { kind: "go"; elapsedMs: number };
+
+/** Who shifts on track: the hidden driver (auto) or the human on the paddles (manual); the visitor picks. */
 export type GearControl = "auto" | "manual";
 
 /** disabled → available (within 1 s at detection) → enabled (inside the zone) → open (pressed). */
@@ -160,12 +175,13 @@ export interface WheelState {
   session: Session;
 
   // the car (still in the garage)
-  /** Hidden driver's pedals, 0..1. Never driven by the UI. */
+  /** The start procedure; stays on the grid while stopped. */
+  start: StartPhase;
+  /** Hidden driver's pedals and clutch paddle, 0..1 (1 = clutch pulled). Never driven by the UI. */
   throttle: number;
   brake: number;
+  clutch: number;
   gearControl: GearControl;
-  /** Metres driven since the human's last paddle press; a full lap hands the gears back. */
-  manualIdleM: number;
   rpm: number;
   speedKph: number;
   /** Metres into the lap. */
@@ -247,7 +263,8 @@ export type WheelAction =
   | { type: "thumbwheel"; wheel: Thumbwheel; value: number }
   | { type: "rotary"; rotary: Rotary; index: number }
   | { type: "dashSwitch"; value: DashSwitch }
-  | { type: "session"; session: Session };
+  | { type: "session"; session: Session }
+  | { type: "gearControl"; value: GearControl };
 
 export type LedColor =
   | "off"

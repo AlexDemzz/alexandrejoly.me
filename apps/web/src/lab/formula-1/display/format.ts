@@ -30,6 +30,7 @@ export const formatDeltaS = (ms: number, decimals = 2): string =>
 
 export const PAGE_NAMES: Record<Screen, string> = {
   energy: "ENERGY",
+  grid: "GRID",
   laps: "LAPS",
   race: "RACE",
   setup: "SETUP",
@@ -38,6 +39,7 @@ export const PAGE_NAMES: Record<Screen, string> = {
 
 export const PAGE_SPOKEN: Record<Screen, string> = {
   energy: "Energy",
+  grid: "Grid",
   laps: "Lap times",
   race: "Race",
   setup: "Setup",

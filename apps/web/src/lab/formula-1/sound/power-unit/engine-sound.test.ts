@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { rpmAtSpeed } from "../../model/car";
 import { initialState, toTrack } from "../../model/initial-state";
 import { createWheelStore } from "../../model/store";
 import type { WheelState } from "../../model/types";
@@ -28,7 +29,21 @@ const flush = async (): Promise<void> => {
   await Promise.resolve();
 };
 
-const rig = (state: WheelState = toTrack(initialState(0))) => {
+const RACING_KPH = 250;
+
+/** Mid-race on the opening straight, past lights out: Start alone leaves the car on the grid. */
+const racing = (): WheelState => ({
+  ...toTrack(initialState(0)),
+  clutch: 0,
+  distanceM: 100,
+  gear: 5,
+  rpm: rpmAtSpeed(RACING_KPH, 5),
+  speedKph: RACING_KPH,
+  start: { elapsedMs: 60_000, kind: "go" },
+  throttle: 1,
+});
+
+const rig = (state: WheelState = racing()) => {
   const context = {
     currentTime: 0,
     destination: {},

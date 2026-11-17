@@ -20,6 +20,11 @@ export const IDLE_RPM = 4000;
 export const FULL_FLOW_RPM = 10_500;
 export const SHIFT_RPM = 12_000;
 export const LIMITER_RPM = 12_500;
+/**
+ * With the clutch pulled past 95% a lower rev limit is allowed [R T25 5.8 c];
+ * the car sits on it on the grid. The value is invented.
+ */
+export const LAUNCH_LIMITER_RPM = 10_000;
 /** Below this the engine bogs: too high a gear out of a slow corner [INV]. */
 const BOG_RPM = 6000;
 
@@ -37,6 +42,14 @@ export const GEAR_TOP_KPH: Record<ForwardGear, number> = {
 export const REVERSE_TOP_KPH = 40;
 /** The R lever only engages this slow [INV]. */
 export const REVERSE_SELECT_KPH = 2;
+
+// Clutch [R T25 9.3: pull paddles, fully engaged at rest, fully open at full travel]
+export const CLUTCH_CLOSED = 0.05;
+export const CLUTCH_OPEN = 0.95;
+/** Torque passed per 90% of paddle travel; the 2026 rules fix 5200 Nm, 2025 sets no figure [INV for 2025]. */
+const CLUTCH_GAIN_NM = 5200;
+const CLUTCH_SPAN = CLUTCH_OPEN - CLUTCH_CLOSED;
+export const WHEEL_RADIUS_M = 0.36;
 
 // Power [R T25 5.2: 100 kg/h of fuel; ICE about 560 kW in 2022–2025]
 export const ICE_MAX_KW = 560;
@@ -138,7 +151,7 @@ const EB_ENGINE_BRAKE_STEP = 0.08;
 const BRAKE_LOW_G = 2.2;
 const BRAKE_HIGH_G = 5;
 const BRAKE_FULL_KPH = 250;
-const TRACTION_BASE_G = 1.3;
+const TRACTION_BASE_G = 1.6;
 const TRACTION_KPH_PER_G = 200;
 
 // Set-up sweet spots and costs [INV]
@@ -165,6 +178,17 @@ export const rpmAtSpeed = (speedKph: number, gear: Gear): number => {
   }
   const top = gear === "R" ? REVERSE_TOP_KPH : GEAR_TOP_KPH[gear];
   return (speedKph / top) * LIMITER_RPM;
+};
+
+/** Torque the clutch passes to the rear axle; Infinity once fully engaged. */
+export const clutchTorqueNm = (clutch: number): number => {
+  if (clutch < CLUTCH_CLOSED) {
+    return Number.POSITIVE_INFINITY;
+  }
+  if (clutch >= CLUTCH_OPEN) {
+    return 0;
+  }
+  return (CLUTCH_GAIN_NM * (CLUTCH_OPEN - clutch)) / CLUTCH_SPAN;
 };
 
 const paramFactor = (value: number, step: number): number =>
@@ -250,6 +274,7 @@ export const harvestGain = (state: HarvestInputs): number => {
 export type EnergyInputs = Pick<
   WheelState,
   | "brake"
+  | "clutch"
   | "deployedThisLapMJ"
   | "ers"
   | "gear"
@@ -295,6 +320,7 @@ export const mgukFlowKW = (state: EnergyInputs): number => {
     return -Math.min(MAX_HARVEST_KW, harvest);
   }
   const allowed =
+    state.clutch < CLUTCH_OPEN &&
     !state.pitLimiter &&
     state.socMJ > 0 &&
     state.deployedThisLapMJ < DEPLOY_CAP_MJ &&

@@ -1,12 +1,6 @@
-import {
-  DEPLOY_CAP_MJ,
-  FUEL_START_KG,
-  HARVEST_CAP_MJ,
-  rpmAtSpeed,
-  fuelTargetKg,
-} from "./car";
+import { FUEL_START_KG, IDLE_RPM } from "./car";
 import { BRAKE_BALANCE_START, MULTI_DEFAULT } from "./ranges";
-import { LAP_LENGTH_M, referenceTimeMs } from "./track";
+import { GRID_GAP_S } from "./start";
 import { MFL_POSITIONS, MFR_POSITIONS } from "./types";
 import type { Corner, WheelState } from "./types";
 
@@ -17,20 +11,13 @@ const COLD_FRONT_PSI = 18.5;
 const COLD_REAR_PSI = 17;
 export const TRACE_STEP_M = 50;
 
-// Joining the race [INV]: a flying lap 3 of 20, P4, on the straight before T2.
-const JOIN_LAP = 3;
-const JOIN_DISTANCE_M = 1100;
-const JOIN_GEAR = 6;
-const JOIN_SPEED_KPH = 240;
-const JOIN_POSITION = 4;
-const JOIN_GAP_AHEAD_S = 0.75;
-const JOIN_GAP_BEHIND_S = 0.7;
-const JOIN_SOC_MJ = 2.5;
-const JOIN_TYRE_C = 95;
-const JOIN_BRAKE_C = 450;
-/** The car runs this much slower than the reference envelope; the joined lap's first metres are timed at it. */
-export const OWN_PACE = 0.94;
-
+// The grid [INV unless marked]: P4 of 20, tyres off the blankets, brakes
+// cool, a full fuel load and a full store, engine idling in neutral. The car
+// starts on the control line; real grid slots sit behind it.
+const GRID_POSITION = 4;
+const BLANKET_TYRE_C = 70;
+const COOL_BRAKE_C = 200;
+const FULL_STORE_MJ = 4;
 const even = (value: number): Corner => ({
   fl: value,
   fr: value,
@@ -61,6 +48,7 @@ export const initialState = (now: number): WheelState => ({
   brake: 0,
   brakeBalance: BRAKE_BALANCE_START,
   brakeTempsC: even(AMBIENT_C),
+  clutch: 0,
   dashSwitch: "P",
   deployedThisLapMJ: 0,
   distanceM: 0,
@@ -76,7 +64,6 @@ export const initialState = (now: number): WheelState => ({
   harvestedThisLapMJ: 0,
   lapTrace: [],
   lastNoteLap: 0,
-  manualIdleM: 0,
   message: null,
   mgukKW: 0,
   multi: { mfl: neutral(MFL_POSITIONS), mfr: neutral(MFR_POSITIONS) },
@@ -91,8 +78,9 @@ export const initialState = (now: number): WheelState => ({
   rpm: 0,
   session: "garage",
   shift: null,
-  socMJ: 4,
+  socMJ: FULL_STORE_MJ,
   speedKph: 0,
+  start: { elapsedMs: 0, kind: "grid" },
   thumbwheels: { bs: 0, dMid: 0, difIn: 1, eb: 0, soc: 6, trq: 4 },
   throttle: 0,
   timing: {
@@ -113,6 +101,7 @@ const setUp = (state: WheelState) => ({
   dashSwitch: state.dashSwitch,
   ers: state.ersLatched,
   ersLatched: state.ersLatched,
+  gearControl: state.gearControl,
   multi: state.multi,
   now: state.now,
   page: state.page,
@@ -127,42 +116,21 @@ export const toGarage = (state: WheelState): WheelState => ({
   ...setUp(state),
 });
 
-/** Reference-paced lap time at a distance, for the metres of the joined lap the car didn't drive. */
-const joinedTimeMs = (distanceM: number): number =>
-  referenceTimeMs(distanceM) / OWN_PACE;
-
+/** Start: on the grid of lap 1, with the start procedure under way. */
 export const toTrack = (state: WheelState): WheelState => {
-  const lapShare = JOIN_DISTANCE_M / LAP_LENGTH_M;
-  const tyreTempsC = even(JOIN_TYRE_C);
-  const buckets = Math.floor(JOIN_DISTANCE_M / TRACE_STEP_M) + 1;
+  const tyreTempsC = even(BLANKET_TYRE_C);
   return {
     ...initialState(state.now),
     ...setUp(state),
-    brakeTempsC: even(JOIN_BRAKE_C),
-    deployedThisLapMJ: DEPLOY_CAP_MJ * lapShare,
-    distanceM: JOIN_DISTANCE_M,
-    fuelKg: fuelTargetKg(JOIN_LAP, lapShare),
-    gapAheadS: JOIN_GAP_AHEAD_S,
-    gapBehindS: JOIN_GAP_BEHIND_S,
-    gear: JOIN_GEAR,
-    harvestedThisLapMJ: HARVEST_CAP_MJ * lapShare,
-    lapTrace: Array.from({ length: buckets }, (_, index) =>
-      joinedTimeMs(index * TRACE_STEP_M)
-    ),
-    position: JOIN_POSITION,
-    rpm: rpmAtSpeed(JOIN_SPEED_KPH, JOIN_GEAR),
+    brakeTempsC: even(COOL_BRAKE_C),
+    gapAheadS: GRID_GAP_S,
+    gapBehindS: GRID_GAP_S,
+    position: GRID_POSITION,
+    rpm: IDLE_RPM,
     session: "track",
-    socMJ: JOIN_SOC_MJ,
-    speedKph: JOIN_SPEED_KPH,
-    throttle: 1,
-    timing: {
-      bestMs: null,
-      currentMs: joinedTimeMs(JOIN_DISTANCE_M),
-      deltaMs: 0,
-      lap: JOIN_LAP,
-      lapTimesMs: [],
-      lastMs: null,
-    },
+    socMJ: FULL_STORE_MJ,
+    start: { elapsedMs: 0, kind: "grid" },
+    timing: { ...initialState(state.now).timing, lap: 1 },
     tyrePressuresPsi: pressuresFor(tyreTempsC),
     tyreTempsC,
   };

@@ -39,6 +39,19 @@ export const Message = () => {
   );
 };
 
+/** How long the dash flashes LIGHTS OUT once the race starts. */
+const LIGHTS_OUT_MS = 1200;
+
+const selectLightsOut = (state: WheelState): boolean =>
+  state.session === "track" &&
+  state.start.kind === "go" &&
+  state.start.elapsedMs < LIGHTS_OUT_MS;
+
+export const LightsOut = () => {
+  const lightsOut = useWheel(selectLightsOut);
+  return lightsOut ? <div data-slot="dash-lights-out">LIGHTS OUT</div> : null;
+};
+
 const PIT_BLINK_MS = 500;
 
 /** Steps between two fills twice a second; reduced motion keeps the first. */

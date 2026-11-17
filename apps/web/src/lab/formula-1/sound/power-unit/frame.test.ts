@@ -15,8 +15,17 @@ import type { EngineFrame, EngineMemory } from "./frame";
 
 const NOW = 10_000;
 
+const RACING_KPH = 250;
+
+/** Mid-race, past lights out, flat out in 5th: Start alone leaves the car on the grid. */
 const onTrack = (overrides: Partial<WheelState> = {}): WheelState => ({
   ...toTrack(initialState(NOW)),
+  clutch: 0,
+  gear: 5,
+  rpm: rpmAtSpeed(RACING_KPH, 5),
+  speedKph: RACING_KPH,
+  start: { elapsedMs: 60_000, kind: "go" },
+  throttle: 1,
   ...overrides,
 });
 
