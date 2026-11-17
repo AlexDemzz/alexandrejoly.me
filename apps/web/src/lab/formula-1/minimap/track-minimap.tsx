@@ -18,8 +18,8 @@ const START = poseAt(0);
 const TICK_X = Math.cos(START.heading + Math.PI / 2) * START_TICK;
 const TICK_Y = Math.sin(START.heading + Math.PI / 2) * START_TICK;
 
-/** The outline never changes: one element, so a re-render of its parent skips it. */
-const OUTLINE = (
+/** The outline never changes: drawn once, outside the per-frame parts. */
+const Outline = () => (
   <>
     <path d={LAP_PATH} data-slot="track-minimap-lap" />
     {DRS_PATHS.map(({ key, path }) => (
@@ -32,55 +32,25 @@ const OUTLINE = (
       y1={START.y - TICK_Y}
       y2={START.y + TICK_Y}
     />
+    {CORNER_MARKS.map(({ label, name }) => (
+      <text data-slot="track-minimap-corner" key={name} x={label.x} y={label.y}>
+        {name.slice(1)}
+      </text>
+    ))}
   </>
 );
 
-const CENTRE_X = VIEW_WIDTH / 2;
-const CENTRE_Y = VIEW_HEIGHT / 2;
-/** Half the outline's diagonal: the map fits the round card at any angle. */
-const REACH = Math.hypot(VIEW_WIDTH, VIEW_HEIGHT) / 2;
-const SQUARE_VIEW = [CENTRE_X - REACH, CENTRE_Y - REACH, 2 * REACH, 2 * REACH]
-  .map((value) => value.toFixed(2))
-  .join(" ");
-/** The car arrow points along +x; the map turns so it always points up. */
-const UP_DEGREES = -90;
-
-const fixed = (value: number): string => value.toFixed(1);
-
-/**
- * Heading up: the whole map turns round its centre so the car always points
- * to the top of the card. Re-renders alone, once per metre driven; the corner
- * numbers turn back so they stay upright.
- */
-const HeadingUpMap = () => {
+/** Re-renders alone, once per metre driven. */
+const Car = () => {
   const metres = useWheel((state) => Math.round(state.distanceM));
   const { heading, x, y } = poseAt(metres);
-  const carDegrees = heading * DEG_PER_RAD;
-  const mapDegrees = UP_DEGREES - carDegrees;
   return (
-    <g
-      data-slot="track-minimap-turn"
-      transform={`rotate(${fixed(mapDegrees)} ${fixed(CENTRE_X)} ${fixed(CENTRE_Y)})`}
-    >
-      {OUTLINE}
-      {CORNER_MARKS.map(({ label, name }) => (
-        <text
-          data-slot="track-minimap-corner"
-          key={name}
-          transform={`rotate(${fixed(-mapDegrees)} ${fixed(label.x)} ${fixed(label.y)})`}
-          x={label.x}
-          y={label.y}
-        >
-          {name.slice(1)}
-        </text>
-      ))}
-      <path
-        d="M5 0 L-3.6 3.6 L-2 0 L-3.6 -3.6 Z"
-        data-distance={metres}
-        data-slot="track-minimap-car"
-        transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${fixed(carDegrees)})`}
-      />
-    </g>
+    <path
+      d="M5 0 L-3.6 3.6 L-2 0 L-3.6 -3.6 Z"
+      data-distance={metres}
+      data-slot="track-minimap-car"
+      transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${(heading * DEG_PER_RAD).toFixed(1)})`}
+    />
   );
 };
 
@@ -122,8 +92,12 @@ export const TrackMinimap = () => {
       data-visible={onTrack ? "" : undefined}
     >
       <div data-slot="track-minimap-card">
-        <svg data-slot="track-minimap-map" viewBox={SQUARE_VIEW}>
-          <HeadingUpMap />
+        <svg
+          data-slot="track-minimap-map"
+          viewBox={`0 0 ${VIEW_WIDTH.toFixed(2)} ${VIEW_HEIGHT.toFixed(2)}`}
+        >
+          <Outline />
+          <Car />
         </svg>
         <ThrottleRing />
       </div>

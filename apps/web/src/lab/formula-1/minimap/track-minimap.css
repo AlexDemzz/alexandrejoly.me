@@ -57,7 +57,7 @@
 
 [data-slot="track-minimap-map"] {
   display: block;
-  inline-size: 84%;
+  inline-size: 66%;
   block-size: auto;
   overflow: visible;
 }
