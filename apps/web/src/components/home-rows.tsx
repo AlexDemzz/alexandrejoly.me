@@ -55,21 +55,17 @@ export const ExternalRow = ({
   media,
   title,
 }: ExternalRowProps) => (
-  <li>
-    <ItemLight
-      // oxlint-disable-next-line jsx-a11y/control-has-associated-label -- ItemLight renders its children into the anchor
-      render={<a href={href} rel="noreferrer" target="_blank" />}
-    >
-      {media}
-      <ItemLightContent>
-        <ItemLightTitle>{title}</ItemLightTitle>
-        <ItemLightDescription>{description}</ItemLightDescription>
-      </ItemLightContent>
-      {aside === undefined ? null : (
-        <ItemLightActions>{aside}</ItemLightActions>
-      )}
-    </ItemLight>
-  </li>
+  <ItemLight
+    // oxlint-disable-next-line jsx-a11y/control-has-associated-label -- ItemLight renders its children into the anchor
+    render={<a href={href} rel="noreferrer" target="_blank" />}
+  >
+    {media}
+    <ItemLightContent>
+      <ItemLightTitle>{title}</ItemLightTitle>
+      <ItemLightDescription>{description}</ItemLightDescription>
+    </ItemLightContent>
+    {aside === undefined ? null : <ItemLightActions>{aside}</ItemLightActions>}
+  </ItemLight>
 );
 
 interface PageRowProps {
@@ -81,15 +77,13 @@ interface PageRowProps {
 
 /** A row that opens one of the site's own pages. */
 export const PageRow = ({ description, media, title, to }: PageRowProps) => (
-  <li>
-    <ItemLight render={(props) => <Link {...props} to={to} />}>
-      {media}
-      <ItemLightContent>
-        <ItemLightTitle>{title}</ItemLightTitle>
-        <ItemLightDescription>{description}</ItemLightDescription>
-      </ItemLightContent>
-    </ItemLight>
-  </li>
+  <ItemLight render={(props) => <Link {...props} to={to} />}>
+    {media}
+    <ItemLightContent>
+      <ItemLightTitle>{title}</ItemLightTitle>
+      <ItemLightDescription>{description}</ItemLightDescription>
+    </ItemLightContent>
+  </ItemLight>
 );
 
 interface ComponentRowProps {
@@ -105,19 +99,17 @@ export const ComponentRow = ({
   name,
   title,
 }: ComponentRowProps) => (
-  <li>
-    <ItemLight
-      render={(props) => (
-        <Link {...props} params={{ name }} to="/components/$name" />
-      )}
-    >
-      {media}
-      <ItemLightContent>
-        <ItemLightTitle>{title}</ItemLightTitle>
-        <ItemLightDescription>{description}</ItemLightDescription>
-      </ItemLightContent>
-    </ItemLight>
-  </li>
+  <ItemLight
+    render={(props) => (
+      <Link {...props} params={{ name }} to="/components/$name" />
+    )}
+  >
+    {media}
+    <ItemLightContent>
+      <ItemLightTitle>{title}</ItemLightTitle>
+      <ItemLightDescription>{description}</ItemLightDescription>
+    </ItemLightContent>
+  </ItemLight>
 );
 
 export const SkillPageRow = ({
@@ -129,19 +121,15 @@ export const SkillPageRow = ({
   media?: ReactNode;
   name: string;
 }) => (
-  <li>
-    <ItemLight
-      render={(props) => (
-        <Link {...props} params={{ name }} to="/skills/$name" />
-      )}
-    >
-      {media}
-      <ItemLightContent>
-        <ItemLightTitle>{name}</ItemLightTitle>
-        <ItemLightDescription>{description}</ItemLightDescription>
-      </ItemLightContent>
-    </ItemLight>
-  </li>
+  <ItemLight
+    render={(props) => <Link {...props} params={{ name }} to="/skills/$name" />}
+  >
+    {media}
+    <ItemLightContent>
+      <ItemLightTitle>{name}</ItemLightTitle>
+      <ItemLightDescription>{description}</ItemLightDescription>
+    </ItemLightContent>
+  </ItemLight>
 );
 
 /** One row per registry item, linking to its docs page. */

@@ -69,7 +69,8 @@
     @apply pt-0;
   }
 
-  :last-child > [data-slot="item-light"] {
+  /* The last visible row: rows past a RowList's limit are `hidden`. */
+  :nth-last-child(1 of :not([hidden])) > [data-slot="item-light"] {
     @apply pb-0;
   }
 
@@ -78,7 +79,7 @@
     @apply bg-border absolute start-0 end-0 bottom-0 h-px content-[''] supports-[anchor-name:--a]:start-[anchor(--item-content_start)];
   }
 
-  :last-child > [data-slot="item-light"]::after {
+  :nth-last-child(1 of :not([hidden])) > [data-slot="item-light"]::after {
     @apply hidden;
   }
 

@@ -1,5 +1,12 @@
 import { cn } from "@portfolio/ui/lib/utils";
-import { createContext, use, useId, useMemo, useState } from "react";
+import {
+  createContext,
+  isValidElement,
+  use,
+  useId,
+  useMemo,
+  useState,
+} from "react";
 import type { ComponentProps, ReactNode } from "react";
 
 interface RowListContextValue {
@@ -48,7 +55,8 @@ const RowList = ({
   );
 };
 
-// Rows past the limit are left out, not `hidden`: the row rules key off `:last-child`.
+// Every row stays in the HTML so crawlers follow its link; past the limit it is
+// only `hidden` until RowListMore opens the list.
 const RowListItems = ({
   children,
   className,
@@ -63,7 +71,14 @@ const RowListItems = ({
       id={itemsId}
       {...props}
     >
-      {expanded ? children : children.slice(0, limit)}
+      {children.map((row, index) => (
+        <li
+          hidden={!expanded && index >= limit}
+          key={isValidElement(row) ? row.key : index}
+        >
+          {row}
+        </li>
+      ))}
     </ul>
   );
 };
