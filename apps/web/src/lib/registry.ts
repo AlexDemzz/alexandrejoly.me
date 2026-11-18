@@ -1,17 +1,17 @@
 import registry from "../../registry.json";
 
 /**
- * Every item of `registry.json` documented on this site, in its order; a test
- * keeps the two in sync. An item whose `meta.docs` links to another site is
+ * Every item of `registry.json` documented on this site, in its order: newest
+ * first. A test keeps the two in sync. An item whose `meta.docs` links to another site is
  * only served under `/r/`: no page, sitemap entry or Open Graph card.
  */
 export const REGISTRY_ITEM_NAMES = [
+  "item-inset-separator",
   "notification-badge",
   "onboarding",
   "hint",
   "infinite-scroll",
   "marquee",
-  "item-inset-separator",
 ] as const;
 
 export type RegistryItemName = (typeof REGISTRY_ITEM_NAMES)[number];

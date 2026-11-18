@@ -16,10 +16,9 @@ import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
 import {
   ComponentRows,
-  ExpandableRowList,
   ExternalRow,
   LabRows,
-  RowList,
+  Rows,
   SkillRows,
 } from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
@@ -43,7 +42,8 @@ import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
 
-const VISIBLE_PROJECTS = 5;
+/** Each home section shows its newest rows, the rest behind "See more". */
+const HOME_ROW_LIMIT = 3;
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -114,8 +114,9 @@ const HomeComponent = () => {
         <Section spacing="none">
           <SectionTitle>Projects</SectionTitle>
           <SectionContent>
-            <ExpandableRowList limit={VISIBLE_PROJECTS}>
-              {PROJECTS.map((project) => (
+            <Rows
+              limit={HOME_ROW_LIMIT}
+              rows={PROJECTS.map((project) => (
                 <ExternalRow
                   aside={project.year}
                   description={project.description}
@@ -125,36 +126,37 @@ const HomeComponent = () => {
                   title={project.name}
                 />
               ))}
-            </ExpandableRowList>
+            />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
           <SectionTitle>{LAB_PAGE.title}</SectionTitle>
           <SectionContent>
-            <LabRows />
+            <LabRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
           <SectionTitle>Agent skills</SectionTitle>
           <SectionContent>
-            <SkillRows />
+            <SkillRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
           <SectionTitle>Components</SectionTitle>
           <SectionContent>
-            <ComponentRows />
+            <ComponentRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
           <SectionTitle>Recognition</SectionTitle>
           <SectionContent>
-            <RowList>
-              {AWARDS.map((award) => (
+            <Rows
+              limit={HOME_ROW_LIMIT}
+              rows={AWARDS.map((award) => (
                 <ExternalRow
                   aside={award.year}
                   description={award.issuer}
@@ -168,15 +170,16 @@ const HomeComponent = () => {
                   title={award.title}
                 />
               ))}
-            </RowList>
+            />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
           <SectionTitle>Previously</SectionTitle>
           <SectionContent>
-            <RowList>
-              {ARCHIVES.map((archive) => (
+            <Rows
+              limit={HOME_ROW_LIMIT}
+              rows={ARCHIVES.map((archive) => (
                 <ExternalRow
                   aside={archive.year}
                   description={archive.description}
@@ -194,7 +197,7 @@ const HomeComponent = () => {
                   title={archive.title}
                 />
               ))}
-            </RowList>
+            />
           </SectionContent>
         </Section>
       </SectionStack>

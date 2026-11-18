@@ -80,6 +80,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 ### Components
 
 - **Section** (`Section`, `SectionTitle`, `SectionContent`): the title always sits above the content, a 16px title in `muted-foreground`; `variant="stacked"` makes it the 18px docs section heading in `foreground`. It carries the 40px above and below; `spacing="none"` drops it for a column that spaces its sections with a gap (see Library landings › Rhythm).
+- **Row list** (`RowList`, `RowListItems`, `RowListMore` in `apps/web`): rows run newest first, everywhere. On the home each section shows its newest three; a "See more" text button 14px under them, underlined like a row title on hover or focus, shows the rest and turns into "See less". Index pages list every row.
 - **Row** (`ItemLight`, styled by `data-slot` in `apps/web/src/index.css`): optional round logo (`ItemLightMedia`), title over description, year on the right (`ItemLightActions`), an inset hairline under each row but the last, no fill. Titles wrap to as many lines as they need.
 - **Item** (`Item`, `variant="underline"`): the compact row of the docs sites' link lists, at the 16px reading size, the title in book weight (450) on one line, flush on its description, both at 1.625 line height, and the description on up to two: no horizontal padding, no fill; the title underlines and the media lights to `foreground` while the row is hovered or focused.
 - **Text link** (`TextLink`, `link-text`): `foreground`, weight 450, underline in `underline` at 3px; may lead with a favicon.

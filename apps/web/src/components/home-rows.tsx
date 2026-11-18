@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
-import { useId, useState } from "react";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
@@ -15,6 +14,7 @@ import {
   ItemLightTitle,
 } from "@/components/item-light";
 import { LabIcon } from "@/components/lab-icon";
+import { RowList, RowListItems, RowListMore } from "@/components/row-list";
 import { SkillIcon } from "@/components/skill-icon";
 import {
   ASCII_PAGE,
@@ -26,43 +26,19 @@ import {
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import { isSkillPageName } from "@/skill-pages";
 
-export const RowList = ({ children }: { children: ReactNode }) => (
-  <ul className="flex flex-col">{children}</ul>
-);
-
-/** Shows the first `limit` rows with a "See more" button for the rest. */
-export const ExpandableRowList = ({
-  children,
+/** Rows in a RowList, with "See more" once there are more than `limit`. */
+export const Rows = ({
   limit,
+  rows,
 }: {
-  children: ReactNode[];
-  limit: number;
-}) => {
-  const id = useId();
-  const [expanded, setExpanded] = useState(false);
-
-  if (children.length <= limit) {
-    return <RowList>{children}</RowList>;
-  }
-
-  // The hidden rows are left out, not `hidden`: the row rules key off `:last-child`.
-  return (
-    <div className="flex flex-col items-start gap-3.5">
-      <ul className="flex w-full flex-col" id={id}>
-        {expanded ? children : children.slice(0, limit)}
-      </ul>
-      <button
-        aria-controls={id}
-        aria-expanded={expanded}
-        data-slot="row-list-more"
-        onClick={() => setExpanded(!expanded)}
-        type="button"
-      >
-        {expanded ? "See less" : "See more"}
-      </button>
-    </div>
-  );
-};
+  limit?: number;
+  rows: ReactNode[];
+}) => (
+  <RowList limit={limit}>
+    <RowListItems>{rows}</RowListItems>
+    {limit !== undefined && rows.length > limit && <RowListMore />}
+  </RowList>
+);
 
 interface ExternalRowProps {
   aside?: ReactNode;
@@ -169,9 +145,10 @@ export const SkillPageRow = ({
 );
 
 /** One row per registry item, linking to its docs page. */
-export const ComponentRows = () => (
-  <RowList>
-    {REGISTRY_ITEMS.map((component) => {
+export const ComponentRows = ({ limit }: { limit?: number }) => (
+  <Rows
+    limit={limit}
+    rows={REGISTRY_ITEMS.map((component) => {
       const Icon = COMPONENT_ICONS[component.name];
       return (
         <ComponentRow
@@ -187,13 +164,14 @@ export const ComponentRows = () => (
         />
       );
     })}
-  </RowList>
+  />
 );
 
 /** One row per agent skill: its page here when it has one, else skills.sh. */
-export const SkillRows = () => (
-  <RowList>
-    {SKILLS.map((skill) => {
+export const SkillRows = ({ limit }: { limit?: number }) => (
+  <Rows
+    limit={limit}
+    rows={SKILLS.map((skill) => {
       const media = (
         <ItemLightMedia>
           <SkillIcon />
@@ -216,41 +194,47 @@ export const SkillRows = () => (
         />
       );
     })}
-  </RowList>
+  />
 );
 
-/** One row per lab experiment. */
-export const LabRows = () => (
-  <RowList>
-    <PageRow
-      description={ASCII_PAGE.rowDescription}
-      media={
-        <ItemLightMedia>
-          <LabIcon />
-        </ItemLightMedia>
-      }
-      title={ASCII_PAGE.title}
-      to="/lab/ascii"
-    />
-    <PageRow
-      description={FORMULA_PAGE.rowDescription}
-      media={
-        <ItemLightMedia>
-          <FormulaIcon />
-        </ItemLightMedia>
-      }
-      title={FORMULA_PAGE.title}
-      to="/lab/formula-2030"
-    />
-    <PageRow
-      description={FORMULA1_PAGE.rowDescription}
-      media={
-        <ItemLightMedia>
-          <Formula1Icon />
-        </ItemLightMedia>
-      }
-      title={FORMULA1_PAGE.title}
-      to="/lab/formula-1"
-    />
-  </RowList>
+/** One row per lab experiment, newest first. */
+export const LabRows = ({ limit }: { limit?: number }) => (
+  <Rows
+    limit={limit}
+    rows={[
+      <PageRow
+        description={FORMULA1_PAGE.rowDescription}
+        key="formula-1"
+        media={
+          <ItemLightMedia>
+            <Formula1Icon />
+          </ItemLightMedia>
+        }
+        title={FORMULA1_PAGE.title}
+        to="/lab/formula-1"
+      />,
+      <PageRow
+        description={FORMULA_PAGE.rowDescription}
+        key="formula-2030"
+        media={
+          <ItemLightMedia>
+            <FormulaIcon />
+          </ItemLightMedia>
+        }
+        title={FORMULA_PAGE.title}
+        to="/lab/formula-2030"
+      />,
+      <PageRow
+        description={ASCII_PAGE.rowDescription}
+        key="ascii"
+        media={
+          <ItemLightMedia>
+            <LabIcon />
+          </ItemLightMedia>
+        }
+        title={ASCII_PAGE.title}
+        to="/lab/ascii"
+      />,
+    ]}
+  />
 );
