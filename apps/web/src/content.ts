@@ -135,19 +135,19 @@ export const PROJECTS: Project[] = [
     year: 2026,
   },
   {
-    description: "The SSH terminal built for agents, on iPad",
-    href: "https://skippr.sh",
-    icon: SkipprIcon,
-    kind: "iPad app",
-    name: "Skippr",
-    year: 2026,
-  },
-  {
     description: "shadcn overlays that turn into drawers on mobile",
     href: "https://responsivecn.alexandrejoly.me/",
     icon: ResponsivecnIcon,
     kind: "shadcn registry",
     name: "responsivecn",
+    year: 2026,
+  },
+  {
+    description: "The SSH terminal built for agents, on iPad",
+    href: "https://skippr.sh",
+    icon: SkipprIcon,
+    kind: "iPad app",
+    name: "Skippr",
     year: 2026,
   },
   {

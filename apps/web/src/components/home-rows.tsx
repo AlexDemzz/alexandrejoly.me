@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import type { LinkProps } from "@tanstack/react-router";
+import { useId, useState } from "react";
 import type { ReactNode } from "react";
 
 import { COMPONENT_ICONS } from "@/components/component-icons";
@@ -28,6 +29,40 @@ import { isSkillPageName } from "@/skill-pages";
 export const RowList = ({ children }: { children: ReactNode }) => (
   <ul className="flex flex-col">{children}</ul>
 );
+
+/** Shows the first `limit` rows with a "See more" button for the rest. */
+export const ExpandableRowList = ({
+  children,
+  limit,
+}: {
+  children: ReactNode[];
+  limit: number;
+}) => {
+  const id = useId();
+  const [expanded, setExpanded] = useState(false);
+
+  if (children.length <= limit) {
+    return <RowList>{children}</RowList>;
+  }
+
+  // The hidden rows are left out, not `hidden`: the row rules key off `:last-child`.
+  return (
+    <div className="flex flex-col items-start gap-3.5">
+      <ul className="flex w-full flex-col" id={id}>
+        {expanded ? children : children.slice(0, limit)}
+      </ul>
+      <button
+        aria-controls={id}
+        aria-expanded={expanded}
+        data-slot="row-list-more"
+        onClick={() => setExpanded(!expanded)}
+        type="button"
+      >
+        {expanded ? "See less" : "See more"}
+      </button>
+    </div>
+  );
+};
 
 interface ExternalRowProps {
   aside?: ReactNode;

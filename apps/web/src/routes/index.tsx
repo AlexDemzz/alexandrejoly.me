@@ -16,6 +16,7 @@ import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
 import {
   ComponentRows,
+  ExpandableRowList,
   ExternalRow,
   LabRows,
   RowList,
@@ -41,6 +42,8 @@ import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
+
+const VISIBLE_PROJECTS = 5;
 
 const ProjectMedia = ({
   project: { backdrop, icon: Icon },
@@ -111,7 +114,7 @@ const HomeComponent = () => {
         <Section spacing="none">
           <SectionTitle>Projects</SectionTitle>
           <SectionContent>
-            <RowList>
+            <ExpandableRowList limit={VISIBLE_PROJECTS}>
               {PROJECTS.map((project) => (
                 <ExternalRow
                   aside={project.year}
@@ -122,7 +125,14 @@ const HomeComponent = () => {
                   title={project.name}
                 />
               ))}
-            </RowList>
+            </ExpandableRowList>
+          </SectionContent>
+        </Section>
+
+        <Section spacing="none">
+          <SectionTitle>{LAB_PAGE.title}</SectionTitle>
+          <SectionContent>
+            <LabRows />
           </SectionContent>
         </Section>
 
@@ -137,13 +147,6 @@ const HomeComponent = () => {
           <SectionTitle>Components</SectionTitle>
           <SectionContent>
             <ComponentRows />
-          </SectionContent>
-        </Section>
-
-        <Section spacing="none">
-          <SectionTitle>{LAB_PAGE.title}</SectionTitle>
-          <SectionContent>
-            <LabRows />
           </SectionContent>
         </Section>
 

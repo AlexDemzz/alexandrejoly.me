@@ -109,7 +109,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - **Canvas:** glyphs in system mono on the page background, at `foreground` with opacity for every tone. One accent, `--lab-hot` with `--lab-hot-ink` on it, scoped to the page by `data-lab` (`apps/web/src/index.css`): the tile or glyph under the hand, a charge, a highlight. No other page uses it.
 - **Gestures**, by the `gestures` rules: the track phase follows the pointer 1:1 (rubber-banded where it pulls against a spring), the release hands its velocity to a spring or a momentum decay, a snap lands on the keyframe the velocity projects to, a hold charges linearly and cancels in 200ms ease-out. Every scene is `touch-pan-y`: a touch that starts up or down scrolls the page, and one that starts sideways or rests plays the scene in both dimensions.
 - **Loop:** a canvas only draws while it is on screen and its scene still moves, never below 60 frames a second; on a faster display the scene under the pointer takes every frame and the others 60. Readouts update at most every 90ms.
-- **Home:** a "Lab" section after Components, one row per experiment.
+- **Home:** a "Lab" section after Projects, before Agent skills, one row per experiment.
 - `prefers-reduced-motion`: idle drifts, momentum, bounces and bursts are off; what the pointer moves directly still follows it, and every scene settles on its final frame.
 
 `/lab/formula-2030` is the second: a concept car's control panel rebuilt live from the Formula 2030 registry (`packages/formula2030`), under the same crumb and bare title as `/lab/ascii`, then a one-line credit under the panel.
