@@ -286,6 +286,12 @@ function Lightbox({ className, id, options, ...props }: LightboxProps) {
           pswp.on("zoomPanUpdate", syncSlide);
           pswp.on("loadComplete", syncSlide);
           pswp.on("loadError", syncSlide);
+
+          const setAnimating = (isAnimating: boolean) =>
+            container.toggleAttribute("data-animating", isAnimating);
+          setAnimating(true);
+          pswp.on("openingAnimationEnd", () => setAnimating(false));
+          pswp.on("closingAnimationStart", () => setAnimating(true));
         },
       });
     });
@@ -444,7 +450,7 @@ function LightboxCaption({
   return (
     <div
       className={cn(
-        "text-muted-foreground absolute inset-x-0 top-(--lightbox-image-bottom) mt-3 mb-4 text-center text-sm transition-opacity in-data-zoomed:opacity-0",
+        "text-muted-foreground absolute inset-x-0 top-(--lightbox-image-bottom) mt-3 mb-4 text-center text-sm transition-opacity in-data-animating:opacity-0 in-data-animating:transition-none in-data-zoomed:opacity-0",
         className
       )}
       data-slot="lightbox-caption"

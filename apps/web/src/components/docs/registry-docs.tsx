@@ -327,7 +327,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The layer over the open viewer, portaled into it; it renders nothing while the viewer is closed. It stacks its children in one grid cell over the viewer, 16px in from its edges: place each with `self-*` and `justify-self-*`, as the parts below do. Pointer events pass through it to the slides and stop on its children. It fades with the viewer’s controls, which a tap on touch screens hides and shows. Its children can read `--lightbox-image-bottom`, the image’s bottom edge from the top of the cell they share, and match `data-zoomed` while the image is zoomed in.",
+          "The layer over the open viewer, portaled into it; it renders nothing while the viewer is closed. It stacks its children in one grid cell over the viewer, 16px in from its edges: place each with `self-*` and `justify-self-*`, as the parts below do. Pointer events pass through it to the slides and stop on its children. It fades with the viewer’s controls, which a tap on touch screens hides and shows. Its children can read `--lightbox-image-bottom`, the image’s bottom edge from the top of the cell they share, match `data-zoomed` while the image is zoomed in and `data-animating` while the viewer opens and closes, when `--lightbox-image-bottom` does not follow the image.",
         extends: { name: "div" },
         name: "LightboxContent",
         props: [],
@@ -340,7 +340,7 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
       },
       {
         description:
-          "The open item’s `LightboxItemCaption`, centred under the image. Its top margin sets the gap to the image and its bottom margin the room kept below it. It follows the image as it is dragged, hides while it is zoomed in, and the image makes room again when its text changes. Items without a caption leave it empty.",
+          "The open item’s `LightboxItemCaption`, centred under the image. Its top margin sets the gap to the image and its bottom margin the room kept below it. It follows the image as it is dragged, hides while the image is zoomed in, stays hidden until the viewer has opened and hides at once when it closes, and the image makes room again when its text changes. Items without a caption leave it empty.",
         extends: { name: "div" },
         name: "LightboxCaption",
         props: [],
