@@ -5,6 +5,10 @@ import { InfiniteScrollDemo } from "@/components/demos/infinite-scroll-demo";
 import { InfiniteScrollReverse } from "@/components/demos/infinite-scroll-reverse";
 import { ItemInsetSeparatorDemo } from "@/components/demos/item-inset-separator-demo";
 import { ItemInsetSeparatorMedia } from "@/components/demos/item-inset-separator-media";
+import { LightboxCaptions } from "@/components/demos/lightbox-captions";
+import { LightboxDemo } from "@/components/demos/lightbox-demo";
+import { LightboxUseLightbox } from "@/components/demos/lightbox-use-lightbox";
+import { LightboxVideo } from "@/components/demos/lightbox-video";
 import { MarqueeCenter } from "@/components/demos/marquee-center";
 import { MarqueeDemo } from "@/components/demos/marquee-demo";
 import { MarqueeFit } from "@/components/demos/marquee-fit";
@@ -268,6 +272,185 @@ export const REGISTRY_DOCS: Record<RegistryItemName, ComponentDocs> = {
     ],
     metaDescription:
       "Item Inset Separator for shadcn/ui: a React divider under an Item, starting past its media, placed with CSS anchor positioning. Installs in one command.",
+  },
+  lightbox: {
+    accessibility: [
+      "Each item is a link to the full-size file, so the gallery still works before the script loads or without it. The thumbnail’s `alt` names the link, and the viewer reuses it for the full-size image: give every thumbnail one. `LightboxItemCaption` is `hidden` in the thumbnail, so it does not change the link’s name.",
+      "The viewer is a modal: focus moves into it and stays there, the arrow keys move between slides, Z toggles the zoom, and Escape closes it and returns focus to the item that opened it. The buttons carry their names as visually hidden text, and the zoom button’s name switches between Zoom in and Zoom out.",
+    ],
+    api: [
+      {
+        description:
+          "The gallery: it finds every `LightboxItem` inside it and opens the viewer on the one pressed. A grid of thumbnails at least 96px wide, with as many columns as its width holds.",
+        extends: { name: "div" },
+        name: "Lightbox",
+        props: [
+          {
+            description:
+              "PhotoSwipe options, read each time the viewer opens, such as `loop`. PhotoSwipe’s own buttons and counter are off in favour of the parts below, the background takes `--background` at full opacity, and the mouse wheel zooms (`wheelToZoom`). The image keeps a 64px frame for the parts, none on the sides below 640px, and a caption below it takes the room it needs; `padding` or `paddingFn` replace that frame.",
+            name: "options",
+            type: "PhotoSwipeOptions",
+          },
+        ],
+      },
+      {
+        description:
+          "A link to one full-size file, holding its thumbnail. The viewer zooms out of the thumbnail and back into it, cropped and rounded as it is.",
+        extends: { name: "a" },
+        name: "LightboxItem",
+        props: [
+          {
+            description: "The full-size file’s width and height in pixels.",
+            name: "width, height",
+            type: "number",
+          },
+          {
+            default: '"image"',
+            description:
+              "A video plays in the viewer with its controls, from the slide it is on, and pauses when you leave it.",
+            name: "type",
+            type: '"image" | "video"',
+          },
+          {
+            description: "Responsive sources for the full-size image.",
+            name: "srcSet, sizes",
+            type: "string",
+          },
+        ],
+      },
+      {
+        description:
+          "The item’s caption, placed inside its `LightboxItem`. It stays hidden in the thumbnail and shows in `LightboxCaption` while its item is open.",
+        extends: { name: "div" },
+        name: "LightboxItemCaption",
+        props: [],
+      },
+      {
+        description:
+          "The layer over the open viewer, portaled into it; it renders nothing while the viewer is closed. It stacks its children in one grid cell over the viewer, 16px in from its edges: place each with `self-*` and `justify-self-*`, as the parts below do. Pointer events pass through it to the slides and stop on its children. It fades with the viewer’s controls, which a tap on touch screens hides and shows. Its children can read `--lightbox-image-bottom`, the image’s bottom edge from the top of the cell they share, and match `data-zoomed` while the image is zoomed in.",
+        extends: { name: "div" },
+        name: "LightboxContent",
+        props: [],
+      },
+      {
+        description: "The current slide and the count, centred at the top.",
+        extends: { name: "div" },
+        name: "LightboxCounter",
+        props: [],
+      },
+      {
+        description:
+          "The open item’s `LightboxItemCaption`, centred under the image. Its top margin sets the gap to the image and its bottom margin the room kept below it. It follows the image as it is dragged, hides while it is zoomed in, and the image makes room again when its text changes. Items without a caption leave it empty.",
+        extends: { name: "div" },
+        name: "LightboxCaption",
+        props: [],
+      },
+      {
+        description:
+          "Lines up `LightboxZoom` and `LightboxClose` in the top end corner.",
+        extends: { name: "div" },
+        name: "LightboxActions",
+        props: [],
+      },
+      {
+        description:
+          "Outline button that zooms the image in and out; put it in `LightboxActions` beside `LightboxClose`. Disabled on a video and on an image already shown at full size. An `onClick` runs before the zoom.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
+        name: "LightboxZoom",
+        props: [],
+      },
+      {
+        description:
+          "Outline button in the top end corner that closes the viewer. An `onClick` runs before it closes.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
+        name: "LightboxClose",
+        props: [],
+      },
+      {
+        description:
+          "Outline button on the start side, centred, that moves to the previous slide. It loops from the first slide to the last; with `loop` off, it is disabled there instead. Hidden below 640px, where you swipe, and with a single item. An `onClick` runs before the slide changes.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
+        name: "LightboxPrevious",
+        props: [],
+      },
+      {
+        description:
+          "Outline button on the end side, centred, that moves to the next slide. It loops from the last slide to the first; with `loop` off, it is disabled there instead. Hidden below 640px, where you swipe, and with a single item. An `onClick` runs before the slide changes.",
+        extends: {
+          href: "https://ui.shadcn.com/docs/components/base/button",
+          name: "shadcn Button",
+        },
+        name: "LightboxNext",
+        props: [],
+      },
+      {
+        description:
+          "Reads and drives the open viewer from inside `LightboxContent`, for controls of your own.",
+        name: "useLightbox()",
+        nameLabel: "Return value",
+        props: [
+          {
+            description:
+              "The current slide, from 0, and the slide count, 0 while the viewer is closed.",
+            name: "index, count",
+            type: "number",
+          },
+          {
+            description:
+              "Whether a slide exists before or after the current one.",
+            name: "canGoPrevious, canGoNext",
+            type: "boolean",
+          },
+          {
+            description:
+              "Whether the current slide can zoom, and whether it is zoomed in.",
+            name: "canZoom, isZoomed",
+            type: "boolean",
+          },
+          {
+            description: "Move one slide, zoom in or out, or close the viewer.",
+            name: "previous, next, toggleZoom, close",
+            type: "() => void",
+          },
+        ],
+      },
+    ],
+    demo: { Component: LightboxDemo, file: "lightbox-demo" },
+    examples: [
+      {
+        Component: LightboxCaptions,
+        description:
+          "Put a `LightboxItemCaption` in each item and a `LightboxCaption` in the content. The image shrinks to keep the caption in view, right under it.",
+        file: "lightbox-captions",
+        title: "Captions",
+      },
+      {
+        Component: LightboxVideo,
+        description:
+          'An item with `type="video"` opens its file in a video player. Its thumbnail is any image, such as the first frame of the video.',
+        file: "lightbox-video",
+        title: "Video",
+      },
+      {
+        Component: LightboxUseLightbox,
+        description:
+          "`useLightbox` gives the current slide to controls of your own, here a link that downloads it.",
+        file: "lightbox-use-lightbox",
+        title: "useLightbox",
+      },
+    ],
+    metaDescription:
+      "Lightbox for shadcn/ui: a React image and video gallery that opens full screen, with swipe and pinch to zoom, built on PhotoSwipe. Installs in one command.",
+    wcag: [understanding("4.1.2 Name, Role, Value", "name-role-value")],
   },
   marquee: {
     accessibility: [

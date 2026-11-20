@@ -6,6 +6,7 @@ import registry from "../../registry.json";
  * only served under `/r/`: no page, sitemap entry or Open Graph card.
  */
 export const REGISTRY_ITEM_NAMES = [
+  "lightbox",
   "item-inset-separator",
   "notification-badge",
   "onboarding",

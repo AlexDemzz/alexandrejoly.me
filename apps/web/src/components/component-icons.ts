@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { HintIcon } from "@/components/hint-icon";
 import { InfiniteScrollIcon } from "@/components/infinite-scroll-icon";
 import { ItemInsetSeparatorIcon } from "@/components/item-inset-separator-icon";
+import { LightboxIcon } from "@/components/lightbox-icon";
 import { MarqueeIcon } from "@/components/marquee-icon";
 import { NotificationBadgeIcon } from "@/components/notification-badge-icon";
 import { OnboardingIcon } from "@/components/onboarding-icon";
@@ -16,6 +17,7 @@ export const COMPONENT_ICONS: Record<RegistryItemName, ComponentType> = {
   hint: HintIcon,
   "infinite-scroll": InfiniteScrollIcon,
   "item-inset-separator": ItemInsetSeparatorIcon,
+  lightbox: LightboxIcon,
   marquee: MarqueeIcon,
   "notification-badge": NotificationBadgeIcon,
   onboarding: OnboardingIcon,

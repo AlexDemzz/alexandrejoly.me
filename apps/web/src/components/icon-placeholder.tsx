@@ -1,10 +1,26 @@
-import { PauseIcon, PlayIcon } from "@phosphor-icons/react";
+import {
+  CaretLeftIcon,
+  CaretRightIcon,
+  MagnifyingGlassMinusIcon,
+  MagnifyingGlassPlusIcon,
+  PauseIcon,
+  PlayIcon,
+  XIcon,
+} from "@phosphor-icons/react";
 import type { IconProps } from "@phosphor-icons/react";
 
 // A registry file names its icon in each library shadcn supports, and
 // `shadcn add` swaps this placeholder for the one in the user's `iconLibrary`.
 // The site itself renders the Phosphor icon.
-const PHOSPHOR_ICONS = { PauseIcon, PlayIcon };
+const PHOSPHOR_ICONS = {
+  CaretLeftIcon,
+  CaretRightIcon,
+  MagnifyingGlassMinusIcon,
+  MagnifyingGlassPlusIcon,
+  PauseIcon,
+  PlayIcon,
+  XIcon,
+};
 
 export const IconPlaceholder = ({
   hugeicons: _hugeicons,

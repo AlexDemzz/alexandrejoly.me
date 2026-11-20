@@ -72,6 +72,40 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";`,
   ))}
 </div>`,
   },
+  lightbox: {
+    imports: `import {
+  Lightbox,
+  LightboxActions,
+  LightboxClose,
+  LightboxContent,
+  LightboxCounter,
+  LightboxItem,
+  LightboxNext,
+  LightboxPrevious,
+  LightboxZoom,
+} from "@/components/ui/lightbox";`,
+    markup: `<Lightbox>
+  {photos.map((photo) => (
+    <LightboxItem
+      height={photo.height}
+      href={photo.src}
+      key={photo.src}
+      width={photo.width}
+    >
+      <img alt={photo.alt} src={photo.thumbnail} />
+    </LightboxItem>
+  ))}
+  <LightboxContent>
+    <LightboxCounter />
+    <LightboxActions>
+      <LightboxZoom />
+      <LightboxClose />
+    </LightboxActions>
+    <LightboxPrevious />
+    <LightboxNext />
+  </LightboxContent>
+</Lightbox>`,
+  },
   marquee: {
     imports: `import {
   Marquee,

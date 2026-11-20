@@ -1,11 +1,12 @@
 {
+  "lightbox": "e7bcfb4cc37ea9fcbb0bcac6838f34d14f228f197c68b715344aee467ff4e9e8",
   "item-inset-separator": "1811480b9fcd54a824708a953c162741f567d34a59ff762ed88611be5485fec7",
   "notification-badge": "ef13f7f1f23ed1a46e56ba90a292d433bbbdd51aa89c314ce439de12c1e0acac",
   "onboarding": "785e0031bd16751c3aaab80bbe3d0da10372c1eb7aa1e9aa596c6c29f85cd03a",
   "hint": "c0544c6ff4e6812681fcf6ea80ab338db9b92b4c58e8f1fbade7d72eaddf3514",
   "infinite-scroll": "1a9859c54d0bbc541d3fcc1fce1ff91cdbfef5904d7b4ded0c8198e35819004e",
   "marquee": "89f3a4ec56549b4b4d394e486a15384ca117e185e35fac489848076dd5345757",
-  "components": "5eeb350de8b4b75df170180a4bc7e010c6bc89c9a37001ec5b4bbd4e40506ec5",
+  "components": "7b582efdbc67afa2997d895079e9ec9deddcc7f57cf5ed059e29cd7b491a8808",
   "skills/grokbot-notify": "416e65073f4a6f1595902342e672f3d5435e31040528f2561efd8383726c110e",
   "skills/design-to-shadcn": "cd04e6a22f1c2796e49b1a5852cc3f36a74b2baaad2070fd2ccf342d3b9213a2",
   "skills/shadcn-composition-patterns": "9a4f563b3d4887cfd5e74a9d47ee5b721e4f256a9cacd0ec586ce04c56c71478",
