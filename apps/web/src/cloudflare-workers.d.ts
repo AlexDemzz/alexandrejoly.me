@@ -6,7 +6,11 @@ declare module "cloudflare:workers" {
 
   /** Bindings declared in `wrangler.jsonc`. */
   export const env: {
+    ASSETS: { fetch: (request: Request) => Promise<Response> };
     CONTRIBUTIONS: KVNamespace;
+    REGISTRY_FETCHES: {
+      writeDataPoint: (point: { blobs: string[]; indexes: string[] }) => void;
+    };
   };
 
   /** Keeps the Worker alive after the response until `promise` settles. */

@@ -110,7 +110,7 @@ export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
     title: "Contact",
   },
   privacy: {
-    description: `What ${SITE.name}’s site collects about visitors: no cookies, no analytics, no tracking. Only Cloudflare’s request logs, kept a few days to debug errors.`,
+    description: `What ${SITE.name}’s site collects about visitors: no cookies, no tracking. Only Cloudflare’s request logs, kept a few days to debug errors, and an anonymous count of registry downloads.`,
     intro: [
       [
         "This site is a personal portfolio. It sets no cookies, runs no analytics or advertising scripts, embeds no third-party trackers and has no forms, so it collects nothing about you on purpose. This page explains the little that still happens when you visit.",
@@ -129,6 +129,14 @@ export const INFO_PAGES: Record<InfoPageSlug, InfoPage> = {
           ],
         ],
         title: "Hosting",
+      },
+      {
+        paragraphs: [
+          [
+            "When the shadcn CLI or anything else downloads a component file from /r/, the server counts it: the component’s name, the user agent sent with the request and whether the file was found. It stores no IP address or other identifier, so a count can’t be traced back to you. Counts are kept for three months to see which components people install.",
+          ],
+        ],
+        title: "Registry downloads",
       },
       {
         paragraphs: [

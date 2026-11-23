@@ -4,6 +4,13 @@
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
   "main": "./src/server.ts",
+  "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": ["/r/*"],
+  },
+  "analytics_engine_datasets": [
+    { "binding": "REGISTRY_FETCHES", "dataset": "registry_fetches" },
+  ],
   "kv_namespaces": [
     { "binding": "CONTRIBUTIONS", "id": "af9363808c3046199c65904ec99be7e4" },
   ],
