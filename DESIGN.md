@@ -57,7 +57,7 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 
 ### Typography
 
-- System UI stack, no webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
+- San Francisco on macOS and iOS, Geist Variable everywhere else, then the system UI stack. Geist is the only webfont. `font-variant-ligatures: none`, antialiased, `text-wrap: pretty` on prose and rows.
 - 16px is the reading size: prose, rows, links and the `heading` level. Display text steps up: 20px for the home statement and the docs page title, 18px for docs section titles. Controls and dense content step down: 14px for buttons, tabs, toggles, tables, panels, code blocks and the footer; compact sizes go smaller, 12.8px for `sm` buttons and toggles, 12px for `xs` buttons and `sm` code blocks.
 - Line-height 1.625 for reading text and the statement, 1.375 for docs titles.
 - Weight carries the hierarchy within a size: 500 for headings and the name, 450 (`font-book`) for row titles and links, 400 for body, the rest of the statement and section titles. Build hierarchy with weight and colour first, and step the size only along this scale.

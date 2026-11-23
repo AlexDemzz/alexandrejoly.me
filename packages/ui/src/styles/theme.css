@@ -104,7 +104,10 @@
 }
 
 @theme inline {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* macOS keeps San Francisco; every other platform gets Geist. */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Geist Variable", ui-sans-serif,
+    system-ui, "Segoe UI", sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   /* Stock shadcn titles (dialog, sheet, drawer) read it. */
   --font-heading: var(--font-sans);

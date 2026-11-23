@@ -1,6 +1,7 @@
 /* UI SDK's own rules sit in this layer; declared first so it ranks lowest. */
 @layer ui-sdk;
 @import "@portfolio/ui/globals.css";
+@import "@fontsource-variable/geist";
 
 /*
  * Docs inspectors: traces a preview toggles on through `data-inspect`. Off the
