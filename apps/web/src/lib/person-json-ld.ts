@@ -23,6 +23,9 @@ export const personJsonLd = {
   description: SITE.description,
   email: EMAIL,
   jobTitle: "Design Engineer",
+  // Each topic is spelled as the home page prints it: is-agentic searches the
+  // name with the first one, and skips any the page does not show.
+  knowsAbout: ["Design engineer", "shadcn", "React", "CSS"],
   name: SITE.name,
   sameAs: [LINKS.github, LINKS.linkedin, LINKS.x],
   url: SITE.url,

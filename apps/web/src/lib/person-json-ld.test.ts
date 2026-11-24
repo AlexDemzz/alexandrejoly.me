@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { agentResponse } from "./agent-response";
+import { homeMarkdown } from "./markdown";
 import { personJsonLd } from "./person-json-ld";
 
 const BARE_EMAIL = /^[^\s:@]+@[^\s@]+\.[^\s@]+$/u;
@@ -28,6 +29,15 @@ describe("personJsonLd", () => {
     expect(personJsonLd.worksFor["@id"]).toMatch(
       /^https:\/\/[^#]+#organization$/u
     );
+  });
+
+  it("lists only topics the home page names", () => {
+    const home = homeMarkdown().toLowerCase();
+
+    expect(personJsonLd.knowsAbout).not.toHaveLength(0);
+    for (const topic of personJsonLd.knowsAbout) {
+      expect(home).toContain(topic.toLowerCase());
+    }
   });
 
   it("serialises without a sequence that would close its script tag", () => {
