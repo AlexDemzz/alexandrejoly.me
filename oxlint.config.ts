@@ -108,9 +108,9 @@ export default defineConfig({
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
-      // The toaster's async example stands in for an app's own save: a timer
-      // that Stop can abort has no promise of its own to return.
-      files: ["apps/web/src/components/demos/toaster-async.tsx"],
+      // The toaster's async and controlled examples stand in for an app's own
+      // work: a timer that Stop can abort has no promise of its own to return.
+      files: ["apps/web/src/components/demos/toaster-{async,controlled}.tsx"],
       rules: { "promise/avoid-new": "off" },
     },
     {

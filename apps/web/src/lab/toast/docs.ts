@@ -1,4 +1,5 @@
 import { ToasterAsync } from "@/components/demos/toaster-async";
+import { ToasterControlled } from "@/components/demos/toaster-controlled";
 import { ToasterDemo } from "@/components/demos/toaster-demo";
 import type { ApiPart, Demo, Example } from "@/components/docs/registry-docs";
 import { ToasterSoundChrome } from "@/lab/toast/sound-chrome";
@@ -21,6 +22,14 @@ export const TOASTER_EXAMPLES: Example[] = [
       "`onToast` can await real work. The lever stays down until it settles: a resolved title pops as a success, and a rejection pops its message as an error, every second save here. Stop aborts `signal`.",
     file: "toaster-async",
     title: "Async work",
+  },
+  {
+    Chrome: ToasterSoundChrome,
+    Component: ToasterControlled,
+    description:
+      "Set `toasting` to start a cycle from your own code. Here the form pushes the lever down, and the slice pops with your message three seconds later. The lever, the dial and Stop still work by hand, and `onToastingChange` reports each start and each end.",
+    file: "toaster-controlled",
+    title: "Controlled",
   },
 ];
 
@@ -66,6 +75,25 @@ export const TOASTER_API: ApiPart[] = [
         description: "Runs when the dial turns to a new level.",
         name: "onLevelChange",
         type: "(level: ToasterLevel) => void",
+      },
+      {
+        default: "false",
+        description:
+          "Starts a cycle on mount, as if the lever had been pushed down.",
+        name: "defaultToasting",
+        type: "boolean",
+      },
+      {
+        description:
+          "Whether a cycle runs, controlled. Set it to `true` to push the lever down and start a cycle, and to `false` to stop it, as Stop does.",
+        name: "toasting",
+        type: "boolean",
+      },
+      {
+        description:
+          "Runs when a cycle starts, by hand or from `toasting`, and when it ends, by a pop or by Stop.",
+        name: "onToastingChange",
+        type: "(toasting: boolean) => void",
       },
       {
         default: '"Plain bread, ready to toast"',
