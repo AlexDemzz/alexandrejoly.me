@@ -165,7 +165,7 @@ export const TOASTER_API: ApiPart[] = [
   },
   {
     description:
-      "Plays the toaster's recorded sounds while the page-wide sound setting is on. It renders nothing, and loads nothing until the page is pressed. Import it from `toaster-sound`.",
+      "Plays the toaster's recorded sounds. It renders nothing, and loads nothing until the page is pressed. Import it from `toaster-sound`.",
     name: "ToasterAudio",
     props: [
       {
@@ -178,33 +178,14 @@ export const TOASTER_API: ApiPart[] = [
   },
   {
     description:
-      "Turns the page-wide sound setting on and off, for every `ToasterAudio`. It works anywhere, inside a toaster or not.",
-    extends: { href: `${UI_SDK}/toggle`, name: "UI SDK Toggle" },
-    name: "ToasterSound",
-    props: [],
-  },
-  {
-    description:
-      "The page-wide sound setting that `ToasterAudio` follows and `ToasterSound` turns. It starts on; set it from your own control or a stored preference.",
-    name: "toasterSoundSetting",
-    nameLabel: "Member",
+      "Mutes every `ToasterAudio` inside it, for a sound preference that covers the whole app or one part of it. It renders nothing of its own.",
+    name: "ToasterAudioProvider",
     props: [
       {
-        description: "Whether toasters play their sounds.",
-        name: "isEnabled",
-        type: "() => boolean",
-      },
-      {
         description:
-          "Turns the sounds on or off. Turned on during a press, they unlock at once.",
-        name: "setEnabled",
-        type: "(enabled: boolean) => void",
-      },
-      {
-        description:
-          "Calls `listener` on each change. Returns the unsubscribe.",
-        name: "subscribe",
-        type: "(listener: () => void) => () => void",
+          "Silences the toasters below. Turned off during a press, their sounds unlock at once.",
+        name: "muted",
+        type: "boolean",
       },
     ],
   },

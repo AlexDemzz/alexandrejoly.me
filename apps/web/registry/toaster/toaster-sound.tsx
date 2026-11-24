@@ -1,8 +1,7 @@
 "use client";
 
-import { Toggle } from "@ui-sdk/react/toggle";
-import { useEffect, useRef, useSyncExternalStore } from "react";
-import type { ComponentProps } from "react";
+import { createContext, use, useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 
 import { useToasterEvents } from "./toaster";
 import type { ToasterEvent, ToasterEvents } from "./toaster-events";
@@ -20,34 +19,6 @@ const WAKE_EVENTS = [
   "touchend",
 ] as const;
 
-interface ToasterSoundSetting {
-  isEnabled: () => boolean;
-  setEnabled: (enabled: boolean) => void;
-  subscribe: (listener: () => void) => () => void;
-}
-
-const settingListeners = new Set<() => void>();
-let soundEnabled = true;
-
-const toasterSoundSetting: ToasterSoundSetting = {
-  isEnabled: () => soundEnabled,
-  setEnabled: (enabled) => {
-    if (enabled === soundEnabled) {
-      return;
-    }
-    soundEnabled = enabled;
-    for (const listener of settingListeners) {
-      listener();
-    }
-  },
-  subscribe: (listener) => {
-    settingListeners.add(listener);
-    return () => {
-      settingListeners.delete(listener);
-    };
-  },
-};
-
 interface Player {
   graph: ToasterGraph | null;
   loading: boolean;
@@ -64,11 +35,9 @@ const page = {
   players: new Set<Player>(),
   pulse: 0,
   samples: null as Promise<ToasterSamples> | null,
-  unsubscribeSetting: null as (() => void) | null,
 };
 
-const isOn = (player: Player) =>
-  soundEnabled && !player.muted && !document.hidden;
+const isOn = (player: Player) => !player.muted && !document.hidden;
 
 const anyOn = () => [...page.players].some(isOn);
 
@@ -139,14 +108,6 @@ const wake = () => {
   }
 };
 
-const followSetting = () => {
-  if (!anyOn()) {
-    suspend();
-  } else if (navigator.userActivation?.isActive) {
-    wake();
-  }
-};
-
 const onVisibility = () => {
   if (document.hidden || !anyOn()) {
     suspend();
@@ -212,7 +173,6 @@ const attach = () => {
     document.addEventListener(type, wake, true);
   }
   document.addEventListener("visibilitychange", onVisibility);
-  page.unsubscribeSetting = toasterSoundSetting.subscribe(followSetting);
   page.pulse = window.setInterval(tick, PULSE_MS);
 };
 
@@ -221,8 +181,6 @@ const detach = () => {
     document.removeEventListener(type, wake, true);
   }
   document.removeEventListener("visibilitychange", onVisibility);
-  page.unsubscribeSetting?.();
-  page.unsubscribeSetting = null;
   clearInterval(page.pulse);
   page.abort.abort();
   page.abort = new AbortController();
@@ -263,12 +221,25 @@ function disposePlayer(player: Player) {
   }
 }
 
+const ToasterAudioContext = createContext(false);
+
+function ToasterAudioProvider({
+  children,
+  muted,
+}: {
+  children: ReactNode;
+  muted: boolean;
+}) {
+  return <ToasterAudioContext value={muted}>{children}</ToasterAudioContext>;
+}
+
 function ToasterAudio({ muted = false }: { muted?: boolean }) {
   const { subscribe } = useToasterEvents();
+  const silenced = muted || use(ToasterAudioContext);
   const player = useRef<Player | null>(null);
 
   useEffect(() => {
-    const made = createPlayer(subscribe, false);
+    const made = createPlayer(subscribe, silenced);
     player.current = made;
     return () => {
       disposePlayer(made);
@@ -280,36 +251,15 @@ function ToasterAudio({ muted = false }: { muted?: boolean }) {
     if (!player.current) {
       return;
     }
-    player.current.muted = muted;
-    if (muted && !anyOn()) {
+    player.current.muted = silenced;
+    if (!anyOn()) {
       suspend();
+    } else if (navigator.userActivation?.isActive) {
+      wake();
     }
-  }, [muted]);
+  }, [silenced]);
 
   return null;
 }
 
-function ToasterSound({
-  onPressedChange,
-  ...props
-}: Omit<ComponentProps<typeof Toggle>, "defaultPressed" | "pressed">) {
-  const pressed = useSyncExternalStore(
-    toasterSoundSetting.subscribe,
-    toasterSoundSetting.isEnabled,
-    toasterSoundSetting.isEnabled
-  );
-  return (
-    <Toggle
-      data-toaster="sound"
-      onPressedChange={(next, details) => {
-        onPressedChange?.(next, details);
-        toasterSoundSetting.setEnabled(next);
-      }}
-      pressed={pressed}
-      {...props}
-    />
-  );
-}
-
-export { ToasterAudio, ToasterSound, toasterSoundSetting };
-export type { ToasterSoundSetting };
+export { ToasterAudio, ToasterAudioProvider };

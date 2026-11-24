@@ -192,10 +192,7 @@ import {
   ToasterStage,
   ToasterStop,
 } from "@/components/ui/toaster/toaster";
-import {
-  ToasterAudio,
-  ToasterSound,
-} from "@/components/ui/toaster/toaster-sound";
+import { ToasterAudio } from "@/components/ui/toaster/toaster-sound";
 
 const toaster = createToaster();`,
     markup: `<Toaster onToast={() => "Toast is ready"} toaster={toaster}>
@@ -206,7 +203,6 @@ const toaster = createToaster();`,
     <ToasterLever />
   </ToasterStage>
   <ToasterAudio />
-  <ToasterSound>Sound</ToasterSound>
 </Toaster>`,
   },
 };

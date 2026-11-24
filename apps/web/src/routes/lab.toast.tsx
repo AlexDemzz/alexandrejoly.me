@@ -8,6 +8,7 @@ import { TOAST_PAGE } from "@/content";
 import { TOAST_PATH } from "@/lab/experiments";
 import { CreditRuns, LabBreadcrumb } from "@/lab/lab-page-heading";
 import { TOASTER_API, TOASTER_DEMO, TOASTER_EXAMPLES } from "@/lab/toast/docs";
+import { ToasterSoundScope } from "@/lab/toast/sound-chrome";
 import { getLabItemCode } from "@/lib/component-code";
 import { pageHead } from "@/lib/head";
 import { headingIds } from "@/lib/heading-ids";
@@ -19,32 +20,34 @@ const ToastPage = () => {
   const code = Route.useLoaderData();
   return (
     <main className="content-grid py-12 sm:py-32 md:py-16" data-lab="toast">
-      <DocsHeader
-        description={<CreditRuns runs={TOAST_PAGE.credit} />}
-        nav={<LabBreadcrumb />}
-        title={TOAST_PAGE.title}
-      />
-
-      <div className="breakout">
-        <ComponentPreview
-          Chrome={TOASTER_DEMO.Chrome}
-          code={code.demos[TOASTER_DEMO.file]}
-        >
-          <MainDemo />
-        </ComponentPreview>
-      </div>
-
-      <div>
-        <DocsSections
-          api={TOASTER_API}
-          cli={code.cli}
-          demos={code.demos}
-          examples={TOASTER_EXAMPLES}
-          ids={ids}
-          usage={code.usage}
+      <ToasterSoundScope>
+        <DocsHeader
+          description={<CreditRuns runs={TOAST_PAGE.credit} />}
+          nav={<LabBreadcrumb />}
+          title={TOAST_PAGE.title}
         />
-        <SiteFooter />
-      </div>
+
+        <div className="breakout">
+          <ComponentPreview
+            Chrome={TOASTER_DEMO.Chrome}
+            code={code.demos[TOASTER_DEMO.file]}
+          >
+            <MainDemo />
+          </ComponentPreview>
+        </div>
+
+        <div>
+          <DocsSections
+            api={TOASTER_API}
+            cli={code.cli}
+            demos={code.demos}
+            examples={TOASTER_EXAMPLES}
+            ids={ids}
+            usage={code.usage}
+          />
+          <SiteFooter />
+        </div>
+      </ToasterSoundScope>
     </main>
   );
 };
