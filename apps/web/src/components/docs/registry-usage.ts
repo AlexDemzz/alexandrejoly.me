@@ -1,4 +1,4 @@
-import type { RegistryItemName } from "@/lib/registry";
+import type { LabItemName, RegistryItemName } from "@/lib/registry";
 
 export interface Usage {
   imports: string;
@@ -176,5 +176,37 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";`,
     </OnboardingNav>
   </OnboardingFooter>
 </Onboarding>`,
+  },
+};
+
+/** The usage snippet of each item documented on its lab page. */
+export const LAB_ITEM_USAGE: Record<LabItemName, Usage> = {
+  toaster: {
+    imports: `import { createToaster } from "@ui-sdk/react/toast";
+
+import {
+  Toaster,
+  ToasterDial,
+  ToasterLever,
+  ToasterSlot,
+  ToasterStage,
+  ToasterStop,
+} from "@/components/ui/toaster/toaster";
+import {
+  ToasterAudio,
+  ToasterSound,
+} from "@/components/ui/toaster/toaster-sound";
+
+const toaster = createToaster();`,
+    markup: `<Toaster onToast={() => "Toast is ready"} toaster={toaster}>
+  <ToasterStage>
+    <ToasterSlot />
+    <ToasterDial />
+    <ToasterStop />
+    <ToasterLever />
+  </ToasterStage>
+  <ToasterAudio />
+  <ToasterSound>Sound</ToasterSound>
+</Toaster>`,
   },
 };

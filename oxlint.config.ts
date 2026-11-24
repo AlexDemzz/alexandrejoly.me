@@ -108,6 +108,12 @@ export default defineConfig({
       rules: { "jsx-a11y/prefer-tag-over-role": "off" },
     },
     {
+      // The toaster's async example stands in for an app's own save: a timer
+      // that Stop can abort has no promise of its own to return.
+      files: ["apps/web/src/components/demos/toaster-async.tsx"],
+      rules: { "promise/avoid-new": "off" },
+    },
+    {
       // Stock shadcn drawer: `snapPoints != null` checks null and undefined.
       files: ["packages/ui/src/components/drawer.tsx"],
       rules: { "eslint/eqeqeq": "off", "eslint/no-eq-null": "off" },

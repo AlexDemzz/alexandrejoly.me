@@ -17,6 +17,15 @@ export const REGISTRY_ITEM_NAMES = [
 
 export type RegistryItemName = (typeof REGISTRY_ITEM_NAMES)[number];
 
+/**
+ * Items documented on their lab page instead of under `/components`. Their
+ * `meta.docs` points there, so they are served under `/r/` with no component
+ * page, sitemap entry or components Open Graph card.
+ */
+export const LAB_ITEM_NAMES = ["toaster"] as const;
+
+export type LabItemName = (typeof LAB_ITEM_NAMES)[number];
+
 /** CSS rules keyed by at-rule or selector, nested as shadcn's `css` field. */
 export interface CssRules {
   [selectorOrProperty: string]: string | CssRules;
@@ -52,6 +61,10 @@ export const REGISTRY_ITEMS: RegistryItem[] =
   registry.items.filter(isRegistryItem);
 
 const SHADCN = "pnpm dlx shadcn@latest";
+
+/** `shadcn add` through the `@alexandrejoly` namespace. */
+export const installCommand = (name: RegistryItemName | LabItemName) =>
+  `${SHADCN} add @${registry.name}/${name}`;
 
 export const getRegistryItem = (name: RegistryItemName): RegistryItem => {
   const item = REGISTRY_ITEMS.find((candidate) => candidate.name === name);
@@ -122,7 +135,7 @@ export interface Installation {
 export const getInstallation = (item: RegistryItem): Installation => {
   const { dependencies = [], name, registryDependencies = [] } = item;
   return {
-    cli: `${SHADCN} add @${registry.name}/${name}`,
+    cli: installCommand(name),
     dependencies:
       dependencies.length > 0 ? `pnpm add ${dependencies.join(" ")}` : null,
     registryDependencies:

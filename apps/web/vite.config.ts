@@ -5,6 +5,7 @@ import { varlockCloudflareVitePlugin } from "@varlock/cloudflare-integration";
 import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+import { clientOnly } from "./plugins/client-only.ts";
 import { componentCode } from "./plugins/component-code.ts";
 import { skillCode } from "./plugins/skill-code.ts";
 
@@ -18,6 +19,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     varlockCloudflareVitePlugin({ viteEnvironment: { name: "ssr" } }),
+    clientOnly(),
     componentCode(),
     skillCode(),
     tanstackStart(),

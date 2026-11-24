@@ -6,13 +6,18 @@ import { transformIcons } from "@shadcn/registry/internal/transformers/transform
 import { runnerImport } from "vite";
 import type { Plugin } from "vite";
 
-import type { REGISTRY_USAGE } from "../src/components/docs/registry-usage.ts";
-import type { ComponentCode } from "../src/lib/component-code.ts";
+import type {
+  LAB_ITEM_USAGE,
+  REGISTRY_USAGE,
+} from "../src/components/docs/registry-usage.ts";
+import type { ComponentCode, LabItemCode } from "../src/lib/component-code.ts";
 import type * as Registry from "../src/lib/registry.ts";
 import { highlight } from "./highlight.ts";
 
 const VIRTUAL_PREFIX = "virtual:component-code/";
 const RESOLVED_PREFIX = `\0${VIRTUAL_PREFIX}`;
+const LAB_VIRTUAL_PREFIX = "virtual:lab-item-code/";
+const LAB_RESOLVED_PREFIX = `\0${LAB_VIRTUAL_PREFIX}`;
 
 const fromRoot = (path: string) =>
   fileURLToPath(new URL(`../${path}`, import.meta.url));
@@ -63,6 +68,8 @@ interface DocsModules {
   dependencies: Set<string>;
   getInstallation: typeof Registry.getInstallation;
   getRegistryItem: typeof Registry.getRegistryItem;
+  installCommand: typeof Registry.installCommand;
+  labUsage: typeof LAB_ITEM_USAGE;
   usage: typeof REGISTRY_USAGE;
 }
 
@@ -74,7 +81,10 @@ let docsDependencies = new Set<string>();
 const loadDocsModules = async (): Promise<DocsModules> => {
   const [registry, usage] = await Promise.all([
     runnerImport<typeof Registry>(REGISTRY_MODULE, { configFile: false }),
-    runnerImport<{ REGISTRY_USAGE: typeof REGISTRY_USAGE }>(USAGE_MODULE, {
+    runnerImport<{
+      LAB_ITEM_USAGE: typeof LAB_ITEM_USAGE;
+      REGISTRY_USAGE: typeof REGISTRY_USAGE;
+    }>(USAGE_MODULE, {
       configFile: false,
       resolve: { tsconfigPaths: true },
     }),
@@ -88,9 +98,25 @@ const loadDocsModules = async (): Promise<DocsModules> => {
     ]),
     getInstallation: registry.module.getInstallation,
     getRegistryItem: registry.module.getRegistryItem,
+    installCommand: registry.module.installCommand,
+    labUsage: usage.module.LAB_ITEM_USAGE,
     usage: usage.module.REGISTRY_USAGE,
   };
 };
+
+const highlightDemos = (demos: string[]) =>
+  Promise.all(
+    demos.map(
+      async (file) =>
+        [
+          file,
+          await highlight(
+            toProjectImports(readFileSync(demoPath(file), "utf-8")),
+            "tsx"
+          ),
+        ] as const
+    )
+  );
 
 const buildComponentCode = async (
   name: Registry.RegistryItemName
@@ -120,18 +146,7 @@ const buildComponentCode = async (
     highlight(installedSource, "tsx"),
     highlight(docs.usage[name].imports, "tsx"),
     highlight(docs.usage[name].markup, "tsx"),
-    Promise.all(
-      demos.map(
-        async (file) =>
-          [
-            file,
-            await highlight(
-              toProjectImports(readFileSync(demoPath(file), "utf-8")),
-              "tsx"
-            ),
-          ] as const
-      )
-    ),
+    highlightDemos(demos),
   ]);
 
   return {
@@ -151,10 +166,36 @@ const buildComponentCode = async (
   };
 };
 
+const buildLabItemCode = async (
+  name: Registry.LabItemName
+): Promise<{ code: LabItemCode; files: string[] }> => {
+  docsModules ??= loadDocsModules();
+  const docs = await docsModules;
+  docsDependencies = docs.dependencies;
+  const demos = demoFiles(name);
+  const [cli, usageImports, usageMarkup, demoEntries] = await Promise.all([
+    highlight(docs.installCommand(name), "bash"),
+    highlight(docs.labUsage[name].imports, "tsx"),
+    highlight(docs.labUsage[name].markup, "tsx"),
+    highlightDemos(demos),
+  ]);
+  return {
+    code: {
+      cli,
+      demos: Object.fromEntries(demoEntries),
+      usage: { imports: usageImports, markup: usageMarkup },
+    },
+    files: [...docs.dependencies, ...demos.map(demoPath)],
+  };
+};
+
+const ownerPrefixes = [RESOLVED_PREFIX, LAB_RESOLVED_PREFIX];
+
 /**
  * Highlights every code block of a docs page at build time, so neither the
  * Worker nor the browser runs Shiki: `virtual:component-code/<name>` exports
- * that page's `ComponentCode`.
+ * that page's `ComponentCode`, and `virtual:lab-item-code/<name>` the
+ * `LabItemCode` of an item documented on its lab page.
  */
 export const componentCode = (): Plugin => ({
   // addWatchFile only covers demos that existed at load: a demo added or
@@ -167,9 +208,10 @@ export const componentCode = (): Plugin => ({
       const demo = file.slice(DEMOS_DIR.length + 1);
       for (const environment of Object.values(server.environments)) {
         for (const [id, module] of environment.moduleGraph.idToModuleMap) {
+          const prefix = ownerPrefixes.find((each) => id.startsWith(each));
           const isDemoOwner =
-            id.startsWith(RESOLVED_PREFIX) &&
-            demo.startsWith(`${id.slice(RESOLVED_PREFIX.length)}-`);
+            prefix !== undefined &&
+            demo.startsWith(`${id.slice(prefix.length)}-`);
           if (isDemoOwner) {
             environment.moduleGraph.invalidateModule(module);
           }
@@ -181,6 +223,14 @@ export const componentCode = (): Plugin => ({
     server.watcher.on("unlink", onDemoListChange);
   },
   async load(id) {
+    if (id.startsWith(LAB_RESOLVED_PREFIX)) {
+      const name = id.slice(LAB_RESOLVED_PREFIX.length) as Registry.LabItemName;
+      const { code, files } = await buildLabItemCode(name);
+      for (const file of files) {
+        this.addWatchFile(file);
+      }
+      return `export default ${JSON.stringify(code)};`;
+    }
     if (!id.startsWith(RESOLVED_PREFIX)) {
       return null;
     }
@@ -198,6 +248,8 @@ export const componentCode = (): Plugin => ({
     }
   },
   resolveId(id) {
-    return id.startsWith(VIRTUAL_PREFIX) ? `\0${id}` : null;
+    return id.startsWith(VIRTUAL_PREFIX) || id.startsWith(LAB_VIRTUAL_PREFIX)
+      ? `\0${id}`
+      : null;
   },
 });

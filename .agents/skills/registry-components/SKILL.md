@@ -98,6 +98,7 @@ A demo file ships whole in its code tab, so it holds exactly what a reader copie
 
 - a browser-support caveat above the preview: `notice` (see Browser support);
 - a trace over part of the component: `inspector`. The preview renders the toggle and sets `data-inspect` to its `name`; the trace lives in `apps/web/src/index.css`, keyed by that name and the part's `data-slot`, in the `inspect` color. Example: the notification badge's "Show hole".
+- any other docs-only control over the preview: `Chrome`, a component the preview draws in its top end beside the inspector's toggle, built on `PreviewToggle`. It reaches the demo through the component's own public API, never through a prop of the demo. Example: the toaster's Sound, which drives `toasterSoundSetting` while each demo mounts a plain `ToasterAudio`.
 
 ## API reference
 

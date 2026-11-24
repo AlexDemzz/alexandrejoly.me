@@ -1,4 +1,8 @@
-import type { Installation, RegistryItemName } from "@/lib/registry";
+import type {
+  Installation,
+  LabItemName,
+  RegistryItemName,
+} from "@/lib/registry";
 
 /** A tuple rather than an object keeps each page's chunk about a quarter smaller. */
 export type HighlightedToken = [content: string, light: string, dark: string];
@@ -46,5 +50,27 @@ export const getComponentCode = async (
   name: RegistryItemName
 ): Promise<ComponentCode> => {
   const { default: code } = await COMPONENT_CODE[name]();
+  return code;
+};
+
+/** The code blocks of an item documented on its lab page: no manual install, its source spans many files. */
+export interface LabItemCode {
+  cli: HighlightedCode;
+  /** Keyed by demo file name. */
+  demos: Record<string, HighlightedCode>;
+  usage: { imports: HighlightedCode; markup: HighlightedCode };
+}
+
+const LAB_ITEM_CODE: Record<
+  LabItemName,
+  () => Promise<{ default: LabItemCode }>
+> = {
+  toaster: () => import("virtual:lab-item-code/toaster"),
+};
+
+export const getLabItemCode = async (
+  name: LabItemName
+): Promise<LabItemCode> => {
+  const { default: code } = await LAB_ITEM_CODE[name]();
   return code;
 };

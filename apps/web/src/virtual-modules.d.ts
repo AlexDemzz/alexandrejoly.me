@@ -5,6 +5,13 @@ declare module "virtual:component-code/*" {
   export default code;
 }
 
+declare module "virtual:lab-item-code/*" {
+  import type { LabItemCode } from "@/lib/component-code";
+
+  const code: LabItemCode;
+  export default code;
+}
+
 declare module "virtual:skill-code/*" {
   import type { HighlightedCode } from "@/lib/component-code";
 
