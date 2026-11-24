@@ -6,6 +6,7 @@ import { FormulaIcon } from "@/components/formula-icon";
 import { Formula1Icon } from "@/components/formula1-icon";
 import { LabIcon } from "@/components/lab-icon";
 import { SkillIcon } from "@/components/skill-icon";
+import { ToastIcon } from "@/components/toast-icon";
 import { SITE } from "@/content";
 import type { Skill } from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
@@ -249,5 +250,23 @@ export const Formula1OgCard = () => (
       </OgGlyphFrame>
     }
     title={FORMULA1_CARD.title}
+  />
+);
+
+export const TOAST_CARD = {
+  description: "A 3D toaster, live: push the lever and a real toast pops.",
+  title: "Toast",
+};
+
+/** The `/lab/toast` card. */
+export const ToastOgCard = () => (
+  <OgCardFrame
+    description={TOAST_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <ToastIcon />
+      </OgGlyphFrame>
+    }
+    title={TOAST_CARD.title}
   />
 );

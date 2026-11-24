@@ -22,6 +22,7 @@ import {
   SITE,
   SKILLS,
   SOCIALS,
+  TOAST_PAGE,
   skillHref,
 } from "@/content";
 import type { Inline, Paragraph } from "@/content";
@@ -33,9 +34,10 @@ import {
   FORMULA_PATH,
   FORMULA1_PATH,
   LAB_PATH,
+  TOAST_PATH,
 } from "@/lab/experiments";
-import { getComponentCode } from "@/lib/component-code";
-import type { ComponentCode } from "@/lib/component-code";
+import { getComponentCode, getLabItemCode } from "@/lib/component-code";
+import type { ComponentCode, LabItemCode } from "@/lib/component-code";
 import { absolute, markdownUrl } from "@/lib/head";
 import {
   COMPONENTS_PATH,
@@ -120,6 +122,11 @@ const SITE_PAGES = [
     markdownUrl(FORMULA1_PATH),
     FORMULA1_PAGE.description
   ),
+  linkItem(
+    `${LAB_PAGE.title}: ${TOAST_PAGE.title}`,
+    markdownUrl(TOAST_PATH),
+    TOAST_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -151,7 +158,15 @@ const FORMULA1_ITEM = linkItem(
   FORMULA1_PAGE.rowDescription
 );
 
-const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM].join("\n");
+const TOAST_ITEM = linkItem(
+  TOAST_PAGE.title,
+  markdownUrl(TOAST_PATH),
+  TOAST_PAGE.rowDescription
+);
+
+const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM, TOAST_ITEM].join(
+  "\n"
+);
 
 const skillItems = () =>
   SKILLS.map((skill) =>
@@ -332,7 +347,7 @@ const extendsLine = ({ href, name }: ApiExtends) => {
 const defaultCell = (prop: ApiProp) =>
   prop.default === undefined ? "—" : `\`${prop.default}\``;
 
-const demoFence = (code: ComponentCode, file: string) =>
+const demoFence = (code: Pick<ComponentCode, "demos">, file: string) =>
   fence(code.demos[file]?.code ?? "", "tsx");
 
 const apiPartMarkdown = ({
@@ -373,7 +388,7 @@ const apiPartMarkdown = ({
 
 const exampleMarkdown = (
   { description, file, notice, title }: Example,
-  code: ComponentCode
+  code: Pick<ComponentCode, "demos">
 ) =>
   [
     `### ${title}`,
@@ -452,6 +467,39 @@ export const componentMarkdown = (
       `[All components](${markdownUrl(COMPONENTS_PATH)})`,
     ].filter((block) => block !== null)
   );
+};
+
+/** Everything `/lab/toast` shows, the docs of the `toaster` item, each preview as its code. */
+export const toastMarkdown = async (code: LabItemCode) => {
+  // Imported on demand: the docs pull in the toaster and its CSS, which the
+  // /components pages that import this module never need.
+  const { TOASTER_API, TOASTER_DEMO, TOASTER_EXAMPLES } =
+    await import("@/lab/toast/docs");
+  return markdownDocument([
+    `# ${TOAST_PAGE.title}`,
+    paragraphs([[...TOAST_PAGE.credit]]),
+    `A React component for projects built on shadcn/ui. The [interactive page](${absolute(TOAST_PATH)}) shows each example live.`,
+    demoFence(code, TOASTER_DEMO.file),
+    section(
+      "Installation",
+      `With the shadcn CLI:\n\n${fence(code.cli.code, "bash")}`
+    ),
+    section(
+      "Usage",
+      [
+        fence(code.usage.imports.code, "tsx"),
+        fence(code.usage.markup.code, "tsx"),
+      ].join("\n\n")
+    ),
+    section(
+      "Examples",
+      TOASTER_EXAMPLES.map((example) => exampleMarkdown(example, code)).join(
+        "\n\n"
+      )
+    ),
+    section("API reference", TOASTER_API.map(apiPartMarkdown).join("\n\n")),
+    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
+  ]);
 };
 
 export const notFoundMarkdown = (pathname: string) =>
@@ -560,6 +608,13 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: formula1Markdown(),
       canonical: absolute(FORMULA1_PATH),
+      status: 200,
+    };
+  }
+  if (slug === TOAST_PATH) {
+    return {
+      body: await toastMarkdown(await getLabItemCode("toaster")),
+      canonical: absolute(TOAST_PATH),
       status: 200,
     };
   }

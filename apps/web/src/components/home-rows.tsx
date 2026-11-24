@@ -16,11 +16,13 @@ import {
 import { LabIcon } from "@/components/lab-icon";
 import { RowList, RowListItems, RowListMore } from "@/components/row-list";
 import { SkillIcon } from "@/components/skill-icon";
+import { ToastIcon } from "@/components/toast-icon";
 import {
   ASCII_PAGE,
   FORMULA_PAGE,
   FORMULA1_PAGE,
   SKILLS,
+  TOAST_PAGE,
   skillHref,
 } from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
@@ -190,6 +192,17 @@ export const LabRows = ({ limit }: { limit?: number }) => (
   <Rows
     limit={limit}
     rows={[
+      <PageRow
+        description={TOAST_PAGE.rowDescription}
+        key="toast"
+        media={
+          <ItemLightMedia>
+            <ToastIcon />
+          </ItemLightMedia>
+        }
+        title={TOAST_PAGE.title}
+        to="/lab/toast"
+      />,
       <PageRow
         description={FORMULA1_PAGE.rowDescription}
         key="formula-1"

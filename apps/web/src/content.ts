@@ -228,6 +228,22 @@ export const FORMULA1_PAGE = {
   title: "Ferrari SF-25 Wheel",
 } as const;
 
+/** The lab's fourth experiment, at `/lab/toast`: the docs of the `toaster` registry item. */
+export const TOAST_PAGE = {
+  credit: [
+    "A 3D toaster whose slice of bread is a real Toast: the lever runs your work, and the slice pops with its result. Built with ",
+    {
+      href: "https://ui-sdk.dev",
+      text: "ui-sdk",
+    },
+    ".",
+  ],
+  description: `Toast by ${SITE.name}: a 3D toaster whose slice of bread is a real Toast component, installed with the shadcn CLI. Push the lever to run your work, and the slice pops with its result.`,
+  documentTitle: `Toast – Lab – ${SITE.name}`,
+  rowDescription: "A 3D toaster, live: push the lever and a real toast pops",
+  title: "Toast",
+} as const;
+
 /** The `/skills` index of the agent skills. */
 export const SKILLS_PAGE = {
   description: `Agent skills by ${SITE.name}: instructions a coding agent loads to build interfaces the way a design engineer would.`,

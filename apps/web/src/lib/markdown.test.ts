@@ -3,7 +3,8 @@ import { describe, expect, it } from "vitest";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import { PROJECTS } from "@/content";
 import { INFO_PAGE_SLUGS } from "@/info-pages";
-import { getComponentCode } from "@/lib/component-code";
+import { TOASTER_API, TOASTER_DEMO, TOASTER_EXAMPLES } from "@/lab/toast/docs";
+import { getComponentCode, getLabItemCode } from "@/lib/component-code";
 import { REGISTRY_ITEMS, REGISTRY_ITEM_NAMES } from "@/lib/registry";
 import { SKILL_PAGE_NAMES } from "@/skill-pages";
 import { SKILL_SNIPPETS } from "@/skill-snippets";
@@ -15,6 +16,7 @@ import {
   llmsTxt,
   markdownFor,
   skillPageMarkdown,
+  toastMarkdown,
 } from "./markdown";
 
 const MARKDOWN_LINK = /\[[^\]]+\]\([^)]+\)/gu;
@@ -182,6 +184,33 @@ describe("componentMarkdown", () => {
   });
 });
 
+describe("toastMarkdown", () => {
+  it("carries everything the /lab/toast page shows", async () => {
+    const code = await getLabItemCode("toaster");
+    const markdown = await toastMarkdown(code);
+
+    expect(markdown).toContain(
+      "pnpm dlx shadcn@latest add @alexandrejoly/toaster"
+    );
+    expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
+    expect(markdown).toContain(code.demos[TOASTER_DEMO.file]?.code);
+    expect(markdown).toContain(code.usage.imports.code);
+    expect(markdown).toContain(code.usage.markup.code);
+    for (const example of TOASTER_EXAMPLES) {
+      expect(markdown).toContain(`### ${example.title}`);
+      expect(markdown).toContain(example.description);
+      expect(markdown).toContain(code.demos[example.file]?.code);
+    }
+    for (const part of TOASTER_API) {
+      expect(markdown).toContain(`### ${part.name}`);
+      expect(markdown).toContain(part.description);
+      for (const prop of part.props) {
+        expect(markdown).toContain(`| \`${prop.name}\` |`);
+      }
+    }
+  });
+});
+
 describe("markdownFor", () => {
   it.each([
     "/",
@@ -199,6 +228,8 @@ describe("markdownFor", () => {
     "/lab/ascii.md",
     "/lab/formula-2030",
     "/lab/formula-1.md",
+    "/lab/toast",
+    "/lab/toast.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
@@ -218,6 +249,7 @@ describe("markdownFor", () => {
     const pages = await Promise.all([
       markdownFor("/x"),
       markdownFor("/components/onboarding"),
+      markdownFor("/lab/toast"),
       ...SKILL_PAGE_NAMES.map((name) => markdownFor(`/skills/${name}`)),
     ]);
     const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]

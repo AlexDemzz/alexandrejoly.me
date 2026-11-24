@@ -123,6 +123,16 @@ The mark over a one-sentence 20px statement, then sections whose titles sit abov
 - **Sound:** every press, detent and step sounds through the registry's `FormulaSound`, at the level the panel's own volume control sets and silenced by its mute key.
 - `prefers-reduced-motion`: the display rests at 0.00 and the switch bars turn without a transition; knobs still follow the pointer.
 
+### Registry items in the Lab
+
+A Lab experiment that ships as a registry item is documented on its own Lab page, never under `/components`: its `meta.docs` points there, so it gets no component page, sidebar entry or components Open Graph card. `/lab/toast` is the first, for the `toaster` item.
+
+- **Sequence:** the Docs pages one (Docs pages › Components), from the same parts as `/components/$name` (`DocsHeader`, `ComponentPreview`, `DocsSections` in `apps/web`): the crumb back to the Lab, the 20px title and a one-sentence description, the main demo behind Preview and Code tabs, Installation, Usage as an imports card and a markup card, Examples past the main demo, then the API reference. No sidebar, and no intro or prose between the sections. Installation shows the command alone when the item spans several files. Like the other Lab pages, it has a Markdown twin (`/lab/toast.md`, the same sections) but no View as Markdown or Copy Markdown links.
+- **Layout:** a content grid (`content-grid`, `packages/ui/src/styles/globals.css`): every block sits at the docs measure (576px inside the 24px gutters), centred. The main demo alone, its tab list and its Preview or Code card, breaks out to the lab width (`breakout`, 1104px inside the gutters), centred on the page; its side tracks give way first, so it narrows with the viewport to the column and never overflows. The examples below stay at the measure.
+- **Main demo:** the experiment at full size, and the one live instance at the top of the page.
+- **Wiring:** like every Lab page, a row on `/lab` and the home's Lab section (a Phosphor `Bread` that pops up on hover), its own Open Graph card (`public/og/lab/toast.png`), a sitemap entry, and its title, meta description and credit in `TOAST_PAGE` (`apps/web/src/content.ts`).
+- **Preview chrome:** a control that only serves the docs, like the toaster's Sound, is drawn by the Preview, never by the demo, so no Code tab shows it: a ghost icon button at the Preview's top end with a tooltip, secondary while on, beside the inspector's toggle (Docs pages › Components). Sound is on every toaster preview, on by default, one remembered choice for the whole page, and silent until the first press on the page.
+
 ## Docs pages
 
 Two engines, one look. alexandrejoly.me draws its component docs (`/components/$name`) with its own layout (Layout, Components below); the docs sites render their MDX with Fumadocs (Fumadocs below).

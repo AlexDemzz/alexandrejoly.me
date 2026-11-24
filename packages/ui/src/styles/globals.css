@@ -127,3 +127,32 @@
     }
   }
 }
+
+/*
+ * DESIGN.md › Lab › Registry items in the Lab: a content grid. Every child
+ * sits at the docs measure (the column inside its gutters); `breakout` widens
+ * one child to the lab width, centred, and its side tracks give way first as
+ * the viewport narrows, so it never overflows the gutters.
+ */
+@utility content-grid {
+  --gutter: calc(var(--spacing) * 6);
+  --content: calc(var(--container-column) - var(--gutter) * 2);
+  --breakout: calc(var(--container-lab) - var(--gutter) * 2);
+
+  display: grid;
+  grid-template-columns:
+    [full-width-start] minmax(var(--gutter), 1fr)
+    [breakout-start] minmax(0, calc((var(--breakout) - var(--content)) / 2))
+    [content-start] min(100% - var(--gutter) * 2, var(--content))
+    [content-end] minmax(0, calc((var(--breakout) - var(--content)) / 2))
+    [breakout-end] minmax(var(--gutter), 1fr)
+    [full-width-end];
+
+  & > :not(.breakout) {
+    grid-column: content;
+  }
+}
+
+@utility breakout {
+  grid-column: breakout;
+}

@@ -13,19 +13,25 @@ import { Link } from "@tanstack/react-router";
 import { LAB_PAGE, SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 
-type CreditRun = string | { readonly href: string; readonly text: string };
+export type CreditRun =
+  | string
+  | { readonly href: string; readonly text: string };
+
+/** A credit's text and links, for a paragraph that wraps them. */
+export const CreditRuns = ({ runs }: { runs: readonly CreditRun[] }) =>
+  runs.map((run) =>
+    typeof run === "string" ? (
+      run
+    ) : (
+      <TextLink external href={run.href} key={run.href}>
+        {run.text}
+      </TextLink>
+    )
+  );
 
 const Credit = ({ runs }: { runs: readonly CreditRun[] }) => (
   <Text>
-    {runs.map((run) =>
-      typeof run === "string" ? (
-        run
-      ) : (
-        <TextLink external href={run.href} key={run.href}>
-          {run.text}
-        </TextLink>
-      )
-    )}
+    <CreditRuns runs={runs} />
   </Text>
 );
 
@@ -35,6 +41,27 @@ const PageTitle = ({ children }: { children: string }) => (
   >
     {children}
   </Heading>
+);
+
+/** The way up from a lab page: the home, then the Lab. */
+export const LabBreadcrumb = () => (
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink render={<Link activeOptions={EXACT_ACTIVE} to="/" />}>
+          {SITE.name}
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator>/</BreadcrumbSeparator>
+      <BreadcrumbItem>
+        <BreadcrumbLink
+          render={<Link activeOptions={EXACT_ACTIVE} to="/lab" />}
+        >
+          {LAB_PAGE.title}
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
 );
 
 /** The breadcrumb, title and credit at the top of a lab experiment page. */
@@ -49,23 +76,7 @@ export const LabPageHeading = ({
 }) => (
   // Not <header>: content extractors drop it, and it holds the page's title and credit.
   <div className={cn("flex flex-col items-start gap-5 pb-6", className)}>
-    <Breadcrumb>
-      <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink render={<Link activeOptions={EXACT_ACTIVE} to="/" />}>
-            {SITE.name}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-        <BreadcrumbSeparator>/</BreadcrumbSeparator>
-        <BreadcrumbItem>
-          <BreadcrumbLink
-            render={<Link activeOptions={EXACT_ACTIVE} to="/lab" />}
-          >
-            {LAB_PAGE.title}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-      </BreadcrumbList>
-    </Breadcrumb>
+    <LabBreadcrumb />
     {credit ? (
       <div>
         <PageTitle>{title}</PageTitle>
