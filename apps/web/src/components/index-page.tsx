@@ -32,7 +32,8 @@ export const IndexPage = ({
   title: string;
 }) => (
   <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
-    <header className="flex flex-col items-start gap-5 pb-6">
+    {/* Not <header>: content extractors drop it, and it holds the page title and intro. */}
+    <div className="flex flex-col items-start gap-5 pb-6">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -52,7 +53,7 @@ export const IndexPage = ({
         {title}
       </Heading>
       <Text>{intro}</Text>
-    </header>
+    </div>
 
     <SectionStack>
       <Section spacing="none">
