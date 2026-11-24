@@ -27,7 +27,7 @@ const ToastPage = () => {
           title={TOAST_PAGE.title}
         />
 
-        <div className="breakout">
+        <div className="breakout" data-toast-kitchen="">
           <ComponentPreview
             Chrome={TOASTER_DEMO.Chrome}
             code={code.demos[TOASTER_DEMO.file]}

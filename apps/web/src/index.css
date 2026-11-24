@@ -139,3 +139,48 @@
     padding-block: 48px;
   }
 }
+
+/*
+ * DESIGN.md › Lab › Registry items in the Lab: the toaster's main demo alone
+ * stands in a kitchen, a cream wall over a lighter counter, the same in both
+ * colour schemes. The registry item paints nothing behind it. The horizon
+ * follows the toaster's scale (its stage is the Preview's inner width, at most
+ * 48rem, in an 18:17 frame) so it runs just under the body: the feet and the
+ * contact shadow sit on the counter.
+ */
+[data-lab="toast"] {
+  --toast-wall-top: oklch(0.93 0.016 83);
+  --toast-wall-mid: oklch(0.892 0.017 76);
+  --toast-wall-bottom: oklch(0.868 0.019 75);
+  --toast-wall-shade: oklch(0.45 0.04 70 / 0.07);
+  --toast-counter-back: oklch(0.938 0.01 82);
+  --toast-counter-front: oklch(0.953 0.009 85);
+}
+
+[data-lab="toast"] [data-toast-kitchen] {
+  container-type: inline-size;
+}
+
+[data-lab="toast"] [data-toast-kitchen] [data-slot="preview"] {
+  --kitchen-inset: 24px;
+  --kitchen-horizon: calc(
+    var(--kitchen-inset) + min(100cqi - 2 * var(--kitchen-inset), 48rem) *
+      1320 / 1800
+  );
+
+  background:
+    linear-gradient(to right, transparent 55%, var(--toast-wall-shade)) top /
+      100% var(--kitchen-horizon) no-repeat,
+    linear-gradient(
+      to bottom,
+      var(--toast-wall-top),
+      var(--toast-wall-mid) calc(var(--kitchen-horizon) * 0.786),
+      var(--toast-wall-bottom) var(--kitchen-horizon),
+      var(--toast-counter-back) var(--kitchen-horizon),
+      var(--toast-counter-front)
+    );
+
+  @media (width >= 40rem) {
+    --kitchen-inset: 40px;
+  }
+}
