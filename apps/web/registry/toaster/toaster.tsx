@@ -258,29 +258,36 @@ function useToasterEvents(): Pick<ToasterEvents, "subscribe"> {
 interface ToasterProps extends ComponentProps<"div"> {
   canToast?: () => boolean;
   defaultLevel?: ToasterLevel;
+  defaultToasting?: boolean;
   idleTitle?: string;
   level?: ToasterLevel;
   onLevelChange?: (level: ToasterLevel) => void;
   onToast: (
     cycle: ToasterCycle
   ) => ToasterOutcome | void | Promise<ToasterOutcome | void>;
+  onToastingChange?: (toasting: boolean) => void;
   toaster: ToastQueue<ReactNode>;
+  toasting?: boolean;
   toastingTitle?: string;
 }
 
 function Toaster({
   canToast,
   defaultLevel = 3,
+  defaultToasting = false,
   idleTitle = "Plain bread, ready to toast",
   level: levelProp,
   onLevelChange,
   onToast,
+  onToastingChange,
   toaster,
+  toasting: toastingProp,
   toastingTitle = "Toasting…",
   ...props
 }: ToasterProps) {
   const [uncontrolledLevel, setUncontrolledLevel] = useState(defaultLevel);
   const level = levelProp ?? uncontrolledLevel;
+  const wanted = toastingProp ?? defaultToasting;
   const [lever, setLever] = useState(LEVER_UP);
   const [toasting, setToasting] = useState(false);
   const [empty, setEmpty] = useState(false);
@@ -307,6 +314,12 @@ function Toaster({
 
   const brandSlice = useStableEvent(() => {
     stage.brand(brandOf(shownOf(slice.current?.id)));
+  });
+
+  const reportToasting = useStableEvent((next: boolean) => {
+    if (next !== (toastingProp ?? toasting)) {
+      onToastingChange?.(next);
+    }
   });
 
   const takeOut = (id: string, reason: ToastDismissReason) => {
@@ -441,9 +454,11 @@ function Toaster({
     }
     if (canToast && !canToast()) {
       springBack();
+      reportToasting(false);
       return;
     }
     busy.current = true;
+    reportToasting(true);
     setEmpty(false);
     setToasting(true);
     setLever(LEVER_DOWN);
@@ -509,6 +524,7 @@ function Toaster({
     brandSlice();
 
     busy.current = false;
+    reportToasting(false);
     setToasting(false);
     setLever(LEVER_UP);
     stage.hold(LEVER_UP);
@@ -516,6 +532,18 @@ function Toaster({
     rig.releaseLever();
     events.emit({ type: "pop" });
   };
+
+  const follow = useStableEvent((next: boolean) => {
+    if (next && !busy.current) {
+      void toast();
+    } else if (!next) {
+      release.current?.();
+    }
+  });
+
+  useEffect(() => {
+    follow(wanted);
+  }, [follow, wanted]);
 
   const context: ToasterContextValue = {
     events,
