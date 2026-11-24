@@ -22,10 +22,11 @@ export const LabCard = ({
       className="flex min-w-0 scroll-mt-6 flex-col rounded-2xl border"
       id={slug}
     >
-      <header className="flex flex-wrap items-baseline justify-between gap-x-4 px-5 pt-4 sm:px-6 sm:pt-5">
+      {/* Not <header> and <footer>: content extractors drop both, and these hold all the card's text. */}
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 px-5 pt-4 sm:px-6 sm:pt-5">
         <Heading id={titleId}>{name}</Heading>
         <p className="text-muted-foreground text-sm">{hint}</p>
-      </header>
+      </div>
       <div
         // A touch that starts up or down scrolls the page; any other plays the scene.
         className={cn(
@@ -39,7 +40,7 @@ export const LabCard = ({
           ref={canvasRef}
         />
       </div>
-      <footer className="mx-5 mt-4 flex flex-col gap-0.5 border-t border-dashed pt-3 pb-4 font-mono text-xs sm:mx-6 sm:pb-5">
+      <div className="mx-5 mt-4 flex flex-col gap-0.5 border-t border-dashed pt-3 pb-4 font-mono text-xs sm:mx-6 sm:pb-5">
         <p className="text-foreground">{formula}</p>
         <p
           aria-hidden
@@ -48,7 +49,7 @@ export const LabCard = ({
         >
           {" "}
         </p>
-      </footer>
+      </div>
     </article>
   );
 };
