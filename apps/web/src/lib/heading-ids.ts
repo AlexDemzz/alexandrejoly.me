@@ -25,7 +25,10 @@ export const slugify = (text: string) =>
  * One id per example and per API part, unique on the page: a slug that is
  * already taken gets a `-1`, `-2` suffix, as GitHub does.
  */
-export const headingIds = ({ api, examples }: ComponentDocs) => {
+export const headingIds = ({
+  api,
+  examples,
+}: Pick<ComponentDocs, "api" | "examples">) => {
   const taken = new Set<string>(Object.values(SECTION_IDS));
   const claim = (text: string) => {
     const base = slugify(text);

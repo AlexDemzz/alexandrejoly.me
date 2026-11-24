@@ -13,44 +13,49 @@ import {
   TooltipTrigger,
 } from "@portfolio/ui/components/tooltip";
 import { useState } from "react";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 
 import { CodeBlock } from "@/components/docs/code-block";
 import type { Inspector } from "@/components/docs/registry-docs";
 import type { HighlightedCode } from "@/lib/component-code";
 
-interface InspectorToggleProps {
-  inspector: Inspector;
+interface PreviewToggleProps {
+  /** The icon, decorative: the label names the toggle. */
+  children: ReactNode;
+  label: string;
   onPressedChange: (pressed: boolean) => void;
   pressed: boolean;
 }
 
-const InspectorToggle = ({
-  inspector,
+/** A docs-only toggle in the preview's top corner: a ghost icon button, secondary while pressed. */
+export const PreviewToggle = ({
+  children,
+  label,
   onPressedChange,
   pressed,
-}: InspectorToggleProps) => (
+}: PreviewToggleProps) => (
   <Tooltip>
     <TooltipTrigger
       delay={0}
       render={
         <Button
-          aria-label={inspector.label}
+          aria-label={label}
           aria-pressed={pressed}
-          className="absolute top-3 right-3"
           onClick={() => onPressedChange(!pressed)}
           size="icon"
           variant={pressed ? "secondary" : "ghost"}
         />
       }
     >
-      <SelectionIcon aria-hidden />
+      {children}
     </TooltipTrigger>
-    <TooltipContent>{inspector.label}</TooltipContent>
+    <TooltipContent>{label}</TooltipContent>
   </Tooltip>
 );
 
 interface ComponentPreviewProps {
+  /** Docs-only controls drawn over the demo, outside its code: a sound toggle, for one. */
+  Chrome?: ComponentType;
   children: ReactNode;
   /** Highlighted source of the demo rendered in `children`. */
   code: HighlightedCode | undefined;
@@ -58,11 +63,13 @@ interface ComponentPreviewProps {
 }
 
 export const ComponentPreview = ({
+  Chrome,
   children,
   code,
   inspector,
 }: ComponentPreviewProps) => {
   const [inspecting, setInspecting] = useState(false);
+  const hasChrome = Boolean(Chrome ?? inspector);
 
   return (
     <Tabs defaultValue="preview">
@@ -72,18 +79,25 @@ export const ComponentPreview = ({
       </TabsList>
       <TabsContent value="preview">
         <Preview
-          className={inspector && "relative"}
+          className={hasChrome ? "relative" : undefined}
           data-inspect={inspecting ? inspector?.name : undefined}
         >
           <div className="contents" data-slot="component-preview-demo">
             {children}
           </div>
-          {inspector && (
-            <InspectorToggle
-              inspector={inspector}
-              onPressedChange={setInspecting}
-              pressed={inspecting}
-            />
+          {hasChrome && (
+            <div className="absolute end-3 top-3 flex gap-1">
+              {Chrome && <Chrome />}
+              {inspector && (
+                <PreviewToggle
+                  label={inspector.label}
+                  onPressedChange={setInspecting}
+                  pressed={inspecting}
+                >
+                  <SelectionIcon aria-hidden />
+                </PreviewToggle>
+              )}
+            </div>
           )}
         </Preview>
       </TabsContent>

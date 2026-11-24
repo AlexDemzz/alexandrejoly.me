@@ -37,6 +37,11 @@ export interface Inspector {
 
 /** A file in `src/components/demos`, named without its extension. */
 export interface Demo {
+  /**
+   * Docs-only controls the preview draws over the demo, so its code never
+   * carries them, as the inspector's toggle: a sound toggle, for one.
+   */
+  Chrome?: ComponentType;
   Component: ComponentType;
   file: string;
   inspector?: Inspector;
