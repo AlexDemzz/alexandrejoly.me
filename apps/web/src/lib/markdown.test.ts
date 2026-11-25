@@ -196,7 +196,7 @@ describe("toastMarkdown", () => {
     const markdown = await toastMarkdown(code);
 
     expect(markdown).toContain(
-      "pnpm dlx shadcn@latest add @alexandrejoly/toast"
+      "pnpm dlx shadcn@latest add @alexandrejoly/literal-ui/toast"
     );
     expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
     expect(markdown).toContain(code.demos[TOAST_DEMO.file]?.code);
@@ -223,7 +223,7 @@ describe("carouselMarkdown", () => {
     const markdown = await carouselMarkdown(code);
 
     expect(markdown).toContain(
-      "pnpm dlx shadcn@latest add @alexandrejoly/carousel"
+      "pnpm dlx shadcn@latest add @alexandrejoly/literal-ui/carousel"
     );
     expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
     expect(markdown).toContain(code.demos[CAROUSEL_DEMO.file]?.code);

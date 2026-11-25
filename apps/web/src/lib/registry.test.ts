@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import registry from "../../registry.json";
 import { documentedItems } from "../../scripts/documented-items.mjs";
-import { REGISTRY_ITEM_NAMES, getInstallation } from "./registry";
+import {
+  LAB_ITEM_NAMES,
+  REGISTRY_ITEM_NAMES,
+  getInstallation,
+  labRegistryName,
+} from "./registry";
 import type { RegistryItem } from "./registry";
 
 const item: RegistryItem = {
@@ -17,6 +22,16 @@ describe("REGISTRY_ITEM_NAMES", () => {
     expect(documentedItems(registry).map(({ name }) => name)).toEqual([
       ...REGISTRY_ITEM_NAMES,
     ]);
+  });
+});
+
+describe("labRegistryName", () => {
+  it("names a registry.json item for every lab page", () => {
+    const names = registry.items.map(({ name }) => name);
+
+    for (const name of LAB_ITEM_NAMES) {
+      expect(names).toContain(labRegistryName(name));
+    }
   });
 });
 

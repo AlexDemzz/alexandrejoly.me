@@ -69,6 +69,7 @@ interface DocsModules {
   getInstallation: typeof Registry.getInstallation;
   getRegistryItem: typeof Registry.getRegistryItem;
   installCommand: typeof Registry.installCommand;
+  labRegistryName: typeof Registry.labRegistryName;
   labUsage: typeof LAB_ITEM_USAGE;
   usage: typeof REGISTRY_USAGE;
 }
@@ -99,6 +100,7 @@ const loadDocsModules = async (): Promise<DocsModules> => {
     getInstallation: registry.module.getInstallation,
     getRegistryItem: registry.module.getRegistryItem,
     installCommand: registry.module.installCommand,
+    labRegistryName: registry.module.labRegistryName,
     labUsage: usage.module.LAB_ITEM_USAGE,
     usage: usage.module.REGISTRY_USAGE,
   };
@@ -174,7 +176,7 @@ const buildLabItemCode = async (
   docsDependencies = docs.dependencies;
   const demos = demoFiles(name);
   const [cli, usageImports, usageMarkup, demoEntries] = await Promise.all([
-    highlight(docs.installCommand(name), "bash"),
+    highlight(docs.installCommand(docs.labRegistryName(name)), "bash"),
     highlight(docs.labUsage[name].imports, "tsx"),
     highlight(docs.labUsage[name].markup, "tsx"),
     highlightDemos(demos),

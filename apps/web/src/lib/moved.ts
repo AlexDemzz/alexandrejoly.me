@@ -4,12 +4,15 @@ import { stripTrailingSlashes } from "@/lib/trailing-slash";
 
 /**
  * Addresses that changed, old path to new, both from the site root without a
- * leading slash: the Toast page, and its registry item, which was `toaster`
- * when its install command was first shared.
+ * leading slash: the Toast page, and the Literal UI registry items, each under
+ * every name its install command was shared with: `toaster` then `toast`, and
+ * `carousel`. Each goes to the current address in one hop.
  */
 const MOVED = new Map<string, string>([
   [TOAST_PATH_BEFORE, TOAST_PATH],
-  ["r/toaster.json", "r/toast.json"],
+  ["r/toaster.json", "r/literal-ui/toast.json"],
+  ["r/toast.json", "r/literal-ui/toast.json"],
+  ["r/carousel.json", "r/literal-ui/carousel.json"],
 ]);
 
 /**
