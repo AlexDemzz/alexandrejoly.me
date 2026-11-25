@@ -115,7 +115,40 @@ export const CAROUSEL_API: ApiPart[] = [
   },
   {
     description:
-      "The picture on the wall: the slides, one to a view. Name it with `aria-label`. The arrow keys change slide once it has focus.",
+      "Custom properties the stage reads from your CSS, set on it or on any element around it. The last one it sets itself, for your page to read.",
+    name: "CSS variables",
+    nameLabel: "Variable",
+    props: [
+      {
+        default: "oklch(0.985 0.04 92 / 0.62)",
+        description:
+          "The lamp's bare light, shown on the wall between two slides.",
+        name: "--literal-lamp",
+        type: "color",
+      },
+      {
+        description:
+          "The colour behind the picture. The picture's darkest parts rise to it, as projected light does on a wall.",
+        name: "--literal-wall",
+        type: "color",
+      },
+      {
+        description:
+          "Set to `dim` on a dark page: the projector is lit by its own picture and casts a shadow toward the viewer. Read once, when the stage mounts.",
+        name: "--literal-lighting",
+        type: "dim",
+      },
+      {
+        description:
+          "Set by the stage: 1 while a slide shows, 0 while the lamp shines bare. Read it to light the page between two slides.",
+        name: "--literal-film",
+        type: "number",
+      },
+    ],
+  },
+  {
+    description:
+      "The picture on the wall: the slides, one to a view. Name it with `aria-label`. The arrow keys change slide once it has focus. It sets the layout itself, so it leaves out `align`, `drag`, `dragFree`, `loop`, `orientation`, `skipSnaps` and `slidesPerPage`.",
     extends: { href: `${UI_SDK}/carousel`, name: "UI SDK Carousel" },
     name: "CarouselContent",
     props: [],
@@ -179,7 +212,7 @@ export const CAROUSEL_API: ApiPart[] = [
   },
   {
     description:
-      "The focus knob. Drag up or down, or use the arrow keys: the lens moves in or out and the picture blurs.",
+      "The focus knob. Drag up or down, or use the arrow keys: the lens moves in or out and the picture blurs. Its value and range are the carousel's `focus`, so it leaves out `value`, `defaultValue`, `min`, `max` and `orientation`.",
     extends: { href: `${UI_SDK}/slider`, name: "UI SDK Slider" },
     name: "CarouselFocus",
     props: [

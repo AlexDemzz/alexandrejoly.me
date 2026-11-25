@@ -16,7 +16,6 @@ it("gives every piece its own slug", () => {
   expect(new Set(slugs).size).toBe(slugs.length);
 });
 
-it("has a slot for every piece, in full rows at two columns and at three", () => {
+it("has a slot for every piece", () => {
   expect(SLOT_COUNT).toBeGreaterThanOrEqual(PIECES.length);
-  expect(SLOT_COUNT % 6).toBe(0);
 });

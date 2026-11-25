@@ -460,176 +460,181 @@ export const createCarouselScene = async (
     throw error;
   }
 
-  scene.environment = environment;
-  scene.environmentIntensity = lighting.environment;
-  scene.add(model);
+  try {
+    scene.environment = environment;
+    scene.environmentIntensity = lighting.environment;
+    scene.add(model);
 
-  const camera = new PerspectiveCamera(
-    CAMERA.fov,
-    FRAME.width / FRAME.height,
-    0.2,
-    4
-  );
-  camera.position.copy(CAMERA_POSITION);
-  camera.lookAt(CAMERA_TARGET);
-
-  const key = new SpotLight(
-    lighting.color,
-    lighting.intensity,
-    0,
-    lighting.angle,
-    0.4,
-    2
-  );
-  key.position.copy(lighting.position);
-  key.target.position.copy(KEY_TARGET);
-  key.castShadow = true;
-  key.shadow.mapSize.set(lighting.mapSize, lighting.mapSize);
-  key.shadow.camera.near = lighting.near;
-  key.shadow.camera.far = lighting.far;
-  key.shadow.bias = -0.0002;
-  key.shadow.normalBias = 0.0004;
-  key.shadow.radius = lighting.radius;
-  scene.add(key, key.target);
-  if (dim) {
-    const fill = new DirectionalLight(FILL.color, FILL.intensity);
-    fill.position.copy(CAMERA_POSITION);
-    ground = createGroundShadow(fade);
-    scene.add(fill, ground);
-  }
-
-  const tray = byName(model, "Tray");
-  const slide = byName(model, "Slide");
-  const lens = byName(model, "Lens");
-  const forward = byName(model, "Forward");
-  const reverse = byName(model, "Reverse");
-  const timer = byName(model, "Timer");
-  const focus = byName(model, "Focus");
-  const lensRest = lens.position.clone();
-  const forwardRest = forward.position.clone();
-  const reverseRest = reverse.position.clone();
-  const timerRest = timer.position.clone();
-  const gate = slide.position.clone().sub(tray.position).divide(tray.scale);
-  const slideScale = slide.scale.clone().divide(tray.scale);
-  const slideDrop = SLIDE_TRAVEL / tray.scale.y;
-  const trayRest = tray.quaternion.clone();
-  const slideMesh = meshOf(slide);
-  slide.visible = false;
-
-  const casters = new Set([
-    "Fittings",
-    "Focus",
-    "Forward",
-    "Lens",
-    "Reverse",
-    "Timer",
-    "Tray",
-  ]);
-  const receivers = new Set(["Base", "Body", "Deck"]);
-  for (const node of model.children) {
-    node.traverse((part) => {
-      part.castShadow = dim || casters.has(node.name);
-      part.receiveShadow = receivers.has(node.name);
-    });
-  }
-
-  const materials = materialsOf(model);
-  const diffuseIbl = { value: DIFFUSE_IBL };
-  for (const material of materials.values()) {
-    patchMaterial(material, diffuseIbl);
-  }
-  (materials.get("Chrome") as MeshStandardMaterial).envMapIntensity = 1;
-
-  contact = createContactShadow(renderer, scene);
-  contact.draw();
-
-  const matrix = new Matrix4();
-  const turn = new Quaternion();
-  const at = new Vector3();
-  let count = 0;
-  let placed = { drop: -1, slot: -1 };
-
-  const placeSlides = (slot: number, drop: number) => {
-    if (!slides || (placed.slot === slot && placed.drop === drop)) {
-      return;
-    }
-    placed = { drop, slot };
-    for (let index = 0; index < count; index += 1) {
-      turn.setFromAxisAngle(TRAY_AXIS, -TRAY.forward * index * PITCH);
-      at.copy(gate).applyQuaternion(turn);
-      if (index === slot) {
-        at.addScaledVector(TRAY_AXIS, -drop * slideDrop);
-      }
-      slides.setMatrixAt(index, matrix.compose(at, turn, slideScale));
-    }
-    slides.instanceMatrix.needsUpdate = true;
-  };
-
-  const setSlides = (next: number) => {
-    const wanted = Math.min(Math.max(0, next), TRAY.slots);
-    if (wanted === count) {
-      return;
-    }
-    if (slides) {
-      tray.remove(slides);
-      slides.dispose();
-      slides = null;
-    }
-    count = wanted;
-    placed = { drop: -1, slot: -1 };
-    if (count === 0) {
-      return;
-    }
-    slides = new InstancedMesh(slideMesh.geometry, slideMesh.material, count);
-    slides.name = "Slides";
-    slides.castShadow = true;
-    slides.frustumCulled = false;
-    tray.add(slides);
-  };
-
-  const render = (pose: Pose) => {
-    if (lost) {
-      return;
-    }
-    tray.quaternion
-      .setFromAxisAngle(TRAY_AXIS, TRAY.forward * pose.tray * PITCH)
-      .multiply(trayRest);
-    placeSlides(slotOf(pose.gate.slot), pose.gate.drop);
-    lens.position
-      .copy(lensRest)
-      .addScaledVector(LENS_AXIS, pose.focus * LENS.travel);
-    forward.position
-      .copy(forwardRest)
-      .addScaledVector(KEY_AXIS, pose.forward * KEY.travel);
-    reverse.position
-      .copy(reverseRest)
-      .addScaledVector(KEY_AXIS, pose.reverse * KEY.travel);
-    timer.position
-      .copy(timerRest)
-      .addScaledVector(TIMER_AXIS, pose.timer * TIMER_SWITCH.travel);
-    focus.quaternion.setFromAxisAngle(
-      FOCUS_AXIS,
-      FOCUS_KNOB.sharp - pose.focus * FOCUS_KNOB.sweep
+    const camera = new PerspectiveCamera(
+      CAMERA.fov,
+      FRAME.width / FRAME.height,
+      0.2,
+      4
     );
-    if (dim) {
-      key.intensity = lighting.intensity * (1 + LAMP_GAIN * pose.shutter);
-    }
-    renderer.render(scene, camera);
-  };
+    camera.position.copy(CAMERA_POSITION);
+    camera.lookAt(CAMERA_TARGET);
 
-  return {
-    dispose: () => {
-      release();
-      renderer.forceContextLoss();
-    },
-    render,
-    setSize: (width, height) => {
-      renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO)
+    const key = new SpotLight(
+      lighting.color,
+      lighting.intensity,
+      0,
+      lighting.angle,
+      0.4,
+      2
+    );
+    key.position.copy(lighting.position);
+    key.target.position.copy(KEY_TARGET);
+    key.castShadow = true;
+    key.shadow.mapSize.set(lighting.mapSize, lighting.mapSize);
+    key.shadow.camera.near = lighting.near;
+    key.shadow.camera.far = lighting.far;
+    key.shadow.bias = -0.0002;
+    key.shadow.normalBias = 0.0004;
+    key.shadow.radius = lighting.radius;
+    scene.add(key, key.target);
+    if (dim) {
+      const fill = new DirectionalLight(FILL.color, FILL.intensity);
+      fill.position.copy(CAMERA_POSITION);
+      ground = createGroundShadow(fade);
+      scene.add(fill, ground);
+    }
+
+    const tray = byName(model, "Tray");
+    const slide = byName(model, "Slide");
+    const lens = byName(model, "Lens");
+    const forward = byName(model, "Forward");
+    const reverse = byName(model, "Reverse");
+    const timer = byName(model, "Timer");
+    const focus = byName(model, "Focus");
+    const lensRest = lens.position.clone();
+    const forwardRest = forward.position.clone();
+    const reverseRest = reverse.position.clone();
+    const timerRest = timer.position.clone();
+    const gate = slide.position.clone().sub(tray.position).divide(tray.scale);
+    const slideScale = slide.scale.clone().divide(tray.scale);
+    const slideDrop = SLIDE_TRAVEL / tray.scale.y;
+    const trayRest = tray.quaternion.clone();
+    const slideMesh = meshOf(slide);
+    slide.visible = false;
+
+    const casters = new Set([
+      "Fittings",
+      "Focus",
+      "Forward",
+      "Lens",
+      "Reverse",
+      "Timer",
+      "Tray",
+    ]);
+    const receivers = new Set(["Base", "Body", "Deck"]);
+    for (const node of model.children) {
+      node.traverse((part) => {
+        part.castShadow = dim || casters.has(node.name);
+        part.receiveShadow = receivers.has(node.name);
+      });
+    }
+
+    const materials = materialsOf(model);
+    const diffuseIbl = { value: DIFFUSE_IBL };
+    for (const material of materials.values()) {
+      patchMaterial(material, diffuseIbl);
+    }
+    (materials.get("Chrome") as MeshStandardMaterial).envMapIntensity = 1;
+
+    contact = createContactShadow(renderer, scene);
+    contact.draw();
+
+    const matrix = new Matrix4();
+    const turn = new Quaternion();
+    const at = new Vector3();
+    let count = 0;
+    let placed = { drop: -1, slot: -1 };
+
+    const placeSlides = (slot: number, drop: number) => {
+      if (!slides || (placed.slot === slot && placed.drop === drop)) {
+        return;
+      }
+      placed = { drop, slot };
+      for (let index = 0; index < count; index += 1) {
+        turn.setFromAxisAngle(TRAY_AXIS, -TRAY.forward * index * PITCH);
+        at.copy(gate).applyQuaternion(turn);
+        if (index === slot) {
+          at.addScaledVector(TRAY_AXIS, -drop * slideDrop);
+        }
+        slides.setMatrixAt(index, matrix.compose(at, turn, slideScale));
+      }
+      slides.instanceMatrix.needsUpdate = true;
+    };
+
+    const setSlides = (next: number) => {
+      const wanted = Math.min(Math.max(0, next), TRAY.slots);
+      if (wanted === count) {
+        return;
+      }
+      if (slides) {
+        tray.remove(slides);
+        slides.dispose();
+        slides = null;
+      }
+      count = wanted;
+      placed = { drop: -1, slot: -1 };
+      if (count === 0) {
+        return;
+      }
+      slides = new InstancedMesh(slideMesh.geometry, slideMesh.material, count);
+      slides.name = "Slides";
+      slides.castShadow = true;
+      slides.frustumCulled = false;
+      tray.add(slides);
+    };
+
+    const render = (pose: Pose) => {
+      if (lost) {
+        return;
+      }
+      tray.quaternion
+        .setFromAxisAngle(TRAY_AXIS, TRAY.forward * pose.tray * PITCH)
+        .multiply(trayRest);
+      placeSlides(slotOf(pose.gate.slot), pose.gate.drop);
+      lens.position
+        .copy(lensRest)
+        .addScaledVector(LENS_AXIS, pose.focus * LENS.travel);
+      forward.position
+        .copy(forwardRest)
+        .addScaledVector(KEY_AXIS, pose.forward * KEY.travel);
+      reverse.position
+        .copy(reverseRest)
+        .addScaledVector(KEY_AXIS, pose.reverse * KEY.travel);
+      timer.position
+        .copy(timerRest)
+        .addScaledVector(TIMER_AXIS, pose.timer * TIMER_SWITCH.travel);
+      focus.quaternion.setFromAxisAngle(
+        FOCUS_AXIS,
+        FOCUS_KNOB.sharp - pose.focus * FOCUS_KNOB.sweep
       );
-      renderer.setSize(width, height, false);
-      fade.value.set(canvas.width, canvas.height * GROUND.fade);
-    },
-    setSlides,
-  };
+      if (dim) {
+        key.intensity = lighting.intensity * (1 + LAMP_GAIN * pose.shutter);
+      }
+      renderer.render(scene, camera);
+    };
+
+    return {
+      dispose: () => {
+        release();
+        renderer.forceContextLoss();
+      },
+      render,
+      setSize: (width, height) => {
+        renderer.setPixelRatio(
+          Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO)
+        );
+        renderer.setSize(width, height, false);
+        fade.value.set(canvas.width, canvas.height * GROUND.fade);
+      },
+      setSlides,
+    };
+  } catch (error) {
+    release();
+    throw error;
+  }
 };

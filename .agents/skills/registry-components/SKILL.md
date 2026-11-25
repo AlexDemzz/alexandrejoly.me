@@ -98,7 +98,7 @@ A demo file ships whole in its code tab, so it holds exactly what a reader copie
 
 - a browser-support caveat above the preview: `notice` (see Browser support);
 - a trace over part of the component: `inspector`. The preview renders the toggle and sets `data-inspect` to its `name`; the trace lives in `apps/web/src/index.css`, keyed by that name and the part's `data-slot`, in the `inspect` color. Example: the notification badge's "Show hole".
-- any other docs-only control over the preview: `Chrome`, a component the preview draws in its top end beside the inspector's toggle, built on `PreviewToggle`. It reaches the demo through an API any app would use on its own, never through a prop of the demo, and the registry ships nothing that exists only for the docs: no toggle, no docs setting. Example: the toaster's Sound, whose state lives in `apps/web/src/lab/toast/sound-chrome.tsx`; the page wraps its previews in the item's `ToasterAudioProvider`, which mutes the plain `ToasterAudio` each demo mounts.
+- any other docs-only control over the preview: `Chrome`, a component the preview draws in its top end beside the inspector's toggle, built on `PreviewToggle`. It reaches the demo through an API any app would use on its own, never through a prop of the demo, and the registry ships nothing that exists only for the docs: no toggle, no docs setting. Example: the toaster's Sound, whose state lives in `apps/web/src/lab/toast/sound-chrome.tsx`; the page wraps its previews in the item's `ToastAudioProvider`, which mutes the plain `ToastAudio` each demo mounts.
 
 ## API reference
 

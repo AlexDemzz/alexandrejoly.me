@@ -244,7 +244,7 @@
     0 0 calc(260 * var(--u)) calc(50 * var(--u)) oklch(0.93 0.05 88 / 0.2),
     0 calc(500 * var(--u)) calc(1100 * var(--u)) calc(700 * var(--u))
       oklch(0.93 0.05 88 / 0.055);
-  opacity: calc(1 - var(--film, 1));
+  opacity: calc(1 - var(--literal-film, 1));
   content: "";
   pointer-events: none;
 }

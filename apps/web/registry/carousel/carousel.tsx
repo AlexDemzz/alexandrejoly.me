@@ -130,7 +130,7 @@ function createStage(focus: number, emit: CarouselEvents["emit"]) {
     );
     if (film && shutter !== painted.shutter) {
       film.style.opacity = String(1 - shutter);
-      frame?.style.setProperty("--film", String(1 - shutter));
+      frame?.style.setProperty("--literal-film", String(1 - shutter));
     }
     if (blur !== painted.blur) {
       screen.style.filter =
@@ -147,7 +147,7 @@ function createStage(focus: number, emit: CarouselEvents["emit"]) {
   );
   return {
     attach: (element: HTMLElement | null) => {
-      frame?.style.removeProperty("--film");
+      frame?.style.removeProperty("--literal-film");
       screen = element;
       frame =
         element?.closest<HTMLElement>('[data-slot="literal-carousel-stage"]') ??
@@ -163,6 +163,10 @@ function createStage(focus: number, emit: CarouselEvents["emit"]) {
         rig.invalidate();
       }, BLANK_HOLD_MS);
       paint(rig.pose);
+    },
+    dispose: () => {
+      clearTimeout(blanked);
+      rig.dispose();
     },
     count: (next: number) => {
       slides = next;
@@ -273,9 +277,9 @@ function Carousel({
     return () => {
       motion.removeEventListener("change", follow);
       clearTimeout(fallback.current);
-      rig.dispose();
+      stage.dispose();
     };
-  }, [rig]);
+  }, [rig, stage]);
 
   useEffect(() => {
     if (!held.current) {
@@ -407,6 +411,7 @@ function startScene(
 ) {
   let disposed = false;
   let scene: CarouselScene | null = null;
+  let made: CarouselScene | null = null;
 
   const fit = () => {
     const width = frame.clientWidth;
@@ -429,7 +434,7 @@ function startScene(
       if (disposed) {
         return;
       }
-      const made = await createCarouselScene(canvas, {
+      made = await createCarouselScene(canvas, {
         dim: dimLighting(frame),
         onContextLost: () => {
           scene = null;
@@ -455,7 +460,8 @@ function startScene(
   return () => {
     disposed = true;
     resize.disconnect();
-    scene?.dispose();
+    made?.dispose();
+    made = null;
     scene = null;
   };
 }
@@ -545,7 +551,7 @@ function CarouselStage({ children, ...props }: ComponentProps<"div">) {
     }
     let current = true;
     const show = async () => {
-      const loaded = await loadPoster(dimLighting(element));
+      const loaded = await loadPoster(dimLighting(element)).catch(() => null);
       if (current) {
         setPoster(loaded);
       }
