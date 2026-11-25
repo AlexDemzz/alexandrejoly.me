@@ -2,7 +2,12 @@ export const LAB_PATH = "lab";
 export const ASCII_PATH = "lab/ascii";
 export const FORMULA_PATH = "lab/formula-2030";
 export const FORMULA1_PATH = "lab/formula-1";
-export const TOAST_PATH = "lab/toast";
+/** The family of pieces, at `/lab/literal-ui`; each piece's page sits under it. */
+export const LITERAL_PATH = "lab/literal-ui";
+export const TOAST_PATH = "lab/literal-ui/toast";
+export const CAROUSEL_PATH = "lab/literal-ui/carousel";
+/** Where the Toast page lived before the family had its own index. */
+export const TOAST_PATH_BEFORE = "lab/toast";
 
 /** What a lab card says about its experiment; the scenes live in `scenes.ts`. */
 export interface Experiment {

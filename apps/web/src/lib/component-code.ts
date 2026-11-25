@@ -65,7 +65,8 @@ const LAB_ITEM_CODE: Record<
   LabItemName,
   () => Promise<{ default: LabItemCode }>
 > = {
-  toaster: () => import("virtual:lab-item-code/toaster"),
+  carousel: () => import("virtual:lab-item-code/carousel"),
+  toast: () => import("virtual:lab-item-code/toast"),
 };
 
 export const getLabItemCode = async (

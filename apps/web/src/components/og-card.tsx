@@ -1,6 +1,7 @@
 import { cn } from "@portfolio/ui/lib/utils";
 import type { ReactNode } from "react";
 
+import { CarouselIcon } from "@/components/carousel-icon";
 import { COMPONENT_ICONS } from "@/components/component-icons";
 import { FormulaIcon } from "@/components/formula-icon";
 import { Formula1Icon } from "@/components/formula1-icon";
@@ -253,12 +254,31 @@ export const Formula1OgCard = () => (
   />
 );
 
+export const LITERAL_CARD = {
+  description:
+    "UI components taken at their word: each one is the object it is named after.",
+  title: "Literal UI",
+};
+
+/** The `/lab/literal-ui` index's card. */
+export const LiteralOgCard = () => (
+  <OgCardFrame
+    description={LITERAL_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <ToastIcon />
+      </OgGlyphFrame>
+    }
+    title={LITERAL_CARD.title}
+  />
+);
+
 export const TOAST_CARD = {
   description: "A 3D toaster, live: push the lever and a real toast pops.",
   title: "Toast",
 };
 
-/** The `/lab/toast` card. */
+/** The `/lab/literal-ui/toast` card. */
 export const ToastOgCard = () => (
   <OgCardFrame
     description={TOAST_CARD.description}
@@ -268,5 +288,24 @@ export const ToastOgCard = () => (
       </OgGlyphFrame>
     }
     title={TOAST_CARD.title}
+  />
+);
+
+export const CAROUSEL_CARD = {
+  description:
+    "A 3D slide projector, live: press Next and a real slide drops in.",
+  title: "Carousel",
+};
+
+/** The `/lab/literal-ui/carousel` card. */
+export const CarouselOgCard = () => (
+  <OgCardFrame
+    description={CAROUSEL_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <CarouselIcon />
+      </OgGlyphFrame>
+    }
+    title={CAROUSEL_CARD.title}
   />
 );

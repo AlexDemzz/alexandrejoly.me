@@ -110,7 +110,7 @@ export default defineConfig({
     {
       // The toaster's async and controlled examples stand in for an app's own
       // work: a timer that Stop can abort has no promise of its own to return.
-      files: ["apps/web/src/components/demos/toaster-{async,controlled}.tsx"],
+      files: ["apps/web/src/components/demos/toast-{async,controlled}.tsx"],
       rules: { "promise/avoid-new": "off" },
     },
     {

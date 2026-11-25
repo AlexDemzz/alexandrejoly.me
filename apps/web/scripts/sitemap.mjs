@@ -24,7 +24,9 @@ const paths = [
   "/lab/ascii",
   "/lab/formula-2030",
   "/lab/formula-1",
-  "/lab/toast",
+  "/lab/literal-ui",
+  "/lab/literal-ui/toast",
+  "/lab/literal-ui/carousel",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];

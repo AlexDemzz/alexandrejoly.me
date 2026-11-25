@@ -240,7 +240,19 @@ export const FORMULA1_PAGE = {
   title: "Ferrari SF-25 Wheel",
 } as const;
 
-/** The lab's fourth experiment, at `/lab/toast`: the docs of the `toaster` registry item. */
+/** The lab's fourth experiment, at `/lab/literal-ui`: a family of pieces, one per UI SDK component. */
+export const LITERAL_PAGE = {
+  description: `Literal UI by ${SITE.name}: UI components taken at their word. Each piece is the object its component is named after, modelled in 3D with real, accessible controls, and installed with the shadcn CLI.`,
+  documentTitle: `Literal UI – Lab – ${SITE.name}`,
+  intro:
+    "UI components taken at their word. Each piece is the object a component is named after, modelled in 3D, where every part a hand moves is a real, accessible component. Each one installs with the shadcn CLI.",
+  listTitle: "Pieces",
+  rowDescription:
+    "UI components taken at their word: the Toast pops out of a toaster",
+  title: "Literal UI",
+} as const;
+
+/** Literal UI's first piece, at `/lab/literal-ui/toast`: the docs of the `toast` registry item. */
 export const TOAST_PAGE = {
   credit: [
     "A 3D toaster whose slice of bread is a real Toast: the lever runs your work, and the slice pops with its result. Built with ",
@@ -251,9 +263,26 @@ export const TOAST_PAGE = {
     ".",
   ],
   description: `Toast by ${SITE.name}: a 3D toaster whose slice of bread is a real Toast component, installed with the shadcn CLI. Push the lever to run your work, and the slice pops with its result.`,
-  documentTitle: `Toast – Lab – ${SITE.name}`,
+  documentTitle: `Toast – Literal UI – ${SITE.name}`,
   rowDescription: "A 3D toaster, live: push the lever and a real toast pops",
   title: "Toast",
+} as const;
+
+/** Literal UI's second piece, at `/lab/literal-ui/carousel`: the docs of the `carousel` registry item. */
+export const CAROUSEL_PAGE = {
+  credit: [
+    "A Carousel that is a 3D slide projector: Next turns the tray a slot, the next slide drops into the gate and your content lands on the wall. Built with ",
+    {
+      href: "https://ui-sdk.dev",
+      text: "ui-sdk",
+    },
+    ".",
+  ],
+  description: `Carousel by ${SITE.name}: a 3D slide projector whose slides are a real Carousel component, installed with the shadcn CLI. Press Next and the tray turns a slot, the next slide drops into the gate and your content lands on the wall.`,
+  documentTitle: `Carousel – Literal UI – ${SITE.name}`,
+  rowDescription:
+    "A 3D slide projector, live: press Next and a real slide drops in",
+  title: "Carousel",
 } as const;
 
 /** The `/skills` index of the agent skills. */

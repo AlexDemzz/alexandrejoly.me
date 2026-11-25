@@ -16,6 +16,8 @@ import {
   FORMULA_PAGE,
   FORMULA1_PAGE,
   LAB_PAGE,
+  CAROUSEL_PAGE,
+  LITERAL_PAGE,
   SKILLS_PAGE,
   LINKS,
   PROJECTS,
@@ -36,6 +38,8 @@ import {
   FORMULA_PATH,
   FORMULA1_PATH,
   LAB_PATH,
+  CAROUSEL_PATH,
+  LITERAL_PATH,
   TOAST_PATH,
 } from "@/lab/experiments";
 import { getComponentCode, getLabItemCode } from "@/lib/component-code";
@@ -130,9 +134,19 @@ const SITE_PAGES = [
     FORMULA1_PAGE.description
   ),
   linkItem(
-    `${LAB_PAGE.title}: ${TOAST_PAGE.title}`,
+    `${LAB_PAGE.title}: ${LITERAL_PAGE.title}`,
+    markdownUrl(LITERAL_PATH),
+    LITERAL_PAGE.description
+  ),
+  linkItem(
+    `${LITERAL_PAGE.title}: ${TOAST_PAGE.title}`,
     markdownUrl(TOAST_PATH),
     TOAST_PAGE.description
+  ),
+  linkItem(
+    `${LITERAL_PAGE.title}: ${CAROUSEL_PAGE.title}`,
+    markdownUrl(CAROUSEL_PATH),
+    CAROUSEL_PAGE.description
   ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
@@ -171,7 +185,19 @@ const TOAST_ITEM = linkItem(
   TOAST_PAGE.rowDescription
 );
 
-const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM, TOAST_ITEM].join(
+const CAROUSEL_ITEM = linkItem(
+  CAROUSEL_PAGE.title,
+  markdownUrl(CAROUSEL_PATH),
+  CAROUSEL_PAGE.rowDescription
+);
+
+const LITERAL_ITEM = linkItem(
+  LITERAL_PAGE.title,
+  markdownUrl(LITERAL_PATH),
+  LITERAL_PAGE.rowDescription
+);
+
+const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM, LITERAL_ITEM].join(
   "\n"
 );
 
@@ -253,6 +279,15 @@ export const labMarkdown = () =>
     LAB_PAGE.intro,
     section(LAB_PAGE.listTitle, LAB_ITEMS),
     `[Back to ${SITE.name}](${markdownUrl("")})`,
+  ]);
+
+/** The `/lab/literal-ui` index: the pieces built so far. */
+export const literalMarkdown = () =>
+  markdownDocument([
+    `# ${LITERAL_PAGE.title}`,
+    LITERAL_PAGE.intro,
+    section(LITERAL_PAGE.listTitle, [TOAST_ITEM, CAROUSEL_ITEM].join("\n")),
+    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
   ]);
 
 export const asciiMarkdown = () =>
@@ -484,17 +519,17 @@ export const componentMarkdown = (
   );
 };
 
-/** Everything `/lab/toast` shows, the docs of the `toaster` item, each preview as its code. */
+/** Everything `/lab/literal-ui/toast` shows, the docs of the `toast` item, each preview as its code. */
 export const toastMarkdown = async (code: LabItemCode) => {
   // Imported on demand: the docs pull in the toaster and its CSS, which the
   // /components pages that import this module never need.
-  const { TOASTER_API, TOASTER_DEMO, TOASTER_EXAMPLES } =
+  const { TOAST_API, TOAST_DEMO, TOAST_EXAMPLES } =
     await import("@/lab/toast/docs");
   return markdownDocument([
     `# ${TOAST_PAGE.title}`,
     paragraphs([[...TOAST_PAGE.credit]]),
     `A React component for projects built on shadcn/ui. The [interactive page](${absolute(TOAST_PATH)}) shows each example live.`,
-    demoFence(code, TOASTER_DEMO.file),
+    demoFence(code, TOAST_DEMO.file),
     section(
       "Installation",
       `With the shadcn CLI:\n\n${fence(code.cli.code, "bash")}`
@@ -508,12 +543,44 @@ export const toastMarkdown = async (code: LabItemCode) => {
     ),
     section(
       "Examples",
-      TOASTER_EXAMPLES.map((example) => exampleMarkdown(example, code)).join(
+      TOAST_EXAMPLES.map((example) => exampleMarkdown(example, code)).join(
         "\n\n"
       )
     ),
-    section("API reference", TOASTER_API.map(apiPartMarkdown).join("\n\n")),
-    `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
+    section("API reference", TOAST_API.map(apiPartMarkdown).join("\n\n")),
+    `[Back to ${LITERAL_PAGE.title}](${markdownUrl(LITERAL_PATH)})`,
+  ]);
+};
+
+/** Everything `/lab/literal-ui/carousel` shows, the docs of the `carousel` item, each preview as its code. */
+export const carouselMarkdown = async (code: LabItemCode) => {
+  // Imported on demand, as the toaster's docs are: they pull in the piece and its CSS.
+  const { CAROUSEL_API, CAROUSEL_DEMO, CAROUSEL_EXAMPLES } =
+    await import("@/lab/carousel/docs");
+  return markdownDocument([
+    `# ${CAROUSEL_PAGE.title}`,
+    paragraphs([[...CAROUSEL_PAGE.credit]]),
+    `A React component for projects built on shadcn/ui. The [interactive page](${absolute(CAROUSEL_PATH)}) shows each example live.`,
+    demoFence(code, CAROUSEL_DEMO.file),
+    section(
+      "Installation",
+      `With the shadcn CLI:\n\n${fence(code.cli.code, "bash")}`
+    ),
+    section(
+      "Usage",
+      [
+        fence(code.usage.imports.code, "tsx"),
+        fence(code.usage.markup.code, "tsx"),
+      ].join("\n\n")
+    ),
+    section(
+      "Examples",
+      CAROUSEL_EXAMPLES.map((example) => exampleMarkdown(example, code)).join(
+        "\n\n"
+      )
+    ),
+    section("API reference", CAROUSEL_API.map(apiPartMarkdown).join("\n\n")),
+    `[Back to ${LITERAL_PAGE.title}](${markdownUrl(LITERAL_PATH)})`,
   ]);
 };
 
@@ -633,9 +700,23 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
       status: 200,
     };
   }
+  if (slug === LITERAL_PATH) {
+    return {
+      body: literalMarkdown(),
+      canonical: absolute(LITERAL_PATH),
+      status: 200,
+    };
+  }
+  if (slug === CAROUSEL_PATH) {
+    return {
+      body: await carouselMarkdown(await getLabItemCode("carousel")),
+      canonical: absolute(CAROUSEL_PATH),
+      status: 200,
+    };
+  }
   if (slug === TOAST_PATH) {
     return {
-      body: await toastMarkdown(await getLabItemCode("toaster")),
+      body: await toastMarkdown(await getLabItemCode("toast")),
       canonical: absolute(TOAST_PATH),
       status: 200,
     };

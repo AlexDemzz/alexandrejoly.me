@@ -9,8 +9,9 @@ import { Heading } from "@portfolio/ui/components/heading";
 import { Text, TextLink } from "@portfolio/ui/components/text";
 import { cn } from "@portfolio/ui/lib/utils";
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
-import { LAB_PAGE, SITE } from "@/content";
+import { LAB_PAGE, LITERAL_PAGE, SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 
 export type CreditRun =
@@ -43,8 +44,8 @@ const PageTitle = ({ children }: { children: string }) => (
   </Heading>
 );
 
-/** The way up from a lab page: the home, then the Lab. */
-export const LabBreadcrumb = () => (
+/** The way up from a lab page: the home, then the Lab, then any crumbs under it. */
+export const LabBreadcrumb = ({ children }: { children?: ReactNode }) => (
   <Breadcrumb>
     <BreadcrumbList>
       <BreadcrumbItem>
@@ -60,8 +61,23 @@ export const LabBreadcrumb = () => (
           {LAB_PAGE.title}
         </BreadcrumbLink>
       </BreadcrumbItem>
+      {children}
     </BreadcrumbList>
   </Breadcrumb>
+);
+
+/** The way up from a piece's page: the home, the Lab, then Literal UI. */
+export const LiteralBreadcrumb = () => (
+  <LabBreadcrumb>
+    <BreadcrumbSeparator>/</BreadcrumbSeparator>
+    <BreadcrumbItem>
+      <BreadcrumbLink
+        render={<Link activeOptions={EXACT_ACTIVE} to="/lab/literal-ui" />}
+      >
+        {LITERAL_PAGE.title}
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+  </LabBreadcrumb>
 );
 
 /** The breadcrumb, title and credit at the top of a lab experiment page. */

@@ -19,32 +19,37 @@ import { SiteFooter } from "@/components/site-footer";
 import { SITE } from "@/content";
 import { EXACT_ACTIVE } from "@/lib/link";
 
-/** A section's index: its title and intro, then one list of rows to its pages. */
+const HomeBreadcrumb = () => (
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink render={<Link activeOptions={EXACT_ACTIVE} to="/" />}>
+          {SITE.name}
+        </BreadcrumbLink>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+);
+
+/** A section's index: its title and intro, then one titled list of its pages. */
 export const IndexPage = ({
   children,
   intro,
   listTitle,
+  nav,
   title,
 }: {
   children: ReactNode;
   intro: string;
   listTitle: string;
+  /** The way up, for an index that sits under another. Defaults to the home alone. */
+  nav?: ReactNode;
   title: string;
 }) => (
   <main className="max-w-column mx-auto px-6 py-12 sm:py-32 md:py-16">
     {/* Not <header>: content extractors drop it, and it holds the page title and intro. */}
     <div className="flex flex-col items-start gap-5 pb-6">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink
-              render={<Link activeOptions={EXACT_ACTIVE} to="/" />}
-            >
-              {SITE.name}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      {nav ?? <HomeBreadcrumb />}
       <Heading
         render={({ children: heading, ...props }) => (
           <h1 {...props}>{heading}</h1>

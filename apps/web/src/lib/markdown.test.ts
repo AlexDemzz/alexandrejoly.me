@@ -3,7 +3,12 @@ import { describe, expect, it } from "vitest";
 import { REGISTRY_DOCS } from "@/components/docs/registry-docs";
 import { PROJECTS } from "@/content";
 import { INFO_PAGE_SLUGS } from "@/info-pages";
-import { TOASTER_API, TOASTER_DEMO, TOASTER_EXAMPLES } from "@/lab/toast/docs";
+import {
+  CAROUSEL_API,
+  CAROUSEL_DEMO,
+  CAROUSEL_EXAMPLES,
+} from "@/lab/carousel/docs";
+import { TOAST_API, TOAST_DEMO, TOAST_EXAMPLES } from "@/lab/toast/docs";
 import { getComponentCode, getLabItemCode } from "@/lib/component-code";
 import { REGISTRY_ITEMS, REGISTRY_ITEM_NAMES } from "@/lib/registry";
 import { SKILL_PAGE_NAMES } from "@/skill-pages";
@@ -16,6 +21,7 @@ import {
   llmsTxt,
   markdownFor,
   skillPageMarkdown,
+  carouselMarkdown,
   toastMarkdown,
 } from "./markdown";
 
@@ -185,23 +191,50 @@ describe("componentMarkdown", () => {
 });
 
 describe("toastMarkdown", () => {
-  it("carries everything the /lab/toast page shows", async () => {
-    const code = await getLabItemCode("toaster");
+  it("carries everything the /lab/literal-ui/toast page shows", async () => {
+    const code = await getLabItemCode("toast");
     const markdown = await toastMarkdown(code);
 
     expect(markdown).toContain(
-      "pnpm dlx shadcn@latest add @alexandrejoly/toaster"
+      "pnpm dlx shadcn@latest add @alexandrejoly/toast"
     );
     expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
-    expect(markdown).toContain(code.demos[TOASTER_DEMO.file]?.code);
+    expect(markdown).toContain(code.demos[TOAST_DEMO.file]?.code);
     expect(markdown).toContain(code.usage.imports.code);
     expect(markdown).toContain(code.usage.markup.code);
-    for (const example of TOASTER_EXAMPLES) {
+    for (const example of TOAST_EXAMPLES) {
       expect(markdown).toContain(`### ${example.title}`);
       expect(markdown).toContain(example.description);
       expect(markdown).toContain(code.demos[example.file]?.code);
     }
-    for (const part of TOASTER_API) {
+    for (const part of TOAST_API) {
+      expect(markdown).toContain(`### ${part.name}`);
+      expect(markdown).toContain(part.description);
+      for (const prop of part.props) {
+        expect(markdown).toContain(`| \`${prop.name}\` |`);
+      }
+    }
+  });
+});
+
+describe("carouselMarkdown", () => {
+  it("carries everything the /lab/literal-ui/carousel page shows", async () => {
+    const code = await getLabItemCode("carousel");
+    const markdown = await carouselMarkdown(code);
+
+    expect(markdown).toContain(
+      "pnpm dlx shadcn@latest add @alexandrejoly/carousel"
+    );
+    expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
+    expect(markdown).toContain(code.demos[CAROUSEL_DEMO.file]?.code);
+    expect(markdown).toContain(code.usage.imports.code);
+    expect(markdown).toContain(code.usage.markup.code);
+    for (const example of CAROUSEL_EXAMPLES) {
+      expect(markdown).toContain(`### ${example.title}`);
+      expect(markdown).toContain(example.description);
+      expect(markdown).toContain(code.demos[example.file]?.code);
+    }
+    for (const part of CAROUSEL_API) {
       expect(markdown).toContain(`### ${part.name}`);
       expect(markdown).toContain(part.description);
       for (const prop of part.props) {
@@ -230,8 +263,12 @@ describe("markdownFor", () => {
     "/lab/ascii.md",
     "/lab/formula-2030",
     "/lab/formula-1.md",
-    "/lab/toast",
-    "/lab/toast.md",
+    "/lab/literal-ui",
+    "/lab/literal-ui.md",
+    "/lab/literal-ui/toast",
+    "/lab/literal-ui/toast.md",
+    "/lab/literal-ui/carousel",
+    "/lab/literal-ui/carousel.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
@@ -241,6 +278,7 @@ describe("markdownFor", () => {
     "/components/nope",
     "/skills/nope",
     "/lab/nope",
+    "/lab/literal-ui/nope",
     "/about/team",
     "/x.md",
   ])("reports %s as missing", async (path) => {
@@ -251,7 +289,9 @@ describe("markdownFor", () => {
     const pages = await Promise.all([
       markdownFor("/x"),
       markdownFor("/components/onboarding"),
-      markdownFor("/lab/toast"),
+      markdownFor("/lab/literal-ui"),
+      markdownFor("/lab/literal-ui/toast"),
+      markdownFor("/lab/literal-ui/carousel"),
       ...SKILL_PAGE_NAMES.map((name) => markdownFor(`/skills/${name}`)),
     ]);
     const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]

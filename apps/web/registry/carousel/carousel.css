@@ -1,0 +1,232 @@
+[data-slot="literal-carousel"] {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+[data-slot="literal-carousel-stage"] {
+  --u: calc(100cqi / var(--frame-w));
+  --literal-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --literal-focus: oklch(0.45 0.16 250);
+  --literal-ring: max(2px, calc(5 * var(--u))) solid transparent;
+  --literal-ring-offset: calc(8 * var(--u));
+  --picture-edge: max(2.5px, calc(7 * var(--u)));
+
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: var(--frame-w) / var(--frame-h);
+}
+
+[data-slot="literal-carousel-poster"],
+[data-slot="literal-carousel-canvas"] {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+[data-slot="literal-carousel-poster"] {
+  transition: opacity 240ms var(--literal-ease-out);
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  [data-view="live"] > & {
+    opacity: 0;
+  }
+}
+
+[data-slot="literal-carousel-canvas"] {
+  opacity: 0;
+
+  [data-view="live"] > & {
+    opacity: 1;
+  }
+}
+
+[data-literal-carousel="content"] {
+  position: absolute;
+  inset-block-start: calc(var(--picture-y) * var(--u));
+  inset-inline-start: calc(var(--picture-x) * var(--u));
+  overflow: clip;
+  inline-size: calc(var(--picture-w) * var(--u));
+  block-size: calc(var(--picture-h) * var(--u));
+  background: var(--literal-lamp, oklch(0.985 0.04 92 / 0.62));
+  mask-image:
+    radial-gradient(
+      ellipse 72% 76% at 50% 48%,
+      oklch(0 0 none) 50%,
+      oklch(0 0 none / 0.78)
+    ),
+    linear-gradient(
+      to right,
+      oklch(0 0 none / 0),
+      oklch(0 0 none) var(--picture-edge) calc(100% - var(--picture-edge)),
+      oklch(0 0 none / 0)
+    ),
+    linear-gradient(
+      oklch(0 0 none / 0),
+      oklch(0 0 none) var(--picture-edge) calc(100% - var(--picture-edge)),
+      oklch(0 0 none / 0)
+    );
+  mask-composite: intersect;
+  transition: opacity 240ms var(--literal-ease-out);
+
+  @media (scripting: enabled) {
+    [data-view="poster"]:not(:has(> [data-slot="literal-carousel-poster"])) & {
+      opacity: 0;
+    }
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    pointer-events: none;
+  }
+
+  &::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23g)'/%3E%3C/svg%3E");
+    background-size: calc(300 * var(--u));
+    mix-blend-mode: overlay;
+    opacity: 0.22;
+  }
+
+  &::after {
+    background:
+      radial-gradient(
+        ellipse 95% 95% at 50% 48%,
+        oklch(0.99 0.03 90 / calc(0.12 + 0.5 * (1 - var(--film, 1)))),
+        oklch(0.99 0.03 90 / 0) 90%
+      ),
+      var(--literal-wall, oklch(0 0 none / 0));
+    mix-blend-mode: screen;
+  }
+
+  [data-slot="carousel-viewport"] {
+    block-size: 100%;
+    scrollbar-width: none;
+    filter: sepia(0.2) saturate(1.12) contrast(0.9) brightness(1.03);
+    outline: var(--literal-ring);
+    outline-offset: calc(var(--literal-ring-offset) * -2.5);
+
+    [data-slot="literal-carousel-stage"][data-keyboard] &:focus-visible {
+      outline-color: var(--literal-focus);
+    }
+  }
+
+  [data-slot="carousel-content"] {
+    display: flex;
+    block-size: 100%;
+  }
+
+  [data-literal-carousel="item"] {
+    flex: 0 0 100%;
+    min-inline-size: 0;
+    block-size: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+:is(
+  [data-literal-carousel="next"],
+  [data-literal-carousel="previous"],
+  [data-literal-carousel="play-toggle"],
+  [data-literal-carousel="focus"]
+) {
+  position: absolute;
+}
+
+:is(
+  [data-literal-carousel="next"],
+  [data-literal-carousel="previous"],
+  [data-literal-carousel="play-toggle"]
+) {
+  padding: 0;
+  border: 0;
+  border-radius: calc(22 * var(--u));
+  background: none;
+  outline: var(--literal-ring);
+  outline-offset: var(--literal-ring-offset);
+  cursor: pointer;
+  touch-action: manipulation;
+
+  [data-slot="literal-carousel-stage"][data-keyboard] &:focus-visible {
+    outline-color: var(--literal-focus);
+  }
+}
+
+:is([data-literal-carousel="next"], [data-literal-carousel="previous"])::after {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  inline-size: max(100%, min(44px, calc(250 * var(--u))));
+  block-size: max(100%, min(44px, calc(250 * var(--u))));
+  translate: -50% -50%;
+  content: "";
+}
+
+[data-literal-carousel="next"] {
+  inset-block-start: calc(var(--forward-y) * var(--u));
+  inset-inline-start: calc(var(--forward-x) * var(--u));
+  inline-size: calc(var(--forward-w) * var(--u));
+  block-size: calc(var(--forward-h) * var(--u));
+}
+
+[data-literal-carousel="previous"] {
+  inset-block-start: calc(var(--reverse-y) * var(--u));
+  inset-inline-start: calc(var(--reverse-x) * var(--u));
+  inline-size: calc(var(--reverse-w) * var(--u));
+  block-size: calc(var(--reverse-h) * var(--u));
+}
+
+[data-literal-carousel="play-toggle"] {
+  --reach: calc(26 * var(--u));
+
+  inset-block-start: calc(var(--timer-y) * var(--u) - var(--reach));
+  inset-inline-start: calc(var(--timer-x) * var(--u) - var(--reach));
+  inline-size: calc(var(--timer-w) * var(--u) + var(--reach) * 2);
+  block-size: calc(var(--timer-h) * var(--u) + var(--reach) * 2);
+  outline-offset: calc(var(--reach) * -0.5);
+}
+
+[data-literal-carousel="focus"] {
+  inset-block-start: calc(var(--focus-y) * var(--u));
+  inset-inline-start: calc(var(--focus-x) * var(--u));
+  inline-size: calc(var(--focus-w) * var(--u));
+  block-size: calc(var(--focus-h) * var(--u));
+  border-radius: 50%;
+  outline: var(--literal-ring);
+  outline-offset: var(--literal-ring-offset);
+
+  [data-slot="literal-carousel-stage"][data-keyboard] &:has(:focus-visible) {
+    outline-color: var(--literal-focus);
+  }
+
+  [data-slot="slider-control"] {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    cursor: ns-resize;
+    touch-action: none;
+  }
+
+  [data-slot="slider-track"] {
+    position: relative;
+    inline-size: 1px;
+    block-size: calc(420 * var(--u));
+    min-block-size: 140px;
+  }
+
+  [data-slot="slider-thumb"] {
+    inline-size: 1px;
+    block-size: 1px;
+    opacity: 0;
+  }
+}

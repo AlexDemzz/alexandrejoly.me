@@ -181,28 +181,58 @@ import { ItemInsetSeparator } from "@/components/ui/item-inset-separator";`,
 
 /** The usage snippet of each item documented on its lab page. */
 export const LAB_ITEM_USAGE: Record<LabItemName, Usage> = {
-  toaster: {
+  toast: {
     imports: `import { createToaster } from "@ui-sdk/react/toast";
 
 import {
-  Toaster,
-  ToasterDial,
-  ToasterLever,
-  ToasterSlot,
-  ToasterStage,
-  ToasterStop,
-} from "@/components/ui/toaster/toaster";
-import { ToasterAudio } from "@/components/ui/toaster/toaster-sound";
+  Toast,
+  ToastDial,
+  ToastLever,
+  ToastRegion,
+  ToastStage,
+  ToastStop,
+} from "@/components/ui/literal-ui/toast/toast";
+import { ToastAudio } from "@/components/ui/literal-ui/toast/toast-sound";
 
 const toaster = createToaster();`,
-    markup: `<Toaster onToast={() => "Toast is ready"} toaster={toaster}>
-  <ToasterStage>
-    <ToasterSlot />
-    <ToasterDial />
-    <ToasterStop />
-    <ToasterLever />
-  </ToasterStage>
-  <ToasterAudio />
-</Toaster>`,
+    markup: `<Toast onToast={() => "Toast is ready"} toaster={toaster}>
+  <ToastStage>
+    <ToastRegion />
+    <ToastDial />
+    <ToastStop />
+    <ToastLever />
+  </ToastStage>
+  <ToastAudio />
+</Toast>`,
+  },
+  carousel: {
+    imports: `import {
+  Carousel,
+  CarouselContent,
+  CarouselFocus,
+  CarouselItem,
+  CarouselNext,
+  CarouselPlayToggle,
+  CarouselPrevious,
+  CarouselStage,
+} from "@/components/ui/literal-ui/carousel/carousel";
+import { CarouselAudio } from "@/components/ui/literal-ui/carousel/carousel-sound";`,
+    markup: `<Carousel>
+  <CarouselStage>
+    <CarouselContent aria-label="Slides">
+      <CarouselItem>
+        <img alt="Dunes at dusk" src="/dunes.jpg" />
+      </CarouselItem>
+      <CarouselItem>
+        <img alt="A forest in fog" src="/forest.jpg" />
+      </CarouselItem>
+    </CarouselContent>
+    <CarouselFocus />
+    <CarouselPlayToggle />
+    <CarouselPrevious />
+    <CarouselNext />
+  </CarouselStage>
+  <CarouselAudio />
+</Carousel>`,
   },
 };

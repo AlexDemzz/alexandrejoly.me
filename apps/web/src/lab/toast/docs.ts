@@ -1,45 +1,45 @@
-import { ToasterAsync } from "@/components/demos/toaster-async";
-import { ToasterControlled } from "@/components/demos/toaster-controlled";
-import { ToasterDemo } from "@/components/demos/toaster-demo";
+import { ToastAsync } from "@/components/demos/toast-async";
+import { ToastControlled } from "@/components/demos/toast-controlled";
+import { ToastDemo } from "@/components/demos/toast-demo";
 import type { ApiPart, Demo, Example } from "@/components/docs/registry-docs";
-import { ToasterSoundChrome } from "@/lab/toast/sound-chrome";
+import { ToastSoundChrome } from "@/lab/toast/sound-chrome";
 
 const UI_SDK = "https://ui-sdk.dev/docs/react/components";
 
 /** The main demo, under the title: the toaster at full size, with its sound on. */
-export const TOASTER_DEMO: Demo = {
-  Chrome: ToasterSoundChrome,
-  Component: ToasterDemo,
-  file: "toaster-demo",
+export const TOAST_DEMO: Demo = {
+  Chrome: ToastSoundChrome,
+  Component: ToastDemo,
+  file: "toast-demo",
 };
 
 /** The examples past the main demo, each behind Preview and Code tabs. */
-export const TOASTER_EXAMPLES: Example[] = [
+export const TOAST_EXAMPLES: Example[] = [
   {
-    Chrome: ToasterSoundChrome,
-    Component: ToasterAsync,
+    Chrome: ToastSoundChrome,
+    Component: ToastAsync,
     description:
       "`onToast` can await real work. The lever stays down until it settles: a resolved title pops as a success, and a rejection pops its message as an error, every second save here. Stop aborts `signal`.",
-    file: "toaster-async",
+    file: "toast-async",
     title: "Async work",
   },
   {
-    Chrome: ToasterSoundChrome,
-    Component: ToasterControlled,
+    Chrome: ToastSoundChrome,
+    Component: ToastControlled,
     description:
       "Set `toasting` to start a cycle from your own code. Here the form pushes the lever down, and the slice pops with your message three seconds later. The lever, the dial and Stop still work by hand, and `onToastingChange` reports each start and each end.",
-    file: "toaster-controlled",
+    file: "toast-controlled",
     title: "Controlled",
   },
 ];
 
-/** The parts' API on `/lab/toast`: only the props each part adds. */
-export const TOASTER_API: ApiPart[] = [
+/** The parts' API on `/lab/literal-ui/toast`: only the props each part adds. */
+export const TOAST_API: ApiPart[] = [
   {
     description:
       "Holds the cycle, the slice and the browning level. The slice is a toast in your `toaster`.",
     extends: { name: "div" },
-    name: "Toaster",
+    name: "Toast",
     props: [
       {
         description:
@@ -51,7 +51,7 @@ export const TOASTER_API: ApiPart[] = [
         description:
           'Runs once the catch holds the lever. Return a title for a success, or toast options such as `{ type: "error", title }`. A throw shows its message as an error. Return nothing to keep what you set with `toaster.update(id, …)`.',
         name: "onToast",
-        type: "(cycle: ToasterCycle) => ToasterOutcome | void | Promise<ToasterOutcome | void>",
+        type: "(cycle: ToastCycle) => ToastOutcome | void | Promise<ToastOutcome | void>",
       },
       {
         description:
@@ -74,7 +74,7 @@ export const TOASTER_API: ApiPart[] = [
       {
         description: "Runs when the dial turns to a new level.",
         name: "onLevelChange",
-        type: "(level: ToasterLevel) => void",
+        type: "(level: ToastLevel) => void",
       },
       {
         default: "false",
@@ -111,7 +111,7 @@ export const TOASTER_API: ApiPart[] = [
   },
   {
     description: "What `onToast` receives.",
-    name: "ToasterCycle",
+    name: "ToastCycle",
     nameLabel: "Field",
     props: [
       {
@@ -147,20 +147,20 @@ export const TOASTER_API: ApiPart[] = [
     description:
       "The toaster in 3D, with the controls laid over its parts. It shows a still picture until the scene loads, and keeps it without WebGL 2, with the slice's title written on it.",
     extends: { name: "div" },
-    name: "ToasterStage",
+    name: "ToastStage",
     props: [],
   },
   {
     description:
       "The front slot, where the slice stands. Pull the slice up to take it out, and a fresh one drops in.",
     extends: { href: `${UI_SDK}/toast`, name: "UI SDK ToastRegion" },
-    name: "ToasterSlot",
+    name: "ToastRegion",
     props: [],
   },
   {
     description: "The browning dial. Drag up or down, or use the arrow keys.",
     extends: { href: `${UI_SDK}/slider`, name: "UI SDK Slider" },
-    name: "ToasterDial",
+    name: "ToastDial",
     props: [
       {
         default: '"Browning"',
@@ -174,7 +174,7 @@ export const TOASTER_API: ApiPart[] = [
     description:
       "The lever. Drag it down to the catch, or press Enter, Space or the Down arrow.",
     extends: { href: `${UI_SDK}/slider`, name: "UI SDK Slider" },
-    name: "ToasterLever",
+    name: "ToastLever",
     props: [
       {
         default: '"Lever"',
@@ -188,13 +188,13 @@ export const TOASTER_API: ApiPart[] = [
     description:
       "Ends the cycle early. The slice keeps its browning and its previous title.",
     extends: { href: `${UI_SDK}/button`, name: "UI SDK Button" },
-    name: "ToasterStop",
+    name: "ToastStop",
     props: [],
   },
   {
     description:
-      "Plays the toaster's recorded sounds. It renders nothing, and loads nothing until the page is pressed. Import it from `toaster-sound`.",
-    name: "ToasterAudio",
+      "Plays the toaster's recorded sounds. It renders nothing, and loads nothing until the page is pressed. Import it from `toast-sound`.",
+    name: "ToastAudio",
     props: [
       {
         default: "false",
@@ -206,8 +206,8 @@ export const TOASTER_API: ApiPart[] = [
   },
   {
     description:
-      "Mutes every `ToasterAudio` inside it, for a sound preference that covers the whole app or one part of it. It renders nothing of its own.",
-    name: "ToasterAudioProvider",
+      "Mutes every `ToastAudio` inside it, for a sound preference that covers the whole app or one part of it. It renders nothing of its own.",
+    name: "ToastAudioProvider",
     props: [
       {
         description:
@@ -219,15 +219,15 @@ export const TOASTER_API: ApiPart[] = [
   },
   {
     description:
-      "Follows what the toaster does as it happens, as `ToasterAudio` does: the lever, the dial, Stop, each pop and each slice.",
-    name: "useToasterEvents",
+      "Follows what the toaster does as it happens, as `ToastAudio` does: the lever, the dial, Stop, each pop and each slice.",
+    name: "useToastEvents",
     nameLabel: "Returns",
     props: [
       {
         description:
           "Calls `listener` with each event. Returns the unsubscribe.",
         name: "subscribe",
-        type: "(listener: (event: ToasterEvent) => void) => () => void",
+        type: "(listener: (event: ToastEvent) => void) => () => void",
       },
     ],
   },

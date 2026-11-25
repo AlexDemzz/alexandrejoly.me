@@ -22,9 +22,9 @@ import {
   ASCII_PAGE,
   FORMULA_PAGE,
   FORMULA1_PAGE,
+  LITERAL_PAGE,
   PROJECTS,
   SKILLS,
-  TOAST_PAGE,
   skillHref,
 } from "@/content";
 import type { Project } from "@/content";
@@ -198,15 +198,15 @@ export const LabRows = ({ limit }: { limit?: number }) => (
     limit={limit}
     rows={[
       <PageRow
-        description={TOAST_PAGE.rowDescription}
-        key="toast"
+        description={LITERAL_PAGE.rowDescription}
+        key="literal-ui"
         media={
           <ItemLightMedia>
             <ToastIcon />
           </ItemLightMedia>
         }
-        title={TOAST_PAGE.title}
-        to="/lab/toast"
+        title={LITERAL_PAGE.title}
+        to="/lab/literal-ui"
       />,
       <PageRow
         description={FORMULA1_PAGE.rowDescription}

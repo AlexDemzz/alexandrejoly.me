@@ -1,5 +1,5 @@
 import { SpeakerHighIcon, SpeakerSlashIcon } from "@phosphor-icons/react";
-import { ToasterAudioProvider } from "@registry/toaster/toaster-sound";
+import { ToastAudioProvider } from "@registry/toast/toast-sound";
 import { useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
 
@@ -56,15 +56,15 @@ const useSound = () =>
 
 /**
  * Mutes every toaster on the page while the visitor's Sound choice is off,
- * through the registry's own `ToasterAudioProvider`: the demos mount a plain
- * `ToasterAudio`, so their code never carries the docs' toggle.
+ * through the registry's own `ToastAudioProvider`: the demos mount a plain
+ * `ToastAudio`, so their code never carries the docs' toggle.
  */
-export const ToasterSoundScope = ({ children }: { children: ReactNode }) => (
-  <ToasterAudioProvider muted={!useSound()}>{children}</ToasterAudioProvider>
+export const ToastSoundScope = ({ children }: { children: ReactNode }) => (
+  <ToastAudioProvider muted={!useSound()}>{children}</ToastAudioProvider>
 );
 
 /** The preview's Sound toggle, drawn by ComponentPreview over a toaster demo. Every toggle shares the one choice. */
-export const ToasterSoundChrome = () => {
+export const ToastSoundChrome = () => {
   const on = useSound();
   return (
     <PreviewToggle label="Sound" onPressedChange={setSound} pressed={on}>
