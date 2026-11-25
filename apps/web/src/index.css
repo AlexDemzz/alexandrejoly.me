@@ -96,9 +96,15 @@
     @apply font-book can-hover:in-[a:hover]:decoration-underline group-focus-visible/item:decoration-underline w-fit text-base leading-relaxed text-pretty underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out;
   }
 
-  /* ExpandableRowList's toggle, underlined like a row title. */
+  /* A home section title that opens its index page, and RowListMore one step
+     smaller: muted, underlined and in foreground on hover or focus. */
+  [data-slot="section-title-link"],
   [data-slot="row-list-more"] {
-    @apply font-book can-hover:hover:decoration-underline focus-visible:decoration-underline focus-visible:outline-ring text-base leading-relaxed underline decoration-transparent underline-offset-3 transition-[text-decoration-color] duration-200 ease-out outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid;
+    @apply can-hover:hover:text-foreground can-hover:hover:decoration-underline focus-visible:text-foreground focus-visible:decoration-underline focus-visible:outline-ring underline decoration-transparent underline-offset-3 transition-[color,text-decoration-color] duration-200 ease-out outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid;
+  }
+
+  [data-slot="row-list-more"] {
+    @apply text-muted-foreground text-sm;
   }
 
   [data-slot="item-light-description"] {

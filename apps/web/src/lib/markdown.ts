@@ -19,6 +19,8 @@ import {
   SKILLS_PAGE,
   LINKS,
   PROJECTS,
+  PROJECTS_PAGE,
+  PROJECTS_PATH,
   SITE,
   SKILLS,
   SOCIALS,
@@ -97,6 +99,11 @@ const SITE_PAGES = [
     "intro, projects, components, recognition and profiles"
   ),
   linkItem(
+    PROJECTS_PAGE.title,
+    markdownUrl(PROJECTS_PATH),
+    PROJECTS_PAGE.description
+  ),
+  linkItem(
     COMPONENTS_PAGE.title,
     markdownUrl(COMPONENTS_PATH),
     COMPONENTS_PAGE.description
@@ -168,6 +175,15 @@ const LAB_ITEMS = [ASCII_ITEM, FORMULA_ITEM, FORMULA1_ITEM, TOAST_ITEM].join(
   "\n"
 );
 
+const projectItems = () =>
+  PROJECTS.map((project) =>
+    linkItem(
+      project.name,
+      project.href,
+      `${project.description} (${project.kind}, ${project.year})`
+    )
+  ).join("\n");
+
 const skillItems = () =>
   SKILLS.map((skill) =>
     linkItem(skill.name, skillLink(skill.name), skill.description)
@@ -178,16 +194,7 @@ export const homeMarkdown = () =>
     `# ${SITE.name}`,
     `> Design engineer at [${EMPLOYER.name}](${EMPLOYER.href}), based in Geneva, Switzerland.`,
     INTRO,
-    section(
-      "Projects",
-      PROJECTS.map((project) =>
-        linkItem(
-          project.name,
-          project.href,
-          `${project.description} (${project.kind}, ${project.year})`
-        )
-      ).join("\n")
-    ),
+    section(PROJECTS_PAGE.title, projectItems()),
     section("Agent skills", skillItems()),
     section("Components", COMPONENT_ITEMS.join("\n")),
     section(LAB_PAGE.title, LAB_ITEMS),
@@ -229,6 +236,14 @@ export const componentsMarkdown = () =>
     `# ${COMPONENTS_PAGE.title}`,
     COMPONENTS_PAGE.intro,
     section(COMPONENTS_PAGE.listTitle, COMPONENT_ITEMS.join("\n")),
+    `[Back to ${SITE.name}](${markdownUrl("")})`,
+  ]);
+
+export const projectsMarkdown = () =>
+  markdownDocument([
+    `# ${PROJECTS_PAGE.title}`,
+    PROJECTS_PAGE.intro,
+    section(PROJECTS_PAGE.listTitle, projectItems()),
     `[Back to ${SITE.name}](${markdownUrl("")})`,
   ]);
 
@@ -584,6 +599,13 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: componentsMarkdown(),
       canonical: absolute(COMPONENTS_PATH),
+      status: 200,
+    };
+  }
+  if (slug === PROJECTS_PATH) {
+    return {
+      body: projectsMarkdown(),
+      canonical: absolute(PROJECTS_PATH),
       status: 200,
     };
   }

@@ -160,6 +160,18 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+/** The `/projects` index. */
+export const PROJECTS_PAGE = {
+  description: `Products and libraries by ${SITE.name}: web, macOS and iOS apps, a shadcn registry and a React library, newest first.`,
+  documentTitle: `Projects – ${SITE.name}`,
+  intro:
+    "Products and libraries I design and build end to end, from web and native apps to open-source code for React and shadcn/ui.",
+  listTitle: "Shipped",
+  title: "Projects",
+} as const;
+
+export const PROJECTS_PATH = "projects";
+
 /** A run of prose: plain text, or a link. */
 export type Inline = string | { href: string; text: string };
 

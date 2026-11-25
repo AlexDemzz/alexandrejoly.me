@@ -13,11 +13,8 @@ import { EXACT_ACTIVE } from "@/lib/link";
 
 const PAGES = [
   { label: "About", to: "/about" },
-  { label: "Components", to: "/components" },
   { label: "Contact", to: "/contact" },
-  { label: "Lab", to: "/lab" },
   { label: "Privacy", to: "/privacy" },
-  { label: "Skills", to: "/skills" },
 ] as const;
 
 export const SiteFooter = () => (

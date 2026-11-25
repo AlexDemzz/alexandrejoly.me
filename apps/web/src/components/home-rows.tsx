@@ -14,6 +14,7 @@ import {
   ItemLightTitle,
 } from "@/components/item-light";
 import { LabIcon } from "@/components/lab-icon";
+import { MediaBackdrop } from "@/components/media-backdrop";
 import { RowList, RowListItems, RowListMore } from "@/components/row-list";
 import { SkillIcon } from "@/components/skill-icon";
 import { ToastIcon } from "@/components/toast-icon";
@@ -21,10 +22,12 @@ import {
   ASCII_PAGE,
   FORMULA_PAGE,
   FORMULA1_PAGE,
+  PROJECTS,
   SKILLS,
   TOAST_PAGE,
   skillHref,
 } from "@/content";
+import type { Project } from "@/content";
 import { REGISTRY_ITEMS } from "@/lib/registry";
 import { isSkillPageName } from "@/skill-pages";
 
@@ -38,7 +41,9 @@ export const Rows = ({
 }) => (
   <RowList limit={limit}>
     <RowListItems>{rows}</RowListItems>
-    {limit !== undefined && rows.length > limit && <RowListMore />}
+    {limit !== undefined && rows.length > limit && (
+      <RowListMore count={rows.length - limit} />
+    )}
   </RowList>
 );
 
@@ -237,5 +242,39 @@ export const LabRows = ({ limit }: { limit?: number }) => (
         to="/lab/ascii"
       />,
     ]}
+  />
+);
+
+const ProjectMedia = ({
+  project: { backdrop, icon: Icon },
+}: {
+  project: Project;
+}) => (
+  <ItemLightMedia>
+    {backdrop === undefined ? (
+      <Icon />
+    ) : (
+      <>
+        <MediaBackdrop src={backdrop} />
+        <Icon className="can-hover:group-hover/item:text-white relative group-focus-visible/item:text-white" />
+      </>
+    )}
+  </ItemLightMedia>
+);
+
+/** One row per project, newest first, opening its own site. */
+export const ProjectRows = ({ limit }: { limit?: number }) => (
+  <Rows
+    limit={limit}
+    rows={PROJECTS.map((project) => (
+      <ExternalRow
+        aside={project.year}
+        description={project.description}
+        href={project.href}
+        key={project.name}
+        media={<ProjectMedia project={project} />}
+        title={project.name}
+      />
+    ))}
   />
 );

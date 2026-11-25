@@ -83,8 +83,15 @@ const RowListItems = ({
   );
 };
 
-/** The toggle; render it only when the list holds more rows than its limit. */
-const RowListMore = ({ className, ...props }: ComponentProps<"button">) => {
+/**
+ * The toggle; render it only when the list holds more rows than its limit.
+ * `count` is how many rows it hides.
+ */
+const RowListMore = ({
+  className,
+  count,
+  ...props
+}: ComponentProps<"button"> & { count: number }) => {
   const { expanded, itemsId, toggle } = useRowList("RowListMore");
 
   return (
@@ -97,7 +104,7 @@ const RowListMore = ({ className, ...props }: ComponentProps<"button">) => {
       type="button"
       {...props}
     >
-      {expanded ? "See less" : "See more"}
+      {expanded ? "See less" : `See more (${count})`}
     </button>
   );
 };

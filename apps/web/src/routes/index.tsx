@@ -10,7 +10,9 @@ import {
   SectionTitle,
 } from "@portfolio/ui/components/section";
 import { TextLink } from "@portfolio/ui/components/text";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
+import type { LinkProps } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 
 import { ContributionGraph } from "@/components/contribution-graph";
 import type { ContributionSummary } from "@/components/contribution-graph";
@@ -18,13 +20,13 @@ import {
   ComponentRows,
   ExternalRow,
   LabRows,
+  ProjectRows,
   Rows,
   SkillRows,
 } from "@/components/home-rows";
 import { ItemLightMedia } from "@/components/item-light";
 import { LazyVideo } from "@/components/lazy-video";
 import { Mark } from "@/components/mark";
-import { MediaBackdrop } from "@/components/media-backdrop";
 import { SectionStack } from "@/components/section-stack";
 import { SiteFooter } from "@/components/site-footer";
 import {
@@ -33,11 +35,10 @@ import {
   EMPLOYER,
   INTRO,
   LAB_PAGE,
-  PROJECTS,
+  PROJECTS_PAGE,
   SITE,
   SOCIALS,
 } from "@/content";
-import type { Project } from "@/content";
 import { getContributions } from "@/github-contributions";
 import { pageHead } from "@/lib/head";
 import { personJsonLd } from "@/lib/person-json-ld";
@@ -45,21 +46,19 @@ import { personJsonLd } from "@/lib/person-json-ld";
 /** Each home section shows its newest rows, the rest behind "See more". */
 const HOME_ROW_LIMIT = 3;
 
-const ProjectMedia = ({
-  project: { backdrop, icon: Icon },
+/** A section title that opens the section's index page. */
+const SectionTitleLink = ({
+  children,
+  to,
 }: {
-  project: Project;
+  children: ReactNode;
+  to: LinkProps["to"];
 }) => (
-  <ItemLightMedia>
-    {backdrop === undefined ? (
-      <Icon />
-    ) : (
-      <>
-        <MediaBackdrop src={backdrop} />
-        <Icon className="can-hover:group-hover/item:text-white relative group-focus-visible/item:text-white" />
-      </>
-    )}
-  </ItemLightMedia>
+  <SectionTitle>
+    <Link data-slot="section-title-link" to={to}>
+      {children}
+    </Link>
+  </SectionTitle>
 );
 
 const HomeComponent = () => {
@@ -112,40 +111,30 @@ const HomeComponent = () => {
 
       <SectionStack>
         <Section spacing="none">
-          <SectionTitle>Projects</SectionTitle>
+          <SectionTitleLink to="/projects">
+            {PROJECTS_PAGE.title}
+          </SectionTitleLink>
           <SectionContent>
-            <Rows
-              limit={HOME_ROW_LIMIT}
-              rows={PROJECTS.map((project) => (
-                <ExternalRow
-                  aside={project.year}
-                  description={project.description}
-                  href={project.href}
-                  key={project.name}
-                  media={<ProjectMedia project={project} />}
-                  title={project.name}
-                />
-              ))}
-            />
+            <ProjectRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
-          <SectionTitle>{LAB_PAGE.title}</SectionTitle>
+          <SectionTitleLink to="/lab">{LAB_PAGE.title}</SectionTitleLink>
           <SectionContent>
             <LabRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
-          <SectionTitle>Agent skills</SectionTitle>
+          <SectionTitleLink to="/skills">Agent skills</SectionTitleLink>
           <SectionContent>
             <SkillRows limit={HOME_ROW_LIMIT} />
           </SectionContent>
         </Section>
 
         <Section spacing="none">
-          <SectionTitle>Components</SectionTitle>
+          <SectionTitleLink to="/components">Components</SectionTitleLink>
           <SectionContent>
             <ComponentRows limit={HOME_ROW_LIMIT} />
           </SectionContent>

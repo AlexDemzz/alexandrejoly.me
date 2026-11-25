@@ -218,6 +218,8 @@ describe("markdownFor", () => {
     "/about",
     "/privacy.md",
     "/contact/",
+    "/projects",
+    "/projects.md",
     "/components",
     "/components.md",
     "/components/marquee",
