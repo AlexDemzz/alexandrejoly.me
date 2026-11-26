@@ -27,7 +27,7 @@ const PosterImage = ({ load }: { load: () => Promise<string> }) => {
   return poster ? (
     <img
       alt=""
-      className="absolute inset-0 size-full object-contain"
+      className="absolute inset-0 size-full object-contain group-has-[[data-view=live]]/slot:invisible"
       decoding="async"
       src={poster}
     />
@@ -57,15 +57,15 @@ const BuiltSlot = ({ component, Live, poster, to }: Piece) => {
       to={to}
     >
       {/* Inert: the piece only shows its state here; the slot is the link. */}
+      {/* The poster stays under the live piece until its scene shows, so the swap never blanks the slot. */}
       <span className="relative min-h-0 flex-1" inert>
-        {armed ? (
+        <PosterImage load={poster} />
+        {armed && (
           <span className="absolute inset-0 flex justify-center">
-            <Suspense fallback={<PosterImage load={poster} />}>
+            <Suspense fallback={null}>
               <Live active={active} />
             </Suspense>
           </span>
-        ) : (
-          <PosterImage load={poster} />
         )}
       </span>
       <span className="text-foreground font-book can-hover:group-hover/slot:decoration-underline group-focus-visible/slot:decoration-underline w-fit text-sm underline decoration-transparent underline-offset-3 transition-colors duration-200 ease-out">
