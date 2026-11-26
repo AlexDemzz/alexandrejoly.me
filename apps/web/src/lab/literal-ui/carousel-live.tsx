@@ -18,13 +18,17 @@ const WINDOW_STYLE = {
   "--window-ratio": `${CAROUSEL_WINDOW.w} / ${CAROUSEL_WINDOW.h}`,
 } as CSSProperties;
 
+// The poster's tray holds six slides: the live tray holds as many, so the
+// switch from poster to scene changes nothing.
+const SLIDES = Array.from({ length: 6 }, (_, index) => `slide-${index + 1}`);
+
 const STAGE_STYLE = {
   "--frame-ratio": `${FRAME.width} / ${FRAME.height}`,
 } as CSSProperties;
 
 /**
- * The projector in its slot, with one slide in its tray: each hover presses
- * Next, and the tray turns a whole round back to that slide.
+ * The projector in its slot, with six slides in its tray as on its poster:
+ * each hover presses Next, and the tray turns a slot on.
  */
 const CarouselLive = ({ active }: LiveProps) => {
   const frame = useRef<HTMLDivElement>(null);
@@ -71,7 +75,9 @@ const CarouselLive = ({ active }: LiveProps) => {
       >
         <CarouselStage>
           <CarouselContent aria-label="Slide" className="invisible">
-            <CarouselItem />
+            {SLIDES.map((slide) => (
+              <CarouselItem key={slide} />
+            ))}
           </CarouselContent>
           <CarouselNext />
         </CarouselStage>
