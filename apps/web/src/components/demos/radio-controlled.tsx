@@ -21,12 +21,20 @@ const stations = [
   },
 ];
 
+const VOLUME_STEP = 15;
+
 export const RadioControlled = () => {
   const [station, setStation] = useState<string | null>("jazz");
+  const [volume, setVolume] = useState(35);
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
-      <Radio onValueChange={setStation} value={station}>
+      <Radio
+        onValueChange={setStation}
+        onVolumeChange={setVolume}
+        value={station}
+        volume={volume}
+      >
         <RadioStage>
           <RadioOff />
           <RadioGroup aria-label="Station">
@@ -62,6 +70,20 @@ export const RadioControlled = () => {
           variant={station === null ? "secondary" : "outline"}
         >
           Off
+        </Button>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <Button
+          onClick={() => setVolume(Math.max(0, volume - VOLUME_STEP))}
+          variant="outline"
+        >
+          Quieter
+        </Button>
+        <Button
+          onClick={() => setVolume(Math.min(100, volume + VOLUME_STEP))}
+          variant="outline"
+        >
+          Louder
         </Button>
       </div>
     </div>

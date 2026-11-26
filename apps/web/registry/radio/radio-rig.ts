@@ -1,7 +1,9 @@
 import type { RadioEvent } from "./radio-events";
 import { KEY } from "./radio-frame";
 
-const OFF_KEY = 0;
+export const OFF_KEY = 0;
+
+export type RadioKnob = "tuning" | "volume";
 
 export interface Pose {
   keys: number[];
@@ -73,18 +75,19 @@ const knob = (value: number): Knob => ({
   spring: spring(value),
 });
 
-const keyOf = (band: number | null) => (band === null ? OFF_KEY : band + 1);
+export const keyOf = (band: number | null) =>
+  band === null ? OFF_KEY : band + 1;
 
 export interface Rig {
   dispose: () => void;
-  holdKnob: (name: "tuning" | "volume", value: number) => void;
+  holdKnob: (name: RadioKnob, value: number) => void;
   invalidate: () => void;
   place: (band: number | null) => void;
-  releaseKnob: (name: "tuning" | "volume") => void;
+  releaseKnob: (name: RadioKnob) => void;
   setBand: (band: number | null) => void;
   setBands: (count: number) => void;
   setKey: (key: number, pressed: boolean) => void;
-  setKnob: (name: "tuning" | "volume", value: number) => void;
+  setKnob: (name: RadioKnob, value: number) => void;
   setReducedMotion: (reduced: boolean) => void;
   readonly pose: Pose;
 }

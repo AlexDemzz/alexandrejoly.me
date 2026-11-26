@@ -219,7 +219,7 @@ function createPlayer(
     loading: false,
     missed: [],
     muted,
-    programme: createRadioProgramme(),
+    programme: createRadioProgramme(() => page.context),
     state,
     unsubscribe: () => undefined,
   };

@@ -46,14 +46,13 @@ import {
   TUNING,
   VOLUME,
 } from "./radio-frame";
-import { createRig } from "./radio-rig";
-import type { Pose } from "./radio-rig";
+import { OFF_KEY, createRig, keyOf } from "./radio-rig";
+import type { Pose, RadioKnob } from "./radio-rig";
 import type { RadioScene } from "./radio-scene";
 
 import "./radio.css";
 
 type RadioView = "live" | "poster" | "static";
-type RadioKnob = "tuning" | "volume";
 
 const KNOB_MIN = 0;
 const KNOB_MAX = 100;
@@ -62,9 +61,9 @@ const DEFAULT_TUNING = 50;
 const DEFAULT_POSITION = 50;
 const TUNING_STEP = 0.5;
 const TUNING_LARGE_STEP = 5;
-const OFF_KEY = 0;
 const UNKNOWN = -1;
-const PRESS_KEYS = new Set(["Enter", " "]);
+const BUTTON_KEYS = new Set(["Enter", " "]);
+const RADIO_KEYS = new Set([" "]);
 const ITEM = '[data-literal-radio="item"]';
 
 const turnOf = (value: number) =>
@@ -110,7 +109,7 @@ function createStage(
     volume: knobs.volume,
   });
   return {
-    count: (next: number) => {
+    setBands: (next: number) => {
       if (next === bands) {
         return;
       }
@@ -140,6 +139,7 @@ type RadioPassed = Pick<
 
 interface RadioContextValue {
   bands: number;
+  atRest: boolean;
   controller: RadioGroupController<string>;
   events: RadioEvents;
   group: RadioPassed;
@@ -241,6 +241,8 @@ function Radio({
   }, [rig, volume]);
 
   const context: RadioContextValue = {
+    atRest:
+      !on && knobs.tuning === DEFAULT_TUNING && knobs.volume === DEFAULT_VOLUME,
     bands,
     controller,
     events,
@@ -274,7 +276,7 @@ function Radio({
         broadcast.current = told;
         events.setStations(stations);
       }
-      stage.count(count);
+      stage.setBands(count);
       if (count !== bands) {
         setBands(count);
       }
@@ -445,7 +447,7 @@ const loadPoster = async (bands: number): Promise<Poster | null> => {
 };
 
 function RadioStage({ children, ...props }: ComponentProps<"div">) {
-  const { bands, stage } = useRadioContext();
+  const { atRest, bands, stage } = useRadioContext();
   const [view, setView] = useState<RadioView>("poster");
   const [generation, setGeneration] = useState(0);
   const [poster, setPoster] = useState<Poster | null>(null);
@@ -500,7 +502,7 @@ function RadioStage({ children, ...props }: ComponentProps<"div">) {
         props
       )}
     >
-      {poster?.bands === bands && (
+      {poster?.bands === bands && (atRest || view === "static") && (
         <div data-slot="literal-radio-poster">
           <img
             alt=""
@@ -545,13 +547,13 @@ function RadioSync({
   const follow = useStableEvent(sync);
   useEffect(() => {
     const items = itemsOf(group.current);
-    for (const [index, item] of items.entries()) {
-      item.style.setProperty("--key", String(index + 1));
-    }
     if (items.length > MAX_BANDS) {
       throw new Error(
-        `Radio has ${MAX_BANDS + 1} keys: it takes up to ${MAX_BANDS} RadioGroupItem parts.`
+        `Radio takes up to ${MAX_BANDS} RadioGroupItem parts, and has ${items.length}.`
       );
+    }
+    for (const [index, item] of items.entries()) {
+      item.style.setProperty("--key", String(keyOf(index)));
     }
     const checked = items.find((item) => item.dataset.value === value);
     const stations = items.map((item) => ({
@@ -588,10 +590,13 @@ function RadioGroup({
   );
 }
 
-function usePress(keyOf: (element: HTMLElement) => number | null) {
+function usePress(
+  keyAt: (element: HTMLElement) => number | null,
+  keys: Set<string>
+) {
   const { pressKey } = useRadioContext();
   const press = (element: HTMLElement, down: boolean) => {
-    const key = keyOf(element);
+    const key = keyAt(element);
     if (key !== null) {
       pressKey(key, down);
     }
@@ -600,7 +605,7 @@ function usePress(keyOf: (element: HTMLElement) => number | null) {
     onBlur: (event: { currentTarget: HTMLElement }) =>
       press(event.currentTarget, false),
     onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
-      if (PRESS_KEYS.has(event.key)) {
+      if (keys.has(event.key)) {
         press(event.currentTarget, true);
       }
     },
@@ -619,7 +624,7 @@ function usePress(keyOf: (element: HTMLElement) => number | null) {
 
 const bandKeyOf = (element: HTMLElement) => {
   const band = bandOf(element.closest('[data-literal-radio="group"]'), element);
-  return band === null ? null : band + 1;
+  return band === null ? null : keyOf(band);
 };
 
 const offKeyOf = () => OFF_KEY;
@@ -635,7 +640,7 @@ function RadioGroupItem({
   position?: number;
   src?: string;
 }) {
-  const press = usePress(bandKeyOf);
+  const press = usePress(bandKeyOf, RADIO_KEYS);
   return (
     <SdkRadio
       value={value}
@@ -657,7 +662,7 @@ function RadioGroupItem({
 
 function RadioOff(props: ComponentProps<typeof Button>) {
   const { controller } = useRadioContext();
-  const press = usePress(offKeyOf);
+  const press = usePress(offKeyOf, BUTTON_KEYS);
   return (
     <Button
       {...mergeProps(

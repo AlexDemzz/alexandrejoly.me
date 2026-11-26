@@ -28,7 +28,7 @@ export const RADIO_EXAMPLES: Example[] = [
     Chrome: RadioSoundChrome,
     Component: RadioControlled,
     description:
-      "Set `value` to choose a key from your own code, and `null` to switch the radio off. Here each button asks for its station, and its key latches down. The keys still work by hand, and `onValueChange` reports every change with its reason.",
+      "Set `value` to choose a key from your own code, and `null` to switch the radio off. Here each button asks for its station, and its key latches down. The keys still work by hand, and `onValueChange` reports every change with its reason. `volume` and `tuning` work the same way: Quieter and Louder turn the knob, and turning the knob by hand reports back through `onVolumeChange`.",
     file: "radio-controlled",
     title: "Controlled",
   },
@@ -104,7 +104,7 @@ export const RADIO_API: ApiPart[] = [
   },
   {
     description:
-      "The radio in 3D, with the controls laid over its parts. It shows a still picture of the radio until the scene loads, and keeps it without WebGL 2: the keys still choose. Its keys run left to right in every writing direction, so it sets `dir` to `ltr` and the arrow keys follow the row.",
+      "The radio in 3D, with the controls laid over its parts. A radio that mounts off, with its knobs where they start, shows a still picture of itself until the scene loads. Without WebGL 2 every radio keeps that picture: the keys still choose. Its keys run left to right in every writing direction, so it sets `dir` to `ltr` and the arrow keys follow the row.",
     extends: { name: "div" },
     name: "RadioStage",
     props: [],
