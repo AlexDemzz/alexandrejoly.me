@@ -17,6 +17,7 @@ import {
   FORMULA1_PAGE,
   LAB_PAGE,
   CAROUSEL_PAGE,
+  RADIO_PAGE,
   LITERAL_PAGE,
   SKILLS_PAGE,
   LINKS,
@@ -39,6 +40,7 @@ import {
   FORMULA1_PATH,
   LAB_PATH,
   CAROUSEL_PATH,
+  RADIO_PATH,
   LITERAL_PATH,
   TOAST_PATH,
 } from "@/lab/experiments";
@@ -148,6 +150,11 @@ const SITE_PAGES = [
     markdownUrl(CAROUSEL_PATH),
     CAROUSEL_PAGE.description
   ),
+  linkItem(
+    `${LITERAL_PAGE.title}: ${RADIO_PAGE.title}`,
+    markdownUrl(RADIO_PATH),
+    RADIO_PAGE.description
+  ),
   ...INFO_PAGE_SLUGS.map((slug) =>
     linkItem(
       INFO_PAGES[slug].title,
@@ -189,6 +196,12 @@ const CAROUSEL_ITEM = linkItem(
   CAROUSEL_PAGE.title,
   markdownUrl(CAROUSEL_PATH),
   CAROUSEL_PAGE.rowDescription
+);
+
+const RADIO_ITEM = linkItem(
+  RADIO_PAGE.title,
+  markdownUrl(RADIO_PATH),
+  RADIO_PAGE.rowDescription
 );
 
 const LITERAL_ITEM = linkItem(
@@ -286,7 +299,10 @@ export const literalMarkdown = () =>
   markdownDocument([
     `# ${LITERAL_PAGE.title}`,
     LITERAL_PAGE.intro,
-    section(LITERAL_PAGE.listTitle, [TOAST_ITEM, CAROUSEL_ITEM].join("\n")),
+    section(
+      LITERAL_PAGE.listTitle,
+      [TOAST_ITEM, CAROUSEL_ITEM, RADIO_ITEM].join("\n")
+    ),
     `[Back to ${LAB_PAGE.title}](${markdownUrl(LAB_PATH)})`,
   ]);
 
@@ -584,6 +600,38 @@ export const carouselMarkdown = async (code: LabItemCode) => {
   ]);
 };
 
+/** Everything `/lab/literal-ui/radio` shows, the docs of the `radio` item, each preview as its code. */
+export const radioMarkdown = async (code: LabItemCode) => {
+  // Imported on demand, as the toaster's docs are: they pull in the piece and its CSS.
+  const { RADIO_API, RADIO_DEMO, RADIO_EXAMPLES } =
+    await import("@/lab/radio/docs");
+  return markdownDocument([
+    `# ${RADIO_PAGE.title}`,
+    paragraphs([[...RADIO_PAGE.credit]]),
+    `A React component for projects built on shadcn/ui. The [interactive page](${absolute(RADIO_PATH)}) shows each example live.`,
+    demoFence(code, RADIO_DEMO.file),
+    section(
+      "Installation",
+      `With the shadcn CLI:\n\n${fence(code.cli.code, "bash")}`
+    ),
+    section(
+      "Usage",
+      [
+        fence(code.usage.imports.code, "tsx"),
+        fence(code.usage.markup.code, "tsx"),
+      ].join("\n\n")
+    ),
+    section(
+      "Examples",
+      RADIO_EXAMPLES.map((example) => exampleMarkdown(example, code)).join(
+        "\n\n"
+      )
+    ),
+    section("API reference", RADIO_API.map(apiPartMarkdown).join("\n\n")),
+    `[Back to ${LITERAL_PAGE.title}](${markdownUrl(LITERAL_PATH)})`,
+  ]);
+};
+
 export const notFoundMarkdown = (pathname: string) =>
   markdownDocument([
     "# Page not found",
@@ -704,6 +752,13 @@ export const markdownFor = async (pathname: string): Promise<MarkdownPage> => {
     return {
       body: literalMarkdown(),
       canonical: absolute(LITERAL_PATH),
+      status: 200,
+    };
+  }
+  if (slug === RADIO_PATH) {
+    return {
+      body: await radioMarkdown(await getLabItemCode("radio")),
+      canonical: absolute(RADIO_PATH),
       status: 200,
     };
   }

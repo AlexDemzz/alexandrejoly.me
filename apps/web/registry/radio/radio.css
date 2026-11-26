@@ -1,0 +1,274 @@
+[data-slot="literal-radio"] {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+[data-slot="literal-radio-stage"] {
+  --u: calc(100cqi / var(--frame-w));
+  --literal-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --literal-focus: oklch(0.45 0.16 250);
+  --literal-ring: max(2px, calc(5 * var(--u))) solid transparent;
+  --literal-ring-offset: calc(6 * var(--u));
+  --literal-print: oklch(0.8 0.035 92);
+  --literal-target: 44px;
+
+  --bands: 4;
+  --key-w: calc(var(--row-w) / (var(--bands) + 1));
+  --label-pitch: calc(var(--label-w) / (var(--bands) + 1));
+
+  position: relative;
+  container-type: inline-size;
+  aspect-ratio: var(--frame-w) / var(--frame-h);
+}
+
+[data-slot="literal-radio-stage"] {
+  &:has(
+    [data-literal-radio="item"]:nth-child(
+        1 of [data-literal-radio="item"]
+      ):nth-last-child(1 of [data-literal-radio="item"])
+  ) {
+    --bands: 1;
+  }
+
+  &:has(
+    [data-literal-radio="item"]:nth-child(
+        2 of [data-literal-radio="item"]
+      ):nth-last-child(1 of [data-literal-radio="item"])
+  ) {
+    --bands: 2;
+  }
+
+  &:has(
+    [data-literal-radio="item"]:nth-child(
+        3 of [data-literal-radio="item"]
+      ):nth-last-child(1 of [data-literal-radio="item"])
+  ) {
+    --bands: 3;
+  }
+
+  &:has(
+    [data-literal-radio="item"]:nth-child(
+        5 of [data-literal-radio="item"]
+      ):nth-last-child(1 of [data-literal-radio="item"])
+  ) {
+    --bands: 5;
+  }
+
+  &:has(
+    [data-literal-radio="item"]:nth-child(
+        6 of [data-literal-radio="item"]
+      ):nth-last-child(1 of [data-literal-radio="item"])
+  ) {
+    --bands: 6;
+  }
+}
+
+[data-slot="literal-radio-poster"],
+[data-slot="literal-radio-canvas"] {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+[data-slot="literal-radio-poster"] {
+  transition: opacity 240ms var(--literal-ease-out);
+
+  img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  [data-literal-radio="poster-bands"] {
+    inset: auto;
+    top: calc(var(--patch-y) * var(--u));
+    left: calc(var(--patch-x) * var(--u));
+    inline-size: calc(var(--patch-w) * var(--u));
+    block-size: calc(var(--patch-h) * var(--u));
+  }
+
+  @starting-style {
+    opacity: 0;
+  }
+
+  [data-view="live"] > & {
+    opacity: 0;
+  }
+}
+
+[data-slot="literal-radio-canvas"] {
+  opacity: 0;
+
+  [data-view="live"] > & {
+    opacity: 1;
+  }
+}
+
+[data-literal-radio="group"] {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+:is(
+  [data-literal-radio="item"],
+  [data-literal-radio="off"],
+  [data-literal-radio="volume"],
+  [data-literal-radio="tuning"]
+) {
+  position: absolute;
+  top: calc(var(--box-y) * var(--u));
+  left: calc(var(--box-x) * var(--u));
+  inline-size: calc(var(--box-w) * var(--u));
+  block-size: calc(var(--box-h) * var(--u));
+  outline: var(--literal-ring);
+  outline-offset: var(--literal-ring-offset);
+}
+
+:is([data-literal-radio="item"], [data-literal-radio="off"]) {
+  padding: 0;
+  border: 0;
+  border-radius: calc(8 * var(--u));
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+
+  [data-slot="literal-radio-stage"][data-keyboard] &:focus-visible {
+    outline-color: var(--literal-focus);
+  }
+
+  &::after {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    inline-size: 100%;
+    block-size: max(100%, var(--literal-target));
+    translate: 0 -50%;
+    content: "";
+  }
+}
+
+:is([data-literal-radio="item"], [data-literal-radio="off"]) {
+  --box-x: calc(var(--row-x) + var(--key) * var(--key-w));
+  --box-y: var(--row-y);
+  --box-w: var(--key-w);
+  --box-h: var(--row-h);
+}
+
+[data-literal-radio="off"] {
+  --key: 0;
+
+  &::after {
+    right: 0;
+    left: auto;
+    inline-size: max(100%, var(--literal-target));
+  }
+}
+
+[data-literal-radio="item"] {
+  &:nth-child(1 of [data-literal-radio="item"]) {
+    --key: 1;
+  }
+
+  &:nth-child(2 of [data-literal-radio="item"]) {
+    --key: 2;
+  }
+
+  &:nth-child(3 of [data-literal-radio="item"]) {
+    --key: 3;
+  }
+
+  &:nth-child(4 of [data-literal-radio="item"]) {
+    --key: 4;
+  }
+
+  &:nth-child(5 of [data-literal-radio="item"]) {
+    --key: 5;
+  }
+
+  &:nth-child(6 of [data-literal-radio="item"]) {
+    --key: 6;
+  }
+
+  &:nth-last-child(1 of [data-literal-radio="item"])::after {
+    inline-size: max(100%, var(--literal-target));
+  }
+}
+
+[data-literal-radio="label"] {
+  position: absolute;
+  top: calc((var(--label-y) - var(--box-y)) * var(--u));
+  left: calc(
+    (var(--label-x) + (var(--key) + 0.5) * var(--label-pitch) - var(--box-x)) *
+      var(--u)
+  );
+  overflow: hidden;
+  max-inline-size: calc(var(--box-w) * var(--u));
+  translate: -50% -50%;
+  color: var(--literal-print);
+  font-size: calc(var(--label-cap) / 0.72 * var(--u));
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+:is([data-literal-radio="volume"], [data-literal-radio="tuning"]) {
+  border-radius: 50%;
+
+  [data-slot="literal-radio-stage"][data-keyboard] &:has(:focus-visible) {
+    outline-color: var(--literal-focus);
+  }
+
+  [data-slot="slider-control"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    inline-size: max(100%, var(--literal-target));
+    block-size: max(100%, var(--literal-target));
+    border-radius: 50%;
+    translate: -50% -50%;
+    cursor: ns-resize;
+    touch-action: none;
+  }
+
+  [data-slot="slider-track"] {
+    position: relative;
+    inline-size: 1px;
+    block-size: calc(var(--travel) * var(--u));
+    min-block-size: var(--travel-min);
+  }
+
+  [data-slot="slider-thumb"] {
+    inline-size: 1px;
+    block-size: 1px;
+    opacity: 0;
+  }
+}
+
+[data-literal-radio="volume"] {
+  --box-x: var(--volume-x);
+  --box-y: var(--volume-y);
+  --box-w: var(--volume-w);
+  --box-h: var(--volume-h);
+  --travel: 420;
+  --travel-min: 140px;
+}
+
+[data-literal-radio="tuning"] {
+  --box-x: var(--tuning-x);
+  --box-y: var(--tuning-y);
+  --box-w: var(--tuning-w);
+  --box-h: var(--tuning-h);
+  --travel: 900;
+  --travel-min: 300px;
+}

@@ -285,6 +285,23 @@ export const CAROUSEL_PAGE = {
   title: "Carousel",
 } as const;
 
+/** Literal UI's third piece, at `/lab/literal-ui/radio`: the docs of the `radio` registry item. */
+export const RADIO_PAGE = {
+  credit: [
+    "A Radio group that is a 3D push-button radio: press a key and it latches down, the one before springs back up and its line lights on the dial. Built with ",
+    {
+      href: "https://ui-sdk.dev",
+      text: "ui-sdk",
+    },
+    ".",
+  ],
+  description: `Radio by ${SITE.name}: a 3D push-button radio whose keys are a real Radio group, installed with the shadcn CLI. Press a key and it latches down, the one before springs back up, and the station you gave it plays.`,
+  documentTitle: `Radio – Literal UI – ${SITE.name}`,
+  rowDescription:
+    "A 3D push-button radio, live: press a key and a real radio is checked",
+  title: "Radio",
+} as const;
+
 /** The `/skills` index of the agent skills. */
 export const SKILLS_PAGE = {
   description: `Agent skills by ${SITE.name}: instructions a coding agent loads to build interfaces the way a design engineer would.`,

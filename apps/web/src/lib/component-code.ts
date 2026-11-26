@@ -66,6 +66,7 @@ const LAB_ITEM_CODE: Record<
   () => Promise<{ default: LabItemCode }>
 > = {
   carousel: () => import("virtual:lab-item-code/carousel"),
+  radio: () => import("virtual:lab-item-code/radio"),
   toast: () => import("virtual:lab-item-code/toast"),
 };
 

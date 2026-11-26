@@ -235,4 +235,32 @@ import { CarouselAudio } from "@/components/ui/literal-ui/carousel/carousel-soun
   <CarouselAudio />
 </Carousel>`,
   },
+  radio: {
+    imports: `import {
+  Radio,
+  RadioGroup,
+  RadioGroupItem,
+  RadioOff,
+  RadioStage,
+  RadioTuning,
+  RadioVolume,
+} from "@/components/ui/literal-ui/radio/radio";
+import { RadioAudio } from "@/components/ui/literal-ui/radio/radio-sound";`,
+    markup: `<Radio>
+  <RadioStage>
+    <RadioOff />
+    <RadioGroup aria-label="Station">
+      <RadioGroupItem src="/jazz.mp3" value="jazz">
+        Jazz
+      </RadioGroupItem>
+      <RadioGroupItem src="/news.mp3" value="news">
+        News
+      </RadioGroupItem>
+    </RadioGroup>
+    <RadioVolume />
+    <RadioTuning />
+  </RadioStage>
+  <RadioAudio />
+</Radio>`,
+  },
 };

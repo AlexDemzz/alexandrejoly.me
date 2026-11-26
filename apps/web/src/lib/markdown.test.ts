@@ -8,6 +8,7 @@ import {
   CAROUSEL_DEMO,
   CAROUSEL_EXAMPLES,
 } from "@/lab/carousel/docs";
+import { RADIO_API, RADIO_DEMO, RADIO_EXAMPLES } from "@/lab/radio/docs";
 import { TOAST_API, TOAST_DEMO, TOAST_EXAMPLES } from "@/lab/toast/docs";
 import { getComponentCode, getLabItemCode } from "@/lib/component-code";
 import { REGISTRY_ITEMS, REGISTRY_ITEM_NAMES } from "@/lib/registry";
@@ -22,6 +23,7 @@ import {
   markdownFor,
   skillPageMarkdown,
   carouselMarkdown,
+  radioMarkdown,
   toastMarkdown,
 } from "./markdown";
 
@@ -244,6 +246,33 @@ describe("carouselMarkdown", () => {
   });
 });
 
+describe("radioMarkdown", () => {
+  it("carries everything the /lab/literal-ui/radio page shows", async () => {
+    const code = await getLabItemCode("radio");
+    const markdown = await radioMarkdown(code);
+
+    expect(markdown).toContain(
+      "pnpm dlx shadcn@latest add @alexandrejoly/literal-ui/radio"
+    );
+    expect(markdown).toContain("[ui-sdk](https://ui-sdk.dev)");
+    expect(markdown).toContain(code.demos[RADIO_DEMO.file]?.code);
+    expect(markdown).toContain(code.usage.imports.code);
+    expect(markdown).toContain(code.usage.markup.code);
+    for (const example of RADIO_EXAMPLES) {
+      expect(markdown).toContain(`### ${example.title}`);
+      expect(markdown).toContain(example.description);
+      expect(markdown).toContain(code.demos[example.file]?.code);
+    }
+    for (const part of RADIO_API) {
+      expect(markdown).toContain(`### ${part.name}`);
+      expect(markdown).toContain(part.description);
+      for (const prop of part.props) {
+        expect(markdown).toContain(`| \`${prop.name}\` |`);
+      }
+    }
+  });
+});
+
 describe("markdownFor", () => {
   it.each([
     "/",
@@ -269,6 +298,8 @@ describe("markdownFor", () => {
     "/lab/literal-ui/toast.md",
     "/lab/literal-ui/carousel",
     "/lab/literal-ui/carousel.md",
+    "/lab/literal-ui/radio",
+    "/lab/literal-ui/radio.md",
   ])("maps %s, with or without .md", async (path) => {
     await expect(markdownFor(path)).resolves.toMatchObject({ status: 200 });
   });
@@ -292,6 +323,7 @@ describe("markdownFor", () => {
       markdownFor("/lab/literal-ui"),
       markdownFor("/lab/literal-ui/toast"),
       markdownFor("/lab/literal-ui/carousel"),
+      markdownFor("/lab/literal-ui/radio"),
       ...SKILL_PAGE_NAMES.map((name) => markdownFor(`/skills/${name}`)),
     ]);
     const links = [homeMarkdown(), llmsTxt(), ...pages.map((page) => page.body)]

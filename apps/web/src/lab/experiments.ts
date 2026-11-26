@@ -6,6 +6,7 @@ export const FORMULA1_PATH = "lab/formula-1";
 export const LITERAL_PATH = "lab/literal-ui";
 export const TOAST_PATH = "lab/literal-ui/toast";
 export const CAROUSEL_PATH = "lab/literal-ui/carousel";
+export const RADIO_PATH = "lab/literal-ui/radio";
 /** Where the Toast page lived before the family had its own index. */
 export const TOAST_PATH_BEFORE = "lab/toast";
 

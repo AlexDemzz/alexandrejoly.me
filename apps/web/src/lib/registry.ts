@@ -22,7 +22,7 @@ export type RegistryItemName = (typeof REGISTRY_ITEM_NAMES)[number];
  * slug. Their `meta.docs` points there, so they are served under `/r/` with no
  * component page, sitemap entry or components Open Graph card.
  */
-export const LAB_ITEM_NAMES = ["toast", "carousel"] as const;
+export const LAB_ITEM_NAMES = ["toast", "carousel", "radio"] as const;
 
 export type LabItemName = (typeof LAB_ITEM_NAMES)[number];
 

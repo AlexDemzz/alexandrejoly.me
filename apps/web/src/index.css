@@ -192,6 +192,51 @@
 }
 
 /*
+ * DESIGN.md › Lab › Registry items in the Lab: the radio's main demo alone
+ * stands on a sideboard against a wall, the same in both colour schemes. The
+ * registry item paints nothing behind it. The sideboard meets the wall
+ * behind the radio, 880 px down the item's frame (1540 wide; its stage is the
+ * Preview's inner width, at most 48rem), so the feet and the contact shadow
+ * sit on the sideboard.
+ */
+[data-lab="radio"] {
+  --radio-wall-top: oklch(0.93 0.016 83);
+  --radio-wall-mid: oklch(0.9 0.018 78);
+  --radio-wall-bottom: oklch(0.875 0.02 76);
+  --radio-wall-shade: oklch(0.45 0.04 70 / 0.07);
+  --radio-shelf-back: oklch(0.94 0.009 82);
+  --radio-shelf-front: oklch(0.955 0.008 85);
+}
+
+[data-lab="radio"] [data-radio-shelf] {
+  container-type: inline-size;
+}
+
+[data-lab="radio"] [data-radio-shelf] [data-slot="preview"] {
+  --shelf-inset: 24px;
+  --shelf-horizon: calc(
+    var(--shelf-inset) + min(100cqi - 2 * var(--shelf-inset), 48rem) * 880 /
+      1540
+  );
+
+  background:
+    linear-gradient(to right, transparent 55%, var(--radio-wall-shade)) top /
+      100% var(--shelf-horizon) no-repeat,
+    linear-gradient(
+      to bottom,
+      var(--radio-wall-top),
+      var(--radio-wall-mid) calc(var(--shelf-horizon) * 0.786),
+      var(--radio-wall-bottom) var(--shelf-horizon),
+      var(--radio-shelf-back) var(--shelf-horizon),
+      var(--radio-shelf-front)
+    );
+
+  @media (width >= 40rem) {
+    --shelf-inset: 40px;
+  }
+}
+
+/*
  * DESIGN.md › Lab › Registry items in the Lab: the carousel's main demo alone
  * stands in a dim room, as a projection asks, the same in both colour schemes.
  * The registry item paints nothing behind it. The room is one drawing, made

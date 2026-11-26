@@ -38,6 +38,7 @@ const CAROUSEL_ICON = new URL(
   "../src/components/carousel-icon.tsx",
   import.meta.url
 );
+const RADIO_ICON = new URL("../src/components/radio-icon.tsx", import.meta.url);
 /** Cards whose copy lives in og-card.tsx, keyed by their path under /og/. */
 const PAGES = {
   lab: LAB_ICON,
@@ -46,6 +47,7 @@ const PAGES = {
   "lab/formula-2030": FORMULA_ICON,
   "lab/literal-ui": TOAST_ICON,
   "lab/literal-ui/carousel": CAROUSEL_ICON,
+  "lab/literal-ui/radio": RADIO_ICON,
   "lab/literal-ui/toast": TOAST_ICON,
   skills: SKILL_ICON,
 };

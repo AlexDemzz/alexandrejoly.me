@@ -22,21 +22,33 @@ const decoded = async (source: string) => {
   return image;
 };
 
-/** The item's poster, cut down to the slot's window, so it stands where the live piece will. */
-export const windowedPoster = async (poster: string) => {
+/** What a slot shows of a piece's frame, in that frame's pixels. It may reach past the frame. */
+export interface SlotWindow {
+  h: number;
+  w: number;
+  x: number;
+  y: number;
+}
+
+/** A piece's poster as its slot's window shows it, so it stands where the live piece will. */
+export const cutToWindow = async (
+  poster: string,
+  frameWidth: number,
+  slot: SlotWindow
+) => {
   const image = await decoded(poster);
-  const scale = image.naturalWidth / FRAME.width;
+  const scale = image.naturalWidth / frameWidth;
   const canvas = document.createElement("canvas");
-  canvas.width = Math.round(CAROUSEL_WINDOW.w * scale);
-  canvas.height = Math.round(CAROUSEL_WINDOW.h * scale);
+  canvas.width = Math.round(slot.w * scale);
+  canvas.height = Math.round(slot.h * scale);
   const context = canvas.getContext("2d");
   if (!context) {
     return poster;
   }
-  context.drawImage(
-    image,
-    -CAROUSEL_WINDOW.x * scale,
-    -CAROUSEL_WINDOW.y * scale
-  );
+  context.drawImage(image, -slot.x * scale, -slot.y * scale);
   return canvas.toDataURL("image/webp");
 };
+
+/** The item's poster, cut down to the slot's window, so it stands where the live piece will. */
+export const windowedPoster = (poster: string) =>
+  cutToWindow(poster, FRAME.width, CAROUSEL_WINDOW);

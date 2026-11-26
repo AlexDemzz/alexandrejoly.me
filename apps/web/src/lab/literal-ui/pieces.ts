@@ -3,6 +3,7 @@ import { lazy } from "react";
 import type { ComponentType } from "react";
 
 import { windowedPoster } from "./carousel-window";
+import { windowedRadioPoster } from "./radio-window";
 
 /** What a piece's live view receives from its slot. */
 export interface LiveProps {
@@ -48,6 +49,16 @@ export const PIECES: readonly Piece[] = [
     },
     slug: "carousel",
     to: "/lab/literal-ui/carousel",
+  },
+  {
+    component: "Radio",
+    Live: lazy(() => import("./radio-live")),
+    poster: async () => {
+      const { radioPoster } = await import("@registry/radio/radio-poster");
+      return windowedRadioPoster(radioPoster);
+    },
+    slug: "radio",
+    to: "/lab/literal-ui/radio",
   },
 ];
 

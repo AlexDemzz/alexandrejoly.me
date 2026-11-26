@@ -7,6 +7,7 @@ import { FormulaIcon } from "@/components/formula-icon";
 import { Formula1Icon } from "@/components/formula1-icon";
 import { LabIcon } from "@/components/lab-icon";
 import { LiteralIcon } from "@/components/literal-icon";
+import { RadioIcon } from "@/components/radio-icon";
 import { SkillIcon } from "@/components/skill-icon";
 import { ToastIcon } from "@/components/toast-icon";
 import { SITE } from "@/content";
@@ -308,5 +309,24 @@ export const CarouselOgCard = () => (
       </OgGlyphFrame>
     }
     title={CAROUSEL_CARD.title}
+  />
+);
+
+export const RADIO_CARD = {
+  description:
+    "A 3D push-button radio, live: press a key and a real radio is checked.",
+  title: "Radio",
+};
+
+/** The `/lab/literal-ui/radio` card. */
+export const RadioOgCard = () => (
+  <OgCardFrame
+    description={RADIO_CARD.description}
+    media={
+      <OgGlyphFrame className="size-32" scale="scale-500">
+        <RadioIcon />
+      </OgGlyphFrame>
+    }
+    title={RADIO_CARD.title}
   />
 );

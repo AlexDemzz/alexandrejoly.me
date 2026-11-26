@@ -27,6 +27,7 @@ const paths = [
   "/lab/literal-ui",
   "/lab/literal-ui/toast",
   "/lab/literal-ui/carousel",
+  "/lab/literal-ui/radio",
   "/components",
   ...documentedItems(registry).map(({ name }) => `/components/${name}`),
 ];
