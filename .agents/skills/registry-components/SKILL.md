@@ -14,6 +14,8 @@ description: Registry components in apps/web/registry/. Use when building or cha
 
 An item documented on another site sets `meta.docs` to that site's URL and stays out of `REGISTRY_ITEM_NAMES`: it is served under /r/ only, with no page, sitemap entry or OG card (e.g. dialog-drawer, easy-modal).
 
+A Literal UI piece is documented on its lab page. Its `registry.json` name carries the collection, `literal-ui/<piece>`, so it installs as `@alexandrejoly/literal-ui/<piece>` from `/r/literal-ui/<piece>.json`, and its files target `@ui/literal-ui/<piece>/…`. `LAB_ITEM_NAMES` lists the bare page slug; `labRegistryName` adds the prefix. `scripts/registry-imports.mjs` reads only the top of `public/r`, so such a piece imports no `@portfolio/ui`. A name posted publicly keeps installing: `src/lib/moved.ts` sends its old `/r/` file to the new one in one hop.
+
 An item another app also renders keeps its source in `packages/ui/src/components/<name>.tsx`, symlinked from `apps/web/registry/`. It imports `@portfolio/ui/...`; `scripts/registry-imports.mjs` rewrites those imports in `public/r` to the stock `@/components/ui`, `@/hooks` and `@/lib` aliases, packages first, so the item installs as if written here. Unlike `apps/web/registry/`, packages/ui is linted: `oxlint.config.ts` turns off the rules its stock style breaks.
 
 Done when `pnpm --filter web check-types` and `pnpm --filter web test` pass.

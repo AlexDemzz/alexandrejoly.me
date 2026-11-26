@@ -18,13 +18,20 @@ export const REGISTRY_ITEM_NAMES = [
 export type RegistryItemName = (typeof REGISTRY_ITEM_NAMES)[number];
 
 /**
- * Items documented on their lab page instead of under `/components`. Their
- * `meta.docs` points there, so they are served under `/r/` with no component
- * page, sitemap entry or components Open Graph card.
+ * Items documented on their lab page instead of under `/components`, by page
+ * slug. Their `meta.docs` points there, so they are served under `/r/` with no
+ * component page, sitemap entry or components Open Graph card.
  */
 export const LAB_ITEM_NAMES = ["toast", "carousel"] as const;
 
 export type LabItemName = (typeof LAB_ITEM_NAMES)[number];
+
+/**
+ * A lab item's name in `registry.json`: the Literal UI collection, then the
+ * piece, as in the folder it installs to. Served at `/r/literal-ui/<piece>.json`.
+ */
+export const labRegistryName = (name: LabItemName) =>
+  `literal-ui/${name}` as const;
 
 /** CSS rules keyed by at-rule or selector, nested as shadcn's `css` field. */
 export interface CssRules {
@@ -63,8 +70,9 @@ export const REGISTRY_ITEMS: RegistryItem[] =
 const SHADCN = "pnpm dlx shadcn@latest";
 
 /** `shadcn add` through the `@alexandrejoly` namespace. */
-export const installCommand = (name: RegistryItemName | LabItemName) =>
-  `${SHADCN} add @${registry.name}/${name}`;
+export const installCommand = (
+  name: RegistryItemName | ReturnType<typeof labRegistryName>
+) => `${SHADCN} add @${registry.name}/${name}`;
 
 export const getRegistryItem = (name: RegistryItemName): RegistryItem => {
   const item = REGISTRY_ITEMS.find((candidate) => candidate.name === name);

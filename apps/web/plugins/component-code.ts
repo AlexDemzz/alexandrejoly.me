@@ -34,9 +34,9 @@ const IMPORT_REWRITES: [string, string][] = [
   ["@portfolio/ui/lib/utils", "@/lib/utils"],
 ];
 
-const toProjectImports = (source: string) => {
+const toProjectImports = (source: string, rewrites = IMPORT_REWRITES) => {
   let code = source;
-  for (const [from, to] of IMPORT_REWRITES) {
+  for (const [from, to] of rewrites) {
     code = code.replaceAll(`"${from}`, `"${to}`);
   }
   return code;
@@ -69,6 +69,7 @@ interface DocsModules {
   getInstallation: typeof Registry.getInstallation;
   getRegistryItem: typeof Registry.getRegistryItem;
   installCommand: typeof Registry.installCommand;
+  labRegistryName: typeof Registry.labRegistryName;
   labUsage: typeof LAB_ITEM_USAGE;
   usage: typeof REGISTRY_USAGE;
 }
@@ -99,19 +100,20 @@ const loadDocsModules = async (): Promise<DocsModules> => {
     getInstallation: registry.module.getInstallation,
     getRegistryItem: registry.module.getRegistryItem,
     installCommand: registry.module.installCommand,
+    labRegistryName: registry.module.labRegistryName,
     labUsage: usage.module.LAB_ITEM_USAGE,
     usage: usage.module.REGISTRY_USAGE,
   };
 };
 
-const highlightDemos = (demos: string[]) =>
+const highlightDemos = (demos: string[], rewrites = IMPORT_REWRITES) =>
   Promise.all(
     demos.map(
       async (file) =>
         [
           file,
           await highlight(
-            toProjectImports(readFileSync(demoPath(file), "utf-8")),
+            toProjectImports(readFileSync(demoPath(file), "utf-8"), rewrites),
             "tsx"
           ),
         ] as const
@@ -173,11 +175,17 @@ const buildLabItemCode = async (
   const docs = await docsModules;
   docsDependencies = docs.dependencies;
   const demos = demoFiles(name);
+  const registryName = docs.labRegistryName(name);
+  // A lab item installs into a folder named after its registry item.
+  const rewrites: [string, string][] = [
+    [`@registry/${name}/`, `@/components/ui/${registryName}/`],
+    ...IMPORT_REWRITES,
+  ];
   const [cli, usageImports, usageMarkup, demoEntries] = await Promise.all([
-    highlight(docs.installCommand(name), "bash"),
+    highlight(docs.installCommand(registryName), "bash"),
     highlight(docs.labUsage[name].imports, "tsx"),
     highlight(docs.labUsage[name].markup, "tsx"),
-    highlightDemos(demos),
+    highlightDemos(demos, rewrites),
   ]);
   return {
     code: {

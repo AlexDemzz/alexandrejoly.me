@@ -29,14 +29,14 @@ it("reaches the new page in one hop from a trailing slash, keeping the query", (
   );
 });
 
-it("permanently redirects the toaster's registry item to toast, so the install command shared before still works", () => {
+it("permanently redirects the toaster's registry item to its Literal UI name, so the install command posted before still works", () => {
   const response = movedRedirect(request("/r/toaster.json"));
 
   expect(response?.status).toBe(301);
   expect(response?.headers.get("location")).toBe(
-    "https://alexandrejoly.me/r/toast.json"
+    "https://alexandrejoly.me/r/literal-ui/toast.json"
   );
-  expect(movedRedirect(request("/r/toast.json"))).toBeUndefined();
+  expect(movedRedirect(request("/r/literal-ui/toast.json"))).toBeUndefined();
 });
 
 it("leaves the new address and its neighbours alone", () => {
