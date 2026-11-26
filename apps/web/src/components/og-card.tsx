@@ -6,6 +6,7 @@ import { COMPONENT_ICONS } from "@/components/component-icons";
 import { FormulaIcon } from "@/components/formula-icon";
 import { Formula1Icon } from "@/components/formula1-icon";
 import { LabIcon } from "@/components/lab-icon";
+import { LiteralIcon } from "@/components/literal-icon";
 import { SkillIcon } from "@/components/skill-icon";
 import { ToastIcon } from "@/components/toast-icon";
 import { SITE } from "@/content";
@@ -266,7 +267,7 @@ export const LiteralOgCard = () => (
     description={LITERAL_CARD.description}
     media={
       <OgGlyphFrame className="size-32" scale="scale-500">
-        <ToastIcon />
+        <LiteralIcon />
       </OgGlyphFrame>
     }
     title={LITERAL_CARD.title}

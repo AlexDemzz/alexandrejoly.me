@@ -14,10 +14,10 @@ import {
   ItemLightTitle,
 } from "@/components/item-light";
 import { LabIcon } from "@/components/lab-icon";
+import { LiteralIcon } from "@/components/literal-icon";
 import { MediaBackdrop } from "@/components/media-backdrop";
 import { RowList, RowListItems, RowListMore } from "@/components/row-list";
 import { SkillIcon } from "@/components/skill-icon";
-import { ToastIcon } from "@/components/toast-icon";
 import {
   ASCII_PAGE,
   FORMULA_PAGE,
@@ -202,7 +202,7 @@ export const LabRows = ({ limit }: { limit?: number }) => (
         key="literal-ui"
         media={
           <ItemLightMedia>
-            <ToastIcon />
+            <LiteralIcon />
           </ItemLightMedia>
         }
         title={LITERAL_PAGE.title}
