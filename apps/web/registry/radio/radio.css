@@ -23,6 +23,10 @@
 }
 
 [data-slot="literal-radio-stage"] {
+  &:not(:has([data-literal-radio="item"])) {
+    --bands: 0;
+  }
+
   &:has(
     [data-literal-radio="item"]:nth-child(
         1 of [data-literal-radio="item"]
@@ -210,6 +214,7 @@
   );
   overflow: hidden;
   max-inline-size: calc(var(--box-w) * var(--u));
+  max-block-size: 1.2em;
   translate: -50% -50%;
   color: var(--literal-print);
   font-size: calc(var(--label-cap) / 0.72 * var(--u));

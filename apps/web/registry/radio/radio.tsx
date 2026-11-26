@@ -63,10 +63,12 @@ const DEFAULT_POSITION = 50;
 const TUNING_STEP = 0.5;
 const TUNING_LARGE_STEP = 5;
 const OFF_KEY = 0;
+const UNKNOWN = -1;
 const PRESS_KEYS = new Set(["Enter", " "]);
 const ITEM = '[data-literal-radio="item"]';
 
-const turnOf = (value: number) => (value - KNOB_MIN) / (KNOB_MAX - KNOB_MIN);
+const turnOf = (value: number) =>
+  Math.min(1, Math.max(0, (value - KNOB_MIN) / (KNOB_MAX - KNOB_MIN)));
 
 const trackOf = (element: HTMLElement) =>
   element.querySelector<HTMLElement>('[data-slot="slider-track"]');
@@ -101,7 +103,7 @@ function createStage(
   emit: RadioEvents["emit"]
 ) {
   let scene: RadioScene | null = null;
-  let bands = 0;
+  let bands = UNKNOWN;
   const rig = createRig((pose: Pose) => scene?.render(pose), {
     emit,
     tuning: knobs.tuning,
@@ -196,7 +198,7 @@ function Radio({
     volume: volumeProp ?? uncontrolled.volume,
   };
   const [on, setOn] = useState(false);
-  const [bands, setBands] = useState(0);
+  const [bands, setBands] = useState(UNKNOWN);
   const [controller] = useState(() => createRadioGroupController<string>());
   const [events] = useState(createRadioEvents);
   const [stage] = useState(() =>
@@ -425,12 +427,15 @@ interface Poster {
   src: string;
 }
 
-const loadPoster = async (bands: number): Promise<Poster> => {
+const loadPoster = async (bands: number): Promise<Poster | null> => {
   const [{ radioPoster }, patches] = await Promise.all([
     import("./radio-poster"),
     bands === POSTER_BANDS ? null : import("./radio-poster-bands"),
   ]);
   const patch = patches?.radioPosterBands[bands];
+  if (patches && !patch) {
+    return null;
+  }
   return {
     bands,
     patch:
@@ -445,7 +450,7 @@ function RadioStage({ children, ...props }: ComponentProps<"div">) {
   const [generation, setGeneration] = useState(0);
   const [poster, setPoster] = useState<Poster | null>(null);
   useEffect(() => {
-    if (bands === 0) {
+    if (bands === UNKNOWN) {
       return;
     }
     let current = true;
@@ -481,13 +486,16 @@ function RadioStage({ children, ...props }: ComponentProps<"div">) {
       data-view={view}
       {...mergeProps(
         {
+          dir: "ltr",
           onKeyDownCapture: (event: KeyboardEvent<HTMLDivElement>) => {
             event.currentTarget.dataset.keyboard = "";
           },
           onPointerDownCapture: (event: PointerEvent<HTMLDivElement>) => {
             delete event.currentTarget.dataset.keyboard;
           },
-          style: FRAME_BOXES as CSSProperties,
+          style: (bands === UNKNOWN
+            ? FRAME_BOXES
+            : { ...FRAME_BOXES, "--bands": bands }) as CSSProperties,
         },
         props
       )}
@@ -537,6 +545,9 @@ function RadioSync({
   const follow = useStableEvent(sync);
   useEffect(() => {
     const items = itemsOf(group.current);
+    for (const [index, item] of items.entries()) {
+      item.style.setProperty("--key", String(index + 1));
+    }
     if (items.length > MAX_BANDS) {
       throw new Error(
         `Radio has ${MAX_BANDS + 1} keys: it takes up to ${MAX_BANDS} RadioGroupItem parts.`

@@ -104,7 +104,7 @@ export const RADIO_API: ApiPart[] = [
   },
   {
     description:
-      "The radio in 3D, with the controls laid over its parts. It shows a still picture of the radio until the scene loads, and keeps it without WebGL 2: the keys still choose.",
+      "The radio in 3D, with the controls laid over its parts. It shows a still picture of the radio until the scene loads, and keeps it without WebGL 2: the keys still choose. Its keys run left to right in every writing direction, so it sets `dir` to `ltr` and the arrow keys follow the row.",
     extends: { name: "div" },
     name: "RadioStage",
     props: [],

@@ -569,6 +569,7 @@ export const createRadioScene = async (
     keyNode.removeFromParent();
     let keys: Group[] = [];
     let lines: MeshStandardMaterial[] = [];
+    let built = -1;
     let lineMeshes: Mesh[] = [];
 
     const casters = new Set(["Fittings", "Grille", "Tuning", "Volume"]);
@@ -629,9 +630,10 @@ export const createRadioScene = async (
     };
 
     const setBands = (count: number) => {
-      if (lost || count === lines.length) {
+      if (lost || count === built) {
         return;
       }
+      built = count;
       clearBands();
       const pitch = KEY.row / (count + 1);
       const keyGeometry = widenKey(keyMesh, template, pitch - KEY.gap);
