@@ -309,6 +309,7 @@ export const createRig = (
       each.spring.target = value;
       each.hand = value;
       each.handTime = now;
+      emit({ type: "handled" });
       emit({ speed: each.spring.velocity, type: `${name}-turn` });
       wake();
     },
@@ -340,6 +341,7 @@ export const createRig = (
         return;
       }
       wanted = next;
+      emit({ type: "handled" });
       const key = keyOf(next);
       dipping.fill(false);
       if (!pressed[key] && keys[key].value < LATCHED) {
@@ -372,12 +374,19 @@ export const createRig = (
     },
     setKey: (key, down) => {
       if (key < keys.length) {
+        if (down && !pressed[key]) {
+          emit({ type: "handled" });
+        }
         pressed[key] = down;
         wake();
       }
     },
     setKnob: (name, value) => {
+      if (value === knobs[name].spring.target) {
+        return;
+      }
       knobs[name].spring.target = value;
+      emit({ type: "handled" });
       wake();
     },
     setReducedMotion: (value) => {

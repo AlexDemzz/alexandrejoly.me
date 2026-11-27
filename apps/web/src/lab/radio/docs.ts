@@ -181,7 +181,7 @@ export const RADIO_API: ApiPart[] = [
   },
   {
     description:
-      "Plays the radio's recorded sounds, the static between stations, and each key's `src`. It renders nothing, and loads nothing until the page is pressed. Import it from `radio-sound`.",
+      "Plays the radio's recorded sounds, the static between stations, and each key's `src`. One radio plays at a time: the last one pressed, turned or set from your code, so a radio that mounts on a station stays quiet until then. It renders nothing, and loads nothing until a radio is used. Import it from `radio-sound`.",
     name: "RadioAudio",
     props: [
       {

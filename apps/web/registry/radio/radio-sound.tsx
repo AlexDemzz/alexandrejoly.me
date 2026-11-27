@@ -42,11 +42,13 @@ interface Player {
 const page = {
   abort: new AbortController(),
   context: null as AudioContext | null,
+  onAir: null as Player | null,
   players: new Set<Player>(),
   samples: null as Promise<RadioSamples> | null,
 };
 
-const isOn = (player: Player) => !player.muted && !document.hidden;
+const isOn = (player: Player) =>
+  page.onAir === player && !player.muted && !document.hidden;
 
 const anyOn = () => [...page.players].some(isOn);
 
@@ -163,7 +165,22 @@ const onVisibility = () => {
   }
 };
 
+const takeAir = (player: Player) => {
+  const quiet = page.onAir;
+  page.onAir = player;
+  if (quiet !== null) {
+    speak(quiet, true);
+  }
+  wake();
+};
+
 const hear = (player: Player, event: RadioEvent) => {
+  if (event.type === "handled") {
+    if (page.onAir !== player) {
+      takeAir(player);
+    }
+    return;
+  }
   const { context } = page;
   if (context === null) {
     return;
@@ -237,6 +254,9 @@ function disposePlayer(player: Player) {
   player.graph = null;
   player.programme.dispose();
   page.players.delete(player);
+  if (page.onAir === player) {
+    page.onAir = null;
+  }
   if (page.players.size === 0) {
     detach();
   }

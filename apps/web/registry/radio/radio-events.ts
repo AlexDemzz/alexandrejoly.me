@@ -1,4 +1,5 @@
 export type RadioEvent =
+  | { type: "handled" }
   | { type: "key-down"; key: number }
   | { type: "key-up"; key: number }
   | { type: "key-bottom"; key: number; speed: number }
