@@ -194,10 +194,10 @@
 /*
  * DESIGN.md › Lab › Registry items in the Lab: the radio's main demo alone
  * stands on a sideboard against a wall, the same in both colour schemes. The
- * registry item paints nothing behind it. The sideboard meets the wall
- * behind the radio, 880 px down the item's frame (1540 wide; its stage is the
- * Preview's inner width, at most 48rem), so the feet and the contact shadow
- * sit on the sideboard.
+ * registry item paints nothing behind it. The sideboard meets the wall 4 cm
+ * behind the cabinet's back, where the item's camera puts it: 730 px down the
+ * item's frame (1540 wide; its stage is the Preview's inner width, at most
+ * 48rem). The whole cabinet and its contact shadow sit on the sideboard.
  */
 [data-lab="radio"] {
   --radio-wall-top: oklch(0.93 0.016 83);
@@ -215,7 +215,7 @@
 [data-lab="radio"] [data-radio-shelf] [data-slot="preview"] {
   --shelf-inset: 24px;
   --shelf-horizon: calc(
-    var(--shelf-inset) + min(100cqi - 2 * var(--shelf-inset), 48rem) * 880 /
+    var(--shelf-inset) + min(100cqi - 2 * var(--shelf-inset), 48rem) * 730 /
       1540
   );
 
